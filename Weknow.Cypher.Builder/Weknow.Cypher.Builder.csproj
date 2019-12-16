@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Weknow.N4J</RootNamespace>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Weknow.Cypher.Builder</PackageId>
+    <Authors>Weknow Network</Authors>
+    <Company>Weknow Network</Company>
+    <Product>Weknow Cypher builder</Product>
+    <Copyright>Weknow Network ©</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ICypherFluent.tmp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExpressionTreeToString" Version="1.5.67" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
+    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.8" />
+  </ItemGroup>
+
+</Project>
