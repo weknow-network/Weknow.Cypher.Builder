@@ -48,7 +48,7 @@ namespace Weknow
         ICypherFluentSet<T> ICypherFluentSet<T>.SetMore(Expression<Func<T, object>> propExpression)
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
-            string statement = $"   ,{variable}.{name} = ${variable}.{name}";
+            string statement = $"   ,{variable}.{name} = ${variable}_{name}";
             var result =  new Cypher<T>(this, statement, CypherPhrase.Set);
             return result;
         }
@@ -787,7 +787,8 @@ namespace Weknow
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
             string statement = $"{variable}.{name}";
-            statement = $"{statement} {compareSign} ${statement}";
+            string prm = $"{variable}_{name}";
+            statement = $"{statement} {compareSign} ${prm}";
             return AddStatement<T>(statement, CypherPhrase.Where);
         }
 
@@ -939,7 +940,7 @@ namespace Weknow
         ICypherFluentSet<T> ICypherFluentSet.Set<T>(Expression<Func<T, dynamic>> propExpression)
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
-            var result = AddStatement<T>($"{variable}.{name} = ${variable}.{name}", CypherPhrase.Set);
+            var result = AddStatement<T>($"{variable}.{name} = ${variable}_{name}", CypherPhrase.Set);
             return result;
         }
 
@@ -1200,7 +1201,7 @@ namespace Weknow
                                 string variable,
                                 IEnumerable<string> propNames)
         {
-            var phrases = propNames.Select(m => $"{variable}.{m} = ${variable}.{m}");
+            var phrases = propNames.Select(m => $"{variable}.{m} = ${variable}_{m}");
             string sep = SetSeparatorStrategy(propNames);
             string statement = string.Join(sep, phrases);
             return statement;
