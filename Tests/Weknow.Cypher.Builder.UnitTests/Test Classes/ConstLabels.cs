@@ -1,6 +1,6 @@
 // https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.N4J.UnitTests
+namespace Weknow.UnitTests
 {
     public static class ConstLabels
     {

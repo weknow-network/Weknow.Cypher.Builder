@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.N4J.UnitTests
+namespace Weknow.UnitTests
 {
     public class CypherTests
     {
@@ -136,6 +136,33 @@ namespace Weknow.N4J.UnitTests
             string props = CypherProps.Create<Foo>(f => f.Id);
             var cypherCommand = Cypher.Builder()
                             .Merge($"(n:Foo {props})")
+                            .OnCreateSet("f", nameof(Foo.Id), nameof(Foo.Name))
+                            .OnMatch()
+                            .SetByConvention<Foo>("f", name => name != nameof(Foo.Id))
+                            .Build();
+
+            string expected = "MERGE (n:Foo { Id: $Id }) " +
+                "ON CREATE " +
+                "SET f.Id = $f.Id, f.Name = $f.Name " +
+                "ON MATCH " +
+                "SET f.Name = $f.Name, f.DateOfBirth = $f.DateOfBirth";
+            _outputHelper.WriteLine(cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // Merge_OnCreate_OnMatch_Test
+
+        #region Merge_OnCreate_OnMatch_Exp_Test
+
+        [Fact]
+        public void Merge_OnCreate_OnMatch_Exp_Test()
+        {
+            Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherProps.Create<Foo>(f => f.Id);
+            var cypherCommand = Cypher.Builder()
+                            .Merge($"(n:Foo {props})")
                             .OnCreate()
                                 .Set<Foo>(f => f.Id).SetMore(f => f.Name)
                             .OnMatchSet<Foo>(f => f.Name).SetMore(f => f.DateOfBirth)
@@ -148,8 +175,8 @@ namespace Weknow.N4J.UnitTests
                 "SET f.Name = $f.Name ,f.DateOfBirth = $f.DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal(expected, cypherCommand.CypherLine);
-        } 
+        }
 
-        #endregion // Merge_OnCreate_OnMatch_Test
+        #endregion // Merge_OnCreate_OnMatch_Exp_Test
     }
 }

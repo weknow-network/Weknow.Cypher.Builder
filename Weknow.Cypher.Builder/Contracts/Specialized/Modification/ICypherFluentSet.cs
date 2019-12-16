@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Weknow.N4J
+namespace Weknow
 {
 
     public interface ICypherFluentSet<T> : ICypherFluent

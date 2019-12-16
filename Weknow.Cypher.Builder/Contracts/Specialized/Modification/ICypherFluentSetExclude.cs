@@ -7,7 +7,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Weknow.N4J
+namespace Weknow
 {
 
     public interface ICypherFluentSetExclude<T> : ICypherFluent

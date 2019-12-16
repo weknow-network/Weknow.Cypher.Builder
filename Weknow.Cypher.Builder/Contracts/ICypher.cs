@@ -4,7 +4,7 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
-namespace Weknow.N4J
+namespace Weknow
 {
     public interface ICypher
     {

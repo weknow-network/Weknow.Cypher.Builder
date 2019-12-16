@@ -4,13 +4,13 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
-namespace Weknow.N4J
+namespace Weknow
 {
 
     /// <summary>
     /// Extends the phrases option under WHERE context
     /// </summary>
-    /// <seealso cref="Weknow.N4J.ICypherFluent" />
+    /// <seealso cref="Weknow.ICypherFluent" />
     public interface ICypherFluentWhereExpression : ICypherFluent
     {
         /// <summary>

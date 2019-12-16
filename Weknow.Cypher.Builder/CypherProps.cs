@@ -12,9 +12,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
-using static Weknow.N4J.Cypher;
+using static Weknow.Cypher;
 
-namespace Weknow.N4J
+namespace Weknow
 {
     public static class CypherProps
     {

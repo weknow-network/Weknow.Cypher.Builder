@@ -7,12 +7,12 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace Weknow.N4J
+namespace Weknow
 {
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.N4J.ICypherFluent" />
+    /// <seealso cref="Weknow.ICypherFluent" />
     [DebuggerDisplay("{CypherLine}")]
     internal class CypherCommand : ICypher
     {

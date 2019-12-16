@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.N4J.CoreIntegrationTests
+namespace Weknow.CoreIntegrationTests
 {
     public class CreateMatchTests : IDisposable
     {

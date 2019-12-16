@@ -7,7 +7,7 @@
 
 // https://neo4j.com/docs/cypher-manual/3.5/syntax/operators/
 
-namespace Weknow.N4J
+namespace Weknow
 {
 
     public interface ICypherFluentFunctions

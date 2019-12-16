@@ -1,4 +1,4 @@
-﻿namespace Weknow.N4J
+﻿namespace Weknow
 {
     public enum CypherPhrase
     {

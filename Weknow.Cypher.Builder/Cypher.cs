@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Weknow.N4J
+namespace Weknow
 {
     [DebuggerDisplay("{_cypherCommand.Cypher}")]
     internal class Cypher<T> : Cypher, ICypherFluentSet<T>
@@ -59,7 +59,7 @@ namespace Weknow.N4J
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.N4J.ICypherFluent" />
+    /// <seealso cref="Weknow.ICypherFluent" />
     [DebuggerDisplay("{CypherLine}")]
     public class Cypher :
         ICypherFluent,
@@ -408,7 +408,14 @@ namespace Weknow.N4J
         /// n.accessTime = timestamp()
         /// </example>
         ICypherFluent ICypherFluent.OnCreateSet(string variable, IEnumerable<string> propNames)
-        { 
+        {
+            #region Validation
+
+            if (propNames == null || !propNames.Any())
+                throw new ArgumentNullException($"{nameof(propNames)} must have at least single value");
+
+            #endregion // Validation
+
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
             return set.Set(variable, propNames);
@@ -429,6 +436,12 @@ namespace Weknow.N4J
         /// </example>
         ICypherFluent ICypherFluent.OnCreateSet(string variable, params string[] propNames)
         {
+            #region Validation
+
+            if (propNames == null || propNames.Length == 0)
+                throw new ArgumentNullException($"{nameof(propNames)} must have at least single value");
+            #endregion // Validation
+
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
             return set.Set(variable, propNames);
