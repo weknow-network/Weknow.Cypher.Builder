@@ -12,6 +12,8 @@
     <Product>Weknow Cypher builder</Product>
     <Copyright>Weknow Network ©</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
