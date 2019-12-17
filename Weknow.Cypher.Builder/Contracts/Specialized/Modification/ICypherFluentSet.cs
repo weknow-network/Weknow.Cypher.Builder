@@ -57,13 +57,14 @@ namespace Weknow
         /// Compose SET phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
         /// <example>
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        IFluentCypher Set(string variable, params string[] propNames);
+        IFluentCypher Set(string variable, string name, params string[] moreNames);
 
         /// <summary>
         /// Compose SET phrase from a type expression.

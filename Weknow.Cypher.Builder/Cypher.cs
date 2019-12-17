@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
+using static Weknow.Helpers.Helper;
 
 namespace Weknow
 {
@@ -65,17 +66,28 @@ namespace Weknow
         IFluentCypher,
         ICypherFluentSetPlus,
         ICypherFluentReturn,
-        ICypherFluentWhereExpression
-
+        ICypherFluentWhereExpression,
+        ICypherable
     {
         private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
         private protected static CypherNamingConvention _defaultRelationConvention = CypherNamingConvention.Default;
 
         private static readonly Cypher Empty = new Cypher();
         private protected readonly CypherCommand _cypherCommand = CypherCommand.Empty;
-        internal const int BREAK_LINE_ON = 3;
-        internal static readonly string LINE_SEPERATOR = $"{Environment.NewLine}    ";
-        internal static readonly string SET_SEPERATOR = $"{Environment.NewLine}    ,";
+
+        #region ICypherable
+
+        /// <summary>
+        /// Gets the cypher statement.
+        /// </summary>
+        string ICypherable.Cypher => _cypherCommand.Cypher;
+
+        /// <summary>
+        /// Gets the cypher statement trimmed into single line.
+        /// </summary>
+        string ICypherable.CypherLine => _cypherCommand.CypherLine; 
+
+        #endregion // ICypherable
 
         #region SetDefaultConventions
 
@@ -215,16 +227,6 @@ namespace Weknow
         #endregion // GetPrefix
 
         #region ICypherFluent
-
-        #region Build
-
-        /// <summary>
-        /// Get the cypher representation.
-        /// </summary>
-        /// <returns></returns>
-        ICypherable IFluentCypher.Build() => _cypherCommand;
-
-        #endregion // Build
 
         #region Add
 
@@ -434,17 +436,11 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        IFluentCypher IFluentCypher.OnCreateSet(string variable, params string[] propNames)
+        IFluentCypher IFluentCypher.OnCreateSet(string variable, string name, params string[] moreNames)
         {
-            #region Validation
-
-            if (propNames == null || propNames.Length == 0)
-                throw new ArgumentNullException($"{nameof(propNames)} must have at least single value");
-            #endregion // Validation
-
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
-            return set.Set(variable, propNames);
+            return set.Set(variable, Yilder(name, moreNames));
         }
 
         /// <summary>
@@ -548,7 +544,8 @@ namespace Weknow
         /// Compose ON MATCH SET phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
         /// <example>
         /// MERGE (n:Person {name: $value})
@@ -557,11 +554,11 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        IFluentCypher IFluentCypher.OnMatchSet(string variable, params string[] propNames)
+        IFluentCypher IFluentCypher.OnMatchSet(string variable, string name, params string[] moreNames)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
-            return set.Set(variable, propNames);
+            return set.Set(variable, Yilder(name, moreNames));
         }
 
         /// <summary>
@@ -766,6 +763,39 @@ namespace Weknow
                                             AddStatement(statement, CypherPhrase.Where);
 
         /// <summary>
+        /// Create WHERE phrase
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
+        /// <returns></returns>
+        ICypherFluentWhereExpression ICypherFluentWhere.Where(
+            string variable,
+            string name,
+            params string[] moreNames)
+        {
+            ICypherFluentWhere self = this;
+            return self.Where(variable, name, (IEnumerable<string>)moreNames);
+        }
+
+
+        /// <summary>
+        /// Create WHERE phrase
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="propNames">The property names.</param>
+        /// <returns></returns>
+        ICypherFluentWhereExpression ICypherFluentWhere.Where(
+            string variable,
+            string name,
+            IEnumerable<string> moreNames)
+        {
+            string statement = ComposeSetWhere(variable, Yilder(name, moreNames));
+            var result = AddStatement(statement, CypherPhrase.Where);
+            return result;
+        }
+
+        /// <summary>
         /// Create WHERE phrase, generated by expression
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -844,7 +874,7 @@ namespace Weknow
                         string collection,
                         IEnumerable<string> propNames)
         {
-            string sets = ComposeSet(variable, propNames);
+            string sets = ComposeSetWhere(variable, propNames);
             string sep = NewLineSeparatorStrategy(propNames);
             string statement = $@"({variable} IN {collection} | 
     SET {sep}{sets})";
@@ -906,7 +936,7 @@ namespace Weknow
         /// </example>
         IFluentCypher ICypherFluentSet.Set(string variable, IEnumerable<string> propNames)
         {
-            string statement = ComposeSet(variable, propNames);
+            string statement = ComposeSetWhere(variable, propNames);
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -921,10 +951,10 @@ namespace Weknow
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        IFluentCypher ICypherFluentSet.Set(string variable, params string[] propNames)
+        IFluentCypher ICypherFluentSet.Set(string variable, string name, params string[] moreNames)
         {
             ICypherFluentSet self = this;
-            return self.Set(variable, (IEnumerable<string>)propNames);
+            return self.Set(variable, Yilder(name, moreNames));
         }
 
         /// <summary>
@@ -1124,119 +1154,9 @@ namespace Weknow
         }
 
         #endregion // Format
-
-        #region ExtractLambdaExpression
-
-        /// <summary>
-        /// Extracts the lambda expression.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="expression">The exclude.</param>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException">
-        /// </exception>
-        internal static (string variable, string Name) ExtractLambdaExpression<T>(
-            Expression<Func<T, dynamic>> expression)
+        public override string ToString()
         {
-            if (!(expression is LambdaExpression lambda))
-                throw new NotSupportedException();
-            if (expression.Body is MemberExpression p)
-                return (lambda.Parameters.First().Name, p.Member.Name);
-            if (expression.Body is UnaryExpression u)
-            {
-                if (u.Operand is MemberExpression m)
-                {
-                    return (lambda.Parameters.First().Name, m.Member.Name);
-                }
-            }
-            throw new NotSupportedException();
+            return base.ToString();
         }
-
-        #endregion // ExtractLambdaExpression
-
-        #region ExtractLambdaExpressionParameters
-
-        /// <summary>
-        /// Extracts parameters the lambda expression.
-        /// </summary>
-        /// <param name="exclude">The exclude.</param>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
-        private protected string[] ExtractLambdaExpressionParameters(
-            Expression exclude)
-        {
-            if (!(exclude is LambdaExpression lambda))
-                throw new NotSupportedException();
-            string[] results = lambda.Parameters.Select(p => p.Name).ToArray();
-            return results;
-        }
-
-        #endregion // ExtractLambdaExpressionParameters
-
-        #region GetProperties
-
-        /// <summary>
-        /// Gets the properties names.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        internal static IEnumerable<string> GetProperties<T>()
-        {
-            var pis = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance /*| BindingFlags.DeclaredOnly*/);
-            return pis.Select(m => m.Name);
-        }
-
-        #endregion // GetProperties
-
-        #region ComposeSet
-
-        /// <summary>
-        /// Composes set statement.
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="collection">The collection.</param>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        private static string ComposeSet(
-                                string variable,
-                                IEnumerable<string> propNames)
-        {
-            var phrases = propNames.Select(m => $"{variable}.{m} = ${variable}_{m}");
-            string sep = SetSeparatorStrategy(propNames);
-            string statement = string.Join(sep, phrases);
-            return statement;
-        }
-
-        #endregion // ComposeSet
-
-        #region SeparatorStrategy
-
-        /// <summary>
-        /// Separators the strategy.
-        /// </summary>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        internal static string NewLineSeparatorStrategy(IEnumerable<string> propNames)
-        {
-            string sep = string.Empty;
-            if (propNames.Count() >= BREAK_LINE_ON)
-                sep = LINE_SEPERATOR;
-            return sep;
-        } 
-
-        /// <summary>
-        /// Separators the strategy.
-        /// </summary>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        internal static string SetSeparatorStrategy(IEnumerable<string> propNames)
-        {
-            string sep = ", ";
-            if (propNames.Count() >= BREAK_LINE_ON)
-                sep = SET_SEPERATOR;
-            return sep;
-        } 
-
-        #endregion // SeparatorStrategy
     }
 }

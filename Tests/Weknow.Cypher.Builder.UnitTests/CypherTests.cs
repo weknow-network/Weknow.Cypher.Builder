@@ -27,8 +27,7 @@ namespace Weknow.UnitTests
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
             var cypherCommand = Cypher.Builder()
-                            .Match("(n:Foo)")
-                            .Build();
+                            .Match("(n:Foo)");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo)", cypherCommand.CypherLine);
@@ -43,10 +42,9 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.Create<Foo>(f => f.Id, f => f.Name);
+            string props = CypherFactory.Prop.Create<Foo>(f => f.Id, f => f.Name);
             var cypherCommand = Cypher.Builder()
-                            .Match($"(n:Foo {props})")
-                            .Build();
+                            .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
@@ -61,10 +59,9 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.CreateAll<Foo>();
+            string props = CypherFactory.Prop.CreateAll<Foo>();
             var cypherCommand = Cypher.Builder()
-                            .Match($"(n:Foo {props})")
-                            .Build();
+                            .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo { Id: $Id ,Name: $Name ,DateOfBirth: $DateOfBirth })", cypherCommand.CypherLine);
@@ -79,10 +76,9 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.CreateAll<Foo>(f => f.DateOfBirth);
+            string props = CypherFactory.Prop.CreateAll<Foo>(f => f.DateOfBirth);
             var cypherCommand = Cypher.Builder()
-                            .Match($"(n:Foo {props})")
-                            .Build();
+                            .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
@@ -97,10 +93,9 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.CreateByConvention<Foo>(n => !n.StartsWith("Date"));
+            string props = CypherFactory.Prop.CreateByConvention<Foo>(n => !n.StartsWith("Date"));
             var cypherCommand = Cypher.Builder()
-                            .Match($"(n:Foo {props})")
-                            .Build();
+                            .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
@@ -115,16 +110,66 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.Create("Id");
+            string props = CypherFactory.Prop.Create("Id");
             var cypherCommand = Cypher.Builder()
-                            .Match($"(n:Foo {props})")
-                            .Build();
+                            .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal("MATCH (n:Foo { Id: $Id })", cypherCommand.CypherLine);
         } 
 
         #endregion // Match_Props_Test
+
+        #region OptionalMatch_Props_Test
+
+        [Fact]
+        public void OptionalMatch_Props_Test()
+        {
+            Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.Prop.Create("Id");
+            var cypherCommand = Cypher.Builder()
+                            .OptionalMatch($"(n:Foo {props})");
+
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal("OPTIONAL MATCH (n:Foo { Id: $Id })", cypherCommand.CypherLine);
+        } 
+
+        #endregion // OptionalMatch_Props_Test
+
+        #region Match_Where_Test
+
+        [Fact]
+        public void Match_Where_Test()
+        {
+            Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = Cypher.Builder()
+                            .Match($"(n:Foo)")
+                            .Where("n.Name = $Name");
+
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name", cypherCommand.CypherLine);
+        }
+
+        #endregion // Match_Where_Test
+
+        #region Match_WhereWithVariable_Test
+
+        [Fact]
+        public void Match_WhereWithVariable_Test()
+        {
+            Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = Cypher.Builder()
+                            .Match($"(n:Foo)")
+                            .Where("n","Name", "Id");
+
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $n_Name, n.Id = $n_Id", cypherCommand.CypherLine);
+        }
+
+        #endregion // Match_WhereWithVariable_Test
 
         #region Merge_OnCreate_OnMatch_Test
 
@@ -133,13 +178,12 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.Create<Foo>(f => f.Id);
+            string props = CypherFactory.Prop.Create<Foo>(f => f.Id);
             var cypherCommand = Cypher.Builder()
                             .Merge($"(n:Foo {props})")
                             .OnCreateSet("f", nameof(Foo.Id), nameof(Foo.Name))
                             .OnMatch()
-                            .SetByConvention<Foo>("f", name => name != nameof(Foo.Id))
-                            .Build();
+                            .SetByConvention<Foo>("f", name => name != nameof(Foo.Id));
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +
                 "ON CREATE " +
@@ -160,19 +204,18 @@ namespace Weknow.UnitTests
         {
             Cypher.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherProps.Create<Foo>(f => f.Id);
+            string props = CypherFactory.Prop.Create<Foo>(f => f.Id);
             var cypherCommand = Cypher.Builder()
                             .Merge($"(n:Foo {props})")
                             .OnCreate()
                                 .Set<Foo>(f => f.Id).SetMore(f => f.Name)
-                            .OnMatchSet<Foo>(f => f.Name).SetMore(f => f.DateOfBirth)
-                            .Build();
+                            .OnMatchSet("f","Name","DateOfBirth");
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +
                 "ON CREATE " +
                 "SET f.Id = $f_Id ,f.Name = $f_Name " +
                 "ON MATCH " +
-                "SET f.Name = $f_Name ,f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $f_Name, f.DateOfBirth = $f_DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal(expected, cypherCommand.CypherLine);
         }

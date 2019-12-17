@@ -25,18 +25,11 @@ using System.Linq.Expressions;
 
 namespace Weknow
 {
-    public interface IFluentCypher: ICypherFluentWhere, ICypherFluentForEach
+    public interface IFluentCypher: 
+        ICypherFluentWhere, 
+        ICypherFluentForEach,
+        ICypherable
     {
-        #region Build
-
-        /// <summary>
-        /// Get the cypher representation.
-        /// </summary>
-        /// <returns></returns>
-        ICypherable Build(); 
-
-        #endregion // Build
-
         #region Add
 
         /// <summary>
@@ -224,7 +217,8 @@ namespace Weknow
         /// Compose ON CREATE SET phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
         /// <example>
         /// MERGE (n:Person {name: $value})
@@ -233,7 +227,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        IFluentCypher OnCreateSet(string variable, params string[] propNames);
+        IFluentCypher OnCreateSet(string variable, string name, params string[] moreNames);
 
         /// <summary>
         /// Compose ON CREATE SET phrase from a type expression.
@@ -321,7 +315,8 @@ namespace Weknow
         /// Compose ON MATCH SET phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
         /// <example>
         /// MERGE (n:Person {name: $value})
@@ -330,7 +325,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        IFluentCypher OnMatchSet(string variable, params string[] propNames);
+        IFluentCypher OnMatchSet(string variable, string name, params string[] moreNames);
 
         /// <summary>
         /// Compose ON MATCH SET phrase from a type expression.
