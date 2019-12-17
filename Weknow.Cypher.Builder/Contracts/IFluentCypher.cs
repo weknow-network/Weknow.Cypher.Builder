@@ -4,6 +4,8 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
+// TODO: Properties variable
+// TODO: params avoid empty (first parameter shouldn't be part of the array)
 // TODO: Relationship Functions: https://neo4j.com/docs/cypher-manual/3.5/functions/scalar/
 // TODO: Aggregating Functions: https://neo4j.com/docs/cypher-manual/3.5/functions/aggregating/
 // TODO: INDEX : https://neo4j.com/docs/cypher-manual/3.5/schema/index/
@@ -23,7 +25,7 @@ using System.Linq.Expressions;
 
 namespace Weknow
 {
-    public interface ICypherFluent: ICypherFluentWhere, ICypherFluentForEach
+    public interface IFluentCypher: ICypherFluentWhere, ICypherFluentForEach
     {
         #region Build
 
@@ -31,7 +33,7 @@ namespace Weknow
         /// Get the cypher representation.
         /// </summary>
         /// <returns></returns>
-        ICypher Build(); 
+        ICypherable Build(); 
 
         #endregion // Build
 
@@ -42,7 +44,7 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        ICypherFluent Add(string statement);
+        IFluentCypher Add(string statement);
 
         #endregion // Add
 
@@ -58,7 +60,7 @@ namespace Weknow
         /// MATCH (n)-->(m)
         /// MATCH (n {name: 'Alice'})-->(m)
         /// </example>
-        ICypherFluent Match(string statement);
+        IFluentCypher Match(string statement);
 
         #endregion // Match
 
@@ -72,7 +74,7 @@ namespace Weknow
         /// <example>
         /// OPTIONAL MATCH (n)-[r]->(m)
         /// </example>
-        ICypherFluent OptionalMatch(string statement);
+        IFluentCypher OptionalMatch(string statement);
 
         #endregion // OptionalMatch
 
@@ -201,7 +203,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnCreate(string statement);
+        IFluentCypher OnCreate(string statement);
 
         /// <summary>
         /// Compose ON CREATE SET phrase
@@ -216,7 +218,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnCreateSet(string variable, IEnumerable<string> propNames);
+        IFluentCypher OnCreateSet(string variable, IEnumerable<string> propNames);
 
         /// <summary>
         /// Compose ON CREATE SET phrase
@@ -231,7 +233,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnCreateSet(string variable, params string[] propNames);
+        IFluentCypher OnCreateSet(string variable, params string[] propNames);
 
         /// <summary>
         /// Compose ON CREATE SET phrase from a type expression.
@@ -262,7 +264,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnCreateSetByConvention<T>(string variable, Func<string, bool> filter);
+        IFluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // OnCreate
 
@@ -298,7 +300,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnMatch(string statement);
+        IFluentCypher OnMatch(string statement);
 
         /// <summary>
         /// Compose ON MATCH SET phrase
@@ -313,7 +315,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnMatchSet(string variable, IEnumerable<string> propNames);
+        IFluentCypher OnMatchSet(string variable, IEnumerable<string> propNames);
 
         /// <summary>
         /// Compose ON MATCH SET phrase
@@ -328,7 +330,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnMatchSet(string variable, params string[] propNames);
+        IFluentCypher OnMatchSet(string variable, params string[] propNames);
 
         /// <summary>
         /// Compose ON MATCH SET phrase from a type expression.
@@ -359,7 +361,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent OnMatchSetByConvention<T>(string variable, Func<string, bool> filter);
+        IFluentCypher OnMatchSetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // OnMatch
 
@@ -378,7 +380,7 @@ namespace Weknow
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
-        ICypherFluent Unwind(string collection, string variable);
+        IFluentCypher Unwind(string collection, string variable);
 
         #endregion // Unwind
 
@@ -455,7 +457,7 @@ namespace Weknow
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
         /// </example>
-        ICypherFluent Union();
+        IFluentCypher Union();
 
         #endregion // Union
 
@@ -475,7 +477,7 @@ namespace Weknow
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
         /// </example>
-        ICypherFluent UnionAll();
+        IFluentCypher UnionAll();
 
         #endregion // UnionAll
 

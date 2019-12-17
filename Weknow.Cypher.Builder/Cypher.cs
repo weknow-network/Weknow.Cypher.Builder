@@ -59,10 +59,10 @@ namespace Weknow
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.ICypherFluent" />
+    /// <seealso cref="Weknow.IFluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
     public class Cypher :
-        ICypherFluent,
+        IFluentCypher,
         ICypherFluentSetPlus,
         ICypherFluentReturn,
         ICypherFluentWhereExpression
@@ -102,7 +102,7 @@ namespace Weknow
         /// <param name="nodeConvention">The node convention.</param>
         /// <param name="relationConvention">The relation convention.</param>
         /// <returns></returns>
-        public static ICypherFluent Builder()
+        public static IFluentCypher Builder()
         {
             return new Cypher();
         }
@@ -222,7 +222,7 @@ namespace Weknow
         /// Get the cypher representation.
         /// </summary>
         /// <returns></returns>
-        ICypher ICypherFluent.Build() => _cypherCommand;
+        ICypherable IFluentCypher.Build() => _cypherCommand;
 
         #endregion // Build
 
@@ -233,7 +233,7 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        ICypherFluent ICypherFluent.Add(string statement) => AddStatement(statement, CypherPhrase.Dynamic);
+        IFluentCypher IFluentCypher.Add(string statement) => AddStatement(statement, CypherPhrase.Dynamic);
 
         #endregion // Add
 
@@ -249,7 +249,7 @@ namespace Weknow
         /// MATCH (n)-->(m)
         /// MATCH (n {name: 'Alice'})-->(m)
         /// </example>
-        ICypherFluent ICypherFluent.Match(string statement) => AddStatement(statement, CypherPhrase.Match);
+        IFluentCypher IFluentCypher.Match(string statement) => AddStatement(statement, CypherPhrase.Match);
 
         #endregion // Match
 
@@ -263,7 +263,7 @@ namespace Weknow
         /// <example>
         /// OPTIONAL MATCH (n)-[r]->(m)
         /// </example>
-        ICypherFluent ICypherFluent.OptionalMatch(string statement) => AddStatement(statement, CypherPhrase.OptionalMatch);
+        IFluentCypher IFluentCypher.OptionalMatch(string statement) => AddStatement(statement, CypherPhrase.OptionalMatch);
 
         #endregion // OptionalMatch
 
@@ -281,7 +281,7 @@ namespace Weknow
         /// CREATE (n)-[r:KNOWS]->(m) // Create a relationship with the given type and direction; bind a variable to it.
         /// CREATE (n)-[:LOVES {since: $value}]->(m) // Create a relationship with the given type, direction, and properties.
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.Create(string statement) => AddStatement(statement, CypherPhrase.Create);
+        ICypherFluentSetPlus IFluentCypher.Create(string statement) => AddStatement(statement, CypherPhrase.Create);
 
         #endregion // Create
 
@@ -297,7 +297,7 @@ namespace Weknow
         /// REMOVE n:Person // Remove a label from n.
         /// REMOVE n.property // Remove a property.
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.Remove(string statement) => AddStatement(statement, CypherPhrase.Remove);
+        ICypherFluentSetPlus IFluentCypher.Remove(string statement) => AddStatement(statement, CypherPhrase.Remove);
 
         #endregion // Remove
 
@@ -313,7 +313,7 @@ namespace Weknow
         /// MATCH (n)
         /// DETACH DELETE n
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.Delete(string statement) => AddStatement(statement, CypherPhrase.Delete);
+        ICypherFluentSetPlus IFluentCypher.Delete(string statement) => AddStatement(statement, CypherPhrase.Delete);
 
         #endregion // Delete
 
@@ -329,7 +329,7 @@ namespace Weknow
         /// MATCH (n)
         /// DETACH DELETE n
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.DetachDelete(string statement) => AddStatement(statement, CypherPhrase.DetachDelete);
+        ICypherFluentSetPlus IFluentCypher.DetachDelete(string statement) => AddStatement(statement, CypherPhrase.DetachDelete);
 
         #endregion // DetachDelete
 
@@ -356,7 +356,7 @@ namespace Weknow
         /// MATCH (a:Person {name: $value1})
         /// MERGE (a)-[r: KNOWS]->(b:Person {name: $value3})
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.Merge(string statement) => AddStatement(statement, CypherPhrase.Merge);
+        ICypherFluentSetPlus IFluentCypher.Merge(string statement) => AddStatement(statement, CypherPhrase.Merge);
 
         #endregion // Merge
 
@@ -376,7 +376,7 @@ namespace Weknow
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.OnCreate() => AddStatement(CypherPhrase.OnCreate);
+        ICypherFluentSetPlus IFluentCypher.OnCreate() => AddStatement(CypherPhrase.OnCreate);
 
         /// <summary>
         /// Compose ON CREATE phrase.
@@ -392,7 +392,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnCreate(string statement) => AddStatement(statement, CypherPhrase.OnCreate);
+        IFluentCypher IFluentCypher.OnCreate(string statement) => AddStatement(statement, CypherPhrase.OnCreate);
 
         /// <summary>
         /// Compose ON CREATE SET phrase
@@ -407,7 +407,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnCreateSet(string variable, IEnumerable<string> propNames)
+        IFluentCypher IFluentCypher.OnCreateSet(string variable, IEnumerable<string> propNames)
         {
             #region Validation
 
@@ -434,7 +434,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnCreateSet(string variable, params string[] propNames)
+        IFluentCypher IFluentCypher.OnCreateSet(string variable, params string[] propNames)
         {
             #region Validation
 
@@ -460,7 +460,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSet<T> ICypherFluent.OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
+        ICypherFluentSet<T> IFluentCypher.OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
         {
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
@@ -481,7 +481,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
+        IFluentCypher IFluentCypher.OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
         {
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
@@ -506,7 +506,7 @@ namespace Weknow
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.OnMatch() => AddStatement(CypherPhrase.OnMatch);
+        ICypherFluentSetPlus IFluentCypher.OnMatch() => AddStatement(CypherPhrase.OnMatch);
 
         /// <summary>
         /// Compose ON MATCH phrase
@@ -522,7 +522,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnMatch(string statement) => AddStatement(statement, CypherPhrase.OnMatch);
+        IFluentCypher IFluentCypher.OnMatch(string statement) => AddStatement(statement, CypherPhrase.OnMatch);
 
         /// <summary>
         /// Compose ON MATCH SET phrase
@@ -537,7 +537,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnMatchSet(string variable, IEnumerable<string> propNames)
+        IFluentCypher IFluentCypher.OnMatchSet(string variable, IEnumerable<string> propNames)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
@@ -557,7 +557,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnMatchSet(string variable, params string[] propNames)
+        IFluentCypher IFluentCypher.OnMatchSet(string variable, params string[] propNames)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
@@ -577,7 +577,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSet<T> ICypherFluent.OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression)
+        ICypherFluentSet<T> IFluentCypher.OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
@@ -598,7 +598,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluent ICypherFluent.OnMatchSetByConvention<T>(string variable, Func<string, bool> filter)
+        IFluentCypher IFluentCypher.OnMatchSetByConvention<T>(string variable, Func<string, bool> filter)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
@@ -622,7 +622,7 @@ namespace Weknow
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
-        ICypherFluent ICypherFluent.Unwind(string collection, string variable) => AddStatement($"{collection} AS {variable}", CypherPhrase.Unwind);
+        IFluentCypher IFluentCypher.Unwind(string collection, string variable) => AddStatement($"{collection} AS {variable}", CypherPhrase.Unwind);
 
         #endregion // Unwind
 
@@ -643,7 +643,7 @@ namespace Weknow
         /// WHERE friends &gt; 10
         /// RETURN user
         /// </example>
-        ICypherFluentReturn ICypherFluent.With(string statement) =>
+        ICypherFluentReturn IFluentCypher.With(string statement) =>
                             AddStatement(statement, CypherPhrase.With);
 
         #endregion // With
@@ -655,7 +655,7 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        ICypherFluentReturn ICypherFluent.Return() =>
+        ICypherFluentReturn IFluentCypher.Return() =>
                             AddStatement(CypherPhrase.Return);
 
         /// <summary>
@@ -668,7 +668,7 @@ namespace Weknow
         /// RETURN n AS columnName // Use alias for result column name.
         /// RETURN DISTINCT n // Return unique rows.
         /// </example>
-        ICypherFluentReturn ICypherFluent.Return(string statement) =>
+        ICypherFluentReturn IFluentCypher.Return(string statement) =>
                             AddStatement(statement, CypherPhrase.Return);
 
         #endregion // Return
@@ -683,7 +683,7 @@ namespace Weknow
         /// <example>
         /// RETURN DISTINCT n // Return unique rows.
         /// </example>
-        ICypherFluentReturn ICypherFluent.ReturnDistinct(string statement) =>
+        ICypherFluentReturn IFluentCypher.ReturnDistinct(string statement) =>
                             AddStatement(statement, CypherPhrase.ReturnDistinct);
 
         #endregion // ReturnDistinct
@@ -703,7 +703,7 @@ namespace Weknow
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
         /// </example>
-        ICypherFluent ICypherFluent.Union() =>
+        IFluentCypher IFluentCypher.Union() =>
                             AddStatement(string.Empty, CypherPhrase.Union);
 
         #endregion // Union
@@ -724,7 +724,7 @@ namespace Weknow
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
         /// </example>
-        ICypherFluent ICypherFluent.UnionAll() =>
+        IFluentCypher IFluentCypher.UnionAll() =>
                             AddStatement(string.Empty, CypherPhrase.UnionAll);
 
         #endregion // UnionAll
@@ -745,7 +745,7 @@ namespace Weknow
         /// Note that required procedure arguments are given explicitly 
         /// in brackets after the procedure name.
         /// </example>
-        ICypherFluentSetPlus ICypherFluent.Call(string statement) =>
+        ICypherFluentSetPlus IFluentCypher.Call(string statement) =>
                             AddStatement(statement, CypherPhrase.Call);
 
         #endregion // Call
@@ -804,7 +804,7 @@ namespace Weknow
         /// <example>
         /// FOREACH (r IN relationships(path) | SET r.marked = true)
         /// </example>
-        ICypherFluent ICypherFluentForEach.ForEach(string statement) =>
+        IFluentCypher ICypherFluentForEach.ForEach(string statement) =>
                             AddStatement(statement, CypherPhrase.ForEach);
 
         /// <summary>
@@ -818,13 +818,13 @@ namespace Weknow
         /// ForEach("n", "nations", nameof(Foo.Name), nameof(Bar.Id))
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        ICypherFluent ICypherFluentForEach.ForEach(
+        IFluentCypher ICypherFluentForEach.ForEach(
                         string variable,
                         string collection,
                         params string[] propNames)
         {
             ICypherFluentForEach self = this;
-            ICypherFluent result = self.ForEach(variable, collection, (IEnumerable<string>)propNames);
+            IFluentCypher result = self.ForEach(variable, collection, (IEnumerable<string>)propNames);
             return result;
         }
 
@@ -839,7 +839,7 @@ namespace Weknow
         /// ForEach("n", "nations", new [] {nameof(Foo.Name), nameof(Bar.Id)})
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        ICypherFluent ICypherFluentForEach.ForEach(
+        IFluentCypher ICypherFluentForEach.ForEach(
                         string variable,
                         string collection,
                         IEnumerable<string> propNames)
@@ -863,7 +863,7 @@ namespace Weknow
         /// ForEach("$users", name =&gt; name.EndsWith("Name"))
         /// ForEach(user IN $users | SET user.FirstName = $user.FirstName, user.LastName = $user.LastName) // Update or create a property.
         /// </example>
-        ICypherFluent ICypherFluentForEach.ForEachByConvention<T>(
+        IFluentCypher ICypherFluentForEach.ForEachByConvention<T>(
                     string variable,
                     string collection,
                     Func<string, bool> filter)
@@ -872,7 +872,7 @@ namespace Weknow
             IEnumerable<string> propNames =
                             names.Where(name => filter(name));
             ICypherFluentForEach self = this;
-            ICypherFluent result = self.ForEach(variable, collection, propNames);
+            IFluentCypher result = self.ForEach(variable, collection, propNames);
             return result;
         }
 
@@ -891,7 +891,7 @@ namespace Weknow
         /// SET n += $map // Add and update properties, while keeping existing ones.
         /// SET n:Person // Adds a label Person to a node.
         /// </example>
-        ICypherFluent ICypherFluentSet.Set(string statement) =>
+        IFluentCypher ICypherFluentSet.Set(string statement) =>
                             AddStatement(statement, CypherPhrase.Set);
 
         /// <summary>
@@ -904,7 +904,7 @@ namespace Weknow
         /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        ICypherFluent ICypherFluentSet.Set(string variable, IEnumerable<string> propNames)
+        IFluentCypher ICypherFluentSet.Set(string variable, IEnumerable<string> propNames)
         {
             string statement = ComposeSet(variable, propNames);
             var result = AddStatement(statement, CypherPhrase.Set);
@@ -921,7 +921,7 @@ namespace Weknow
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        ICypherFluent ICypherFluentSet.Set(string variable, params string[] propNames)
+        IFluentCypher ICypherFluentSet.Set(string variable, params string[] propNames)
         {
             ICypherFluentSet self = this;
             return self.Set(variable, (IEnumerable<string>)propNames);
@@ -956,7 +956,7 @@ namespace Weknow
         /// Set((User user) =&gt; user.Name.StartWith("Name"))
         /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
         /// </example>
-        ICypherFluent ICypherFluentSet.SetByConvention<T>(string variable, Func<string, bool> filter)
+        IFluentCypher ICypherFluentSet.SetByConvention<T>(string variable, Func<string, bool> filter)
         {
             IEnumerable<string> names = GetProperties<T>();
             IEnumerable<string> propNames =
@@ -976,7 +976,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $userEntity
         /// </example>
-        ICypherFluent ICypherFluentSet.Set<T>(string variable)
+        IFluentCypher ICypherFluentSet.Set<T>(string variable)
         {
             string statement = $"{variable} = ${typeof(T).Name.ToCamelCase()}";
             var result = AddStatement(statement, CypherPhrase.Set);
@@ -993,7 +993,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u += $userEntity
         /// </example>
-        ICypherFluent ICypherFluentSet.SetUpdate<T>(string variable)
+        IFluentCypher ICypherFluentSet.SetUpdate<T>(string variable)
         {
             string statement = $"{variable} += ${typeof(T).Name.ToCamelCase()}";
             var result = AddStatement(statement, CypherPhrase.Set);
@@ -1009,7 +1009,7 @@ namespace Weknow
         /// <example>
         /// SET n:Person
         /// </example>
-        ICypherFluent ICypherFluentSet.SetLabel<T>(string variable, string label)
+        IFluentCypher ICypherFluentSet.SetLabel<T>(string variable, string label)
         {
             string statement = $"{variable}:{typeof(T).Name}";
             var result = AddStatement(statement, CypherPhrase.Set);

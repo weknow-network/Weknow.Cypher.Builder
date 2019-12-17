@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Weknow
 {
-    public interface ICypherFluentSetComposer<T>: ICypher
+    public interface ICypherFluentSetComposer<T>: ICypherable
     {
         /// <summary>
         /// Compose SET phrase from a type expression.
@@ -25,7 +25,7 @@ namespace Weknow
         ICypherFluentSetComposer<T> Also(Expression<Func<T, dynamic>> propExpression);
     }
 
-    public interface ICypherFluentForSetComposerExclude<T> : ICypher
+    public interface ICypherFluentForSetComposerExclude<T> : ICypherable
     {
         /// <summary>
         /// Compose SET phrase from a type expression.
@@ -40,7 +40,7 @@ namespace Weknow
         ICypherFluentForSetComposerExclude<T> Exclude(Expression<Func<T, dynamic>> propExpression);
     }
 
-    public interface ICypherFluentForSetComposer: ICypher
+    public interface ICypherFluentForSetComposer: ICypherable
     {
 
         /// <summary>

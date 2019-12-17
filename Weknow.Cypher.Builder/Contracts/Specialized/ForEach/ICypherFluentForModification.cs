@@ -20,7 +20,7 @@ namespace Weknow
         /// <example>
         /// FOREACH (r IN relationships(path) | SET r.marked = true)
         /// </example>
-        ICypherFluent ForEach(string statement);
+        IFluentCypher ForEach(string statement);
 
         /// <summary>
         /// Compose ForEach phrase
@@ -33,7 +33,7 @@ namespace Weknow
         /// ForEach("n", "nations", nameof(Foo.Name), nameof(Bar.Id))
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        ICypherFluent ForEach(string variable, string collection, params string[] propNames);
+        IFluentCypher ForEach(string variable, string collection, params string[] propNames);
 
         /// <summary>
         /// Compose ForEach phrase
@@ -46,7 +46,7 @@ namespace Weknow
         /// ForEach("n", "nations", new [] {nameof(Foo.Name), nameof(Bar.Id)})
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        ICypherFluent ForEach(string variable, string collection, IEnumerable<string> propNames);
+        IFluentCypher ForEach(string variable, string collection, IEnumerable<string> propNames);
 
         /// <summary>
         /// Compose ForEach phrase by convention.
@@ -60,6 +60,6 @@ namespace Weknow
         /// ForEach("$users", name =&gt; name.EndsWith("Name"))
         /// ForEach(user IN $users | SET user.FirstName = $user.FirstName, user.LastName = $user.LastName) // Update or create a property.
         /// </example>
-        ICypherFluent ForEachByConvention<T>(string variable, string collection, Func<string, bool> filter);
+        IFluentCypher ForEachByConvention<T>(string variable, string collection, Func<string, bool> filter);
     }
 }

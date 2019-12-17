@@ -10,8 +10,8 @@ namespace Weknow
     /// <summary>
     /// Extends the phrases option under WHERE context
     /// </summary>
-    /// <seealso cref="Weknow.ICypherFluent" />
-    public interface ICypherFluentWhereExpression : ICypherFluent
+    /// <seealso cref="Weknow.IFluentCypher" />
+    public interface ICypherFluentWhereExpression : IFluentCypher
     {
         /// <summary>
         /// Compose AND phrase.

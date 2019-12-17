@@ -10,7 +10,7 @@
 namespace Weknow
 {
 
-    public interface ICypherFluentReturn: ICypherFluent
+    public interface ICypherFluentReturn: IFluentCypher
     {
         #region OrderBy 
 

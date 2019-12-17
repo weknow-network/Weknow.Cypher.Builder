@@ -12,9 +12,9 @@ namespace Weknow
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.ICypherFluent" />
+    /// <seealso cref="Weknow.IFluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
-    internal class CypherCommand : ICypher
+    internal class CypherCommand : ICypherable
     {
         public static readonly CypherCommand Empty = new CypherCommand();
         public CypherCommand Previous { get; }

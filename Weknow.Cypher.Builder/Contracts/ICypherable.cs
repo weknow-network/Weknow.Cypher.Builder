@@ -6,7 +6,7 @@
 
 namespace Weknow
 {
-    public interface ICypher
+    public interface ICypherable
     {
         /// <summary>
         /// Gets the cypher statement.

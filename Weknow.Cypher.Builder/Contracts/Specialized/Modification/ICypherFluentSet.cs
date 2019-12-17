@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 namespace Weknow
 {
 
-    public interface ICypherFluentSet<T> : ICypherFluent
+    public interface ICypherFluentSet<T> : IFluentCypher
     {
         /// <summary>
         /// Compose SET continuation phrase from a type expression.
@@ -39,7 +39,7 @@ namespace Weknow
         /// SET n += $map // Add and update properties, while keeping existing ones.
         /// SET n:Person // Adds a label Person to a node.
         /// </example>
-        ICypherFluent Set(string statement);
+        IFluentCypher Set(string statement);
 
         /// <summary>
         /// Compose SET phrase
@@ -51,7 +51,7 @@ namespace Weknow
         /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        ICypherFluent Set(string variable, IEnumerable<string> propNames);
+        IFluentCypher Set(string variable, IEnumerable<string> propNames);
 
         /// <summary>
         /// Compose SET phrase
@@ -63,7 +63,7 @@ namespace Weknow
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// </example>
-        ICypherFluent Set(string variable, params string[] propNames);
+        IFluentCypher Set(string variable, params string[] propNames);
 
         /// <summary>
         /// Compose SET phrase from a type expression.
@@ -88,7 +88,7 @@ namespace Weknow
         /// Set((User user) =&gt; user.Name.StartWith("Name"))
         /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
         /// </example>
-        ICypherFluent SetByConvention<T>(string variable, Func<string, bool> filter);
+        IFluentCypher SetByConvention<T>(string variable, Func<string, bool> filter);
 
         /// <summary>
         /// Set all properties. This will remove any existing properties.
@@ -100,7 +100,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $userEntity
         /// </example>
-        ICypherFluent Set<T>(string variable);
+        IFluentCypher Set<T>(string variable);
 
         /// <summary>
         /// Add and update properties, while keeping existing ones.
@@ -112,7 +112,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u += $userEntity
         /// </example>
-        ICypherFluent SetUpdate<T>(string variable);
+        IFluentCypher SetUpdate<T>(string variable);
 
         /// <summary>
         /// Sets the label.
@@ -123,6 +123,6 @@ namespace Weknow
         /// <example>
         /// SET n:Person
         /// </example>
-        ICypherFluent SetLabel<T>(string variable, string label);
+        IFluentCypher SetLabel<T>(string variable, string label);
     }
 }

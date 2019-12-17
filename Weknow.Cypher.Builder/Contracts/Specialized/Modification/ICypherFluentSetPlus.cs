@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 namespace Weknow
 {
 
-    public interface ICypherFluentSetPlus : ICypherFluent, ICypherFluentSet
+    public interface ICypherFluentSetPlus : IFluentCypher, ICypherFluentSet
     {
     }
 }

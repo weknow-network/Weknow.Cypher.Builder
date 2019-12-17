@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 namespace Weknow
 {
 
-    public interface ICypherFluentSetExclude<T> : ICypherFluent
+    public interface ICypherFluentSetExclude<T> : IFluentCypher
     {
         /// <summary>
         /// Compose SET phrase from a type expression.
