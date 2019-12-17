@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
-using static Weknow.Cypher;
+using static Weknow.CypherBuilder;
 using static Weknow.Helpers.Helper;
 
 namespace Weknow

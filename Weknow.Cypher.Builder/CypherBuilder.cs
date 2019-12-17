@@ -17,17 +17,17 @@ using static Weknow.Helpers.Helper;
 namespace Weknow
 {
     [DebuggerDisplay("{_cypherCommand.Cypher}")]
-    internal class Cypher<T> : Cypher, ICypherFluentSet<T>
+    internal class CypherBuilder<T> : CypherBuilder, ICypherFluentSet<T>
     {
-        internal static readonly Cypher<T> Empty = new Cypher<T>();
+        internal static readonly CypherBuilder<T> Empty = new CypherBuilder<T>();
 
         #region Ctor
 
-        public Cypher()
+        public CypherBuilder()
         {
         }
 
-        public Cypher(Cypher copyFrom, string cypher, CypherPhrase phrase)
+        public CypherBuilder(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
             : base(copyFrom, cypher, phrase)
         {
         }
@@ -50,7 +50,7 @@ namespace Weknow
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
             string statement = $"   ,{variable}.{name} = ${variable}_{name}";
-            var result =  new Cypher<T>(this, statement, CypherPhrase.Set);
+            var result =  new CypherBuilder<T>(this, statement, CypherPhrase.Set);
             return result;
         }
 
@@ -62,7 +62,7 @@ namespace Weknow
     /// </summary>
     /// <seealso cref="Weknow.IFluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
-    public class Cypher :
+    public class CypherBuilder :
         IFluentCypher,
         ICypherFluentSetPlus,
         ICypherFluentReturn,
@@ -72,8 +72,16 @@ namespace Weknow
         private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
         private protected static CypherNamingConvention _defaultRelationConvention = CypherNamingConvention.Default;
 
-        private static readonly Cypher Empty = new Cypher();
         private protected readonly CypherCommand _cypherCommand = CypherCommand.Empty;
+
+        #region static Default
+
+        /// <summary>
+        /// Root Cypher Builder.
+        /// </summary>
+        public static readonly IFluentCypher Default = new CypherBuilder(); 
+
+        #endregion // static Default
 
         #region ICypherable
 
@@ -106,30 +114,15 @@ namespace Weknow
 
         #endregion // SetDefaultConventions
 
-        #region Builder
-
-        /// <summary>
-        /// Create Cypher Builder.
-        /// </summary>
-        /// <param name="nodeConvention">The node convention.</param>
-        /// <param name="relationConvention">The relation convention.</param>
-        /// <returns></returns>
-        public static IFluentCypher Builder()
-        {
-            return new Cypher();
-        }
-
-        #endregion // Builder
-
         #region Ctor
 
-        private protected Cypher()
+        private protected CypherBuilder()
         {
         }
 
 
-        private protected Cypher(
-            Cypher copyFrom,
+        private protected CypherBuilder(
+            CypherBuilder copyFrom,
             string cypher,
             CypherPhrase phrase)
         {
@@ -139,8 +132,8 @@ namespace Weknow
                                         phrase);
         }
 
-        private protected Cypher(
-            Cypher copyFrom,
+        private protected CypherBuilder(
+            CypherBuilder copyFrom,
             CypherCommand cypherCommand)
         {
             _cypherCommand = cypherCommand;
@@ -155,7 +148,7 @@ namespace Weknow
         /// </summary>
         /// <param name="phrase">The phrase.</param>
         /// <returns></returns>
-        private Cypher AddStatement(CypherPhrase phrase) => AddStatement(string.Empty, phrase);
+        private CypherBuilder AddStatement(CypherPhrase phrase) => AddStatement(string.Empty, phrase);
 
         /// <summary>
         /// Adds a statement.
@@ -163,13 +156,13 @@ namespace Weknow
         /// <param name="statement">The statement.</param>
         /// <param name="phrase">The phrase.</param>
         /// <returns></returns>
-        private Cypher AddStatement(string statement, CypherPhrase phrase)
+        private CypherBuilder AddStatement(string statement, CypherPhrase phrase)
         {
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
-                return new Cypher(this, statement, phrase);
+                return new CypherBuilder(this, statement, phrase);
 
             string prefix = GetPrefix(phrase);
-            return new Cypher(this, $"{prefix} {statement}", phrase);
+            return new CypherBuilder(this, $"{prefix} {statement}", phrase);
         }
 
         /// <summary>
@@ -178,13 +171,13 @@ namespace Weknow
         /// <param name="statement">The statement.</param>
         /// <param name="phrase">The phrase.</param>
         /// <returns></returns>
-        private Cypher<T> AddStatement<T>(string statement, CypherPhrase phrase)
+        private CypherBuilder<T> AddStatement<T>(string statement, CypherPhrase phrase)
         {
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 throw new NotImplementedException();
 
             string prefix = GetPrefix(phrase);
-            return new Cypher<T>(this, $"{prefix} {statement}", phrase);
+            return new CypherBuilder<T>(this, $"{prefix} {statement}", phrase);
         }
 
         #endregion // AddStatement
@@ -1154,9 +1147,37 @@ namespace Weknow
         }
 
         #endregion // Format
+
+        #region Cast Overloads
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="CypherBuilder"/> to <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator string(CypherBuilder builder)
+        {
+            return builder.ToString();
+        } 
+
+        #endregion // Cast Overloads
+
+        #region ToString
+
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            return base.ToString();
-        }
+            ICypherable self = this;
+            return self.Cypher;
+        } 
+
+        #endregion // ToString
     }
 }
