@@ -24,7 +24,7 @@ namespace Weknow
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
         /// <example>{ Name: $Name, Id: $Id}</example>
-        public static string Create(IEnumerable<string> propNames) => Create(string.Empty, propNames);
+        public static string Create(IEnumerable<string> propNames) => CreateWithVariable(string.Empty, propNames);
 
         /// <summary>
         /// Compose properties phrase.
@@ -33,7 +33,7 @@ namespace Weknow
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
         /// <example>{ Name: $Name, Id: $Id}</example>
-        public static string Create(string variable, IEnumerable<string> propNames)
+        public static string CreateWithVariable(string variable, IEnumerable<string> propNames)
         {
             var phrases = propNames.Select(m => string.IsNullOrEmpty(variable) ? $"{m}: ${m}" : $"{m}: ${variable}_{m}");
             string sep = SetSeparatorStrategy(phrases);
@@ -59,8 +59,8 @@ namespace Weknow
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
         /// <example>{ Name: $Name, Id: $Id}</example>
-        public static string Create(string variable, params string[] propNames) =>
-                                    Create(variable, (IEnumerable<string>)propNames);
+        public static string CreateWithVariable(string variable, params string[] propNames) =>
+                                    CreateWithVariable(variable, (IEnumerable<string>)propNames);
 
         /// <summary>
         /// Compose properties phrase from a type expression.
@@ -73,7 +73,7 @@ namespace Weknow
         /// </example>
         /// <returns></returns>
         public static string Create<T>(params Expression<Func<T, dynamic>>[] propExpressions) =>
-            Create<T>(string.Empty, propExpressions);
+            CreateWithVariable<T>(string.Empty, propExpressions);
 
         /// <summary>
         /// Creates the specified variable.
@@ -82,13 +82,13 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propExpressions">The property expressions.</param>
         /// <returns></returns>
-        public static string Create<T>(string variable, params Expression<Func<T, dynamic>>[] propExpressions)
+        public static string CreateWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] propExpressions)
         {
             IEnumerable<string> phrases = from exp in propExpressions
                                           let vn = ExtractLambdaExpression(exp)
                                           select vn.Name;
 
-            string result = Create(variable, phrases);
+            string result = CreateWithVariable(variable, phrases);
             return result;
         }
 
@@ -99,7 +99,7 @@ namespace Weknow
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
         public static string CreateByConvention<T>(Func<string, bool> filter) =>
-            CreateByConvention<T>(string.Empty, filter);
+            CreateByConventionWithVariable<T>(string.Empty, filter);
 
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        public static string CreateByConvention<T>(string variable, Func<string, bool> filter)
+        public static string CreateByConventionWithVariable<T>(string variable, Func<string, bool> filter)
         {
             IEnumerable<string> names = GetProperties<T>();
             IEnumerable<string> propNames =
                             names.Where(name => filter(name));
-            string properties = Create(variable, propNames);
+            string properties = CreateWithVariable(variable, propNames);
             return properties;
         }
 
@@ -125,7 +125,7 @@ namespace Weknow
         /// <param name="excludes">The excludes.</param>
         /// <returns></returns>
         public static string CreateAll<T>(params Expression<Func<T, dynamic>>[] excludes) =>
-            CreateAll<T>(string.Empty, excludes);
+            CreateAllWithVariable<T>(string.Empty, excludes);
 
         /// <summary>
         /// Compose properties phrase by reflection with exclude option.
@@ -134,7 +134,7 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="excludes">The excludes.</param>
         /// <returns></returns>
-        public static string CreateAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes)
+        public static string CreateAllWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] excludes)
         {
             IEnumerable<string> avoid = from exclude in excludes
                                         let lambda = ExtractLambdaExpression(exclude)
@@ -142,7 +142,7 @@ namespace Weknow
             var excludeMap = avoid.ToDictionary(m => m);
 
             string properties =
-                CreateByConvention<T>(variable, name => !excludeMap.ContainsKey(name));
+                CreateByConventionWithVariable<T>(variable, name => !excludeMap.ContainsKey(name));
             return properties;
         }
 
