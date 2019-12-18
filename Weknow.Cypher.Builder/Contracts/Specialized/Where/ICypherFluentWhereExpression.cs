@@ -11,17 +11,17 @@ namespace Weknow
     /// Extends the phrases option under WHERE context
     /// </summary>
     /// <seealso cref="Weknow.IFluentCypher" />
-    public interface ICypherFluentWhereExpression : IFluentCypher
+    public interface IFluentCypherExpression : IFluentCypher
     {
         /// <summary>
         /// Compose AND phrase.
         /// </summary>
         /// <returns></returns>
-        ICypherFluentWhere And();
+        IFluentCypher And();
         /// <summary>
         /// Compose OR phrase.
         /// </summary>
         /// <returns></returns>
-        ICypherFluentWhere Or();
+        IFluentCypher Or();
     }
 }

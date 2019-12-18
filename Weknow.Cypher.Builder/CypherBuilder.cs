@@ -4,8 +4,6 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
-// TODO: main phrases + prop setup + where
-
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -66,7 +64,7 @@ namespace Weknow
     public class CypherBuilder :
         IFluentCypher,
         ICypherFluentReturn,
-        ICypherFluentWhereExpression,
+        IFluentCypherExpression,
         ICypherable
     {
         private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
@@ -925,7 +923,7 @@ namespace Weknow
 
         #endregion // ICypherFluent
 
-        #region ICypherFluentWhere
+        #region IFluentCypher
 
         /// <summary>
         /// Create WHERE phrase
@@ -935,7 +933,7 @@ namespace Weknow
         /// <example>
         /// WHERE n.property <> $value
         /// </example>
-        ICypherFluentWhereExpression ICypherFluentWhere.Where(string statement) =>
+        IFluentCypherExpression IFluentCypher.Where(string statement) =>
                                             AddStatement(statement, CypherPhrase.Where);
 
         /// <summary>
@@ -945,12 +943,12 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        ICypherFluentWhereExpression ICypherFluentWhere.Where(
+        IFluentCypherExpression IFluentCypher.Where(
             string variable,
             string name,
             params string[] moreNames)
         {
-            ICypherFluentWhere self = this;
+            IFluentCypher self = this;
             return self.Where(variable, name, (IEnumerable<string>)moreNames);
         }
 
@@ -961,7 +959,7 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        ICypherFluentWhereExpression ICypherFluentWhere.Where(
+        IFluentCypherExpression IFluentCypher.Where(
             string variable,
             string name,
             IEnumerable<string> moreNames)
@@ -987,7 +985,7 @@ namespace Weknow
         /// Result with
         /// WHERE user.Id > $user.Id AND
         /// </example>
-        ICypherFluentWhereExpression ICypherFluentWhere.Where<T>(
+        IFluentCypherExpression IFluentCypher.Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
                     string compareSign)
         {
@@ -998,9 +996,9 @@ namespace Weknow
             return AddStatement<T>(statement, CypherPhrase.Where);
         }
 
-        #endregion // ICypherFluentWhere
+        #endregion // IFluentCypher
 
-        #region ICypherFluentForEach
+        #region IFluentCypher
 
         /// <summary>
         /// Compose ForEach phrase
@@ -1010,7 +1008,7 @@ namespace Weknow
         /// <example>
         /// FOREACH (r IN relationships(path) | SET r.marked = true)
         /// </example>
-        IFluentCypher ICypherFluentForEach.ForEach(string statement) =>
+        IFluentCypher IFluentCypher.ForEach(string statement) =>
                             AddStatement(statement, CypherPhrase.ForEach);
 
         /// <summary>
@@ -1024,12 +1022,12 @@ namespace Weknow
         /// ForEach("n", "nations", nameof(Foo.Name), nameof(Bar.Id))
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        IFluentCypher ICypherFluentForEach.ForEach(
+        IFluentCypher IFluentCypher.ForEach(
                         string variable,
                         string collection,
                         params string[] propNames)
         {
-            ICypherFluentForEach self = this;
+            IFluentCypher self = this;
             IFluentCypher result = self.ForEach(variable, collection, (IEnumerable<string>)propNames);
             return result;
         }
@@ -1045,7 +1043,7 @@ namespace Weknow
         /// ForEach("n", "nations", new [] {nameof(Foo.Name), nameof(Bar.Id)})
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
         /// </example>
-        IFluentCypher ICypherFluentForEach.ForEach(
+        IFluentCypher IFluentCypher.ForEach(
                         string variable,
                         string collection,
                         IEnumerable<string> propNames)
@@ -1069,7 +1067,7 @@ namespace Weknow
         /// ForEach("$users", name =&gt; name.EndsWith("Name"))
         /// ForEach(user IN $users | SET user.FirstName = $user.FirstName, user.LastName = $user.LastName) // Update or create a property.
         /// </example>
-        IFluentCypher ICypherFluentForEach.ForEachByConvention<T>(
+        IFluentCypher IFluentCypher.ForEachByConvention<T>(
                     string variable,
                     string collection,
                     Func<string, bool> filter)
@@ -1077,30 +1075,30 @@ namespace Weknow
             IEnumerable<string> names = GetProperties<T>();
             IEnumerable<string> propNames =
                             names.Where(name => filter(name));
-            ICypherFluentForEach self = this;
+            IFluentCypher self = this;
             IFluentCypher result = self.ForEach(variable, collection, propNames);
             return result;
         }
 
-        #endregion // ICypherFluentForEach
+        #endregion // IFluentCypher
 
-        #region ICypherFluentWhereExpression
+        #region IFluentCypherExpression
 
         /// <summary>
         /// Compose AND phrase.
         /// </summary>
         /// <returns></returns>
-        ICypherFluentWhere ICypherFluentWhereExpression.And() =>
+        IFluentCypher IFluentCypherExpression.And() =>
             AddStatement(CypherPhrase.Add);
 
         /// <summary>
         /// Compose OR phrase.
         /// </summary>
         /// <returns></returns>
-        ICypherFluentWhere ICypherFluentWhereExpression.Or() =>
+        IFluentCypher IFluentCypherExpression.Or() =>
             AddStatement(CypherPhrase.Or);
 
-        #endregion // ICypherFluentWhereExpression
+        #endregion // IFluentCypherExpression
 
         #region ICypherFluentReturn
 
