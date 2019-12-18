@@ -85,7 +85,7 @@ namespace Weknow
         /// CREATE (n)-[r:KNOWS]->(m) // Create a relationship with the given type and direction; bind a variable to it.
         /// CREATE (n)-[:LOVES {since: $value}]->(m) // Create a relationship with the given type, direction, and properties.
         /// </example>
-        ICypherFluentSetPlus Create(string statement);
+        IFluentCypher Create(string statement);
 
         #endregion // Create
 
@@ -101,7 +101,7 @@ namespace Weknow
         /// REMOVE n:Person // Remove a label from n.
         /// REMOVE n.property // Remove a property.
         /// </example>
-        ICypherFluentSetPlus Remove(string statement);
+        IFluentCypher Remove(string statement);
 
         #endregion // Remove
 
@@ -117,7 +117,7 @@ namespace Weknow
         /// MATCH (n)
         /// DETACH DELETE n
         /// </example>
-        ICypherFluentSetPlus Delete(string statement);
+        IFluentCypher Delete(string statement);
 
         #endregion // Delete
 
@@ -133,7 +133,7 @@ namespace Weknow
         /// MATCH (n)
         /// DETACH DELETE n
         /// </example>
-        ICypherFluentSetPlus DetachDelete(string statement);
+        IFluentCypher DetachDelete(string statement);
 
         #endregion // DetachDelete
 
@@ -160,7 +160,7 @@ namespace Weknow
         /// MATCH (a:Person {name: $value1})
         /// MERGE (a)-[r: KNOWS]->(b:Person {name: $value3})
         /// </example>
-        ICypherFluentSetPlus Merge(string statement);
+        IFluentCypher Merge(string statement);
 
         #endregion // Merge
 
@@ -180,7 +180,7 @@ namespace Weknow
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSetPlus OnCreate();
+        IFluentCypher OnCreate();
 
         /// <summary>
         /// Compose ON CREATE phrase.
@@ -242,7 +242,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
+        IFluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
 
         /// <summary>
         /// Compose ON CREATE SET phrase by convention.
@@ -278,7 +278,7 @@ namespace Weknow
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSetPlus OnMatch();
+        IFluentCypher OnMatch();
 
         /// <summary>
         /// Compose ON MATCH phrase
@@ -340,7 +340,7 @@ namespace Weknow
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
         /// </example>
-        ICypherFluentSet<T> OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression);
+        IFluentCypherSet<T> OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression);
 
         /// <summary>
         /// Compose ON MATCH SET phrase by convention.
@@ -359,6 +359,140 @@ namespace Weknow
         IFluentCypher OnMatchSetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // OnMatch
+
+        #region Set
+
+        /// <summary>
+        /// Compose SET phrase
+        /// </summary>
+        /// <param name="statement">The statement.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SET n.property1 = $value1, n.property2 = $value2 // Update or create a property.
+        /// SET n = $map // Update or create a property.
+        /// SET n += $map // Add and update properties, while keeping existing ones.
+        /// SET n:Person // Adds a label Person to a node.
+        /// </example>
+        IFluentCypher Set(string statement);
+
+        /// <summary>
+        /// Compose SET phrase
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="propNames">The property names.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
+        /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
+        /// </example>
+        IFluentCypher Set(string variable, IEnumerable<string> propNames);
+
+        /// <summary>
+        /// Compose SET phrase
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
+        /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
+        /// </example>
+        IFluentCypher Set(string variable, string name, params string[] moreNames);
+
+        /// <summary>
+        /// Compose SET phrase from a type expression.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propExpression">The property expression.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set((User user) => user.Name)
+        /// SET user.Name = $Name // Update or create a property.
+        /// </example>
+        IFluentCypherSet<T> Set<T>(Expression<Func<T, dynamic>> propExpression);
+
+        #endregion // Set
+
+        #region SetReplaceInstance
+
+        /// <summary>
+        /// Set instance. This will remove any existing properties.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set<UserEntity>("u")
+        /// SET u = $UserEntity
+        /// </example>
+        IFluentCypher SetReplaceInstance<T>(string variable);
+
+        #endregion // SetReplaceInstance
+
+        #region SetUpdateInstance
+
+        /// <summary>
+        /// Add and update properties, while keeping existing ones.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set<UserEntity>("u")
+        /// SET u += $userEntity
+        /// </example>
+        IFluentCypher SetUpdateInstance<T>(string variable);
+
+        #endregion // SetUpdateInstance
+
+        #region SetAll
+
+        /// <summary>
+        /// Set all properties (optional with excludes).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set<UserEntity>("u")
+        /// SET u = $UserEntity
+        /// </example>
+        IFluentCypher SetAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes); 
+
+        #endregion // SetAll
+
+        #region SetByConvention
+
+        /// <summary>
+        /// Compose SET phrase by convention.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        /// <example>
+        /// Set((User user) =&gt; user.Name.StartWith("Name"))
+        /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
+        /// </example>
+        IFluentCypher SetByConvention<T>(string variable, Func<string, bool> filter); 
+
+        #endregion // SetByConvention
+
+        #region SetLabel
+
+        /// <summary>
+        /// Sets the label.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="label">The label.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SET n:Person
+        /// </example>
+        IFluentCypher SetLabel<T>(string variable, string label); 
+
+        #endregion // SetLabel
 
         #region Unwind 
 
@@ -492,7 +626,7 @@ namespace Weknow
         /// Note that required procedure arguments are given explicitly 
         /// in brackets after the procedure name.
         /// </example>
-        ICypherFluentSetPlus Call(string statement);
+        IFluentCypher Call(string statement);
 
         #endregion // Call
     }

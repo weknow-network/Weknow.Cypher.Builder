@@ -7,13 +7,13 @@ using static Weknow.CypherFactory;
 
 namespace Weknow.UnitTests
 {
-    public class CypherFunctionTests
+    public class CypherFactoryFunctionTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public CypherFunctionTests(ITestOutputHelper outputHelper)
+        public CypherFactoryFunctionTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
