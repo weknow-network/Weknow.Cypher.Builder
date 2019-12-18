@@ -10,8 +10,27 @@
 namespace Weknow
 {
 
-    public interface ICypherFluentReturn: IFluentCypher
+    public abstract class FluentCypherReturn: FluentCypher
     {
+        #region Ctor
+
+        private protected FluentCypherReturn()
+        {
+
+        }
+        private protected FluentCypherReturn(CypherBuilder copyFrom, CypherCommand cypherCommand)
+            : base(copyFrom, cypherCommand)
+        {
+        }
+
+        private protected FluentCypherReturn(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
+            : base(copyFrom, cypher, phrase)
+        {
+        }
+
+        #endregion // Ctor
+
+
         #region OrderBy 
 
         /// <summary>
@@ -22,7 +41,7 @@ namespace Weknow
         /// <example>
         /// ORDER BY n.property
         /// </example>
-        ICypherFluentReturn OrderBy(string statement);
+        public abstract FluentCypherReturn OrderBy(string statement);
 
         #endregion // OrderBy
 
@@ -36,7 +55,7 @@ namespace Weknow
         /// <example>
         /// ORDER BY n.property DESC
         /// </example>
-        ICypherFluentReturn OrderByDesc(string statement);
+        public abstract FluentCypherReturn OrderByDesc(string statement);
 
         #endregion // OrderByDesc
 
@@ -50,7 +69,7 @@ namespace Weknow
         /// <example>
         /// SKIP $skipNumber
         /// </example>
-        ICypherFluentReturn Skip(string statement);
+        public abstract FluentCypherReturn Skip(string statement);
 
         /// <summary>
         /// Create SKIP phrase.
@@ -60,7 +79,7 @@ namespace Weknow
         /// <example>
         /// SKIP 10
         /// </example>
-        ICypherFluentReturn Skip(int number);
+        public abstract FluentCypherReturn Skip(int number);
 
         #endregion // Skip
 
@@ -74,7 +93,7 @@ namespace Weknow
         /// <example>
         /// LIMIT $skipNumber
         /// </example>
-        ICypherFluentReturn Limit(string statement);
+        public abstract FluentCypherReturn Limit(string statement);
 
         /// <summary>
         /// Create LIMIT phrase.
@@ -84,7 +103,7 @@ namespace Weknow
         /// <example>
         /// LIMIT 10
         /// </example>
-        ICypherFluentReturn Limit(int number);
+        public abstract FluentCypherReturn Limit(int number);
 
         #endregion // Limit
 
@@ -97,7 +116,7 @@ namespace Weknow
         /// <example>
         /// RETURN count(*)
         /// </example>
-        ICypherFluentReturn Count();
+        public abstract FluentCypherReturn Count();
 
         #endregion // Limit
     }

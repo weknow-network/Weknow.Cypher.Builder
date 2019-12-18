@@ -26,7 +26,7 @@ namespace Weknow.UnitTests
         {
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            var cypherCommand = CypherBuilder.Default
+            FluentCypherWhereExpression cypherCommand = CypherBuilder.Default
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name);
 
@@ -35,6 +35,27 @@ namespace Weknow.UnitTests
         }
 
         #endregion // ToString_Test
+
+        #region CastToString_Test
+
+        [Fact]
+        public void CastToString_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string cypher = CypherBuilder.Default
+                            .Match("(n:Foo)")
+                            .Where<Foo>(f => f.Name);
+            ICypherable cypherCommand = CypherBuilder.Default
+                            .Match("(n:Foo)")
+                            .Where<Foo>(f => f.Name);
+
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(cypherCommand.Cypher, cypherCommand.ToString());
+            Assert.Equal(cypherCommand.Cypher, cypher);
+        }
+
+        #endregion // CastToString_Test
 
         #region Match_Statement_Test
 

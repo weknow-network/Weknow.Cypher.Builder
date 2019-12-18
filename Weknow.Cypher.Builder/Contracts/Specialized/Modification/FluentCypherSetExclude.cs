@@ -5,24 +5,23 @@
 // https://github.com/barnardos-au/Neo4jMapper
 
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Weknow
 {
 
-    public interface IFluentCypherSet<T> : IFluentCypher
+    public abstract class FluentCypherSetExclude<T> : FluentCypher
     {
         /// <summary>
-        /// Compose SET continuation phrase from a type expression.
+        /// Compose SET phrase from a type expression.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
         /// <example>
-        /// Set((User user) => user.Name).Also(user => user.Id)
-        /// SET user.Name = $Name, user.Id = $Id // Update or create a property.
+        /// Set<User>().Exclude(user => user.Other)
+        /// SET user.Id = $Id, user.Name = $Name // Update or create a property.
         /// </example>
-        IFluentCypherSet<T> SetMore(Expression<Func<T, object>> propExpression);
+        public abstract FluentCypherSetExclude<T> Exclude(Expression<Func<T, dynamic>> propExpression);
     }
 }

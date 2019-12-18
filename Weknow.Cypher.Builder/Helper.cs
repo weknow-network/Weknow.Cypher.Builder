@@ -18,7 +18,7 @@ namespace Weknow.Helpers
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.IFluentCypher" />
+    /// <seealso cref="Weknow.FluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
     internal static class Helper 
     {

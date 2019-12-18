@@ -12,7 +12,7 @@ namespace Weknow
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
-    /// <seealso cref="Weknow.IFluentCypher" />
+    /// <seealso cref="Weknow.FluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
     internal class CypherCommand : ICypherable
     {
