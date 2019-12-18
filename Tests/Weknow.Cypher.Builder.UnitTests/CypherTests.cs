@@ -259,5 +259,29 @@ namespace Weknow.UnitTests
         }
 
         #endregion // Merge_OnCreate_OnMatch_Exp_Test
+
+        #region Merge_Match_AutoWith_Test
+
+        [Fact]
+        public void Merge_Match_AutoWith_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Merge($"(n:Foo {props})")
+                            .Match($"(a)")
+                            .Return();
+
+            string expected = "MERGE (n:Foo { Id: $Id }) " +
+                "WITH * " +
+                "MATCH (a) " +
+                "RETURN";
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // Merge_Match_AutoWith_Test
+
     }
 }

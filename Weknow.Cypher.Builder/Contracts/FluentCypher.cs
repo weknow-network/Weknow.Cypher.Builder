@@ -22,25 +22,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Weknow
 {
     public abstract class FluentCypher: 
         ICypherable
     {
-        private protected readonly CypherCommand _cypherCommand = CypherCommand.Empty;
-
         #region Ctor
         private protected FluentCypher()
         {
 
-        }
-
-        private protected FluentCypher(
-               CypherBuilder copyFrom,
-               CypherCommand cypherCommand)
-        {
-            _cypherCommand = cypherCommand;
         }
 
         /// <summary>
@@ -54,10 +47,9 @@ namespace Weknow
             string cypher,
             CypherPhrase phrase)
         {
-            _cypherCommand = new CypherCommand(
-                                        copyFrom._cypherCommand,
-                                        cypher,
-                                        phrase);
+            this.copyFrom = copyFrom;
+            this.cypher = cypher;
+            this.phrase = phrase;
         }
 
         #endregion // Ctor
@@ -67,12 +59,29 @@ namespace Weknow
         /// <summary>
         /// Gets the cypher statement.
         /// </summary>
-        public string Cypher => _cypherCommand.Cypher;
+        public string Cypher => GenerateCypher(new StringBuilder());
 
         /// <summary>
         /// Gets the cypher statement trimmed into single line.
         /// </summary>
-        public string CypherLine => _cypherCommand.CypherLine;
+        public string CypherLine => TrimX.Replace(Cypher, " ").Trim();
+
+        private static readonly string SEPERATOR = $" {Environment.NewLine}";
+        private static readonly Regex TrimX = new Regex(@"\s+");
+        protected readonly FluentCypher copyFrom;
+        protected readonly string cypher;
+        protected readonly CypherPhrase phrase;
+
+        private string GenerateCypher(StringBuilder builder)
+        {
+            if (copyFrom != null)
+            {
+                copyFrom.GenerateCypher(builder);
+                builder.Append(SEPERATOR);
+            }
+            builder.Append(cypher);
+            return builder.ToString();
+        }
 
         #endregion // ICypherable
 
