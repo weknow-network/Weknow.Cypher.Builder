@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using static Weknow.Helpers.Helper;
 using System.Collections;
 
+#pragma warning disable RCS1102 // Make class static.
+
 namespace Weknow
 {
     partial class CypherFactory
@@ -22,7 +24,11 @@ namespace Weknow
         /// <summary>
         /// Cypher Functions
         /// </summary>
-        public interface F
+        public class F : Function { }
+        /// <summary>
+        /// Cypher Functions
+        /// </summary>
+        public class Function
         {
             #region Labels
 

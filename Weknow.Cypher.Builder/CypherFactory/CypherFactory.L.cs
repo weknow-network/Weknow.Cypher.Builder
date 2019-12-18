@@ -6,6 +6,8 @@
 
 // TODO: main phrases + prop setup + where
 
+#pragma warning disable RCS1102 // Make class static.
+
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -22,7 +24,19 @@ namespace Weknow
         /// <summary>
         /// Cypher List Expressions
         /// </summary>
-        public interface L
+        public class C : Lists { }
+        /// <summary>
+        /// Cypher List Expressions
+        /// </summary>
+        public class Collections : Lists { }
+        /// <summary>
+        /// Cypher List Expressions
+        /// </summary>
+        public class L : Lists { }
+        /// <summary>
+        /// Cypher List Expressions
+        /// </summary>
+        public class Lists
         {
             #region Size
 

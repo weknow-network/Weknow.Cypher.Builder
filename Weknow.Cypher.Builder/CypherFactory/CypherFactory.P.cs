@@ -4,7 +4,7 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
-// TODO: main phrases + prop setup + where
+#pragma warning disable RCS1102 // Make class static.
 
 using System;
 using System.Diagnostics;
@@ -25,7 +25,11 @@ namespace Weknow
         /// <summary>
         /// Properties factories
         /// </summary>
-        public static class P
+        public class P : Properties { }
+        /// <summary>
+        /// Properties factories
+        /// </summary>
+        public class Properties
         {
             /// <summary>
             /// Compose properties phrase.
