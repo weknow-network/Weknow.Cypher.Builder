@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExpressionTreeToString" Version="1.5.67" />
+    <PackageReference Include="ExpressionTreeToString" Version="2.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="Neo4j.Driver" Version="1.7.2" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
-    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.8" />
+    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.9" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>

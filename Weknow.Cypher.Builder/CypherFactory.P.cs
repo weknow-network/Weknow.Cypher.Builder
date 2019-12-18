@@ -12,17 +12,20 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
-using static Weknow.CypherBuilder;
 using static Weknow.Helpers.Helper;
+using System.Collections;
 
 namespace Weknow
 {
     /// <summary>
-    /// Property Factory.
+    /// Cypher Factories.
     /// </summary>
-    public static partial class CypherFactory
+    partial class CypherFactory
     {
-        public static class Prop
+        /// <summary>
+        /// Properties factories
+        /// </summary>
+        public static class P
         {
             /// <summary>
             /// Compose properties phrase.
@@ -56,7 +59,7 @@ namespace Weknow
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
             public static string Create(string name, params string[] moreNames) =>
-                                        CreateWithVariable(string.Empty, Yilder(name, moreNames));
+                                        CreateWithVariable(string.Empty, name.ToYield(moreNames));
 
             /// <summary>
             /// Compose properties phrase.
@@ -67,7 +70,7 @@ namespace Weknow
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
             public static string CreateWithVariable(string variable, string name, params string[] moreNames) =>
-                                        CreateWithVariable(variable, Yilder(name, moreNames));
+                                        CreateWithVariable(variable, name.ToYield(moreNames));
 
             /// <summary>
             /// Compose properties phrase from a type expression.
@@ -152,7 +155,6 @@ namespace Weknow
                     CreateByConventionWithVariable<T>(variable, name => !excludeMap.ContainsKey(name));
                 return properties;
             }
-
 
             #region LineSeparatorStrategy
 

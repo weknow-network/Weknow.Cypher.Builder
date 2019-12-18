@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
 using static Weknow.Helpers.Helper;
+using System.Collections;
 
 namespace Weknow
 {
@@ -433,7 +434,7 @@ namespace Weknow
         {
             var root = AddStatement(CypherPhrase.OnCreate);
             ICypherFluentSet set = root;
-            return set.Set(variable, Yilder(name, moreNames));
+            return set.Set(variable, name.ToYield(moreNames));
         }
 
         /// <summary>
@@ -551,7 +552,7 @@ namespace Weknow
         {
             var root = AddStatement(CypherPhrase.OnMatch);
             ICypherFluentSet set = root;
-            return set.Set(variable, Yilder(name, moreNames));
+            return set.Set(variable, name.ToYield(moreNames));
         }
 
         /// <summary>
@@ -783,7 +784,7 @@ namespace Weknow
             string name,
             IEnumerable<string> moreNames)
         {
-            string statement = ComposeSetWhere(variable, Yilder(name, moreNames));
+            string statement = ComposeSetWhere(variable, name.ToYield(moreNames));
             var result = AddStatement(statement, CypherPhrase.Where);
             return result;
         }
@@ -947,7 +948,7 @@ namespace Weknow
         IFluentCypher ICypherFluentSet.Set(string variable, string name, params string[] moreNames)
         {
             ICypherFluentSet self = this;
-            return self.Set(variable, Yilder(name, moreNames));
+            return self.Set(variable, name.ToYield(moreNames));
         }
 
         /// <summary>

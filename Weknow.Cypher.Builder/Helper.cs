@@ -139,25 +139,5 @@ namespace Weknow.Helpers
         }
 
         #endregion // SeparatorStrategy
-
-        #region Yilder
-
-        /// <summary>
-        /// Yilders the specified item.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="item">The item.</param>
-        /// <param name="items">The items.</param>
-        /// <returns></returns>
-        internal static IEnumerable<T> Yilder<T>(T item, IEnumerable<T> items)
-        {
-            yield return item;
-            foreach (var element in items)
-            {
-                yield return element;
-            }
-        } 
-
-        #endregion // Yilder
     }
 }
