@@ -230,9 +230,8 @@ namespace Weknow
             /// <summary>
             /// Converts radians into degrees; use radians() for the reverse, and pi() for π.
             /// </summary>
-            /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Pi(string expression) => $"pi()";
+            public static string Pi() => $"pi()";
 
             #endregion // Pi
 

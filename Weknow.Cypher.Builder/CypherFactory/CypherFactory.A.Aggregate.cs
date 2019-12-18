@@ -108,7 +108,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>collect(n.property)</example>
-            public static string CollectDistinct(string expression) => $"collect(ISTINCT {expression})";
+            public static string CollectDistinct(string expression) => $"collect(DISTINCT {expression})";
 
             /// <summary>
             /// CollectDistinct list from the values, ignores null,
@@ -332,7 +332,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>maxDistinct(n.property)</example>
-            public static string MaxDistinct(string expression) => $"maxDistinct(DISTINCT {expression})";
+            public static string MaxDistinct(string expression) => $"max(DISTINCT {expression})";
 
             /// <summary>
             /// MaxDistinct numerical values. Similar functions are avg(), maxDistinct(), min(),
@@ -362,7 +362,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileDisc(n.property, $percentile)</example>
-            public static string PercentileDisc(string expression, double percentile) => $"percentileDisc({expression}, percentile)";
+            public static string PercentileDisc(string expression, double percentile) => $"percentileDisc({expression}, {percentile})";
 
             /// <summary>
             /// Discrete percentile. Continuous percentile is percentileCont().
@@ -393,7 +393,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileDisc(n.property, $percentile)</example>
-            public static string PercentileDiscDistinct(string expression, double percentile) => $"percentileDisc(Distinct {expression}, percentile)";
+            public static string PercentileDiscDistinct(string expression, double percentile) => $"percentileDisc(DISTINCT {expression}, {percentile})";
 
             /// <summary>
             /// Discrete percentile. Continuous percentile is percentileCont().
@@ -428,7 +428,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileCont(expression, percentile)</example>
-            public static string PercentileCount(string expression, double percentile) => $"percentileCont({expression}, percentile)";
+            public static string PercentileCount(string expression, double percentile) => $"percentileCount({expression}, {percentile})";
 
             /// <summary>
             /// percentileCont() returns the percentile 
@@ -469,7 +469,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileCont(expression, percentile)</example>
-            public static string PercentileCountDistinct(string expression, double percentile) => $"percentileCont(Distinct {expression}, percentile)";
+            public static string PercentileCountDistinct(string expression, double percentile) => $"percentileCount(DISTINCT {expression}, {percentile})";
 
             /// <summary>
             /// percentileCont() returns the percentile 
