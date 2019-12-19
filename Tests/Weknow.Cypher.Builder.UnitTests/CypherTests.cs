@@ -246,7 +246,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
                             .OnCreate()
-                                .Set<Foo>(f => f.Id).SetMore(f => f.Name)
+                                .Set<Foo>(f => f.Id).Set<Foo>(f => f.Name)
                             .OnMatchSet("f","Name","DateOfBirth");
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +

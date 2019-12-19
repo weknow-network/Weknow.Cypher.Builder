@@ -106,6 +106,8 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 throw new NotImplementedException();
 
+            if(phrase == CypherPhrase.Set && this.phrase == CypherPhrase.Set)
+                return new FluentCypherSet<T>(this, $"    ,{statement}", phrase);
             string prefix = GetPrefix(phrase);
             return new FluentCypherSet<T>(this, $"{prefix} {statement}", phrase);
         }
