@@ -19,10 +19,6 @@ namespace Weknow
         {
 
         }
-        private protected FluentCypherWhereExpression(CypherBuilder copyFrom, CypherCommand cypherCommand)
-            : base(copyFrom, cypherCommand)
-        {
-        }
 
         private protected FluentCypherWhereExpression(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
             : base(copyFrom, cypher, phrase)

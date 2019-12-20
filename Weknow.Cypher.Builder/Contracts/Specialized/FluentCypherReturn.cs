@@ -18,10 +18,6 @@ namespace Weknow
         {
 
         }
-        private protected FluentCypherReturn(CypherBuilder copyFrom, CypherCommand cypherCommand)
-            : base(copyFrom, cypherCommand)
-        {
-        }
 
         private protected FluentCypherReturn(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
             : base(copyFrom, cypher, phrase)

@@ -67,13 +67,6 @@ namespace Weknow
         {
         }
 
-        private protected CypherBuilder(
-            CypherBuilder copyFrom,
-            CypherCommand cypherCommand)
-            :base(copyFrom,cypherCommand)
-        {
-        }
-
         #endregion // Ctor
 
         #region AddStatement
@@ -97,6 +90,8 @@ namespace Weknow
                 return new CypherBuilder(this, statement, phrase);
 
             string prefix = GetPrefix(phrase);
+            if (phrase == CypherPhrase.Match && this.phrase == CypherPhrase.Merge)
+                return new CypherBuilder((CypherBuilder)With("*") , $"{prefix} {statement}", phrase);
             return new CypherBuilder(this, $"{prefix} {statement}", phrase);
         }
 
@@ -111,6 +106,8 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 throw new NotImplementedException();
 
+            if(phrase == CypherPhrase.Set && this.phrase == CypherPhrase.Set)
+                return new FluentCypherSet<T>(this, $"    ,{statement}", phrase);
             string prefix = GetPrefix(phrase);
             return new FluentCypherSet<T>(this, $"{prefix} {statement}", phrase);
         }
