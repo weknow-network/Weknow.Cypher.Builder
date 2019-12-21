@@ -524,7 +524,10 @@ namespace Weknow
         #region SetReplaceInstance
 
         /// <summary>
-        /// Set instance. This will remove any existing properties.
+        /// Set instance. 
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
@@ -533,25 +536,9 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
         /// </example>
-        public abstract FluentCypher SetReplaceInstance<T>(string variable);
+        public abstract FluentCypher SetInstance<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         #endregion // SetReplaceInstance
-
-        #region SetUpdateInstance
-
-        /// <summary>
-        /// Add and update properties, while keeping existing ones.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <returns></returns>
-        /// <example>
-        /// Set<UserEntity>("u")
-        /// SET u += $userEntity
-        /// </example>
-        public abstract FluentCypher SetUpdateInstance<T>(string variable);
-
-        #endregion // SetUpdateInstance
 
         #region SetAll
 
@@ -591,13 +578,12 @@ namespace Weknow
         /// <summary>
         /// Sets the label.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="label">The label.</param>
         /// <returns></returns>
         /// <example>
         /// SET n:Person
         /// </example>
-        public abstract FluentCypher SetLabel<T>(string variable, string label); 
+        public abstract FluentCypher SetLabel(string variable, string label); 
 
         #endregion // SetLabel
 

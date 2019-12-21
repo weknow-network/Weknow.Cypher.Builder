@@ -28,14 +28,17 @@ namespace Weknow.UnitTests
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
             var cypherCommand = CypherBuilder.Default
-                            .Merge($"(n:Foo)")
+                            .Merge($"(f:Foo)")
+                            .Merge($"(b:Bar)")
                                 .Set("f.SomeProperty = $sp")
                                 .Set("f", "SomeOtherProp", "More")
                                 .Set<Foo>(f => f.Id)
                                 .Set<Bar>(b => b.Value)
                                 .SetMore(b => b.Name);
 
-            string expected = "MERGE (n:Foo) " +
+            string expected = 
+                "MERGE (f:Foo) " +
+                "MERGE (b:Bar) " +
                 "SET f.SomeProperty = $sp , " +
                 "f.SomeOtherProp = $f_SomeOtherProp , " +
                 "f.More = $f_More , " +
@@ -48,7 +51,7 @@ namespace Weknow.UnitTests
 
         #endregion // SetCombination_Test
 
-        #region SetCombination_Test
+        #region SetByConvention_Test
 
         [Fact]
         public void SetByConvention_Test()
@@ -66,8 +69,84 @@ namespace Weknow.UnitTests
             Assert.Equal(expected, cypherCommand.CypherLine);
         }
 
-        #endregion // SetCombination_Test
+        #endregion // SetByConvention_Test
 
-        // todo: setall, label, instance, formatting
+        #region SetAll_Test
+
+        [Fact]
+        public void SetAll_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Merge($"(n:Foo {props})")
+                               .SetAll<Foo>("f", f => f.Id);
+
+            string expected = "MERGE (n:Foo { Id: $Id }) " +
+                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // SetAll_Test
+
+        #region SetLabel_Test
+
+        [Fact]
+        public void SetLabel_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Merge($"(f:Foo {props})")
+                               .SetLabel("f", "NewLabel");
+
+            string expected = "MERGE (f:Foo { Id: $Id }) " +
+                "SET f:NewLabel";
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // SetLabel_Test
+
+        #region SetInstance_Test
+
+        [Fact]
+        public void SetInstance_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = CypherBuilder.Default
+                            .Merge($"(f:Foo)")
+                               .SetInstance<Foo>("f");
+
+            string expected = "MERGE (f:Foo) " +
+                "SET f += $Foo";
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // SetInstance_Test
+
+        #region SetInstanceReplace_Test
+
+        [Fact]
+        public void SetInstanceReplace_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = CypherBuilder.Default
+                            .Merge($"(f:Foo)")
+                               .SetInstance<Foo>("f", SetInstanceBehavior.Replace);
+
+            string expected = "MERGE (f:Foo) " +
+                "SET f = $Foo";
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal(expected, cypherCommand.CypherLine);
+        }
+
+        #endregion // SetInstanceReplace_Test
     }
 }

@@ -157,8 +157,6 @@ namespace Weknow
 
         #endregion // GetPrefix
 
-        #region ICypherFluent
-
         #region Add
 
         /// <summary>
@@ -773,47 +771,36 @@ namespace Weknow
 
         #endregion // SetAll
 
-        #region SetReplaceInstance
+        #region SetInstance
 
         /// <summary>
-        /// Set all properties. This will remove any existing properties.
+        /// Set instance. 
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
         /// <example>
         /// Set<UserEntity>("u")
-        /// SET u = $userEntity
+        /// SET u = $UserEntity
         /// </example>
-        public override FluentCypher SetReplaceInstance<T>(string variable)
+        public override FluentCypher SetInstance<T>(
+            string variable, 
+            SetInstanceBehavior behavior = SetInstanceBehavior.Update)
         {
-            string statement = $"{variable} = ${typeof(T).Name.ToCamelCase()}";
+            string operand = behavior switch
+            {
+                SetInstanceBehavior.Replace => "=",
+                _ => "+=",
+            };
+            string statement = $"{variable} {operand} ${typeof(T).Name}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
 
-        #endregion // SetReplaceInstance
-
-        #region SetUpdateInstance
-
-        /// <summary>
-        /// Add and update properties, while keeping existing ones.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <returns></returns>
-        /// <example>
-        /// Set<UserEntity>("u")
-        /// SET u += $userEntity
-        /// </example>
-        public override FluentCypher SetUpdateInstance<T>(string variable)
-        {
-            string statement = $"{variable} += ${typeof(T).Name.ToCamelCase()}";
-            var result = AddStatement(statement, CypherPhrase.Set);
-            return result;
-        }
-
-        #endregion // SetUpdateInstance
+        #endregion // SetInstance
 
         #region SetByConvention
 
@@ -852,18 +839,16 @@ namespace Weknow
         /// <example>
         /// SET n:Person
         /// </example>
-        public override FluentCypher SetLabel<T>(string variable, string label)
+        public override FluentCypher SetLabel(string variable, string label)
         {
-            string statement = $"{variable}:{typeof(T).Name}";
+            string statement = $"{variable}:{label}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
 
         #endregion // SetLabel
 
-        #endregion // ICypherFluent
-
-        #region IFluentCypher
+        #region Where
 
         /// <summary>
         /// Create WHERE phrase
@@ -948,6 +933,11 @@ namespace Weknow
             return AddStatement<T>(statement, CypherPhrase.Where);
         }
 
+
+        #endregion // Where
+
+        #region ForEach
+
         /// <summary>
         /// Compose ForEach phrase
         /// </summary>
@@ -1031,7 +1021,7 @@ namespace Weknow
             return result;
         }
 
-        #endregion // IFluentCypher
+        #endregion // ForEach
 
         #region IFluentCypherExpression
 
