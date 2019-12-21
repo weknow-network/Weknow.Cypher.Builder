@@ -25,7 +25,7 @@
         OnCreate,
         OnMatch,
         Set,
-        Add,
+        And,
         Or,
         ReturnDistinct,
         OrderBy,

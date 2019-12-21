@@ -90,8 +90,8 @@ namespace Weknow
                 return new CypherBuilder(this, statement, phrase);
 
             string prefix = GetPrefix(phrase);
-            if (phrase == CypherPhrase.Match && this.phrase == CypherPhrase.Merge)
-                return new CypherBuilder((CypherBuilder)With("*") , $"{prefix} {statement}", phrase);
+            if (phrase == CypherPhrase.Match && this._phrase == CypherPhrase.Merge)
+                return new CypherBuilder((CypherBuilder)With("*"), $"{prefix} {statement}", phrase);
             return new CypherBuilder(this, $"{prefix} {statement}", phrase);
         }
 
@@ -106,8 +106,6 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 throw new NotImplementedException();
 
-            if(phrase == CypherPhrase.Set && this.phrase == CypherPhrase.Set)
-                return new FluentCypherSet<T>(this, $"    ,{statement}", phrase);
             string prefix = GetPrefix(phrase);
             return new FluentCypherSet<T>(this, $"{prefix} {statement}", phrase);
         }
@@ -121,9 +119,17 @@ namespace Weknow
         /// </summary>
         /// <param name="phrase">The phrase.</param>
         /// <returns></returns>
-        private static string GetPrefix(CypherPhrase phrase)
+        private string GetPrefix(CypherPhrase phrase)
         {
+            // TODO: FORMAT NEW LINE ACCORDING TO PREVIOUS PATTERN
+            // TODO: move break line strategy in here
+
             string prefix = string.Empty;
+            if (phrase == CypherPhrase.Set && this._phrase == CypherPhrase.Set)
+                return INDENT_COMMA;
+            if (phrase == CypherPhrase.Where && (this._phrase == CypherPhrase.And || this._phrase == CypherPhrase.Or))
+                return " ";
+
             switch (phrase)
             {
                 case CypherPhrase.OptionalMatch:
@@ -700,8 +706,8 @@ namespace Weknow
         /// </example>
         public override FluentCypher Set(string variable, IEnumerable<string> propNames)
         {
-            string statement = ComposeSetWhere(variable, propNames);
-            var result = AddStatement(statement, CypherPhrase.Set);
+            CypherBuilder result = propNames.FormatSetWhere(variable)
+                .Aggregate(this, (acc, name) => acc.AddStatement(name, CypherPhrase.Set));
             return result;
         }
 
@@ -871,7 +877,7 @@ namespace Weknow
                                             AddStatement(statement, CypherPhrase.Where);
 
         /// <summary>
-        /// Create WHERE phrase
+        /// Create WHERE phrase with AND semantic between each term
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="name">The name.</param>
@@ -888,7 +894,7 @@ namespace Weknow
 
 
         /// <summary>
-        /// Create WHERE phrase
+        /// Create WHERE phrase with AND semantic between each term
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
@@ -898,8 +904,20 @@ namespace Weknow
             string name,
             IEnumerable<string> moreNames)
         {
-            string statement = ComposeSetWhere(variable, name.ToYield(moreNames));
-            var result = AddStatement(statement, CypherPhrase.Where);
+            var names = name.ToYield(moreNames);
+
+            CypherBuilder result = names.FormatSetWhere(variable)
+                    .Aggregate(this, (acc, name) =>
+                            {
+                                CypherBuilder b = acc;
+                                if (acc != this)
+                                {
+                                    b = (CypherBuilder)acc.And();
+                                }
+                                b = b.AddStatement(name, CypherPhrase.Where);
+                                return b;
+                            });
+
             return result;
         }
 
@@ -929,10 +947,6 @@ namespace Weknow
             statement = $"{statement} {compareSign} ${prm}";
             return AddStatement<T>(statement, CypherPhrase.Where);
         }
-
-        #endregion // IFluentCypher
-
-        #region IFluentCypher
 
         /// <summary>
         /// Compose ForEach phrase
@@ -982,8 +996,11 @@ namespace Weknow
                         string collection,
                         IEnumerable<string> propNames)
         {
-            string sets = ComposeSetWhere(variable, propNames);
-            string sep = NewLineSeparatorStrategy(propNames);
+            IEnumerable<string> phrases = propNames.FormatSetWhere(variable);
+            string sepStrategy = SetSeparatorStrategy(propNames);
+            string sets = string.Join(sepStrategy, phrases);
+
+            string sep = propNames.NewLineSeparatorStrategy();
             string statement = $@"({variable} IN {collection} | 
     SET {sep}{sets})";
             return AddStatement(statement, CypherPhrase.ForEach);
@@ -1023,7 +1040,7 @@ namespace Weknow
         /// </summary>
         /// <returns></returns>
         public override FluentCypher And() =>
-            AddStatement(CypherPhrase.Add);
+            AddStatement(CypherPhrase.And);
 
         /// <summary>
         /// Compose OR phrase.

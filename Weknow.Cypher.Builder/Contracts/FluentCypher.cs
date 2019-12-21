@@ -47,9 +47,9 @@ namespace Weknow
             string cypher,
             CypherPhrase phrase)
         {
-            this.copyFrom = copyFrom;
-            this.cypher = cypher;
-            this.phrase = phrase;
+            this._previous = copyFrom;
+            this._cypher = cypher;
+            this._phrase = phrase;
         }
 
         #endregion // Ctor
@@ -68,18 +68,19 @@ namespace Weknow
 
         private static readonly string SEPERATOR = $" {Environment.NewLine}";
         private static readonly Regex TrimX = new Regex(@"\s+");
-        protected readonly FluentCypher copyFrom;
-        protected readonly string cypher;
-        protected readonly CypherPhrase phrase;
+        protected readonly FluentCypher _previous;
+        protected readonly string _cypher;
+        protected readonly CypherPhrase _phrase;
 
         private string GenerateCypher(StringBuilder builder)
         {
-            if (copyFrom != null)
+            if (_previous != null)
             {
-                copyFrom.GenerateCypher(builder);
-                builder.Append(SEPERATOR);
+                _previous.GenerateCypher(builder);
+                if(builder.Length != 0)
+                    builder.Append(SEPERATOR);
             }
-            builder.Append(cypher);
+            builder.Append(_cypher);
             return builder.ToString();
         }
 

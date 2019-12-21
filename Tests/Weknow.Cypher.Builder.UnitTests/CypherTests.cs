@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Xunit;
 using Xunit.Abstractions;
+using static Weknow.CypherFactory;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -80,7 +81,8 @@ namespace Weknow.UnitTests
         {
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherFactory.P.Create<Foo>(f => f.Id, f => f.Name);
+            // using static Weknow.CypherFactory; enable to avoid CypherFactory
+            string props = P.Create<Foo>(f => f.Id, f => f.Name); // same as CypherFactory.P or CypherFactory.Properties
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
@@ -97,7 +99,8 @@ namespace Weknow.UnitTests
         {
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            string props = CypherFactory.P.CreateAll<Foo>();
+            // using static Weknow.CypherFactory; enable to avoid CypherFactory
+            string props = Properties.CreateAll<Foo>(); // same as CypherFactory.P or CypherFactory.Properties
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
@@ -204,7 +207,7 @@ namespace Weknow.UnitTests
                             .Where("n","Name", "Id");
 
             _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $n_Name, n.Id = $n_Id", cypherCommand.CypherLine);
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $n_Name AND n.Id = $n_Id", cypherCommand.CypherLine);
         }
 
         #endregion // Match_WhereWithVariable_Test
@@ -225,9 +228,9 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $f_Id, f.Name = $f_Name " +
+                "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
-                "SET f.Name = $f_Name, f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.CypherLine);
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal(expected, cypherCommand.CypherLine);
@@ -246,14 +249,15 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
                             .OnCreate()
-                                .Set<Foo>(f => f.Id).Set<Foo>(f => f.Name)
+                                .Set<Foo>(f => f.Id)
+                                .Set<Foo>(f => f.Name)
                             .OnMatchSet("f","Name","DateOfBirth");
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $f_Id ,f.Name = $f_Name " +
+                "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
-                "SET f.Name = $f_Name, f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.Cypher);
             Assert.Equal(expected, cypherCommand.CypherLine);
         }

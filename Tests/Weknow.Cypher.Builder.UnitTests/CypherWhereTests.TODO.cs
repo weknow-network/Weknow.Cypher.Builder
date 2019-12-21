@@ -20,14 +20,22 @@ namespace Weknow.UnitTests
 
         #endregion // Ctor
 
-        #region TODO_Test
+
+        #region WhereCollection_WithVariable_Test
 
         [Fact]
-        public void TODO_Test()
+        public void WhereCollection_WithVariable_Test()
         {
-            // please test me
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = CypherBuilder.Default
+                            .Match($"(n:Foo)")
+                            .Where("n", "Name", "Id");
+
+            _outputHelper.WriteLine(cypherCommand.Cypher);
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $n_Name AND n.Id = $n_Id", cypherCommand.CypherLine);
         }
 
-        #endregion // TODO_Test
+        #endregion // WhereCollection_WithVariable_Test
     }
 }
