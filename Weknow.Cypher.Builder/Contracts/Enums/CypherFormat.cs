@@ -1,0 +1,21 @@
+﻿namespace Weknow
+{
+    /// <summary>
+    /// Cypher formatting options
+    /// </summary>
+    public enum CypherFormat
+    {
+        /// <summary>
+        /// A single line of cypher query
+        /// </summary>
+        SingleLine,
+        /// <summary>
+        /// Multi line of cypher query
+        /// </summary>
+        MultiLine,
+        /// <summary>
+        /// Multi line of cypher query with some density on where & set properties
+        /// </summary>
+        MultiLineDense
+    }
+}

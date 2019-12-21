@@ -12,7 +12,7 @@ using static Weknow.Helpers.Helper;
 
 namespace Weknow
 {
-    [DebuggerDisplay("{_cypherCommand.Cypher}")]
+    [DebuggerDisplay("{_cypherCommand}")]
     public class FluentCypherSet<T> : CypherBuilder
     {
         // internal static readonly FluentCypherSet<T> Empty = new FluentCypherSet<T>();
@@ -45,7 +45,7 @@ namespace Weknow
         public FluentCypherSet<T> SetMore(Expression<Func<T, object>> propExpression)
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
-            string statement = $"{INDENT_COMMA} {variable}.{name} = ${variable}_{name}";
+            string statement = $"{variable}.{name} = ${variable}_{name}";
             var result = new FluentCypherSet<T>(this, statement, CypherPhrase.Set);
             return result;
         }

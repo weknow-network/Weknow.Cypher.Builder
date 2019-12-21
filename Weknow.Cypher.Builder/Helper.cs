@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Weknow.Helpers
 {
@@ -23,10 +24,14 @@ namespace Weknow.Helpers
     internal static class Helper 
     {
         internal const int BREAK_LINE_ON = 3;
+        internal const string COMMA = " ,";
+        internal const string SPACE = " ";
         internal const string INDENT = "    ";
+        internal const string HALF_INDENT = "  ";
         internal const string INDENT_COMMA = INDENT + ",";
-        internal static readonly string LINE_SEPERATOR = $"{Environment.NewLine}{INDENT}";
-        internal static readonly string SET_SEPERATOR = $"{Environment.NewLine}{INDENT_COMMA}";
+        internal static readonly string LINE_SEPERATOR = $" {Environment.NewLine}";
+        internal static readonly string LINE_INDENT_SEPERATOR = $" {Environment.NewLine}{INDENT}";
+        internal static readonly string LINE_INDENT_COMMA_SEPERATOR = $" {Environment.NewLine}{INDENT_COMMA}";
 
         #region ExtractLambdaExpression
 
@@ -117,7 +122,7 @@ namespace Weknow.Helpers
         {
             string sep = string.Empty;
             if (propNames.Count() >= BREAK_LINE_ON)
-                sep = LINE_SEPERATOR;
+                sep = LINE_INDENT_SEPERATOR;
             return sep;
         } 
 
@@ -130,10 +135,58 @@ namespace Weknow.Helpers
         {
             string sep = " , ";
             if (propNames.Count() >= BREAK_LINE_ON)
-                sep = SET_SEPERATOR;
+                sep = LINE_INDENT_COMMA_SEPERATOR;
             return sep;
         }
 
         #endregion // SeparatorStrategy
+
+        #region FormatStatement
+
+        /// <summary>
+        /// Formats the statement.
+        /// </summary>
+        /// <param name="builder">The sb</param>
+        /// <param name="current">The current.</param>
+        /// <param name="repeat">The repeat.</param>
+        /// <returns></returns>
+        public static StringBuilder FormatStatement(this StringBuilder builder, FluentCypher current, int repeat)
+        {
+            switch (current._phrase)
+            {
+                case CypherPhrase.None:
+                case CypherPhrase.Set when repeat != 0:
+                case CypherPhrase.Where when repeat != 0:
+                    break;
+                case CypherPhrase.OnCreate:
+                case CypherPhrase.OnMatch:
+                case CypherPhrase.OrderByDesc:
+                case CypherPhrase.And:
+                case CypherPhrase.Or:
+                    builder = builder.Append(current._phrase.ToString().ToSCREAMING(' ')); 
+                    break;
+                case CypherPhrase.OptionalMatch:
+                case CypherPhrase.DetachDelete:
+                case CypherPhrase.UnionAll:
+                case CypherPhrase.OrderBy:
+                case CypherPhrase.ReturnDistinct:
+                    builder = builder.Append(current._phrase.ToString().ToSCREAMING(' '))
+                                     .Append(SPACE);
+                    break;
+                    builder = builder.Append(CypherPhrase.OrderBy.ToString().ToSCREAMING(' '));
+                    break;
+                case CypherPhrase.Count:
+                    builder = builder.Append(CypherPhrase.Count.ToString().ToLower());
+                    break;
+                default:
+                    builder = builder.Append(current._phrase.ToString().ToUpper())
+                                     .Append(SPACE);
+                    break;
+            }
+            builder = builder.Append(current._cypher);
+            return builder;
+        }
+
+        #endregion // FormatStatement
     }
 }

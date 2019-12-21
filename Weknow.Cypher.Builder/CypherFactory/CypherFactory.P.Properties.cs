@@ -171,7 +171,7 @@ namespace Weknow
             {
                 string sep = string.Empty;
                 if (propNames.Count() >= BREAK_LINE_ON)
-                    sep = LINE_SEPERATOR;
+                    sep = LINE_INDENT_SEPERATOR;
                 return sep;
             }
 
@@ -188,7 +188,7 @@ namespace Weknow
             {
                 string sep = ", ";
                 if (propNames.Count() >= BREAK_LINE_ON)
-                    sep = SET_SEPERATOR;
+                    sep = LINE_INDENT_COMMA_SEPERATOR;
                 return sep;
             }
 

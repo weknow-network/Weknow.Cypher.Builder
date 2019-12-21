@@ -19,7 +19,6 @@ namespace Weknow
     /// Fluent cypher builder
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
-    [DebuggerDisplay("{CypherLine}")]
     public class CypherBuilder :
         FluentCypherWhereExpression
     {
@@ -89,10 +88,9 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 return new CypherBuilder(this, statement, phrase);
 
-            string prefix = GetPrefix(phrase);
             if (phrase == CypherPhrase.Match && this._phrase == CypherPhrase.Merge)
-                return new CypherBuilder((CypherBuilder)With("*"), $"{prefix} {statement}", phrase);
-            return new CypherBuilder(this, $"{prefix} {statement}", phrase);
+                return new CypherBuilder((CypherBuilder)With("*"), statement, phrase);
+            return new CypherBuilder(this, statement, phrase);
         }
 
         /// <summary>
@@ -106,56 +104,10 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 throw new NotImplementedException();
 
-            string prefix = GetPrefix(phrase);
-            return new FluentCypherSet<T>(this, $"{prefix} {statement}", phrase);
+            return new FluentCypherSet<T>(this, statement, phrase);
         }
 
         #endregion // AddStatement
-
-        #region GetPrefix
-
-        /// <summary>
-        /// Gets the prefix.
-        /// </summary>
-        /// <param name="phrase">The phrase.</param>
-        /// <returns></returns>
-        private string GetPrefix(CypherPhrase phrase)
-        {
-            // TODO: FORMAT NEW LINE ACCORDING TO PREVIOUS PATTERN
-            // TODO: move break line strategy in here
-
-            string prefix = string.Empty;
-            if (phrase == CypherPhrase.Set && this._phrase == CypherPhrase.Set)
-                return INDENT_COMMA;
-            if (phrase == CypherPhrase.Where && (this._phrase == CypherPhrase.And || this._phrase == CypherPhrase.Or))
-                return " ";
-
-            switch (phrase)
-            {
-                case CypherPhrase.OptionalMatch:
-                case CypherPhrase.DetachDelete:
-                case CypherPhrase.UnionAll:
-                case CypherPhrase.OnCreate:
-                case CypherPhrase.OnMatch:
-                case CypherPhrase.OrderBy:
-                case CypherPhrase.ReturnDistinct:
-                    prefix = phrase.ToString().ToSCREAMING(' ');
-                    break;
-                case CypherPhrase.OrderByDesc:
-                    prefix = CypherPhrase.OrderBy.ToString().ToSCREAMING(' ');
-                    break;
-                case CypherPhrase.Count:
-                    prefix = CypherPhrase.Count.ToString().ToLower();
-                    break;
-                default:
-                    prefix = phrase.ToString().ToUpper();
-                    break;
-            }
-
-            return prefix;
-        }
-
-        #endregion // GetPrefix
 
         #region Cypher Operators
 
@@ -350,8 +302,7 @@ namespace Weknow
             #endregion // Validation
 
             var root = AddStatement(CypherPhrase.OnCreate);
-            FluentCypher set = root;
-            return set.Set(variable, propNames);
+            return root.Set(variable, propNames);
         }
 
         /// <summary>
@@ -370,8 +321,7 @@ namespace Weknow
         public override FluentCypher OnCreateSet(string variable, string name, params string[] moreNames)
         {
             var root = AddStatement(CypherPhrase.OnCreate);
-            FluentCypher set = root;
-            return set.Set(variable, name.ToYield(moreNames));
+            return root.Set(variable, name.ToYield(moreNames));
         }
 
         /// <summary>
@@ -390,8 +340,7 @@ namespace Weknow
         public override FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
         {
             var root = AddStatement(CypherPhrase.OnCreate);
-            FluentCypher set = root;
-            return set.Set<T>(propExpression);
+            return root.Set<T>(propExpression);
         }
 
         /// <summary>
@@ -411,8 +360,7 @@ namespace Weknow
         public override FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
         {
             var root = AddStatement(CypherPhrase.OnCreate);
-            FluentCypher set = root;
-            return set.SetByConvention<T>(variable, filter);
+            return root.SetByConvention<T>(variable, filter);
         }
 
         #endregion // OnCreate
@@ -870,13 +818,18 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
+        /// <example>
+        /// Where ("n", "A", "B")
+        /// Result with
+        /// WHERE n.A = $n_A AND n.B = $n_B
+        /// </example>
         public override FluentCypherWhereExpression Where(
             string variable,
             string name,
             params string[] moreNames)
         {
             FluentCypher self = this;
-            return self.Where(variable, name, (IEnumerable<string>)moreNames);
+            return self.Where(variable,  name.ToYield(moreNames));
         }
 
 
@@ -884,22 +837,24 @@ namespace Weknow
         /// Create WHERE phrase with AND semantic between each term
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="names">The property names.</param>
         /// <returns></returns>
+        /// <example>
+        /// Where ("n", new [] {"A", "B"})
+        /// Result with
+        /// WHERE n.A = $n_A AND n.B = $n_B
+        /// </example>
         public override FluentCypherWhereExpression Where(
             string variable,
-            string name,
-            IEnumerable<string> moreNames)
+            IEnumerable<string> names)
         {
-            var names = name.ToYield(moreNames);
-
             CypherBuilder result = names.FormatSetWhere(variable)
                     .Aggregate(this, (acc, name) =>
                             {
                                 CypherBuilder b = acc;
                                 if (acc != this)
                                 {
-                                    b = (CypherBuilder)acc.And();
+                                    b = (CypherBuilder)acc.And;
                                 }
                                 b = b.AddStatement(name, CypherPhrase.Where);
                                 return b;
@@ -918,11 +873,11 @@ namespace Weknow
         /// <example>
         /// Where ((User user) => user.Id))
         /// Result with
-        /// WHERE user.Id = $Id
+        /// WHERE user.Id = $user_Id
         /// 
         /// Where ((User user) => user.Id), ">")
         /// Result with
-        /// WHERE user.Id > $user.Id AND
+        /// WHERE user.Id > $user_Id AND
         /// </example>
         public override FluentCypherWhereExpression Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
@@ -1031,7 +986,7 @@ namespace Weknow
         /// Compose AND phrase.
         /// </summary>
         /// <returns></returns>
-        public override FluentCypher And() =>
+        public override FluentCypher And =>
             AddStatement(CypherPhrase.And);
 
         #endregion // And
@@ -1042,7 +997,7 @@ namespace Weknow
         /// Compose OR phrase.
         /// </summary>
         /// <returns></returns>
-        public override FluentCypher Or() =>
+        public override FluentCypher Or =>
             AddStatement(CypherPhrase.Or);
 
         #endregion // Or

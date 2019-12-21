@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Abstractions;
 using static Weknow.CypherFactory;
@@ -10,6 +11,7 @@ namespace Weknow.UnitTests
     public class CypherTests
     {
         private readonly ITestOutputHelper _outputHelper;
+        private static readonly Regex TrimX = new Regex(@"\s+"); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
 
         #region Ctor
 
@@ -31,8 +33,8 @@ namespace Weknow.UnitTests
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name);
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(cypherCommand.Cypher, cypherCommand.ToString());
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(cypherCommand.ToCypher(CypherFormat.SingleLine), cypherCommand.ToString());
         }
 
         #endregion // ToString_Test
@@ -47,13 +49,14 @@ namespace Weknow.UnitTests
             string cypher = CypherBuilder.Default
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name);
-            ICypherable cypherCommand = CypherBuilder.Default
+            string cypherCommand = CypherBuilder.Default
                             .Match("(n:Foo)")
-                            .Where<Foo>(f => f.Name);
+                            .Where<Foo>(f => f.Name)
+                            .ToCypher(CypherFormat.MultiLineDense);
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(cypherCommand.Cypher, cypherCommand.ToString());
-            Assert.Equal(cypherCommand.Cypher, cypher);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(cypherCommand, cypherCommand.ToString());
+            Assert.Equal(cypherCommand, cypher);
         }
 
         #endregion // CastToString_Test
@@ -68,8 +71,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Match("(n:Foo)");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo)", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo)", cypherCommand);
         }
 
         #endregion // Match_Statement_Test
@@ -86,8 +89,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Props_Exp_Test
@@ -101,11 +104,14 @@ namespace Weknow.UnitTests
 
             // using static Weknow.CypherFactory; enable to avoid CypherFactory
             string props = Properties.CreateAll<Foo>(); // same as CypherFactory.P or CypherFactory.Properties
+            props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
+                            // TODO: API CHANGE: .Match(ps => $"(n:Foo {props})", () => Properties.CreateAll<Foo>());
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo { Id: $Id ,Name: $Name ,DateOfBirth: $DateOfBirth })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo { Id: $Id ,Name: $Name ,DateOfBirth: $DateOfBirth })",
+                                                cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Props_All_Test
@@ -121,8 +127,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Props_All_Exclude_Test
@@ -138,8 +144,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Props_Convention_Test
@@ -155,8 +161,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo { Id: $Id })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo { Id: $Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         } 
 
         #endregion // Match_Props_Test
@@ -172,8 +178,8 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .OptionalMatch($"(n:Foo {props})");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("OPTIONAL MATCH (n:Foo { Id: $Id })", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("OPTIONAL MATCH (n:Foo { Id: $Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         } 
 
         #endregion // OptionalMatch_Props_Test
@@ -189,28 +195,11 @@ namespace Weknow.UnitTests
                             .Match($"(n:Foo)")
                             .Where("n.Name = $Name");
 
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name", cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Where_Test
-
-        #region Match_WhereWithVariable_Test
-
-        [Fact]
-        public void Match_WhereWithVariable_Test()
-        {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
-            var cypherCommand = CypherBuilder.Default
-                            .Match($"(n:Foo)")
-                            .Where("n","Name", "Id");
-
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $n_Name AND n.Id = $n_Id", cypherCommand.CypherLine);
-        }
-
-        #endregion // Match_WhereWithVariable_Test
 
         #region Merge_OnCreate_OnMatch_Test
 
@@ -220,6 +209,7 @@ namespace Weknow.UnitTests
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
                             .OnCreateSet("f", nameof(Foo.Id), nameof(Foo.Name))
@@ -231,9 +221,9 @@ namespace Weknow.UnitTests
                 "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
-            _outputHelper.WriteLine(cypherCommand.CypherLine);
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand.ToCypher(CypherFormat.SingleLine));
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Merge_OnCreate_OnMatch_Test
@@ -258,8 +248,8 @@ namespace Weknow.UnitTests
                 "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Merge_OnCreate_OnMatch_Exp_Test
@@ -275,14 +265,14 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
                             .Match($"(a)")
-                            .Return();
+                            .Return("n");
 
             string expected = "MERGE (n:Foo { Id: $Id }) " +
                 "WITH * " +
                 "MATCH (a) " +
-                "RETURN";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+                "RETURN n";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Merge_Match_AutoWith_Test

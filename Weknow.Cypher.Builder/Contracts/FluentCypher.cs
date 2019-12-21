@@ -19,18 +19,37 @@
 //              https://neo4j.com/docs/cypher-manual/3.5/functions/list/
 // TODO: STARTS WITH, ENDS WITH, CONTAINS, IN, CASE, Path
 
+using Microsoft.Extensions.ObjectPool;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
+using static Weknow.Helpers.Helper;
+
+// TODO:  Cache (one / multi line), break line strategy (same operator in a row)
 
 namespace Weknow
 {
-    public abstract class FluentCypher: 
-        ICypherable
+    // [DebuggerDisplay("{_cypher}")]
+    public abstract class FluentCypher :
+        IEnumerable<FluentCypher>
     {
+        private static readonly ObjectPoolProvider _objectPoolProvider = new DefaultObjectPoolProvider();
+        private static readonly ObjectPool<StringBuilder> _stringBuilderPool = _objectPoolProvider.CreateStringBuilderPool();
+
+        //private static readonly Regex TrimX = new Regex(@"\s+");
+        protected readonly FluentCypher? _previous;
+        protected internal readonly string _cypher = string.Empty;
+        protected internal readonly CypherPhrase _phrase;
+        protected IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
+
         #region Ctor
+
         private protected FluentCypher()
         {
 
@@ -54,37 +73,209 @@ namespace Weknow
 
         #endregion // Ctor
 
-        #region ICypherable
+        #region ToCypher
 
         /// <summary>
         /// Gets the cypher statement.
         /// </summary>
-        public string Cypher => GenerateCypher(new StringBuilder());
+        public string ToCypher(CypherFormat cypherFormat = CypherFormat.MultiLineDense) => GenerateCypher(cypherFormat);
+
+        #endregion // ToCypher
+
+        #region GenerateCypher
 
         /// <summary>
-        /// Gets the cypher statement trimmed into single line.
+        /// Generates the cypher.
         /// </summary>
-        public string CypherLine => TrimX.Replace(Cypher, " ").Trim();
-
-        private static readonly string SEPERATOR = $" {Environment.NewLine}";
-        private static readonly Regex TrimX = new Regex(@"\s+");
-        protected readonly FluentCypher _previous;
-        protected readonly string _cypher;
-        protected readonly CypherPhrase _phrase;
-
-        private string GenerateCypher(StringBuilder builder)
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        private string GenerateCypher(CypherFormat cypherFormat)
         {
-            if (_previous != null)
+            if (_cache.TryGetValue(cypherFormat, out string cypher))
+                return cypher;
+
+            IEnumerable<FluentCypher> self = this;
+            StringBuilder sb = _stringBuilderPool.Get();
+            try
             {
-                _previous.GenerateCypher(builder);
-                if(builder.Length != 0)
-                    builder.Append(SEPERATOR);
+                sb = self.Aggregate(sb, (acc, current) =>
+                    {
+                        int repeat = RepeatCount(current);
+                        return cypherFormat switch
+                        {
+                            CypherFormat.MultiLineDense => FormatMultiLineDense(current, sb, repeat)
+                                                                       .FormatStatement(current, repeat),
+                            CypherFormat.MultiLine => FormatMultiLine(current, sb)
+                                                                       .FormatStatement(current, repeat),
+                            _ => FormatSingleLine(current, sb).FormatStatement(current, repeat)
+                        };
+                    });
+                cypher = sb.ToString();
+                _cache = _cache.Add(cypherFormat, cypher);
             }
-            builder.Append(_cypher);
-            return builder.ToString();
+            finally
+            {
+                sb.Clear();
+                _stringBuilderPool.Return(sb);
+
+            }
+
+            return cypher;
         }
 
-        #endregion // ICypherable
+        #endregion // GenerateCypher
+
+        #region FormatSingleLine
+
+        /// <summary>
+        /// Formats the single line.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
+        {
+            if (sb.Length == 0)
+                return sb;
+            sb = FormatConnectionPhrase(current, sb);
+            sb = sb.Append(SPACE);
+            return sb;
+        }
+
+        #endregion // FormatSingleLine
+
+        #region FormatMultiLine
+
+        /// <summary>
+        /// Formats the multi line.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private StringBuilder FormatMultiLine(FluentCypher current, StringBuilder sb)
+        {
+            if (sb.Length == 0)
+                return sb;
+            switch (current._phrase)
+            {
+                case CypherPhrase.Where:
+                case CypherPhrase.Set:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    sb = sb.Append(INDENT);
+                    break;
+                case CypherPhrase.OnMatch:
+                case CypherPhrase.OnCreate:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    sb = sb.Append(HALF_INDENT);
+                    break;
+                case CypherPhrase.And:
+                case CypherPhrase.Or:
+                case CypherPhrase.Count:
+                    sb = sb.Append(SPACE);
+                    break;
+                default:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    break;
+            }
+
+            sb = FormatConnectionPhrase(current, sb);
+            return sb;
+        }
+
+        #endregion // FormatMultiLine
+
+        #region FormatMultiLineDense
+
+        /// <summary>
+        /// Formats the multi line dense.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
+        {
+            if (sb.Length == 0)
+                return sb;
+            if (repeat == 0 || repeat % BREAK_LINE_ON == 0)
+            {
+                sb = FormatMultiLine(current, sb);
+                return sb;
+            }
+
+            sb = FormatSingleLine(current, sb);
+            return sb;
+        }
+
+        #endregion // FormatMultiLineDense
+
+        #region FormatConnectionPhrase
+
+        /// <summary>
+        /// Formats the connection phrase.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb"></param>
+        private StringBuilder FormatConnectionPhrase(FluentCypher current, StringBuilder sb)
+        {
+            FluentCypher? previous = current._previous;
+            if (previous == null)
+                return sb;
+            CypherPhrase curPhrase = current._phrase;
+            CypherPhrase prevPhrase = previous._phrase;
+
+            if (curPhrase == prevPhrase)
+            {
+
+                switch (previous._phrase)
+                {
+                    case CypherPhrase.Set:
+                    case CypherPhrase.Return:
+                    case CypherPhrase.With:
+                    case CypherPhrase.ReturnDistinct:
+                        sb = sb.Append(COMMA);
+                        break;
+                }
+            }
+
+            // TODO: handle CypherFactory methods like count, min, collect, etc...
+
+            return sb;
+        }
+
+        #endregion // FormatConnectionPhrase
+
+        #region RepeatCount
+
+        /// <summary>
+        /// Repeats the count.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <returns></returns>
+        private int RepeatCount(FluentCypher current)
+        {
+            CypherPhrase phrase = current._phrase;
+            FluentCypher? previous = current._previous;
+            int i = 0;
+            while (previous != null || i == BREAK_LINE_ON)
+            {
+                CypherPhrase prevPhrase = previous._phrase;
+
+                if (prevPhrase == CypherPhrase.Or || prevPhrase == CypherPhrase.And)
+                {
+                    //phrase = previous._phrase;
+                    previous = previous._previous;
+                    continue;
+                }
+
+                if (phrase != prevPhrase)
+                    break;
+
+                i++;
+
+                phrase = previous._phrase;
+                previous = previous._previous;
+            }
+            return i;
+        }
+
+        #endregion // RepeatCount
 
         #region Cypher Operators
 
@@ -156,7 +347,7 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        public abstract FluentCypherWhereExpression Where(string variable, string name, IEnumerable<string> moreNames);
+        public abstract FluentCypherWhereExpression Where(string variable, IEnumerable<string> moreNames);
 
         /// <summary>
         /// Create WHERE phrase, generated by expression
@@ -796,7 +987,7 @@ namespace Weknow
         /// </returns>
         public static implicit operator string(FluentCypher builder)
         {
-            return builder.ToString();
+            return builder.ToCypher();
         }
 
         #endregion // Cast Overloads
@@ -809,12 +1000,39 @@ namespace Weknow
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            ICypherable self = this;
-            return self.Cypher;
-        }
+        public override string ToString() => ToCypher(CypherFormat.SingleLine);
 
         #endregion // ToString
+
+        #region IEnumerable
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        /// <exception cref="NotImplementedException"></exception>
+        IEnumerator<FluentCypher> IEnumerable<FluentCypher>.GetEnumerator()
+        {
+            if (_previous != null)
+            {
+                foreach (FluentCypher prev in _previous)
+                {
+                    yield return prev;
+                }
+            }
+            yield return this;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<FluentCypher>)this).GetEnumerator();
+
+        #endregion // IEnumerable
     }
 }

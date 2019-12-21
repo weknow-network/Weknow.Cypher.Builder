@@ -31,11 +31,11 @@ namespace Weknow
         /// Compose AND phrase.
         /// </summary>
         /// <returns></returns>
-        public abstract FluentCypher And();
+        public abstract FluentCypher And { get; }
         /// <summary>
         /// Compose OR phrase.
         /// </summary>
         /// <returns></returns>
-        public abstract FluentCypher Or();
+        public abstract FluentCypher Or { get; }
     }
 }

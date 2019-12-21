@@ -45,8 +45,8 @@ namespace Weknow.UnitTests
                 "f.Id = $f_Id , " +
                 "b.Value = $b_Value , " +
                 "b.Name = $b_Name";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetCombination_Test
@@ -60,13 +60,13 @@ namespace Weknow.UnitTests
 
             string props = P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Merge($"(n:Foo {props})")
+                            .Merge($"(f:Foo {props})")
                                .SetByConvention<Foo>("f", n => n != "Id");
 
-            string expected = "MERGE (n:Foo { Id: $Id }) " +
+            string expected = "MERGE (f:Foo { Id: $Id }) " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetByConvention_Test
@@ -80,13 +80,13 @@ namespace Weknow.UnitTests
 
             string props = P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Merge($"(n:Foo {props})")
+                            .Merge($"(f:Foo {props})")
                                .SetAll<Foo>("f", f => f.Id);
 
-            string expected = "MERGE (n:Foo { Id: $Id }) " +
+            string expected = "MERGE (f:Foo { Id: $Id }) " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetAll_Test
@@ -105,8 +105,8 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (f:Foo { Id: $Id }) " +
                 "SET f:NewLabel";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetLabel_Test
@@ -124,8 +124,8 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (f:Foo) " +
                 "SET f += $Foo";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetInstance_Test
@@ -143,8 +143,8 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (f:Foo) " +
                 "SET f = $Foo";
-            _outputHelper.WriteLine(cypherCommand.Cypher);
-            Assert.Equal(expected, cypherCommand.CypherLine);
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // SetInstanceReplace_Test
