@@ -157,6 +157,8 @@ namespace Weknow
 
         #endregion // GetPrefix
 
+        #region Cypher Operators
+
         #region Add
 
         /// <summary>
@@ -787,7 +789,7 @@ namespace Weknow
         /// SET u = $UserEntity
         /// </example>
         public override FluentCypher SetInstance<T>(
-            string variable, 
+            string variable,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
         {
             string operand = behavior switch
@@ -1023,7 +1025,7 @@ namespace Weknow
 
         #endregion // ForEach
 
-        #region IFluentCypherExpression
+        #region And
 
         /// <summary>
         /// Compose AND phrase.
@@ -1032,6 +1034,10 @@ namespace Weknow
         public override FluentCypher And() =>
             AddStatement(CypherPhrase.And);
 
+        #endregion // And
+
+        #region Or
+
         /// <summary>
         /// Compose OR phrase.
         /// </summary>
@@ -1039,9 +1045,9 @@ namespace Weknow
         public override FluentCypher Or() =>
             AddStatement(CypherPhrase.Or);
 
-        #endregion // IFluentCypherExpression
+        #endregion // Or
 
-        #region ICypherFluentReturn
+        #region OrderBy
 
         /// <summary>
         /// Create ORDER BY phrase.
@@ -1053,6 +1059,10 @@ namespace Weknow
         /// </example>
         public override FluentCypherReturn OrderBy(string statement) =>
                             AddStatement(statement, CypherPhrase.OrderBy);
+
+        #endregion // OrderBy
+
+        #region OrderByDesc
 
         /// <summary>
         /// Create ORDER BY DESC phrase.
@@ -1068,22 +1078,75 @@ namespace Weknow
             return result;
         }
 
+        #endregion // OrderByDesc
+
+        #region Skip
+
+        /// <summary>
+        /// Create SKIP phrase.
+        /// </summary>
+        /// <param name="statement">The statement.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SKIP $skipNumber
+        /// </example>
         public override FluentCypherReturn Skip(string statement) =>
                             AddStatement(statement, CypherPhrase.Skip);
 
+        /// <summary>
+        /// Create SKIP phrase.
+        /// </summary>
+        /// <param name="number">The number.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SKIP 10
+        /// </example>
         public override FluentCypherReturn Skip(int number) =>
                             AddStatement(number.ToString(), CypherPhrase.Skip);
 
-        public override FluentCypherReturn Limit(string statement) =>
-                            AddStatement(statement, CypherPhrase.Limit);
+        #endregion // Skip
 
+        #region Limit
+
+        /// <summary>
+        /// Create LIMIT phrase.
+        /// </summary>
+        /// <param name="statement">The statement.</param>
+        /// <returns></returns>
+        /// <example>
+        /// LIMIT $skipNumber
+        /// </example>
+        public override FluentCypherReturn Limit(string statement) =>
+                    AddStatement(statement, CypherPhrase.Limit);
+
+        /// <summary>
+        /// Create LIMIT phrase.
+        /// </summary>
+        /// <param name="number">The number.</param>
+        /// <returns></returns>
+        /// <example>
+        /// LIMIT 10
+        /// </example>
         public override FluentCypherReturn Limit(int number) =>
                             AddStatement(number.ToString(), CypherPhrase.Limit);
 
-        public override FluentCypherReturn Count() =>
-                            AddStatement("(*)", CypherPhrase.Count);
+        #endregion // Limit
 
-        #endregion // ICypherFluentReturn
+        #region Count
+
+        /// <summary>
+        /// Create count function.
+        /// </summary>
+        /// <returns></returns>
+        /// <example>
+        /// RETURN count(*)
+        /// </example>
+        public override FluentCypherReturn Count() =>
+                         AddStatement("(*)", CypherPhrase.Count);
+
+        #endregion // Count
+
+        #endregion // Cypher Operators
 
         #region Format
 

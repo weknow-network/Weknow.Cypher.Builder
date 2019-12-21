@@ -86,6 +86,8 @@ namespace Weknow
 
         #endregion // ICypherable
 
+        #region Cypher Operators
+
         #region Add
 
         /// <summary>
@@ -174,7 +176,7 @@ namespace Weknow
         /// </example>
         public abstract FluentCypherWhereExpression Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
-                    string compareSign = "="); 
+                    string compareSign = "=");
 
         #endregion // Where
 
@@ -552,7 +554,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
         /// </example>
-        public abstract FluentCypher SetAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes); 
+        public abstract FluentCypher SetAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes);
 
         #endregion // SetAll
 
@@ -569,7 +571,7 @@ namespace Weknow
         /// Set((User user) =&gt; user.Name.StartWith("Name"))
         /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
         /// </example>
-        public abstract FluentCypher SetByConvention<T>(string variable, Func<string, bool> filter); 
+        public abstract FluentCypher SetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // SetByConvention
 
@@ -583,7 +585,7 @@ namespace Weknow
         /// <example>
         /// SET n:Person
         /// </example>
-        public abstract FluentCypher SetLabel(string variable, string label); 
+        public abstract FluentCypher SetLabel(string variable, string label);
 
         #endregion // SetLabel
 
@@ -779,7 +781,9 @@ namespace Weknow
         /// </example>
         public abstract FluentCypher Call(string statement);
 
-        #endregion // Call
+        #endregion // Call 
+
+        #endregion // Cypher Operators
 
         #region Cast Overloads
 
