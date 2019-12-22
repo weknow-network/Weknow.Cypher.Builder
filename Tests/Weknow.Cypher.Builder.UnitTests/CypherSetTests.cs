@@ -36,7 +36,7 @@ namespace Weknow.UnitTests
                                 .Set<Bar>(b => b.Value)
                                 .SetMore(b => b.Name);
 
-            string expected = 
+            string expected =
                 "MERGE (f:Foo) " +
                 "MERGE (b:Bar) " +
                 "SET f.SomeProperty = $sp , " +
@@ -148,5 +148,32 @@ namespace Weknow.UnitTests
         }
 
         #endregion // SetInstanceReplace_Test
+
+        #region MultiSets_Test
+
+        [Fact]
+        public void MultiSets_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = CypherBuilder.Default
+                    .Match("(person:Person {name: 'Cuba Gooding Jr.'})-[:ACTED_IN]->(movie:Movie)")
+                    .With($"person, {A.Collect($"movie.Rank")} as ranks")
+                    .Set("person.MinRank = apoc.coll.min(ranks)")
+                    .Set("person.MaxRank = apoc.coll.max(ranks)")
+                    .Set("person.AvgRank = apoc.coll.avg(ranks)");
+
+
+            string expected =
+                "MATCH (person:Person {name: 'Cuba Gooding Jr.'})-[:ACTED_IN]->(movie:Movie) " +
+                "WITH person, collect(movie.Rank) as ranks " +
+                "SET person.MinRank = apoc.coll.min(ranks) , " +
+                "person.MaxRank = apoc.coll.max(ranks) , " +
+                "person.AvgRank = apoc.coll.avg(ranks)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // MultiSets_Test
     }
 }
