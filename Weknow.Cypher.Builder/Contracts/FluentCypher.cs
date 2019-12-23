@@ -389,6 +389,34 @@ namespace Weknow
 
         #endregion // Create
 
+        #region CreateInstance
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:LABEL $map) // Create a node with the given properties.
+        /// </example>
+        public abstract FluentCypher CreateInstance(string label, string paramName = "", string variable = "n");
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:LABEL $map) // Create a node with the given properties.
+        /// </example>
+        public abstract FluentCypher CreateInstance<T>(string paramName = "", string variable = "n");
+
+        #endregion // CreateInstance
+
         #region Remove
 
         /// <summary>
@@ -714,7 +742,26 @@ namespace Weknow
 
         #endregion // Set
 
-        #region SetReplaceInstance
+        #region SetInstance
+
+        /// <summary>
+        /// Set instance. 
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="paramName"></param>
+        /// <param name="behavior"></param>
+        /// <returns></returns>
+        /// <example>
+        /// Set("u", "entity")
+        /// SET u = $u_entity
+        /// </example>
+        public abstract FluentCypher SetInstance(
+            string variable,
+            string paramName = "",
+            SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         /// <summary>
         /// Set instance. 
@@ -727,11 +774,11 @@ namespace Weknow
         /// <returns></returns>
         /// <example>
         /// Set<UserEntity>("u")
-        /// SET u = $UserEntity
+        /// SET u = $u_UserEntity
         /// </example>
         public abstract FluentCypher SetInstance<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
-        #endregion // SetReplaceInstance
+        #endregion // SetInstance
 
         #region SetAll
 

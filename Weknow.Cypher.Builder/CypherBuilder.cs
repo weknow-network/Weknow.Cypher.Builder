@@ -170,6 +170,43 @@ namespace Weknow
 
         #endregion // Create
 
+        #region CreateInstance
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:LABEL $map) // Create a node with the given properties.
+        /// </example>
+        public override FluentCypher CreateInstance(string label, string paramName = "", string variable = "n")
+        {
+            if (string.IsNullOrEmpty(paramName))
+                paramName = label;
+            return AddStatement($"({variable}:{label} ${paramName})", CypherPhrase.Create);
+        }
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:LABEL $map) // Create a node with the given properties.
+        /// </example>
+        public override FluentCypher CreateInstance<T>(string paramName = "", string variable = "n")
+        {
+            string label = typeof(T).Name;
+            return CreateInstance(label, paramName, variable);
+        }
+
+        #endregion // CreateInstance
+
         #region Remove
 
         /// <summary>
@@ -729,6 +766,35 @@ namespace Weknow
         /// Replace: This will remove any existing properties.
         /// Update: update properties, while keeping existing ones.
         /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="paramName"></param>
+        /// <param name="behavior"></param>
+        /// <returns></returns>
+        /// <example>
+        /// Set("u", "entity")
+        /// SET u = $u_entity
+        /// </example>
+        public override FluentCypher SetInstance(
+            string variable,
+            string paramName = "",
+            SetInstanceBehavior behavior = SetInstanceBehavior.Update)
+        {
+            string operand = behavior switch
+            {
+                SetInstanceBehavior.Replace => "=",
+                _ => "+=",
+            };
+            string statement = string.IsNullOrEmpty(paramName) ? $"{variable} {operand} ${variable}"  : $"{variable} {operand} ${variable}_{paramName}";
+            var result = AddStatement(statement, CypherPhrase.Set);
+            return result;
+        }
+
+        /// <summary>
+        /// Set instance. 
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
@@ -745,7 +811,7 @@ namespace Weknow
                 SetInstanceBehavior.Replace => "=",
                 _ => "+=",
             };
-            string statement = $"{variable} {operand} ${typeof(T).Name}";
+            string statement = $"{variable} {operand} ${variable}_{typeof(T).Name}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }

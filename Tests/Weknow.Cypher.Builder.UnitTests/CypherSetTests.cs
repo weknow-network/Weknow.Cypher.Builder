@@ -123,7 +123,7 @@ namespace Weknow.UnitTests
                                .SetInstance<Foo>("f");
 
             string expected = "MERGE (f:Foo) " +
-                "SET f += $Foo";
+                "SET f += $f_Foo";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -142,7 +142,7 @@ namespace Weknow.UnitTests
                                .SetInstance<Foo>("f", SetInstanceBehavior.Replace);
 
             string expected = "MERGE (f:Foo) " +
-                "SET f = $Foo";
+                "SET f = $f_Foo";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }

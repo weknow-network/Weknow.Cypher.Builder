@@ -277,5 +277,95 @@ namespace Weknow.UnitTests
 
         #endregion // Merge_Match_AutoWith_Test
 
+        #region Create_Test
+
+        [Fact]
+        public void Create_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Create($"(n:Foo {props})");
+
+            string expected = "CREATE (n:Foo { Id: $Id })";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // Create_Test
+
+        #region CreateInstance_Test
+
+        [Fact]
+        public void CreateInstance_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance("Foo", "foo","x");
+
+            string expected = "CREATE (x:Foo $foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_Test
+
+        #region CreateInstance_NoVar_Test
+
+        [Fact]
+        public void CreateInstance_NoVar_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance("Foo", "foo");
+
+            string expected = "CREATE (n:Foo $foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_NoVar_Test
+
+        #region CreateInstance_OnlyLabel_Test
+
+        [Fact]
+        public void CreateInstance_OnlyLabel_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance("Foo");
+
+            string expected = "CREATE (n:Foo $Foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OnlyLabel_Test
+
+        #region CreateInstance_OfT_Test
+
+        [Fact]
+        public void CreateInstance_OfT_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance<Foo>("foo","x");
+
+            string expected = "CREATE (x:Foo $foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_Test
+
     }
 }
