@@ -37,7 +37,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Abs(string expression) => $"abs({expression})";
+            public static FluentCypher Abs(string expression) => CypherBuilder.Default.Add($"abs({expression})");
 
             #endregion // Abs
 
@@ -50,7 +50,7 @@ namespace Weknow
             /// Also useful for selecting a subset or random ordering.
             /// </summary>
             /// <returns></returns>
-            public static string Rand() => $"rand()";
+            public static FluentCypher Rand() => CypherBuilder.Default.Add($"rand()");
 
             #endregion // Rand
 
@@ -62,7 +62,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Round(string expression) => $"round({expression})";
+            public static FluentCypher Round(string expression) => CypherBuilder.Default.Add($"round({expression})");
 
             #endregion // Round
 
@@ -73,7 +73,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Sqrt(string expression) => $"sqrt({expression})";
+            public static FluentCypher Sqrt(string expression) => CypherBuilder.Default.Add($"sqrt({expression})");
 
             #endregion // Sqrt
 
@@ -84,7 +84,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Sign(string expression) => $"sign({expression})";
+            public static FluentCypher Sign(string expression) => CypherBuilder.Default.Add($"sign({expression})");
 
             #endregion // Sign
 
@@ -98,7 +98,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Sin(string expression) => $"sin({expression})";
+            public static FluentCypher Sin(string expression) => CypherBuilder.Default.Add($"sin({expression})");
 
             #endregion // Sin
 
@@ -112,7 +112,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Cos(string expression) => $"cos({expression})";
+            public static FluentCypher Cos(string expression) => CypherBuilder.Default.Add($"cos({expression})");
 
             #endregion // Cos
 
@@ -126,7 +126,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Tan(string expression) => $"tan({expression})";
+            public static FluentCypher Tan(string expression) => CypherBuilder.Default.Add($"tan({expression})");
 
             #endregion // Tan
 
@@ -140,7 +140,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Cot(string expression) => $"cot({expression})";
+            public static FluentCypher Cot(string expression) => CypherBuilder.Default.Add($"cot({expression})");
 
             #endregion // Cot
 
@@ -154,7 +154,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Asin(string expression) => $"asin({expression})";
+            public static FluentCypher Asin(string expression) => CypherBuilder.Default.Add($"asin({expression})");
 
             #endregion // Asin
 
@@ -168,7 +168,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Acos(string expression) => $"acos({expression})";
+            public static FluentCypher Acos(string expression) => CypherBuilder.Default.Add($"acos({expression})");
 
             #endregion // Acos
 
@@ -182,7 +182,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Atan(string expression) => $"atan({expression})";
+            public static FluentCypher Atan(string expression) => CypherBuilder.Default.Add($"atan({expression})");
 
             #endregion // Atan
 
@@ -196,7 +196,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Atan2(string expression) => $"atan2({expression})";
+            public static FluentCypher Atan2(string expression) => CypherBuilder.Default.Add($"atan2({expression})");
 
             #endregion // Atan2
 
@@ -210,7 +210,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Haversin(string expression) => $"haversin({expression})";
+            public static FluentCypher Haversin(string expression) => CypherBuilder.Default.Add($"haversin({expression})");
 
             #endregion // Haversin
 
@@ -221,7 +221,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Radians(string expression) => $"radians({expression})";
+            public static FluentCypher Radians(string expression) => CypherBuilder.Default.Add($"radians({expression})");
 
             #endregion // Radians
 
@@ -231,7 +231,7 @@ namespace Weknow
             /// Converts radians into degrees; use radians() for the reverse, and pi() for π.
             /// </summary>
             /// <returns></returns>
-            public static string Pi() => $"pi()";
+            public static FluentCypher Pi() => CypherBuilder.Default.Add($"pi()");
 
             #endregion // Pi
 
@@ -242,7 +242,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Log10(string expression) => $"log10({expression})";
+            public static FluentCypher Log10(string expression) => CypherBuilder.Default.Add($"log10({expression})");
 
             #endregion // Log10
 
@@ -253,7 +253,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Log(string expression) => $"log({expression})";
+            public static FluentCypher Log(string expression) => CypherBuilder.Default.Add($"log({expression})");
 
             #endregion // Log
 
@@ -264,7 +264,7 @@ namespace Weknow
             /// </summary>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            public static string Exp(string expression) => $"exp({expression})";
+            public static FluentCypher Exp(string expression) => CypherBuilder.Default.Add($"exp({expression})");
 
             #endregion // Exp
 
@@ -274,7 +274,7 @@ namespace Weknow
             /// Converts radians into degrees; use radians() for the reverse, and pi() for π.
             /// </summary>
             /// <returns></returns>
-            public static string E() => $"e()";
+            public static FluentCypher E() => CypherBuilder.Default.Add($"e()");
 
             #endregion // E
         }

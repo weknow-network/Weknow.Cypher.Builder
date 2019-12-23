@@ -37,7 +37,7 @@ namespace Weknow
             /// </summary>
             /// <returns></returns>
             /// <example>count(*)</example>
-            public static string Count() => $"count(*)";
+            public static FluentCypher Count() => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"count(*)")); 
 
             /// <summary>
             /// Count The number of non-null values..
@@ -45,7 +45,7 @@ namespace Weknow
             /// <param name="variable">The variable.</param>
             /// <returns></returns>
             /// <example>count(variable)</example>
-            public static string Count(string variable) => $"count({variable})";
+            public static FluentCypher Count(string variable) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"count({variable})")); 
 
 
             #endregion // Count
@@ -58,7 +58,7 @@ namespace Weknow
             /// </summary>
             /// <returns></returns>
             /// <example>count(*)</example>
-            public static string CountDistinct() => $"count(DISTINCT *)";
+            public static FluentCypher CountDistinct() => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"count(DISTINCT *)")); 
 
             /// <summary>
             /// Count The number of non-null values,
@@ -67,7 +67,7 @@ namespace Weknow
             /// <param name="variable">The variable.</param>
             /// <returns></returns>
             /// <example>count(variable)</example>
-            public static string CountDistinct(string variable) => $"count(DISTINCT {variable})";
+            public static FluentCypher CountDistinct(string variable) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"count(DISTINCT {variable})")); 
 
 
             #endregion // CountDistinct
@@ -80,7 +80,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>collect(n.property)</example>
-            public static string Collect(string expression) => $"collect({expression})";
+            public static FluentCypher Collect(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"collect({expression})")); 
 
             /// <summary>
             /// Collect list from the values, ignores null.
@@ -91,7 +91,7 @@ namespace Weknow
             /// Collect<Foo>(f => f.Name)
             /// collect(f.Name)
             /// </example>
-            public static string Collect<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher Collect<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return Collect($"{variable}.{name}");
@@ -108,7 +108,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>collect(n.property)</example>
-            public static string CollectDistinct(string expression) => $"collect(DISTINCT {expression})";
+            public static FluentCypher CollectDistinct(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"collect(DISTINCT {expression})")); 
 
             /// <summary>
             /// CollectDistinct list from the values, ignores null,
@@ -120,7 +120,7 @@ namespace Weknow
             /// CollectDistinct<Foo>(f => f.Name)
             /// collect(f.Name)
             /// </example>
-            public static string CollectDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher CollectDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return CollectDistinct($"{variable}.{name}");
@@ -136,7 +136,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>sum(n.property)</example>
-            public static string Sum(string expression) => $"sum({expression})";
+            public static FluentCypher Sum(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"sum({expression})")); 
 
             /// <summary>
             /// Sum numerical values. Similar functions are avg(), min(), max().
@@ -147,7 +147,7 @@ namespace Weknow
             /// Sum<Foo>(f => f.Name)
             /// sum(f.Name)
             /// </example>
-            public static string Sum<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher Sum<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return Sum($"{variable}.{name}");
@@ -164,7 +164,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>sum(n.property)</example>
-            public static string SumDistinct(string expression) => $"sum(DISTINCT {expression})";
+            public static FluentCypher SumDistinct(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"sum(DISTINCT {expression})")); 
 
             /// <summary>
             /// SumDistinct numerical values. Similar functions are avg(), min(), max(),
@@ -176,7 +176,7 @@ namespace Weknow
             /// SumDistinct<Foo>(f => f.Name)
             /// sum(f.Name)
             /// </example>
-            public static string SumDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher SumDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return SumDistinct($"{variable}.{name}");
@@ -192,7 +192,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>avg(n.property)</example>
-            public static string Avg(string expression) => $"avg({expression})";
+            public static FluentCypher Avg(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"avg({expression})")); 
 
             /// <summary>
             /// Average numerical values. Similar functions are sum(), min(), max().
@@ -203,7 +203,7 @@ namespace Weknow
             /// Avg<Foo>(f => f.Name)
             /// avg(f.Name)
             /// </example>
-            public static string Avg<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher Avg<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return Avg($"{variable}.{name}");
@@ -220,7 +220,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>avg(n.property)</example>
-            public static string AvgDistinct(string expression) => $"avg(DISTINCT {expression})";
+            public static FluentCypher AvgDistinct(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"avg(DISTINCT {expression})")); 
 
             /// <summary>
             /// Average numerical values. Similar functions are sum(), min(), max(),
@@ -232,7 +232,7 @@ namespace Weknow
             /// AvgDistinct<Foo>(f => f.Name)
             /// avg(f.Name)
             /// </example>
-            public static string AvgDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher AvgDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return AvgDistinct($"{variable}.{name}");
@@ -248,7 +248,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>min(n.property)</example>
-            public static string Min(string expression) => $"min({expression})";
+            public static FluentCypher Min(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"min({expression})")); 
 
             /// <summary>
             /// Min numerical values. Similar functions are avg(), min(), max().
@@ -259,7 +259,7 @@ namespace Weknow
             /// Min<Foo>(f => f.Name)
             /// min(f.Name)
             /// </example>
-            public static string Min<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher Min<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return Min($"{variable}.{name}");
@@ -276,7 +276,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>min(n.property)</example>
-            public static string MinDistinct(string expression) => $"min(DISTINCT {expression})";
+            public static FluentCypher MinDistinct(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"min(DISTINCT {expression})"));   
 
             /// <summary>
             /// MinDistinct numerical values. Similar functions are avg(), min(), max(),
@@ -288,7 +288,7 @@ namespace Weknow
             /// MinDistinct<Foo>(f => f.Name)
             /// min(f.Name)
             /// </example>
-            public static string MinDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher MinDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return MinDistinct($"{variable}.{name}");
@@ -304,7 +304,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>max(n.property)</example>
-            public static string Max(string expression) => $"max({expression})";
+            public static FluentCypher Max(string expression) => CypherBuilder.Default.Add($"max({expression})"); 
 
             /// <summary>
             /// Max numerical values. Similar functions are avg(), max(), min().
@@ -315,7 +315,7 @@ namespace Weknow
             /// Max<Foo>(f => f.Name)
             /// max(f.Name)
             /// </example>
-            public static string Max<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher Max<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return Max($"{variable}.{name}");
@@ -332,7 +332,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>maxDistinct(n.property)</example>
-            public static string MaxDistinct(string expression) => $"max(DISTINCT {expression})";
+            public static FluentCypher MaxDistinct(string expression) => CypherBuilder.Default.Add($"max(DISTINCT {expression})"); 
 
             /// <summary>
             /// MaxDistinct numerical values. Similar functions are avg(), maxDistinct(), min(),
@@ -344,7 +344,7 @@ namespace Weknow
             /// MaxDistinct<Foo>(f => f.Name)
             /// maxDistinct(f.Name)
             /// </example>
-            public static string MaxDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher MaxDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return MaxDistinct($"{variable}.{name}");
@@ -362,7 +362,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileDisc(n.property, $percentile)</example>
-            public static string PercentileDisc(string expression, double percentile) => $"percentileDisc({expression}, {percentile})";
+            public static FluentCypher PercentileDisc(string expression, double percentile) => CypherBuilder.Default.Add($"percentileDisc({expression}, {percentile})"); 
 
             /// <summary>
             /// Discrete percentile. Continuous percentile is percentileCont().
@@ -375,7 +375,7 @@ namespace Weknow
             /// PercentileDisc<Foo>(f => f.Name)
             /// percentileDisc(f.Name, 0.8)
             /// </example>
-            public static string PercentileDisc<T>(Expression<Func<T, dynamic>> expression,  double percentile)
+            public static FluentCypher PercentileDisc<T>(Expression<Func<T, dynamic>> expression,  double percentile)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return PercentileDisc($"{variable}.{name}", percentile);
@@ -393,7 +393,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileDisc(n.property, $percentile)</example>
-            public static string PercentileDiscDistinct(string expression, double percentile) => $"percentileDisc(DISTINCT {expression}, {percentile})";
+            public static FluentCypher PercentileDiscDistinct(string expression, double percentile) => CypherBuilder.Default.Add($"percentileDisc(DISTINCT {expression}, {percentile})"); 
 
             /// <summary>
             /// Discrete percentile. Continuous percentile is percentileCont().
@@ -406,7 +406,7 @@ namespace Weknow
             /// PercentileDiscDistinct<Foo>(f => f.Name)
             /// percentileDisc(f.Name, 0.8)
             /// </example>
-            public static string PercentileDiscDistinct<T>(Expression<Func<T, dynamic>> expression,  double percentile)
+            public static FluentCypher PercentileDiscDistinct<T>(Expression<Func<T, dynamic>> expression,  double percentile)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return PercentileDiscDistinct($"{variable}.{name}", percentile);
@@ -428,7 +428,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileCont(expression, percentile)</example>
-            public static string PercentileCount(string expression, double percentile) => $"percentileCount({expression}, {percentile})";
+            public static FluentCypher PercentileCount(string expression, double percentile) => CypherBuilder.Default.Add($"percentileCount({expression}, {percentile})"); 
 
             /// <summary>
             /// percentileCont() returns the percentile 
@@ -446,7 +446,7 @@ namespace Weknow
             /// PercentileCont<Foo>(f => f.Name, 0.8)
             /// percentileCont(f.Name, 0.8)
             /// </example>
-            public static string PercentileCount<T>(Expression<Func<T, dynamic>> expression,  double percentile)
+            public static FluentCypher PercentileCount<T>(Expression<Func<T, dynamic>> expression,  double percentile)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return PercentileCount($"{variable}.{name}", percentile);
@@ -469,7 +469,7 @@ namespace Weknow
             /// <param name="percentile">he percentile argument is from 0.0 to 1.0.</param>
             /// <returns></returns>
             /// <example>percentileCont(expression, percentile)</example>
-            public static string PercentileCountDistinct(string expression, double percentile) => $"percentileCount(DISTINCT {expression}, {percentile})";
+            public static FluentCypher PercentileCountDistinct(string expression, double percentile) => CypherBuilder.Default.Add($"percentileCount(DISTINCT {expression}, {percentile})"); 
 
             /// <summary>
             /// percentileCont() returns the percentile 
@@ -488,7 +488,7 @@ namespace Weknow
             /// PercentileCont<Foo>(f => f.Name, 0.8)
             /// percentileCont(f.Name, 0.8)
             /// </example>
-            public static string PercentileCountDistinct<T>(Expression<Func<T, dynamic>> expression,  double percentile)
+            public static FluentCypher PercentileCountDistinct<T>(Expression<Func<T, dynamic>> expression,  double percentile)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return PercentileCountDistinct($"{variable}.{name}", percentile);
@@ -504,7 +504,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>stDev(n.property)</example>
-            public static string StDev(string expression) => $"stDev({expression})";
+            public static FluentCypher StDev(string expression) => CypherBuilder.Default.Add($"stDev({expression})"); 
 
             /// <summary>
             /// Standard deviation for a sample of a population. For an entire population use stDevP().
@@ -515,7 +515,7 @@ namespace Weknow
             /// StDev<Foo>(f => f.Name)
             /// stDev(f.Name)
             /// </example>
-            public static string StDev<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher StDev<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return StDev($"{variable}.{name}");
@@ -532,7 +532,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>stDev(n.property)</example>
-            public static string StDevDistinct(string expression) => $"stDev(DISTINCT {expression})";
+            public static FluentCypher StDevDistinct(string expression) => CypherBuilder.Default.Add($"stDev(DISTINCT {expression})"); 
 
             /// <summary>
             /// Standard deviation for a sample of a population. For an entire population use stDevP().
@@ -544,7 +544,7 @@ namespace Weknow
             /// StDevDistinct<Foo>(f => f.Name)
             /// stDev(f.Name)
             /// </example>
-            public static string StDevDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher StDevDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return StDevDistinct($"{variable}.{name}");
@@ -564,7 +564,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>stDevP(n.property)</example>
-            public static string StDevP(string expression) => $"stDevP({expression})";
+            public static FluentCypher StDevP(string expression) => CypherBuilder.Default.Add($"stDevP({expression})"); 
 
             /// <summary>
             /// stDevP() returns the standard deviation for the given value over a group. 
@@ -579,7 +579,7 @@ namespace Weknow
             /// StDevP<Foo>(f => f.Name)
             /// stDevP(f.Name)
             /// </example>
-            public static string StDevP<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher StDevP<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return StDevP($"{variable}.{name}");
@@ -600,7 +600,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>stDevP(n.property)</example>
-            public static string StDevPDistinct(string expression) => $"stDevP(DISTINCT {expression})";
+            public static FluentCypher StDevPDistinct(string expression) => CypherBuilder.Default.Add($"stDevP(DISTINCT {expression})"); 
 
             /// <summary>
             /// stDevP() returns the standard deviation for the given value over a group. 
@@ -616,7 +616,7 @@ namespace Weknow
             /// StDevPDistinct<Foo>(f => f.Name)
             /// stDevP(f.Name)
             /// </example>
-            public static string StDevPDistinct<T>(Expression<Func<T, dynamic>> expression)
+            public static FluentCypher StDevPDistinct<T>(Expression<Func<T, dynamic>> expression)
             {
                 (string variable, string name) = ExtractLambdaExpression(expression);
                 return StDevPDistinct($"{variable}.{name}");

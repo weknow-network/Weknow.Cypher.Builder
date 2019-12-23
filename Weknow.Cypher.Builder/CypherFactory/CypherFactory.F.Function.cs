@@ -37,7 +37,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Labels(string nodeVariable) => $"labels({nodeVariable})";
+            public static FluentCypher Labels(string nodeVariable) => CypherBuilder.Default.Add($"labels({nodeVariable})");
 
             #endregion // Labels
 
@@ -51,7 +51,7 @@ namespace Weknow
             /// <param name="more">The more.</param>
             /// <returns></returns>
             /// <example>coalesce(n.property, $defaultValue)</example>
-            public static string Coalesce(string first, string second, params string[] more) => $"coalesce({string.Join(", ", first.ToYield(second, more))})";
+            public static FluentCypher Coalesce(string first, string second, params string[] more) => CypherBuilder.Default.Add($"coalesce({string.Join(", ", first.ToYield(second, more))})");
 
             #endregion // Coalesce
 
@@ -62,7 +62,7 @@ namespace Weknow
             /// </summary>
             /// <returns></returns>
             /// <example>timestamp()</example>
-            public static string Timestamp() => "timestamp()";
+            public static FluentCypher Timestamp() => CypherBuilder.Default.Add("timestamp()");
 
             #endregion // Timestamp
 
@@ -74,7 +74,7 @@ namespace Weknow
             /// <param name="nodeOrRelationship">The node or relationship.</param>
             /// <returns></returns>
             /// <example>id(nodeOrRelationship)</example>
-            public static string Id(string nodeOrRelationship) => $"id({nodeOrRelationship})";
+            public static FluentCypher Id(string nodeOrRelationship) => CypherBuilder.Default.Add($"id({nodeOrRelationship})");
 
             #endregion // Id
 
@@ -86,7 +86,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>toInteger($expr)</example>
-            public static string ToInteger(string expression) => $"toInteger({expression})";
+            public static FluentCypher ToInteger(string expression) => CypherBuilder.Default.Add($"toInteger({expression})");
 
             #endregion // ToInteger
 
@@ -98,7 +98,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>toFloat($expr)</example>
-            public static string ToFloat(string expression) => $"toFloat({expression})";
+            public static FluentCypher ToFloat(string expression) => CypherBuilder.Default.Add($"toFloat({expression})");
 
             #endregion // ToFloat
 
@@ -110,7 +110,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>toFloat($expr)</example>
-            public static string ToBoolean(string expression) => $"toBoolean({expression})";
+            public static FluentCypher ToBoolean(string expression) => CypherBuilder.Default.Add($"toBoolean({expression})");
 
             #endregion // ToBoolean
 
@@ -122,7 +122,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>keys($expr)</example>
-            public static string Keys(string expression) => $"keys({expression})";
+            public static FluentCypher Keys(string expression) => CypherBuilder.Default.Add($"keys({expression})");
 
             #endregion // Keys
 
@@ -134,7 +134,7 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>properties($expr)</example>
-            public static string Properties(string expression) => $"properties({expression})";
+            public static FluentCypher Properties(string expression) => CypherBuilder.Default.Add($"properties({expression})");
 
             #endregion // Properties      
         }

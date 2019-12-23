@@ -37,7 +37,9 @@ namespace Weknow
             /// <param name="propNames">The property names.</param>
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
-            public static string Create(IEnumerable<string> propNames) => CreateWithVariable(string.Empty, propNames);
+            public static FluentCypher Create(IEnumerable<string> propNames) => CypherBuilder.Default.Add(CreateWithVariable(string.Empty, propNames));
+
+            // TODO: Reduce to FluentCypher chain (make sure that the formatting know to handle properties)
 
             /// <summary>
             /// Compose properties phrase.
@@ -46,14 +48,14 @@ namespace Weknow
             /// <param name="propNames">The property names.</param>
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
-            public static string CreateWithVariable(string variable, IEnumerable<string> propNames)
+            public static FluentCypher CreateWithVariable(string variable, IEnumerable<string> propNames)
             {
                 var phrases = propNames.Select(m => string.IsNullOrEmpty(variable) ? $"{m}: ${m}" : $"{m}: ${variable}_{m}");
                 string sep = SetSeparatorStrategy(phrases);
                 string statement = string.Join(sep, phrases);
 
                 string lineBreak = LineSeparatorStrategy(phrases);
-                return $"{{ {lineBreak}{statement}{lineBreak} }}";
+                return CypherBuilder.Default.Add($"{{ {lineBreak}{statement}{lineBreak} }}");
             }
 
             /// <summary>
@@ -62,7 +64,7 @@ namespace Weknow
             /// <param name="propNames">The property names.</param>
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
-            public static string Create(string name, params string[] moreNames) =>
+            public static FluentCypher Create(string name, params string[] moreNames) =>
                                         CreateWithVariable(string.Empty, name.ToYield(moreNames));
 
             /// <summary>
@@ -73,7 +75,7 @@ namespace Weknow
             /// <param name="moreNames">The more names.</param>
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
-            public static string CreateWithVariable(string variable, string name, params string[] moreNames) =>
+            public static FluentCypher CreateWithVariable(string variable, string name, params string[] moreNames) =>
                                         CreateWithVariable(variable, name.ToYield(moreNames));
 
             /// <summary>
@@ -86,7 +88,7 @@ namespace Weknow
             /// { Name: $Name, Id: $Id}
             /// </example>
             /// <returns></returns>
-            public static string Create<T>(params Expression<Func<T, dynamic>>[] propExpressions) =>
+            public static FluentCypher Create<T>(params Expression<Func<T, dynamic>>[] propExpressions) =>
                 CreateWithVariable<T>(string.Empty, propExpressions);
 
             /// <summary>
@@ -96,13 +98,13 @@ namespace Weknow
             /// <param name="variable">The variable.</param>
             /// <param name="propExpressions">The property expressions.</param>
             /// <returns></returns>
-            public static string CreateWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] propExpressions)
+            public static FluentCypher CreateWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] propExpressions)
             {
                 IEnumerable<string> phrases = from exp in propExpressions
                                               let vn = ExtractLambdaExpression(exp)
                                               select vn.Name;
 
-                string result = CreateWithVariable(variable, phrases);
+                FluentCypher result = CreateWithVariable(variable, phrases);
                 return result;
             }
 
@@ -112,7 +114,7 @@ namespace Weknow
             /// <typeparam name="T"></typeparam>
             /// <param name="filter">The filter.</param>
             /// <returns></returns>
-            public static string CreateByConvention<T>(Func<string, bool> filter) =>
+            public static FluentCypher CreateByConvention<T>(Func<string, bool> filter) =>
                 CreateByConventionWithVariable<T>(string.Empty, filter);
 
 
@@ -123,12 +125,12 @@ namespace Weknow
             /// <param name="variable">The variable.</param>
             /// <param name="filter">The filter.</param>
             /// <returns></returns>
-            public static string CreateByConventionWithVariable<T>(string variable, Func<string, bool> filter)
+            public static FluentCypher CreateByConventionWithVariable<T>(string variable, Func<string, bool> filter)
             {
                 IEnumerable<string> names = GetProperties<T>();
                 IEnumerable<string> propNames =
                                 names.Where(name => filter(name));
-                string properties = CreateWithVariable(variable, propNames);
+                FluentCypher properties = CreateWithVariable(variable, propNames);
                 return properties;
             }
 
@@ -138,7 +140,7 @@ namespace Weknow
             /// <typeparam name="T"></typeparam>
             /// <param name="excludes">The excludes.</param>
             /// <returns></returns>
-            public static string CreateAll<T>(params Expression<Func<T, dynamic>>[] excludes) =>
+            public static FluentCypher CreateAll<T>(params Expression<Func<T, dynamic>>[] excludes) =>
                 CreateAllWithVariable<T>(string.Empty, excludes);
 
             /// <summary>
@@ -148,14 +150,14 @@ namespace Weknow
             /// <param name="variable">The variable.</param>
             /// <param name="excludes">The excludes.</param>
             /// <returns></returns>
-            public static string CreateAllWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] excludes)
+            public static FluentCypher CreateAllWithVariable<T>(string variable, params Expression<Func<T, dynamic>>[] excludes)
             {
                 IEnumerable<string> avoid = from exclude in excludes
                                             let lambda = ExtractLambdaExpression(exclude)
                                             select lambda.Name;
                 var excludeMap = avoid.ToDictionary(m => m);
 
-                string properties =
+                FluentCypher properties =
                     CreateByConventionWithVariable<T>(variable, name => !excludeMap.ContainsKey(name));
                 return properties;
             }

@@ -21,7 +21,7 @@ namespace Weknow.Helpers
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
     [DebuggerDisplay("{CypherLine}")]
-    internal static class Helper 
+    internal static class Helper
     {
         internal const int BREAK_LINE_ON = 3;
         internal const string COMMA = " ,";
@@ -107,7 +107,7 @@ namespace Weknow.Helpers
         public static IEnumerable<string> FormatSetWhere(this IEnumerable<string> propNames, string variable)
         {
             return propNames.Select(m => $"{variable}.{m} = ${variable}_{m}");
-        } 
+        }
 
         #endregion // FormatSetWhere
 
@@ -124,7 +124,7 @@ namespace Weknow.Helpers
             if (propNames.Count() >= BREAK_LINE_ON)
                 sep = LINE_INDENT_SEPERATOR;
             return sep;
-        } 
+        }
 
         /// <summary>
         /// Separators the strategy.
@@ -155,6 +155,7 @@ namespace Weknow.Helpers
             switch (current._phrase)
             {
                 case CypherPhrase.None:
+                case CypherPhrase.Dynamic:
                 case CypherPhrase.Set when repeat != 0:
                 case CypherPhrase.Where when repeat != 0:
                     break;
@@ -163,7 +164,7 @@ namespace Weknow.Helpers
                 case CypherPhrase.OrderByDesc:
                 case CypherPhrase.And:
                 case CypherPhrase.Or:
-                    builder = builder.Append(current._phrase.ToString().ToSCREAMING(' ')); 
+                    builder = builder.Append(current._phrase.ToString().ToSCREAMING(' '));
                     break;
                 case CypherPhrase.OptionalMatch:
                 case CypherPhrase.DetachDelete:

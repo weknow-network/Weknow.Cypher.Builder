@@ -45,7 +45,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Size(string list) => $"size({list})";
+            public static FluentCypher Size(string list) => CypherBuilder.Default.Add($"size({list})");
 
             #endregion // Size
 
@@ -56,7 +56,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Reverse(string list) => $"reverse({list})";
+            public static FluentCypher Reverse(string list) => CypherBuilder.Default.Add($"reverse({list})");
 
             #endregion // Reverse
 
@@ -68,7 +68,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Head(string list) => $"head({list})";
+            public static FluentCypher Head(string list) => CypherBuilder.Default.Add($"head({list})");
 
             #endregion // Head
 
@@ -80,7 +80,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Last(string list) => $"last({list})";
+            public static FluentCypher Last(string list) => CypherBuilder.Default.Add($"last({list})");
 
             #endregion // Last
 
@@ -92,7 +92,7 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            public static string Tail(string list) => $"tail({list})";
+            public static FluentCypher Tail(string list) => CypherBuilder.Default.Add($"tail({list})");
 
             #endregion // Tail
 
