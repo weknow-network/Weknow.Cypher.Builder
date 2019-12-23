@@ -88,7 +88,11 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 return new CypherBuilder(this, statement, phrase);
 
-            if (phrase == CypherPhrase.Match && this._phrase == CypherPhrase.Merge)
+            bool hasPrevMerge = this.ReverseEnumerable()
+                .TakeWhile(m => m._phrase != CypherPhrase.With)
+                .Any(m => m._phrase == CypherPhrase.Merge);
+            bool withCandidate = phrase == CypherPhrase.Match || phrase == CypherPhrase.Unwind;
+            if (withCandidate && hasPrevMerge)
                 return new CypherBuilder((CypherBuilder)With("*"), statement, phrase);
             return new CypherBuilder(this, statement, phrase);
         }

@@ -1051,6 +1051,26 @@ namespace Weknow
 
         #endregion // ToString
 
+        #region ReverseEnumerable
+
+        /// <summary>
+        /// Reverses the enumerable.
+        /// </summary>
+        /// <returns></returns>
+        protected private IEnumerable<FluentCypher> ReverseEnumerable()
+        {
+            yield return this;
+            if (_previous != null)
+            {
+                foreach (FluentCypher prev in _previous.ReverseEnumerable())
+                {
+                    yield return prev;
+                }
+            }
+        } 
+
+        #endregion // ReverseEnumerable
+
         #region IEnumerable
 
         /// <summary>
