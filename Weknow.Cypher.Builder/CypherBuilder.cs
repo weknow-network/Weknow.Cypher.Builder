@@ -189,7 +189,9 @@ namespace Weknow
         public override FluentCypher CreateInstance(string label, string paramName = "", string variable = "n")
         {
             if (string.IsNullOrEmpty(paramName))
-                paramName = label;
+            {
+                paramName = $"{variable}_{label}";
+            }
             return AddStatement($"({variable}:{label} ${paramName})", CypherPhrase.Create);
         }
 

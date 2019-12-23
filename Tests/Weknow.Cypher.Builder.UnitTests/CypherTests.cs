@@ -342,7 +342,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .CreateInstance("Foo");
 
-            string expected = "CREATE (n:Foo $Foo)";
+            string expected = "CREATE (n:Foo $n_Foo)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
