@@ -40,6 +40,9 @@ namespace Weknow
             /// <param name="label">The label.</param>
             /// <param name="propertyName">Name of the property.</param>
             /// <returns></returns>
+            /// <example>
+            /// CREATE INDEX ON :Person(name)
+            /// </example>
             public static FluentCypher CreateIndex(
                 string label,
                 string propertyName,
@@ -48,8 +51,8 @@ namespace Weknow
                 if (compositePropertyNames != null && compositePropertyNames.Length != 0)
                 {
                     var properties = propertyName.ToYield(compositePropertyNames);
-                    var indices = string.Join(",", properties);
-                    return CypherBuilder.Default.Add($"CREATE INDEX ON :{label}({indices}");
+                    var indices = string.Join(", ", properties);
+                    return CypherBuilder.Default.Add($"CREATE INDEX ON :{label}({indices})");
                 }
                 return CypherBuilder.Default.Add($"CREATE INDEX ON :{label}({propertyName})");
             }
@@ -96,7 +99,7 @@ namespace Weknow
                 string label,
                 string propertyName)
             {
-                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON (n:{label}) ASSERT {propertyName} IS UNIQUE");
+                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON (n:{label}) ASSERT n.{propertyName} IS UNIQUE");
             }
 
             #endregion // CreateUniqueConstraint
@@ -113,7 +116,7 @@ namespace Weknow
                 string label,
                 string propertyName)
             {
-                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON (n:{label}) ASSERT {propertyName} IS UNIQUE");
+                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON (n:{label}) ASSERT n.{propertyName} IS UNIQUE");
             }
 
             #endregion // DropUniqueConstraint
@@ -134,7 +137,7 @@ namespace Weknow
                 string label,
                 string propertyName)
             {
-                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON (n:{label}) ASSERT exists({propertyName})");
+                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON (n:{label}) ASSERT exists(n.{propertyName})");
             }
 
             #endregion // CreateExistsConstraint
@@ -151,7 +154,7 @@ namespace Weknow
                 string label,
                 string propertyName)
             {
-                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON (n:{label}) ASSERT exists({propertyName})");
+                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON (n:{label}) ASSERT exists(n.{propertyName})");
             }
 
             #endregion // DropExistsConstraint
