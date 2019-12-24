@@ -68,6 +68,38 @@ namespace Weknow
 
         #endregion // Ctor
 
+        #region IsWithCause
+
+        /// <summary>
+        /// Determines whether previous occurrence of phrase is cause for a WITH.  
+        /// </summary>
+        /// <param name="phrase">The phrase.</param>
+        /// <returns></returns>
+        private bool IsWithCause(CypherPhrase phrase) => phrase switch
+        {
+            CypherPhrase.Merge => true,
+            CypherPhrase.Create => true,
+            _ => false
+        }; 
+
+        #endregion // IsWithCause
+
+        #region IsWithCandidate
+
+        /// <summary>
+        /// Determines a phrase should cause checking previous phrases for cause of using WITH.  
+        /// </summary>
+        /// <param name="phrase">The phrase.</param>
+        /// <returns></returns>
+        private bool IsWithCandidate(CypherPhrase phrase) => phrase switch
+        {
+            CypherPhrase.Match => true,
+            CypherPhrase.Unwind => true,
+            _ => false
+        }; 
+
+        #endregion // IsWithCandidate
+
         #region AddStatement
 
         /// <summary>
@@ -88,10 +120,20 @@ namespace Weknow
             if (phrase == CypherPhrase.Dynamic || phrase == CypherPhrase.None)
                 return new CypherBuilder(this, statement, phrase);
 
-            bool hasPrevMerge = this.ReverseEnumerable()
+            bool withCandidate = IsWithCandidate(phrase);
+
+            #region bool hasPrevMerge = ...
+
+            bool hasPrevMerge = false;
+            if (withCandidate)
+            {
+                hasPrevMerge = this.ReverseEnumerable()
                 .TakeWhile(m => m._phrase != CypherPhrase.With)
-                .Any(m => m._phrase == CypherPhrase.Merge);
-            bool withCandidate = phrase == CypherPhrase.Match || phrase == CypherPhrase.Unwind;
+                .Any(m => IsWithCause(m._phrase));
+            } 
+
+            #endregion // bool hasPrevMerge = ...
+
             if (withCandidate && hasPrevMerge)
                 return new CypherBuilder((CypherBuilder)With("*"), statement, phrase);
             return new CypherBuilder(this, statement, phrase);
@@ -179,37 +221,71 @@ namespace Weknow
         /// <summary>
         /// Create CREATE instance phrase
         /// </summary>
-        /// <param name="label">The label.</param>
-        /// <param name="paramName">Name of the parameter.</param>
-        /// <param name="variable">The variable.</param>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="parameter">The parameter.</param>
         /// <returns></returns>
-        /// <example>
-        /// CREATE (n:LABEL $map) // Create a node with the given properties.
-        /// </example>
-        public override FluentCypher CreateInstance(string label, string paramName = "", string variable = "n")
+        private FluentCypher CreateInstance(string variable, IEnumerable<string> labels, string parameter)
         {
-            if (string.IsNullOrEmpty(paramName))
-            {
-                paramName = $"{variable}_{label}";
-            }
-            return AddStatement($"({variable}:{label} ${paramName})", CypherPhrase.Create);
+            string labelsStr = string.Join(":", labels);
+            return AddStatement($"({variable}:{labelsStr} ${variable}_{parameter})", CypherPhrase.Create);
         }
 
         /// <summary>
         /// Create CREATE instance phrase
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="paramName">Name of the parameter.</param>
-        /// <param name="variable">The variable.</param>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
+        /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
         /// <example>
-        /// CREATE (n:LABEL $map) // Create a node with the given properties.
+        /// CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
         /// </example>
-        public override FluentCypher CreateInstance<T>(string paramName = "", string variable = "n")
+        public override FluentCypher CreateInstance(string variable, string label, params string[] additionalLabels)
+        {
+            return CreateInstance(variable, label.ToYield(additionalLabels), label);
+        }
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="labelFormat">The label formatting strategy.</param>
+        /// <param name="additionalLabels">Additional labels.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// </example>
+        public override FluentCypher CreateInstance<T>(
+            string variable,
+            params string[] additionalLabels)
         {
             string label = typeof(T).Name;
-            return CreateInstance(label, paramName, variable);
+            return CreateInstance(variable, label.ToYield(additionalLabels), label);
         }
+
+        /// <summary>
+        /// Create CREATE instance phrase
+        /// </summary>
+        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="labelFormat">The label formatting strategy.</param>
+        /// <param name="additionalLabels">Additional labels.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// </example>
+        public override FluentCypher CreateInstance<T>(
+            string variable,
+            CypherNamingConvention labelFormat,
+            params string[] additionalLabels)
+        {
+            string label = typeof(T).Name;
+            string formattedLabel = Format(label, labelFormat);
+            return CreateInstance(variable, formattedLabel.ToYield(additionalLabels), label);
+        }
+
 
         #endregion // CreateInstance
 

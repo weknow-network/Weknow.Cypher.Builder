@@ -300,72 +300,96 @@ namespace Weknow.UnitTests
         [Fact]
         public void CreateInstance_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance("Foo", "foo","x");
+                            .CreateInstance("x", "Foo");
 
-            string expected = "CREATE (x:Foo $foo)";
+            string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // CreateInstance_Test
 
-        #region CreateInstance_NoVar_Test
+        #region CreateInstance_AdditionalLabels_Test
 
         [Fact]
-        public void CreateInstance_NoVar_Test()
+        public void CreateInstance_AdditionalLabels_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance("Foo", "foo");
+                            .CreateInstance("x", "Foo", "ENV", "TENANT");
 
-            string expected = "CREATE (n:Foo $foo)";
+            string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_NoVar_Test
-
-        #region CreateInstance_OnlyLabel_Test
-
-        [Fact]
-        public void CreateInstance_OnlyLabel_Test()
-        {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
-            string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .CreateInstance("Foo");
-
-            string expected = "CREATE (n:Foo $n_Foo)";
-            _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
-        }
-
-        #endregion // CreateInstance_OnlyLabel_Test
+        #endregion // CreateInstance_AdditionalLabels_Test
 
         #region CreateInstance_OfT_Test
 
         [Fact]
         public void CreateInstance_OfT_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance<Foo>("foo","x");
+                            .CreateInstance<Foo>("x");
 
-            string expected = "CREATE (x:Foo $foo)";
+            string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // CreateInstance_OfT_Test
+
+        #region CreateInstance_OfT_Format_Test
+
+        [Fact]
+        public void CreateInstance_OfT_Format_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance<Foo>("x", CypherNamingConvention.SCREAMING_CASE);
+
+            string expected = "CREATE (x:FOO $x_Foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_Format_AdditionLabel_Test
+
+        #region CreateInstance_OfT_Format_Test
+
+        [Fact]
+        public void CreateInstance_OfT_AdditionLabels_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance<Foo>("x", "ENV", "TENANT");
+
+            string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_AdditionLabels_Test
+
+        #region CreateInstance_OfT_Format_AdditionLabel_Test
+
+        [Fact]
+        public void CreateInstance_OfT_Format_AdditionLabel_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .CreateInstance<Foo>("x", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
+
+            string expected = "CREATE (x:FOO:ENV:TENANT $x_Foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_Format_AdditionLabel_Test
 
     }
 }

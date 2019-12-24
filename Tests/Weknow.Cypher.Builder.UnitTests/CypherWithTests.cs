@@ -55,5 +55,101 @@ namespace Weknow.UnitTests
         }
 
         #endregion // With_Test
+
+        #region With_Create_Match_Test
+
+        [Fact]
+        public void With_Create_Match_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypher = CypherBuilder.Default
+                            .Create("(a:ACTOR)")
+                            .Set("a", "ConcurrencyVersion")
+                            .Match("(movie:MOVIE { Id = $Id })");
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (a:ACTOR) " +
+                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "WITH * " +
+                "MATCH (movie:MOVIE { Id = $Id })",
+                cypher.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // With_Create_Match_Test
+
+        #region With_Merge_Match_Test
+
+        [Fact]
+        public void With_Merge_Match_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypher = CypherBuilder.Default
+                            .Merge("(a:ACTOR)")
+                            .Set("a", "ConcurrencyVersion")
+                            .Match("(movie:MOVIE { Id = $Id })");
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (a:ACTOR) " +
+                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "WITH * " +
+                "MATCH (movie:MOVIE { Id = $Id })",
+                cypher.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // With_Merge_Match_Test
+
+        #region With_Create_Unwind_Test
+
+        [Fact]
+        public void With_Create_Unwind_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypher = CypherBuilder.Default
+                            .Create("(a:ACTOR)")
+                            .Set("a", "ConcurrencyVersion")
+                            .Unwind("$Movies", "mv")
+                            .Match("(movie:MOVIE { Id = mv })");
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (a:ACTOR) " +
+                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "WITH * " +
+                "UNWIND $Movies AS mv " +
+                "MATCH (movie:MOVIE { Id = mv })",
+                cypher.ToCypher(CypherFormat.SingleLine)); 
+        }
+
+        #endregion // With_Create_Unwind_Test
+
+        #region With_Merge_Match_Test
+
+        [Fact]
+        public void With_Merge_Unwind_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypher = CypherBuilder.Default
+                            .Merge("(a:ACTOR)")
+                            .Set("a", "ConcurrencyVersion")
+                            .Unwind("$Movies", "mv")
+                            .Match("(movie:MOVIE { Id = mv })");
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (a:ACTOR) " +
+                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "WITH * " +
+                "UNWIND $Movies AS mv " +
+                "MATCH (movie:MOVIE { Id = mv })",
+                cypher.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // With_Merge_Unwind_Test
     }
 }
