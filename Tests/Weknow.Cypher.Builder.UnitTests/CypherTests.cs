@@ -163,9 +163,27 @@ namespace Weknow.UnitTests
 
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal("MATCH (n:Foo { Id: $Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
-        } 
+        }
 
         #endregion // Match_Props_Test
+
+        #region Match_Return_OrderByDesc_Test
+
+        [Fact]
+        public void Match_Return_OrderByDesc_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            var cypherCommand = CypherBuilder.Default
+                            .Match("(n:Foo)")
+                            .Return("n")
+                            .OrderByDesc("n.Id");
+
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (n:Foo) RETURN n ORDER BY n.Id DESC", cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // Match_Return_OrderByDesc_Test
 
         #region OptionalMatch_Props_Test
 

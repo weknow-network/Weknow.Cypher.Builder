@@ -159,9 +159,12 @@ namespace Weknow.Helpers
                 case CypherPhrase.Set when repeat != 0:
                 case CypherPhrase.Where when repeat != 0:
                     break;
+                case CypherPhrase.OrderByDesc:
+                    builder = builder.Append(CypherPhrase.OrderBy.ToString().ToSCREAMING(' '))
+                                     .Append(SPACE);
+                    break;
                 case CypherPhrase.OnCreate:
                 case CypherPhrase.OnMatch:
-                case CypherPhrase.OrderByDesc:
                 case CypherPhrase.And:
                 case CypherPhrase.Or:
                     builder = builder.Append(current._phrase.ToString().ToSCREAMING(' '));
@@ -173,8 +176,6 @@ namespace Weknow.Helpers
                 case CypherPhrase.ReturnDistinct:
                     builder = builder.Append(current._phrase.ToString().ToSCREAMING(' '))
                                      .Append(SPACE);
-                    break;
-                    builder = builder.Append(CypherPhrase.OrderBy.ToString().ToSCREAMING(' '));
                     break;
                 case CypherPhrase.Count:
                     builder = builder.Append(CypherPhrase.Count.ToString().ToLower());
