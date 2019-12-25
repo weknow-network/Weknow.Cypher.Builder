@@ -90,7 +90,7 @@ namespace Weknow.UnitTests
                             .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (n:Foo { Id: $f_Id, Name: $f_Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_Props_Exp_Test
@@ -234,7 +234,7 @@ namespace Weknow.UnitTests
                             .OnMatch()
                             .SetByConvention<Foo>("f", name => name != nameof(Foo.Id));
 
-            string expected = "MERGE (n:Foo { Id: $Id }) " +
+            string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
                 "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
@@ -261,7 +261,7 @@ namespace Weknow.UnitTests
                                 .Set<Foo>(f => f.Name)
                             .OnMatchSet("f","Name","DateOfBirth");
 
-            string expected = "MERGE (n:Foo { Id: $Id }) " +
+            string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
                 "SET f.Id = $f_Id , f.Name = $f_Name " +
                 "ON MATCH " +
@@ -285,7 +285,7 @@ namespace Weknow.UnitTests
                             .Match($"(a)")
                             .Return("n");
 
-            string expected = "MERGE (n:Foo { Id: $Id }) " +
+            string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "WITH * " +
                 "MATCH (a) " +
                 "RETURN n";
@@ -306,7 +306,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Default
                             .Create($"(n:Foo {props})");
 
-            string expected = "CREATE (n:Foo { Id: $Id })";
+            string expected = "CREATE (n:Foo { Id: $f_Id })";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }

@@ -63,7 +63,7 @@ namespace Weknow.UnitTests
                             .Merge($"(f:Foo {props})")
                                .SetByConvention<Foo>("f", n => n != "Id");
 
-            string expected = "MERGE (f:Foo { Id: $Id }) " +
+            string expected = "MERGE (f:Foo { Id: $f_Id }) " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
@@ -83,7 +83,7 @@ namespace Weknow.UnitTests
                             .Merge($"(f:Foo {props})")
                                .SetAll<Foo>("f", f => f.Id);
 
-            string expected = "MERGE (f:Foo { Id: $Id }) " +
+            string expected = "MERGE (f:Foo { Id: $f_Id }) " +
                 "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
@@ -103,7 +103,7 @@ namespace Weknow.UnitTests
                             .Merge($"(f:Foo {props})")
                                .SetLabel("f", "NewLabel");
 
-            string expected = "MERGE (f:Foo { Id: $Id }) " +
+            string expected = "MERGE (f:Foo { Id: $f_Id }) " +
                 "SET f:NewLabel";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
