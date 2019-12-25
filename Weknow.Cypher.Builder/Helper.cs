@@ -158,6 +158,8 @@ namespace Weknow.Helpers
                 case CypherPhrase.Dynamic:
                 case CypherPhrase.Set when repeat != 0:
                 case CypherPhrase.Where when repeat != 0:
+                case CypherPhrase.Return when repeat != 0:
+                case CypherPhrase.With when repeat != 0:
                     break;
                 case CypherPhrase.OrderByDesc:
                     builder = builder.Append(CypherPhrase.OrderBy.ToString().ToSCREAMING(' '))

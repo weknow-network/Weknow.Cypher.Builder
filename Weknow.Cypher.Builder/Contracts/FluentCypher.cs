@@ -35,7 +35,7 @@ using static Weknow.Helpers.Helper;
 
 namespace Weknow
 {
-    // [DebuggerDisplay("{_cypher}")]
+    [DebuggerTypeProxy(typeof(FluentCypherDebugView))]
     public abstract class FluentCypher :
         IEnumerable<FluentCypher>
     {
@@ -253,7 +253,7 @@ namespace Weknow
             CypherPhrase phrase = current._phrase;
             FluentCypher? previous = current._previous;
             int i = 0;
-            while (previous != null || i == BREAK_LINE_ON)
+            while (previous != null && i < BREAK_LINE_ON)
             {
                 CypherPhrase prevPhrase = previous._phrase;
 
@@ -1120,5 +1120,20 @@ namespace Weknow
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<FluentCypher>)this).GetEnumerator();
 
         #endregion // IEnumerable
+
+        #region FluentCypherDebugView
+
+        private class FluentCypherDebugView
+        {
+            public FluentCypherDebugView(FluentCypher instance)
+            {
+                Cypher = instance.ToCypher(CypherFormat.MultiLineDense);
+            }
+
+            //[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+            public string Cypher { get; }
+        } 
+
+        #endregion // FluentCypherDebugView
     }
 }
