@@ -666,6 +666,23 @@ namespace Weknow
         public override FluentCypherReturn Return(string statement) =>
                             AddStatement(statement, CypherPhrase.Return);
 
+        /// <summary>
+        /// Create RETURN phrase.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .Return<Foo>(f => f.Name)
+        /// RETURN f.Name
+        /// </example>
+        public override FluentCypherReturn Return<T>(Expression<Func<T, dynamic>> expression)
+        {
+            var (variable, name) = ExtractLambdaExpression(expression);
+            return Return($"{variable}.{name}");
+        }
+
+
         #endregion // Return
 
         #region ReturnDistinct 
@@ -680,6 +697,22 @@ namespace Weknow
         /// </example>
         public override FluentCypherReturn ReturnDistinct(string statement) =>
                             AddStatement(statement, CypherPhrase.ReturnDistinct);
+
+        /// <summary>
+        /// Create RETURN DISTINCT phrase.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .ReturnDistinct<Foo>(f => f.Name)
+        /// RETURN DISTINCT f.Name
+        /// </example>
+        public override FluentCypherReturn ReturnDistinct<T>(Expression<Func<T, dynamic>> expression)
+        {
+            var (variable, name) = ExtractLambdaExpression(expression);
+            return ReturnDistinct($"{variable}.{name}");
+        }
 
         #endregion // ReturnDistinct
 

@@ -965,6 +965,18 @@ namespace Weknow
         /// <returns></returns>
         public abstract FluentCypherReturn Return();
 
+        /// <summary>
+        /// Create RETURN phrase.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .Return<Foo>(f => f.Name)
+        /// RETURN f.Name
+        /// </example>
+        public abstract FluentCypherReturn Return<T>(Expression<Func<T, dynamic>> expression);
+
         #endregion // Return
 
         #region ReturnDistinct 
@@ -978,6 +990,18 @@ namespace Weknow
         /// RETURN DISTINCT n // Return unique rows.
         /// </example>
         public abstract FluentCypherReturn ReturnDistinct(string statement);
+
+        /// <summary>
+        /// Create RETURN DISTINCT phrase.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .ReturnDistinct<Foo>(f => f.Name)
+        /// RETURN DISTINCT f.Name
+        /// </example>
+        public abstract FluentCypherReturn ReturnDistinct<T>(Expression<Func<T, dynamic>> expression);
 
         #endregion // ReturnDistinct
 
