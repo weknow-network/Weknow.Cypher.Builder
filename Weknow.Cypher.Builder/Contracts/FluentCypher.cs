@@ -45,6 +45,9 @@ namespace Weknow
         //private static readonly Regex TrimX = new Regex(@"\s+");
         protected readonly FluentCypher? _previous;
         protected internal readonly string _cypher = string.Empty;
+        protected internal readonly string _cypherClose = string.Empty;
+        protected internal readonly IEnumerable<FluentCypher> _children = Array.Empty<FluentCypher>();
+        protected internal readonly string _childrenSeperator = SPACE;
         protected internal readonly CypherPhrase _phrase;
         protected IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
 
@@ -56,19 +59,28 @@ namespace Weknow
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FluentCypher"/> class.
+        /// Initializes a new instance of the <see cref="FluentCypher" /> class.
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
         /// <param name="cypher">The cypher.</param>
         /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The delegated.</param>
+        /// <param name="childrenSeparator">The children separator  (space if empty).</param>
         private protected FluentCypher(
-            FluentCypher copyFrom,
+            FluentCypher? copyFrom,
             string cypher,
-            CypherPhrase phrase)
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
         {
-            this._previous = copyFrom;
-            this._cypher = cypher;
-            this._phrase = phrase;
+            _previous = copyFrom;
+            _cypher = cypher;
+            _phrase = phrase;
+            _cypherClose = cypherClose ?? string.Empty;
+            _children = children ?? Array.Empty<FluentCypher>();
+            _childrenSeperator = childrenSeparator ?? SPACE;
         }
 
         #endregion // Ctor
@@ -94,22 +106,13 @@ namespace Weknow
             if (_cache.TryGetValue(cypherFormat, out string cypher))
                 return cypher;
 
-            IEnumerable<FluentCypher> self = this;
+            IEnumerable<FluentCypher> forward = this;
+            IEnumerable<FluentCypher> backward = ReverseEnumerable();
             StringBuilder sb = _stringBuilderPool.Get();
             try
             {
-                sb = self.Aggregate(sb, (acc, current) =>
-                    {
-                        int repeat = RepeatCount(current);
-                        return cypherFormat switch
-                        {
-                            CypherFormat.MultiLineDense => FormatMultiLineDense(current, sb, repeat)
-                                                                       .FormatStatement(current, repeat),
-                            CypherFormat.MultiLine => FormatMultiLine(current, sb)
-                                                                       .FormatStatement(current, repeat),
-                            _ => FormatSingleLine(current, sb).FormatStatement(current, repeat)
-                        };
-                    });
+                sb = forward.Aggregate(sb, (acc, current) => AccumulateForward(acc, current, cypherFormat)); // tag or open tag
+                sb = backward.Aggregate(sb, (acc, current) => AccumulateBackward(acc, current, cypherFormat)); // close tag
                 cypher = sb.ToString();
                 _cache = _cache.Add(cypherFormat, cypher);
             }
@@ -125,6 +128,67 @@ namespace Weknow
 
         #endregion // GenerateCypher
 
+        #region AccumulateForward
+
+        /// <summary>
+        /// Accumulates function for aggregation - used fromGenerateCypher .
+        /// </summary>
+        /// <param name="sb">The sb.</param>
+        /// <param name="current">The current.</param>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
+        private static StringBuilder AccumulateForward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
+        {
+
+            int repeat = RepeatCount(current);
+            sb = cypherFormat switch
+            {
+                CypherFormat.MultiLineDense => FormatMultiLineDense(current, sb, repeat)
+                                                           .FormatStatement(current, repeat),
+                CypherFormat.MultiLine => FormatMultiLine(current, sb)
+                                                           .FormatStatement(current, repeat),
+                _ => FormatSingleLine(current, sb).FormatStatement(current, repeat)
+            };
+
+
+            FluentCypher? firstChild = current._children.FirstOrDefault();
+            if (firstChild != null)
+            {
+                    sb = AccumulateForward(sb, firstChild, cypherFormat);
+
+                foreach (FluentCypher child in current._children.Skip(1))
+                {
+                    sb.Append(current._childrenSeperator);
+                    sb = AccumulateForward(sb, child, cypherFormat);
+                    sb = AccumulateBackward(sb, child, cypherFormat);
+                    if (cypherFormat != CypherFormat.SingleLine)
+                        sb.Append(Environment.NewLine);
+                }
+            }
+
+            return sb;
+        }
+
+        #endregion // AccumulateForward
+
+        #region AccumulateBackward
+
+        /// <summary>
+        /// Accumulates function for aggregation - used fromGenerateCypher .
+        /// </summary>
+        /// <param name="sb">The sb.</param>
+        /// <param name="current">The current.</param>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
+        private static StringBuilder AccumulateBackward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
+        {
+            return sb.Append(current._cypherClose);
+        }
+
+        #endregion // AccumulateBackward
+
         #region FormatSingleLine
 
         /// <summary>
@@ -132,12 +196,13 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="sb">The sb.</param>
-        private StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
+        private static StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
         {
             if (sb.Length == 0)
                 return sb;
             sb = FormatConnectionPhrase(current, sb);
-            sb = sb.Append(SPACE);
+            if(sb[sb.Length -1] != SPACE[0])
+                sb = sb.Append(SPACE);
             return sb;
         }
 
@@ -150,7 +215,7 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="sb">The sb.</param>
-        private StringBuilder FormatMultiLine(FluentCypher current, StringBuilder sb)
+        private static StringBuilder FormatMultiLine(FluentCypher current, StringBuilder sb)
         {
             if (sb.Length == 0)
                 return sb;
@@ -169,7 +234,8 @@ namespace Weknow
                 case CypherPhrase.And:
                 case CypherPhrase.Or:
                 case CypherPhrase.Count:
-                    sb = sb.Append(SPACE);
+                    if (sb[sb.Length - 1] != SPACE[0])
+                        sb = sb.Append(SPACE);
                     break;
                 default:
                     sb = sb.Append(LINE_SEPERATOR);
@@ -189,7 +255,7 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="sb">The sb.</param>
-        private StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
+        private static StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
         {
             if (sb.Length == 0)
                 return sb;
@@ -212,7 +278,7 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="sb"></param>
-        private StringBuilder FormatConnectionPhrase(FluentCypher current, StringBuilder sb)
+        private static StringBuilder FormatConnectionPhrase(FluentCypher current, StringBuilder sb)
         {
             FluentCypher? previous = current._previous;
             if (previous == null)
@@ -248,7 +314,7 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <returns></returns>
-        private int RepeatCount(FluentCypher current)
+        private static int RepeatCount(FluentCypher current)
         {
             CypherPhrase phrase = current._phrase;
             FluentCypher? previous = current._previous;
@@ -414,7 +480,7 @@ namespace Weknow
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
         /// </example>
         public abstract FluentCypher CreateInstance<T>(
-            string variable, 
+            string variable,
             params string[] additionalLabels);
 
         /// <summary>
@@ -429,8 +495,8 @@ namespace Weknow
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
         /// </example>
         public abstract FluentCypher CreateInstance<T>(
-            string variable, 
-            CypherNamingConvention labelFormat, 
+            string variable,
+            CypherNamingConvention labelFormat,
             params string[] additionalLabels);
 
 
@@ -1064,6 +1130,70 @@ namespace Weknow
 
         #endregion // Call 
 
+        #region Composite
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="childrenExpression">The delegate expression.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public abstract FluentCypher Composite(
+            Func<FluentCypher, FluentCypher> childrenExpression,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null);
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="moreChildren">The more children.</param>
+        /// <returns></returns>
+        public abstract FluentCypher Composite(
+            FluentCypher child,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null,
+            string? childrenSeparator = null,
+            params FluentCypher[] moreChildren);
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="moreChildren">The more children.</param>
+        /// <returns></returns>
+        public abstract FluentCypher Composite(
+            FluentCypher child,
+            string childrenSeparator,
+            params FluentCypher[] moreChildren);
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="children">The delegated.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public abstract FluentCypher Composite(
+            IEnumerable<FluentCypher> children,
+            string? childrenSeparator = null,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null);
+
+        #endregion // Composite
+
         #endregion // Cypher Operators
 
         #region Cast Overloads
@@ -1110,7 +1240,7 @@ namespace Weknow
                     yield return prev;
                 }
             }
-        } 
+        }
 
         #endregion // ReverseEnumerable
 
@@ -1156,7 +1286,7 @@ namespace Weknow
 
             //[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
             public string Cypher { get; }
-        } 
+        }
 
         #endregion // FluentCypherDebugView
     }

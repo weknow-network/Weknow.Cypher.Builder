@@ -53,6 +53,28 @@ namespace Weknow
             /// <example>coalesce(n.property, $defaultValue)</example>
             public static FluentCypher Coalesce(string first, string second, params string[] more) => CypherBuilder.Default.Add($"coalesce({string.Join(", ", first.ToYield(second, more))})");
 
+            /// <summary>
+            /// Coalesces The first non-null expression.
+            /// </summary>
+            /// <param name="contentExpression"></param>
+            /// <returns></returns>
+            /// <example>coalesce(n.property, $defaultValue)</example>
+            public static FluentCypher Coalesce(Func<FluentCypher, FluentCypher> contentExpression)
+            {
+                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.None, "coalesce(", ")");
+            }
+
+            /// <summary>
+            /// Coalesces The first non-null expression.
+            /// </summary>
+            /// <param name="content">The delegated.</param>
+            /// <returns></returns>
+            /// <example>coalesce(n.property, $defaultValue)</example>
+            public static FluentCypher Coalesce(FluentCypher content)
+            {
+                return CypherBuilder.Default.Composite(content, CypherPhrase.None, "coalesce(", ")");
+            }
+
             #endregion // Coalesce
 
             #region Timestamp

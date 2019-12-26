@@ -31,6 +31,19 @@ namespace Weknow.UnitTests
             Assert.Equal("coalesce(a, $b, c)", cypher);
         }
 
+        [Fact]
+        public void Coalesce_Composite_Test()
+        {
+            var cypher = F.Coalesce(m =>
+                                m.Composite(
+                                    L.Reduce("s", "''", "x", "listA", "s + x.prop"),
+                                    ",",
+                                    L.Reduce("s", "''", "x", "listB", "s + x.prop")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("coalesce( reduce(s = '', x IN listA | s + x.prop), reduce(s = '', x IN listB | s + x.prop))", cypher.ToCypher(CypherFormat.SingleLine));
+        }
+
         #endregion // Coalesce_Test
 
         #region Labels_Test

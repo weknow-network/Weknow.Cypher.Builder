@@ -175,6 +175,14 @@ namespace Weknow.UnitTests
         }
 
         [Fact]
+        public void Collect_Partial_Test()
+        {
+            string result = A.Collect("f.Name", "names");
+            _outputHelper.WriteLine(result);
+            Assert.Equal("collect(f.Name) AS names", result);
+        }
+
+        [Fact]
         public void CollectExp_Test()
         {
             string result = A.Collect<Foo>(f => f.Name);

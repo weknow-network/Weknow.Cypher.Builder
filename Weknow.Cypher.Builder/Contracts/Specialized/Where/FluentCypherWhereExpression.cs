@@ -4,6 +4,8 @@
 // https://neo4jmapper.tk/guide.html
 // https://github.com/barnardos-au/Neo4jMapper
 
+using System.Collections.Generic;
+
 namespace Weknow
 {
 
@@ -20,8 +22,14 @@ namespace Weknow
 
         }
 
-        private protected FluentCypherWhereExpression(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
-            : base(copyFrom, cypher, phrase)
+        private protected FluentCypherWhereExpression(
+            FluentCypher? copyFrom,
+            string cypher,
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
 

@@ -7,6 +7,8 @@
 
 // https://neo4j.com/docs/cypher-manual/3.5/syntax/operators/
 
+using System.Collections.Generic;
+
 namespace Weknow
 {
 
@@ -19,8 +21,14 @@ namespace Weknow
 
         }
 
-        private protected FluentCypherReturn(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
-            : base(copyFrom, cypher, phrase)
+        private protected FluentCypherReturn(
+            FluentCypher? copyFrom,
+            string cypher,
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
 

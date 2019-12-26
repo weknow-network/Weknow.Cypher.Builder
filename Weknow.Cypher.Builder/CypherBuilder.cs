@@ -58,11 +58,24 @@ namespace Weknow
         }
 
 
-        private protected CypherBuilder(
-            CypherBuilder copyFrom,
+        internal protected CypherBuilder(
             string cypher,
-            CypherPhrase phrase)
-            : base(copyFrom, cypher, phrase)
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
+            : base(null, cypher, phrase, cypherClose, children, childrenSeparator)
+        {
+        }
+
+        private protected CypherBuilder(
+            FluentCypher? copyFrom,
+            string cypher,
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
 
@@ -80,7 +93,7 @@ namespace Weknow
             CypherPhrase.Merge => true,
             CypherPhrase.Create => true,
             _ => false
-        }; 
+        };
 
         #endregion // IsWithCause
 
@@ -96,7 +109,7 @@ namespace Weknow
             CypherPhrase.Match => true,
             CypherPhrase.Unwind => true,
             _ => false
-        }; 
+        };
 
         #endregion // IsWithCandidate
 
@@ -130,7 +143,7 @@ namespace Weknow
                 hasPrevMerge = this.ReverseEnumerable()
                 .TakeWhile(m => m._phrase != CypherPhrase.With)
                 .Any(m => IsWithCause(m._phrase));
-            } 
+            }
 
             #endregion // bool hasPrevMerge = ...
 
@@ -899,7 +912,7 @@ namespace Weknow
                 SetInstanceBehavior.Replace => "=",
                 _ => "+=",
             };
-            string statement = string.IsNullOrEmpty(paramName) ? $"{variable} {operand} ${variable}"  : $"{variable} {operand} ${variable}_{paramName}";
+            string statement = string.IsNullOrEmpty(paramName) ? $"{variable} {operand} ${variable}" : $"{variable} {operand} ${variable}_{paramName}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -1010,7 +1023,7 @@ namespace Weknow
             params string[] moreNames)
         {
             FluentCypher self = this;
-            return self.Where(variable,  name.ToYield(moreNames));
+            return self.Where(variable, name.ToYield(moreNames));
         }
 
 
@@ -1281,6 +1294,84 @@ namespace Weknow
                          AddStatement("(*)", CypherPhrase.Count);
 
         #endregion // Count
+
+        #region Composite
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="delegateExpression">The delegate expression.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public override FluentCypher Composite(
+            Func<FluentCypher, FluentCypher> delegateExpression,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null)
+        {
+            FluentCypher delegated = delegateExpression(Default);
+            return Composite(delegated, phrase, openCypher, closeCypher);
+        }
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="moreChildren">The more children.</param>
+        /// <returns></returns>
+        public override FluentCypher Composite(
+            FluentCypher child,
+            string childrenSeparator,
+            params FluentCypher[] moreChildren)
+        {
+            return Composite(child, CypherPhrase.None, string.Empty, string.Empty, childrenSeparator, moreChildren);
+        }
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="moreChildren">The more children.</param>
+        /// <returns></returns>
+        public override FluentCypher Composite(
+            FluentCypher child,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null,
+            string? childrenSeparator = null,
+            params FluentCypher[] moreChildren)
+        {
+            return Composite(child.ToYield(moreChildren), childrenSeparator, phrase, openCypher, closeCypher);
+        }
+
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="children">The delegated.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public override FluentCypher Composite(
+            IEnumerable<FluentCypher> children,
+            string? childrenSeparator = null,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null)
+        {
+            return new CypherBuilder(this, openCypher ?? string.Empty, phrase, closeCypher, children, childrenSeparator);
+        }
+
+        #endregion // Composite
 
         #endregion // Cypher Operators
 

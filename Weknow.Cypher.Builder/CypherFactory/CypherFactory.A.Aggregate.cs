@@ -80,7 +80,15 @@ namespace Weknow
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
             /// <example>collect(n.property)</example>
-            public static FluentCypher Collect(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"collect({expression})")); 
+            public static FluentCypher Collect(string expression) => CypherBuilder.Default.Add(CypherBuilder.Default.Add($"collect({expression})"));
+
+            /// <summary>
+            /// Collect list from the values, ignores null.
+            /// </summary>
+            /// <param name="expression">The expression.</param>
+            /// <returns></returns>
+            /// <example>collect(n.property)</example>
+            public static FluentCypher Collect(string variable, string asName) => new CypherBuilder($"collect({variable}", CypherPhrase.None, $") AS {asName}");
 
             /// <summary>
             /// Collect list from the values, ignores null.

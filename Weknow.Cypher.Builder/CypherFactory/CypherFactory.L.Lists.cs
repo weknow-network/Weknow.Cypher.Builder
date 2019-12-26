@@ -96,7 +96,60 @@ namespace Weknow
 
             #endregion // Tail
 
-            // TODO: IN, extract, filter, reduce
+            /// <summary>
+            /// Evaluate expression for each element in the list, accumulate the results.
+            /// </summary>
+            /// <param name="statement">The statement.</param>
+            /// <returns></returns>
+            /// <example>
+            /// reduce(s = "", x IN list | s + x.prop)
+            /// </example>
+            public static FluentCypher Reduce(string statement) => CypherBuilder.Default.Add($"reduce({statement})");
+
+            /// <summary>
+            /// Evaluate expression for each element in the list, accumulate the results.
+            /// </summary>
+            /// <param name="accumulatorVariable">The variable of the accumulator.</param>
+            /// <param name="initValue">The initialize value.</param>
+            /// <param name="list">The list.</param>
+            /// <param name="item">The item.</param>
+            /// <param name="expression">The expression.</param>
+            /// <returns></returns>
+            /// <example>
+            /// Reduce("s", "''", "list", "x", "s + x.prop")
+            /// reduce(s = "", x IN list | s + x.prop)
+            /// </example>
+            public static FluentCypher Reduce(string accumulatorVariable, string initValue, string item,  string list, string expression) =>
+                Reduce($"{accumulatorVariable} = {initValue}, {item} IN {list} | {expression}");
+
+            /// <summary>
+            /// Evaluate expression for each element in the list, accumulate the results.
+            /// </summary>
+            /// <param name="contentExpression"></param>
+            /// <returns></returns>
+            /// <example>
+            /// reduce(s = "", x IN list | s + x.prop)
+            /// </example>
+            public static FluentCypher Reduce(Func<FluentCypher, FluentCypher> contentExpression)
+            {
+                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.None, "reduce(", ")");
+            }
+
+            /// <summary>
+            /// Evaluate expression for each element in the list, accumulate the results.
+            /// </summary>
+            /// <param name="content">The delegated.</param>
+            /// <returns></returns>
+            /// <example>
+            /// reduce(s = "", x IN list | s + x.prop)
+            /// </example>
+            public static FluentCypher Reduce(FluentCypher content)
+            {
+                return CypherBuilder.Default.Composite(content, CypherPhrase.None, "reduce(", ")");
+            }
+
+
+            // TODO:  reduce, [x IN xs WHERE predicate | extraction]
         }
     }
 }
