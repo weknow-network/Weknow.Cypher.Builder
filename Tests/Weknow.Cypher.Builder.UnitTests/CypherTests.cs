@@ -22,22 +22,39 @@ namespace Weknow.UnitTests
 
         #endregion // Ctor
 
-        #region ToString_Test
+        #region Generate_Expression_Test
 
         [Fact]
-        public void ToString_Test()
+        public void Generate_Expression_Test()
         {
             CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
-            FluentCypherWhereExpression cypherCommand = CypherBuilder.Default
-                            .Match("(n:Foo)")
-                            .Where<Foo>(f => f.Name);
+            FluentCypher cypherCommand = 
+                        C.Generate(m => m
+                                .Match("(f:Foo)")
+                                .Where<Foo>(f => f.Name));
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal(cypherCommand.ToCypher(CypherFormat.SingleLine), cypherCommand.ToString());
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $f_Name", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // ToString_Test
+        #endregion // Generate_Expression_Test
+
+        #region Generate_Expression_Test
+
+        [Fact]
+        public void Generate_Test()
+        {
+            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
+
+            FluentCypher cypherCommand = 
+                        C.Generate(L.Head("list"));
+
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("head(list)", cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // Generate_Expression_Test
 
         #region CastToString_Test
 

@@ -80,268 +80,10 @@ namespace Weknow
             _phrase = phrase;
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
-            _childrenSeperator = childrenSeparator ?? SPACE;
+            _childrenSeperator = childrenSeparator ?? copyFrom?._childrenSeperator ?? SPACE;
         }
 
         #endregion // Ctor
-
-        #region ToCypher
-
-        /// <summary>
-        /// Gets the cypher statement.
-        /// </summary>
-        public string ToCypher(CypherFormat cypherFormat = CypherFormat.MultiLineDense) => GenerateCypher(cypherFormat);
-
-        #endregion // ToCypher
-
-        #region GenerateCypher
-
-        /// <summary>
-        /// Generates the cypher.
-        /// </summary>
-        /// <param name="cypherFormat">The cypher format.</param>
-        /// <returns></returns>
-        private string GenerateCypher(CypherFormat cypherFormat)
-        {
-            if (_cache.TryGetValue(cypherFormat, out string cypher))
-                return cypher;
-
-            IEnumerable<FluentCypher> forward = this;
-            IEnumerable<FluentCypher> backward = ReverseEnumerable();
-            StringBuilder sb = _stringBuilderPool.Get();
-            try
-            {
-                sb = forward.Aggregate(sb, (acc, current) => AccumulateForward(acc, current, cypherFormat)); // tag or open tag
-                sb = backward.Aggregate(sb, (acc, current) => AccumulateBackward(acc, current, cypherFormat)); // close tag
-                cypher = sb.ToString();
-                _cache = _cache.Add(cypherFormat, cypher);
-            }
-            finally
-            {
-                sb.Clear();
-                _stringBuilderPool.Return(sb);
-
-            }
-
-            return cypher;
-        }
-
-        #endregion // GenerateCypher
-
-        #region AccumulateForward
-
-        /// <summary>
-        /// Accumulates function for aggregation - used fromGenerateCypher .
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="current">The current.</param>
-        /// <param name="cypherFormat">The cypher format.</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
-        private static StringBuilder AccumulateForward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
-        {
-
-            int repeat = RepeatCount(current);
-            sb = cypherFormat switch
-            {
-                CypherFormat.MultiLineDense => FormatMultiLineDense(current, sb, repeat)
-                                                           .FormatStatement(current, repeat),
-                CypherFormat.MultiLine => FormatMultiLine(current, sb)
-                                                           .FormatStatement(current, repeat),
-                _ => FormatSingleLine(current, sb).FormatStatement(current, repeat)
-            };
-
-
-            FluentCypher? firstChild = current._children.FirstOrDefault();
-            if (firstChild != null)
-            {
-                    sb = AccumulateForward(sb, firstChild, cypherFormat);
-
-                foreach (FluentCypher child in current._children.Skip(1))
-                {
-                    sb.Append(current._childrenSeperator);
-                    sb = AccumulateForward(sb, child, cypherFormat);
-                    sb = AccumulateBackward(sb, child, cypherFormat);
-                    if (cypherFormat != CypherFormat.SingleLine)
-                        sb.Append(Environment.NewLine);
-                }
-            }
-
-            return sb;
-        }
-
-        #endregion // AccumulateForward
-
-        #region AccumulateBackward
-
-        /// <summary>
-        /// Accumulates function for aggregation - used fromGenerateCypher .
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="current">The current.</param>
-        /// <param name="cypherFormat">The cypher format.</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
-        private static StringBuilder AccumulateBackward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
-        {
-            return sb.Append(current._cypherClose);
-        }
-
-        #endregion // AccumulateBackward
-
-        #region FormatSingleLine
-
-        /// <summary>
-        /// Formats the single line.
-        /// </summary>
-        /// <param name="current">The current.</param>
-        /// <param name="sb">The sb.</param>
-        private static StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
-        {
-            if (sb.Length == 0)
-                return sb;
-            sb = FormatConnectionPhrase(current, sb);
-            if(sb[sb.Length -1] != SPACE[0])
-                sb = sb.Append(SPACE);
-            return sb;
-        }
-
-        #endregion // FormatSingleLine
-
-        #region FormatMultiLine
-
-        /// <summary>
-        /// Formats the multi line.
-        /// </summary>
-        /// <param name="current">The current.</param>
-        /// <param name="sb">The sb.</param>
-        private static StringBuilder FormatMultiLine(FluentCypher current, StringBuilder sb)
-        {
-            if (sb.Length == 0)
-                return sb;
-            switch (current._phrase)
-            {
-                case CypherPhrase.Where:
-                case CypherPhrase.Set:
-                    sb = sb.Append(LINE_SEPERATOR);
-                    sb = sb.Append(INDENT);
-                    break;
-                case CypherPhrase.OnMatch:
-                case CypherPhrase.OnCreate:
-                    sb = sb.Append(LINE_SEPERATOR);
-                    sb = sb.Append(HALF_INDENT);
-                    break;
-                case CypherPhrase.And:
-                case CypherPhrase.Or:
-                case CypherPhrase.Count:
-                    if (sb[sb.Length - 1] != SPACE[0])
-                        sb = sb.Append(SPACE);
-                    break;
-                default:
-                    sb = sb.Append(LINE_SEPERATOR);
-                    break;
-            }
-
-            sb = FormatConnectionPhrase(current, sb);
-            return sb;
-        }
-
-        #endregion // FormatMultiLine
-
-        #region FormatMultiLineDense
-
-        /// <summary>
-        /// Formats the multi line dense.
-        /// </summary>
-        /// <param name="current">The current.</param>
-        /// <param name="sb">The sb.</param>
-        private static StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
-        {
-            if (sb.Length == 0)
-                return sb;
-            if (repeat == 0 || repeat % BREAK_LINE_ON == 0)
-            {
-                sb = FormatMultiLine(current, sb);
-                return sb;
-            }
-
-            sb = FormatSingleLine(current, sb);
-            return sb;
-        }
-
-        #endregion // FormatMultiLineDense
-
-        #region FormatConnectionPhrase
-
-        /// <summary>
-        /// Formats the connection phrase.
-        /// </summary>
-        /// <param name="current">The current.</param>
-        /// <param name="sb"></param>
-        private static StringBuilder FormatConnectionPhrase(FluentCypher current, StringBuilder sb)
-        {
-            FluentCypher? previous = current._previous;
-            if (previous == null)
-                return sb;
-            CypherPhrase curPhrase = current._phrase;
-            CypherPhrase prevPhrase = previous._phrase;
-
-            if (curPhrase == prevPhrase)
-            {
-
-                switch (previous._phrase)
-                {
-                    case CypherPhrase.Set:
-                    case CypherPhrase.Return:
-                    case CypherPhrase.With:
-                    case CypherPhrase.ReturnDistinct:
-                        sb = sb.Append(COMMA);
-                        break;
-                }
-            }
-
-            // TODO: handle CypherFactory methods like count, min, collect, etc...
-
-            return sb;
-        }
-
-        #endregion // FormatConnectionPhrase
-
-        #region RepeatCount
-
-        /// <summary>
-        /// Repeats the count.
-        /// </summary>
-        /// <param name="current">The current.</param>
-        /// <returns></returns>
-        private static int RepeatCount(FluentCypher current)
-        {
-            CypherPhrase phrase = current._phrase;
-            FluentCypher? previous = current._previous;
-            int i = 0;
-            while (previous != null && i < BREAK_LINE_ON)
-            {
-                CypherPhrase prevPhrase = previous._phrase;
-
-                if (prevPhrase == CypherPhrase.Or || prevPhrase == CypherPhrase.And)
-                {
-                    //phrase = previous._phrase;
-                    previous = previous._previous;
-                    continue;
-                }
-
-                if (phrase != prevPhrase)
-                    break;
-
-                i++;
-
-                phrase = previous._phrase;
-                previous = previous._previous;
-            }
-            return i;
-        }
-
-        #endregion // RepeatCount
 
         #region Cypher Operators
 
@@ -1194,7 +936,294 @@ namespace Weknow
 
         #endregion // Composite
 
+        #region As
+
+        /// <summary>
+        /// Create As phrase
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        /// <example>
+        /// collect(list) AS items
+        /// /// </example>
+        public abstract FluentCypher As(string name);
+
+        #endregion // As
+
         #endregion // Cypher Operators
+
+        #region ToCypher
+
+        /// <summary>
+        /// Gets the cypher statement.
+        /// </summary>
+        public string ToCypher(CypherFormat cypherFormat = CypherFormat.MultiLineDense) => GenerateCypher(cypherFormat);
+
+        #endregion // ToCypher
+
+        #region GenerateCypher
+
+        /// <summary>
+        /// Generates the cypher.
+        /// </summary>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        private string GenerateCypher(CypherFormat cypherFormat)
+        {
+            if (_cache.TryGetValue(cypherFormat, out string cypher))
+                return cypher;
+
+            IEnumerable<FluentCypher> forward = this;
+            IEnumerable<FluentCypher> backward = ReverseEnumerable();
+            StringBuilder sb = _stringBuilderPool.Get();
+            try
+            {
+                sb = Aggregate(cypherFormat, forward, backward, sb);
+                cypher = sb.ToString();
+                _cache = _cache.Add(cypherFormat, cypher);
+            }
+            finally
+            {
+                sb.Clear();
+                _stringBuilderPool.Return(sb);
+
+            }
+
+            return cypher;
+        }
+
+        #endregion // GenerateCypher
+
+        #region Aggregate
+
+        private static StringBuilder Aggregate(
+            CypherFormat cypherFormat, 
+            IEnumerable<FluentCypher> forward,
+            IEnumerable<FluentCypher> backward,
+            StringBuilder sb)
+        {
+            sb = forward.Aggregate(sb, (acc, current) => AccumulateForward(acc, current, cypherFormat)); // tag or open tag
+            sb = backward.Aggregate(sb, (acc, current) => AccumulateBackward(acc, current, cypherFormat)); // close tag
+            return sb;
+        }
+
+        #endregion // Aggregate
+
+        #region AccumulateForward
+
+        /// <summary>
+        /// Accumulates function for aggregation - used fromGenerateCypher .
+        /// </summary>
+        /// <param name="sb">The sb.</param>
+        /// <param name="current">The current.</param>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
+        private static StringBuilder AccumulateForward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
+        {
+
+            int repeat = RepeatCount(current);
+            sb = cypherFormat switch
+            {
+                CypherFormat.MultiLineDense => FormatMultiLineDense(current, sb, repeat)
+                                                           .FormatStatement(current, repeat),
+                CypherFormat.MultiLine => FormatMultiLine(current, sb)
+                                                           .FormatStatement(current, repeat),
+                _ => FormatSingleLine(current, sb).FormatStatement(current, repeat)
+            };
+
+
+            FluentCypher? firstChild = current._children.FirstOrDefault();
+            if (firstChild != null)
+            {
+                IEnumerable<FluentCypher> backward = firstChild.ReverseEnumerable();
+                sb = Aggregate(cypherFormat, firstChild, backward, sb);
+
+                foreach (FluentCypher child in current._children.Skip(1))
+                {
+                    sb.Append(current._childrenSeperator);
+                    if (cypherFormat != CypherFormat.SingleLine)
+                        sb.Append(Environment.NewLine);
+                    backward = child.ReverseEnumerable();
+                    sb = Aggregate(cypherFormat, child, backward, sb);
+                }
+            }
+
+            return sb;
+        }
+
+        #endregion // AccumulateForward
+
+        #region AccumulateBackward
+
+        /// <summary>
+        /// Accumulates function for aggregation - used fromGenerateCypher .
+        /// </summary>
+        /// <param name="sb">The sb.</param>
+        /// <param name="current">The current.</param>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
+        private static StringBuilder AccumulateBackward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
+        {
+            return sb.Append(current._cypherClose);
+        }
+
+        #endregion // AccumulateBackward
+
+        #region FormatSingleLine
+
+        /// <summary>
+        /// Formats the single line.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private static StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
+        {
+            if (sb.Length == 0)
+                return sb;
+            sb = FormatConnectionPhrase(current, sb);
+            if(sb[sb.Length -1] != SPACE[0])
+                sb = sb.Append(SPACE);
+            return sb;
+        }
+
+        #endregion // FormatSingleLine
+
+        #region FormatMultiLine
+
+        /// <summary>
+        /// Formats the multi line.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private static StringBuilder FormatMultiLine(FluentCypher current, StringBuilder sb)
+        {
+            if (sb.Length == 0)
+                return sb;
+            switch (current._phrase)
+            {
+                case CypherPhrase.Where:
+                case CypherPhrase.Set:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    sb = sb.Append(INDENT);
+                    break;
+                case CypherPhrase.OnMatch:
+                case CypherPhrase.OnCreate:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    sb = sb.Append(HALF_INDENT);
+                    break;
+                case CypherPhrase.And:
+                case CypherPhrase.Or:
+                case CypherPhrase.Count:
+                    if (sb[sb.Length - 1] != SPACE[0])
+                        sb = sb.Append(SPACE);
+                    break;
+                default:
+                    sb = sb.Append(LINE_SEPERATOR);
+                    break;
+            }
+
+            sb = FormatConnectionPhrase(current, sb);
+            return sb;
+        }
+
+        #endregion // FormatMultiLine
+
+        #region FormatMultiLineDense
+
+        /// <summary>
+        /// Formats the multi line dense.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb">The sb.</param>
+        private static StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
+        {
+            if (sb.Length == 0)
+                return sb;
+            if (repeat == 0 || repeat % BREAK_LINE_ON == 0)
+            {
+                sb = FormatMultiLine(current, sb);
+                return sb;
+            }
+
+            sb = FormatSingleLine(current, sb);
+            return sb;
+        }
+
+        #endregion // FormatMultiLineDense
+
+        #region FormatConnectionPhrase
+
+        /// <summary>
+        /// Formats the connection phrase.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <param name="sb"></param>
+        private static StringBuilder FormatConnectionPhrase(FluentCypher current, StringBuilder sb)
+        {
+            FluentCypher? previous = current._previous;
+            if (previous == null)
+                return sb;
+            CypherPhrase curPhrase = current._phrase;
+            CypherPhrase prevPhrase = previous._phrase;
+
+            if (curPhrase == prevPhrase)
+            {
+
+                switch (previous._phrase)
+                {
+                    case CypherPhrase.Set:
+                    case CypherPhrase.Return:
+                    case CypherPhrase.With:
+                    case CypherPhrase.ReturnDistinct:
+                        sb = sb.Append(COMMA);
+                        break;
+                }
+            }
+
+            // TODO: handle CypherFactory methods like count, min, collect, etc...
+
+            return sb;
+        }
+
+        #endregion // FormatConnectionPhrase
+
+        #region RepeatCount
+
+        /// <summary>
+        /// Repeats the count.
+        /// </summary>
+        /// <param name="current">The current.</param>
+        /// <returns></returns>
+        private static int RepeatCount(FluentCypher current)
+        {
+            CypherPhrase phrase = current._phrase;
+            FluentCypher? previous = current._previous;
+            int i = 0;
+            while (previous != null && i < BREAK_LINE_ON)
+            {
+                CypherPhrase prevPhrase = previous._phrase;
+
+                if (prevPhrase == CypherPhrase.Or || prevPhrase == CypherPhrase.And)
+                {
+                    //phrase = previous._phrase;
+                    previous = previous._previous;
+                    continue;
+                }
+
+                if (phrase != prevPhrase)
+                    break;
+
+                i++;
+
+                phrase = previous._phrase;
+                previous = previous._previous;
+            }
+            return i;
+        }
+
+        #endregion // RepeatCount
 
         #region Cast Overloads
 
@@ -1284,7 +1313,6 @@ namespace Weknow
                 Cypher = instance.ToCypher(CypherFormat.MultiLineDense);
             }
 
-            //[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
             public string Cypher { get; }
         }
 

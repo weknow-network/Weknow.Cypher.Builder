@@ -19,6 +19,26 @@ namespace Weknow
     /// Fluent cypher builder
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
+    public class C : CypherBuilder
+    {
+        private protected C()
+        {
+        }
+
+        protected internal C(string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(cypher, phrase, cypherClose, children, childrenSeparator)
+        {
+        }
+
+
+        private protected C(FluentCypher? copyFrom, string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Fluent cypher builder
+    /// </summary>
+    /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
         FluentCypherWhereExpression
     {
@@ -169,6 +189,69 @@ namespace Weknow
         #endregion // AddStatement
 
         #region Cypher Operators
+
+        #region Generate
+
+        /// <summary>
+        /// Adds a statement (any valid cypher query).
+        /// </summary>
+        /// <param name="statement">The statement.</param>
+        /// <returns></returns>
+        public static FluentCypher Generate(string statement) => Default.Add(statement);
+
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="expression">The delegate expression.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public static FluentCypher Generate(
+            Func<FluentCypher, FluentCypher> expression,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null)
+        {
+            return Default.Composite(expression, phrase, openCypher, closeCypher);
+        }
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="moreChildren">The more children.</param>
+        /// <returns></returns>
+        public static FluentCypher Generate(
+            FluentCypher child,
+            string childrenSeparator,
+            params FluentCypher[] moreChildren)
+        {
+            return Default.Composite(child, childrenSeparator, moreChildren);
+        }
+
+        /// <summary>
+        /// Adds the fluent cypher.
+        /// </summary>
+        /// <param name="children">The delegated.</param>
+        /// <param name="childrenSeparator">The children separator (space if empty).</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="openCypher">The open cypher.</param>
+        /// <param name="closeCypher">The close cypher.</param>
+        /// <returns></returns>
+        public static FluentCypher Generate(
+            IEnumerable<FluentCypher> children,
+            string? childrenSeparator = null,
+            CypherPhrase phrase = CypherPhrase.None,
+            string? openCypher = null,
+            string? closeCypher = null)
+        {
+            return Default.Composite(children, childrenSeparator, phrase, openCypher, closeCypher);
+        }
+
+        #endregion // Generate
 
         #region Add
 
@@ -1281,6 +1364,20 @@ namespace Weknow
 
         #endregion // Limit
 
+        #region As
+
+        /// <summary>
+        /// Create As phrase
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        /// <example>
+        /// collect(list) AS items
+        /// /// </example>
+        public override FluentCypher As(string name) => Add($"AS {name}");
+
+        #endregion // As
+
         #region Count
 
         /// <summary>
@@ -1300,18 +1397,18 @@ namespace Weknow
         /// <summary>
         /// Adds the fluent cypher.
         /// </summary>
-        /// <param name="delegateExpression">The delegate expression.</param>
+        /// <param name="expression">The delegate expression.</param>
         /// <param name="phrase">The phrase.</param>
         /// <param name="openCypher">The open cypher.</param>
         /// <param name="closeCypher">The close cypher.</param>
         /// <returns></returns>
         public override FluentCypher Composite(
-            Func<FluentCypher, FluentCypher> delegateExpression,
+            Func<FluentCypher, FluentCypher> expression,
             CypherPhrase phrase = CypherPhrase.None,
             string? openCypher = null,
             string? closeCypher = null)
         {
-            FluentCypher delegated = delegateExpression(Default);
+            FluentCypher delegated = expression(Default);
             return Composite(delegated, phrase, openCypher, closeCypher);
         }
 

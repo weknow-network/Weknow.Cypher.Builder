@@ -169,9 +169,9 @@ namespace Weknow.UnitTests
         [Fact]
         public void Collect_Test()
         {
-            string result = A.Collect("f.Name");
+            string result = A.Collect("f.Name").As("names");
             _outputHelper.WriteLine(result);
-            Assert.Equal("collect(f.Name)", result);
+            Assert.Equal("collect(f.Name) AS names", result);
         }
 
         [Fact]

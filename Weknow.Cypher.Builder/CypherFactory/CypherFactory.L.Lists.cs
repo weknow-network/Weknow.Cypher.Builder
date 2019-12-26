@@ -24,10 +24,6 @@ namespace Weknow
         /// <summary>
         /// Cypher List Expressions
         /// </summary>
-        public class C : Lists { }
-        /// <summary>
-        /// Cypher List Expressions
-        /// </summary>
         public class Collections : Lists { }
         /// <summary>
         /// Cypher List Expressions
