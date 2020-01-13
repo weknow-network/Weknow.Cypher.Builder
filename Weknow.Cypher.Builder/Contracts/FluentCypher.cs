@@ -532,7 +532,7 @@ namespace Weknow
         /// ]]></example>
         public abstract FluentCypher SetEntity(
             string variable,
-            string paramName = "",
+            string paramName,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         /// <summary>
@@ -550,6 +550,26 @@ namespace Weknow
         /// SET u = $u_UserEntity
         /// ]]></example>
         public abstract FluentCypher SetEntity<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
+
+        /// <summary>
+        /// Set instance.
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// Set<UserEntity>("u")
+        /// SET u = $UserEntity
+        /// ]]></example>
+        public abstract FluentCypher SetEntity<T>(
+            string variable,
+            string parameterPrefix,
+            SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         #endregion // SetEntity
 

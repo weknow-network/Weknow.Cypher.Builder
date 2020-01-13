@@ -955,15 +955,16 @@ namespace Weknow
         /// ]]></example>
         public override FluentCypher SetEntity(
             string variable,
-            string paramName = "",
+            string paramName,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
         {
+ 
             string operand = behavior switch
             {
                 SetInstanceBehavior.Replace => "=",
                 _ => "+=",
             };
-            string statement = string.IsNullOrEmpty(paramName) ? $"{variable} {operand} ${variable}" : $"{variable} {operand} ${variable}_{paramName}";
+            string statement = $"{variable} {operand} ${paramName}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -992,6 +993,38 @@ namespace Weknow
                 _ => "+=",
             };
             string statement = $"{variable} {operand} ${variable}_{typeof(T).Name}";
+            var result = AddStatement(statement, CypherPhrase.Set);
+            return result;
+        }
+
+        /// <summary>
+        /// Set instance.
+        /// Behaviors:
+        /// Replace: This will remove any existing properties.
+        /// Update: update properties, while keeping existing ones.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// Set<UserEntity>("u")
+        /// SET u = $UserEntity
+        /// ]]></example>
+        public override FluentCypher SetEntity<T>(
+            string variable,
+            string parameterPrefix,
+            SetInstanceBehavior behavior = SetInstanceBehavior.Update)
+        {
+            string operand = behavior switch
+            {
+                SetInstanceBehavior.Replace => "=",
+                _ => "+=",
+            };
+            string statement = string.IsNullOrEmpty(parameterPrefix) ?
+                                        $"{variable} {operand} ${typeof(T).Name}" :
+                                        $"{variable} {operand} ${parameterPrefix}_{typeof(T).Name}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -2194,13 +2227,7 @@ namespace Weknow
         {
             if (convention == CypherNamingConvention.Default)
                 convention = _nodeConvention;
-            return convention switch
-            {
-                CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
-                CypherNamingConvention.CamelCase => text.ToCamelCase(),
-                CypherNamingConvention.pacalCase => text.ToCamelCase(),
-                _ => text
-            };
+            return FormatByConvention(text, convention);
         }
 
         /// <summary>
@@ -2218,13 +2245,7 @@ namespace Weknow
             if (convention == CypherNamingConvention.Default)
                 convention = _nodeConvention;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
-            return convention switch
-            {
-                CypherNamingConvention.SCREAMING_CASE => statement.ToSCREAMING(),
-                CypherNamingConvention.CamelCase => statement.ToCamelCase(),
-                CypherNamingConvention.pacalCase => statement.ToCamelCase(),
-                _ => statement
-            };
+            return FormatByConvention(statement, convention);
         }
 
         #endregion // Format

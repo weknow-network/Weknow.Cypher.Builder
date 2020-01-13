@@ -394,12 +394,29 @@ namespace Weknow.UnitTests
                             .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO:DEV $x_map)";
+            string expected = "CREATE (x:FOO $x_map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // CreateInstance_OfT_WithParam_SCREAMING_Test
+
+        #region CreateInstance_OfT_WithParam_SCREAMING_AndPrefix_Test
+
+        [Fact]
+        public void CreateInstance_OfT_WithParam_SCREAMING_AndPrefix_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                            .Entity.CreateNew<Foo>("x", "map", "m");
+
+            string expected = "CREATE (x:FOO $m_map)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_WithParam_SCREAMING_AndPrefix_Test
 
         #region CreateInstance_OfT_Format_Test
 

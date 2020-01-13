@@ -25,8 +25,13 @@ namespace Weknow.CoreIntegrationTests
     public class AdvanceEntityTests : IDisposable
     {
         private readonly ISession _session;
+        private const string TEST_ENV_LABEL = "TEST_ENV";
         private const string LABEL = "N4J_TEST";
         private const string ID = "Id";
+        private readonly FluentCypher _builder = CypherBuilder.Default
+                                    .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                                    .Context.Label.AddFromHere(TEST_ENV_LABEL);
+                
 
         #region Ctor
 
@@ -41,8 +46,10 @@ namespace Weknow.CoreIntegrationTests
 
             try
             {
-                _session.Run($"MATCH (n:{LABEL}) DETACH DELETE n");
-                string cypher = I.CreateUniqueConstraint(LABEL, ID);
+                _session.Run($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n");
+                string cypher = I.CreateUniqueConstraint(LABEL, ID, convention: CypherNamingConvention.SCREAMING_CASE);
+                _session.Run(cypher);
+                cypher = I.CreateUniqueConstraint<Payload>(P => P.Id, CypherNamingConvention.SCREAMING_CASE);
                 _session.Run(cypher);
             }
             catch (Exception)
@@ -73,8 +80,9 @@ namespace Weknow.CoreIntegrationTests
         [Fact]
         public async Task CreateNew_Test()
         {
-            var cypher = CypherBuilder.Default.Entity
-                                    .CreateNew<Payload>("n", "map", LABEL)
+            var cypher = _builder
+                                    .Entity                    
+                                    .CreateNew<Payload>("n", "map")
                                     .Return("n");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
@@ -107,14 +115,16 @@ namespace Weknow.CoreIntegrationTests
         [Fact]
         public async Task CreateIfNotExists_Test()
         {
-            var cypher = CypherBuilder.Default.Entity
-                                    .CreateIfNotExists<Payload>("n", "map", nameof(Payload.Id), LABEL)
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity                            
+                                    .CreateIfNotExists<Payload>("n", "map", nameof(Payload.Id))
                                     .Return("n");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"n_map", payload);
+                         .WithEntity<Payload>($"map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);

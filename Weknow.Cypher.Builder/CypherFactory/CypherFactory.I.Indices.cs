@@ -89,19 +89,55 @@ namespace Weknow
 
             /// <summary>
             /// Create a unique property constraint on the label and property.
-            /// If any other node with that label is updated or 
-            /// created with a name that already exists, 
-            /// the write operation will fail. 
+            /// If any other node with that label is updated or
+            /// created with a name that already exists,
+            /// the write operation will fail.
             /// This constraint will create an accompanying index.
             /// </summary>
             /// <param name="label">The label.</param>
             /// <param name="propertyName">Name of the property.</param>
+            /// <param name="variable">The variable.</param>
+            /// <param name="convention">The convention.</param>
             /// <returns></returns>
+            /// <example><![CDATA[
+            /// I.CreateUniqueConstraint("Foo", "Name")
+            /// Results in:
+            /// CREATE CONSTRAINT ON (n:{Foo}) ASSERT n.Name IS UNIQUE
+            /// ]]></example>
             public static FluentCypher CreateUniqueConstraint(
                 string label,
-                string propertyName)
+                string propertyName,
+                string variable = "n",
+                CypherNamingConvention convention = CypherNamingConvention.Default)
             {
-                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON (n:{label}) ASSERT n.{propertyName} IS UNIQUE");
+                label = FormatByConvention(label, convention);
+                return CypherBuilder.Default.Add($"CREATE CONSTRAINT ON ({variable}:{label}) ASSERT {variable}.{propertyName} IS UNIQUE");
+            }
+
+            /// <summary>
+            /// Create a unique property constraint on the label and property.
+            /// If any other node with that label is updated or
+            /// created with a name that already exists,
+            /// the write operation will fail.
+            /// This constraint will create an accompanying index.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="expression">The expression.</param>
+            /// <param name="convention">The convention.</param>
+            /// <returns></returns>
+            /// <example><![CDATA[
+            /// I.CreateUniqueConstraint<Foo>(f => f.Name)
+            /// Results in:
+            /// CREATE CONSTRAINT ON (f:{Foo}) ASSERT f.Name IS UNIQUE
+            /// ]]></example>
+            public static FluentCypher CreateUniqueConstraint<T>(
+                Expression<Func<T, dynamic>> expression,
+                CypherNamingConvention convention = CypherNamingConvention.Default)
+            {
+                var (variable, property) = ExtractLambdaExpression(expression);
+                string label = FormatByConvention(typeof(T).Name, convention);
+
+                return CreateUniqueConstraint(label, property, variable);
             }
 
             #endregion // CreateUniqueConstraint
@@ -113,12 +149,44 @@ namespace Weknow
             /// </summary>
             /// <param name="label">The label.</param>
             /// <param name="propertyName">Name of the property.</param>
+            /// <param name="variable">The variable.</param>
+            /// <param name="convention">The convention.</param>
             /// <returns></returns>
+            /// <example><![CDATA[
+            /// I.CreateUniqueConstraint("Foo", "Name")
+            /// Results in:
+            /// CREATE CONSTRAINT ON (n:{Foo}) ASSERT n.Name IS UNIQUE
+            /// ]]></example>
             public static FluentCypher DropUniqueConstraint(
                 string label,
-                string propertyName)
+                string propertyName,
+                string variable = "n",
+                CypherNamingConvention convention = CypherNamingConvention.Default)
             {
-                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON (n:{label}) ASSERT n.{propertyName} IS UNIQUE");
+                label = FormatByConvention(label, convention);
+                return CypherBuilder.Default.Add($"DROP CONSTRAINT ON ({variable}:{label}) ASSERT {variable}.{propertyName} IS UNIQUE");
+            }
+
+            /// <summary>
+            /// Drop the unique constraint and index on the label and property.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="expression">The expression.</param>
+            /// <param name="convention">The convention.</param>
+            /// <returns></returns>
+            /// <example><![CDATA[
+            /// I.CreateUniqueConstraint<Foo>(f => f.Name)
+            /// Results in:
+            /// DROP CONSTRAINT ON (f:{Foo}) ASSERT f.Name IS UNIQUE
+            /// ]]></example>
+            public static FluentCypher DropUniqueConstraint<T>(
+                Expression<Func<T, dynamic>> expression,
+                CypherNamingConvention convention = CypherNamingConvention.Default)
+            {
+                var (variable, property) = ExtractLambdaExpression(expression);
+                string label = FormatByConvention(typeof(T).Name, convention);
+
+                return DropUniqueConstraint(label, property, variable);
             }
 
             #endregion // DropUniqueConstraint

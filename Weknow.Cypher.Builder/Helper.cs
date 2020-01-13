@@ -192,5 +192,28 @@ namespace Weknow.Helpers
         }
 
         #endregion // FormatStatement
+
+        #region FormatByConvention
+
+        /// <summary>
+        /// Formats by convention.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="convention">The convention.</param>
+        /// <returns></returns>
+        public static string FormatByConvention(
+                string text,
+                CypherNamingConvention convention)
+        {
+            return convention switch
+            {
+                CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
+                CypherNamingConvention.CamelCase => text.ToCamelCase(),
+                CypherNamingConvention.pacalCase => text.ToCamelCase(),
+                _ => text
+            };
+        }
+
+        #endregion // FormatByConvention
     }
 }

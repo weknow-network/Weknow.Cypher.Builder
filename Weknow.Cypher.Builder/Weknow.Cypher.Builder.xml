@@ -552,6 +552,23 @@
             SET u = $u_UserEntity
             ]]></example>
         </member>
+        <member name="M:Weknow.FluentCypher.SetEntity``1(System.String,System.String,Weknow.SetInstanceBehavior)">
+            <summary>
+            Set instance.
+            Behaviors:
+            Replace: This will remove any existing properties.
+            Update: update properties, while keeping existing ones.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+            <example><![CDATA[
+            Set<UserEntity>("u")
+            SET u = $UserEntity
+            ]]></example>
+        </member>
         <member name="M:Weknow.FluentCypher.SetAll``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
             <summary>
             Set all properties (optional with excludes).
@@ -2138,6 +2155,23 @@
             SET u = $UserEntity
             ]]></example>
         </member>
+        <member name="M:Weknow.CypherBuilder.SetEntity``1(System.String,System.String,Weknow.SetInstanceBehavior)">
+            <summary>
+            Set instance.
+            Behaviors:
+            Replace: This will remove any existing properties.
+            Update: update properties, while keeping existing ones.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+            <example><![CDATA[
+            Set<UserEntity>("u")
+            SET u = $UserEntity
+            ]]></example>
+        </member>
         <member name="M:Weknow.CypherBuilder.SetByConvention``1(System.String,System.Func{System.String,System.Boolean})">
             <summary>
             Compose SET phrase by convention.
@@ -3404,25 +3438,71 @@
             <param name="compositePropertyNames">The composite property names.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherFactory.Indices.CreateUniqueConstraint(System.String,System.String)">
+        <member name="M:Weknow.CypherFactory.Indices.CreateUniqueConstraint(System.String,System.String,System.String,Weknow.CypherNamingConvention)">
             <summary>
             Create a unique property constraint on the label and property.
-            If any other node with that label is updated or 
-            created with a name that already exists, 
-            the write operation will fail. 
+            If any other node with that label is updated or
+            created with a name that already exists,
+            the write operation will fail.
             This constraint will create an accompanying index.
             </summary>
             <param name="label">The label.</param>
             <param name="propertyName">Name of the property.</param>
+            <param name="variable">The variable.</param>
+            <param name="convention">The convention.</param>
             <returns></returns>
+            <example><![CDATA[
+            I.CreateUniqueConstraint("Foo", "Name")
+            Results in:
+            CREATE CONSTRAINT ON (n:{Foo}) ASSERT n.Name IS UNIQUE
+            ]]></example>
         </member>
-        <member name="M:Weknow.CypherFactory.Indices.DropUniqueConstraint(System.String,System.String)">
+        <member name="M:Weknow.CypherFactory.Indices.CreateUniqueConstraint``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},Weknow.CypherNamingConvention)">
+            <summary>
+            Create a unique property constraint on the label and property.
+            If any other node with that label is updated or
+            created with a name that already exists,
+            the write operation will fail.
+            This constraint will create an accompanying index.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expression">The expression.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+            <example><![CDATA[
+            I.CreateUniqueConstraint<Foo>(f => f.Name)
+            Results in:
+            CREATE CONSTRAINT ON (f:{Foo}) ASSERT f.Name IS UNIQUE
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherFactory.Indices.DropUniqueConstraint(System.String,System.String,System.String,Weknow.CypherNamingConvention)">
             <summary>
             Drop the unique constraint and index on the label and property.
             </summary>
             <param name="label">The label.</param>
             <param name="propertyName">Name of the property.</param>
+            <param name="variable">The variable.</param>
+            <param name="convention">The convention.</param>
             <returns></returns>
+            <example><![CDATA[
+            I.CreateUniqueConstraint("Foo", "Name")
+            Results in:
+            CREATE CONSTRAINT ON (n:{Foo}) ASSERT n.Name IS UNIQUE
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherFactory.Indices.DropUniqueConstraint``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},Weknow.CypherNamingConvention)">
+            <summary>
+            Drop the unique constraint and index on the label and property.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expression">The expression.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+            <example><![CDATA[
+            I.CreateUniqueConstraint<Foo>(f => f.Name)
+            Results in:
+            DROP CONSTRAINT ON (f:{Foo}) ASSERT f.Name IS UNIQUE
+            ]]></example>
         </member>
         <member name="M:Weknow.CypherFactory.Indices.CreateExistsConstraint(System.String,System.String)">
             <summary>
@@ -3904,6 +3984,14 @@
             <param name="builder">The sb</param>
             <param name="current">The current.</param>
             <param name="repeat">The repeat.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Helpers.Helper.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
+            <summary>
+            Formats by convention.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="convention">The convention.</param>
             <returns></returns>
         </member>
     </members>
