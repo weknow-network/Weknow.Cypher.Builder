@@ -10,18 +10,22 @@ using System.Linq.Expressions;
 namespace Weknow
 {
 
+    /// <summary>
+    /// Excludes Set phrases
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="Weknow.FluentCypher" />
     public abstract class FluentCypherSetExclude<T> : FluentCypher
     {
         /// <summary>
         /// Compose SET phrase from a type expression.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set<User>().Exclude(user => user.Other)
         /// SET user.Id = $Id, user.Name = $Name // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherSetExclude<T> Exclude(Expression<Func<T, dynamic>> propExpression);
     }
 }

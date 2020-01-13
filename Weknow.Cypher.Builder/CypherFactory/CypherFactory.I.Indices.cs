@@ -22,7 +22,7 @@ namespace Weknow
     partial class CypherFactory
     {
         /// <summary>
-        /// Cypher Indices & Constraints
+        /// Cypher Indices and Constraints
         /// </summary>
         public class I : Indices { }
         /// <summary>
@@ -39,10 +39,11 @@ namespace Weknow
             /// </summary>
             /// <param name="label">The label.</param>
             /// <param name="propertyName">Name of the property.</param>
+            /// <param name="compositePropertyNames">The composite property names.</param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// CREATE INDEX ON :Person(name)
-            /// </example>
+            /// ]]></example>
             public static FluentCypher CreateIndex(
                 string label,
                 string propertyName,
@@ -66,6 +67,7 @@ namespace Weknow
             /// </summary>
             /// <param name="label">The label.</param>
             /// <param name="propertyName">Name of the property.</param>
+            /// <param name="compositePropertyNames">The composite property names.</param>
             /// <returns></returns>
             public static FluentCypher DropIndex(
                 string label,

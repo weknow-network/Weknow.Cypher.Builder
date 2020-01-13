@@ -14,7 +14,7 @@
         /// </summary>
         MultiLine,
         /// <summary>
-        /// Multi line of cypher query with some density on where & set properties
+        /// Multi line of cypher query with some density on where and set properties
         /// </summary>
         MultiLineDense
     }

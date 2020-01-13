@@ -35,6 +35,9 @@ using static Weknow.Helpers.Helper;
 
 namespace Weknow
 {
+    /// <summary>
+    /// Fluent Cypher
+    /// </summary>
     [DebuggerTypeProxy(typeof(FluentCypherDebugView))]
     public abstract class FluentCypher :
         IEnumerable<FluentCypher>
@@ -42,17 +45,22 @@ namespace Weknow
         private static readonly ObjectPoolProvider _objectPoolProvider = new DefaultObjectPoolProvider();
         private static readonly ObjectPool<StringBuilder> _stringBuilderPool = _objectPoolProvider.CreateStringBuilderPool();
 
-        //private static readonly Regex TrimX = new Regex(@"\s+");
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected readonly FluentCypher? _previous;
         protected internal readonly string _cypher = string.Empty;
         protected internal readonly string _cypherClose = string.Empty;
         protected internal readonly IEnumerable<FluentCypher> _children = Array.Empty<FluentCypher>();
         protected internal readonly string _childrenSeperator = SPACE;
         protected internal readonly CypherPhrase _phrase;
-        protected IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
+        protected internal IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
+        protected internal IImmutableSet<string> _additionalLabels = ImmutableHashSet<string>.Empty;
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #region Ctor
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="FluentCypher" /> class from being created.
+        /// </summary>
         private protected FluentCypher()
         {
 
@@ -67,13 +75,15 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The delegated.</param>
         /// <param name="childrenSeparator">The children separator  (space if empty).</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         private protected FluentCypher(
             FluentCypher? copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
+            string? childrenSeparator = null,
+            IImmutableSet<string>? additionalLabels = null)
         {
             _previous = copyFrom;
             _cypher = cypher;
@@ -81,6 +91,7 @@ namespace Weknow
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
             _childrenSeperator = childrenSeparator ?? copyFrom?._childrenSeperator ?? SPACE;
+            _additionalLabels = additionalLabels ?? copyFrom?._additionalLabels ?? ImmutableHashSet<string>.Empty;
         }
 
         #endregion // Ctor
@@ -105,11 +116,11 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// MATCH (n)-->(m)
         /// MATCH (n {name: 'Alice'})-->(m)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Match(string statement);
 
         #endregion // Match
@@ -121,9 +132,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// OPTIONAL MATCH (n)-[r]->(m)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OptionalMatch(string statement);
 
         #endregion // OptionalMatch
@@ -135,9 +146,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// WHERE n.property <> $value
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherWhereExpression Where(string statement);
 
         /// <summary>
@@ -153,7 +164,7 @@ namespace Weknow
         /// Create WHERE phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
         public abstract FluentCypherWhereExpression Where(string variable, IEnumerable<string> moreNames);
 
@@ -164,7 +175,7 @@ namespace Weknow
         /// <param name="propExpression">The property expression.</param>
         /// <param name="compareSign">The compare sign.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Where ((User user) => user.Id))
         /// Result with
         /// WHERE user.Id = $Id
@@ -172,7 +183,7 @@ namespace Weknow
         /// Where ((User user) => user.Id), ">")
         /// Result with
         /// WHERE user.Id > $Id AND
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherWhereExpression Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
                     string compareSign = "=");
@@ -186,13 +197,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CREATE (n {name: $value}) // Create a node with the given properties.
         /// CREATE (n $map) // Create a node with the given properties.
         /// CREATE (n) SET n = properties // Create nodes with the given properties.
         /// CREATE (n)-[r:KNOWS]->(m) // Create a relationship with the given type and direction; bind a variable to it.
         /// CREATE (n)-[:LOVES {since: $value}]->(m) // Create a relationship with the given type, direction, and properties.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Create(string statement);
 
         #endregion // Create
@@ -207,7 +218,7 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET 
@@ -220,7 +231,7 @@ namespace Weknow
         /// ------------------------------------------
         /// MATCH (a:Person {name: $value1})
         /// MERGE (a)-[r: KNOWS]->(b:Person {name: $value3})
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Merge(string statement);
 
         #endregion // Merge
@@ -233,14 +244,14 @@ namespace Weknow
         /// Use ON CREATE and ON MATCH for conditional updates.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// 
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnCreate();
 
         /// <summary>
@@ -250,13 +261,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnCreate(string statement);
 
         #endregion // OnCreate
@@ -269,7 +280,7 @@ namespace Weknow
         ///// <param name="variable">The variable.</param>
         ///// <param name="propNames">The property names.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// Merge("(n:Person {name: $value})")
         /////     .OnCreateSet(new [] {"name", "id"}, "n")
         ///// Result in:
@@ -287,7 +298,7 @@ namespace Weknow
         ///// Result in:
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.name = $prefix.name, n.id =$prefix.id
-        ///// </example>
+        ///// ]]></example>
         //public abstract FluentCypher OnCreateSet(
         //    IEnumerable<string> propNames,
         //    string variable,
@@ -301,13 +312,13 @@ namespace Weknow
         ///// <param name="name">The name.</param>
         ///// <param name="moreNames">The more names.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// Merge("(n:Person {name: $value})")
         /////     .OnCreateSet("n", "name", "id")
         ///// Result in:
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.name = $name, n.id =$id
-        ///// </example>
+        ///// ]]></example>
         //public abstract FluentCypher OnCreateSet(string variable, string name, params string[] moreNames);
 
         ///// <summary>
@@ -316,13 +327,13 @@ namespace Weknow
         ///// <typeparam name="T"></typeparam>
         ///// <param name="propExpression">The property expression.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// Merge("(n:Person {name: $value})")
         /////      .OnCreateSet("n", new [] {"name", "id"})
         ///// Result in:
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.name = $name, n.id =$id
-        ///// </example>
+        ///// ]]></example>
         //public abstract FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
 
         ///// <summary>
@@ -332,13 +343,13 @@ namespace Weknow
         ///// <param name="variable">The variable.</param>
         ///// <param name="filter">The filter.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.created = timestamp()
         ///// ON MATCH SET
         ///// n.counter = coalesce(n.counter, 0) + 1,
         ///// n.accessTime = timestamp()
-        ///// </example>
+        ///// ]]></example>
         //public abstract FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter); 
 
         #endregion // OnCreateSet
@@ -351,14 +362,14 @@ namespace Weknow
         /// Use ON CREATE and ON MATCH for conditional updates.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// 
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnMatch();
 
         /// <summary>
@@ -368,13 +379,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnMatch(string statement);
 
         /// <summary>
@@ -383,13 +394,13 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnMatchSet(string variable, IEnumerable<string> propNames);
 
         /// <summary>
@@ -399,13 +410,13 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnMatchSet(string variable, string name, params string[] moreNames);
 
         /// <summary>
@@ -414,13 +425,13 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherSet<T> OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression);
 
         /// <summary>
@@ -430,13 +441,13 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher OnMatchSetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // OnMatch
@@ -448,12 +459,12 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SET n.property1 = $value1, n.property2 = $value2 // Update or create a property.
         /// SET n = $map // Update or create a property.
         /// SET n += $map // Add and update properties, while keeping existing ones.
         /// SET n:Person // Adds a label Person to a node.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Set(string statement);
 
         /// <summary>
@@ -462,10 +473,10 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Set(string variable, IEnumerable<string> propNames);
 
         /// <summary>
@@ -475,10 +486,10 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Set(string variable, string name, params string[] moreNames);
 
         /// <summary>
@@ -487,10 +498,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set((User user) => user.Name)
         /// SET user.Name = $Name // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherSet<T> Set<T>(Expression<Func<T, dynamic>> propExpression);
 
         #endregion // Set
@@ -507,28 +518,29 @@ namespace Weknow
         /// <param name="paramName"></param>
         /// <param name="behavior"></param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("u", "entity")
         /// SET u = $u_entity
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher SetEntity(
             string variable,
             string paramName = "",
             SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         /// <summary>
-        /// Set instance. 
+        /// Set instance.
         /// Behaviors:
         /// Replace: This will remove any existing properties.
         /// Update: update properties, while keeping existing ones.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
+        /// <param name="behavior">The behavior.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set<UserEntity>("u")
         /// SET u = $u_UserEntity
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher SetEntity<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
         #endregion // SetEntity
@@ -540,11 +552,12 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
+        /// <param name="excludes">The excludes.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher SetAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes);
 
         #endregion // SetAll
@@ -558,10 +571,10 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set((User user) =&gt; user.Name.StartWith("Name"))
         /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher SetByConvention<T>(string variable, Func<string, bool> filter);
 
         #endregion // SetByConvention
@@ -571,11 +584,12 @@ namespace Weknow
         /// <summary>
         /// Sets the label.
         /// </summary>
+        /// <param name="variable">The variable.</param>
         /// <param name="label">The label.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SET n:Person
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher SetLabel(string variable, string label);
 
         #endregion // SetLabel
@@ -586,12 +600,12 @@ namespace Weknow
         /// Create REMOVE phrase,
         /// Remove the label from the node or property.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// REMOVE n:Person // Remove a label from n.
         /// REMOVE n.property // Remove a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Remove(string statement);
 
         #endregion // Remove
@@ -602,12 +616,12 @@ namespace Weknow
         /// Create DELETE  phrase,
         /// Delete a node and a relationship.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n)
         /// DETACH DELETE n
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Delete(string statement);
 
         #endregion // Delete
@@ -618,12 +632,12 @@ namespace Weknow
         /// Create DETACH DELETE phrase,
         /// Delete all nodes and relationships from the database.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n)
         /// DETACH DELETE n
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher DetachDelete(string statement);
 
         #endregion // DetachDelete
@@ -638,11 +652,11 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// UNWIND $names AS name
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Unwind(string collection, string variable);
 
         #endregion // Unwind
@@ -654,9 +668,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// FOREACH (r IN relationships(path) | SET r.marked = true)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher ForEach(string statement);
 
         /// <summary>
@@ -666,10 +680,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("n", "nations", nameof(Foo.Name), nameof(Bar.Id))
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher ForEach(string variable, string collection, params string[] propNames);
 
         /// <summary>
@@ -679,10 +693,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("n", "nations", new [] {nameof(Foo.Name), nameof(Bar.Id)})
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher ForEach(string variable, string collection, IEnumerable<string> propNames);
 
         #endregion // ForEach
@@ -697,10 +711,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("$users", name =&gt; name.EndsWith("Name"))
         /// ForEach(user IN $users | SET user.FirstName = $user.FirstName, user.LastName = $user.LastName) // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher ForEachByConvention<T>(string variable, string collection, Func<string, bool> filter);
 
         #endregion // ForEachByConvention
@@ -709,20 +723,19 @@ namespace Weknow
 
         /// <summary>
         /// Create WITH  phrase.
-        /// WThe WITH syntax is similar to RETURN. 
-        /// It separates query parts explicitly, 
+        /// WThe WITH syntax is similar to RETURN.
+        /// It separates query parts explicitly,
         /// allowing you to declare which variables to carry over to the next part.
         /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="variable">The variable.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (user)-[:FRIEND]-(friend)
         /// WHERE user.name = $name
         /// WITH user, count(friend) AS friends
         /// WHERE friends > 10
         /// RETURN user
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn With(string statement);
 
         #endregion // With
@@ -734,16 +747,15 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN * // Return the value of all variables.
         /// RETURN n AS columnName // Use alias for result column name.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Return(string statement);
 
         /// <summary>
         /// Create RETURN phrase.
         /// </summary>
-        /// <param name="statement">The statement.</param>
         /// <returns></returns>
         public abstract FluentCypherReturn Return();
 
@@ -753,10 +765,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// .Return<Foo>(f => f.Name)
         /// RETURN f.Name
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Return<T>(Expression<Func<T, dynamic>> expression);
 
         #endregion // Return
@@ -768,9 +780,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN DISTINCT n // Return unique rows.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn ReturnDistinct(string statement);
 
         /// <summary>
@@ -779,10 +791,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// .ReturnDistinct<Foo>(f => f.Name)
         /// RETURN DISTINCT f.Name
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn ReturnDistinct<T>(Expression<Func<T, dynamic>> expression);
 
         #endregion // ReturnDistinct
@@ -795,13 +807,13 @@ namespace Weknow
         /// Result column types and names have to match.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (a)-[:KNOWS]->(b)
         /// RETURN b.name
         /// UNION
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Union();
 
         #endregion // Union
@@ -815,13 +827,13 @@ namespace Weknow
         /// Including duplicated rows.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (a)-[:KNOWS]->(b)
         /// RETURN b.name
         /// UNION All
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher UnionAll();
 
         #endregion // UnionAll
@@ -832,16 +844,15 @@ namespace Weknow
         /// Create CALL phrase,
         /// Delete a node and a relationship.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CALL db.labels() YIELD label
-        /// 
-        /// This shows a standalone call to the built-in 
+        /// This shows a standalone call to the built-in
         /// procedure db.labels to list all labels used in the database.
-        /// Note that required procedure arguments are given explicitly 
+        /// Note that required procedure arguments are given explicitly
         /// in brackets after the procedure name.
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypher Call(string statement);
 
         #endregion // Call 
@@ -917,9 +928,9 @@ namespace Weknow
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// collect(list) AS items
-        /// /// </example>
+        /// /// ]]></example>
         public abstract FluentCypher As(string name);
 
         #endregion // As
@@ -943,6 +954,16 @@ namespace Weknow
         public abstract ICypherEntitiesMutations Entities { get; }
 
         #endregion // Entities
+
+        #region LabelContext
+
+        /// <summary>
+        /// Represent contextual label operations.
+        /// Enable to add additional common labels like environment or tenants
+        /// </summary>
+        public abstract ICypherContextLabels LabelContext { get; }
+
+        #endregion // LabelContext
 
         #region ToCypher
 
@@ -1132,6 +1153,8 @@ namespace Weknow
         /// </summary>
         /// <param name="current">The current.</param>
         /// <param name="sb">The sb.</param>
+        /// <param name="repeat">The repeat.</param>
+        /// <returns></returns>
         private static StringBuilder FormatMultiLineDense(FluentCypher current, StringBuilder sb, int repeat)
         {
             if (sb.Length == 0)

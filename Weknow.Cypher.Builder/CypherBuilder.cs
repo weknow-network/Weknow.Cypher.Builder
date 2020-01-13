@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static Weknow.Helpers.Helper;
 using static Weknow.CypherFactory;
+using System.Collections.Immutable;
 
 namespace Weknow
 {
@@ -22,15 +23,35 @@ namespace Weknow
     /// <seealso cref="Weknow.FluentCypher" />
     public class C : CypherBuilder
     {
+        /// <summary>
+        /// Prevents a default instance of the <see cref="C"/> class from being created.
+        /// </summary>
         private protected C()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="C"/> class.
+        /// </summary>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
         protected internal C(string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="C"/> class.
+        /// </summary>
+        /// <param name="copyFrom">The copy from.</param>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
         private protected C(FluentCypher? copyFrom, string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
@@ -39,11 +60,16 @@ namespace Weknow
     /// <summary>
     /// Fluent cypher builder
     /// </summary>
+    /// <seealso cref="Weknow.FluentCypherWhereExpression" />
+    /// <seealso cref="Weknow.ICypherEntityMutations" />
+    /// <seealso cref="Weknow.ICypherEntitiesMutations" />
+    /// <seealso cref="Weknow.ICypherContextLabels" />
     /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
         FluentCypherWhereExpression,
         ICypherEntityMutations,
-        ICypherEntitiesMutations
+        ICypherEntitiesMutations,
+        ICypherContextLabels
     {
         private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
         private protected static CypherNamingConvention _defaultRelationConvention = CypherNamingConvention.Default;
@@ -81,13 +107,23 @@ namespace Weknow
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CypherBuilder" /> class.
+        /// </summary>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         internal protected CypherBuilder(
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
-            : base(null, cypher, phrase, cypherClose, children, childrenSeparator)
+            string? childrenSeparator = null,
+            IImmutableSet<string>? additionalLabels = null)
+            : base(null, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
         {
         }
 
@@ -97,8 +133,9 @@ namespace Weknow
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
-            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
+            string? childrenSeparator = null,
+            IImmutableSet<string>? additionalLabels = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
         {
         }
 
@@ -274,11 +311,11 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// MATCH (n)-->(m)
         /// MATCH (n {name: 'Alice'})-->(m)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Match(string statement) => AddStatement(statement, CypherPhrase.Match);
 
         #endregion // Match
@@ -290,9 +327,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// OPTIONAL MATCH (n)-[r]->(m)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OptionalMatch(string statement) => AddStatement(statement, CypherPhrase.OptionalMatch);
 
         #endregion // OptionalMatch
@@ -304,13 +341,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CREATE (n {name: $value}) // Create a node with the given properties.
         /// CREATE (n $map) // Create a node with the given properties.
         /// CREATE (n) SET n = properties // Create nodes with the given properties.
         /// CREATE (n)-[r:KNOWS]->(m) // Create a relationship with the given type and direction; bind a variable to it.
         /// CREATE (n)-[:LOVES {since: $value}]->(m) // Create a relationship with the given type, direction, and properties.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Create(string statement) => AddStatement(statement, CypherPhrase.Create);
 
         #endregion // Create
@@ -324,7 +361,7 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET 
@@ -337,7 +374,7 @@ namespace Weknow
         /// ------------------------------------------
         /// MATCH (a:Person {name: $value1})
         /// MERGE (a)-[r: KNOWS]->(b:Person {name: $value3})
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Merge(string statement) => AddStatement(statement, CypherPhrase.Merge);
 
         #endregion // Merge
@@ -350,14 +387,14 @@ namespace Weknow
         /// Use ON CREATE and ON MATCH for conditional updates.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// 
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnCreate() => AddStatement(CypherPhrase.OnCreate);
 
         /// <summary>
@@ -367,13 +404,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnCreate(string statement) => AddStatement(statement, CypherPhrase.OnCreate);
 
         #endregion // OnCreate
@@ -386,13 +423,13 @@ namespace Weknow
         ///// <param name="variable">The variable.</param>
         ///// <param name="propNames">The property names.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.created = timestamp()
         ///// ON MATCH SET
         ///// n.counter = coalesce(n.counter, 0) + 1,
         ///// n.accessTime = timestamp()
-        ///// </example>
+        ///// ]]></example>
         //public override FluentCypher OnCreateSet(string variable, IEnumerable<string> propNames)
         //{
         //    #region Validation
@@ -412,13 +449,13 @@ namespace Weknow
         ///// <param name="variable">The variable.</param>
         ///// <param name="propNames">The property names.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.created = timestamp()
         ///// ON MATCH SET
         ///// n.counter = coalesce(n.counter, 0) + 1,
         ///// n.accessTime = timestamp()
-        ///// </example>
+        ///// ]]></example>
         //public override FluentCypher OnCreateSet(string variable, string name, params string[] moreNames)
         //{
         //    var root = AddStatement(CypherPhrase.OnCreate);
@@ -431,13 +468,13 @@ namespace Weknow
         ///// <typeparam name="T"></typeparam>
         ///// <param name="propExpression">The property expression.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.created = timestamp()
         ///// ON MATCH SET
         ///// n.counter = coalesce(n.counter, 0) + 1,
         ///// n.accessTime = timestamp()
-        ///// </example>
+        ///// ]]></example>
         //public override FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
         //{
         //    var root = AddStatement(CypherPhrase.OnCreate);
@@ -451,13 +488,13 @@ namespace Weknow
         ///// <param name="variable">The variable.</param>
         ///// <param name="filter">The filter.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// MERGE (n:Person {name: $value})
         ///// ON CREATE SET n.created = timestamp()
         ///// ON MATCH SET
         ///// n.counter = coalesce(n.counter, 0) + 1,
         ///// n.accessTime = timestamp()
-        ///// </example>
+        ///// ]]></example>
         //public override FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
         //{
         //    var root = AddStatement(CypherPhrase.OnCreate);
@@ -474,14 +511,14 @@ namespace Weknow
         /// Use ON CREATE and ON MATCH for conditional updates.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// 
         ///   n.counter = coalesce(n.counter, 0) + 1,
         ///   n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnMatch() => AddStatement(CypherPhrase.OnMatch);
 
         /// <summary>
@@ -491,13 +528,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnMatch(string statement) => AddStatement(statement, CypherPhrase.OnMatch);
 
         /// <summary>
@@ -506,13 +543,13 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnMatchSet(string variable, IEnumerable<string> propNames)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
@@ -527,13 +564,13 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnMatchSet(string variable, string name, params string[] moreNames)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
@@ -547,13 +584,13 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypherSet<T> OnMatchSet<T>(Expression<Func<T, dynamic>> propExpression)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
@@ -568,13 +605,13 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MERGE (n:Person {name: $value})
         /// ON CREATE SET n.created = timestamp()
         /// ON MATCH SET
         /// n.counter = coalesce(n.counter, 0) + 1,
         /// n.accessTime = timestamp()
-        /// </example>
+        /// ]]></example>
         public override FluentCypher OnMatchSetByConvention<T>(string variable, Func<string, bool> filter)
         {
             var root = AddStatement(CypherPhrase.OnMatch);
@@ -590,12 +627,12 @@ namespace Weknow
         /// Create REMOVE phrase,
         /// Remove the label from the node or property.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// REMOVE n:Person // Remove a label from n.
         /// REMOVE n.property // Remove a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Remove(string statement) => AddStatement(statement, CypherPhrase.Remove);
 
         #endregion // Remove
@@ -606,12 +643,12 @@ namespace Weknow
         /// Create DELETE  phrase,
         /// Delete a node and a relationship.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n)
         /// DETACH DELETE n
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Delete(string statement) => AddStatement(statement, CypherPhrase.Delete);
 
         #endregion // Delete
@@ -622,12 +659,12 @@ namespace Weknow
         /// Create DETACH DELETE phrase,
         /// Delete all nodes and relationships from the database.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (n)
         /// DETACH DELETE n
-        /// </example>
+        /// ]]></example>
         public override FluentCypher DetachDelete(string statement) => AddStatement(statement, CypherPhrase.DetachDelete);
 
         #endregion // DetachDelete
@@ -642,11 +679,11 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// UNWIND $names AS name
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Unwind(string collection, string variable) => AddStatement($"{collection} AS {variable}", CypherPhrase.Unwind);
 
         #endregion // Unwind
@@ -661,13 +698,13 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (user)-[:FRIEND]-(friend)
         /// WHERE user.name = $name
         /// WITH user, count(friend) AS friends
         /// WHERE friends &gt; 10
         /// RETURN user
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn With(string statement) =>
                             AddStatement(statement, CypherPhrase.With);
 
@@ -678,7 +715,6 @@ namespace Weknow
         /// <summary>
         /// Create RETURN phrase.
         /// </summary>
-        /// <param name="statement">The statement.</param>
         /// <returns></returns>
         public override FluentCypherReturn Return() =>
                             AddStatement(CypherPhrase.Return);
@@ -688,11 +724,11 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN * // Return the value of all variables.
         /// RETURN n AS columnName // Use alias for result column name.
         /// RETURN DISTINCT n // Return unique rows.
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Return(string statement) =>
                             AddStatement(statement, CypherPhrase.Return);
 
@@ -702,10 +738,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// .Return<Foo>(f => f.Name)
         /// RETURN f.Name
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Return<T>(Expression<Func<T, dynamic>> expression)
         {
             var (variable, name) = ExtractLambdaExpression(expression);
@@ -722,9 +758,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN DISTINCT n // Return unique rows.
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn ReturnDistinct(string statement) =>
                             AddStatement(statement, CypherPhrase.ReturnDistinct);
 
@@ -734,10 +770,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// .ReturnDistinct<Foo>(f => f.Name)
         /// RETURN DISTINCT f.Name
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn ReturnDistinct<T>(Expression<Func<T, dynamic>> expression)
         {
             var (variable, name) = ExtractLambdaExpression(expression);
@@ -754,13 +790,13 @@ namespace Weknow
         /// Result column types and names have to match.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (a)-[:KNOWS]->(b)
         /// RETURN b.name
         /// UNION
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Union() =>
                             AddStatement(string.Empty, CypherPhrase.Union);
 
@@ -775,13 +811,13 @@ namespace Weknow
         /// Including duplicated rows.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// MATCH (a)-[:KNOWS]->(b)
         /// RETURN b.name
         /// UNION All
         /// MATCH (a)-[:LOVES]->(b)
         /// RETURN b.name
-        /// </example>
+        /// ]]></example>
         public override FluentCypher UnionAll() =>
                             AddStatement(string.Empty, CypherPhrase.UnionAll);
 
@@ -793,16 +829,15 @@ namespace Weknow
         /// Create CALL phrase,
         /// Delete a node and a relationship.
         /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
+        /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CALL db.labels() YIELD label
-        /// 
-        /// This shows a standalone call to the built-in 
+        /// This shows a standalone call to the built-in
         /// procedure db.labels to list all labels used in the database.
-        /// Note that required procedure arguments are given explicitly 
+        /// Note that required procedure arguments are given explicitly
         /// in brackets after the procedure name.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Call(string statement) =>
                             AddStatement(statement, CypherPhrase.Call);
 
@@ -815,12 +850,12 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SET n.property1 = $value1, n.property2 = $value2 // Update or create a property.
         /// SET n = $map // Update or create a property.
         /// SET n += $map // Add and update properties, while keeping existing ones.
         /// SET n:Person // Adds a label Person to a node.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Set(string statement) =>
                             AddStatement(statement, CypherPhrase.Set);
 
@@ -830,10 +865,10 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Set(string variable, IEnumerable<string> propNames)
         {
             CypherBuilder result = propNames.FormatSetWhere(variable)
@@ -845,12 +880,13 @@ namespace Weknow
         /// Compose SET phrase
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("n", nameof(Foo.Name), nameof(Bar.Id))
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher Set(string variable, string name, params string[] moreNames)
         {
             FluentCypher self = this;
@@ -863,10 +899,10 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set((User user) => user.Name)
         /// SET user.Name = $Name // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypherSet<T> Set<T>(Expression<Func<T, dynamic>> propExpression)
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
@@ -883,11 +919,12 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
+        /// <param name="excludes">The excludes.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
-        /// </example>
+        /// ]]></example>
         public override FluentCypher SetAll<T>(string variable, params Expression<Func<T, dynamic>>[] excludes)
         {
             IEnumerable<string> avoid = from exclude in excludes
@@ -915,10 +952,10 @@ namespace Weknow
         /// <param name="paramName"></param>
         /// <param name="behavior"></param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set("u", "entity")
         /// SET u = $u_entity
-        /// </example>
+        /// ]]></example>
         public override FluentCypher SetEntity(
             string variable,
             string paramName = "",
@@ -935,18 +972,19 @@ namespace Weknow
         }
 
         /// <summary>
-        /// Set instance. 
+        /// Set instance.
         /// Behaviors:
         /// Replace: This will remove any existing properties.
         /// Update: update properties, while keeping existing ones.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The variable.</param>
+        /// <param name="behavior">The behavior.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
-        /// </example>
+        /// ]]></example>
         public override FluentCypher SetEntity<T>(
             string variable,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
@@ -973,10 +1011,10 @@ namespace Weknow
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        /// <example>
+        /// <example><![CDATA[
         /// Set((User user) =&gt; user.Name.StartWith("Name"))
         /// SET user.FirstName = $FirstName, usr.LastName = $LastName // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher SetByConvention<T>(string variable, Func<string, bool> filter)
         {
             IEnumerable<string> names = GetProperties<T>();
@@ -994,12 +1032,12 @@ namespace Weknow
         /// <summary>
         /// Sets the label.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
         /// <param name="label">The label.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SET n:Person
-        /// </example>
+        /// ]]></example>
         public override FluentCypher SetLabel(string variable, string label)
         {
             string statement = $"{variable}:{label}";
@@ -1016,9 +1054,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// WHERE n.property <> $value
-        /// </example>
+        /// ]]></example>
         public override FluentCypherWhereExpression Where(string statement) =>
                                             AddStatement(statement, CypherPhrase.Where);
 
@@ -1029,11 +1067,11 @@ namespace Weknow
         /// <param name="name">The name.</param>
         /// <param name="moreNames">The more names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Where ("n", "A", "B")
         /// Result with
         /// WHERE n.A = $n_A AND n.B = $n_B
-        /// </example>
+        /// ]]></example>
         public override FluentCypherWhereExpression Where(
             string variable,
             string name,
@@ -1050,11 +1088,11 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <param name="names">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Where ("n", new [] {"A", "B"})
         /// Result with
         /// WHERE n.A = $n_A AND n.B = $n_B
-        /// </example>
+        /// ]]></example>
         public override FluentCypherWhereExpression Where(
             string variable,
             IEnumerable<string> names)
@@ -1081,7 +1119,7 @@ namespace Weknow
         /// <param name="propExpression">The property expression.</param>
         /// <param name="compareSign">The compare sign.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// Where ((User user) => user.Id))
         /// Result with
         /// WHERE user.Id = $user_Id
@@ -1089,7 +1127,7 @@ namespace Weknow
         /// Where ((User user) => user.Id), ">")
         /// Result with
         /// WHERE user.Id > $user_Id AND
-        /// </example>
+        /// ]]></example>
         public override FluentCypherWhereExpression Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
                     string compareSign)
@@ -1111,9 +1149,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// FOREACH (r IN relationships(path) | SET r.marked = true)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher ForEach(string statement) =>
                             AddStatement(statement, CypherPhrase.ForEach);
 
@@ -1124,10 +1162,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("n", "nations", nameof(Foo.Name), nameof(Bar.Id))
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher ForEach(
                         string variable,
                         string collection,
@@ -1145,10 +1183,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="propNames">The property names.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("n", "nations", new [] {nameof(Foo.Name), nameof(Bar.Id)})
         /// FOREACH (n IN nations | SET n.Name = $n.Name, n.Id = $n.Id)
-        /// </example>
+        /// ]]></example>
         public override FluentCypher ForEach(
                         string variable,
                         string collection,
@@ -1172,10 +1210,10 @@ namespace Weknow
         /// <param name="collection">The collection.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ForEach("$users", name =&gt; name.EndsWith("Name"))
         /// ForEach(user IN $users | SET user.FirstName = $user.FirstName, user.LastName = $user.LastName) // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public override FluentCypher ForEachByConvention<T>(
                     string variable,
                     string collection,
@@ -1220,9 +1258,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ORDER BY n.property
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn OrderBy(string statement) =>
                             AddStatement(statement, CypherPhrase.OrderBy);
 
@@ -1235,9 +1273,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ORDER BY n.property DESC
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn OrderByDesc(string statement)
         {
             var result = AddStatement($"{statement} DESC", CypherPhrase.OrderByDesc);
@@ -1253,9 +1291,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SKIP $skipNumber
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Skip(string statement) =>
                             AddStatement(statement, CypherPhrase.Skip);
 
@@ -1264,9 +1302,9 @@ namespace Weknow
         /// </summary>
         /// <param name="number">The number.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SKIP 10
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Skip(int number) =>
                             AddStatement(number.ToString(), CypherPhrase.Skip);
 
@@ -1279,9 +1317,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// LIMIT $skipNumber
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Limit(string statement) =>
                     AddStatement(statement, CypherPhrase.Limit);
 
@@ -1290,9 +1328,9 @@ namespace Weknow
         /// </summary>
         /// <param name="number">The number.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// LIMIT 10
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Limit(int number) =>
                             AddStatement(number.ToString(), CypherPhrase.Limit);
 
@@ -1305,9 +1343,9 @@ namespace Weknow
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// collect(list) AS items
-        /// /// </example>
+        /// /// ]]></example>
         public override FluentCypher As(string name) => Add($"AS {name}");
 
         #endregion // As
@@ -1318,9 +1356,9 @@ namespace Weknow
         /// Create count function.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN count(*)
-        /// </example>
+        /// ]]></example>
         public override FluentCypherReturn Count() =>
                          AddStatement("(*)", CypherPhrase.Count);
 
@@ -1406,8 +1444,6 @@ namespace Weknow
 
         #endregion // Cypher Operators
 
-        #region ICypherEntityMutations
-
         #region Entity
 
         /// <summary>
@@ -1416,6 +1452,8 @@ namespace Weknow
         public override ICypherEntityMutations Entity => this;
 
         #endregion // Entity
+
+        #region ICypherEntityMutations
 
         #region CreateNew
 
@@ -1428,7 +1466,7 @@ namespace Weknow
         /// <param name="parameterPrefix"></param>
         /// <param name="parameterSeparator"></param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateNew("n", new [] {"A", "B"}, "map")
         /// Results in:
         /// CREATE (n:A:B $n_map)
@@ -1440,7 +1478,7 @@ namespace Weknow
         /// CreateNew("n", new [] {"A", "B"}, "map", "prefix", ".")
         /// Results in:
         /// CREATE (n:A:B $prefix.map)
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew(
             string variable,
             IEnumerable<string> labels,
@@ -1460,7 +1498,7 @@ namespace Weknow
         /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateNew("n", "FOO")
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
@@ -1468,7 +1506,7 @@ namespace Weknow
         /// CreateNew("n", "FOO", "dev")
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew(string variable, string label, params string[] additionalLabels)
         {
             ICypherEntityMutations self = this;
@@ -1484,7 +1522,7 @@ namespace Weknow
         /// <param name="parameter"></param>
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateNew<Foo>("n")
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
@@ -1492,7 +1530,7 @@ namespace Weknow
         /// CreateNew<Foo>("n", "dev")
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
             string parameter,
@@ -1512,7 +1550,7 @@ namespace Weknow
         /// <param name="labelFormat">The label format.</param>
         /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
@@ -1520,7 +1558,7 @@ namespace Weknow
         /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
             string parameter,
@@ -1546,18 +1584,18 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateIfNotExists(
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+            CypherNamingConvention labelFormat)
         {
             labels = labels.Select(n => Format(n));
             string joinedLabel = string.Join(":", labels);
@@ -1577,12 +1615,12 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists("p", "Person", "map", "id", "name")
         /// Results in:
         /// MERGE (p:Person {id: $map.id, name: $map.name})
         ///     ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateIfNotExists(
             string variable,
             string label,
@@ -1603,12 +1641,12 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists<Person>("p", "map", "id", "name")
         /// Results in:
         /// MERGE (p:Person {id: $map.id, name: $map.name})
         ///     ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateIfNotExists<T>(
             string variable,
             string entityParameter,
@@ -1623,17 +1661,14 @@ namespace Weknow
         /// Create if not exists
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchPropertyExpression">The match property.</param>
-        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists<Person>(p => p.name, "map")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     ON CREATE SET p = $map
-        /// </example>
+        /// ON CREATE SET p = $map
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateIfNotExists<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter)
@@ -1650,7 +1685,7 @@ namespace Weknow
 
         /// <summary>
         /// Add or Modify entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate.
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="labels">The labels.</param>
@@ -1663,12 +1698,12 @@ namespace Weknow
         /// <param name="labelFormat">The label format.</param>
         /// <param name="onMatchBehavior">The behavior.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// SET p += $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         private FluentCypher AddOrModify(
             string variable,
             IEnumerable<string> labels,
@@ -1711,7 +1746,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="labels">The labels.</param>
@@ -1719,12 +1754,11 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="concurrencyField">When supplied the concurrency field
         /// used for incrementing the concurrency version (Optimistic concurrency)
-        /// make sure to set unique constraint (on the matching properties), 
-        /// otherwise a new node with different concurrency will be created when not match.
-        /// </param>
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
@@ -1734,7 +1768,7 @@ namespace Weknow
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// SET p += $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate(
             string variable,
             IEnumerable<string> labels,
@@ -1749,7 +1783,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="label">The label.</param>
@@ -1757,17 +1791,14 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", "Person", "map", "name")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map
-        ///     
+        /// SET p += $map
         /// CreateOrUpdate("p", "Person", "map", "name", "more")
-        /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
-        ///     SET p += $map
-        /// </example>
+        /// SET p += $map
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate(
             string variable,
             string label,
@@ -1781,7 +1812,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The node variable.</param>
@@ -1789,17 +1820,14 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate<Person>("p", "map", "name")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map
-        ///     
+        /// SET p += $map
         /// CreateOrUpdate<Person>("p", "map", "name", "more")
-        /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
-        ///     SET p += $map
-        /// </example>
+        /// SET p += $map
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
             string variable,
             string entityParameter,
@@ -1819,7 +1847,7 @@ namespace Weknow
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate<Person>(p => p.name, "map")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -1829,7 +1857,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name})
         ///     SET p += $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
@@ -1847,7 +1875,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate" />
+        /// For update use CreateOrUpdate
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="labels">The labels.</param>
@@ -1859,7 +1887,7 @@ namespace Weknow
         /// otherwise a new node with different concurrency will be created when not match.
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
@@ -1869,14 +1897,14 @@ namespace Weknow
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// SET p = $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrReplace(
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+            string? concurrencyField,
+            CypherNamingConvention labelFormat)
         {
             return AddOrModify(variable, labels, entityParameter, matchProperties, 
                                 concurrencyField, labelFormat, SetInstanceBehavior.Replace);
@@ -1884,7 +1912,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// For update use CreateOrUpdate
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="label">The label.</param>
@@ -1892,17 +1920,14 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace("p", "Person", "map", "name")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     ON CREATE SET p = $map
-        ///     
+        /// ON CREATE SET p = $map
         /// CreateOrReplace("p", "Person", "map", "name", "more")
-        /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
-        ///     SET p = $map
-        /// </example>
+        /// SET p = $map
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrReplace(
             string variable,
             string label,
@@ -1916,7 +1941,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// For update use CreateOrUpdate
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The node variable.</param>
@@ -1924,7 +1949,7 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace<Person>("p", "map", "name")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -1934,7 +1959,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
         ///     SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
             string variable,
             string entityParameter,
@@ -1949,27 +1974,27 @@ namespace Weknow
         /// Creates the or replace.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="matchProperty">The match property.</param>
+        /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace<Person>(p => p.name, "map")
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p = $map
+        /// SET p = $map
         /// ---------------------------------------------------------
         /// CreateOrReplace<Person>(p => p.name, "map", "eTag")
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p = $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// SET p = $map, p.eTag = p.eTag + 1
+        /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+            string? concurrencyField,
+            CypherNamingConvention labelFormat)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
             return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
@@ -1991,7 +2016,7 @@ namespace Weknow
         ///// <param name="concurrencyField">The concurrency field.</param>
         ///// <param name="labelFormat">The label format.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists("p", "Person", "map", "name")
         ///// Results in:
         ///// Match (p:Person {name: $map.name})
@@ -2001,7 +2026,7 @@ namespace Weknow
         ///// Results in:
         ///// Match (p:Person {name: $map.name, more: $map.more})
         ///// SET p += $map, p.eTag = p.eTag + 1
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher ICypherEntityMutations.UpdateIfExists(
         //    string variable,
         //    IEnumerable<string> labels,
@@ -2020,7 +2045,7 @@ namespace Weknow
         ///// <param name="matchProperty">The match property.</param>
         ///// <param name="moreMatchProperties">The more match properties.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists("p", "Person", "map", "name")
         ///// Match (p:Person {name: $map.name})
         /////     SET p += $map
@@ -2028,7 +2053,7 @@ namespace Weknow
         ///// UpdateIfExists("p", "Person", "map", "name", "more")
         ///// Match (p:Person {name: $map.name, more: $map.more})
         /////     SET p += $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher ICypherEntityMutations.UpdateIfExists(
         //    string variable,
         //    string label,
@@ -2046,7 +2071,7 @@ namespace Weknow
         ///// <param name="matchProperty">The match property.</param>
         ///// <param name="moreMatchProperties">The more match properties.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists<Person></Person>("p", "map", "name")
         ///// Match (p:Person {name: $map.name})
         /////     SET p += $map
@@ -2054,7 +2079,7 @@ namespace Weknow
         ///// UpdateIfExists<Person>("p", "map", "name", "more")
         ///// Match (p:Person {name: $map.name, more: $map.more})
         /////     SET p += $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher ICypherEntityMutations.UpdateIfExists<T>(
         //    string variable,
         //    string entityParameter,
@@ -2069,12 +2094,12 @@ namespace Weknow
         ///// <param name="matchProperty"></param>
         ///// <param name="entityParameter"></param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists<Person>(p => p.name, "map")
         ///// 
         ///// MERGE (p:Person {name: $map.name})
         /////     SET p = $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher ICypherEntityMutations.UpdateIfExists<T>(
         //    Expression<Func<T, dynamic>> matchPropertyExpression,
         //    string entityParameter);
@@ -2082,7 +2107,6 @@ namespace Weknow
         #endregion // UpdateIfExists
 
         #endregion // ICypherEntityMutations
-
 
         #region Entities
 
@@ -2093,12 +2117,53 @@ namespace Weknow
 
         #endregion // Entities
 
+        #region LabelContext
+
+        /// <summary>
+        /// Represent contextual label operations.
+        /// Enable to add additional common labels like environment or tenants
+        /// </summary>
+        public override ICypherContextLabels LabelContext => this;
+
+        #endregion // LabelContext
+
+        #region ICypherContextLabels
+
+        /// <summary>
+        /// Adds label from point in the cypher flow.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
+        /// <returns></returns>
+        FluentCypher ICypherContextLabels.AddFromHere(string label, params string[] additionalLabels)
+        {
+            IImmutableSet<string> additions = _additionalLabels.Add(label)
+                                 .Aggregate(_additionalLabels, (acc, cur) => acc.Contains(cur) ? acc : acc.Add(cur));
+            return new CypherBuilder(this, _cypher, CypherPhrase.Dynamic, additionalLabels: additions);
+        }
+
+        /// <summary>
+        /// Removes label from point in the cypher flow.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
+        /// <returns></returns>
+        FluentCypher ICypherContextLabels.RemoveFromHere(string label, params string[] additionalLabels)
+        {
+            IImmutableSet<string> additions = _additionalLabels.Remove(label)
+                          .Aggregate(_additionalLabels, (acc, cur) => acc.Contains(cur) ? acc.Remove(cur) : acc);
+            return new CypherBuilder(this, _cypher, CypherPhrase.Dynamic, additionalLabels: additions);
+        }
+
+        #endregion // ICypherContextLabels
+
         #region Format
 
         /// <summary>
         /// Formats the specified text.
         /// </summary>
         /// <param name="text">The text.</param>
+        /// <param name="convention">The convention.</param>
         /// <returns></returns>
         private protected string Format(
             string text,
@@ -2118,8 +2183,11 @@ namespace Weknow
         /// <summary>
         /// Formats the specified text.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="text">The text.</param>
+        /// <param name="convention">The convention.</param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException">text</exception>
         private protected string Format<T>(
             T text,
             CypherNamingConvention convention = CypherNamingConvention.Default)

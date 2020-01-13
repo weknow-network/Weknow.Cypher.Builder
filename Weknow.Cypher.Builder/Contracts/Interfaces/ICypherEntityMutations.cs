@@ -22,7 +22,7 @@ namespace Weknow
         /// <param name="parameterPrefix">The parameter prefix.</param>
         /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateNew("n", new [] {"A", "B"}, "map")
         /// Results in:
         /// CREATE (n:A:B $n_map)
@@ -34,7 +34,7 @@ namespace Weknow
         /// CreateNew("n", new [] {"A", "B"}, "map", "prefix", ".")
         /// Results in:
         /// CREATE (n:A:B $prefix.map)
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateNew(
             string variable,
             IEnumerable<string> labels,
@@ -49,9 +49,9 @@ namespace Weknow
         /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateNew(string variable, string label, params string[] additionalLabels);
 
         /// <summary>
@@ -63,6 +63,7 @@ namespace Weknow
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
         /// <example>
+        /// <![CDATA[
         /// CreateNew<Foo>("n")
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
@@ -70,7 +71,7 @@ namespace Weknow
         /// CreateNew<Foo>("n", "dev")
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateNew<T>(
             string variable,
             string parameter,
@@ -86,14 +87,14 @@ namespace Weknow
         /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
         /// <example>
-        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
+        /// <![CDATA[CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
         /// --------------------------------------------------------------------------
         /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateNew<T>(
             string variable,
             string parameter,
@@ -113,12 +114,12 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateIfNotExists(
             string variable,
             IEnumerable<string> labels,
@@ -136,12 +137,12 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists("p", "Person", "map", "id", "name")
         /// Results in:
         /// MERGE (p:Person {id: $map.id, name: $map.name})
         ///     ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateIfNotExists(
             string variable,
             string label,
@@ -158,12 +159,12 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists<Person>("p", "map", "id", "name")
         /// Results in:
         /// MERGE (p:Person {id: $map.id, name: $map.name})
         ///     ON CREATE SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateIfNotExists<T>(
             string variable,
             string entityParameter,
@@ -174,17 +175,14 @@ namespace Weknow
         /// Create if not exists
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The node variable.</param>
+        /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
-        /// <param name="matchProperty">The match property.</param>
-        /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateIfNotExists<Person>(p => p.name, "map")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     ON CREATE SET p = $map
-        /// </example>
+        /// ON CREATE SET p = $map
+        /// ]]></example>
         FluentCypher CreateIfNotExists<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter);
@@ -195,7 +193,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="labels">The labels.</param>
@@ -207,7 +205,7 @@ namespace Weknow
         /// otherwise a new node with different concurrency will be created when not match.
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
@@ -217,7 +215,7 @@ namespace Weknow
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// SET p += $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrUpdate(
             string variable,
             IEnumerable<string> labels,
@@ -228,7 +226,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate.
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="label">The label.</param>
@@ -236,7 +234,7 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", "Person", "map", "name")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -246,7 +244,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
         ///     SET p += $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrUpdate(
             string variable,
             string label,
@@ -256,7 +254,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// For replace use ReplaceOrUpdate
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The node variable.</param>
@@ -264,7 +262,7 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate<Person>("p", "map", "name")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -274,7 +272,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
         ///     SET p += $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrUpdate<T>(
             string variable,
             string entityParameter,
@@ -283,24 +281,23 @@ namespace Weknow
 
         /// <summary>
         /// Creates the or update.
+        /// For update use UpdateOrUpdate.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="matchProperty">The match property.</param>
+        /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate<Person>(p => p.name, "map")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map
+        /// SET p += $map
         /// ------------------------------------------------
         /// CreateOrUpdate<Person>(p => p.name, "map", "eTag")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// SET p += $map, p.eTag = p.eTag + 1
+        /// ]]></example>
         FluentCypher CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
@@ -313,7 +310,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate" />
+        /// For update use UpdateOrUpdate.
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="labels">The labels.</param>
@@ -325,7 +322,7 @@ namespace Weknow
         /// otherwise a new node with different concurrency will be created when not match.
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
@@ -335,7 +332,7 @@ namespace Weknow
         /// Results in:
         /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
         /// SET p = $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrReplace(
             string variable,
             IEnumerable<string> labels,
@@ -346,7 +343,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// For update use UpdateOrUpdate.
         /// </summary>
         /// <param name="variable">The node variable.</param>
         /// <param name="label">The label.</param>
@@ -354,7 +351,7 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace("p", "Person", "map", "name")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -364,7 +361,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
         ///     SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrReplace(
             string variable,
             string label,
@@ -374,7 +371,7 @@ namespace Weknow
 
         /// <summary>
         /// Create or update entity.
-        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// For update use UpdateOrUpdate.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="variable">The node variable.</param>
@@ -382,7 +379,7 @@ namespace Weknow
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace<Person>("p", "map", "name")
         /// 
         /// MERGE (p:Person {name: $map.name})
@@ -392,7 +389,7 @@ namespace Weknow
         /// 
         /// MERGE (p:Person {name: $map.name, more: $map.more})
         ///     SET p = $map
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrReplace<T>(
             string variable,
             string entityParameter,
@@ -401,6 +398,7 @@ namespace Weknow
 
         /// <summary>
         /// Creates the or replace.
+        /// For update use UpdateOrUpdate.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="matchPropertyExpression">The match property expression.</param>
@@ -408,7 +406,7 @@ namespace Weknow
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// CreateOrReplace<Person>(p => p.name, "map")
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
@@ -418,7 +416,7 @@ namespace Weknow
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
         ///     SET p = $map, p.eTag = p.eTag + 1
-        /// </example>
+        /// ]]></example>
         FluentCypher CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
@@ -440,7 +438,7 @@ namespace Weknow
         ///// <param name="concurrencyField">The concurrency field.</param>
         ///// <param name="labelFormat">The label format.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists("p", "Person", "map", "name")
         ///// Results in:
         ///// Match (p:Person {name: $map.name})
@@ -450,7 +448,7 @@ namespace Weknow
         ///// Results in:
         ///// Match (p:Person {name: $map.name, more: $map.more})
         ///// SET p += $map, p.eTag = p.eTag + 1
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher UpdateIfExists(
         //    string variable,
         //    IEnumerable<string> labels,
@@ -469,7 +467,7 @@ namespace Weknow
         ///// <param name="matchProperty">The match property.</param>
         ///// <param name="moreMatchProperties">The more match properties.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists("p", "Person", "map", "name")
         ///// Match (p:Person {name: $map.name})
         /////     SET p += $map
@@ -477,7 +475,7 @@ namespace Weknow
         ///// UpdateIfExists("p", "Person", "map", "name", "more")
         ///// Match (p:Person {name: $map.name, more: $map.more})
         /////     SET p += $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher UpdateIfExists(
         //    string variable,
         //    string label,
@@ -495,7 +493,7 @@ namespace Weknow
         ///// <param name="matchProperty">The match property.</param>
         ///// <param name="moreMatchProperties">The more match properties.</param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists<Person></Person>("p", "map", "name")
         ///// Match (p:Person {name: $map.name})
         /////     SET p += $map
@@ -503,7 +501,7 @@ namespace Weknow
         ///// UpdateIfExists<Person>("p", "map", "name", "more")
         ///// Match (p:Person {name: $map.name, more: $map.more})
         /////     SET p += $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher UpdateIfExists<T>(
         //    string variable,
         //    string entityParameter,
@@ -518,12 +516,12 @@ namespace Weknow
         ///// <param name="matchProperty"></param>
         ///// <param name="entityParameter"></param>
         ///// <returns></returns>
-        ///// <example>
+        ///// <example><![CDATA[
         ///// UpdateIfExists<Person>(p => p.name, "map")
         ///// 
         ///// MERGE (p:Person {name: $map.name})
         /////     SET p = $map
-        ///// </example>
+        ///// ]]></example>
         //FluentCypher UpdateIfExists<T>(
         //    Expression<Func<T, dynamic>> matchPropertyExpression,
         //    string entityParameter);

@@ -8,10 +8,15 @@
 // https://neo4j.com/docs/cypher-manual/3.5/syntax/operators/
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Weknow
 {
 
+    /// <summary>
+    /// Fluent Cypher Return phrase
+    /// </summary>
+    /// <seealso cref="Weknow.FluentCypher" />
     public abstract class FluentCypherReturn: FluentCypher
     {
         #region Ctor
@@ -21,14 +26,25 @@ namespace Weknow
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentCypherReturn"/> class.
+        /// </summary>
+        /// <param name="copyFrom">The copy from.</param>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         private protected FluentCypherReturn(
             FluentCypher? copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
-            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
+            string? childrenSeparator = null,
+            IImmutableSet<string>? additionalLabels = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
         {
         }
 
@@ -41,9 +57,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ORDER BY n.property
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn OrderBy(string statement);
 
         #endregion // OrderBy
@@ -55,9 +71,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// ORDER BY n.property DESC
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn OrderByDesc(string statement);
 
         #endregion // OrderByDesc
@@ -69,9 +85,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SKIP $skipNumber
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Skip(string statement);
 
         /// <summary>
@@ -79,9 +95,9 @@ namespace Weknow
         /// </summary>
         /// <param name="number">The number.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// SKIP 10
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Skip(int number);
 
         #endregion // Skip
@@ -93,9 +109,9 @@ namespace Weknow
         /// </summary>
         /// <param name="statement">The statement.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// LIMIT $skipNumber
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Limit(string statement);
 
         /// <summary>
@@ -103,9 +119,9 @@ namespace Weknow
         /// </summary>
         /// <param name="number">The number.</param>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// LIMIT 10
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Limit(int number);
 
         #endregion // Limit
@@ -116,9 +132,9 @@ namespace Weknow
         /// Create count function.
         /// </summary>
         /// <returns></returns>
-        /// <example>
+        /// <example><![CDATA[
         /// RETURN count(*)
-        /// </example>
+        /// ]]></example>
         public abstract FluentCypherReturn Count();
 
         #endregion // Limit

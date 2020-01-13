@@ -5,6 +5,7 @@
 // https://github.com/barnardos-au/Neo4jMapper
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Weknow
 {
@@ -17,19 +18,33 @@ namespace Weknow
     {
         #region Ctor
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="FluentCypherWhereExpression"/> class from being created.
+        /// </summary>
         private protected FluentCypherWhereExpression()
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentCypherWhereExpression"/> class.
+        /// </summary>
+        /// <param name="copyFrom">The copy from.</param>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         private protected FluentCypherWhereExpression(
             FluentCypher? copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
-            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
+            string? childrenSeparator = null,
+            IImmutableSet<string>? additionalLabels = null)
+            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
         {
         }
 

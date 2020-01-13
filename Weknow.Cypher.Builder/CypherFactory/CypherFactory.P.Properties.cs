@@ -38,7 +38,7 @@ namespace Weknow
             /// <param name="parameterSeparator">The variable prefix separator.</param>
             /// <param name="propNames">The property names.</param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// -----------------------------------------------
             /// P.Create(new ["Name", "Id"])
             /// Results in:
@@ -51,7 +51,7 @@ namespace Weknow
             /// P.Create(new ["Name", "Id"], "prefix", ".")
             /// Results in:
             /// { Name: $prefix.Name, Id: $prefix.Id}
-            /// </example>
+            /// ]]></example>
             public static FluentCypher Create(IEnumerable<string> propNames, string? parameterPrefix = null, string parameterSeparator = "_")
             {
                 var phrases = propNames.Select(m => string.IsNullOrEmpty(parameterPrefix) ? $"{m}: ${m}" : $"{m}: ${parameterPrefix}{parameterSeparator}{m}");
@@ -65,9 +65,10 @@ namespace Weknow
             /// <summary>
             /// Compose properties phrase.
             /// </summary>
-            /// <param name="propNames">The property names.</param>
+            /// <param name="name">The name.</param>
+            /// <param name="moreNames">The more names.</param>
             /// <returns></returns>
-            /// <example>{ Name: $Name, Id: $Id}</example>
+            /// <example><![CDATA[{ Name: $Name, Id: $Id}]]></example>
             public static FluentCypher Create(string name, params string[] moreNames) =>
                                         Create(name.ToYield(moreNames));
 
@@ -76,10 +77,10 @@ namespace Weknow
             /// </summary>
             /// <typeparam name="T"></typeparam>
             /// <param name="propExpressions">The property expressions.</param>
-            /// <example>
+            /// <example><![CDATA[
             /// ComposeProps<Foo>(f => f.Name, f => f.Id)
             /// { Name: $Name, Id: $Id}
-            /// </example>
+            /// ]]></example>
             /// <returns></returns>
             public static FluentCypher Create<T>(params Expression<Func<T, dynamic>>[] propExpressions)
             { 

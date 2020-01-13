@@ -12,6 +12,11 @@ using static Weknow.Helpers.Helper;
 
 namespace Weknow
 {
+    /// <summary>
+    /// Additional Sets phrases
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="Weknow.CypherBuilder" />
     [DebuggerDisplay("{_cypherCommand}")]
     public class FluentCypherSet<T> : CypherBuilder
     {
@@ -19,10 +24,19 @@ namespace Weknow
 
         #region Ctor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentCypherSet{T}"/> class.
+        /// </summary>
         public FluentCypherSet()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentCypherSet{T}"/> class.
+        /// </summary>
+        /// <param name="copyFrom">The copy from.</param>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
         public FluentCypherSet(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
             : base(copyFrom, cypher, phrase)
         {
@@ -38,10 +52,10 @@ namespace Weknow
         /// <param name="propExpression">The property expression.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        /// <example>
+        /// <example><![CDATA[
         /// Set((User user) =&gt; user.Name).Also(user =&gt; user.Id)
         /// SET user.Name = $user.Name, user.Id = $user.Id // Update or create a property.
-        /// </example>
+        /// ]]></example>
         public FluentCypherSet<T> SetMore(Expression<Func<T, object>> propExpression)
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);

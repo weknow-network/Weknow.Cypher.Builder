@@ -12,10 +12,16 @@ using static Weknow.CypherFactory;
 
 #pragma warning disable RCS1090 // Call 'ConfigureAwait(false)'.
 #pragma warning disable ConfigureAwaitEnforcer // ConfigureAwaitEnforcer
+#pragma warning disable CA1063 // Implement IDisposable Correctly
+#pragma warning disable CA2213 // Disposable fields should be disposed
 
 
 namespace Weknow.CoreIntegrationTests
 {
+    /// <summary>
+    /// Advance Entity
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public class AdvanceEntityTests : IDisposable
     {
         private readonly ISession _session;
@@ -50,6 +56,10 @@ namespace Weknow.CoreIntegrationTests
 
         #region Dispose
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <exception cref="TimeoutException">Neo4J close session timeout.</exception>
         public void Dispose()
         {
             if (!_session.CloseAsync().Wait(TimeSpan.FromMinutes(1)))

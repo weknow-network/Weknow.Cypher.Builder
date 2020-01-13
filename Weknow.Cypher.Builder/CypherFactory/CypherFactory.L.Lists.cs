@@ -39,7 +39,7 @@ namespace Weknow
             /// <summary>
             /// Number of elements in the list.
             /// </summary>
-            /// <param name="statement">The statement.</param>
+            /// <param name="list">The list.</param>
             /// <returns></returns>
             public static FluentCypher Size(string list) => CypherBuilder.Default.Add($"size({list})");
 
@@ -50,7 +50,7 @@ namespace Weknow
             /// <summary>
             /// Reverse the order of the elements in the list.
             /// </summary>
-            /// <param name="statement">The statement.</param>
+            /// <param name="list">The list.</param>
             /// <returns></returns>
             public static FluentCypher Reverse(string list) => CypherBuilder.Default.Add($"reverse({list})");
 
@@ -62,7 +62,7 @@ namespace Weknow
             /// head() returns the first.
             /// return null for an empty list.
             /// </summary>
-            /// <param name="statement">The statement.</param>
+            /// <param name="list">The list.</param>
             /// <returns></returns>
             public static FluentCypher Head(string list) => CypherBuilder.Default.Add($"head({list})");
 
@@ -74,7 +74,7 @@ namespace Weknow
             /// last() the last element of the list.
             /// return null for an empty list.
             /// </summary>
-            /// <param name="statement">The statement.</param>
+            /// <param name="list">The list.</param>
             /// <returns></returns>
             public static FluentCypher Last(string list) => CypherBuilder.Default.Add($"last({list})");
 
@@ -86,7 +86,7 @@ namespace Weknow
             /// tail() returns all but the first element.
             /// return null for an empty list.
             /// </summary>
-            /// <param name="statement">The statement.</param>
+            /// <param name="list">The list.</param>
             /// <returns></returns>
             public static FluentCypher Tail(string list) => CypherBuilder.Default.Add($"tail({list})");
 
@@ -97,9 +97,9 @@ namespace Weknow
             /// </summary>
             /// <param name="statement">The statement.</param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// reduce(s = "", x IN list | s + x.prop)
-            /// </example>
+            /// ]]></example>
             public static FluentCypher Reduce(string statement) => CypherBuilder.Default.Add($"reduce({statement})");
 
             /// <summary>
@@ -111,10 +111,10 @@ namespace Weknow
             /// <param name="item">The item.</param>
             /// <param name="expression">The expression.</param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// Reduce("s", "''", "list", "x", "s + x.prop")
             /// reduce(s = "", x IN list | s + x.prop)
-            /// </example>
+            /// ]]></example>
             public static FluentCypher Reduce(string accumulatorVariable, string initValue, string item,  string list, string expression) =>
                 Reduce($"{accumulatorVariable} = {initValue}, {item} IN {list} | {expression}");
 
@@ -123,9 +123,9 @@ namespace Weknow
             /// </summary>
             /// <param name="contentExpression"></param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// reduce(s = "", x IN list | s + x.prop)
-            /// </example>
+            /// ]]></example>
             public static FluentCypher Reduce(Func<FluentCypher, FluentCypher> contentExpression)
             {
                 return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.None, "reduce(", ")");
@@ -136,9 +136,9 @@ namespace Weknow
             /// </summary>
             /// <param name="content">The delegated.</param>
             /// <returns></returns>
-            /// <example>
+            /// <example><![CDATA[
             /// reduce(s = "", x IN list | s + x.prop)
-            /// </example>
+            /// ]]></example>
             public static FluentCypher Reduce(FluentCypher content)
             {
                 return CypherBuilder.Default.Composite(content, CypherPhrase.None, "reduce(", ")");
