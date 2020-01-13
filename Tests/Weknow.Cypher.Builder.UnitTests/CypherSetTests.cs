@@ -25,9 +25,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetCombination_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Merge($"(f:Foo)")
                             .Merge($"(b:Bar)")
                                 .Set("f.SomeProperty = $sp")
@@ -56,8 +55,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetByConvention_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo {props})")
@@ -76,8 +73,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetAll_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo {props})")
@@ -96,8 +91,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetLabel_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo {props})")
@@ -116,8 +109,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetInstance_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo)")
                                .SetEntity<Foo>("f");
@@ -135,8 +126,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetInstanceReplace_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo)")
                                .SetEntity<Foo>("f", SetInstanceBehavior.Replace);
@@ -154,8 +143,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void MultiSets_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                     .Match("(person:Person {name: 'Cuba Gooding Jr.'})-[:ACTED_IN]->(movie:Movie)")
                     .With($"person, {A.Collect($"movie.Rank")} as ranks")

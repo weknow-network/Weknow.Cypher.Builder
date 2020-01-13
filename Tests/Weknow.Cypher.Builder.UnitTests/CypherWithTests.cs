@@ -26,8 +26,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
@@ -61,8 +59,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Create_Match_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
                             .Create("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
@@ -84,7 +80,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Merge_Match_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
             var cypher = CypherBuilder.Default
                             .Merge("(a:ACTOR)")
@@ -107,8 +102,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Create_Unwind_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
                             .Create("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
@@ -132,8 +125,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Merge_Unwind_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")

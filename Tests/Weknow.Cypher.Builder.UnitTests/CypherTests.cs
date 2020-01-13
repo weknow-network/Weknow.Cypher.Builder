@@ -27,8 +27,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Generate_Expression_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             FluentCypher cypherCommand = 
                         C.Generate(m => m
                                 .Match("(f:Foo)")
@@ -45,8 +43,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Generate_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             FluentCypher cypherCommand = 
                         C.Generate(L.Head("list"));
 
@@ -61,8 +57,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void CastToString_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string cypher = CypherBuilder.Default
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name);
@@ -83,8 +77,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Statement_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Match("(n:Foo)");
 
@@ -99,8 +91,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Props_Exp_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             // using static Weknow.CypherFactory; enable to avoid CypherFactory
             string props = P.Create<Foo>(f => f.Id, f => f.Name); // same as CypherFactory.P or CypherFactory.Properties
             var cypherCommand = CypherBuilder.Default
@@ -117,8 +107,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Props_All_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             // using static Weknow.CypherFactory; enable to avoid CypherFactory
             string props = Properties.CreateAll<Foo>(); // same as CypherFactory.P or CypherFactory.Properties
             props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
@@ -138,8 +126,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Props_All_Exclude_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.CreateAll<Foo>(f => f.DateOfBirth);
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
@@ -155,8 +141,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Props_Convention_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.CreateByConvention<Foo>(n => !n.StartsWith("Date"));
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
@@ -172,8 +156,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Props_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create("Id");
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo {props})");
@@ -189,7 +171,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Return_OrderByDesc_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
 
             var cypherCommand = CypherBuilder.Default
                             .Match("(n:Foo)")
@@ -207,8 +188,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void OptionalMatch_Props_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create("Id");
             var cypherCommand = CypherBuilder.Default
                             .OptionalMatch($"(n:Foo {props})");
@@ -224,8 +203,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Where_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo)")
                             .Where("n.Name = $Name");
@@ -241,8 +218,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Merge_OnCreate_OnMatch_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
             var cypherCommand = CypherBuilder.Default
@@ -269,8 +244,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Merge_OnCreate_OnMatch_Exp_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
@@ -295,8 +268,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Merge_Match_AutoWith_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
@@ -318,8 +289,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Create_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
                             .Create($"(n:Foo {props})");
@@ -354,14 +323,33 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew("x", "Foo", "ENV", "TENANT");
+                            .Context.Label.AddFromHere("ENV", "tenant")
+                            .Entity.CreateNew("x", "Foo");
 
-            string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
+            string expected = "CREATE (x:Foo:ENV:tenant $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // CreateInstance_AdditionalLabels_Test
+
+        #region CreateInstance_AdditionalLabels_WithConvention_Test
+
+        [Fact]
+        public void CreateInstance_AdditionalLabels_WithConvention_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                            .Context.Label.AddFromHere("ENV", "tenant")
+                            .Entity.CreateNew("x", "Foo");
+
+            string expected = "CREATE (x:FOO:ENV:TENANT $x_Foo)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_AdditionalLabels_WithConvention_Test
 
         #region CreateInstance_OfT_Test
 
@@ -386,7 +374,8 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew<Foo>("x", "map", "dev");
+                            .Context.Label.AddFromHere("dev")
+                            .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:Foo:dev $x_map)";
             _outputHelper.WriteLine(cypherCommand);
@@ -402,7 +391,8 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE, "dev");
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                            .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:FOO:DEV $x_map)";
             _outputHelper.WriteLine(cypherCommand);
@@ -418,7 +408,8 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE);
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                            .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:FOO $x_map)";
             _outputHelper.WriteLine(cypherCommand);
@@ -434,7 +425,9 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew<Foo>("x", "ENV", "TENANT");
+                            .Context.Label.AddFromHere("ENV", "TENANT", "Tmp")
+                            .Context.Label.RemoveFromHere("Tmp")
+                            .Entity.CreateNew<Foo>("x");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -448,9 +441,11 @@ namespace Weknow.UnitTests
         [Fact]
         public void CreateInstance_OfT_Format_AdditionLabel_Test()
         {
-            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            string props = Properties.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
+                            .Context.Label.AddFromHere("env", "tenant")
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+                            .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:FOO:ENV:TENANT $x_map)";
             _outputHelper.WriteLine(cypherCommand);

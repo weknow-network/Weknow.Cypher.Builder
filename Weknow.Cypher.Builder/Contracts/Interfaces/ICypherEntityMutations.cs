@@ -47,59 +47,49 @@ namespace Weknow
         /// </summary>
         /// <param name="variable">The node's variable.</param>
         /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example><![CDATA[
-        /// CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
+        /// CreateNew("n", "FOO")
+        /// Results in:
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew("n", "FOO", "map")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_map) // Create a node with the given properties.
         /// ]]></example>
-        FluentCypher CreateNew(string variable, string label, params string[] additionalLabels);
+        FluentCypher CreateNew(
+            string variable, 
+            string label,
+            string? parameter = null,
+            string? parameterPrefix = null,
+            string parameterSeparator = "_");
 
         /// <summary>
         /// CREATE by entity
         /// </summary>
         /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
         /// <param name="variable">The node's variable.</param>
-        /// <param name="parameter"></param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
-        /// <example>
-        /// <![CDATA[
+        /// <example><![CDATA[
         /// CreateNew<Foo>("n")
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
         /// --------------------------------------------------------------------------
-        /// CreateNew<Foo>("n", "dev")
+        /// CreateNew<Foo>("n", "map")
         /// Results in:
-        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+        /// CREATE (n:FOO $n_map) // Create a node with the given properties.
         /// ]]></example>
         FluentCypher CreateNew<T>(
             string variable,
-            string parameter,
-            params string[] additionalLabels);
-
-        /// <summary>
-        /// Creates the new.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <param name="labelFormat">The label format.</param>
-        /// <param name="additionalLabels">The additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// <![CDATA[CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
-        /// Results in:
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// --------------------------------------------------------------------------
-        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
-        /// Results in:
-        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// ]]></example>
-        FluentCypher CreateNew<T>(
-            string variable,
-            string parameter,
-            CypherNamingConvention labelFormat,
-            params string[] additionalLabels);
+            string? parameter = null,
+            string? parameterPrefix = null,
+            string parameterSeparator = "_");
 
         #endregion // Create
 
@@ -112,7 +102,6 @@ namespace Weknow
         /// <param name="labels">The labels.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchProperties">The match properties.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -124,8 +113,7 @@ namespace Weknow
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
-            IEnumerable<string> matchProperties,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+            IEnumerable<string> matchProperties);
 
 
         /// <summary>
@@ -201,10 +189,9 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="concurrencyField">When supplied the concurrency field
         /// used for incrementing the concurrency version (Optimistic concurrency).</param>
-        /// make sure to set unique constraint (on the matching properties), 
-        /// otherwise a new node with different concurrency will be created when not match.
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
@@ -221,8 +208,7 @@ namespace Weknow
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+            string? concurrencyField = null);
 
         /// <summary>
         /// Create or update entity.
@@ -287,7 +273,6 @@ namespace Weknow
         /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate<Person>(p => p.name, "map")
@@ -301,8 +286,7 @@ namespace Weknow
         FluentCypher CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+            string? concurrencyField = null);
 
         #endregion // CreateOrUpdate
 
@@ -318,10 +302,9 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="concurrencyField">When supplied the concurrency field
         /// used for incrementing the concurrency version (Optimistic concurrency).</param>
-        /// make sure to set unique constraint (on the matching properties), 
-        /// otherwise a new node with different concurrency will be created when not match.
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
@@ -338,8 +321,7 @@ namespace Weknow
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+            string? concurrencyField = null);
 
         /// <summary>
         /// Create or update entity.
@@ -404,24 +386,22 @@ namespace Weknow
         /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrReplace<Person>(p => p.name, "map")
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p = $map
+        /// SET p = $map
         /// ---------------------------------------------------------
         /// CreateOrReplace<Person>(p => p.name, "map", "eTag")
         /// Results in:
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p = $map, p.eTag = p.eTag + 1
+        /// SET p = $map, p.eTag = p.eTag + 1
         /// ]]></example>
         FluentCypher CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
-            string? concurrencyField = null,
-            CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+            string? concurrencyField = null);
 
         #endregion // CreateOrReplace
 

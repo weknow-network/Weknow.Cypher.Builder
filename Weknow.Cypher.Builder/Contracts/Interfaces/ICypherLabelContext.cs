@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq.Expressions;
 
 namespace Weknow
@@ -7,8 +9,26 @@ namespace Weknow
     /// Represent contextual label operations.
     /// Enable to add additional common labels like environment or tenants
     /// </summary>
-    public interface ICypherContextLabels
+    public interface ICypherLabelContext
     {
+        /// <summary>
+        /// Gets the current.
+        /// </summary>
+        IImmutableList<string> Current { get; }
+
+        /// <summary>
+        /// Format labels with contextual label.
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        string Format(params string[] labels);
+        /// <summary>
+        /// Format labels with contextual label.
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        string Format(IEnumerable<string> labels);
+
         /// <summary>
         /// Adds label from point in the cypher flow.
         /// </summary>

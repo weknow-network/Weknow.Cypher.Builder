@@ -26,9 +26,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Return_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Match("(b:Bar)")
                             .Return("f")
@@ -45,9 +44,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_With_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Match("(b:Bar)")
                             .With("f")
@@ -64,9 +62,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Set_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Set("f", "Name")
                             .Set("f", "Date");
@@ -82,9 +79,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Where_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Where("f", "Name")
                             .And

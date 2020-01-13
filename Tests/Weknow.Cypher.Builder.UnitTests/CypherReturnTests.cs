@@ -24,9 +24,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Return_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Return("f.BirthDay");
 
@@ -37,9 +36,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void ReturnDistict_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .ReturnDistinct("f.BirthDay");
 
@@ -50,9 +48,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void Return_Lambda_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Return<Foo>(f => f.DateOfBirth);
 
@@ -63,9 +60,8 @@ namespace Weknow.UnitTests
         [Fact]
         public void ReturnDistict_Lambda_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypher = CypherBuilder.Default
+                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .ReturnDistinct<Foo>(f => f.DateOfBirth);
 

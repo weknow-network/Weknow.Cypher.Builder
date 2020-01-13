@@ -53,7 +53,9 @@ namespace Weknow
         protected internal readonly string _childrenSeperator = SPACE;
         protected internal readonly CypherPhrase _phrase;
         protected internal IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
-        protected internal IImmutableSet<string> _additionalLabels = ImmutableHashSet<string>.Empty;
+        protected internal IImmutableList<string> _additionalLabels = ImmutableList<string>.Empty;
+        private protected CypherNamingConvention _nodeConvention = CypherNamingConvention.Default;
+        private protected CypherNamingConvention _relationConvention = CypherNamingConvention.Default;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #region Ctor
@@ -76,14 +78,18 @@ namespace Weknow
         /// <param name="children">The delegated.</param>
         /// <param name="childrenSeparator">The children separator  (space if empty).</param>
         /// <param name="additionalLabels">The additional labels.</param>
+        /// <param name="nodeConvention">The node convention.</param>
+        /// <param name="relationConvention">The node convention.</param>
         private protected FluentCypher(
-            FluentCypher? copyFrom,
+            FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
-            IImmutableSet<string>? additionalLabels = null)
+            IImmutableList<string>? additionalLabels = null,
+            CypherNamingConvention? nodeConvention = null,
+            CypherNamingConvention? relationConvention = null)
         {
             _previous = copyFrom;
             _cypher = cypher;
@@ -91,7 +97,9 @@ namespace Weknow
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
             _childrenSeperator = childrenSeparator ?? copyFrom?._childrenSeperator ?? SPACE;
-            _additionalLabels = additionalLabels ?? copyFrom?._additionalLabels ?? ImmutableHashSet<string>.Empty;
+            _additionalLabels = additionalLabels ?? copyFrom?._additionalLabels ?? ImmutableList<string>.Empty;
+            _nodeConvention = nodeConvention ?? copyFrom._nodeConvention;
+            _relationConvention = relationConvention ?? copyFrom._relationConvention;
         }
 
         #endregion // Ctor
@@ -955,15 +963,15 @@ namespace Weknow
 
         #endregion // Entities
 
-        #region LabelContext
+        #region Context
 
         /// <summary>
         /// Represent contextual label operations.
         /// Enable to add additional common labels like environment or tenants
         /// </summary>
-        public abstract ICypherContextLabels LabelContext { get; }
+        public abstract ICypherContext Context { get; }
 
-        #endregion // LabelContext
+        #endregion // Context
 
         #region ToCypher
 

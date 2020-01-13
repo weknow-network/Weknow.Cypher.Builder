@@ -63,17 +63,15 @@ namespace Weknow
     /// <seealso cref="Weknow.FluentCypherWhereExpression" />
     /// <seealso cref="Weknow.ICypherEntityMutations" />
     /// <seealso cref="Weknow.ICypherEntitiesMutations" />
-    /// <seealso cref="Weknow.ICypherContextLabels" />
+    /// <seealso cref="Weknow.ICypherLabelContext" />
     /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
         FluentCypherWhereExpression,
         ICypherEntityMutations,
         ICypherEntitiesMutations,
-        ICypherContextLabels
+        ICypherContext,
+        ICypherLabelContext
     {
-        private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
-        private protected static CypherNamingConvention _defaultRelationConvention = CypherNamingConvention.Default;
-
         #region static Default
 
         /// <summary>
@@ -82,23 +80,6 @@ namespace Weknow
         public static readonly FluentCypher Default = new CypherBuilder();
 
         #endregion // static Default
-
-        #region SetDefaultConventions
-
-        /// <summary>
-        /// Sets the default conventions.
-        /// </summary>
-        /// <param name="nodeConvention">The node convention.</param>
-        /// <param name="relationConvention">The relation convention.</param>
-        public static void SetDefaultConventions(
-          CypherNamingConvention nodeConvention,
-          CypherNamingConvention relationConvention)
-        {
-            _defaultNodeConvention = nodeConvention;
-            _defaultRelationConvention = relationConvention;
-        }
-
-        #endregion // SetDefaultConventions
 
         #region Ctor
 
@@ -122,20 +103,36 @@ namespace Weknow
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
-            IImmutableSet<string>? additionalLabels = null)
-            : base(null, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
+            IImmutableList<string>? additionalLabels = null)
+            : base(CypherBuilder.Default, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CypherBuilder"/> class.
+        /// </summary>
+        /// <param name="copyFrom">The copy from.</param>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
+        /// <param name="nodeConvention">The node convention.</param>
+        /// <param name="relationConvention">The node convention.</param>
         private protected CypherBuilder(
-            FluentCypher? copyFrom,
+            FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
-            IImmutableSet<string>? additionalLabels = null)
-            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
+            IImmutableList<string>? additionalLabels = null,
+            CypherNamingConvention? nodeConvention = null,
+            CypherNamingConvention? relationConvention = null)
+            : base(copyFrom, cypher, phrase, cypherClose, 
+                  children, childrenSeparator, additionalLabels,
+                  nodeConvention, relationConvention)
         {
         }
 
@@ -1040,7 +1037,8 @@ namespace Weknow
         /// ]]></example>
         public override FluentCypher SetLabel(string variable, string label)
         {
-            string statement = $"{variable}:{label}";
+            ICypherLabelContext labelContext = this;
+            string statement = $"{variable}:{labelContext.Format(label)}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -1486,8 +1484,9 @@ namespace Weknow
             string? parameterPrefix,
             string parameterSeparator)
         {
+            ICypherLabelContext labelContext = this;
             parameterPrefix = parameterPrefix ?? variable;
-            string labelsStr = string.Join(":", labels);
+            string labelsStr = labelContext.Format(labels);
             return AddStatement($"({variable}:{labelsStr} ${parameterPrefix}{parameterSeparator}{parameter})", CypherPhrase.Create);
         }
 
@@ -1496,7 +1495,9 @@ namespace Weknow
         /// </summary>
         /// <param name="variable">The node's variable.</param>
         /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateNew("n", "FOO")
@@ -1507,10 +1508,16 @@ namespace Weknow
         /// Results in:
         /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
         /// ]]></example>
-        FluentCypher ICypherEntityMutations.CreateNew(string variable, string label, params string[] additionalLabels)
+        FluentCypher ICypherEntityMutations.CreateNew(
+            string variable, 
+            string label,
+            string? parameter,
+            string? parameterPrefix,
+            string parameterSeparator)
         {
+            ICypherLabelContext labelContext = this;
             ICypherEntityMutations self = this;
-            return self.CreateNew(variable, label.ToYield(additionalLabels), label);
+            return self.CreateNew(variable, label.AsYield(), parameter ?? label, parameterPrefix, parameterSeparator);
         }
 
 
@@ -1519,56 +1526,28 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
         /// <param name="variable">The node's variable.</param>
-        /// <param name="parameter"></param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateNew<Foo>("n")
         /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
         /// --------------------------------------------------------------------------
-        /// CreateNew<Foo>("n", "dev")
+        /// CreateNew<Foo>("n", "map")
         /// Results in:
-        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+        /// CREATE (n:FOO $n_map) // Create a node with the given properties.
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
-            string parameter,
-            params string[] additionalLabels)
+            string? parameter,
+            string? parameterPrefix,
+            string parameterSeparator)
         {
             ICypherEntityMutations self = this;
             string label = typeof(T).Name;
-            return self.CreateNew(variable, label.ToYield(additionalLabels), parameter);
-        }
-
-        /// <summary>
-        /// Creates the new.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <param name="labelFormat">The label format.</param>
-        /// <param name="additionalLabels">The additional labels.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
-        /// Results in:
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// --------------------------------------------------------------------------
-        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
-        /// Results in:
-        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-        /// ]]></example>
-        FluentCypher ICypherEntityMutations.CreateNew<T>(
-            string variable,
-            string parameter,
-            CypherNamingConvention labelFormat,
-            params string[] additionalLabels)
-        {
-            ICypherEntityMutations self = this;
-            string label = typeof(T).Name;
-            string formattedLabel = Format(label, labelFormat);
-            return self.CreateNew(variable, formattedLabel.ToYield(additionalLabels), parameter);
+            return self.CreateNew(variable, label, parameter, parameterPrefix, parameterSeparator);
         }
 
         #endregion // CreateNew
@@ -1582,7 +1561,6 @@ namespace Weknow
         /// <param name="labels">The labels.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchProperties">The match properties.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -1594,8 +1572,7 @@ namespace Weknow
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
-            IEnumerable<string> matchProperties,
-            CypherNamingConvention labelFormat)
+            IEnumerable<string> matchProperties)
         {
             labels = labels.Select(n => Format(n));
             string joinedLabel = string.Join(":", labels);
@@ -1695,7 +1672,6 @@ namespace Weknow
         /// used for incrementing the concurrency version (Optimistic concurrency)
         /// make sure to set unique constraint (on the matching properties),
         /// otherwise a new node with different concurrency will be created when not match.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <param name="onMatchBehavior">The behavior.</param>
         /// <returns></returns>
         /// <example><![CDATA[
@@ -1710,13 +1686,12 @@ namespace Weknow
             string entityParameter,
             IEnumerable<string> matchProperties,
             string? concurrencyField,
-            CypherNamingConvention labelFormat,
             SetInstanceBehavior onMatchBehavior)
         {
             bool withConcurrency = !string.IsNullOrEmpty(concurrencyField);
             string eTag = withConcurrency ? $"{variable}.{concurrencyField}" : string.Empty;
 
-            labels = labels.Select(n => Format(n, labelFormat));
+            labels = labels.Select(n => Format(n));
             string joinedLabel = string.Join(":", labels);
             var props = P.Create(matchProperties, entityParameter, ".");
             var result = Merge($"({variable}:{joinedLabel} {props})");
@@ -1756,7 +1731,6 @@ namespace Weknow
         /// used for incrementing the concurrency version (Optimistic concurrency)
         /// make sure to set unique constraint (on the matching properties),
         /// otherwise a new node with different concurrency will be created when not match.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -1774,11 +1748,10 @@ namespace Weknow
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            string? concurrencyField,
-            CypherNamingConvention labelFormat)
+            string? concurrencyField)
         {
             return AddOrModify(variable, labels, entityParameter, matchProperties, 
-                                concurrencyField, labelFormat, SetInstanceBehavior.Update);
+                                concurrencyField, SetInstanceBehavior.Update);
         }
 
         /// <summary>
@@ -1845,28 +1818,24 @@ namespace Weknow
         /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate<Person>(p => p.name, "map")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map
+        /// SET p += $map
         /// ------------------------------------------------
         /// CreateOrUpdate<Person>(p => p.name, "map", "eTag")
-        /// 
         /// MERGE (p:Person {name: $map.name})
-        ///     SET p += $map, p.eTag = p.eTag + 1
+        /// SET p += $map, p.eTag = p.eTag + 1
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
-            string? concurrencyField,
-            CypherNamingConvention labelFormat)
+            string? concurrencyField)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
             return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
-                concurrencyField, labelFormat, SetInstanceBehavior.Update);
+                concurrencyField, SetInstanceBehavior.Update);
         }
 
         #endregion // CreateOrUpdate
@@ -1883,10 +1852,9 @@ namespace Weknow
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="concurrencyField">When supplied the concurrency field
         /// used for incrementing the concurrency version (Optimistic concurrency).</param>
-        /// make sure to set unique constraint (on the matching properties), 
-        /// otherwise a new node with different concurrency will be created when not match.
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// <example><![CDATA[
         /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
         /// Results in:
@@ -1903,11 +1871,10 @@ namespace Weknow
             IEnumerable<string> labels,
             string entityParameter,
             IEnumerable<string> matchProperties,
-            string? concurrencyField,
-            CypherNamingConvention labelFormat)
+            string? concurrencyField)
         {
             return AddOrModify(variable, labels, entityParameter, matchProperties, 
-                                concurrencyField, labelFormat, SetInstanceBehavior.Replace);
+                                concurrencyField, SetInstanceBehavior.Replace);
         }
 
         /// <summary>
@@ -1977,7 +1944,6 @@ namespace Weknow
         /// <param name="matchPropertyExpression">The match property expression.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
-        /// <param name="labelFormat">The label format.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrReplace<Person>(p => p.name, "map")
@@ -1993,12 +1959,11 @@ namespace Weknow
         FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
             string entityParameter,
-            string? concurrencyField,
-            CypherNamingConvention labelFormat)
+            string? concurrencyField)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
             return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
-                                concurrencyField, labelFormat, SetInstanceBehavior.Replace);
+                                concurrencyField, SetInstanceBehavior.Replace);
         }
 
         #endregion // CreateOrReplace
@@ -2123,11 +2088,65 @@ namespace Weknow
         /// Represent contextual label operations.
         /// Enable to add additional common labels like environment or tenants
         /// </summary>
-        public override ICypherContextLabels LabelContext => this;
+        public override ICypherContext Context => this;
 
         #endregion // LabelContext
 
+        #region Label // ICypherContext
+
+        /// <summary>
+        /// Represent contextual label operations.
+        /// Enable to add additional common labels like environment or tenants
+        /// </summary>
+        ICypherLabelContext ICypherContext.Label => this;
+
+        /// <summary>
+        /// Sets the conventions.
+        /// </summary>
+        /// <param name="nodeConvention">The node convention.</param>
+        /// <param name="relationConvention">The relation convention.</param>
+        FluentCypher ICypherContext.Conventions(
+          CypherNamingConvention nodeConvention,
+          CypherNamingConvention relationConvention)
+        {
+            return new CypherBuilder(this, _cypher, CypherPhrase.Dynamic,
+                                 nodeConvention: nodeConvention,
+                                 relationConvention: relationConvention);
+        }
+
+        #endregion // ICypherContext
+
         #region ICypherContextLabels
+
+        /// <summary>
+        /// Gets the current.
+        /// </summary>
+        IImmutableList<string> ICypherLabelContext.Current => _additionalLabels;
+
+        /// <summary>
+        /// Format labels with contextual label.
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        string ICypherLabelContext.Format(params string[] labels)
+        {
+            ICypherLabelContext self = this;
+            return self.Format((IEnumerable<string>)labels);
+        }
+
+        /// <summary>
+        /// Format labels with contextual label.
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        string ICypherLabelContext.Format(IEnumerable<string> labels)
+        {
+            IEnumerable<string> context = _additionalLabels;
+            IEnumerable<string> formatted = labels.Concat(context).Select(m => Format(m));
+            string result = string.Join(":", formatted);
+            return result;
+        }
+
 
         /// <summary>
         /// Adds label from point in the cypher flow.
@@ -2135,10 +2154,12 @@ namespace Weknow
         /// <param name="label">The label.</param>
         /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
-        FluentCypher ICypherContextLabels.AddFromHere(string label, params string[] additionalLabels)
+        FluentCypher ICypherLabelContext.AddFromHere(string label, params string[] additionalLabels)
         {
-            IImmutableSet<string> additions = _additionalLabels.Add(label)
-                                 .Aggregate(_additionalLabels, (acc, cur) => acc.Contains(cur) ? acc : acc.Add(cur));
+            IEnumerable<string> labels = label.ToYield(additionalLabels).Select(m => Format(m));
+            IImmutableList<string> additions = labels.Aggregate(
+                                                    _additionalLabels, 
+                                                    (acc, cur) => acc.Contains(cur) ? acc : acc.Add(cur));
             return new CypherBuilder(this, _cypher, CypherPhrase.Dynamic, additionalLabels: additions);
         }
 
@@ -2148,10 +2169,12 @@ namespace Weknow
         /// <param name="label">The label.</param>
         /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
-        FluentCypher ICypherContextLabels.RemoveFromHere(string label, params string[] additionalLabels)
+        FluentCypher ICypherLabelContext.RemoveFromHere(string label, params string[] additionalLabels)
         {
-            IImmutableSet<string> additions = _additionalLabels.Remove(label)
-                          .Aggregate(_additionalLabels, (acc, cur) => acc.Contains(cur) ? acc.Remove(cur) : acc);
+            IEnumerable<string> labels = label.ToYield(additionalLabels).Select(m => Format(m));
+            IImmutableList<string> additions = labels.Aggregate(
+                                                    _additionalLabels,
+                                                    (acc, cur) => acc.Contains(cur) ? acc.Remove(cur) : acc);
             return new CypherBuilder(this, _cypher, CypherPhrase.Dynamic, additionalLabels: additions);
         }
 
@@ -2170,7 +2193,7 @@ namespace Weknow
             CypherNamingConvention convention = CypherNamingConvention.Default)
         {
             if (convention == CypherNamingConvention.Default)
-                convention = _defaultNodeConvention;
+                convention = _nodeConvention;
             return convention switch
             {
                 CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
@@ -2193,7 +2216,7 @@ namespace Weknow
             CypherNamingConvention convention = CypherNamingConvention.Default)
         {
             if (convention == CypherNamingConvention.Default)
-                convention = _defaultNodeConvention;
+                convention = _nodeConvention;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
             return convention switch
             {

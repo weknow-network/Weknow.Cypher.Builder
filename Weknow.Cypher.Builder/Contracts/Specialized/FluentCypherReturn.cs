@@ -27,7 +27,7 @@ namespace Weknow
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FluentCypherReturn"/> class.
+        /// Initializes a new instance of the <see cref="FluentCypherReturn" /> class.
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
         /// <param name="cypher">The cypher.</param>
@@ -36,15 +36,21 @@ namespace Weknow
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
         /// <param name="additionalLabels">The additional labels.</param>
+        /// <param name="nodeConvention">The node convention.</param>
+        /// <param name="relationConvention">The node convention.</param>
         private protected FluentCypherReturn(
-            FluentCypher? copyFrom,
+            FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
-            IImmutableSet<string>? additionalLabels = null)
-            : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator, additionalLabels)
+            IImmutableList<string>? additionalLabels = null,
+            CypherNamingConvention? nodeConvention = null,
+            CypherNamingConvention? relationConvention = null)
+            : base(copyFrom, cypher, phrase, cypherClose,
+                  children, childrenSeparator, additionalLabels,
+                  nodeConvention, relationConvention)
         {
         }
 

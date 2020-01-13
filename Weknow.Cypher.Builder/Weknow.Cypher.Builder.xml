@@ -219,7 +219,7 @@
             Prevents a default instance of the <see cref="T:Weknow.FluentCypher" /> class from being created.
             </summary>
         </member>
-        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableSet{System.String})">
+        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableList{System.String},System.Nullable{Weknow.CypherNamingConvention},System.Nullable{Weknow.CypherNamingConvention})">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypher" /> class.
             </summary>
@@ -230,6 +230,8 @@
             <param name="children">The delegated.</param>
             <param name="childrenSeparator">The children separator  (space if empty).</param>
             <param name="additionalLabels">The additional labels.</param>
+            <param name="nodeConvention">The node convention.</param>
+            <param name="relationConvention">The node convention.</param>
         </member>
         <member name="M:Weknow.FluentCypher.Add(System.String)">
             <summary>
@@ -864,7 +866,7 @@
             Nodes mutation by entities (use Unwind pattern).
             </summary>
         </member>
-        <member name="P:Weknow.FluentCypher.LabelContext">
+        <member name="P:Weknow.FluentCypher.Context">
             <summary>
             Represent contextual label operations.
             Enable to add additional common labels like environment or tenants
@@ -979,27 +981,22 @@
             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
             </returns>
         </member>
-        <member name="T:Weknow.ICypherContextLabels">
+        <member name="T:Weknow.ICypherContext">
             <summary>
-            Represent contextual label operations.
-            Enable to add additional common labels like environment or tenants
+            Represent contextual operations.
             </summary>
         </member>
-        <member name="M:Weknow.ICypherContextLabels.AddFromHere(System.String,System.String[])">
+        <member name="P:Weknow.ICypherContext.Label">
             <summary>
-            Adds label from point in the cypher flow.
+            Label Context.
             </summary>
-            <param name="label">The label.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
         </member>
-        <member name="M:Weknow.ICypherContextLabels.RemoveFromHere(System.String,System.String[])">
+        <member name="M:Weknow.ICypherContext.Conventions(Weknow.CypherNamingConvention,Weknow.CypherNamingConvention)">
             <summary>
-            Removes label from point in the cypher flow.
+            Sets the conventions.
             </summary>
-            <param name="label">The label.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
+            <param name="nodeLabelConvention">The node convention.</param>
+            <param name="relationTagConvention">The relation convention.</param>
         </member>
         <member name="T:Weknow.ICypherEntitiesMutations">
             <summary>
@@ -1035,59 +1032,47 @@
             CREATE (n:A:B $prefix.map)
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateNew(System.String,System.String,System.String[])">
+        <member name="M:Weknow.ICypherEntityMutations.CreateNew(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Create CREATE instance phrase
             </summary>
             <param name="variable">The node's variable.</param>
             <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-            <param name="additionalLabels">Additional labels.</param>
+            <param name="parameter">The parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="parameterSeparator">The parameter separator.</param>
             <returns></returns>
             <example><![CDATA[
-            CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
+            CreateNew("n", "FOO")
+            Results in:
+            CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+            --------------------------------------------------------------------------
+            CreateNew("n", "FOO", "map")
+            Results in:
+            CREATE (n:FOO:DEV $n_map) // Create a node with the given properties.
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateNew``1(System.String,System.String,System.String[])">
+        <member name="M:Weknow.ICypherEntityMutations.CreateNew``1(System.String,System.String,System.String,System.String)">
             <summary>
             CREATE by entity
             </summary>
             <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
             <param name="variable">The node's variable.</param>
-            <param name="parameter"></param>
-            <param name="additionalLabels">Additional labels.</param>
+            <param name="parameter">The parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="parameterSeparator">The parameter separator.</param>
             <returns></returns>
-            <example>
-            <![CDATA[
+            <example><![CDATA[
             CreateNew<Foo>("n")
             Results in:
             CREATE (n:FOO $n_Foo) // Create a node with the given properties.
             --------------------------------------------------------------------------
-            CreateNew<Foo>("n", "dev")
+            CreateNew<Foo>("n", "map")
             Results in:
-            CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+            CREATE (n:FOO $n_map) // Create a node with the given properties.
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateNew``1(System.String,System.String,Weknow.CypherNamingConvention,System.String[])">
-            <summary>
-            Creates the new.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="parameter">The parameter.</param>
-            <param name="labelFormat">The label format.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
-            <example>
-            <![CDATA[CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
-            Results in:
-            CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-            --------------------------------------------------------------------------
-            CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
-            Results in:
-            CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-            ]]></example>
-        </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateIfNotExists(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.ICypherEntityMutations.CreateIfNotExists(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Create if not exists
             </summary>
@@ -1095,7 +1080,6 @@
             <param name="labels">The labels.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="matchProperties">The match properties.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -1152,7 +1136,7 @@
             ON CREATE SET p = $map
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateOrUpdate(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.ICypherEntityMutations.CreateOrUpdate(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
             Create or update entity.
             For replace use ReplaceOrUpdate
@@ -1163,10 +1147,9 @@
             <param name="matchProperties">The match properties.</param>
             <param name="concurrencyField">When supplied the concurrency field
             used for incrementing the concurrency version (Optimistic concurrency).</param>
-            make sure to set unique constraint (on the matching properties), 
-            otherwise a new node with different concurrency will be created when not match.
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
             <example><![CDATA[
             CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
             Results in:
@@ -1225,7 +1208,7 @@
                 SET p += $map
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateOrUpdate``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.ICypherEntityMutations.CreateOrUpdate``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String)">
             <summary>
             Creates the or update.
             For update use UpdateOrUpdate.
@@ -1234,7 +1217,6 @@
             <param name="matchPropertyExpression">The match property expression.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="concurrencyField">The concurrency field.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateOrUpdate<Person>(p => p.name, "map")
@@ -1246,7 +1228,7 @@
             SET p += $map, p.eTag = p.eTag + 1
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateOrReplace(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.ICypherEntityMutations.CreateOrReplace(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
             Create or update entity.
             For update use UpdateOrUpdate.
@@ -1257,10 +1239,9 @@
             <param name="matchProperties">The match properties.</param>
             <param name="concurrencyField">When supplied the concurrency field
             used for incrementing the concurrency version (Optimistic concurrency).</param>
-            make sure to set unique constraint (on the matching properties), 
-            otherwise a new node with different concurrency will be created when not match.
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
             <example><![CDATA[
             CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
             Results in:
@@ -1319,7 +1300,7 @@
                 SET p = $map
             ]]></example>
         </member>
-        <member name="M:Weknow.ICypherEntityMutations.CreateOrReplace``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.ICypherEntityMutations.CreateOrReplace``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String)">
             <summary>
             Creates the or replace.
             For update use UpdateOrUpdate.
@@ -1328,19 +1309,59 @@
             <param name="matchPropertyExpression">The match property expression.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="concurrencyField">The concurrency field.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateOrReplace<Person>(p => p.name, "map")
             Results in:
             MERGE (p:Person {name: $map.name})
-                SET p = $map
+            SET p = $map
             ---------------------------------------------------------
             CreateOrReplace<Person>(p => p.name, "map", "eTag")
             Results in:
             MERGE (p:Person {name: $map.name})
-                SET p = $map, p.eTag = p.eTag + 1
+            SET p = $map, p.eTag = p.eTag + 1
             ]]></example>
+        </member>
+        <member name="T:Weknow.ICypherLabelContext">
+            <summary>
+            Represent contextual label operations.
+            Enable to add additional common labels like environment or tenants
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherLabelContext.Current">
+            <summary>
+            Gets the current.
+            </summary>
+        </member>
+        <member name="M:Weknow.ICypherLabelContext.Format(System.String[])">
+            <summary>
+            Format labels with contextual label.
+            </summary>
+            <param name="labels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherLabelContext.Format(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Format labels with contextual label.
+            </summary>
+            <param name="labels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherLabelContext.AddFromHere(System.String,System.String[])">
+            <summary>
+            Adds label from point in the cypher flow.
+            </summary>
+            <param name="label">The label.</param>
+            <param name="additionalLabels">The additional labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherLabelContext.RemoveFromHere(System.String,System.String[])">
+            <summary>
+            Removes label from point in the cypher flow.
+            </summary>
+            <param name="label">The label.</param>
+            <param name="additionalLabels">The additional labels.</param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.FluentCypherReturn">
             <summary>
@@ -1348,9 +1369,9 @@
             </summary>
             <seealso cref="T:Weknow.FluentCypher" />
         </member>
-        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableSet{System.String})">
+        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableList{System.String},System.Nullable{Weknow.CypherNamingConvention},System.Nullable{Weknow.CypherNamingConvention})">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
             </summary>
             <param name="copyFrom">The copy from.</param>
             <param name="cypher">The cypher.</param>
@@ -1359,6 +1380,8 @@
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
             <param name="additionalLabels">The additional labels.</param>
+            <param name="nodeConvention">The node convention.</param>
+            <param name="relationConvention">The node convention.</param>
         </member>
         <member name="M:Weknow.FluentCypherReturn.OrderBy(System.String)">
             <summary>
@@ -1490,9 +1513,9 @@
             Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
             </summary>
         </member>
-        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableSet{System.String})">
+        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableList{System.String},System.Nullable{Weknow.CypherNamingConvention},System.Nullable{Weknow.CypherNamingConvention})">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
             </summary>
             <param name="copyFrom">The copy from.</param>
             <param name="cypher">The cypher.</param>
@@ -1501,6 +1524,8 @@
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
             <param name="additionalLabels">The additional labels.</param>
+            <param name="nodeConvention">The node convention.</param>
+            <param name="relationConvention">The node convention.</param>
         </member>
         <member name="P:Weknow.FluentCypherWhereExpression.And">
             <summary>
@@ -1553,7 +1578,7 @@
             <seealso cref="T:Weknow.FluentCypherWhereExpression" />
             <seealso cref="T:Weknow.ICypherEntityMutations" />
             <seealso cref="T:Weknow.ICypherEntitiesMutations" />
-            <seealso cref="T:Weknow.ICypherContextLabels" />
+            <seealso cref="T:Weknow.ICypherLabelContext" />
             <seealso cref="T:Weknow.FluentCypher" />
         </member>
         <member name="F:Weknow.CypherBuilder.Default">
@@ -1561,14 +1586,7 @@
             Root Cypher Builder.
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.SetDefaultConventions(Weknow.CypherNamingConvention,Weknow.CypherNamingConvention)">
-            <summary>
-            Sets the default conventions.
-            </summary>
-            <param name="nodeConvention">The node convention.</param>
-            <param name="relationConvention">The relation convention.</param>
-        </member>
-        <member name="M:Weknow.CypherBuilder.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableSet{System.String})">
+        <member name="M:Weknow.CypherBuilder.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableList{System.String})">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
             </summary>
@@ -1578,6 +1596,20 @@
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
             <param name="additionalLabels">The additional labels.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,System.Collections.Immutable.IImmutableList{System.String},System.Nullable{Weknow.CypherNamingConvention},System.Nullable{Weknow.CypherNamingConvention})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder"/> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
+            <param name="additionalLabels">The additional labels.</param>
+            <param name="nodeConvention">The node convention.</param>
+            <param name="relationConvention">The node convention.</param>
         </member>
         <member name="M:Weknow.CypherBuilder.IsWithCause(Weknow.CypherPhrase)">
             <summary>
@@ -2398,13 +2430,15 @@
             CREATE (n:A:B $prefix.map)
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateNew(System.String,System.String,System.String[])">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateNew(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             CREATE by entity
             </summary>
             <param name="variable">The node's variable.</param>
             <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-            <param name="additionalLabels">Additional labels.</param>
+            <param name="parameter">The parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="parameterSeparator">The parameter separator.</param>
             <returns></returns>
             <example><![CDATA[
             CreateNew("n", "FOO")
@@ -2416,46 +2450,27 @@
             CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateNew``1(System.String,System.String,System.String[])">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateNew``1(System.String,System.String,System.String,System.String)">
             <summary>
             CREATE by entity
             </summary>
             <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
             <param name="variable">The node's variable.</param>
-            <param name="parameter"></param>
-            <param name="additionalLabels">Additional labels.</param>
+            <param name="parameter">The parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="parameterSeparator">The parameter separator.</param>
             <returns></returns>
             <example><![CDATA[
             CreateNew<Foo>("n")
             Results in:
             CREATE (n:FOO $n_Foo) // Create a node with the given properties.
             --------------------------------------------------------------------------
-            CreateNew<Foo>("n", "dev")
+            CreateNew<Foo>("n", "map")
             Results in:
-            CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+            CREATE (n:FOO $n_map) // Create a node with the given properties.
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateNew``1(System.String,System.String,Weknow.CypherNamingConvention,System.String[])">
-            <summary>
-            Creates the new.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="parameter">The parameter.</param>
-            <param name="labelFormat">The label format.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
-            <example><![CDATA[
-            CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
-            Results in:
-            CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-            --------------------------------------------------------------------------
-            CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
-            Results in:
-            CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateIfNotExists(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateIfNotExists(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Create if not exists
             </summary>
@@ -2463,7 +2478,6 @@
             <param name="labels">The labels.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="matchProperties">The match properties.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -2520,7 +2534,7 @@
             ON CREATE SET p = $map
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.AddOrModify(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.CypherNamingConvention,Weknow.SetInstanceBehavior)">
+        <member name="M:Weknow.CypherBuilder.AddOrModify(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.SetInstanceBehavior)">
             <summary>
             Add or Modify entity.
             For replace use ReplaceOrUpdate.
@@ -2533,7 +2547,6 @@
             used for incrementing the concurrency version (Optimistic concurrency)
             make sure to set unique constraint (on the matching properties),
             otherwise a new node with different concurrency will be created when not match.</param>
-            <param name="labelFormat">The label format.</param>
             <param name="onMatchBehavior">The behavior.</param>
             <returns></returns>
             <example><![CDATA[
@@ -2543,7 +2556,7 @@
             SET p += $map, p.eTag = p.eTag + 1
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrUpdate(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrUpdate(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
             Create or update entity.
             For replace use ReplaceOrUpdate
@@ -2556,7 +2569,6 @@
             used for incrementing the concurrency version (Optimistic concurrency)
             make sure to set unique constraint (on the matching properties),
             otherwise a new node with different concurrency will be created when not match.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -2610,7 +2622,7 @@
             SET p += $map
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrUpdate``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrUpdate``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String)">
             <summary>
             Creates the or update.
             </summary>
@@ -2618,21 +2630,18 @@
             <param name="matchPropertyExpression">The match property expression.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="concurrencyField">The concurrency field.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateOrUpdate<Person>(p => p.name, "map")
-            
             MERGE (p:Person {name: $map.name})
-                SET p += $map
+            SET p += $map
             ------------------------------------------------
             CreateOrUpdate<Person>(p => p.name, "map", "eTag")
-            
             MERGE (p:Person {name: $map.name})
-                SET p += $map, p.eTag = p.eTag + 1
+            SET p += $map, p.eTag = p.eTag + 1
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrReplace(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrReplace(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
             <summary>
             Create or update entity.
             For update use CreateOrUpdate
@@ -2643,10 +2652,9 @@
             <param name="matchProperties">The match properties.</param>
             <param name="concurrencyField">When supplied the concurrency field
             used for incrementing the concurrency version (Optimistic concurrency).</param>
-            make sure to set unique constraint (on the matching properties), 
-            otherwise a new node with different concurrency will be created when not match.
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
             <example><![CDATA[
             CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
             Results in:
@@ -2702,7 +2710,7 @@
                 SET p = $map
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrReplace``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntityMutations#CreateOrReplace``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String,System.String)">
             <summary>
             Creates the or replace.
             </summary>
@@ -2710,7 +2718,6 @@
             <param name="matchPropertyExpression">The match property expression.</param>
             <param name="entityParameter">The entity parameter.</param>
             <param name="concurrencyField">The concurrency field.</param>
-            <param name="labelFormat">The label format.</param>
             <returns></returns>
             <example><![CDATA[
             CreateOrReplace<Person>(p => p.name, "map")
@@ -2729,13 +2736,45 @@
             Nodes mutation by entities (use Unwind pattern).
             </summary>
         </member>
-        <member name="P:Weknow.CypherBuilder.LabelContext">
+        <member name="P:Weknow.CypherBuilder.Context">
             <summary>
             Represent contextual label operations.
             Enable to add additional common labels like environment or tenants
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherContextLabels#AddFromHere(System.String,System.String[])">
+        <member name="P:Weknow.CypherBuilder.Weknow#ICypherContext#Label">
+            <summary>
+            Represent contextual label operations.
+            Enable to add additional common labels like environment or tenants
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherContext#Conventions(Weknow.CypherNamingConvention,Weknow.CypherNamingConvention)">
+            <summary>
+            Sets the conventions.
+            </summary>
+            <param name="nodeConvention">The node convention.</param>
+            <param name="relationConvention">The relation convention.</param>
+        </member>
+        <member name="P:Weknow.CypherBuilder.Weknow#ICypherLabelContext#Current">
+            <summary>
+            Gets the current.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherLabelContext#Format(System.String[])">
+            <summary>
+            Format labels with contextual label.
+            </summary>
+            <param name="labels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherLabelContext#Format(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Format labels with contextual label.
+            </summary>
+            <param name="labels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherLabelContext#AddFromHere(System.String,System.String[])">
             <summary>
             Adds label from point in the cypher flow.
             </summary>
@@ -2743,7 +2782,7 @@
             <param name="additionalLabels">The additional labels.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.Weknow#ICypherContextLabels#RemoveFromHere(System.String,System.String[])">
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherLabelContext#RemoveFromHere(System.String,System.String[])">
             <summary>
             Removes label from point in the cypher flow.
             </summary>

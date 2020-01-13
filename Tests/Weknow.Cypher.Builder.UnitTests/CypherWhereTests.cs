@@ -26,8 +26,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_WhereWithVariable_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo)")
                             .Where("n", "Name");
@@ -43,8 +41,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void WhereCollection_WithVariable_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo)")
                             .Where("n", "Name", "Id");
@@ -60,8 +56,6 @@ namespace Weknow.UnitTests
         [Fact]
         public void WhereCollection__WithVariable_Test()
         {
-            CypherBuilder.SetDefaultConventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE);
-
             var cypherCommand = CypherBuilder.Default
                             .Match($"(n:Foo)")
                             .Where<Foo>(n => n.Id, ">")
