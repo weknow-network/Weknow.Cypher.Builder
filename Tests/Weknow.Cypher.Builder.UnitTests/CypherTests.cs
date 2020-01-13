@@ -338,7 +338,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew("x", "Foo");
+                            .Entity.CreateNew("x", "Foo");
 
             string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -354,7 +354,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew("x", "Foo", "ENV", "TENANT");
+                            .Entity.CreateNew("x", "Foo", "ENV", "TENANT");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -370,7 +370,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew<Foo>("x");
+                            .Entity.CreateNew("x", nameof(Foo));
 
             string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -379,6 +379,38 @@ namespace Weknow.UnitTests
 
         #endregion // CreateInstance_OfT_Test
 
+        #region CreateInstance_OfT_WithParam_Test
+
+        [Fact]
+        public void CreateInstance_OfT_WithParam_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Entity.CreateNew<Foo>("x", "map", "dev");
+
+            string expected = "CREATE (x:Foo:dev $x_map)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_WithParam_Test
+
+        #region CreateInstance_OfT_WithParam_SCREAMING_Test
+
+        [Fact]
+        public void CreateInstance_OfT_WithParam_SCREAMING_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Default
+                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE, "dev");
+
+            string expected = "CREATE (x:FOO:DEV $x_map)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateInstance_OfT_WithParam_SCREAMING_Test
+
         #region CreateInstance_OfT_Format_Test
 
         [Fact]
@@ -386,9 +418,9 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew<Foo>("x", CypherNamingConvention.SCREAMING_CASE);
+                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE);
 
-            string expected = "CREATE (x:FOO $x_Foo)";
+            string expected = "CREATE (x:FOO $x_map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -402,7 +434,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew<Foo>("x", "ENV", "TENANT");
+                            .Entity.CreateNew<Foo>("x", "ENV", "TENANT");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -418,9 +450,9 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .Advance.Entity.CreateNew<Foo>("x", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
+                            .Entity.CreateNew<Foo>("x", "map", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
 
-            string expected = "CREATE (x:FOO:ENV:TENANT $x_Foo)";
+            string expected = "CREATE (x:FOO:ENV:TENANT $x_map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }

@@ -19,6 +19,8 @@ namespace Weknow
         /// <param name="variable">The node's variable.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example>
         /// CreateNew("n", new [] {"A", "B"}, "map")
@@ -39,6 +41,7 @@ namespace Weknow
             string parameter,
             string? parameterPrefix = null,
             string parameterSeparator = "_");
+
         /// <summary>
         /// Create CREATE instance phrase
         /// </summary>
@@ -52,32 +55,48 @@ namespace Weknow
         FluentCypher CreateNew(string variable, string label, params string[] additionalLabels);
 
         /// <summary>
-        /// Create CREATE instance phrase
+        /// CREATE by entity
         /// </summary>
         /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
         /// <param name="variable">The node's variable.</param>
+        /// <param name="parameter"></param>
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
         /// <example>
+        /// CreateNew<Foo>("n")
+        /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew<Foo>("n", "dev")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
         /// </example>
         FluentCypher CreateNew<T>(
             string variable,
+            string parameter,
             params string[] additionalLabels);
 
         /// <summary>
-        /// Create CREATE instance phrase
+        /// Creates the new.
         /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labelFormat">The label formatting strategy.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
         /// <example>
+        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
+        /// Results in:
         /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
         /// </example>
         FluentCypher CreateNew<T>(
             string variable,
+            string parameter,
             CypherNamingConvention labelFormat,
             params string[] additionalLabels);
 

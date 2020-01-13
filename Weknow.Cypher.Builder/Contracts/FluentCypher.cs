@@ -926,14 +926,23 @@ namespace Weknow
 
         #endregion // Cypher Operators
 
-        #region Advance
+        #region Entity
 
         /// <summary>
-        /// Advance compositions.
+        /// Node mutation by entity.
         /// </summary>
-        public abstract ICypherAdvance Advance { get; }
+        public abstract ICypherEntityMutations Entity { get; }
 
-        #endregion // Advance
+        #endregion // Entity
+
+        #region Entities
+
+        /// <summary>
+        /// Nodes mutation by entities (use Unwind pattern).
+        /// </summary>
+        public abstract ICypherEntitiesMutations Entities { get; }
+
+        #endregion // Entities
 
         #region ToCypher
 

@@ -42,7 +42,6 @@ namespace Weknow
     /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
         FluentCypherWhereExpression,
-        ICypherAdvance,
         ICypherEntityMutations,
         ICypherEntitiesMutations
     {
@@ -1407,15 +1406,6 @@ namespace Weknow
 
         #endregion // Cypher Operators
 
-        #region Advance
-
-        /// <summary>
-        /// Advance compositions.
-        /// </summary>
-        public override ICypherAdvance Advance => this;
-
-        #endregion // Advance
-
         #region ICypherEntityMutations
 
         #region Entity
@@ -1423,7 +1413,7 @@ namespace Weknow
         /// <summary>
         /// Node mutation by entity.
         /// </summary>
-        ICypherEntityMutations ICypherAdvance.Entity => this;
+        public override ICypherEntityMutations Entity => this;
 
         #endregion // Entity
 
@@ -1435,6 +1425,8 @@ namespace Weknow
         /// <param name="variable">The node's variable.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterPrefix"></param>
+        /// <param name="parameterSeparator"></param>
         /// <returns></returns>
         /// <example>
         /// CreateNew("n", new [] {"A", "B"}, "map")
@@ -1453,8 +1445,8 @@ namespace Weknow
             string variable,
             IEnumerable<string> labels,
             string parameter,
-            string? parameterPrefix = null,
-            string parameterSeparator = "_")
+            string? parameterPrefix,
+            string parameterSeparator)
         {
             parameterPrefix = parameterPrefix ?? variable;
             string labelsStr = string.Join(":", labels);
@@ -1489,6 +1481,7 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
         /// <param name="variable">The node's variable.</param>
+        /// <param name="parameter"></param>
         /// <param name="additionalLabels">Additional labels.</param>
         /// <returns></returns>
         /// <example>
@@ -1502,20 +1495,22 @@ namespace Weknow
         /// </example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
+            string parameter,
             params string[] additionalLabels)
         {
             ICypherEntityMutations self = this;
             string label = typeof(T).Name;
-            return self.CreateNew(variable, label.ToYield(additionalLabels), label);
+            return self.CreateNew(variable, label.ToYield(additionalLabels), parameter);
         }
 
         /// <summary>
-        /// CREATE by entity
+        /// Creates the new.
         /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labelFormat">The label formatting strategy.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <param name="additionalLabels">The additional labels.</param>
         /// <returns></returns>
         /// <example>
         /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
@@ -1528,13 +1523,14 @@ namespace Weknow
         /// </example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
+            string parameter,
             CypherNamingConvention labelFormat,
             params string[] additionalLabels)
         {
             ICypherEntityMutations self = this;
             string label = typeof(T).Name;
             string formattedLabel = Format(label, labelFormat);
-            return self.CreateNew(variable, formattedLabel.ToYield(additionalLabels), label);
+            return self.CreateNew(variable, formattedLabel.ToYield(additionalLabels), parameter);
         }
 
         #endregion // CreateNew
@@ -1564,7 +1560,7 @@ namespace Weknow
             CypherNamingConvention labelFormat = CypherNamingConvention.Default)
         {
             labels = labels.Select(n => Format(n));
-            string joinedLabel = string.Format(":", labels);
+            string joinedLabel = string.Join(":", labels);
             var props = P.Create(matchProperties, entityParameter, ".");
             return Merge($"({variable}:{joinedLabel} {props})")
                         .OnCreate()
@@ -2093,7 +2089,7 @@ namespace Weknow
         /// <summary>
         /// Nodes mutation by entities (use Unwind pattern).
         /// </summary>
-        ICypherEntitiesMutations ICypherAdvance.Entities => this;
+        public override ICypherEntitiesMutations Entities => this;
 
         #endregion // Entities
 
