@@ -12,6 +12,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using static Weknow.Helpers.Helper;
+using static Weknow.CypherFactory;
 
 namespace Weknow
 {
@@ -40,7 +41,10 @@ namespace Weknow
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
-        FluentCypherWhereExpression
+        FluentCypherWhereExpression,
+        ICypherAdvance,
+        ICypherEntityMutations,
+        ICypherEntitiesMutations
     {
         private protected static CypherNamingConvention _defaultNodeConvention = CypherNamingConvention.Default;
         private protected static CypherNamingConvention _defaultRelationConvention = CypherNamingConvention.Default;
@@ -312,127 +316,6 @@ namespace Weknow
 
         #endregion // Create
 
-        #region CreateInstance
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labels">The labels.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns></returns>
-        private FluentCypher CreateInstance(string variable, IEnumerable<string> labels, string parameter)
-        {
-            string labelsStr = string.Join(":", labels);
-            return AddStatement($"({variable}:{labelsStr} ${variable}_{parameter})", CypherPhrase.Create);
-        }
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
-        /// </example>
-        public override FluentCypher CreateInstance(string variable, string label, params string[] additionalLabels)
-        {
-            return CreateInstance(variable, label.ToYield(additionalLabels), label);
-        }
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labelFormat">The label formatting strategy.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// </example>
-        public override FluentCypher CreateInstance<T>(
-            string variable,
-            params string[] additionalLabels)
-        {
-            string label = typeof(T).Name;
-            return CreateInstance(variable, label.ToYield(additionalLabels), label);
-        }
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labelFormat">The label formatting strategy.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// </example>
-        public override FluentCypher CreateInstance<T>(
-            string variable,
-            CypherNamingConvention labelFormat,
-            params string[] additionalLabels)
-        {
-            string label = typeof(T).Name;
-            string formattedLabel = Format(label, labelFormat);
-            return CreateInstance(variable, formattedLabel.ToYield(additionalLabels), label);
-        }
-
-
-        #endregion // CreateInstance
-
-        #region Remove
-
-        /// <summary>
-        /// Create REMOVE phrase,
-        /// Remove the label from the node or property.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// REMOVE n:Person // Remove a label from n.
-        /// REMOVE n.property // Remove a property.
-        /// </example>
-        public override FluentCypher Remove(string statement) => AddStatement(statement, CypherPhrase.Remove);
-
-        #endregion // Remove
-
-        #region Delete
-
-        /// <summary>
-        /// Create DELETE  phrase,
-        /// Delete a node and a relationship.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// DETACH DELETE n
-        /// </example>
-        public override FluentCypher Delete(string statement) => AddStatement(statement, CypherPhrase.Delete);
-
-        #endregion // Delete
-
-        #region DetachDelete
-
-        /// <summary>
-        /// Create DETACH DELETE phrase,
-        /// Delete all nodes and relationships from the database.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// DETACH DELETE n
-        /// </example>
-        public override FluentCypher DetachDelete(string statement) => AddStatement(statement, CypherPhrase.DetachDelete);
-
-        #endregion // DetachDelete
-
         #region Merge
 
         /// <summary>
@@ -494,91 +377,95 @@ namespace Weknow
         /// </example>
         public override FluentCypher OnCreate(string statement) => AddStatement(statement, CypherPhrase.OnCreate);
 
-        /// <summary>
-        /// Compose ON CREATE SET phrase
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public override FluentCypher OnCreateSet(string variable, IEnumerable<string> propNames)
-        {
-            #region Validation
-
-            if (propNames == null || !propNames.Any())
-                throw new ArgumentNullException($"{nameof(propNames)} must have at least single value");
-
-            #endregion // Validation
-
-            var root = AddStatement(CypherPhrase.OnCreate);
-            return root.Set(variable, propNames);
-        }
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public override FluentCypher OnCreateSet(string variable, string name, params string[] moreNames)
-        {
-            var root = AddStatement(CypherPhrase.OnCreate);
-            return root.Set(variable, name.ToYield(moreNames));
-        }
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase from a type expression.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="propExpression">The property expression.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public override FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
-        {
-            var root = AddStatement(CypherPhrase.OnCreate);
-            return root.Set<T>(propExpression);
-        }
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase by convention.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="filter">The filter.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public override FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
-        {
-            var root = AddStatement(CypherPhrase.OnCreate);
-            return root.SetByConvention<T>(variable, filter);
-        }
-
         #endregion // OnCreate
+
+        #region // OnCreateSet
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase
+        ///// </summary>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="propNames">The property names.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.created = timestamp()
+        ///// ON MATCH SET
+        ///// n.counter = coalesce(n.counter, 0) + 1,
+        ///// n.accessTime = timestamp()
+        ///// </example>
+        //public override FluentCypher OnCreateSet(string variable, IEnumerable<string> propNames)
+        //{
+        //    #region Validation
+
+        //    if (propNames == null || !propNames.Any())
+        //        throw new ArgumentNullException($"{nameof(propNames)} must have at least single value");
+
+        //    #endregion // Validation
+
+        //    var root = AddStatement(CypherPhrase.OnCreate);
+        //    return root.Set(variable, propNames);
+        //}
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase
+        ///// </summary>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="propNames">The property names.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.created = timestamp()
+        ///// ON MATCH SET
+        ///// n.counter = coalesce(n.counter, 0) + 1,
+        ///// n.accessTime = timestamp()
+        ///// </example>
+        //public override FluentCypher OnCreateSet(string variable, string name, params string[] moreNames)
+        //{
+        //    var root = AddStatement(CypherPhrase.OnCreate);
+        //    return root.Set(variable, name.ToYield(moreNames));
+        //}
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase from a type expression.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="propExpression">The property expression.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.created = timestamp()
+        ///// ON MATCH SET
+        ///// n.counter = coalesce(n.counter, 0) + 1,
+        ///// n.accessTime = timestamp()
+        ///// </example>
+        //public override FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression)
+        //{
+        //    var root = AddStatement(CypherPhrase.OnCreate);
+        //    return root.Set<T>(propExpression);
+        //}
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase by convention.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="filter">The filter.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.created = timestamp()
+        ///// ON MATCH SET
+        ///// n.counter = coalesce(n.counter, 0) + 1,
+        ///// n.accessTime = timestamp()
+        ///// </example>
+        //public override FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter)
+        //{
+        //    var root = AddStatement(CypherPhrase.OnCreate);
+        //    return root.SetByConvention<T>(variable, filter);
+        // }
+
+        #endregion // OnCreateSet
 
         #region OnMatch
 
@@ -697,6 +584,54 @@ namespace Weknow
         }
 
         #endregion // OnMatch
+
+        #region Remove
+
+        /// <summary>
+        /// Create REMOVE phrase,
+        /// Remove the label from the node or property.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// REMOVE n:Person // Remove a label from n.
+        /// REMOVE n.property // Remove a property.
+        /// </example>
+        public override FluentCypher Remove(string statement) => AddStatement(statement, CypherPhrase.Remove);
+
+        #endregion // Remove
+
+        #region Delete
+
+        /// <summary>
+        /// Create DELETE  phrase,
+        /// Delete a node and a relationship.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// DETACH DELETE n
+        /// </example>
+        public override FluentCypher Delete(string statement) => AddStatement(statement, CypherPhrase.Delete);
+
+        #endregion // Delete
+
+        #region DetachDelete
+
+        /// <summary>
+        /// Create DETACH DELETE phrase,
+        /// Delete all nodes and relationships from the database.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// DETACH DELETE n
+        /// </example>
+        public override FluentCypher DetachDelete(string statement) => AddStatement(statement, CypherPhrase.DetachDelete);
+
+        #endregion // DetachDelete
 
         #region Unwind 
 
@@ -985,7 +920,7 @@ namespace Weknow
         /// Set("u", "entity")
         /// SET u = $u_entity
         /// </example>
-        public override FluentCypher SetInstance(
+        public override FluentCypher SetEntity(
             string variable,
             string paramName = "",
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
@@ -1013,7 +948,7 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $UserEntity
         /// </example>
-        public override FluentCypher SetInstance<T>(
+        public override FluentCypher SetEntity<T>(
             string variable,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
         {
@@ -1471,6 +1406,696 @@ namespace Weknow
         #endregion // Composite
 
         #endregion // Cypher Operators
+
+        #region Advance
+
+        /// <summary>
+        /// Advance compositions.
+        /// </summary>
+        public override ICypherAdvance Advance => this;
+
+        #endregion // Advance
+
+        #region ICypherEntityMutations
+
+        #region Entity
+
+        /// <summary>
+        /// Node mutation by entity.
+        /// </summary>
+        ICypherEntityMutations ICypherAdvance.Entity => this;
+
+        #endregion // Entity
+
+        #region CreateNew
+
+        /// <summary>
+        /// CREATE by entity
+        /// </summary>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateNew("n", new [] {"A", "B"}, "map")
+        /// Results in:
+        /// CREATE (n:A:B $n_map)
+        /// ----------------------------------------------------------
+        /// CreateNew("n", new [] {"A", "B"}, "map", "prefix")
+        /// Results in:
+        /// CREATE (n:A:B $prefix_map)
+        /// ----------------------------------------------------------
+        /// CreateNew("n", new [] {"A", "B"}, "map", "prefix", ".")
+        /// Results in:
+        /// CREATE (n:A:B $prefix.map)
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateNew(
+            string variable,
+            IEnumerable<string> labels,
+            string parameter,
+            string? parameterPrefix = null,
+            string parameterSeparator = "_")
+        {
+            parameterPrefix = parameterPrefix ?? variable;
+            string labelsStr = string.Join(":", labels);
+            return AddStatement($"({variable}:{labelsStr} ${parameterPrefix}{parameterSeparator}{parameter})", CypherPhrase.Create);
+        }
+
+        /// <summary>
+        /// CREATE by entity
+        /// </summary>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
+        /// <param name="additionalLabels">Additional labels.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateNew("n", "FOO")
+        /// Results in:
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew("n", "FOO", "dev")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateNew(string variable, string label, params string[] additionalLabels)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateNew(variable, label.ToYield(additionalLabels), label);
+        }
+
+
+        /// <summary>
+        /// CREATE by entity
+        /// </summary>
+        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="additionalLabels">Additional labels.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateNew<Foo>("n")
+        /// Results in:
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew<Foo>("n", "dev")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateNew<T>(
+            string variable,
+            params string[] additionalLabels)
+        {
+            ICypherEntityMutations self = this;
+            string label = typeof(T).Name;
+            return self.CreateNew(variable, label.ToYield(additionalLabels), label);
+        }
+
+        /// <summary>
+        /// CREATE by entity
+        /// </summary>
+        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
+        /// <param name="variable">The node's variable.</param>
+        /// <param name="labelFormat">The label formatting strategy.</param>
+        /// <param name="additionalLabels">Additional labels.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE)
+        /// Results in:
+        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
+        /// --------------------------------------------------------------------------
+        /// CreateNew<Foo>("n", CypherNamingConvention.CREAMING_CASE, "dev")
+        /// Results in:
+        /// CREATE (n:FOO:DEV $n_Foo) // Create a node with the given properties.
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateNew<T>(
+            string variable,
+            CypherNamingConvention labelFormat,
+            params string[] additionalLabels)
+        {
+            ICypherEntityMutations self = this;
+            string label = typeof(T).Name;
+            string formattedLabel = Format(label, labelFormat);
+            return self.CreateNew(variable, formattedLabel.ToYield(additionalLabels), label);
+        }
+
+        #endregion // CreateNew
+
+        #region CreateIfNotExists
+
+        /// <summary>
+        /// Create if not exists
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// ON CREATE SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateIfNotExists(
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+        {
+            labels = labels.Select(n => Format(n));
+            string joinedLabel = string.Format(":", labels);
+            var props = P.Create(matchProperties, entityParameter, ".");
+            return Merge($"({variable}:{joinedLabel} {props})")
+                        .OnCreate()
+                        .SetEntity(variable, entityParameter, SetInstanceBehavior.Replace);
+        }
+
+
+        /// <summary>
+        /// Create if not exists
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateIfNotExists("p", "Person", "map", "id", "name")
+        /// Results in:
+        /// MERGE (p:Person {id: $map.id, name: $map.name})
+        ///     ON CREATE SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateIfNotExists(
+            string variable,
+            string label,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateIfNotExists(variable, label.AsYield(), entityParameter, matchProperty.ToYield(moreMatchProperties));
+        }
+
+        /// <summary>
+        /// Create if not exists
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateIfNotExists<Person>("p", "map", "id", "name")
+        /// Results in:
+        /// MERGE (p:Person {id: $map.id, name: $map.name})
+        ///     ON CREATE SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateIfNotExists<T>(
+            string variable,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateIfNotExists(variable, typeof(T).Name, entityParameter, matchProperty, moreMatchProperties);
+        }
+
+        /// <summary>
+        /// Create if not exists
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchPropertyExpression">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateIfNotExists<Person>(p => p.name, "map")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     ON CREATE SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateIfNotExists<T>(
+            Expression<Func<T, dynamic>> matchPropertyExpression,
+            string entityParameter)
+        {
+            var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
+
+            ICypherEntityMutations self = this;
+            return self.CreateIfNotExists<T>(variable, entityParameter, matchProperty);
+        }
+
+        #endregion // CreateInstanceIfNew
+
+        #region AddOrModify
+
+        /// <summary>
+        /// Add or Modify entity.
+        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="concurrencyField">When supplied the concurrency field
+        /// used for incrementing the concurrency version (Optimistic concurrency)
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <param name="onMatchBehavior">The behavior.</param>
+        /// <returns></returns>
+        /// <example>
+        /// AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map, p.eTag = p.eTag + 1
+        /// </example>
+        private FluentCypher AddOrModify(
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            string? concurrencyField,
+            CypherNamingConvention labelFormat,
+            SetInstanceBehavior onMatchBehavior)
+        {
+            bool withConcurrency = !string.IsNullOrEmpty(concurrencyField);
+            string eTag = withConcurrency ? $"{variable}.{concurrencyField}" : string.Empty;
+
+            labels = labels.Select(n => Format(n, labelFormat));
+            string joinedLabel = string.Join(":", labels);
+            var props = P.Create(matchProperties, entityParameter, ".");
+            var result = Merge($"({variable}:{joinedLabel} {props})");
+
+            if (withConcurrency)
+            {
+                result = result.Where($"{eTag} = ${entityParameter}.{concurrencyField}");
+            }
+            result = result.OnCreate()
+                        .SetEntity(variable, entityParameter, SetInstanceBehavior.Replace);
+            if (withConcurrency)
+            {
+                result = result.Add($", {eTag} = 0");
+            }
+            result = result.OnMatch()
+                        .SetEntity(variable, entityParameter, onMatchBehavior);
+            if (withConcurrency)
+            {
+                result = result.Add($", {eTag} = {eTag} + 1");
+            }
+            return result;
+        }
+
+        #endregion // AddOrModify
+
+        #region CreateOrUpdate
+
+        /// <summary>
+        /// Create or update entity.
+        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="concurrencyField">When supplied the concurrency field
+        /// used for incrementing the concurrency version (Optimistic concurrency)
+        /// make sure to set unique constraint (on the matching properties), 
+        /// otherwise a new node with different concurrency will be created when not match.
+        /// </param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map
+        /// -------------------------------------------------------------------------
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map, p.eTag = p.eTag + 1
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrUpdate(
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            string? concurrencyField,
+            CypherNamingConvention labelFormat)
+        {
+            return AddOrModify(variable, labels, entityParameter, matchProperties, 
+                                concurrencyField, labelFormat, SetInstanceBehavior.Update);
+        }
+
+        /// <summary>
+        /// Create or update entity.
+        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrUpdate("p", "Person", "map", "name")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p += $map
+        ///     
+        /// CreateOrUpdate("p", "Person", "map", "name", "more")
+        /// 
+        /// MERGE (p:Person {name: $map.name, more: $map.more})
+        ///     SET p += $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrUpdate(
+            string variable,
+            string label,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateOrUpdate(variable, label.AsYield(), entityParameter, matchProperty.ToYield(moreMatchProperties));
+        }
+
+        /// <summary>
+        /// Create or update entity.
+        /// For replace <seealso cref="ReplaceOrUpdate" />
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrUpdate<Person>("p", "map", "name")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p += $map
+        ///     
+        /// CreateOrUpdate<Person>("p", "map", "name", "more")
+        /// 
+        /// MERGE (p:Person {name: $map.name, more: $map.more})
+        ///     SET p += $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
+            string variable,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateOrUpdate(variable, typeof(T).Name, entityParameter, matchProperty, moreMatchProperties);
+        }
+
+        /// <summary>
+        /// Creates the or update.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="matchPropertyExpression">The match property expression.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="concurrencyField">The concurrency field.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrUpdate<Person>(p => p.name, "map")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p += $map
+        /// ------------------------------------------------
+        /// CreateOrUpdate<Person>(p => p.name, "map", "eTag")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p += $map, p.eTag = p.eTag + 1
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
+            Expression<Func<T, dynamic>> matchPropertyExpression,
+            string entityParameter,
+            string? concurrencyField,
+            CypherNamingConvention labelFormat)
+        {
+            var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
+            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
+                concurrencyField, labelFormat, SetInstanceBehavior.Update);
+        }
+
+        #endregion // CreateOrUpdate
+
+        #region CreateOrReplace
+
+        /// <summary>
+        /// Create or update entity.
+        /// For update <seealso cref="UpdateOrUpdate" />
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="concurrencyField">When supplied the concurrency field
+        /// used for incrementing the concurrency version (Optimistic concurrency).</param>
+        /// make sure to set unique constraint (on the matching properties), 
+        /// otherwise a new node with different concurrency will be created when not match.
+        /// <param name="labelFormat">The label format.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p = $map
+        /// -----------------------------------------------------------------------------
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p = $map, p.eTag = p.eTag + 1
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrReplace(
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            string? concurrencyField = null,
+            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+        {
+            return AddOrModify(variable, labels, entityParameter, matchProperties, 
+                                concurrencyField, labelFormat, SetInstanceBehavior.Replace);
+        }
+
+        /// <summary>
+        /// Create or update entity.
+        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// </summary>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrReplace("p", "Person", "map", "name")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     ON CREATE SET p = $map
+        ///     
+        /// CreateOrReplace("p", "Person", "map", "name", "more")
+        /// 
+        /// MERGE (p:Person {name: $map.name, more: $map.more})
+        ///     SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrReplace(
+            string variable,
+            string label,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateOrReplace(variable, label.AsYield(), entityParameter, matchProperty.ToYield(moreMatchProperties));
+        }
+
+        /// <summary>
+        /// Create or update entity.
+        /// For update <seealso cref="UpdateOrUpdate"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrReplace<Person>("p", "map", "name")
+        /// 
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p = $map
+        ///     
+        /// CreateOrReplace<Person>("p", "map", "name", "more")
+        /// 
+        /// MERGE (p:Person {name: $map.name, more: $map.more})
+        ///     SET p = $map
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
+            string variable,
+            string entityParameter,
+            string matchProperty,
+            params string[] moreMatchProperties)
+        {
+            ICypherEntityMutations self = this;
+            return self.CreateOrReplace(variable, typeof(T).Name, entityParameter, matchProperty, moreMatchProperties);
+        }
+
+        /// <summary>
+        /// Creates the or replace.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="concurrencyField">The concurrency field.</param>
+        /// <param name="labelFormat">The label format.</param>
+        /// <returns></returns>
+        /// <example>
+        /// CreateOrReplace<Person>(p => p.name, "map")
+        /// Results in:
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p = $map
+        /// ---------------------------------------------------------
+        /// CreateOrReplace<Person>(p => p.name, "map", "eTag")
+        /// Results in:
+        /// MERGE (p:Person {name: $map.name})
+        ///     SET p = $map, p.eTag = p.eTag + 1
+        /// </example>
+        FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
+            Expression<Func<T, dynamic>> matchPropertyExpression,
+            string entityParameter,
+            string? concurrencyField = null,
+            CypherNamingConvention labelFormat = CypherNamingConvention.Default)
+        {
+            var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
+            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
+                                concurrencyField, labelFormat, SetInstanceBehavior.Replace);
+        }
+
+        #endregion // CreateOrReplace
+
+        #region // UpdateIfExists
+
+        ///// <summary>
+        ///// Update entity if existing.
+        ///// For replacing instance <seealso cref="ReplaceIfExists" />
+        ///// </summary>
+        ///// <param name="variable">The node variable.</param>
+        ///// <param name="labels">The labels.</param>
+        ///// <param name="entityParameter">The entity variable.</param>
+        ///// <param name="matchProperties">The match properties.</param>
+        ///// <param name="concurrencyField">The concurrency field.</param>
+        ///// <param name="labelFormat">The label format.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UpdateIfExists("p", "Person", "map", "name")
+        ///// Results in:
+        ///// Match (p:Person {name: $map.name})
+        ///// SET p += $map
+        ///// -------------------------------------------------------------------------
+        ///// UpdateIfExists("p", "Person", "map", "name", "more", "eTag")
+        ///// Results in:
+        ///// Match (p:Person {name: $map.name, more: $map.more})
+        ///// SET p += $map, p.eTag = p.eTag + 1
+        ///// </example>
+        //FluentCypher ICypherEntityMutations.UpdateIfExists(
+        //    string variable,
+        //    IEnumerable<string> labels,
+        //    string entityParameter,
+        //    IEnumerable<string> matchProperties,
+        //    string? concurrencyField = null,
+        //    CypherNamingConvention labelFormat = CypherNamingConvention.Default);
+
+        ///// <summary>
+        ///// Update entity if existing.
+        ///// For replacing instance <seealso cref="ReplaceIfExists" />
+        ///// </summary>
+        ///// <param name="variable">The node variable.</param>
+        ///// <param name="label">The label.</param>
+        ///// <param name="entityParameter">The entity variable.</param>
+        ///// <param name="matchProperty">The match property.</param>
+        ///// <param name="moreMatchProperties">The more match properties.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UpdateIfExists("p", "Person", "map", "name")
+        ///// Match (p:Person {name: $map.name})
+        /////     SET p += $map
+        /////     
+        ///// UpdateIfExists("p", "Person", "map", "name", "more")
+        ///// Match (p:Person {name: $map.name, more: $map.more})
+        /////     SET p += $map
+        ///// </example>
+        //FluentCypher ICypherEntityMutations.UpdateIfExists(
+        //    string variable,
+        //    string label,
+        //    string entityParameter,
+        //    string matchProperty,
+        //    params string[] moreMatchProperties);
+
+        ///// <summary>
+        ///// Update entity if existing.
+        ///// For replacing instance <seealso cref="ReplaceIfExists" />
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The node variable.</param>
+        ///// <param name="entityParameter">The entity variable.</param>
+        ///// <param name="matchProperty">The match property.</param>
+        ///// <param name="moreMatchProperties">The more match properties.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UpdateIfExists<Person></Person>("p", "map", "name")
+        ///// Match (p:Person {name: $map.name})
+        /////     SET p += $map
+        /////     
+        ///// UpdateIfExists<Person>("p", "map", "name", "more")
+        ///// Match (p:Person {name: $map.name, more: $map.more})
+        /////     SET p += $map
+        ///// </example>
+        //FluentCypher ICypherEntityMutations.UpdateIfExists<T>(
+        //    string variable,
+        //    string entityParameter,
+        //    string matchProperty,
+        //    params string[] moreMatchProperties);
+
+        ///// <summary>
+        ///// Update entity if existing.
+        ///// For replacing instance <seealso cref="ReplaceIfExists"/>
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="matchProperty"></param>
+        ///// <param name="entityParameter"></param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UpdateIfExists<Person>(p => p.name, "map")
+        ///// 
+        ///// MERGE (p:Person {name: $map.name})
+        /////     SET p = $map
+        ///// </example>
+        //FluentCypher ICypherEntityMutations.UpdateIfExists<T>(
+        //    Expression<Func<T, dynamic>> matchPropertyExpression,
+        //    string entityParameter);
+
+        #endregion // UpdateIfExists
+
+        #endregion // ICypherEntityMutations
+
+
+        #region Entities
+
+        /// <summary>
+        /// Nodes mutation by entities (use Unwind pattern).
+        /// </summary>
+        ICypherEntitiesMutations ICypherAdvance.Entities => this;
+
+        #endregion // Entities
 
         #region Format
 

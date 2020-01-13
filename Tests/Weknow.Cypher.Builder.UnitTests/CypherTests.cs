@@ -247,7 +247,8 @@ namespace Weknow.UnitTests
             props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(n:Foo {props})")
-                            .OnCreateSet("f", nameof(Foo.Id), nameof(Foo.Name))
+                            .OnCreate()
+                            .Set("f", nameof(Foo.Id), nameof(Foo.Name))
                             .OnMatch()
                             .SetByConvention<Foo>("f", name => name != nameof(Foo.Id));
 
@@ -337,7 +338,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance("x", "Foo");
+                            .Advance.Entity.CreateNew("x", "Foo");
 
             string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -353,7 +354,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance("x", "Foo", "ENV", "TENANT");
+                            .Advance.Entity.CreateNew("x", "Foo", "ENV", "TENANT");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -369,7 +370,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance<Foo>("x");
+                            .Advance.Entity.CreateNew<Foo>("x");
 
             string expected = "CREATE (x:Foo $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -385,7 +386,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance<Foo>("x", CypherNamingConvention.SCREAMING_CASE);
+                            .Advance.Entity.CreateNew<Foo>("x", CypherNamingConvention.SCREAMING_CASE);
 
             string expected = "CREATE (x:FOO $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -401,7 +402,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance<Foo>("x", "ENV", "TENANT");
+                            .Advance.Entity.CreateNew<Foo>("x", "ENV", "TENANT");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);
@@ -417,7 +418,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             var cypherCommand = CypherBuilder.Default
-                            .CreateInstance<Foo>("x", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
+                            .Advance.Entity.CreateNew<Foo>("x", CypherNamingConvention.SCREAMING_CASE, "ENV", "TENANT");
 
             string expected = "CREATE (x:FOO:ENV:TENANT $x_Foo)";
             _outputHelper.WriteLine(cypherCommand);

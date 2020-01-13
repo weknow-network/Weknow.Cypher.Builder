@@ -120,7 +120,7 @@ namespace Weknow.UnitTests
 
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo)")
-                               .SetInstance<Foo>("f");
+                               .SetEntity<Foo>("f");
 
             string expected = "MERGE (f:Foo) " +
                 "SET f += $f_Foo";
@@ -139,7 +139,7 @@ namespace Weknow.UnitTests
 
             var cypherCommand = CypherBuilder.Default
                             .Merge($"(f:Foo)")
-                               .SetInstance<Foo>("f", SetInstanceBehavior.Replace);
+                               .SetEntity<Foo>("f", SetInstanceBehavior.Replace);
 
             string expected = "MERGE (f:Foo) " +
                 "SET f = $f_Foo";

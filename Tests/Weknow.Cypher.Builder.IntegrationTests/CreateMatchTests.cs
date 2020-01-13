@@ -2,6 +2,8 @@ using Neo4j.Driver.V1;
 using System;
 using System.Diagnostics;
 
+// TODO: check how to bypass empty unwind with Union (for mutate entities)
+
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.CoreIntegrationTests

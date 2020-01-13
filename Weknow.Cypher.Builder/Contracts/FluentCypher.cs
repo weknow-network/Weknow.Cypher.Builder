@@ -196,101 +196,7 @@ namespace Weknow
         public abstract FluentCypher Create(string statement);
 
         #endregion // Create
-
-        #region CreateInstance
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:LABEL $n_LABEL) // Create a node with the given properties.
-        /// </example>
-        public abstract FluentCypher CreateInstance(string variable, string label, params string[] additionalLabels);
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// </example>
-        public abstract FluentCypher CreateInstance<T>(
-            string variable,
-            params string[] additionalLabels);
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
-        /// <param name="labelFormat">The label formatting strategy.</param>
-        /// <param name="additionalLabels">Additional labels.</param>
-        /// <returns></returns>
-        /// <example>
-        /// CREATE (n:FOO $n_Foo) // Create a node with the given properties.
-        /// </example>
-        public abstract FluentCypher CreateInstance<T>(
-            string variable,
-            CypherNamingConvention labelFormat,
-            params string[] additionalLabels);
-
-
-        #endregion // CreateInstance
-
-        #region Remove
-
-        /// <summary>
-        /// Create REMOVE phrase,
-        /// Remove the label from the node or property.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// REMOVE n:Person // Remove a label from n.
-        /// REMOVE n.property // Remove a property.
-        /// </example>
-        public abstract FluentCypher Remove(string statement);
-
-        #endregion // Remove
-
-        #region Delete
-
-        /// <summary>
-        /// Create DELETE  phrase,
-        /// Delete a node and a relationship.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// DETACH DELETE n
-        /// </example>
-        public abstract FluentCypher Delete(string statement);
-
-        #endregion // Delete
-
-        #region DetachDelete
-
-        /// <summary>
-        /// Create DETACH DELETE phrase,
-        /// Delete all nodes and relationships from the database.
-        /// </summary>
-        /// <param name="nodeName">Name of the node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// DETACH DELETE n
-        /// </example>
-        public abstract FluentCypher DetachDelete(string statement);
-
-        #endregion // DetachDelete
+        
 
         #region Merge
 
@@ -353,69 +259,89 @@ namespace Weknow
         /// </example>
         public abstract FluentCypher OnCreate(string statement);
 
-        /// <summary>
-        /// Compose ON CREATE SET phrase
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="propNames">The property names.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public abstract FluentCypher OnCreateSet(string variable, IEnumerable<string> propNames);
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="name">The name.</param>
-        /// <param name="moreNames">The more names.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public abstract FluentCypher OnCreateSet(string variable, string name, params string[] moreNames);
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase from a type expression.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="propExpression">The property expression.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public abstract FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
-
-        /// <summary>
-        /// Compose ON CREATE SET phrase by convention.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="filter">The filter.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {name: $value})
-        /// ON CREATE SET n.created = timestamp()
-        /// ON MATCH SET
-        /// n.counter = coalesce(n.counter, 0) + 1,
-        /// n.accessTime = timestamp()
-        /// </example>
-        public abstract FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter);
-
         #endregion // OnCreate
+
+        #region // OnCreateSet
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase
+        ///// </summary>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="propNames">The property names.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// Merge("(n:Person {name: $value})")
+        /////     .OnCreateSet(new [] {"name", "id"}, "n")
+        ///// Result in:
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.name = $name, n.id =$id
+        ///// -----------------------------------------------
+        ///// Merge("(n:Person {name: $value})")
+        /////     .OnCreateSet(new [] {"name", "id"}, "n", "prefix")
+        ///// Result in:
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.name = $prefix_name, n.id =$prefix_id
+        ///// -----------------------------------------------
+        ///// Merge("(n:Person {name: $value})")
+        /////     .OnCreateSet(new [] {"name", "id"}, "n", "prefix", ".")
+        ///// Result in:
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.name = $prefix.name, n.id =$prefix.id
+        ///// </example>
+        //public abstract FluentCypher OnCreateSet(
+        //    IEnumerable<string> propNames,
+        //    string variable,
+        //    string? parameterPrefix = null,
+        //    string parameterSeparator = "_");
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase
+        ///// </summary>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="name">The name.</param>
+        ///// <param name="moreNames">The more names.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// Merge("(n:Person {name: $value})")
+        /////     .OnCreateSet("n", "name", "id")
+        ///// Result in:
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.name = $name, n.id =$id
+        ///// </example>
+        //public abstract FluentCypher OnCreateSet(string variable, string name, params string[] moreNames);
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase from a type expression.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="propExpression">The property expression.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// Merge("(n:Person {name: $value})")
+        /////      .OnCreateSet("n", new [] {"name", "id"})
+        ///// Result in:
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.name = $name, n.id =$id
+        ///// </example>
+        //public abstract FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
+
+        ///// <summary>
+        ///// Compose ON CREATE SET phrase by convention.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="filter">The filter.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// MERGE (n:Person {name: $value})
+        ///// ON CREATE SET n.created = timestamp()
+        ///// ON MATCH SET
+        ///// n.counter = coalesce(n.counter, 0) + 1,
+        ///// n.accessTime = timestamp()
+        ///// </example>
+        //public abstract FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter); 
+
+        #endregion // OnCreateSet
 
         #region OnMatch
 
@@ -569,7 +495,7 @@ namespace Weknow
 
         #endregion // Set
 
-        #region SetInstance
+        #region SetEntity
 
         /// <summary>
         /// Set instance. 
@@ -585,7 +511,7 @@ namespace Weknow
         /// Set("u", "entity")
         /// SET u = $u_entity
         /// </example>
-        public abstract FluentCypher SetInstance(
+        public abstract FluentCypher SetEntity(
             string variable,
             string paramName = "",
             SetInstanceBehavior behavior = SetInstanceBehavior.Update);
@@ -603,9 +529,9 @@ namespace Weknow
         /// Set<UserEntity>("u")
         /// SET u = $u_UserEntity
         /// </example>
-        public abstract FluentCypher SetInstance<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
+        public abstract FluentCypher SetEntity<T>(string variable, SetInstanceBehavior behavior = SetInstanceBehavior.Update);
 
-        #endregion // SetInstance
+        #endregion // SetEntity
 
         #region SetAll
 
@@ -653,6 +579,54 @@ namespace Weknow
         public abstract FluentCypher SetLabel(string variable, string label);
 
         #endregion // SetLabel
+
+        #region Remove
+
+        /// <summary>
+        /// Create REMOVE phrase,
+        /// Remove the label from the node or property.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// REMOVE n:Person // Remove a label from n.
+        /// REMOVE n.property // Remove a property.
+        /// </example>
+        public abstract FluentCypher Remove(string statement);
+
+        #endregion // Remove
+
+        #region Delete
+
+        /// <summary>
+        /// Create DELETE  phrase,
+        /// Delete a node and a relationship.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// DETACH DELETE n
+        /// </example>
+        public abstract FluentCypher Delete(string statement);
+
+        #endregion // Delete
+
+        #region DetachDelete
+
+        /// <summary>
+        /// Create DETACH DELETE phrase,
+        /// Delete all nodes and relationships from the database.
+        /// </summary>
+        /// <param name="nodeName">Name of the node.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// DETACH DELETE n
+        /// </example>
+        public abstract FluentCypher DetachDelete(string statement);
+
+        #endregion // DetachDelete
 
         #region Unwind 
 
@@ -952,6 +926,15 @@ namespace Weknow
 
         #endregion // Cypher Operators
 
+        #region Advance
+
+        /// <summary>
+        /// Advance compositions.
+        /// </summary>
+        public abstract ICypherAdvance Advance { get; }
+
+        #endregion // Advance
+
         #region ToCypher
 
         /// <summary>
@@ -997,7 +980,7 @@ namespace Weknow
         #region Aggregate
 
         private static StringBuilder Aggregate(
-            CypherFormat cypherFormat, 
+            CypherFormat cypherFormat,
             IEnumerable<FluentCypher> forward,
             IEnumerable<FluentCypher> backward,
             StringBuilder sb)
@@ -1042,8 +1025,8 @@ namespace Weknow
                 foreach (FluentCypher child in current._children.Skip(1))
                 {
                     sb.Append(current._childrenSeperator);
-                    if (cypherFormat != CypherFormat.SingleLine)
-                        sb.Append(Environment.NewLine);
+                    //if (cypherFormat != CypherFormat.SingleLine && sb[sb.Length - 1] != Environment.NewLine.Last())
+                    //    sb.Append(Environment.NewLine);
                     backward = child.ReverseEnumerable();
                     sb = Aggregate(cypherFormat, child, backward, sb);
                 }
@@ -1083,7 +1066,7 @@ namespace Weknow
             if (sb.Length == 0)
                 return sb;
             sb = FormatConnectionPhrase(current, sb);
-            if(sb[sb.Length -1] != SPACE[0])
+            if (sb[sb.Length - 1] != SPACE[0])
                 sb = sb.Append(SPACE);
             return sb;
         }
@@ -1105,12 +1088,14 @@ namespace Weknow
             {
                 case CypherPhrase.Where:
                 case CypherPhrase.Set:
-                    sb = sb.Append(LINE_SEPERATOR);
+                    if (sb[sb.Length - 1] != LINE_SEPERATOR[LINE_SEPERATOR.Length - 1])
+                        sb = sb.Append(LINE_SEPERATOR);
                     sb = sb.Append(INDENT);
                     break;
                 case CypherPhrase.OnMatch:
                 case CypherPhrase.OnCreate:
-                    sb = sb.Append(LINE_SEPERATOR);
+                    if (sb[sb.Length - 1] != LINE_SEPERATOR[LINE_SEPERATOR.Length - 1])
+                        sb = sb.Append(LINE_SEPERATOR);
                     sb = sb.Append(HALF_INDENT);
                     break;
                 case CypherPhrase.And:
@@ -1120,7 +1105,8 @@ namespace Weknow
                         sb = sb.Append(SPACE);
                     break;
                 default:
-                    sb = sb.Append(LINE_SEPERATOR);
+                    if (sb[sb.Length - 1] != LINE_SEPERATOR[LINE_SEPERATOR.Length - 1])
+                        sb = sb.Append(LINE_SEPERATOR);
                     break;
             }
 

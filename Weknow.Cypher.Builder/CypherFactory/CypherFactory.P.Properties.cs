@@ -34,23 +34,27 @@ namespace Weknow
             /// <summary>
             /// Compose properties phrase.
             /// </summary>
+            /// <param name="parameterPrefix">Variable prefix.</param>
+            /// <param name="parameterSeparator">The variable prefix separator.</param>
             /// <param name="propNames">The property names.</param>
             /// <returns></returns>
-            /// <example>{ Name: $Name, Id: $Id}</example>
-            public static FluentCypher Create(IEnumerable<string> propNames) => CypherBuilder.Default.Add(Create(string.Empty, propNames));
-
-            // TODO: Reduce to FluentCypher chain (make sure that the formatting know to handle properties)
-
-            /// <summary>
-            /// Compose properties phrase.
-            /// </summary>
-            /// <param name="variable">The variable.</param>
-            /// <param name="propNames">The property names.</param>
-            /// <returns></returns>
-            /// <example>{ Name: $Name, Id: $Id}</example>
-            public static FluentCypher Create(string variable, IEnumerable<string> propNames)
+            /// <example>
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"])
+            /// Results in:
+            /// { Name: $Name, Id: $Id}
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"], "prefix")
+            /// Results in:
+            /// { Name: $prefix_Name, Id: $prefix_Id}
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"], "prefix", ".")
+            /// Results in:
+            /// { Name: $prefix.Name, Id: $prefix.Id}
+            /// </example>
+            public static FluentCypher Create(IEnumerable<string> propNames, string? parameterPrefix = null, string parameterSeparator = "_")
             {
-                var phrases = propNames.Select(m => string.IsNullOrEmpty(variable) ? $"{m}: ${m}" : $"{m}: ${variable}_{m}");
+                var phrases = propNames.Select(m => string.IsNullOrEmpty(parameterPrefix) ? $"{m}: ${m}" : $"{m}: ${parameterPrefix}{parameterSeparator}{m}");
                 string sep = SetSeparatorStrategy(phrases);
                 string statement = string.Join(sep, phrases);
 
@@ -65,18 +69,7 @@ namespace Weknow
             /// <returns></returns>
             /// <example>{ Name: $Name, Id: $Id}</example>
             public static FluentCypher Create(string name, params string[] moreNames) =>
-                                        Create(string.Empty, name.ToYield(moreNames));
-
-            /// <summary>
-            /// Compose properties phrase.
-            /// </summary>
-            /// <param name="variable">The variable.</param>
-            /// <param name="name">The name.</param>
-            /// <param name="moreNames">The more names.</param>
-            /// <returns></returns>
-            /// <example>{ Name: $Name, Id: $Id}</example>
-            public static FluentCypher CreateWithVariable(string variable, string name, params string[] moreNames) =>
-                                        Create(variable, name.ToYield(moreNames));
+                                        Create(name.ToYield(moreNames));
 
             /// <summary>
             /// Compose properties phrase from a type expression.
@@ -124,7 +117,7 @@ namespace Weknow
                 IEnumerable<string> names = GetProperties<T>();
                 IEnumerable<string> propNames =
                                 names.Where(name => filter(name));
-                FluentCypher properties = Create(variable, propNames);
+                FluentCypher properties = Create(propNames, variable);
                 return properties;
             }
 
