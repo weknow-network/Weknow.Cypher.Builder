@@ -1607,8 +1607,8 @@ namespace Weknow
             string entityParameter,
             IEnumerable<string> matchProperties)
         {
-            labels = labels.Select(n => Format(n));
-            string joinedLabel = string.Join(":", labels);
+            ICypherLabelContext labelContext = this;
+            string joinedLabel = labelContext.Format(labels);
             var props = P.Create(matchProperties, entityParameter, ".");
             return Merge($"({variable}:{joinedLabel} {props})")
                         .OnCreate()
@@ -1724,8 +1724,8 @@ namespace Weknow
             bool withConcurrency = !string.IsNullOrEmpty(concurrencyField);
             string eTag = withConcurrency ? $"{variable}.{concurrencyField}" : string.Empty;
 
-            labels = labels.Select(n => Format(n));
-            string joinedLabel = string.Join(":", labels);
+            ICypherLabelContext labelContext = this;
+            string joinedLabel = labelContext.Format(labels);
             var props = P.Create(matchProperties, entityParameter, ".");
             var result = Merge($"({variable}:{joinedLabel} {props})");
 
@@ -2175,7 +2175,7 @@ namespace Weknow
         string ICypherLabelContext.Format(IEnumerable<string> labels)
         {
             IEnumerable<string> context = _additionalLabels;
-            IEnumerable<string> formatted = labels.Concat(context).Select(m => Format(m));
+            IEnumerable<string> formatted = labels.Concat(context).Select(m => FormatByConvention(m));
             string result = string.Join(":", formatted);
             return result;
         }
@@ -2189,7 +2189,7 @@ namespace Weknow
         /// <returns></returns>
         FluentCypher ICypherLabelContext.AddFromHere(string label, params string[] additionalLabels)
         {
-            IEnumerable<string> labels = label.ToYield(additionalLabels).Select(m => Format(m));
+            IEnumerable<string> labels = label.ToYield(additionalLabels);
             IImmutableList<string> additions = labels.Aggregate(
                                                     _additionalLabels, 
                                                     (acc, cur) => acc.Contains(cur) ? acc : acc.Add(cur));
@@ -2204,7 +2204,7 @@ namespace Weknow
         /// <returns></returns>
         FluentCypher ICypherLabelContext.RemoveFromHere(string label, params string[] additionalLabels)
         {
-            IEnumerable<string> labels = label.ToYield(additionalLabels).Select(m => Format(m));
+            IEnumerable<string> labels = label.ToYield(additionalLabels);
             IImmutableList<string> additions = labels.Aggregate(
                                                     _additionalLabels,
                                                     (acc, cur) => acc.Contains(cur) ? acc.Remove(cur) : acc);
@@ -2213,7 +2213,7 @@ namespace Weknow
 
         #endregion // ICypherContextLabels
 
-        #region Format
+        #region FormatByConvention
 
         /// <summary>
         /// Formats the specified text.
@@ -2221,13 +2221,13 @@ namespace Weknow
         /// <param name="text">The text.</param>
         /// <param name="convention">The convention.</param>
         /// <returns></returns>
-        private protected string Format(
+        private protected string FormatByConvention(
             string text,
             CypherNamingConvention convention = CypherNamingConvention.Default)
         {
             if (convention == CypherNamingConvention.Default)
                 convention = _nodeConvention;
-            return FormatByConvention(text, convention);
+            return Helpers.Helper.FormatByConvention(text, convention);
         }
 
         /// <summary>
@@ -2238,16 +2238,16 @@ namespace Weknow
         /// <param name="convention">The convention.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">text</exception>
-        private protected string Format<T>(
+        private protected string FormatByConvention<T>(
             T text,
             CypherNamingConvention convention = CypherNamingConvention.Default)
         {
             if (convention == CypherNamingConvention.Default)
                 convention = _nodeConvention;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
-            return FormatByConvention(statement, convention);
+            return Helpers.Helper.FormatByConvention(statement, convention);
         }
 
-        #endregion // Format
+        #endregion // FormatByConvention
     }
 }

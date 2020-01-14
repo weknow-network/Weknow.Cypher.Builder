@@ -2824,7 +2824,7 @@
             <param name="additionalLabels">The additional labels.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.Format(System.String,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
             <summary>
             Formats the specified text.
             </summary>
@@ -2832,7 +2832,7 @@
             <param name="convention">The convention.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.Format``1(``0,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherBuilder.FormatByConvention``1(``0,Weknow.CypherNamingConvention)">
             <summary>
             Formats the specified text.
             </summary>
