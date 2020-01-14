@@ -518,6 +518,20 @@ namespace Weknow
         #region SetEntity
 
         /// <summary>
+        /// Sets the entity.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns></returns>
+        public abstract FluentCypher SetEntity(
+            string variable,
+            string paramName,
+            string parameterPrefix,
+            SetInstanceBehavior behavior);
+
+        /// <summary>
         /// Set instance. 
         /// Behaviors:
         /// Replace: This will remove any existing properties.

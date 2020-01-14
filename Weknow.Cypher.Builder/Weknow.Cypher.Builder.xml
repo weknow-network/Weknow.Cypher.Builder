@@ -520,6 +520,16 @@
             SET user.Name = $Name // Update or create a property.
             ]]></example>
         </member>
+        <member name="M:Weknow.FluentCypher.SetEntity(System.String,System.String,System.String,Weknow.SetInstanceBehavior)">
+            <summary>
+            Sets the entity.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="paramName">Name of the parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.FluentCypher.SetEntity(System.String,System.String,Weknow.SetInstanceBehavior)">
             <summary>
             Set instance. 
@@ -1019,6 +1029,33 @@
             <summary>
             Cypher phrases for handling entities collection
             </summary>
+        </member>
+        <member name="M:Weknow.ICypherEntitiesMutations.CreateOrUpdate(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Batch Create or update entities.
+            For replace use ReplaceOrUpdate
+            </summary>
+            <param name="collection">Name of the collection.</param>
+            <param name="variable">The node variable.</param>
+            <param name="labels">The labels.</param>
+            <param name="entityParameter">The entity parameter.</param>
+            <param name="matchProperties">The match properties.</param>
+            <param name="concurrencyField">When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency).</param>
+            <returns></returns>
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
+            <example><![CDATA[
+            CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+            Results in:
+            MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+            SET p += $map
+            -------------------------------------------------------------------------
+            CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag")
+            Results in:
+            MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+            SET p += $map, p.eTag = p.eTag + 1
+            ]]></example>
         </member>
         <member name="T:Weknow.ICypherEntityMutations">
             <summary>
@@ -2141,6 +2178,16 @@
             SET u = $UserEntity
             ]]></example>
         </member>
+        <member name="M:Weknow.CypherBuilder.SetEntity(System.String,System.String,System.String,Weknow.SetInstanceBehavior)">
+            <summary>
+            Sets the entity.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="paramName">Name of the parameter.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="behavior">The behavior.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.CypherBuilder.SetEntity(System.String,System.String,Weknow.SetInstanceBehavior)">
             <summary>
             Set instance. 
@@ -2596,7 +2643,7 @@
             ON CREATE SET p = $map
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherBuilder.AddOrModify(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.SetInstanceBehavior)">
+        <member name="M:Weknow.CypherBuilder.AddOrModify(System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.SetInstanceBehavior,System.String,Weknow.FluentCypher)">
             <summary>
             Add or Modify entity.
             For replace use ReplaceOrUpdate.
@@ -2610,6 +2657,8 @@
             make sure to set unique constraint (on the matching properties),
             otherwise a new node with different concurrency will be created when not match.</param>
             <param name="onMatchBehavior">The behavior.</param>
+            <param name="parameterSign">The set prefix.</param>
+            <param name="parent">The parent cypher.</param>
             <returns></returns>
             <example><![CDATA[
             AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
@@ -2805,6 +2854,56 @@
             <summary>
             Nodes mutation by entities (use Unwind pattern).
             </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.AddOrModifyCollection(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String,Weknow.SetInstanceBehavior)">
+            <summary>
+            Add or Modify entity.
+            For replace use ReplaceOrUpdate.
+            </summary>
+            <param name="collection">Name of the collection.</param>
+            <param name="variable">The node variable.</param>
+            <param name="labels">The labels.</param>
+            <param name="entityParameter">The entity parameter.</param>
+            <param name="matchProperties">The match properties.</param>
+            <param name="concurrencyField">When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency)
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.</param>
+            <param name="onMatchBehavior">The behavior.</param>
+            <returns></returns>
+            <example><![CDATA[
+            AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
+            Results in:
+            MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+            SET p += $map, p.eTag = p.eTag + 1
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntitiesMutations#CreateOrUpdate(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.String,System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Batch Create or update entities.
+            For replace use ReplaceOrUpdate
+            </summary>
+            <param name="collection">Name of the collection.</param>
+            <param name="variable">The node variable.</param>
+            <param name="labels">The labels.</param>
+            <param name="entityParameter">The entity parameter.</param>
+            <param name="matchProperties">The match properties.</param>
+            <param name="concurrencyField">When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency)
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.</param>
+            <returns></returns>
+            <example><![CDATA[
+            CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+            Results in:
+            MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+            SET p += $map
+            -------------------------------------------------------------------------
+            CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag")
+            Results in:
+            MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+            SET p += $map, p.eTag = p.eTag + 1
+            ]]></example>
         </member>
         <member name="P:Weknow.CypherBuilder.Context">
             <summary>
@@ -3867,6 +3966,30 @@
             <summary>
             Properties factories
             </summary>
+        </member>
+        <member name="M:Weknow.CypherFactory.Properties.Create(System.Collections.Generic.IEnumerable{System.String},System.String,System.String,System.String)">
+            <summary>
+            Compose properties phrase.
+            </summary>
+            <param name="propNames">The property names.</param>
+            <param name="parameterPrefix">Variable prefix.</param>
+            <param name="parameterSeparator">The variable prefix separator.</param>
+            <param name="parameterSign">The parameter sign.</param>
+            <returns></returns>
+            <example><![CDATA[
+            -----------------------------------------------
+            P.Create(new ["Name", "Id"])
+            Results in:
+            { Name: $Name, Id: $Id}
+            -----------------------------------------------
+            P.Create(new ["Name", "Id"], "prefix")
+            Results in:
+            { Name: $prefix_Name, Id: $prefix_Id}
+            -----------------------------------------------
+            P.Create(new ["Name", "Id"], "prefix", ".")
+            Results in:
+            { Name: $prefix.Name, Id: $prefix.Id}
+            ]]></example>
         </member>
         <member name="M:Weknow.CypherFactory.Properties.Create(System.Collections.Generic.IEnumerable{System.String},System.String,System.String)">
             <summary>

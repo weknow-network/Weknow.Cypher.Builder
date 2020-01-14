@@ -2,6 +2,7 @@ using Neo4j.Driver.V1;
 using Neo4jMapper;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,7 +24,7 @@ namespace Weknow.CoreIntegrationTests
     /// Advance Entity
     /// </summary>
     /// <seealso cref="System.IDisposable" />
-    public class AdvanceEntityTests : IDisposable
+    public class AdvanceEntitiesTests : IDisposable
     {
         private readonly ISession _session;
         private const string TEST_ENV_LABEL = "TEST_ENV";
@@ -36,7 +37,7 @@ namespace Weknow.CoreIntegrationTests
 
         #region Ctor
 
-        public AdvanceEntityTests()
+        public AdvanceEntitiesTests()
         {
             string connectionString = Environment.GetEnvironmentVariable("TEST_N4J_URL") ?? "bolt://localhost";
             string userName = Environment.GetEnvironmentVariable("TEST_N4J_USER") ?? "neo4j";
@@ -261,9 +262,12 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Context.Label.AddFromHere(LABEL)
-                                .Entity
-                                    .CreateOrUpdate("n", nameof(Payload), "map", nameof(Payload.Id))
-                                    .Return("n");
+                                .Entities
+                                    .CreateOrUpdate("items", "n",
+                                                    nameof(Payload).AsYield(),
+                                                    "item",
+                                                    nameof(Payload.Id).AsYield());
+                                    //.Return("n");
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -324,28 +328,32 @@ namespace Weknow.CoreIntegrationTests
         {
             // CREATE
 
-            var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
+            var items1 = new[]
+            {
+                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla 1" },
+                new Payload { Id = 2, Date = DateTime.Now, Name = "Test 2", Description = "bla bla 2" },
+            };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>("map", firstPayload);
+                         .WithEntities<Payload>("items", items1);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            //IList<Payload> results1 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
-            Assert.Equal(firstPayload, firstResult);
+            //Assert.Equal(firstPayload, firstResult);
 
-            // UPDATE
+            //// UPDATE
 
-            var secondPayload = new { Id = 1, Name = "Test 2" };
+            //var secondPayload = new { Id = 1, Name = "Test 2" };
 
-            parms = new Neo4jParameters()
-                         .WithEntity($"map", secondPayload);
+            //parms = new Neo4jParameters()
+            //             .WithEntity($"map", secondPayload);
 
-            cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            //cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            //Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2", Date = firstPayload.Date, Description = firstPayload.Description };
-            Assert.Equal(secondPayloadExpected, secondResult);
+            //var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2", Date = firstPayload.Date, Description = firstPayload.Description };
+            //Assert.Equal(secondPayloadExpected, secondResult);
         }
 
         #endregion // ExecuteAndAssertCreateOrUpdateAsync
@@ -407,7 +415,7 @@ namespace Weknow.CoreIntegrationTests
             var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>("map", firstPayload);
+                         .WithEntity<Payload>($"map", firstPayload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);

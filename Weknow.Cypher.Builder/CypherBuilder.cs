@@ -937,7 +937,31 @@ namespace Weknow
 
         #endregion // SetAll
 
-        #region SetInstance
+        #region SetEntity
+
+        /// <summary>
+        /// Sets the entity.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="paramName">Name of the parameter.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns></returns>
+        public override FluentCypher SetEntity(
+            string variable,
+            string paramName,
+            string parameterPrefix,
+            SetInstanceBehavior behavior)
+        {
+            string operand = behavior switch
+            {
+                SetInstanceBehavior.Replace => "=",
+                _ => "+=",
+            };
+            string statement = $"{variable} {operand} {parameterPrefix}{paramName}";
+            var result = AddStatement(statement, CypherPhrase.Set);
+            return result;
+        }
 
         /// <summary>
         /// Set instance. 
@@ -958,15 +982,7 @@ namespace Weknow
             string paramName,
             SetInstanceBehavior behavior = SetInstanceBehavior.Update)
         {
- 
-            string operand = behavior switch
-            {
-                SetInstanceBehavior.Replace => "=",
-                _ => "+=",
-            };
-            string statement = $"{variable} {operand} ${paramName}";
-            var result = AddStatement(statement, CypherPhrase.Set);
-            return result;
+            return SetEntity(variable, paramName, "$", behavior);
         }
 
         /// <summary>
@@ -1029,7 +1045,7 @@ namespace Weknow
             return result;
         }
 
-        #endregion // SetInstance
+        #endregion // SetEntity
 
         #region SetByConvention
 
@@ -1711,6 +1727,8 @@ namespace Weknow
         /// make sure to set unique constraint (on the matching properties),
         /// otherwise a new node with different concurrency will be created when not match.</param>
         /// <param name="onMatchBehavior">The behavior.</param>
+        /// <param name="parameterSign">The set prefix.</param>
+        /// <param name="parent">The parent cypher.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
@@ -1724,28 +1742,31 @@ namespace Weknow
             string entityParameter,
             IEnumerable<string> matchProperties,
             string? concurrencyField,
-            SetInstanceBehavior onMatchBehavior)
+            SetInstanceBehavior onMatchBehavior, 
+            string parameterSign = "$",
+            FluentCypher? parent = null)
         {
             bool withConcurrency = !string.IsNullOrEmpty(concurrencyField);
             string eTag = withConcurrency ? $"{variable}.{concurrencyField}" : string.Empty;
 
             ICypherLabelContext labelContext = this;
             string joinedLabel = labelContext.Format(labels);
-            var props = P.Create(matchProperties, entityParameter, ".");
-            var result = Merge($"({variable}:{joinedLabel} {props})");
+            var props = P.Create(matchProperties, entityParameter, ".", parameterSign);
+            parent = parent ?? CypherBuilder.Default;
+            var result = parent.Merge($"({variable}:{joinedLabel} {props})");
 
             if (withConcurrency)
             {
                 result = result.Where($"{eTag} = ${entityParameter}.{concurrencyField}");
             }
             result = result.OnCreate()
-                        .SetEntity(variable, entityParameter, SetInstanceBehavior.Replace);
+                        .SetEntity(variable, entityParameter, parameterSign, SetInstanceBehavior.Replace);
             if (withConcurrency)
             {
                 result = result.Add($", {eTag} = 0");
             }
             result = result.OnMatch()
-                        .SetEntity(variable, entityParameter, onMatchBehavior);
+                        .SetEntity(variable, entityParameter, parameterSign, onMatchBehavior);
             if (withConcurrency)
             {
                 result = result.Add($", {eTag} = {eTag} + 1");
@@ -2024,6 +2045,99 @@ namespace Weknow
         public override ICypherEntitiesMutations Entities => this;
 
         #endregion // Entities
+
+        /// <summary>
+        /// Add or Modify entity.
+        /// For replace use ReplaceOrUpdate.
+        /// </summary>
+        /// <param name="collection">Name of the collection.</param>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="concurrencyField">When supplied the concurrency field
+        /// used for incrementing the concurrency version (Optimistic concurrency)
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.</param>
+        /// <param name="onMatchBehavior">The behavior.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// AddOrModify("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag", SetInstanceBehavior.Update)
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map, p.eTag = p.eTag + 1
+        /// ]]></example>
+        private FluentCypher AddOrModifyCollection(
+            string collection,
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            string? concurrencyField,
+            SetInstanceBehavior onMatchBehavior)
+        {
+            bool withConcurrency = !string.IsNullOrEmpty(concurrencyField);
+            string eTag = withConcurrency ? $"{variable}.{concurrencyField}" : string.Empty;
+
+            ICypherLabelContext labelContext = this;
+            string joinedLabel = labelContext.Format(labels);
+            var props = P.Create(matchProperties, entityParameter, ".");
+            var parent = Unwind($"${collection}", entityParameter);
+            FluentCypher result = AddOrModify(
+                variable,
+                labels,
+                entityParameter,
+                matchProperties,
+                concurrencyField,
+                onMatchBehavior,
+                "",
+                parent);
+            return result;
+        }
+
+
+        #region ICypherEntitiesMutations
+
+
+        /// <summary>
+        /// Batch Create or update entities.
+        /// For replace use ReplaceOrUpdate
+        /// </summary>
+        /// <param name="collection">Name of the collection.</param>
+        /// <param name="variable">The node variable.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="concurrencyField">When supplied the concurrency field
+        /// used for incrementing the concurrency version (Optimistic concurrency)
+        /// make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map
+        /// -------------------------------------------------------------------------
+        /// CreateOrUpdate("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map", "eTag")
+        /// Results in:
+        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
+        /// SET p += $map, p.eTag = p.eTag + 1
+        /// ]]></example>
+        FluentCypher ICypherEntitiesMutations.CreateOrUpdate(
+            string collection,
+            string variable,
+            IEnumerable<string> labels,
+            string entityParameter,
+            IEnumerable<string> matchProperties,
+            string? concurrencyField)
+        {
+            return AddOrModifyCollection(collection, variable, labels, entityParameter, matchProperties,
+                                concurrencyField, SetInstanceBehavior.Update);
+        }
+
+
+        #endregion // ICypherEntitiesMutations
 
         #region LabelContext
 

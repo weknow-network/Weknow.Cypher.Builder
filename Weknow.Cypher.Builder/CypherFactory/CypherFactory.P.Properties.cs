@@ -34,6 +34,42 @@ namespace Weknow
             /// <summary>
             /// Compose properties phrase.
             /// </summary>
+            /// <param name="propNames">The property names.</param>
+            /// <param name="parameterPrefix">Variable prefix.</param>
+            /// <param name="parameterSeparator">The variable prefix separator.</param>
+            /// <param name="parameterSign">The parameter sign.</param>
+            /// <returns></returns>
+            /// <example><![CDATA[
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"])
+            /// Results in:
+            /// { Name: $Name, Id: $Id}
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"], "prefix")
+            /// Results in:
+            /// { Name: $prefix_Name, Id: $prefix_Id}
+            /// -----------------------------------------------
+            /// P.Create(new ["Name", "Id"], "prefix", ".")
+            /// Results in:
+            /// { Name: $prefix.Name, Id: $prefix.Id}
+            /// ]]></example>
+            internal static FluentCypher Create(
+                IEnumerable<string> propNames,
+                string? parameterPrefix,
+                string parameterSeparator,
+                string parameterSign)
+            {
+                var phrases = propNames.Select(m => string.IsNullOrEmpty(parameterPrefix) ? $"{m}: {parameterSign}{m}" : $"{m}: {parameterSign}{parameterPrefix}{parameterSeparator}{m}");
+                string sep = SetSeparatorStrategy(phrases);
+                string statement = string.Join(sep, phrases);
+
+                string lineBreak = LineSeparatorStrategy(phrases);
+                return CypherBuilder.Default.Add($"{{ {lineBreak}{statement}{lineBreak} }}");
+            }
+
+            /// <summary>
+            /// Compose properties phrase.
+            /// </summary>
             /// <param name="parameterPrefix">Variable prefix.</param>
             /// <param name="parameterSeparator">The variable prefix separator.</param>
             /// <param name="propNames">The property names.</param>
