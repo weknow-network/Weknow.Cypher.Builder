@@ -2046,6 +2046,8 @@ namespace Weknow
 
         #endregion // Entities
 
+        #region AddOrModifyCollection
+
         /// <summary>
         /// Add or Modify entity.
         /// For replace use ReplaceOrUpdate.
@@ -2090,11 +2092,14 @@ namespace Weknow
                 matchProperties,
                 concurrencyField,
                 onMatchBehavior,
-                "",
-                parent);
+                string.Empty,
+                parent)
+                .Return(variable);
             return result;
         }
 
+        #endregion // AddOrModifyCollection
+        
 
         #region ICypherEntitiesMutations
 

@@ -324,28 +324,28 @@ namespace Weknow.CoreIntegrationTests
         {
             // CREATE
 
-            var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
+            var item1 = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>("map", firstPayload);
+                         .WithEntity<Payload>("map", item1);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            Payload result1 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            Assert.Equal(firstPayload, firstResult);
+            Assert.Equal(item1, result1);
 
             // UPDATE
 
-            var secondPayload = new { Id = 1, Name = "Test 2" };
+            var item2 = new { Id = 1, Name = "Test 2" };
 
             parms = new Neo4jParameters()
-                         .WithEntity($"map", secondPayload);
+                         .WithEntity($"map", item2);
 
             cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            Payload result2 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2", Date = firstPayload.Date, Description = firstPayload.Description };
-            Assert.Equal(secondPayloadExpected, secondResult);
+            var expected2 = new Payload { Id = 1, Name = "Test 2", Date = item1.Date, Description = item1.Description };
+            Assert.Equal(expected2, result2);
         }
 
         #endregion // ExecuteAndAssertCreateOrUpdateAsync
@@ -404,28 +404,28 @@ namespace Weknow.CoreIntegrationTests
         {
             // CREATE
 
-            var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
+            var item1 = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>("map", firstPayload);
+                         .WithEntity<Payload>("map", item1);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            Payload result1 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            Assert.Equal(firstPayload, firstResult);
+            Assert.Equal(item1, result1);
 
             // UPDATE
 
-            var secondPayload = new { Id = 1, Name = "Test 2" };
+            var item2 = new { Id = 1, Name = "Test 2" };
 
             parms = new Neo4jParameters()
-                         .WithEntity($"map", secondPayload);
+                         .WithEntity($"map", item2);
 
             cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            Payload result2 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2" };
-            Assert.Equal(secondPayloadExpected, secondResult);
+            var expected2 = new Payload { Id = 1, Name = "Test 2" };
+            Assert.Equal(expected2, result2);
         }
 
         #endregion // ExecuteAndAssertCreateOrReplaceAsync

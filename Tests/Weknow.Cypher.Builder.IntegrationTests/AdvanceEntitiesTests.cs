@@ -338,22 +338,30 @@ namespace Weknow.CoreIntegrationTests
                          .WithEntities<Payload>("items", items1);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            //IList<Payload> results1 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
+            IList<Payload> results1 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
-            //Assert.Equal(firstPayload, firstResult);
+            Assert.Equal(items1, results1);
 
-            //// UPDATE
+            // UPDATE
 
-            //var secondPayload = new { Id = 1, Name = "Test 2" };
+            var items2 = new object[]
+            {
+                new { Id = 1, Name = "Test 2 changed" },
+                new { Id = 3, Name = "Test 3", Description = "bla bla 3"}
+            };
 
-            //parms = new Neo4jParameters()
-            //             .WithEntity($"map", secondPayload);
+            parms = new Neo4jParameters()
+                         .WithEntities($"items", items2);
 
-            //cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            //Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IList<Payload> results2 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
-            //var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2", Date = firstPayload.Date, Description = firstPayload.Description };
-            //Assert.Equal(secondPayloadExpected, secondResult);
+            var expected2 = new Payload[]
+            {
+                new Payload { Id = 1, Name = "Test 2 changed", Date = items1[0].Date, Description =  items1[0].Description },
+                new Payload { Id = 3, Name = "Test 3", Description = "bla bla 3"},
+            };
+            Assert.Equal(expected2, results2);
         }
 
         #endregion // ExecuteAndAssertCreateOrUpdateAsync
