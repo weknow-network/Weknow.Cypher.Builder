@@ -1491,11 +1491,12 @@ namespace Weknow
         /// <summary>
         /// CREATE by entity
         /// </summary>
-        /// <param name="variable">The node's variable.</param>
+        /// <param name="variable">
+        /// The node's variable.
+        /// When the parameter is null, it will be used as the parameter.
+        /// </param>
         /// <param name="labels">The labels.</param>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="parameterPrefix"></param>
-        /// <param name="parameterSeparator"></param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateNew("n", new [] {"A", "B"}, "map")
@@ -1513,24 +1514,23 @@ namespace Weknow
         FluentCypher ICypherEntityMutations.CreateNew(
             string variable,
             IEnumerable<string> labels,
-            string parameter,
-            string? parameterPrefix,
-            string parameterSeparator)
+            string parameter)
         {
             ICypherLabelContext labelContext = this;
-            parameterPrefix = parameterPrefix ?? variable;
+            parameter = parameter ?? variable;
             string labelsStr = labelContext.Format(labels);
-            return AddStatement($"({variable}:{labelsStr} ${parameterPrefix}{parameterSeparator}{parameter})", CypherPhrase.Create);
+            return AddStatement($"({variable}:{labelsStr} ${parameter})", CypherPhrase.Create);
         }
 
         /// <summary>
         /// CREATE by entity
         /// </summary>
-        /// <param name="variable">The node's variable.</param>
+        /// <param name="variable">
+        /// The node's variable.
+        /// When the parameter is null, it will be used as the parameter.
+        /// </param>
         /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="parameterPrefix">The parameter prefix.</param>
-        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateNew("n", "FOO")
@@ -1544,13 +1544,11 @@ namespace Weknow
         FluentCypher ICypherEntityMutations.CreateNew(
             string variable, 
             string label,
-            string? parameter,
-            string? parameterPrefix,
-            string parameterSeparator)
+            string? parameter)
         {
             ICypherLabelContext labelContext = this;
             ICypherEntityMutations self = this;
-            return self.CreateNew(variable, label.AsYield(), parameter ?? label, parameterPrefix, parameterSeparator);
+            return self.CreateNew(variable, label.AsYield(), parameter ?? variable);
         }
 
 
@@ -1558,10 +1556,11 @@ namespace Weknow
         /// CREATE by entity
         /// </summary>
         /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="variable">The node's variable.</param>
+        /// <param name="variable">
+        /// The node's variable.
+        /// When the parameter is null, it will be used as the parameter.
+        /// </param>
         /// <param name="parameter">The parameter.</param>
-        /// <param name="parameterPrefix">The parameter prefix.</param>
-        /// <param name="parameterSeparator">The parameter separator.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateNew<Foo>("n")
@@ -1574,13 +1573,11 @@ namespace Weknow
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateNew<T>(
             string variable,
-            string? parameter,
-            string? parameterPrefix,
-            string parameterSeparator)
+            string? parameter)
         {
             ICypherEntityMutations self = this;
             string label = typeof(T).Name;
-            return self.CreateNew(variable, label, parameter, parameterPrefix, parameterSeparator);
+            return self.CreateNew(variable, label, parameter);
         }
 
         #endregion // CreateNew
@@ -1590,10 +1587,13 @@ namespace Weknow
         /// <summary>
         /// Create if not exists
         /// </summary>
-        /// <param name="variable">The node variable.</param>
+        /// <param name="variable">
+        /// The node's variable.
+        /// When the entityParameter is null, it will be used as the entityParameter.
+        /// </param>
         /// <param name="labels">The labels.</param>
-        /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchProperties">The match properties.</param>
+        /// <param name="entityParameter">The entity parameter.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateIfNotExists("p", new []{"Person", "Dev"}, new[] {"id", "name"}, "map")
@@ -1604,9 +1604,10 @@ namespace Weknow
         FluentCypher ICypherEntityMutations.CreateIfNotExists(
             string variable,
             IEnumerable<string> labels,
-            string entityParameter,
-            IEnumerable<string> matchProperties)
+            IEnumerable<string> matchProperties,
+            string? entityParameter)
         {
+            entityParameter = entityParameter ?? variable;
             ICypherLabelContext labelContext = this;
             string joinedLabel = labelContext.Format(labels);
             var props = P.Create(matchProperties, entityParameter, ".");
@@ -1639,7 +1640,7 @@ namespace Weknow
             params string[] moreMatchProperties)
         {
             ICypherEntityMutations self = this;
-            return self.CreateIfNotExists(variable, label.AsYield(), entityParameter, matchProperty.ToYield(moreMatchProperties));
+            return self.CreateIfNotExists(variable, label.AsYield(), matchProperty.ToYield(moreMatchProperties), entityParameter);
         }
 
         /// <summary>
@@ -1671,7 +1672,11 @@ namespace Weknow
         /// Create if not exists
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="matchPropertyExpression">The match property.</param>
+        /// <param name="matchPropertyExpression">
+        /// The match property expression.
+        /// It will take the lambda variable as the expression variable.
+        /// this variable will serve as the entityParameter when entityParameter is null.
+        /// </param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <returns></returns>
         /// <example><![CDATA[
@@ -1681,7 +1686,7 @@ namespace Weknow
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateIfNotExists<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string entityParameter)
+            string? entityParameter)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
 
@@ -1848,7 +1853,11 @@ namespace Weknow
         /// Creates the or update.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="matchPropertyExpression">The match property expression.</param>
+        /// <param name="matchPropertyExpression">
+        /// The match property expression.
+        /// It will take the lambda variable as the expression variable.
+        /// this variable will serve as the entityParameter when entityParameter is null.
+        /// </param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <returns></returns>
@@ -1863,11 +1872,11 @@ namespace Weknow
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string entityParameter,
+            string? entityParameter,
             string? concurrencyField)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
-            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
+            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter ?? variable, matchProperty.AsYield(), 
                 concurrencyField, SetInstanceBehavior.Update);
         }
 
@@ -1974,7 +1983,11 @@ namespace Weknow
         /// Creates the or replace.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="matchPropertyExpression">The match property expression.</param>
+        /// <param name="matchPropertyExpression">
+        /// The match property expression.
+        /// It will take the lambda variable as the expression variable.
+        /// this variable will serve as the entityParameter when entityParameter is null.
+        /// </param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="concurrencyField">The concurrency field.</param>
         /// <returns></returns>
@@ -1991,11 +2004,11 @@ namespace Weknow
         /// ]]></example>
         FluentCypher ICypherEntityMutations.CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string entityParameter,
+            string? entityParameter,
             string? concurrencyField)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
-            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter, matchProperty.AsYield(), 
+            return AddOrModify(variable, typeof(T).Name.AsYield(), entityParameter ?? variable, matchProperty.AsYield(), 
                                 concurrencyField, SetInstanceBehavior.Replace);
         }
 

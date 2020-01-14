@@ -10,7 +10,9 @@ namespace Weknow.CoreIntegrationTests
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
+
+        public string Description { get; set; }
 
         #region Equality Pattern
 
@@ -24,12 +26,13 @@ namespace Weknow.CoreIntegrationTests
             return other != null &&
                    Id == other.Id &&
                    Name == other.Name &&
-                   Date.Equals(other.Date);
+                   Date == other.Date &&
+                   Description == other.Description;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, Date);
+            return HashCode.Combine(Id, Name, Date, Description);
         }
 
         public static bool operator ==(Payload left, Payload right)
@@ -41,6 +44,7 @@ namespace Weknow.CoreIntegrationTests
         {
             return !(left == right);
         }
+
 
         #endregion // Equality Pattern
     }

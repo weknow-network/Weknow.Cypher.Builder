@@ -1,6 +1,7 @@
 using Neo4j.Driver.V1;
 using Neo4jMapper;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
@@ -31,7 +32,7 @@ namespace Weknow.CoreIntegrationTests
         private readonly FluentCypher _builder = CypherBuilder.Default
                                     .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
                                     .Context.Label.AddFromHere(TEST_ENV_LABEL);
-                
+
 
         #region Ctor
 
@@ -81,14 +82,14 @@ namespace Weknow.CoreIntegrationTests
         public async Task CreateNew_Test()
         {
             var cypher = _builder
-                                    .Entity                    
-                                    .CreateNew<Payload>("n", "map")
+                                    .Entity
+                                    .CreateNew("n", "Payload", "map")
                                     .Return("n");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"n_map", payload);
+                         .WithEntity<Payload>($"map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -98,6 +99,52 @@ namespace Weknow.CoreIntegrationTests
 
         #endregion // CreateNew_Test
 
+        #region CreateNew_OfT_Test
+
+        [Fact]
+        public async Task CreateNew_OfT_Test()
+        {
+            var cypher = _builder
+                                    .Entity
+                                    .CreateNew<Payload>("n", "map")
+                                    .Return("n");
+
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", payload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(payload, result);
+        }
+
+        #endregion // CreateNew_OfT_Test
+
+        #region CreateNew_OfT_NoParam_Test
+
+        [Fact]
+        public async Task CreateNew_OfT_NoParam_Test()
+        {
+            var cypher = _builder
+                                    .Entity
+                                    .CreateNew<Payload>("map")
+                                    .Return("map");
+
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", payload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(payload, result);
+        }
+
+        #endregion // CreateNew_OfT_NoParam_Test
+
         #region CreateNew_Fail_OnDuplicate_Test
 
         [Fact]
@@ -106,6 +153,7 @@ namespace Weknow.CoreIntegrationTests
             await CreateNew_Test();
 
             await Assert.ThrowsAsync<ClientException>(() => CreateNew_Test());
+            await Assert.ThrowsAsync<ClientException>(() => CreateNew_OfT_Test());
         }
 
         #endregion // CreateNew_Fail_OnDuplicate_Test
@@ -117,8 +165,8 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Context.Label.AddFromHere(LABEL)
-                                .Entity                            
-                                    .CreateIfNotExists<Payload>("n", "map", nameof(Payload.Id))
+                                .Entity
+                                    .CreateIfNotExists("n", nameof(Payload), "map", nameof(Payload.Id))
                                     .Return("n");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
@@ -133,5 +181,253 @@ namespace Weknow.CoreIntegrationTests
         }
 
         #endregion // CreateIfNotExists_Test
+
+        #region CreateIfNotExists_NoParam_Test
+
+        [Fact]
+        public async Task CreateIfNotExists_NoParam_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateIfNotExists("map", nameof(Payload).AsYield(), nameof(Payload.Id).AsYield())
+                                    .Return("map");
+
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", payload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(payload, result);
+        }
+
+        #endregion // CreateIfNotExists_NoParam_Test
+
+        #region CreateIfNotExists_OfT_Test
+
+        [Fact]
+        public async Task CreateIfNotExists_OfT_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateIfNotExists<Payload>("n", "map", nameof(Payload.Id))
+                                    .Return("n");
+
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", payload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(payload, result);
+        }
+
+        #endregion // CreateIfNotExists_OfT_Test
+
+        #region CreateIfNotExists_OfT_NoParam_Test
+
+        [Fact]
+        public async Task CreateIfNotExists_OfT_NoParam_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateIfNotExists<Payload>(map => map.Id)
+                                    .Return("map");
+
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", payload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(payload, result);
+        }
+
+        #endregion // CreateIfNotExists_OfT_NoParam_Test
+
+        #region CreateOrUpdate_Test
+
+        [Fact]
+        public async Task CreateOrUpdate_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrUpdate("n", nameof(Payload), "map", nameof(Payload.Id))
+                                    .Return("n");
+
+            await ExecuteAndAssertCreateOrUpdateAsync(cypher);
+        }
+
+        #endregion // CreateOrUpdate_Test
+
+        #region CreateOrUpdate_OfT_Test
+
+        [Fact]
+        public async Task CreateOrUpdate_OfT_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrUpdate<Payload>("n", "map", nameof(Payload.Id))
+                                    .Return("n");
+
+            await ExecuteAndAssertCreateOrUpdateAsync(cypher);
+        }
+
+        #endregion // CreateOrUpdate_OfT_Test
+
+        #region CreateOrUpdate_OfT_Expression_Test
+
+        [Fact]
+        public async Task CreateOrUpdate_OfT_Expression_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrUpdate<Payload>(n => n.Id, "map")
+                                    .Return("n");
+
+            await ExecuteAndAssertCreateOrUpdateAsync(cypher);
+        }
+
+        #endregion // CreateOrUpdate_OfT_Expression_Test
+
+        #region CreateOrUpdate_OfT_Expression_NoParam_Test
+
+        [Fact]
+        public async Task CreateOrUpdate_OfT_Expression_NoParam_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrUpdate<Payload>(map => map.Id)
+                                    .Return("map");
+
+            await ExecuteAndAssertCreateOrUpdateAsync(cypher);
+        }
+
+        #endregion // CreateOrUpdate_OfT_Expression_NoParam_Test
+
+        #region ExecuteAndAssertCreateOrUpdateAsync
+
+        private async Task ExecuteAndAssertCreateOrUpdateAsync(FluentCypherReturn cypher)
+        {
+            // CREATE
+
+            var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", firstPayload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(firstPayload, firstResult);
+
+            // UPDATE
+
+            var secondPayload = new { Id = 1, Name = "Test 2" };
+
+            parms = new Neo4jParameters()
+                         .WithEntity($"map", secondPayload);
+
+            cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2", Date = firstPayload.Date, Description = firstPayload.Description };
+            Assert.Equal(secondPayloadExpected, secondResult);
+        }
+
+        #endregion // ExecuteAndAssertCreateOrUpdateAsync
+
+        #region CreateOrReplace_OfT_Test
+
+        [Fact]
+        public async Task CreateOrReplace_OfT_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrReplace<Payload>("n", "map", nameof(Payload.Id))
+                                    .Return("n");
+
+            await ExecuteAndAssertCreateOrReplaceAsync(cypher);
+        }
+
+        #endregion // CreateOrReplace_OfT_Test
+
+        #region CreateOrReplace_OfT_Expression_Test
+
+        [Fact]
+        public async Task CreateOrReplace_OfT_Expression_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrReplace<Payload>(n => n.Id, "map")
+                                    .Return("n");
+
+            await ExecuteAndAssertCreateOrReplaceAsync(cypher);
+        }
+
+        #endregion // CreateOrReplace_OfT_Expression_Test
+
+        #region CreateOrReplace_OfT_Expression_NoParam_Test
+
+        [Fact]
+        public async Task CreateOrReplace_OfT_Expression_NoParam_Test()
+        {
+            var cypher = _builder
+                                .Context.Label.AddFromHere(LABEL)
+                                .Entity
+                                    .CreateOrReplace<Payload>(map => map.Id)
+                                    .Return("map");
+
+            await ExecuteAndAssertCreateOrReplaceAsync(cypher);
+        }
+
+        #endregion // CreateOrReplace_OfT_Expression_NoParam_Test
+
+        #region ExecuteAndAssertCreateOrReplaceAsync
+
+        private async Task ExecuteAndAssertCreateOrReplaceAsync(FluentCypherReturn cypher)
+        {
+            // CREATE
+
+            var firstPayload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla" };
+
+            var parms = new Neo4jParameters()
+                         .WithEntity<Payload>($"map", firstPayload);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload firstResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            Assert.Equal(firstPayload, firstResult);
+
+            // UPDATE
+
+            var secondPayload = new { Id = 1, Name = "Test 2" };
+
+            parms = new Neo4jParameters()
+                         .WithEntity($"map", secondPayload);
+
+            cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload secondResult = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+
+            var secondPayloadExpected = new Payload { Id = 1, Name = "Test 2" };
+            Assert.Equal(secondPayloadExpected, secondResult);
+        }
+
+        #endregion // ExecuteAndAssertCreateOrReplaceAsync
     }
 }

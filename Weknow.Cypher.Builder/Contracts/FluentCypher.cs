@@ -49,6 +49,7 @@ namespace Weknow
         protected readonly FluentCypher? _previous;
         protected internal readonly string _cypher = string.Empty;
         protected internal readonly string _cypherClose = string.Empty;
+        // TODO: protected readonly string? _concurrencyField;
         protected internal readonly IEnumerable<FluentCypher> _children = Array.Empty<FluentCypher>();
         protected internal readonly string _childrenSeperator = SPACE;
         protected internal readonly CypherPhrase _phrase;
@@ -96,8 +97,8 @@ namespace Weknow
             _phrase = phrase;
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
-            _childrenSeperator = childrenSeparator ?? copyFrom?._childrenSeperator ?? SPACE;
-            _additionalLabels = additionalLabels ?? copyFrom?._additionalLabels ?? ImmutableList<string>.Empty;
+            _childrenSeperator = childrenSeparator ?? copyFrom._childrenSeperator ?? SPACE;
+            _additionalLabels = additionalLabels ?? copyFrom._additionalLabels ?? ImmutableList<string>.Empty;
             _nodeConvention = nodeConvention ?? copyFrom._nodeConvention;
             _relationConvention = relationConvention ?? copyFrom._relationConvention;
         }
