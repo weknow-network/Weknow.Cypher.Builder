@@ -52,7 +52,7 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
-        private protected C(FluentCypher? copyFrom, string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
+        private protected C(FluentCypher copyFrom, string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
         {
         }
     }
@@ -1691,7 +1691,7 @@ namespace Weknow
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
 
             ICypherEntityMutations self = this;
-            return self.CreateIfNotExists<T>(variable, entityParameter, matchProperty);
+            return self.CreateIfNotExists<T>(variable, entityParameter ?? variable, matchProperty);
         }
 
         #endregion // CreateInstanceIfNew
