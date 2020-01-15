@@ -1832,7 +1832,7 @@ namespace Weknow
             string? parameter)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
-            parameter = parameter ?? ToParameterConvention(variable);
+            parameter = parameter ?? variable;
             return AddOrModify(variable, typeof(T).Name.AsYield(), parameter, matchProperty.AsYield(),
                 SetInstanceBehavior.Update);
         }
@@ -1960,7 +1960,7 @@ namespace Weknow
             string? parameter)
         {
             var (variable, matchProperty) = ExtractLambdaExpression(matchPropertyExpression);
-            parameter = parameter ?? ToParameterConvention(variable);
+            parameter = parameter ?? variable;
             return AddOrModify(variable, typeof(T).Name.AsYield(), parameter, matchProperty.AsYield(),
                                 SetInstanceBehavior.Replace);
         }

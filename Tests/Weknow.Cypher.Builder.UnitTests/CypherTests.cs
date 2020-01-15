@@ -309,7 +309,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
                             .Entity.CreateNew("x", "Foo", "map");
 
-            string expected = "CREATE (x:Foo:ENV:tenant $map)";
+            string expected = "CREATE (x:Foo:ENV:tenant $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -325,7 +325,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
                             .Entity.CreateNew("x", "Foo");
 
-            string expected = "CREATE (x:Foo:ENV:tenant $x)";
+            string expected = "CREATE (x:Foo:ENV:tenant $x) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -345,7 +345,7 @@ namespace Weknow.UnitTests
             })
                             .Entity.CreateNew("x", "Foo", "map");
 
-            string expected = "CREATE (x:FOO:ENV:TENANT $map)";
+            string expected = "CREATE (x:FOO:ENV:TENANT $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -361,7 +361,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create()
                             .Entity.CreateNew("x", nameof(Foo), "map");
 
-            string expected = "CREATE (x:Foo $map)";
+            string expected = "CREATE (x:Foo $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -377,7 +377,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create()
                             .Entity.CreateNew("x", nameof(Foo));
 
-            string expected = "CREATE (x:Foo $x)";
+            string expected = "CREATE (x:Foo $x) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -393,7 +393,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("dev"))
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:Foo:dev $map)";
+            string expected = "CREATE (x:Foo:dev $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -409,7 +409,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO $map)";
+            string expected = "CREATE (x:FOO $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -425,7 +425,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO $map)";
+            string expected = "CREATE (x:FOO $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -441,7 +441,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:Foo:ENV:TENANT $map)";
+            string expected = "CREATE (x:Foo:ENV:TENANT $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -457,7 +457,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
                             .Entity.CreateNew<Foo>("x");
 
-            string expected = "CREATE (x:Foo:ENV:TENANT $x)";
+            string expected = "CREATE (x:Foo:ENV:TENANT $x) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -477,7 +477,7 @@ namespace Weknow.UnitTests
             })
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO:ENV:TENANT $map)";
+            string expected = "CREATE (x:FOO:ENV:TENANT $map) RETURN x";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }

@@ -199,7 +199,7 @@ namespace Weknow.CoreIntegrationTests
                                                         nameof(Payload).AsYield(), 
                                                         nameof(Payload.Id).AsYield());
 
-            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+            var payload = new Payload { Id = 1, Date = new DateTime(2019, 01, 01), Name = "Test 1" };
 
             var parms = new Neo4jParameters()
                          .WithEntity<Payload>($"map", payload);

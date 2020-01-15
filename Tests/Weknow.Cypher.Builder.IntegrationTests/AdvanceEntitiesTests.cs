@@ -17,24 +17,25 @@ using static Weknow.CypherFactory;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 #pragma warning disable CA2213 // Disposable fields should be disposed
 
-
 namespace Weknow.CoreIntegrationTests
 {
     /// <summary>
     /// Advance Entity
     /// </summary>
     /// <seealso cref="System.IDisposable" />
+
     public class AdvanceEntitiesTests : IDisposable
     {
         private readonly ISession _session;
         private const string TEST_ENV_LABEL = "TEST_ENV";
         private const string ID = "Id";
-        private readonly FluentCypher _builder = 
+        private readonly FluentCypher _builder =
             CypherBuilder.Create(cfg =>
             {
                 cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                cfg.Labels.AddLabels(TEST_ENV_LABEL); 
+                cfg.Labels.AddLabels(TEST_ENV_LABEL);
             });
+        private static DateTime DATE = new DateTime(2019, 01, 01, 10, 11, 12);
 
         #region Ctor
 
@@ -89,8 +90,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -117,8 +118,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -145,8 +146,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -184,16 +185,16 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateIfNotExists("items", 
+                                    .CreateIfNotExists("items",
                                                 nameof(Payload),
-                                                "n", 
-                                                "map", 
+                                                "n",
+                                                "map",
                                                 nameof(Payload.Id));
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -216,15 +217,15 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateIfNotExists("items", 
-                                        nameof(Payload).AsYield(), 
-                                        nameof(Payload.Id).AsYield(), 
+                                    .CreateIfNotExists("items",
+                                        nameof(Payload).AsYield(),
+                                        nameof(Payload.Id).AsYield(),
                                         "map");
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -248,11 +249,10 @@ namespace Weknow.CoreIntegrationTests
             var cypher = _builder
                                 .Entities
                                     .CreateIfNotExists<Payload>("items", "n", "map", nameof(Payload.Id));
-
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -279,8 +279,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-                new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -324,7 +324,7 @@ namespace Weknow.CoreIntegrationTests
             var cypher = _builder
                                 .Entities
                                     .CreateOrUpdate<Payload>("items",
-                                                            "n", 
+                                                            "n",
                                                             "map",
                                                             nameof(Payload.Id));
 
@@ -373,8 +373,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads1 = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla 1" },
-                new Payload { Id = 2, Date = DateTime.Now, Name = "Test 2", Description = "bla bla 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1", Description = "bla bla 1" },
+                new Payload { Id = 2, Date = DATE, Name = "Test 2", Description = "bla bla 2" },
             };
 
             var parms = new Neo4jParameters()
@@ -418,9 +418,9 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateOrReplace<Payload>("items", 
+                                    .CreateOrReplace<Payload>("items",
                                                             "n",
-                                                            "map", 
+                                                            "map",
                                                             nameof(Payload.Id));
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
@@ -437,7 +437,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateOrReplace<Payload>("items", 
+                                    .CreateOrReplace<Payload>("items",
                                                             n => n.Id,
                                                             "map");
 
@@ -455,7 +455,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateOrReplace<Payload>("items", 
+                                    .CreateOrReplace<Payload>("items",
                                                             map => map.Id);
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
@@ -471,8 +471,8 @@ namespace Weknow.CoreIntegrationTests
 
             var payloads1 = new[]
             {
-                new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1", Description = "bla bla 1" },
-                new Payload { Id = 2, Date = DateTime.Now, Name = "Test 2", Description = "bla bla 2" },
+                new Payload { Id = 1, Date = DATE, Name = "Test 1", Description = "bla bla 1" },
+                new Payload { Id = 2, Date = DATE, Name = "Test 2", Description = "bla bla 2" },
             };
 
 

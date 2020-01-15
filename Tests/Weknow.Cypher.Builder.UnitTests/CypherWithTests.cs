@@ -29,11 +29,11 @@ namespace Weknow.UnitTests
             var cypher = CypherBuilder.Create()
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
-                            .Unwind("$Movies", "mv")
+                            .Unwind("Movies", "mv")
                             .Match("(movie:MOVIE { Id = mv })")
                             .Merge("(movie)<-[p:Played]-(a)")
                             .Set("p", "Strength")
-                            .Unwind("$Years", "year")
+                            .Unwind("Years", "year")
                             .Match("(a)")
                             .Where("a.BirthDay = year");
 
@@ -105,7 +105,7 @@ namespace Weknow.UnitTests
             var cypher = CypherBuilder.Create()
                             .Create("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
-                            .Unwind("$Movies", "mv")
+                            .Unwind("Movies", "mv")
                             .Match("(movie:MOVIE { Id = mv })");
 
             _outputHelper.WriteLine(cypher);
@@ -128,7 +128,7 @@ namespace Weknow.UnitTests
             var cypher = CypherBuilder.Create()
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
-                            .Unwind("$Movies", "mv")
+                            .Unwind("Movies", "mv")
                             .Match("(movie:MOVIE { Id = mv })");
 
             _outputHelper.WriteLine(cypher);
