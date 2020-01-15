@@ -8,20 +8,16 @@ namespace Weknow
     /// <summary>
     /// Represent contextual operations.
     /// </summary>
-    public interface ICypherContext
+    public interface ICypherConfig
     {
         /// <summary>
         /// Label Context.
         /// </summary>
-        ICypherLabelContext Label { get; }
+        ICypherLabelContext Labels { get; }
 
         /// <summary>
         /// Sets the conventions.
         /// </summary>
-        /// <param name="nodeLabelConvention">The node convention.</param>
-        /// <param name="relationTagConvention">The relation convention.</param>
-        FluentCypher Conventions(
-          CypherNamingConvention nodeLabelConvention,
-          CypherNamingConvention relationTagConvention);
+        ICypherConventions Conventions { get; }
     }
 }

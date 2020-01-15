@@ -27,12 +27,13 @@ namespace Weknow.CoreIntegrationTests
     {
         private readonly ISession _session;
         private const string TEST_ENV_LABEL = "TEST_ENV";
-        private const string LABEL = "N4J_TEST";
         private const string ID = "Id";
-        private readonly FluentCypher _builder = CypherBuilder.Default
-                                    .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
-                                    .Context.Label.AddFromHere(TEST_ENV_LABEL);
-
+        private readonly FluentCypher _builder =
+            CypherBuilder.Create(cfg =>
+            {
+                cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Labels.AddLabels(TEST_ENV_LABEL);
+            });
 
         #region Ctor
 
@@ -48,9 +49,7 @@ namespace Weknow.CoreIntegrationTests
             try
             {
                 _session.Run($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n");
-                string cypher = I.CreateUniqueConstraint(LABEL, ID, convention: CypherNamingConvention.SCREAMING_CASE);
-                _session.Run(cypher);
-                cypher = I.CreateUniqueConstraint<Payload>(P => P.Id, CypherNamingConvention.SCREAMING_CASE);
+                string cypher = I.CreateUniqueConstraint<Payload>(P => P.Id, CypherNamingConvention.SCREAMING_CASE);
                 _session.Run(cypher);
             }
             catch (Exception)
@@ -79,12 +78,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateNew")]
         public async Task CreateNew_Test()
         {
             var cypher = _builder
                                     .Entity
-                                    .CreateNew("n", "Payload", "map")
-                                    .Return("n");
+                                    .CreateNew("n", "Payload", "map");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -102,12 +102,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_OfT_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateNew")]
         public async Task CreateNew_OfT_Test()
         {
             var cypher = _builder
                                     .Entity
-                                    .CreateNew<Payload>("n", "map")
-                                    .Return("n");
+                                    .CreateNew<Payload>("n", "map");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -125,12 +126,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_OfT_NoParam_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateNew")]
         public async Task CreateNew_OfT_NoParam_Test()
         {
             var cypher = _builder
                                     .Entity
-                                    .CreateNew<Payload>("map")
-                                    .Return("map");
+                                    .CreateNew<Payload>("map");
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -148,6 +150,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_Fail_OnDuplicate_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateNew")]
         public async Task CreateNew_Fail_OnDuplicate_Test()
         {
             await CreateNew_Test();
@@ -161,13 +165,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateIfNotExists("n", nameof(Payload), "map", nameof(Payload.Id))
-                                    .Return("n");
+                                    .CreateIfNotExists("n", nameof(Payload), "map", nameof(Payload.Id));
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -185,13 +189,15 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_NoParam_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_NoParam_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateIfNotExists("map", nameof(Payload).AsYield(), nameof(Payload.Id).AsYield())
-                                    .Return("map");
+                                    .CreateIfNotExists("map", 
+                                                        nameof(Payload).AsYield(), 
+                                                        nameof(Payload.Id).AsYield());
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -209,13 +215,15 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_OfT_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_OfT_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateIfNotExists<Payload>("n", "map", nameof(Payload.Id))
-                                    .Return("n");
+                                    .CreateIfNotExists<Payload>("n", 
+                                                                "map", 
+                                                                nameof(Payload.Id));
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -233,13 +241,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_OfT_NoParam_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_OfT_NoParam_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateIfNotExists<Payload>(map => map.Id)
-                                    .Return("map");
+                                    .CreateIfNotExists<Payload>(map => map.Id);
 
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
@@ -257,13 +265,16 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrUpdate("n", nameof(Payload), "map", nameof(Payload.Id))
-                                    .Return("n");
+                                    .CreateOrUpdate("n",
+                                                    nameof(Payload), 
+                                                    "map",
+                                                    nameof(Payload.Id));
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -273,13 +284,15 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrUpdate<Payload>("n", "map", nameof(Payload.Id))
-                                    .Return("n");
+                                    .CreateOrUpdate<Payload>("n", 
+                                                            "map", 
+                                                            nameof(Payload.Id));
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -289,13 +302,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Expression_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Expression_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrUpdate<Payload>(n => n.Id, "map")
-                                    .Return("n");
+                                    .CreateOrUpdate<Payload>(n => n.Id, "map");
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -305,13 +318,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Expression_NoParam_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Expression_NoParam_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrUpdate<Payload>(map => map.Id)
-                                    .Return("map");
+                                    .CreateOrUpdate<Payload>(map => map.Id);
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -353,13 +366,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrReplace<Payload>("n", "map", nameof(Payload.Id))
-                                    .Return("n");
+                                    .CreateOrReplace<Payload>("n", "map", nameof(Payload.Id));
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
         }
@@ -369,13 +382,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Expression_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Expression_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrReplace<Payload>(n => n.Id, "map")
-                                    .Return("n");
+                                    .CreateOrReplace<Payload>(n => n.Id, "map");
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
         }
@@ -385,13 +398,13 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Expression_NoParam_Test
 
         [Fact]
+        [Trait("Category", "Entity")]
+        [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Expression_NoParam_Test()
         {
             var cypher = _builder
-                                .Context.Label.AddFromHere(LABEL)
                                 .Entity
-                                    .CreateOrReplace<Payload>(map => map.Id)
-                                    .Return("map");
+                                    .CreateOrReplace<Payload>(map => map.Id);
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
         }

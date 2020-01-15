@@ -24,10 +24,9 @@ namespace Weknow.UnitTests
         [Fact]
         public void Return_Test()
         {
-            var cypher = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
-                            .Match("(f:Foo)")
-                            .Return("f.BirthDay");
+            var cypher = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
+                                    .Match("(f:Foo)")
+                                    .Return("f.BirthDay");
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (f:Foo) RETURN f.BirthDay", cypher.ToCypher(CypherFormat.SingleLine));
@@ -36,8 +35,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void ReturnDistict_Test()
         {
-            var cypher = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypher = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .ReturnDistinct("f.BirthDay");
 
@@ -48,8 +46,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void Return_Lambda_Test()
         {
-            var cypher = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypher = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Return<Foo>(f => f.DateOfBirth);
 
@@ -60,8 +57,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void ReturnDistict_Lambda_Test()
         {
-            var cypher = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypher = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .ReturnDistinct<Foo>(f => f.DateOfBirth);
 

@@ -27,6 +27,15 @@ namespace Weknow
         }
 
         /// <summary>
+        /// Initialize constructor
+        /// </summary>
+        /// <param name="config">The configuration.</param>
+        private protected FluentCypherWhereExpression(CypherConfig config)
+            : base(config)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FluentCypherWhereExpression" /> class.
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
@@ -35,23 +44,15 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
-        /// <param name="additionalLabels">The additional labels.</param>
-        /// <param name="nodeConvention">The node convention.</param>
-        /// <param name="relationConvention">The node convention.</param>
         private protected FluentCypherWhereExpression(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null,
-            IImmutableList<string>? additionalLabels = null,
-            CypherNamingConvention? nodeConvention = null,
-            CypherNamingConvention? relationConvention = null)
+            string? childrenSeparator = null)
             : base(copyFrom, cypher, phrase, cypherClose, 
-                  children, childrenSeparator, additionalLabels,
-                  nodeConvention,
-                  relationConvention)
+                  children, childrenSeparator)
         {
         }
 

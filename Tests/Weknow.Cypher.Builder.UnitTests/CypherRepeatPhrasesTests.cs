@@ -26,8 +26,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Return_Test()
         {
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Match("(b:Bar)")
                             .Return("f")
@@ -44,8 +43,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_With_Test()
         {
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Match("(b:Bar)")
                             .With("f")
@@ -62,14 +60,13 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Set_Test()
         {
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Set("f", "Name")
                             .Set("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) SET f.Name = $f_Name , f.Date = $f_Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) SET f.Name = $Name , f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Set_Test
@@ -79,17 +76,33 @@ namespace Weknow.UnitTests
         [Fact]
         public void Multi_Where_Test()
         {
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Match("(f:Foo)")
                             .Where("f", "Name")
                             .And
                             .Where("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $f_Name AND f.Date = $f_Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Where_Test
+
+        #region Multi_Where_WithPrefix_Test
+
+        [Fact]
+        public void Multi_Where_WithPrefix_Test()
+        {
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
+                            .Match("(f:Foo)")
+                            .Where<Foo>(f => f.Name, "f_", string.Empty, "<")
+                            .And
+                            .Where("f", "Date");
+
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name < f_Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // Multi_Where_WithPrefix_Test
     }
 }

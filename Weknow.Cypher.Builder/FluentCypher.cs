@@ -31,8 +31,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using static Weknow.Helpers.Helper;
 
-// TODO:  Cache (one / multi line), break line strategy (same operator in a row)
-
 namespace Weknow
 {
     /// <summary>
@@ -49,14 +47,10 @@ namespace Weknow
         protected readonly FluentCypher? _previous;
         protected internal readonly string _cypher = string.Empty;
         protected internal readonly string _cypherClose = string.Empty;
-        // TODO: protected readonly string? _concurrencyField;
         protected internal readonly IEnumerable<FluentCypher> _children = Array.Empty<FluentCypher>();
         protected internal readonly string _childrenSeperator = SPACE;
         protected internal readonly CypherPhrase _phrase;
         protected internal IImmutableDictionary<CypherFormat, string> _cache = ImmutableDictionary<CypherFormat, string>.Empty;
-        protected internal IImmutableList<string> _additionalLabels = ImmutableList<string>.Empty;
-        private protected CypherNamingConvention _nodeConvention = CypherNamingConvention.Default;
-        private protected CypherNamingConvention _relationConvention = CypherNamingConvention.Default;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #region Ctor
@@ -66,7 +60,16 @@ namespace Weknow
         /// </summary>
         private protected FluentCypher()
         {
+            Config = new CypherConfig();
+        }
 
+        /// <summary>
+        /// Initialize constructor
+        /// </summary>
+        /// <param name="config">The configuration.</param>
+        protected FluentCypher(CypherConfig config)
+        {
+            Config = config;
         }
 
         /// <summary>
@@ -78,32 +81,33 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The delegated.</param>
         /// <param name="childrenSeparator">The children separator  (space if empty).</param>
-        /// <param name="additionalLabels">The additional labels.</param>
-        /// <param name="nodeConvention">The node convention.</param>
-        /// <param name="relationConvention">The node convention.</param>
         private protected FluentCypher(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null,
-            IImmutableList<string>? additionalLabels = null,
-            CypherNamingConvention? nodeConvention = null,
-            CypherNamingConvention? relationConvention = null)
+            string? childrenSeparator = null)
         {
             _previous = copyFrom;
+            Config = copyFrom.Config;
             _cypher = cypher;
             _phrase = phrase;
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
             _childrenSeperator = childrenSeparator ?? copyFrom._childrenSeperator ?? SPACE;
-            _additionalLabels = additionalLabels ?? copyFrom._additionalLabels ?? ImmutableList<string>.Empty;
-            _nodeConvention = nodeConvention ?? copyFrom._nodeConvention;
-            _relationConvention = relationConvention ?? copyFrom._relationConvention;
         }
 
         #endregion // Ctor
+
+        #region Config
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        public CypherConfig Config { get; }
+
+        #endregion // Config
 
         #region Cypher Operators
 
@@ -182,19 +186,22 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSign">The parameter sign.</param>
         /// <param name="compareSign">The compare sign.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// Where ((User user) => user.Id))
         /// Result with
         /// WHERE user.Id = $Id
-        /// 
         /// Where ((User user) => user.Id), ">")
         /// Result with
         /// WHERE user.Id > $Id AND
         /// ]]></example>
         public abstract FluentCypherWhereExpression Where<T>(
                     Expression<Func<T, dynamic>> propExpression,
+                    string? parameterPrefix = null,
+                    string parameterSign = "$",
                     string compareSign = "=");
 
         #endregion // Where
@@ -215,8 +222,7 @@ namespace Weknow
         /// ]]></example>
         public abstract FluentCypher Create(string statement);
 
-        #endregion // Create
-        
+        #endregion // Create        
 
         #region Merge
 
@@ -280,88 +286,6 @@ namespace Weknow
         public abstract FluentCypher OnCreate(string statement);
 
         #endregion // OnCreate
-
-        #region // OnCreateSet
-
-        ///// <summary>
-        ///// Compose ON CREATE SET phrase
-        ///// </summary>
-        ///// <param name="variable">The variable.</param>
-        ///// <param name="propNames">The property names.</param>
-        ///// <returns></returns>
-        ///// <example><![CDATA[
-        ///// Merge("(n:Person {name: $value})")
-        /////     .OnCreateSet(new [] {"name", "id"}, "n")
-        ///// Result in:
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.name = $name, n.id =$id
-        ///// -----------------------------------------------
-        ///// Merge("(n:Person {name: $value})")
-        /////     .OnCreateSet(new [] {"name", "id"}, "n", "prefix")
-        ///// Result in:
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.name = $prefix_name, n.id =$prefix_id
-        ///// -----------------------------------------------
-        ///// Merge("(n:Person {name: $value})")
-        /////     .OnCreateSet(new [] {"name", "id"}, "n", "prefix", ".")
-        ///// Result in:
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.name = $prefix.name, n.id =$prefix.id
-        ///// ]]></example>
-        //public abstract FluentCypher OnCreateSet(
-        //    IEnumerable<string> propNames,
-        //    string variable,
-        //    string? parameterPrefix = null,
-        //    string parameterSeparator = "_");
-
-        ///// <summary>
-        ///// Compose ON CREATE SET phrase
-        ///// </summary>
-        ///// <param name="variable">The variable.</param>
-        ///// <param name="name">The name.</param>
-        ///// <param name="moreNames">The more names.</param>
-        ///// <returns></returns>
-        ///// <example><![CDATA[
-        ///// Merge("(n:Person {name: $value})")
-        /////     .OnCreateSet("n", "name", "id")
-        ///// Result in:
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.name = $name, n.id =$id
-        ///// ]]></example>
-        //public abstract FluentCypher OnCreateSet(string variable, string name, params string[] moreNames);
-
-        ///// <summary>
-        ///// Compose ON CREATE SET phrase from a type expression.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="propExpression">The property expression.</param>
-        ///// <returns></returns>
-        ///// <example><![CDATA[
-        ///// Merge("(n:Person {name: $value})")
-        /////      .OnCreateSet("n", new [] {"name", "id"})
-        ///// Result in:
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.name = $name, n.id =$id
-        ///// ]]></example>
-        //public abstract FluentCypherSet<T> OnCreateSet<T>(Expression<Func<T, dynamic>> propExpression);
-
-        ///// <summary>
-        ///// Compose ON CREATE SET phrase by convention.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="variable">The variable.</param>
-        ///// <param name="filter">The filter.</param>
-        ///// <returns></returns>
-        ///// <example><![CDATA[
-        ///// MERGE (n:Person {name: $value})
-        ///// ON CREATE SET n.created = timestamp()
-        ///// ON MATCH SET
-        ///// n.counter = coalesce(n.counter, 0) + 1,
-        ///// n.accessTime = timestamp()
-        ///// ]]></example>
-        //public abstract FluentCypher OnCreateSetByConvention<T>(string variable, Func<string, bool> filter); 
-
-        #endregion // OnCreateSet
 
         #region OnMatch
 
@@ -481,12 +405,18 @@ namespace Weknow
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSign">The parameter sign.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// Set("n", new [] { nameof(Foo.Name), nameof(Bar.Id)})
         /// SET n.Name = $Name, n.Id = $Id // Update or create a property.
         /// ]]></example>
-        public abstract FluentCypher Set(string variable, IEnumerable<string> propNames);
+        public abstract FluentCypher Set(
+            string variable,
+            IEnumerable<string> propNames,
+            string? parameterPrefix = null,
+            string parameterSign = "$");
 
         /// <summary>
         /// Compose SET phrase
@@ -506,12 +436,17 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propExpression">The property expression.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSign">The parameter sign.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// Set((User user) => user.Name)
         /// SET user.Name = $Name // Update or create a property.
         /// ]]></example>
-        public abstract FluentCypherSet<T> Set<T>(Expression<Func<T, dynamic>> propExpression);
+        public abstract FluentCypherSet<T> Set<T>(
+            Expression<Func<T, dynamic>> propExpression,
+            string? parameterPrefix = null,
+            string parameterSign = "$");
 
         #endregion // Set
 
@@ -689,18 +624,24 @@ namespace Weknow
 
         /// <summary>
         /// Create UNWIND phrase.
-        /// With UNWIND, any list can be transformed back into individual rows. 
+        /// With UNWIND, any list can be transformed back into individual rows.
         /// The example matches all names from a list of names.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="variable">The variable.</param>
+        /// <param name="collectionSign">The collection sign.</param>
         /// <returns></returns>
         /// <example><![CDATA[
+        /// Unwind("names", "name")
+        /// Results in:
         /// UNWIND $names AS name
-        /// MATCH(n { name: name})
-        /// RETURN avg(n.age)
+        /// -------------------------
+        /// Unwind("names", "name", string.Empty)
+        /// Results in:
+        /// UNWIND names AS name
+        /// -------------------------
         /// ]]></example>
-        public abstract FluentCypher Unwind(string collection, string variable);
+        public abstract FluentCypher Unwind(string collection, string variable, string collectionSign = "$");
 
         #endregion // Unwind
 
@@ -997,16 +938,6 @@ namespace Weknow
         public abstract ICypherEntitiesMutations Entities { get; }
 
         #endregion // Entities
-
-        #region Context
-
-        /// <summary>
-        /// Represent contextual label operations.
-        /// Enable to add additional common labels like environment or tenants
-        /// </summary>
-        public abstract ICypherContext Context { get; }
-
-        #endregion // Context
 
         #region ToCypher
 

@@ -118,7 +118,8 @@ namespace Weknow
             /// { Name: $Name, Id: $Id}
             /// ]]></example>
             /// <returns></returns>
-            public static FluentCypher Create<T>(params Expression<Func<T, dynamic>>[] propExpressions)
+            public static FluentCypher Create<T>(
+                params Expression<Func<T, dynamic>>[] propExpressions)
             { 
                 IEnumerable<(string variable, string Name)> vns = 
                                                     from exp in propExpressions

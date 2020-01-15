@@ -101,12 +101,18 @@ namespace Weknow.Helpers
         /// <summary>
         /// Formats SET or WHERE phrases.
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="propNames">The property names.</param>
+        /// <param name="variable">The variable.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSign">The parameter sign.</param>
         /// <returns></returns>
-        public static IEnumerable<string> FormatSetWhere(this IEnumerable<string> propNames, string variable)
+        public static IEnumerable<string> FormatSetWhere(
+            this IEnumerable<string> propNames,
+            string variable,
+            string? parameterPrefix = null,
+            string parameterSign = "$")
         {
-            return propNames.Select(m => $"{variable}.{m} = ${variable}_{m}");
+            return propNames.Select(m => $"{variable}.{m} = {parameterSign}{parameterPrefix}{m}");
         }
 
         #endregion // FormatSetWhere
@@ -215,5 +221,16 @@ namespace Weknow.Helpers
         }
 
         #endregion // FormatByConvention
+
+        #region ToParameterConvention
+
+        /// <summary>
+        /// Convention of formating variable as parameter.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        public static string ToParameterConvention(string variable) => $"_{variable}";
+
+        #endregion // ToParameterConvention
     }
 }

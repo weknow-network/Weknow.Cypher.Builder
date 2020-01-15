@@ -26,7 +26,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Test()
         {
-            var cypher = CypherBuilder.Default
+            var cypher = CypherBuilder.Create()
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
                             .Unwind("$Movies", "mv")
@@ -40,12 +40,12 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (a:ACTOR) " +
-                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "SET a.ConcurrencyVersion = $ConcurrencyVersion " +
                 "WITH * " +
                 "UNWIND $Movies AS mv " +
                 "MATCH (movie:MOVIE { Id = mv }) " +
                 "MERGE (movie)<-[p:Played]-(a) " +
-                "SET p.Strength = $p_Strength " +
+                "SET p.Strength = $Strength " +
                 "WITH * " +
                 "UNWIND $Years AS year " +
                 "MATCH (a) " +
@@ -59,7 +59,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Create_Match_Test()
         {
-            var cypher = CypherBuilder.Default
+            var cypher = CypherBuilder.Create()
                             .Create("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
                             .Match("(movie:MOVIE { Id = $Id })");
@@ -67,7 +67,7 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "CREATE (a:ACTOR) " +
-                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "SET a.ConcurrencyVersion = $ConcurrencyVersion " +
                 "WITH * " +
                 "MATCH (movie:MOVIE { Id = $Id })",
                 cypher.ToCypher(CypherFormat.SingleLine));
@@ -81,7 +81,7 @@ namespace Weknow.UnitTests
         public void With_Merge_Match_Test()
         {
 
-            var cypher = CypherBuilder.Default
+            var cypher = CypherBuilder.Create()
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
                             .Match("(movie:MOVIE { Id = $Id })");
@@ -89,7 +89,7 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (a:ACTOR) " +
-                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "SET a.ConcurrencyVersion = $ConcurrencyVersion " +
                 "WITH * " +
                 "MATCH (movie:MOVIE { Id = $Id })",
                 cypher.ToCypher(CypherFormat.SingleLine));
@@ -102,7 +102,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Create_Unwind_Test()
         {
-            var cypher = CypherBuilder.Default
+            var cypher = CypherBuilder.Create()
                             .Create("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
                             .Unwind("$Movies", "mv")
@@ -111,7 +111,7 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "CREATE (a:ACTOR) " +
-                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "SET a.ConcurrencyVersion = $ConcurrencyVersion " +
                 "WITH * " +
                 "UNWIND $Movies AS mv " +
                 "MATCH (movie:MOVIE { Id = mv })",
@@ -125,7 +125,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void With_Merge_Unwind_Test()
         {
-            var cypher = CypherBuilder.Default
+            var cypher = CypherBuilder.Create()
                             .Merge("(a:ACTOR)")
                             .Set("a", "ConcurrencyVersion")
                             .Unwind("$Movies", "mv")
@@ -134,7 +134,7 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (a:ACTOR) " +
-                "SET a.ConcurrencyVersion = $a_ConcurrencyVersion " +
+                "SET a.ConcurrencyVersion = $ConcurrencyVersion " +
                 "WITH * " +
                 "UNWIND $Movies AS mv " +
                 "MATCH (movie:MOVIE { Id = mv })",

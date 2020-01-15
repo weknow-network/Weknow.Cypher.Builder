@@ -33,7 +33,7 @@ namespace Weknow.UnitTests
                                 .Where<Foo>(f => f.Name));
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $f_Name", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Generate_Expression_Test
@@ -57,10 +57,10 @@ namespace Weknow.UnitTests
         [Fact]
         public void CastToString_Test()
         {
-            string cypher = CypherBuilder.Default
+            string cypher = CypherBuilder.Create()
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name);
-            string cypherCommand = CypherBuilder.Default
+            string cypherCommand = CypherBuilder.Create()
                             .Match("(n:Foo)")
                             .Where<Foo>(f => f.Name)
                             .ToCypher(CypherFormat.MultiLineDense);
@@ -77,7 +77,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Statement_Test()
         {
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match("(n:Foo)");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -93,7 +93,7 @@ namespace Weknow.UnitTests
         {
             // using static Weknow.CypherFactory; enable to avoid CypherFactory
             string props = P.Create<Foo>(f => f.Id, f => f.Name); // same as CypherFactory.P or CypherFactory.Properties
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -110,7 +110,7 @@ namespace Weknow.UnitTests
             // using static Weknow.CypherFactory; enable to avoid CypherFactory
             string props = Properties.CreateAll<Foo>(); // same as CypherFactory.P or CypherFactory.Properties
             props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo {props})");
                             // TODO: API CHANGE: .Match(ps => $"(n:Foo {props})", () => Properties.CreateAll<Foo>());
 
@@ -127,7 +127,7 @@ namespace Weknow.UnitTests
         public void Match_Props_All_Exclude_Test()
         {
             string props = CypherFactory.P.CreateAll<Foo>(f => f.DateOfBirth);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -142,7 +142,7 @@ namespace Weknow.UnitTests
         public void Match_Props_Convention_Test()
         {
             string props = CypherFactory.P.CreateByConvention<Foo>(n => !n.StartsWith("Date"));
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -157,7 +157,7 @@ namespace Weknow.UnitTests
         public void Match_Props_Test()
         {
             string props = CypherFactory.P.Create("Id");
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -172,7 +172,7 @@ namespace Weknow.UnitTests
         public void Match_Return_OrderByDesc_Test()
         {
 
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match("(n:Foo)")
                             .Return("n")
                             .OrderByDesc("n.Id");
@@ -189,7 +189,7 @@ namespace Weknow.UnitTests
         public void OptionalMatch_Props_Test()
         {
             string props = CypherFactory.P.Create("Id");
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .OptionalMatch($"(n:Foo {props})");
 
             _outputHelper.WriteLine(cypherCommand);
@@ -203,7 +203,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void Match_Where_Test()
         {
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Match($"(n:Foo)")
                             .Where("n.Name = $Name");
 
@@ -220,7 +220,7 @@ namespace Weknow.UnitTests
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
             props = TrimX.Replace(props, " "); // TODO: remove it when changing the API https://github.com/weknow-network/Weknow.Cypher.Builder/issues/3
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(n:Foo {props})")
                             .OnCreate()
                             .Set("f", nameof(Foo.Id), nameof(Foo.Name))
@@ -229,9 +229,9 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $f_Id , f.Name = $f_Name " +
+                "SET f.Id = $Id , f.Name = $Name " +
                 "ON MATCH " +
-                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.ToCypher(CypherFormat.SingleLine));
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
@@ -245,7 +245,7 @@ namespace Weknow.UnitTests
         public void Merge_OnCreate_OnMatch_Exp_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(n:Foo {props})")
                             .OnCreate()
                                 .Set<Foo>(f => f.Id)
@@ -254,9 +254,9 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $f_Id , f.Name = $f_Name " +
+                "SET f.Id = $Id , f.Name = $Name " +
                 "ON MATCH " +
-                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -269,7 +269,7 @@ namespace Weknow.UnitTests
         public void Merge_Match_AutoWith_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(n:Foo {props})")
                             .Match($"(a)")
                             .Return("n");
@@ -290,7 +290,7 @@ namespace Weknow.UnitTests
         public void Create_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Create($"(n:Foo {props})");
 
             string expected = "CREATE (n:Foo { Id: $f_Id })";
@@ -300,159 +300,189 @@ namespace Weknow.UnitTests
 
         #endregion // Create_Test
 
-        #region CreateInstance_Test
+        #region CreateNew_AdditionalLabels_Test
 
         [Fact]
-        public void CreateInstance_Test()
+        public void CreateNew_AdditionalLabels_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Entity.CreateNew("x", "Foo");
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
+                            .Entity.CreateNew("x", "Foo", "map");
 
-            string expected = "CREATE (x:Foo $x_Foo)";
+            string expected = "CREATE (x:Foo:ENV:tenant $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_Test
+        #endregion // CreateNew_AdditionalLabels_Test
 
-        #region CreateInstance_AdditionalLabels_Test
+        #region CreateNew_AdditionalLabels_NoParm_Test
 
         [Fact]
-        public void CreateInstance_AdditionalLabels_Test()
+        public void CreateNew_AdditionalLabels_NoParm_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Label.AddFromHere("ENV", "tenant")
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
                             .Entity.CreateNew("x", "Foo");
 
-            string expected = "CREATE (x:Foo:ENV:tenant $x_Foo)";
+            string expected = "CREATE (x:Foo:ENV:tenant $x)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_AdditionalLabels_Test
+        #endregion // CreateNew_AdditionalLabels_NoParm_Test
 
-        #region CreateInstance_AdditionalLabels_WithConvention_Test
+        #region CreateNew_AdditionalLabels_WithConvention_Test
 
         [Fact]
-        public void CreateInstance_AdditionalLabels_WithConvention_Test()
+        public void CreateNew_AdditionalLabels_WithConvention_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
-                            .Context.Label.AddFromHere("ENV", "tenant")
-                            .Entity.CreateNew("x", "Foo");
+            var cypherCommand = CypherBuilder.Create(cfg =>
+            {
+                cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Labels.AddLabels("ENV", "tenant");
+            })
+                            .Entity.CreateNew("x", "Foo", "map");
 
-            string expected = "CREATE (x:FOO:ENV:TENANT $x_Foo)";
+            string expected = "CREATE (x:FOO:ENV:TENANT $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_AdditionalLabels_WithConvention_Test
+        #endregion // CreateNew_AdditionalLabels_WithConvention_Test
 
-        #region CreateInstance_OfT_Test
+        #region CreateNew_Test
 
         [Fact]
-        public void CreateInstance_OfT_Test()
+        public void CreateNew_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
+                            .Entity.CreateNew("x", nameof(Foo), "map");
+
+            string expected = "CREATE (x:Foo $map)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateNew_Test
+
+        #region CreateNew_NoParam_Test
+
+        [Fact]
+        public void CreateNew_NoParam_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Create()
                             .Entity.CreateNew("x", nameof(Foo));
 
-            string expected = "CREATE (x:Foo $x_Foo)";
+            string expected = "CREATE (x:Foo $x)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_Test
+        #endregion // CreateNew_NoParam_Test
 
-        #region CreateInstance_OfT_WithParam_Test
+        #region CreateNew_OfT_WithParam_Test
 
         [Fact]
-        public void CreateInstance_OfT_WithParam_Test()
+        public void CreateNew_OfT_WithParam_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Label.AddFromHere("dev")
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("dev"))
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:Foo:dev $x_map)";
+            string expected = "CREATE (x:Foo:dev $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_WithParam_Test
+        #endregion // CreateNew_OfT_WithParam_Test
 
-        #region CreateInstance_OfT_WithParam_SCREAMING_Test
+        #region CreateNew_OfT_WithParam_SCREAMING_Test
 
         [Fact]
-        public void CreateInstance_OfT_WithParam_SCREAMING_Test()
+        public void CreateNew_OfT_WithParam_SCREAMING_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO $x_map)";
+            string expected = "CREATE (x:FOO $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_WithParam_SCREAMING_Test
+        #endregion // CreateNew_OfT_WithParam_SCREAMING_Test
 
-        #region CreateInstance_OfT_Convention_Test
+        #region CreateNew_OfT_Convention_Test
 
         [Fact]
-        public void CreateInstance_OfT_Convention_Test()
+        public void CreateNew_OfT_Convention_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO $x_map)";
+            string expected = "CREATE (x:FOO $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_Convention_Test
+        #endregion // CreateNew_OfT_Convention_Test
 
-        #region CreateInstance_OfT_AdditionLabels_Test
+        #region CreateNew_OfT_AdditionLabels_Test
 
         [Fact]
-        public void CreateInstance_OfT_AdditionLabels_Test()
+        public void CreateNew_OfT_AdditionLabels_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Label.AddFromHere("ENV", "TENANT", "Tmp")
-                            .Context.Label.RemoveFromHere("Tmp")
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
+                            .Entity.CreateNew<Foo>("x", "map");
+
+            string expected = "CREATE (x:Foo:ENV:TENANT $map)";
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // CreateNew_OfT_AdditionLabels_Test
+
+        #region CreateNew_OfT_AdditionLabels_NoParam_Test
+
+        [Fact]
+        public void CreateNew_OfT_AdditionLabels_NoParam_Test()
+        {
+            string props = CypherFactory.P.Create<Foo>(f => f.Id);
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
                             .Entity.CreateNew<Foo>("x");
 
-            string expected = "CREATE (x:Foo:ENV:TENANT $x_Foo)";
+            string expected = "CREATE (x:Foo:ENV:TENANT $x)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_AdditionLabels_Test
+        #endregion // CreateNew_OfT_AdditionLabels_NoParam_Test
 
-        #region CreateInstance_OfT_Convention_AdditionLabel_Test
+        #region CreateNew_OfT_Convention_AdditionLabel_Test
 
         [Fact]
-        public void CreateInstance_OfT_Convention_AdditionLabel_Test()
+        public void CreateNew_OfT_Convention_AdditionLabel_Test()
         {
             string props = Properties.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Label.AddFromHere("env", "tenant")
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg =>
+            {
+                cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Labels.AddLabels("ENV", "tenant");
+            })
                             .Entity.CreateNew<Foo>("x", "map");
 
-            string expected = "CREATE (x:FOO:ENV:TENANT $x_map)";
+            string expected = "CREATE (x:FOO:ENV:TENANT $map)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // CreateInstance_OfT_Convention_AdditionLabel_Test
+        #endregion // CreateNew_OfT_Convention_AdditionLabel_Test
 
     }
 }

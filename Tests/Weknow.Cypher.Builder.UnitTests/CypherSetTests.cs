@@ -25,8 +25,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetCombination_Test()
         {
-            var cypherCommand = CypherBuilder.Default
-                            .Context.Conventions(CypherNamingConvention.SCREAMING_CASE, CypherNamingConvention.SCREAMING_CASE)
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE)
                             .Merge($"(f:Foo)")
                             .Merge($"(b:Bar)")
                                 .Set("f.SomeProperty = $sp")
@@ -39,11 +38,11 @@ namespace Weknow.UnitTests
                 "MERGE (f:Foo) " +
                 "MERGE (b:Bar) " +
                 "SET f.SomeProperty = $sp , " +
-                "f.SomeOtherProp = $f_SomeOtherProp , " +
-                "f.More = $f_More , " +
-                "f.Id = $f_Id , " +
-                "b.Value = $b_Value , " +
-                "b.Name = $b_Name";
+                "f.SomeOtherProp = $SomeOtherProp , " +
+                "f.More = $More , " +
+                "f.Id = $Id , " +
+                "b.Value = $Value , " +
+                "b.Name = $Name";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -56,12 +55,12 @@ namespace Weknow.UnitTests
         public void SetByConvention_Test()
         {
             string props = P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(f:Foo {props})")
                                .SetByConvention<Foo>("f", n => n != "Id");
 
             string expected = "MERGE (f:Foo { Id: $f_Id }) " +
-                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -74,12 +73,12 @@ namespace Weknow.UnitTests
         public void SetAll_Test()
         {
             string props = P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(f:Foo {props})")
                                .SetAll<Foo>("f", f => f.Id);
 
             string expected = "MERGE (f:Foo { Id: $f_Id }) " +
-                "SET f.Name = $f_Name , f.DateOfBirth = $f_DateOfBirth";
+                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -92,7 +91,7 @@ namespace Weknow.UnitTests
         public void SetLabel_Test()
         {
             string props = P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(f:Foo {props})")
                                .SetLabel("f", "NewLabel");
 
@@ -109,7 +108,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetInstance_Test()
         {
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(f:Foo)")
                                .SetEntity<Foo>("f");
 
@@ -126,7 +125,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void SetInstanceReplace_Test()
         {
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                             .Merge($"(f:Foo)")
                                .SetEntity<Foo>("f", SetInstanceBehavior.Replace);
 
@@ -143,7 +142,7 @@ namespace Weknow.UnitTests
         [Fact]
         public void MultiSets_Test()
         {
-            var cypherCommand = CypherBuilder.Default
+            var cypherCommand = CypherBuilder.Create()
                     .Match("(person:Person {name: 'Cuba Gooding Jr.'})-[:ACTED_IN]->(movie:Movie)")
                     .With($"person, {A.Collect($"movie.Rank")} as ranks")
                     .Set("person.MinRank = apoc.coll.min(ranks)")

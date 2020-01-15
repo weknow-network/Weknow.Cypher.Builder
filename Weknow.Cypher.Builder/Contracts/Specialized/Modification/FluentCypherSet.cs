@@ -50,16 +50,21 @@ namespace Weknow
         /// Compose SET phrase from a type expression.
         /// </summary>
         /// <param name="propExpression">The property expression.</param>
+        /// <param name="parameterPrefix">The parameter prefix.</param>
+        /// <param name="parameterSign">The parameter sign.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         /// <example><![CDATA[
         /// Set((User user) =&gt; user.Name).Also(user =&gt; user.Id)
         /// SET user.Name = $user.Name, user.Id = $user.Id // Update or create a property.
         /// ]]></example>
-        public FluentCypherSet<T> SetMore(Expression<Func<T, object>> propExpression)
+        public FluentCypherSet<T> SetMore(
+            Expression<Func<T, object>> propExpression,
+            string? parameterPrefix = null,
+            string parameterSign = "$")
         {
             (string variable, string name) = ExtractLambdaExpression(propExpression);
-            string statement = $"{variable}.{name} = ${variable}_{name}";
+            string statement = $"{variable}.{name} = {parameterSign}{parameterPrefix}{name}";
             var result = new FluentCypherSet<T>(this, statement, CypherPhrase.Set);
             return result;
         }

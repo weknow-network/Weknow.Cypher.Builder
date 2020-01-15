@@ -191,8 +191,6 @@ namespace Weknow
         /// <param name="labels">The labels.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchProperties">The match properties.</param>
-        /// <param name="concurrencyField">When supplied the concurrency field
-        /// used for incrementing the concurrency version (Optimistic concurrency).</param>
         /// <returns></returns>
         /// make sure to set unique constraint (on the matching properties),
         /// otherwise a new node with different concurrency will be created when not match.
@@ -211,8 +209,7 @@ namespace Weknow
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
-            IEnumerable<string> matchProperties,
-            string? concurrencyField = null);
+            IEnumerable<string> matchProperties);
 
         /// <summary>
         /// Create or update entity.
@@ -280,7 +277,6 @@ namespace Weknow
         /// this variable will serve as the entityParameter when entityParameter is null.
         /// </param>
         /// <param name="entityParameter">The entity parameter.</param>
-        /// <param name="concurrencyField">The concurrency field.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate<Person>(p => p.name, "map")
@@ -293,8 +289,7 @@ namespace Weknow
         /// ]]></example>
         FluentCypher CreateOrUpdate<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string? entityParameter = null,
-            string? concurrencyField = null);
+            string? entityParameter = null);
 
         #endregion // CreateOrUpdate
 
@@ -308,8 +303,6 @@ namespace Weknow
         /// <param name="labels">The labels.</param>
         /// <param name="entityParameter">The entity parameter.</param>
         /// <param name="matchProperties">The match properties.</param>
-        /// <param name="concurrencyField">When supplied the concurrency field
-        /// used for incrementing the concurrency version (Optimistic concurrency).</param>
         /// <returns></returns>
         /// make sure to set unique constraint (on the matching properties),
         /// otherwise a new node with different concurrency will be created when not match.
@@ -328,8 +321,7 @@ namespace Weknow
             string variable,
             IEnumerable<string> labels,
             string entityParameter,
-            IEnumerable<string> matchProperties,
-            string? concurrencyField = null);
+            IEnumerable<string> matchProperties);
 
         /// <summary>
         /// Create or update entity.
@@ -397,7 +389,6 @@ namespace Weknow
         /// this variable will serve as the entityParameter when entityParameter is null.
         /// </param>
         /// <param name="entityParameter">The entity parameter.</param>
-        /// <param name="concurrencyField">The concurrency field.</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrReplace<Person>(p => p.name, "map")
@@ -412,8 +403,7 @@ namespace Weknow
         /// ]]></example>
         FluentCypher CreateOrReplace<T>(
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string? entityParameter = null,
-            string? concurrencyField = null);
+            string? entityParameter = null);
 
         #endregion // CreateOrReplace
     }
