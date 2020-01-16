@@ -1,5 +1,7 @@
 # Weknow Cypher Builder
-This library is still in alpha stage.
+This library is still in alpha stage.  
+This means that the API still constantly changing.  
+Our goals to reach Beta (more stable API) in the next few months.
 
 ## Usage
 Build cypher query in a reusable & structured way.
