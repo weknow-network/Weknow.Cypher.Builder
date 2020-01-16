@@ -24,7 +24,7 @@ namespace Weknow
         /// CreateNew("items", new [] {"A", "B"}, "n", "map")
         /// Results in:
         /// UNWIND items as map 
-        /// CREATE (n:A:B $map)
+        /// CREATE (n:A:B map)
         /// ]]></example>
         FluentCypher CreateNew(
             string collection,
@@ -71,12 +71,12 @@ namespace Weknow
         /// CreateNew<Foo>("items", "n")
         /// Results in:
         /// UNWIND items as n 
-        /// CREATE (n:FOO $n) // Create a node with the given properties.
+        /// CREATE (n:FOO n) // Create a node with the given properties.
         /// --------------------------------------------------------------------------
         /// CreateNew<Foo>("items", "n", "map")
         /// Results in:
         /// UNWIND items as map 
-        /// CREATE (n:FOO $map) // Create a node with the given properties.
+        /// CREATE (n:FOO map) // Create a node with the given properties.
         /// ]]></example>
         FluentCypher CreateNew<T>(
             string collection,

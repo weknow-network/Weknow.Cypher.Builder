@@ -2054,17 +2054,7 @@ namespace Weknow
         /// CreateNew("items", "n", new [] {"A", "B"}, "map")
         /// Results in:
         /// Unwind $items as map
-        /// CREATE (n:A:B $n_map)
-        /// ----------------------------------------------------------
-        /// CreateNew("n", new [] {"A", "B"}, "map", "prefix")
-        /// Results in:
-        /// Unwind $items as map
-        /// CREATE (n:A:B $prefix_map)
-        /// ----------------------------------------------------------
-        /// CreateNew("n", new [] {"A", "B"}, "map", "prefix", ".")
-        /// Results in:
-        /// Unwind $items as map
-        /// CREATE (n:A:B $prefix.map)
+        /// CREATE (n:A:B map)
         /// ]]></example>
         FluentCypher ICypherEntitiesMutations.CreateNew(
             string collection,

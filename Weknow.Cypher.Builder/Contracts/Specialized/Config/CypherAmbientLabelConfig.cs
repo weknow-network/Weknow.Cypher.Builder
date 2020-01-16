@@ -78,13 +78,30 @@ namespace Weknow
         /// <returns></returns>
         internal string Combine(IEnumerable<string> additionalLabels)
         {
-            IEnumerable<string> formatted = additionalLabels.Concat(Values).Select(m => FormatByConvention(m));
+            var values = Values.Select(m => AmbientFormat(m));
+            IEnumerable<string> formatted = additionalLabels.Concat(values).Select(m => FormatByConvention(m));
             string result = string.Join(":", formatted);
             return result;
         }
 
         #endregion // Combine
 
+        #region AmbientFormat
+
+        /// <summary>
+        /// Ambients the format.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        private protected string AmbientFormat(string text)
+        {
+            if (Formatter != null)
+                return string.Format(Formatter, text);
+            return text;
+        } 
+
+        #endregion // AmbientFormat
+        
         #region FormatByConvention
 
         /// <summary>
@@ -100,8 +117,6 @@ namespace Weknow
             if (convention == CypherNamingConvention.Default)
                 convention = _namingConfig.NodeLabelConvention;
             string result = Helpers.Helper.FormatByConvention(text, convention);
-            if (Formatter != null)
-                result = string.Format(Formatter, result);
             return result;
         }
 

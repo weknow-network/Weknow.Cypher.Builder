@@ -228,7 +228,7 @@
             CreateNew("items", new [] {"A", "B"}, "n", "map")
             Results in:
             UNWIND items as map 
-            CREATE (n:A:B $map)
+            CREATE (n:A:B map)
             ]]></example>
         </member>
         <member name="M:Weknow.ICypherEntitiesMutations.CreateNew(System.String,System.String,System.String,System.String)">
@@ -267,12 +267,12 @@
             CreateNew<Foo>("items", "n")
             Results in:
             UNWIND items as n 
-            CREATE (n:FOO $n) // Create a node with the given properties.
+            CREATE (n:FOO n) // Create a node with the given properties.
             --------------------------------------------------------------------------
             CreateNew<Foo>("items", "n", "map")
             Results in:
             UNWIND items as map 
-            CREATE (n:FOO $map) // Create a node with the given properties.
+            CREATE (n:FOO map) // Create a node with the given properties.
             ]]></example>
         </member>
         <member name="M:Weknow.ICypherEntitiesMutations.CreateIfNotExists(System.String,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.String,System.String)">
@@ -903,6 +903,13 @@
             Get combined label string with ambient and additional labels.
             </summary>
             <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.AmbientFormat(System.String)">
+            <summary>
+            Ambients the format.
+            </summary>
+            <param name="text">The text.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
@@ -2530,17 +2537,7 @@
             CreateNew("items", "n", new [] {"A", "B"}, "map")
             Results in:
             Unwind $items as map
-            CREATE (n:A:B $n_map)
-            ----------------------------------------------------------
-            CreateNew("n", new [] {"A", "B"}, "map", "prefix")
-            Results in:
-            Unwind $items as map
-            CREATE (n:A:B $prefix_map)
-            ----------------------------------------------------------
-            CreateNew("n", new [] {"A", "B"}, "map", "prefix", ".")
-            Results in:
-            Unwind $items as map
-            CREATE (n:A:B $prefix.map)
+            CREATE (n:A:B map)
             ]]></example>
         </member>
         <member name="M:Weknow.CypherBuilder.Weknow#ICypherEntitiesMutations#CreateNew(System.String,System.String,System.String,System.String)">
