@@ -48,15 +48,17 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="config">The configuration.</param>
         private protected FluentCypherReturn(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
+            string? childrenSeparator = null,
+            CypherConfig? config = null)
             : base(copyFrom, cypher, phrase, cypherClose,
-                  children, childrenSeparator)
+                  children, childrenSeparator, config)
         {
         }
 

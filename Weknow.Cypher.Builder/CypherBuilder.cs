@@ -63,7 +63,6 @@ namespace Weknow
     /// <seealso cref="Weknow.FluentCypherWhereExpression" />
     /// <seealso cref="Weknow.ICypherEntityMutations" />
     /// <seealso cref="Weknow.ICypherEntitiesMutations" />
-    /// <seealso cref="Weknow.ICypherLabelContext" />
     /// <seealso cref="Weknow.FluentCypher" />
     public class CypherBuilder :
         FluentCypherWhereExpression,
@@ -73,7 +72,7 @@ namespace Weknow
         #region static Create
 
         /// <summary>
-        /// Root Cypher Builder.
+        /// Root Cypher Builder with configuration.
         /// </summary>
         public static FluentCypher Create(Action<CypherConfig>? config = null)
         {
@@ -84,14 +83,14 @@ namespace Weknow
 
         #endregion // static Create
 
-        #region static Create
+        #region static Default
 
         /// <summary>
         /// Root Cypher Builder.
         /// </summary>
         internal static readonly FluentCypher Default = new CypherBuilder();
 
-        #endregion // static Create
+        #endregion // static Default
 
         #region Ctor
 
@@ -139,15 +138,17 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
+        /// <param name="config">The configuration.</param>
         private protected CypherBuilder(
             FluentCypher copyFrom,
-            string cypher,
-            CypherPhrase phrase,
+            string cypher = "",
+            CypherPhrase phrase = CypherPhrase.Dynamic,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
+            string? childrenSeparator = null,
+            CypherConfig? config = null)
             : base(copyFrom, cypher, phrase, cypherClose,
-                  children, childrenSeparator)
+                  children, childrenSeparator, config)
         {
         }
 
@@ -239,6 +240,20 @@ namespace Weknow
         }
 
         #endregion // AddStatement
+
+        #region AddAmbientLabels
+
+        /// <summary>
+        /// Adds the ambient labels.
+        /// additional ambient labels which will be added to cypher queries
+        /// (when the expression is not hard-codded string).
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        public override FluentCypher AddAmbientLabels(params string[] labels) =>
+            new CypherBuilder(this, config: _config.Clone(labels));
+
+        #endregion // AddAmbientLabels
 
         #region Cypher Operators
 
@@ -1031,7 +1046,7 @@ namespace Weknow
         /// ]]></example>
         public override FluentCypher SetLabel(string variable, string label)
         {
-            string statement = $"{variable}:{Config.Labels.Format(label)}";
+            string statement = $"{variable}:{_config.AmbientLabels.Combine(label)}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -1479,7 +1494,7 @@ namespace Weknow
             string parameter)
         {
             parameter = parameter ?? variable;
-            string labelsStr = Config.Labels.Format(labels);
+            string labelsStr = _config.AmbientLabels.Combine(labels);
             return Create($"({variable}:{labelsStr} ${parameter})")
                     .Return(variable);
         }
@@ -1569,7 +1584,7 @@ namespace Weknow
             string? parameter)
         {
             parameter = parameter ?? variable;
-            string joinedLabel = Config.Labels.Format(labels);
+            string joinedLabel = _config.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".");
             return Merge($"({variable}:{joinedLabel} {props})")
                         .OnCreate()
@@ -1686,12 +1701,12 @@ namespace Weknow
             string parameterSign = "$",
             FluentCypher? parent = null)
         {
-            string? eTagName = Config.Concurrency.eTagName;
+            string? eTagName = _config.Concurrency.eTagName;
             bool withConcurrency = !string.IsNullOrEmpty(eTagName);
-            bool autoIncConcurrency = Config.Concurrency.AutoIncrement;
+            bool autoIncConcurrency = _config.Concurrency.AutoIncrement;
             string eTag = withConcurrency ? $"{variable}.{eTagName}" : string.Empty;
 
-            string joinedLabel = Config.Labels.Format(labels);
+            string joinedLabel = _config.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", parameterSign);
             parent = parent ?? CypherBuilder.Default;
             var result = parent.Merge($"({variable}:{joinedLabel} {props})");
@@ -2006,7 +2021,7 @@ namespace Weknow
             SetInstanceBehavior onMatchBehavior)
         {
             parameter = parameter ?? ToParameterConvention(variable);
-            string joinedLabel = Config.Labels.Format(labels);
+            string joinedLabel = _config.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", string.Empty);
             var parent = Unwind(collection, parameter);
             FluentCypher result = AddOrModify(
@@ -2058,7 +2073,7 @@ namespace Weknow
             string? parameter)
         {
             parameter = parameter ?? ToParameterConvention(variable);
-            string labelsStr = Config.Labels.Format(labels);
+            string labelsStr = _config.AmbientLabels.Combine(labels);
             return Unwind(collection, parameter)
                     .Create($"({variable}:{labelsStr} {parameter})")
                     .Return(variable); // TODO: Return projection
@@ -2150,7 +2165,7 @@ namespace Weknow
             string? parameter)
         {
             parameter = parameter ?? ToParameterConvention(variable);
-            string joinedLabel = Config.Labels.Format(labels);
+            string joinedLabel = _config.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", string.Empty);
             return Unwind(collection, parameter)
                 .Merge($"({variable}:{joinedLabel} {props})")
@@ -2279,12 +2294,12 @@ namespace Weknow
             string parameterSign = "$",
             FluentCypher? parent = null)
         {
-            string? eTagName = Config.Concurrency.eTagName;
+            string? eTagName = _config.Concurrency.eTagName;
             bool withConcurrency = !string.IsNullOrEmpty(eTagName);
-            bool autoIncConcurrency = Config.Concurrency.AutoIncrement;
+            bool autoIncConcurrency = _config.Concurrency.AutoIncrement;
             string eTag = withConcurrency ? $"{variable}.{eTagName}" : string.Empty;
 
-            string joinedLabel = Config.Labels.Format(labels);
+            string joinedLabel = _config.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", parameterSign);
             parent = parent ?? CypherBuilder.Default;
             var result = parent

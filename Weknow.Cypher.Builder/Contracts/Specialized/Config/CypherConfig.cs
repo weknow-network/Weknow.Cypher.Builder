@@ -8,7 +8,7 @@ namespace Weknow
     /// <summary>
     /// The cypher builder configuration.
     /// </summary>
-    public class CypherConfig
+    public class CypherConfig: ICypherConfig
     {
         #region Ctor
 
@@ -18,24 +18,44 @@ namespace Weknow
         public CypherConfig()
         {
             Naming = new CypherNamingConfig();
-            Labels = new CypherLabelConfig(Naming);
+            AmbientLabels = new CypherAmbientLabelConfig(Naming);
         }
 
         #endregion // Ctor
 
         /// <summary>
-        /// Naming related configuration.
+        /// Ambient Label configuration
         /// </summary>
-        public CypherLabelConfig Labels { get; }
+        public CypherAmbientLabelConfig AmbientLabels { get; private set; }
 
         /// <summary>
-        /// Gets the naming configuration.
+        /// Ambient Label configuration
         /// </summary>
-        public CypherNamingConfig Naming { get; } = new CypherNamingConfig();
+        ICypherAmbientLabelConfig ICypherConfig.AmbientLabels => AmbientLabels;
 
         /// <summary>
         /// Sets the concurrency behavior.
         /// </summary>
-        public ConcurrencyConfig Concurrency { get; } = new ConcurrencyConfig();
+        public ConcurrencyConfig Concurrency { get; private set; } = new ConcurrencyConfig();
+
+        /// <summary>
+        /// Sets the concurrency behavior.
+        /// </summary>
+        IConcurrencyConfig ICypherConfig.Concurrency => Concurrency;
+
+        /// <summary>
+        /// Gets the naming convention.
+        /// </summary>
+        public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();
+
+        internal CypherConfig Clone(params string[] additionalAmbientLabels)
+        {
+            return new CypherConfig
+            {
+                AmbientLabels = AmbientLabels.Clone(additionalAmbientLabels),
+                Concurrency = Concurrency,
+                Naming = Naming
+            };
+        }
     }
 }

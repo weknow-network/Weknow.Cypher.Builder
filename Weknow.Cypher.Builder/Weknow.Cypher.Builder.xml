@@ -209,49 +209,6 @@
             Update properties of existing entity
             </summary>
         </member>
-        <member name="T:Weknow.ICypherConfig">
-            <summary>
-            Represent contextual operations.
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherConfig.Labels">
-            <summary>
-            Label Context.
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherConfig.Conventions">
-            <summary>
-            Sets the conventions.
-            </summary>
-        </member>
-        <member name="T:Weknow.ICypherConventions">
-            <summary>
-            Represent contextual operations.
-            </summary>
-        </member>
-        <member name="M:Weknow.ICypherConventions.Concurrency(System.String,System.Boolean)">
-            <summary>
-            When supplied the concurrency field
-            used for incrementing the concurrency version (Optimistic concurrency)
-            make sure to set unique constraint (on the matching properties),
-            otherwise a new node with different concurrency will be created when not match.
-            </summary>
-            <param name="nameOfConcurrencyField">The name of concurrency field.</param>
-            <param name="autoIncrement">if set to <c>true</c> [automatic increment].</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherConventions.NodeNaming(Weknow.CypherNamingConvention)">
-            <summary>
-            Sets the Node naming conventions.
-            </summary>
-            <param name="nodeLabelConvention">The node convention.</param>
-        </member>
-        <member name="M:Weknow.ICypherConventions.RelationNaming(Weknow.CypherNamingConvention)">
-            <summary>
-            Sets the Node naming conventions.
-            </summary>
-            <param name="relationTagConvention">The relation convention.</param>
-        </member>
         <member name="T:Weknow.ICypherEntitiesMutations">
             <summary>
             Cypher phrases for handling entities collection
@@ -884,47 +841,6 @@
             SET p = $map, p.eTag = p.eTag + 1
             ]]></example>
         </member>
-        <member name="T:Weknow.ICypherLabelContext">
-            <summary>
-            Represent contextual label operations.
-            Enable to add additional common labels like environment or tenants
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherLabelContext.Current">
-            <summary>
-            Gets the current.
-            </summary>
-        </member>
-        <member name="M:Weknow.ICypherLabelContext.Format(System.String[])">
-            <summary>
-            Format labels with contextual label.
-            </summary>
-            <param name="labels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherLabelContext.Format(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Format labels with contextual label.
-            </summary>
-            <param name="labels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherLabelContext.AddFromHere(System.String,System.String[])">
-            <summary>
-            Adds label from point in the cypher flow.
-            </summary>
-            <param name="label">The label.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherLabelContext.RemoveFromHere(System.String,System.String[])">
-            <summary>
-            Removes label from point in the cypher flow.
-            </summary>
-            <param name="label">The label.</param>
-            <param name="additionalLabels">The additional labels.</param>
-            <returns></returns>
-        </member>
         <member name="T:Weknow.ConcurrencyConfig">
             <summary>
             Represent contextual operations.
@@ -946,6 +862,82 @@
               <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="T:Weknow.CypherAmbientLabelConfig">
+            <summary>
+            Label configuration
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
+            </summary>
+            <param name="namingConfig">The naming configuration.</param>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="additionalLabels">The additional labels.</param>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String[])">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
+            <summary>
+            Formats the specified text.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0,Weknow.CypherNamingConvention)">
+            <summary>
+            Formats the specified text.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="text">The text.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Clone(System.String[])">
+            <summary>
+            Clones the specified additional ambient labels.
+            </summary>
+            <param name="additionalAmbientLabels">The additional ambient labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
         <member name="T:Weknow.CypherConfig">
             <summary>
             The cypher builder configuration.
@@ -956,14 +948,14 @@
             Initializes a new instance of the <see cref="T:Weknow.CypherConfig"/> class.
             </summary>
         </member>
-        <member name="P:Weknow.CypherConfig.Labels">
+        <member name="P:Weknow.CypherConfig.AmbientLabels">
             <summary>
-            Naming related configuration.
+            Ambient Label configuration
             </summary>
         </member>
-        <member name="P:Weknow.CypherConfig.Naming">
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#AmbientLabels">
             <summary>
-            Gets the naming configuration.
+            Ambient Label configuration
             </summary>
         </member>
         <member name="P:Weknow.CypherConfig.Concurrency">
@@ -971,63 +963,19 @@
             Sets the concurrency behavior.
             </summary>
         </member>
-        <member name="T:Weknow.CypherLabelConfig">
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Concurrency">
             <summary>
-            Label configuration
+            Sets the concurrency behavior.
             </summary>
         </member>
-        <member name="M:Weknow.CypherLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+        <member name="P:Weknow.CypherConfig.Naming">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherLabelConfig"/> class.
+            Gets the naming convention.
             </summary>
-            <param name="namingConfig">The naming configuration.</param>
-        </member>
-        <member name="P:Weknow.CypherLabelConfig.WithLabels">
-            <summary>
-            Gets the additional labels which will be added to cypher queries.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherLabelConfig.AddLabels(System.String[])">
-            <summary>
-            Adds the additional labels which will be added to cypher queries.
-            </summary>
-            <param name="additionalLabels">The additional labels.</param>
-        </member>
-        <member name="M:Weknow.CypherLabelConfig.Format(System.String[])">
-            <summary>
-            Format labels with contextual label.
-            </summary>
-            <param name="labels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherLabelConfig.Format(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Format labels with contextual label.
-            </summary>
-            <param name="labels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherLabelConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
-            <summary>
-            Formats the specified text.
-            </summary>
-            <param name="text">The text.</param>
-            <param name="convention">The convention.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherLabelConfig.FormatByConvention``1(``0,Weknow.CypherNamingConvention)">
-            <summary>
-            Formats the specified text.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="text">The text.</param>
-            <param name="convention">The convention.</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException">text</exception>
         </member>
         <member name="T:Weknow.CypherNamingConfig">
             <summary>
-            Label configuration
+            Naming convention
             </summary>
         </member>
         <member name="P:Weknow.CypherNamingConfig.NodeLabelConvention">
@@ -1038,6 +986,60 @@
         <member name="P:Weknow.CypherNamingConfig.RelationTagConvention">
             <summary>
             Gets or sets the relation tag convention.
+            </summary>
+        </member>
+        <member name="T:Weknow.IConcurrencyConfig">
+            <summary>
+            Represent contextual operations.
+            </summary>
+        </member>
+        <member name="P:Weknow.IConcurrencyConfig.eTagName">
+            <summary>
+            When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency)
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
+            </summary>
+        </member>
+        <member name="P:Weknow.IConcurrencyConfig.AutoIncrement">
+            <summary>
+            Gets or sets a value indicating whether [automatic increment].
+            </summary>
+            <value>
+              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Weknow.ICypherAmbientLabelConfig">
+            <summary>
+            Ambient Label configuration
+            Use ToString() in order to get formatted labels
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="T:Weknow.ICypherConfig">
+            <summary>
+            The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.AmbientLabels">
+            <summary>
+            Ambient Label configuration.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.Concurrency">
+            <summary>
+            Sets the concurrency behavior.
             </summary>
         </member>
         <member name="T:Weknow.FluentCypherReturn">
@@ -1057,7 +1059,7 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
+        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
             </summary>
@@ -1067,6 +1069,7 @@
             <param name="cypherClose">The cypher close.</param>
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
         </member>
         <member name="M:Weknow.FluentCypherReturn.OrderBy(System.String)">
             <summary>
@@ -1206,7 +1209,7 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
+        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
             </summary>
@@ -1216,6 +1219,7 @@
             <param name="cypherClose">The cypher close.</param>
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
         </member>
         <member name="P:Weknow.FluentCypherWhereExpression.And">
             <summary>
@@ -1268,12 +1272,11 @@
             <seealso cref="T:Weknow.FluentCypherWhereExpression" />
             <seealso cref="T:Weknow.ICypherEntityMutations" />
             <seealso cref="T:Weknow.ICypherEntitiesMutations" />
-            <seealso cref="T:Weknow.ICypherLabelContext" />
             <seealso cref="T:Weknow.FluentCypher" />
         </member>
         <member name="M:Weknow.CypherBuilder.Create(System.Action{Weknow.CypherConfig})">
             <summary>
-            Root Cypher Builder.
+            Root Cypher Builder with configuration.
             </summary>
         </member>
         <member name="F:Weknow.CypherBuilder.Default">
@@ -1302,7 +1305,7 @@
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
         </member>
-        <member name="M:Weknow.CypherBuilder.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
+        <member name="M:Weknow.CypherBuilder.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
             </summary>
@@ -1312,6 +1315,7 @@
             <param name="cypherClose">The cypher close.</param>
             <param name="children">The children.</param>
             <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
         </member>
         <member name="M:Weknow.CypherBuilder.IsWithCause(Weknow.CypherPhrase)">
             <summary>
@@ -1348,6 +1352,15 @@
             </summary>
             <param name="statement">The statement.</param>
             <param name="phrase">The phrase.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.AddAmbientLabels(System.String[])">
+            <summary>
+            Adds the ambient labels.
+            additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+            <param name="labels">The labels.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.CypherBuilder.Generate(System.String)">
@@ -3951,7 +3964,7 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
+        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypher" /> class.
             </summary>
@@ -3961,6 +3974,12 @@
             <param name="cypherClose">The cypher close.</param>
             <param name="children">The delegated.</param>
             <param name="childrenSeparator">The children separator  (space if empty).</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="P:Weknow.FluentCypher._config">
+            <summary>
+            Gets the configuration.
+            </summary>
         </member>
         <member name="P:Weknow.FluentCypher.Config">
             <summary>
@@ -4627,6 +4646,15 @@
             <example><![CDATA[
             collect(list) AS items
             /// ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypher.AddAmbientLabels(System.String[])">
+            <summary>
+            Adds the ambient labels.
+            additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+            <param name="labels">The labels.</param>
+            <returns></returns>
         </member>
         <member name="P:Weknow.FluentCypher.Entity">
             <summary>

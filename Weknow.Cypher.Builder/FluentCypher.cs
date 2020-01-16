@@ -60,7 +60,7 @@ namespace Weknow
         /// </summary>
         private protected FluentCypher()
         {
-            Config = new CypherConfig();
+            _config = new CypherConfig();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Weknow
         /// <param name="config">The configuration.</param>
         protected FluentCypher(CypherConfig config)
         {
-            Config = config;
+            _config = config;
         }
 
         /// <summary>
@@ -81,21 +81,24 @@ namespace Weknow
         /// <param name="cypherClose">The cypher close.</param>
         /// <param name="children">The delegated.</param>
         /// <param name="childrenSeparator">The children separator  (space if empty).</param>
+        /// <param name="config">The configuration.</param>
         private protected FluentCypher(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
+            string? childrenSeparator = null,
+            CypherConfig? config = null)
         {
             _previous = copyFrom;
-            Config = copyFrom.Config;
+            _config = copyFrom._config;
             _cypher = cypher;
             _phrase = phrase;
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
             _childrenSeperator = childrenSeparator ?? copyFrom._childrenSeperator ?? SPACE;
+            _config = config ?? copyFrom._config;
         }
 
         #endregion // Ctor
@@ -105,7 +108,11 @@ namespace Weknow
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        public CypherConfig Config { get; }
+        internal protected CypherConfig _config { get; }
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        public ICypherConfig Config => _config;
 
         #endregion // Config
 
@@ -920,6 +927,19 @@ namespace Weknow
         #endregion // As
 
         #endregion // Cypher Operators
+
+        #region AddAmbientLabels
+
+        /// <summary>
+        /// Adds the ambient labels.
+        /// additional ambient labels which will be added to cypher queries
+        /// (when the expression is not hard-codded string).
+        /// </summary>
+        /// <param name="labels">The labels.</param>
+        /// <returns></returns>
+        public abstract FluentCypher AddAmbientLabels(params string[] labels); 
+
+        #endregion // AddAmbientLabels
 
         #region Entity
 

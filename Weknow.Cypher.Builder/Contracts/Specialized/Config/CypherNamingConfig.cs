@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace Weknow
 {
     /// <summary>
-    /// Label configuration
+    /// Naming convention
     /// </summary>
+    [DebuggerDisplay("Node: {NodeLabelConvention}, Relation: {RelationTagConvention}")]
     public class CypherNamingConfig
     {
         #region NodeLabelConvention

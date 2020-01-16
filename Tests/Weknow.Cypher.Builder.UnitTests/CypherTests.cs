@@ -306,7 +306,7 @@ namespace Weknow.UnitTests
         public void CreateNew_AdditionalLabels_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.AmbientLabels.Add("ENV", "tenant"))
                             .Entity.CreateNew("x", "Foo", "map");
 
             string expected = "CREATE (x:Foo:ENV:tenant $map) RETURN x";
@@ -322,7 +322,7 @@ namespace Weknow.UnitTests
         public void CreateNew_AdditionalLabels_NoParm_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "tenant"))
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.AmbientLabels.Add("ENV", "tenant"))
                             .Entity.CreateNew("x", "Foo");
 
             string expected = "CREATE (x:Foo:ENV:tenant $x) RETURN x";
@@ -341,7 +341,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg =>
             {
                 cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                cfg.Labels.AddLabels("ENV", "tenant");
+                cfg.AmbientLabels.Add("ENV", "tenant");
             })
                             .Entity.CreateNew("x", "Foo", "map");
 
@@ -390,7 +390,7 @@ namespace Weknow.UnitTests
         public void CreateNew_OfT_WithParam_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("dev"))
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.AmbientLabels.Add("dev"))
                             .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:Foo:dev $map) RETURN x";
@@ -438,7 +438,7 @@ namespace Weknow.UnitTests
         public void CreateNew_OfT_AdditionLabels_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.AmbientLabels.Add("ENV", "TENANT"))
                             .Entity.CreateNew<Foo>("x", "map");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $map) RETURN x";
@@ -454,7 +454,7 @@ namespace Weknow.UnitTests
         public void CreateNew_OfT_AdditionLabels_NoParam_Test()
         {
             string props = CypherFactory.P.Create<Foo>(f => f.Id);
-            var cypherCommand = CypherBuilder.Create(cfg => cfg.Labels.AddLabels("ENV", "TENANT"))
+            var cypherCommand = CypherBuilder.Create(cfg => cfg.AmbientLabels.Add("ENV", "TENANT"))
                             .Entity.CreateNew<Foo>("x");
 
             string expected = "CREATE (x:Foo:ENV:TENANT $x) RETURN x";
@@ -473,7 +473,7 @@ namespace Weknow.UnitTests
             var cypherCommand = CypherBuilder.Create(cfg =>
             {
                 cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                cfg.Labels.AddLabels("ENV", "tenant");
+                cfg.AmbientLabels.Add("ENV", "tenant");
             })
                             .Entity.CreateNew<Foo>("x", "map");
 

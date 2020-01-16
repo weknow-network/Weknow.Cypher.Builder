@@ -33,7 +33,7 @@ namespace Weknow.CoreIntegrationTests
             CypherBuilder.Create(cfg =>
             {
                 cfg.Naming.NodeLabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                cfg.Labels.AddLabels(TEST_ENV_LABEL);
+                cfg.AmbientLabels.Add(TEST_ENV_LABEL);
             });
         private static DateTime DATE = new DateTime(2019, 01, 01, 10, 11, 12);
 
