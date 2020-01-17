@@ -9,7 +9,7 @@ namespace Weknow
     /// <summary>
     /// Label configuration
     /// </summary>
-    public class CypherAmbientLabelConfig: ICypherAmbientLabelConfig
+    public class CypherAmbientLabelConfig : ICypherAmbientLabelConfig
     {
         private readonly CypherNamingConfig _namingConfig;
 
@@ -78,8 +78,9 @@ namespace Weknow
         /// <returns></returns>
         internal string Combine(IEnumerable<string> additionalLabels)
         {
+            IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
             var values = Values.Select(m => AmbientFormat(m));
-            IEnumerable<string> formatted = additionalLabels.Concat(values).Select(m => FormatByConvention(m));
+            formatted = formatted.Concat(values);
             string result = string.Join(":", formatted);
             return result;
         }
@@ -93,51 +94,31 @@ namespace Weknow
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        private protected string AmbientFormat(string text)
+        private protected string AmbientFormat(
+            string text)
         {
+            text = FormatByConvention(text);
             if (Formatter != null)
                 return string.Format(Formatter, text);
             return text;
-        } 
+        }
 
         #endregion // AmbientFormat
-        
-        #region FormatByConvention
 
-        /// <summary>
-        /// Formats the specified text.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="convention">The convention.</param>
-        /// <returns></returns>
-        private protected string FormatByConvention(
-            string text,
-            CypherNamingConvention convention = CypherNamingConvention.Default)
-        {
-            if (convention == CypherNamingConvention.Default)
-                convention = _namingConfig.NodeLabelConvention;
-            string result = Helpers.Helper.FormatByConvention(text, convention);
-            return result;
-        }
+        #region FormatByConvention
 
         /// <summary>
         /// Formats the specified text.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="text">The text.</param>
-        /// <param name="convention">The convention.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">text</exception>
-        private protected string FormatByConvention<T>(
-            T text,
-            CypherNamingConvention convention = CypherNamingConvention.Default)
+        private protected string FormatByConvention<T>(T text)
         {
-            if (convention == CypherNamingConvention.Default)
-                convention = _namingConfig.NodeLabelConvention;
+            CypherNamingConvention convention = _namingConfig.NodeLabelConvention;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
             string result = Helpers.Helper.FormatByConvention(statement, convention);
-            if (Formatter != null)
-                result = string.Format(Formatter, result);
             return result;
         }
 

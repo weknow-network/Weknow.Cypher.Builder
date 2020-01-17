@@ -912,21 +912,12 @@
             <param name="text">The text.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
-            <summary>
-            Formats the specified text.
-            </summary>
-            <param name="text">The text.</param>
-            <param name="convention">The convention.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0,Weknow.CypherNamingConvention)">
+        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
             <summary>
             Formats the specified text.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="text">The text.</param>
-            <param name="convention">The convention.</param>
             <returns></returns>
             <exception cref="T:System.ArgumentNullException">text</exception>
         </member>
