@@ -165,6 +165,7 @@ namespace Weknow.Helpers
                 case CypherPhrase.Set when repeat != 0:
                 case CypherPhrase.Where when repeat != 0:
                 case CypherPhrase.Return when repeat != 0:
+                case CypherPhrase.Project when repeat != 0:
                 case CypherPhrase.With when repeat != 0:
                     break;
                 case CypherPhrase.OrderByDesc:

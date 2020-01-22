@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using static Weknow.CypherFactory;
@@ -104,6 +105,40 @@ namespace Weknow.CoreIntegrationTests
         }
 
         #endregion // CreateNew_Test
+
+        #region CreateNew_WithProjection_Test
+
+        [Fact]
+        [Trait("Category", "Entities")]
+        [Trait("Case", "CreateNew")]
+        [Trait("Case", "Projection")]
+        public async Task CreateNew_WithProjection_Test()
+        {
+            var cypher = _builder
+                                    .Entities
+                                    .CreateNew("items", "Payload", nameof(Payload.Id))
+                                    .Project(nameof(Payload.Name), nameof(Payload.Date));
+
+            var payloads = new[]
+            {
+                new Payload { Id = 1, Date = DATE, Name = "Test 1" },
+                new Payload { Id = 2, Date = DATE.AddDays(1), Name = "Test 2" },
+            };
+
+            var parms = new Neo4jParameters()
+                         .WithEntities<Payload>($"items", payloads);
+
+            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IList<(string Name, DateTime? Date)> results = 
+                await cursor.MapAsync<string, DateTime, (string name, DateTime? date)>(
+                    (n,d) => (n,d)    
+                    ).ConfigureAwait(false);
+
+            Assert.Equal(payloads.Select(m => m.Name), results.Select(m => m.Name));
+            Assert.Equal(payloads.Select(m => m.Date), results.Select(m => m.Date));
+        }
+
+        #endregion // CreateNew_WithProjection_Test
 
         #region CreateNew_OfT_Test
 

@@ -119,6 +119,11 @@
             The return
             </summary>
         </member>
+        <member name="F:Weknow.CypherPhrase.Project">
+            <summary>
+            The Project
+            </summary>
+        </member>
         <member name="F:Weknow.CypherPhrase.Union">
             <summary>
             The union
@@ -873,501 +878,6 @@
             MERGE (p:Person {name: $map.name})
             SET p = $map, p.eTag = p.eTag + 1
             ]]></example>
-        </member>
-        <member name="T:Weknow.ConcurrencyConfig">
-            <summary>
-            Represent contextual operations.
-            </summary>
-        </member>
-        <member name="P:Weknow.ConcurrencyConfig.eTagName">
-            <summary>
-            When supplied the concurrency field
-            used for incrementing the concurrency version (Optimistic concurrency)
-            make sure to set unique constraint (on the matching properties),
-            otherwise a new node with different concurrency will be created when not match.
-            </summary>
-        </member>
-        <member name="P:Weknow.ConcurrencyConfig.AutoIncrement">
-            <summary>
-            Gets or sets a value indicating whether [automatic increment].
-            </summary>
-            <value>
-              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="T:Weknow.CypherAmbientLabelConfig">
-            <summary>
-            Label configuration
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
-            </summary>
-            <param name="namingConfig">The naming configuration.</param>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Values">
-            <summary>
-            Gets the additional ambient labels which will be added to cypher queries
-            (when the expression is not hard-codded string).
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Formatter">
-            <summary>
-            Gets or sets the formatter label formatter.
-            For example "`@{0}`"
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
-            <summary>
-            Adds the additional ambient labels which will be added to cypher queries.
-            </summary>
-            <param name="additionalLabels">The additional labels.</param>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String[])">
-            <summary>
-            Get combined label string with ambient and additional labels.
-            </summary>
-            <param name="additionalLabels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Get combined label string with ambient and additional labels.
-            </summary>
-            <param name="additionalLabels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.AmbientFormat(System.String)">
-            <summary>
-            Ambients the format.
-            </summary>
-            <param name="text">The text.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
-            <summary>
-            Formats the specified text.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="text">The text.</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException">text</exception>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Clone(System.String[])">
-            <summary>
-            Clones the specified additional ambient labels.
-            </summary>
-            <param name="additionalAmbientLabels">The additional ambient labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.ToString">
-            <summary>
-            Converts to string.
-            </summary>
-            <returns>
-            A <see cref="T:System.String" /> that represents this instance.
-            </returns>
-        </member>
-        <member name="T:Weknow.CypherConfig">
-            <summary>
-            The cypher builder configuration.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherConfig.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherConfig"/> class.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.AmbientLabels">
-            <summary>
-            Ambient Label configuration
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#AmbientLabels">
-            <summary>
-            Ambient Label configuration
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Concurrency">
-            <summary>
-            Sets the concurrency behavior.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Concurrency">
-            <summary>
-            Sets the concurrency behavior.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Naming">
-            <summary>
-            Gets the naming convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Pluralization">
-            <summary>
-            Gets the pluralization.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherNamingConfig">
-            <summary>
-            Naming convention
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.NodeLabelConvention">
-            <summary>
-            Gets or sets the node label convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.RelationTagConvention">
-            <summary>
-            Gets or sets the relation tag convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.Pluralization">
-            <summary>
-            Gets or sets the pluralization service.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.SetPluralization(System.Func{System.String,System.String},System.Func{System.String,System.String})">
-            <summary>
-            Sets the pluralization service.
-            </summary>
-            <param name="pluralize">The pluralize.</param>
-            <param name="singularize">The singularize.</param>
-        </member>
-        <member name="T:Weknow.IConcurrencyConfig">
-            <summary>
-            Represent contextual operations.
-            </summary>
-        </member>
-        <member name="P:Weknow.IConcurrencyConfig.eTagName">
-            <summary>
-            When supplied the concurrency field
-            used for incrementing the concurrency version (Optimistic concurrency)
-            make sure to set unique constraint (on the matching properties),
-            otherwise a new node with different concurrency will be created when not match.
-            </summary>
-        </member>
-        <member name="P:Weknow.IConcurrencyConfig.AutoIncrement">
-            <summary>
-            Gets or sets a value indicating whether [automatic increment].
-            </summary>
-            <value>
-              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="T:Weknow.ICypherAmbientLabelConfig">
-            <summary>
-            Ambient Label configuration
-            Use ToString() in order to get formatted labels
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherAmbientLabelConfig.Values">
-            <summary>
-            Gets the additional ambient labels which will be added to cypher queries
-            (when the expression is not hard-codded string).
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherAmbientLabelConfig.Formatter">
-            <summary>
-            Gets or sets the formatter label formatter.
-            For example "`@{0}`"
-            </summary>
-        </member>
-        <member name="T:Weknow.ICypherConfig">
-            <summary>
-            The cypher builder configuration.
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherConfig.AmbientLabels">
-            <summary>
-            Ambient Label configuration.
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherConfig.Concurrency">
-            <summary>
-            Sets the concurrency behavior.
-            </summary>
-        </member>
-        <member name="P:Weknow.ICypherConfig.Pluralization">
-            <summary>
-            Gets the pluralization.
-            </summary>
-        </member>
-        <member name="T:Weknow.IPluralization">
-            <summary>
-            Pluralization services.
-            </summary>
-        </member>
-        <member name="M:Weknow.IPluralization.Pluralize(System.String)">
-            <summary>
-            Pluralize a word using the service.
-            </summary>
-            <param name="word">The word to pluralize.</param>
-            <returns>The pluralized word </returns>
-        </member>
-        <member name="M:Weknow.IPluralization.Singularize(System.String)">
-            <summary>
-            Singularize a word using the service.
-            </summary>
-            <param name="word">The word to singularize.</param>
-            <returns>The singularized word.</returns>
-        </member>
-        <member name="T:Weknow.LambdaPluralization">
-            <summary>
-            Pluralization services.
-            </summary>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.LambdaPluralization"/> class.
-            </summary>
-            <param name="pluralize">The pluralize.</param>
-            <param name="singularize">The singularize.</param>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.Pluralize(System.String)">
-            <summary>
-            Pluralize a word using the service.
-            </summary>
-            <param name="word">The word to pluralize.</param>
-            <returns>The pluralized word </returns>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.Singularize(System.String)">
-            <summary>
-            Singularize a word using the service.
-            </summary>
-            <param name="word">The word to singularize.</param>
-            <returns>The singularized word.</returns>
-        </member>
-        <member name="T:Weknow.FluentCypherReturn">
-            <summary>
-            Fluent Cypher Return phrase
-            </summary>
-            <seealso cref="T:Weknow.FluentCypher" />
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.OrderBy(System.String)">
-            <summary>
-            Create ORDER BY phrase.
-            </summary>
-            <param name="statement">The statement.</param>
-            <returns></returns>
-            <example><![CDATA[
-            ORDER BY n.property
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.OrderByDesc(System.String)">
-            <summary>
-            Create ORDER BY DESC phrase.
-            </summary>
-            <param name="statement">The statement.</param>
-            <returns></returns>
-            <example><![CDATA[
-            ORDER BY n.property DESC
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.Skip(System.String)">
-            <summary>
-            Create SKIP phrase.
-            </summary>
-            <param name="statement">The statement.</param>
-            <returns></returns>
-            <example><![CDATA[
-            SKIP $skipNumber
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.Skip(System.Int32)">
-            <summary>
-            Create SKIP phrase.
-            </summary>
-            <param name="number">The number.</param>
-            <returns></returns>
-            <example><![CDATA[
-            SKIP 10
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.Limit(System.String)">
-            <summary>
-            Create LIMIT phrase.
-            </summary>
-            <param name="statement">The statement.</param>
-            <returns></returns>
-            <example><![CDATA[
-            LIMIT $skipNumber
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.Limit(System.Int32)">
-            <summary>
-            Create LIMIT phrase.
-            </summary>
-            <param name="number">The number.</param>
-            <returns></returns>
-            <example><![CDATA[
-            LIMIT 10
-            ]]></example>
-        </member>
-        <member name="M:Weknow.FluentCypherReturn.Count">
-            <summary>
-            Create count function.
-            </summary>
-            <returns></returns>
-            <example><![CDATA[
-            RETURN count(*)
-            ]]></example>
-        </member>
-        <member name="T:Weknow.FluentCypherReturnProjection`1">
-            <summary>
-            Fluent Cypher Return phrase
-            </summary>
-            <seealso cref="T:Weknow.FluentCypher" />
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection`1.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection`1.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection`1.Project(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
-            <summary>
-            Projects return properties.
-            </summary>
-            <param name="projectionExpression">The projection expression.</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">The return variable expected to be in the previous phrase</exception>
-        </member>
-        <member name="T:Weknow.FluentCypherReturnProjection">
-            <summary>
-            Fluent Cypher Return phrase
-            </summary>
-            <seealso cref="T:Weknow.FluentCypher" />
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="M:Weknow.FluentCypherReturnProjection.Project(System.String,System.String[])">
-            <summary>
-            Projects return properties.
-            </summary>
-            <param name="property">The property.</param>
-            <param name="moreProperties">The more properties.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.FluentCypherSet`1">
-            <summary>
-            Additional Sets phrases
-            </summary>
-            <typeparam name="T"></typeparam>
-            <seealso cref="T:Weknow.CypherBuilder" />
-        </member>
-        <member name="M:Weknow.FluentCypherSet`1.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherSet`1"/> class.
-            </summary>
-        </member>
-        <member name="M:Weknow.FluentCypherSet`1.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherSet`1"/> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-        </member>
-        <member name="M:Weknow.FluentCypherSet`1.SetMore(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String,System.String)">
-            <summary>
-            Compose SET phrase from a type expression.
-            </summary>
-            <param name="propExpression">The property expression.</param>
-            <param name="parameterPrefix">The parameter prefix.</param>
-            <param name="parameterSign">The parameter sign.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example><![CDATA[
-            Set((User user) =&gt; user.Name).Also(user =&gt; user.Id)
-            SET user.Name = $user.Name, user.Id = $user.Id // Update or create a property.
-            ]]></example>
-        </member>
-        <member name="T:Weknow.FluentCypherWhereExpression">
-            <summary>
-            Extends the phrases option under WHERE context
-            </summary>
-            <seealso cref="T:Weknow.FluentCypher" />
-        </member>
-        <member name="M:Weknow.FluentCypherWhereExpression.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="P:Weknow.FluentCypherWhereExpression.And">
-            <summary>
-            Compose AND phrase.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.FluentCypherWhereExpression.Or">
-            <summary>
-            Compose OR phrase.
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Weknow.C">
             <summary>
@@ -4231,6 +3741,501 @@
             Convention of formating variable as parameter.
             </summary>
             <param name="variable">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.ConcurrencyConfig">
+            <summary>
+            Represent contextual operations.
+            </summary>
+        </member>
+        <member name="P:Weknow.ConcurrencyConfig.eTagName">
+            <summary>
+            When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency)
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
+            </summary>
+        </member>
+        <member name="P:Weknow.ConcurrencyConfig.AutoIncrement">
+            <summary>
+            Gets or sets a value indicating whether [automatic increment].
+            </summary>
+            <value>
+              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Weknow.CypherAmbientLabelConfig">
+            <summary>
+            Label configuration
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
+            </summary>
+            <param name="namingConfig">The naming configuration.</param>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="additionalLabels">The additional labels.</param>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String[])">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.AmbientFormat(System.String)">
+            <summary>
+            Ambients the format.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
+            <summary>
+            Formats the specified text.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="text">The text.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Clone(System.String[])">
+            <summary>
+            Clones the specified additional ambient labels.
+            </summary>
+            <param name="additionalAmbientLabels">The additional ambient labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:Weknow.CypherConfig">
+            <summary>
+            The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.AmbientLabels">
+            <summary>
+            Ambient Label configuration
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#AmbientLabels">
+            <summary>
+            Ambient Label configuration
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Concurrency">
+            <summary>
+            Sets the concurrency behavior.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Concurrency">
+            <summary>
+            Sets the concurrency behavior.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Naming">
+            <summary>
+            Gets the naming convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Pluralization">
+            <summary>
+            Gets the pluralization.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherNamingConfig">
+            <summary>
+            Naming convention
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.NodeLabelConvention">
+            <summary>
+            Gets or sets the node label convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.RelationTagConvention">
+            <summary>
+            Gets or sets the relation tag convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.Pluralization">
+            <summary>
+            Gets or sets the pluralization service.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.SetPluralization(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Sets the pluralization service.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="T:Weknow.IConcurrencyConfig">
+            <summary>
+            Represent contextual operations.
+            </summary>
+        </member>
+        <member name="P:Weknow.IConcurrencyConfig.eTagName">
+            <summary>
+            When supplied the concurrency field
+            used for incrementing the concurrency version (Optimistic concurrency)
+            make sure to set unique constraint (on the matching properties),
+            otherwise a new node with different concurrency will be created when not match.
+            </summary>
+        </member>
+        <member name="P:Weknow.IConcurrencyConfig.AutoIncrement">
+            <summary>
+            Gets or sets a value indicating whether [automatic increment].
+            </summary>
+            <value>
+              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Weknow.ICypherAmbientLabelConfig">
+            <summary>
+            Ambient Label configuration
+            Use ToString() in order to get formatted labels
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="T:Weknow.ICypherConfig">
+            <summary>
+            The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.AmbientLabels">
+            <summary>
+            Ambient Label configuration.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.Concurrency">
+            <summary>
+            Sets the concurrency behavior.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.Pluralization">
+            <summary>
+            Gets the pluralization.
+            </summary>
+        </member>
+        <member name="T:Weknow.IPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.IPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.IPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
+        <member name="T:Weknow.LambdaPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.LambdaPluralization"/> class.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
+        <member name="T:Weknow.FluentCypherReturn">
+            <summary>
+            Fluent Cypher Return phrase
+            </summary>
+            <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.OrderBy(System.String)">
+            <summary>
+            Create ORDER BY phrase.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example><![CDATA[
+            ORDER BY n.property
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.OrderByDesc(System.String)">
+            <summary>
+            Create ORDER BY DESC phrase.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example><![CDATA[
+            ORDER BY n.property DESC
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.Skip(System.String)">
+            <summary>
+            Create SKIP phrase.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example><![CDATA[
+            SKIP $skipNumber
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.Skip(System.Int32)">
+            <summary>
+            Create SKIP phrase.
+            </summary>
+            <param name="number">The number.</param>
+            <returns></returns>
+            <example><![CDATA[
+            SKIP 10
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.Limit(System.String)">
+            <summary>
+            Create LIMIT phrase.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example><![CDATA[
+            LIMIT $skipNumber
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.Limit(System.Int32)">
+            <summary>
+            Create LIMIT phrase.
+            </summary>
+            <param name="number">The number.</param>
+            <returns></returns>
+            <example><![CDATA[
+            LIMIT 10
+            ]]></example>
+        </member>
+        <member name="M:Weknow.FluentCypherReturn.Count">
+            <summary>
+            Create count function.
+            </summary>
+            <returns></returns>
+            <example><![CDATA[
+            RETURN count(*)
+            ]]></example>
+        </member>
+        <member name="T:Weknow.FluentCypherReturnProjection`1">
+            <summary>
+            Fluent Cypher Return phrase
+            </summary>
+            <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection`1.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class from being created.
+            </summary>
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection`1.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection`1.Project(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Projects return properties.
+            </summary>
+            <param name="projectionExpression">The projection expression.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">The return variable expected to be in the previous phrase</exception>
+        </member>
+        <member name="T:Weknow.FluentCypherReturnProjection">
+            <summary>
+            Fluent Cypher Return phrase
+            </summary>
+            <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Weknow.FluentCypherReturnProjection.Project(System.String,System.String[])">
+            <summary>
+            Projects return properties.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="moreProperties">The more properties.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.FluentCypherSet`1">
+            <summary>
+            Additional Sets phrases
+            </summary>
+            <typeparam name="T"></typeparam>
+            <seealso cref="T:Weknow.CypherBuilder" />
+        </member>
+        <member name="M:Weknow.FluentCypherSet`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherSet`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Weknow.FluentCypherSet`1.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherSet`1"/> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+        </member>
+        <member name="M:Weknow.FluentCypherSet`1.SetMore(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String,System.String)">
+            <summary>
+            Compose SET phrase from a type expression.
+            </summary>
+            <param name="propExpression">The property expression.</param>
+            <param name="parameterPrefix">The parameter prefix.</param>
+            <param name="parameterSign">The parameter sign.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example><![CDATA[
+            Set((User user) =&gt; user.Name).Also(user =&gt; user.Id)
+            SET user.Name = $user.Name, user.Id = $user.Id // Update or create a property.
+            ]]></example>
+        </member>
+        <member name="T:Weknow.FluentCypherWhereExpression">
+            <summary>
+            Extends the phrases option under WHERE context
+            </summary>
+            <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="M:Weknow.FluentCypherWhereExpression.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:Weknow.FluentCypherWhereExpression.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="P:Weknow.FluentCypherWhereExpression.And">
+            <summary>
+            Compose AND phrase.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.FluentCypherWhereExpression.Or">
+            <summary>
+            Compose OR phrase.
+            </summary>
             <returns></returns>
         </member>
     </members>

@@ -176,11 +176,6 @@ namespace Weknow
             int dotIndex = prevCypher.LastIndexOf(".");
             #region Validation
 
-            if (spaceIndex == -1)
-            {
-                throw new ArgumentOutOfRangeException($"The return variable expected to be in the previous phrase");
-            } 
-
             if (dotIndex > spaceIndex)
             {
                 throw new ArgumentOutOfRangeException($"The return variable expected to be without '.'");
@@ -195,7 +190,7 @@ namespace Weknow
                 var more = moreProperties.Select(p => $"{variable}.{p}");
                 statement = $".{property}, {string.Join(", ", more)}";
             }
-            return new FluentCypherReturn(this, statement, CypherPhrase.Dynamic);
+            return new FluentCypherReturn(_previous, statement, CypherPhrase.Project);
         }
 
         #endregion // Project

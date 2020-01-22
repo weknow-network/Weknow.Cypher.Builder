@@ -58,6 +58,10 @@
         /// </summary>
         Return,
         /// <summary>
+        /// The Project
+        /// </summary>
+        Project,
+        /// <summary>
         /// The union
         /// </summary>
         Union,

@@ -2702,6 +2702,10 @@ namespace Weknow
                     continue;
                 }
 
+                if (phrase == CypherPhrase.Project)
+                    phrase = CypherPhrase.Return;
+                if (prevPhrase == CypherPhrase.Project)
+                    prevPhrase = CypherPhrase.Return;
                 if (phrase != prevPhrase)
                     break;
 
