@@ -14,7 +14,7 @@ namespace Weknow
     /// Extends the phrases option under WHERE context
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
-    public abstract class FluentCypherWhereExpression : FluentCypherReturn
+    public class FluentCypherWhereExpression : FluentCypher
     {
         #region Ctor
 
@@ -27,15 +27,6 @@ namespace Weknow
         }
 
         /// <summary>
-        /// Initialize constructor
-        /// </summary>
-        /// <param name="config">The configuration.</param>
-        private protected FluentCypherWhereExpression(CypherConfig config)
-            : base(config)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FluentCypherWhereExpression" /> class.
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
@@ -45,7 +36,7 @@ namespace Weknow
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
         /// <param name="config">The configuration.</param>
-        private protected FluentCypherWhereExpression(
+        internal protected FluentCypherWhereExpression(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
@@ -60,15 +51,26 @@ namespace Weknow
 
         #endregion // Ctor
 
+        #region And
+
         /// <summary>
         /// Compose AND phrase.
         /// </summary>
         /// <returns></returns>
-        public abstract FluentCypher And { get; }
+        public FluentCypher And =>
+            AddStatement(CypherPhrase.And);
+
+        #endregion // And
+
+        #region Or
+
         /// <summary>
         /// Compose OR phrase.
         /// </summary>
         /// <returns></returns>
-        public abstract FluentCypher Or { get; }
+        public FluentCypher Or =>
+            AddStatement(CypherPhrase.Or);
+
+        #endregion // Or
     }
 }

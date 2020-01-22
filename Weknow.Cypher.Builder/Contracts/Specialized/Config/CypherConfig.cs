@@ -48,6 +48,11 @@ namespace Weknow
         /// </summary>
         public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();
 
+        /// <summary>
+        /// Gets the pluralization.
+        /// </summary>
+        IPluralization ICypherConfig.Pluralization => Naming.Pluralization;
+
         internal CypherConfig Clone(params string[] additionalAmbientLabels)
         {
             return new CypherConfig

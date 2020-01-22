@@ -18,7 +18,7 @@ namespace Weknow
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Weknow.CypherBuilder" />
     [DebuggerDisplay("{_cypherCommand}")]
-    public class FluentCypherSet<T> : CypherBuilder
+    public class FluentCypherSet<T> : FluentCypher
     {
         // internal static readonly FluentCypherSet<T> Empty = new FluentCypherSet<T>();
 
@@ -37,7 +37,7 @@ namespace Weknow
         /// <param name="copyFrom">The copy from.</param>
         /// <param name="cypher">The cypher.</param>
         /// <param name="phrase">The phrase.</param>
-        public FluentCypherSet(CypherBuilder copyFrom, string cypher, CypherPhrase phrase)
+        public FluentCypherSet(FluentCypher copyFrom, string cypher, CypherPhrase phrase)
             : base(copyFrom, cypher, phrase)
         {
         }

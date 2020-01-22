@@ -17,7 +17,7 @@ namespace Weknow
     /// Fluent Cypher Return phrase
     /// </summary>
     /// <seealso cref="Weknow.FluentCypher" />
-    public abstract class FluentCypherReturn: FluentCypher
+    public class FluentCypherReturn: FluentCypher
     {
         #region Ctor
 
@@ -27,16 +27,6 @@ namespace Weknow
         private protected FluentCypherReturn()
         {
 
-        }
-
-
-        /// <summary>
-        /// Initialize constructor
-        /// </summary>
-        /// <param name="config">The configuration.</param>
-        private protected FluentCypherReturn(CypherConfig config)
-            : base(config)
-        {
         }
 
         /// <summary>
@@ -49,7 +39,7 @@ namespace Weknow
         /// <param name="children">The children.</param>
         /// <param name="childrenSeparator">The children separator.</param>
         /// <param name="config">The configuration.</param>
-        private protected FluentCypherReturn(
+        internal FluentCypherReturn(
             FluentCypher copyFrom,
             string cypher,
             CypherPhrase phrase,
@@ -64,7 +54,7 @@ namespace Weknow
 
         #endregion // Ctor
 
-        #region OrderBy 
+        #region OrderBy
 
         /// <summary>
         /// Create ORDER BY phrase.
@@ -74,11 +64,12 @@ namespace Weknow
         /// <example><![CDATA[
         /// ORDER BY n.property
         /// ]]></example>
-        public abstract FluentCypherReturn OrderBy(string statement);
+        public FluentCypherReturn OrderBy(string statement) =>
+                            new FluentCypherReturn(this, statement, CypherPhrase.OrderBy);
 
         #endregion // OrderBy
 
-        #region OrderByDesc 
+        #region OrderByDesc
 
         /// <summary>
         /// Create ORDER BY DESC phrase.
@@ -88,11 +79,15 @@ namespace Weknow
         /// <example><![CDATA[
         /// ORDER BY n.property DESC
         /// ]]></example>
-        public abstract FluentCypherReturn OrderByDesc(string statement);
+        public FluentCypherReturn OrderByDesc(string statement)
+        {
+            var result = new FluentCypherReturn(this, $"{statement} DESC", CypherPhrase.OrderByDesc);
+            return result;
+        }
 
         #endregion // OrderByDesc
 
-        #region Skip 
+        #region Skip
 
         /// <summary>
         /// Create SKIP phrase.
@@ -102,7 +97,8 @@ namespace Weknow
         /// <example><![CDATA[
         /// SKIP $skipNumber
         /// ]]></example>
-        public abstract FluentCypherReturn Skip(string statement);
+        public FluentCypherReturn Skip(string statement) =>
+                            new FluentCypherReturn(this, statement, CypherPhrase.Skip);
 
         /// <summary>
         /// Create SKIP phrase.
@@ -112,11 +108,12 @@ namespace Weknow
         /// <example><![CDATA[
         /// SKIP 10
         /// ]]></example>
-        public abstract FluentCypherReturn Skip(int number);
+        public FluentCypherReturn Skip(int number) =>
+                            new FluentCypherReturn(this, number.ToString(), CypherPhrase.Skip);
 
         #endregion // Skip
 
-        #region Limit 
+        #region Limit
 
         /// <summary>
         /// Create LIMIT phrase.
@@ -126,7 +123,8 @@ namespace Weknow
         /// <example><![CDATA[
         /// LIMIT $skipNumber
         /// ]]></example>
-        public abstract FluentCypherReturn Limit(string statement);
+        public FluentCypherReturn Limit(string statement) =>
+                    new FluentCypherReturn(this, statement, CypherPhrase.Limit);
 
         /// <summary>
         /// Create LIMIT phrase.
@@ -136,11 +134,12 @@ namespace Weknow
         /// <example><![CDATA[
         /// LIMIT 10
         /// ]]></example>
-        public abstract FluentCypherReturn Limit(int number);
+        public FluentCypherReturn Limit(int number) =>
+                            new FluentCypherReturn(this, number.ToString(), CypherPhrase.Limit);
 
         #endregion // Limit
 
-        #region Count 
+        #region Count
 
         /// <summary>
         /// Create count function.
@@ -149,8 +148,9 @@ namespace Weknow
         /// <example><![CDATA[
         /// RETURN count(*)
         /// ]]></example>
-        public abstract FluentCypherReturn Count();
+        public FluentCypherReturn Count() =>
+                         new FluentCypherReturn(this, "(*)", CypherPhrase.Count);
 
-        #endregion // Limit
+        #endregion // Count
     }
 }

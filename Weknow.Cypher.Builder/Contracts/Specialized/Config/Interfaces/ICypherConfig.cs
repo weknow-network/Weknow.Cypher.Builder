@@ -13,6 +13,11 @@
         /// <summary>
         /// Sets the concurrency behavior.
         /// </summary>
-        IConcurrencyConfig Concurrency { get; } 
+        IConcurrencyConfig Concurrency { get; }
+
+        /// <summary>
+        /// Gets the pluralization.
+        /// </summary>
+        IPluralization Pluralization { get; }
     }
 }

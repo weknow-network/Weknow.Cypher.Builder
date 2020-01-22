@@ -12,176 +12,196 @@ namespace Weknow
         #region CreateNew
 
         /// <summary>
-        /// CREATE by entity
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="labels">The labels.</param>
-        /// <param name="variable">The node's variable.
-        /// When the parameter is null, it will be used as the parameter.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateNew("items", new [] {"A", "B"}, "n", "map")
-        /// Results in:
-        /// UNWIND items as map 
-        /// CREATE (n:A:B map)
-        /// ]]></example>
-        FluentCypher CreateNew(
-            string collection,
-            IEnumerable<string> labels,
-            string variable = "item",
-            string? parameter = null);
-
-        /// <summary>
-        /// Create CREATE instance phrase
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="label">The node's label which will be used for the parameter format (variable_label).</param>
-        /// <param name="variable">The node's variable.
-        /// When the parameter is null, it will be used as the parameter.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateNew("items", "FOO", "n")
-        /// Results in:
-        /// UNWIND items as n 
-        /// CREATE (n:FOO $n) // Create a node with the given properties.
-        /// --------------------------------------------------------------------------
-        /// CreateNew("items", "FOO", "n", "map")
-        /// Results in:
-        /// UNWIND items as map 
-        /// CREATE (n:FOO:DEV $map) // Create a node with the given properties.
-        /// ]]></example>
-        FluentCypher CreateNew(
-            string collection,
-            string label,
-            string variable = "item",
-            string? parameter = null);
-
-        /// <summary>
-        /// CREATE by entity
-        /// </summary>
-        /// <typeparam name="T">will be used as the node's label. this label will also use for the parameter format (variable_typeof(T).Name).</typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <param name="variable">The node's variable.
-        /// When the parameter is null, it will be used as the parameter.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateNew<Foo>("items", "n")
-        /// Results in:
-        /// UNWIND items as n 
-        /// CREATE (n:FOO n) // Create a node with the given properties.
-        /// --------------------------------------------------------------------------
-        /// CreateNew<Foo>("items", "n", "map")
-        /// Results in:
-        /// UNWIND items as map 
-        /// CREATE (n:FOO map) // Create a node with the given properties.
-        /// ]]></example>
-        FluentCypher CreateNew<T>(
-            string collection,
-            string variable = "item",
-            string? parameter = null);
-
-        #endregion // Create
-
-        #region CreateIfNotExists
-
-        /// <summary>
-        /// Create if not exists
+        /// Create New (throw if exists)
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="matchProperties">The match properties.</param>
         /// <param name="variable">The node's variable.
-        /// When the parameter is null, it will be used as the parameter.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
+        /// When is null, it will be the first letter of the collection.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
         /// <returns></returns>
         /// <example><![CDATA[
-        /// CreateIfNotExists("items", new []{"Person", "Dev"}, new[] {"id", "name"}, "p", "map")
+        /// CreateNew("items", new []{"Person", "Dev"}, new[] {"id", "name"}, "p", "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
-        /// ON CREATE SET p = $map
+        /// CREATE (p:Person:Dev {id: map.id, name: map.name})
+        /// SET p = map
+        /// RETURN p
+        /// -----------------------------------------------------------------
+        /// CreateNew("items", new []{"Person", "Dev"}, new[] {"id", "name"})
+        /// Results in:
+        /// UNWIND items as item 
+        /// CREATE (i:Person:Dev {id: item.id, name: item.name})
+        /// SET i = map
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateIfNotExists(
+        FluentCypherReturnProjection CreateNew(
             string collection,
             IEnumerable<string> labels,
             IEnumerable<string> matchProperties,
-            string variable = "item",
-            string? parameter = null);
+            string? variable = null,
+            string? item = null);
 
 
         /// <summary>
-        /// Create if not exists
+        /// Create New (throw if exists)
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="label">The label.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
         /// <example><![CDATA[
-        /// CreateIfNotExists("items", "Person", "p", "map", "id", "name")
+        /// CreateNew("items", "Person", "id", "name")
         /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {id: $map.id, name: $map.name})
-        /// ON CREATE SET p = $map
+        /// UNWIND items as item
+        /// CREATE (p:Person {id: _item.id, name: _item.name})
+        /// SET p = _item
+        /// RETURN p
         /// ]]></example>
-        FluentCypher CreateIfNotExists(
+        FluentCypherReturnProjection CreateNew(
             string collection,
             string label,
-            string variable,
-            string parameter,
             string matchProperty,
             params string[] moreMatchProperties);
 
         /// <summary>
-        /// Create if not exists
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <param name="matchProperty">The match property.</param>
-        /// <param name="moreMatchProperties">The more match properties.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateIfNotExists<Person>("items", "p", "map", "id", "name")
-        /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {id: $map.id, name: $map.name})
-        /// ON CREATE SET p = $map
-        /// ]]></example>
-        FluentCypher CreateIfNotExists<T>(
-            string collection,
-            string variable,
-            string parameter,
-            string matchProperty,
-            params string[] moreMatchProperties);
-
-        /// <summary>
-        /// Create if not exists
+        /// Create New (throw if exists)
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="matchPropertyExpression">The match property expression.
         /// It will take the lambda variable as the expression variable.
-        /// this variable will serve as the parameter when parameter is null.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
+        /// this variable will serve as the item when item is null.</param>
+        /// <param name="item">The item (if missing, use the variable instead).</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// CreateNew<Person>("items", p => p.name, "map")
+        /// Results in:
+        /// UNWIND items as map 
+        /// CREATE (p:Person {name: map.name})
+        /// SET p = map
+        /// RETURN p
+        /// -----------------------------------------------
+        /// CreateNew<Person>("items", p => p.name)
+        /// Results in:
+        /// UNWIND items as item 
+        /// CREATE (p:Person {name: item.name})
+        /// SET p = item
+        /// RETURN p
+        /// ]]></example>
+        FluentCypherReturnProjection<T> CreateNew<T>(
+            string collection,
+            Expression<Func<T, dynamic>> matchPropertyExpression,
+            string? item = null);
+
+        #endregion // CreateInstanceIfNew
+
+        #region CreateIfNotExists
+
+        /// <summary>
+        /// Create if not exists
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <param name="labels">The labels.</param>
+        /// <param name="matchProperties">The match properties.</param>
+        /// <param name="variable">The node's variable.
+        /// When is null, it will be the first letter of the collection.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// CreateIfNotExists("items", new []{"Person", "Dev"}, new[] {"id", "name"}, "p", "map")
+        /// Results in:
+        /// UNWIND items as map 
+        /// MERGE (p:Person:Dev {id: map.id, name: map.name})
+        /// ON CREATE SET p = map
+        /// RETURN p
+        /// ---------------------------------------------------------------
+        /// CreateIfNotExists("items", new []{"Person", "Dev"}, new[] {"id", "name"})
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person:Dev {id: item.id, name: item.name})
+        /// ON CREATE SET i = item
+        /// RETURN i
+        /// ]]></example>
+        FluentCypherReturnProjection CreateIfNotExists(
+            string collection,
+            IEnumerable<string> labels,
+            IEnumerable<string> matchProperties,
+            string? variable = null,
+            string? item = null);
+
+
+        /// <summary>
+        /// Create if not exists
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="matchProperty">The match property.</param>
+        /// <param name="moreMatchProperties">The more match properties.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// CreateIfNotExists("items", "Person", "id", "name")
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person {id: item.id, name: item.name})
+        /// ON CREATE SET i = item
+        /// RETURN i
+        /// ]]></example>
+        FluentCypherReturnProjection CreateIfNotExists(
+            string collection,
+            string label,
+            string matchProperty,
+            params string[] moreMatchProperties);
+
+        /// <summary>
+        /// Create if not exists       
+        ///  
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="matchPropertyExpression">The match property expression.
+        /// It will take the lambda variable as the expression variable.
+        /// this variable will serve as the item when item is null.</param>
+        /// <param name="item">The item (if missing, use the variable instead).</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateIfNotExists<Person>("items", p => p.name, "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// ON CREATE SET p = $map
+        /// MERGE (p:Person {name: map.name})
+        /// ON CREATE SET p = map
+        /// RETURN p
+        /// --------------------------------------------------------
+        /// CreateIfNotExists<Person>("items", p => p.name)
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (p:Person {name: item.name})
+        /// ON CREATE SET p = item
+        /// RETURN p
         /// ]]></example>
-        FluentCypher CreateIfNotExists<T>(
+        FluentCypherReturnProjection<T> CreateIfNotExists<T>(
             string collection,
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string? parameter = null);
+            string? item = null);
 
         #endregion // CreateInstanceIfNew
 
@@ -189,103 +209,99 @@ namespace Weknow
 
         /// <summary>
         /// Batch Create or update entities.
-        /// For replace use ReplaceOrUpdate
+        /// For replace use ReplaceOrUpdate.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">Name of the collection.</param>
         /// <param name="labels">The labels.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
         /// <param name="matchProperties">The match properties.</param>
+        /// <param name="variable">The node's variable.
+        /// When is null, it will be the first letter of the collection.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
         /// <returns></returns>
-        /// make sure to set unique constraint (on the matching properties),
-        /// otherwise a new node with different concurrency will be created when not match.
         /// <example><![CDATA[
         /// CreateOrUpdate("items", new []{"Person", "Dev"}, new[] {"id", "name"}, "p", "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
-        /// SET p += $map
+        /// MERGE (p:Person:Dev {id: map.id, name: map.name})
+        /// SET p += map
+        /// RETURN p
+        /// -------------------------------------------------------------
+        /// CreateOrUpdate("items", new []{"Person", "Dev"}, new[] {"id", "name"})
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person:Dev {id: item.id, name: item.name})
+        /// SET i += item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrUpdate(
+        FluentCypherReturnProjection CreateOrUpdate(
             string collection,
             IEnumerable<string> labels,
             IEnumerable<string> matchProperties,
-            string variable = "item",
-            string? parameter = null);
+            string? variable = null,
+            string? item = null);
 
         /// <summary>
         /// Create or update entity.
         /// For replace use ReplaceOrUpdate.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="label">The label.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
         /// <example><![CDATA[
-        /// CreateOrUpdate("items", "Person", "p", "map", "name")
+        /// CreateOrUpdate("items", "Person", "name")
         /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// SET p += $map
+        /// UNWIND items as item 
+        /// MERGE (i:Person {name: item.name})
+        /// SET i += item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrUpdate(
+        FluentCypherReturnProjection CreateOrUpdate(
             string collection,
             string label,
-            string variable,
-            string parameter,
-            string matchProperty,
-            params string[] moreMatchProperties);
-
-        /// <summary>
-        /// Create or update entity.
-        /// For replace use ReplaceOrUpdate
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <param name="matchProperty">The match property.</param>
-        /// <param name="moreMatchProperties">The more match properties.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateOrUpdate<Person>("items", "p", "map", "name")
-        /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// SET p += $map
-        /// ]]></example>
-        FluentCypher CreateOrUpdate<T>(
-            string collection,
-            string variable,
-            string parameter,
             string matchProperty,
             params string[] moreMatchProperties);
 
         /// <summary>
         /// Creates the or update.
         /// For update use UpdateOrUpdate.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="matchPropertyExpression">The match property expression.
         /// It will take the lambda variable as the expression variable.
-        /// this variable will serve as the parameter when parameter is null.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
+        /// this variable will serve as the item when item is null.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate<Person>("items", p => p.name, "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// SET p += $map
+        /// MERGE (p:Person {name: map.name})
+        /// SET p += map
+        /// RETURN p
+        /// -------------------------------------------
+        /// CreateOrUpdate<Person>("items", p => p.name)
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person {name: item.name})
+        /// SET i += item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrUpdate<T>(
+        FluentCypherReturnProjection<T> CreateOrUpdate<T>(
             string collection,
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string? parameter = null);
+            string? item = null);
 
         #endregion // CreateOrUpdate
 
@@ -293,100 +309,98 @@ namespace Weknow
 
         /// <summary>
         /// Creates the or replace.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="matchProperties">The match properties.</param>
-        /// <param name="variable">The variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
+        /// <param name="variable">The node's variable.
+        /// When is null, it will be the first letter of the collection.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrUpdate("items", new []{"Person", "Dev"}, new[] {"id", "name"}, "p", "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person:Dev {id: $map.id, name: $map.name})
-        /// SET p = $map
+        /// MERGE (p:Person:Dev {id: map.id, name: map.name})
+        /// SET p = map
+        /// RETURN p
+        /// ---------------------------------------------------------------------
+        /// CreateOrUpdate("items", new []{"Person", "Dev"}, new[] {"id", "name"})
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person:Dev {id: item.id, name: item.name})
+        /// SET i = item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrReplace(
+        FluentCypherReturnProjection CreateOrReplace(
             string collection,
             IEnumerable<string> labels,
             IEnumerable<string> matchProperties,
-            string variable = "item",
-            string? parameter = null);
+            string? variable = null,
+            string? item = null);
 
         /// <summary>
         /// Create or update entity.
         /// For update use UpdateOrUpdate.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <param name="collection">The collection.</param>
-        /// <param name="variable">The node variable.</param>
         /// <param name="label">The label.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
         /// <param name="matchProperty">The match property.</param>
         /// <param name="moreMatchProperties">The more match properties.</param>
         /// <returns></returns>
         /// <example><![CDATA[
-        /// CreateOrReplace("items", "Person", "p", "map", "name")
+        /// CreateOrReplace("items", "Person", "name")
         /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// ON CREATE SET p = $map
+        /// UNWIND items as item
+        /// MERGE (i:Person {name: item.name})
+        /// ON CREATE SET i = item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrReplace(
+        FluentCypherReturnProjection CreateOrReplace(
             string collection,
             string label,
-            string variable,
-            string parameter,
-            string matchProperty,
-            params string[] moreMatchProperties);
-
-        /// <summary>
-        /// Create or update entity.
-        /// For update use UpdateOrUpdate.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <param name="variable">The node variable.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
-        /// <param name="matchProperty">The match property.</param>
-        /// <param name="moreMatchProperties">The more match properties.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[
-        /// CreateOrReplace<Person>("items", "p", "map", "name")
-        /// Results in:
-        /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// SET p = $map
-        /// ]]></example>
-        FluentCypher CreateOrReplace<T>(
-            string collection,
-            string variable,
-            string parameter,
             string matchProperty,
             params string[] moreMatchProperties);
 
         /// <summary>
         /// Creates the or replace.
         /// For update use UpdateOrUpdate.
+        /// 
+        /// Make sure to set unique constraint (on the matching properties),
+        /// otherwise a new node with different concurrency will be created when not match.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="matchPropertyExpression">The match property expression.
         /// It will take the lambda variable as the expression variable.
-        /// this variable will serve as the parameter when parameter is null.</param>
-        /// <param name="parameter">The parameter (if missing, use the variable instead).</param>
+        /// this variable will serve as the item when item is null.</param>
+        /// <param name="item">Will use singularized form of the collection</param>
         /// <returns></returns>
         /// <example><![CDATA[
         /// CreateOrReplace<Person>("items", p => p.name, "map")
         /// Results in:
         /// UNWIND items as map 
-        /// MERGE (p:Person {name: $map.name})
-        /// SET p = $map
+        /// MERGE (p:Person {name: map.name})
+        /// SET p = map
+        /// RETURN p
+        /// ------------------------------------------------------
+        /// CreateOrReplace<Person>("items", p => p.name)
+        /// Results in:
+        /// UNWIND items as item 
+        /// MERGE (i:Person {name: item.name})
+        /// SET i = item
+        /// RETURN i
         /// ]]></example>
-        FluentCypher CreateOrReplace<T>(
+        FluentCypherReturnProjection<T> CreateOrReplace<T>(
             string collection,
             Expression<Func<T, dynamic>> matchPropertyExpression,
-            string? parameter = null);
+            string? item = null);
 
         #endregion // CreateOrReplace
     }

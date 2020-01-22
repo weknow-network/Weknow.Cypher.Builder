@@ -83,7 +83,7 @@ namespace Weknow.UnitTests
                             .Where("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name AND f.Date = $Date ", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Where_Test
@@ -100,7 +100,7 @@ namespace Weknow.UnitTests
                             .Where("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name < f_Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name < f_Name AND f.Date = $Date ", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Where_WithPrefix_Test

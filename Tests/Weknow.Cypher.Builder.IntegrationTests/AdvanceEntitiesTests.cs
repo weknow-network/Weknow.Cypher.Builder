@@ -86,7 +86,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                     .Entities
-                                    .CreateNew("items", "Payload", "n", "map");
+                                    .CreateNew("items", "Payload", nameof(Payload.Id));
 
             var payloads = new[]
             {
@@ -114,7 +114,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                     .Entities
-                                    .CreateNew<Payload>("items", "n", "map");
+                                    .CreateNew<Payload>("items", n => n.Id);
 
             var payloads = new[]
             {
@@ -142,7 +142,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                     .Entities
-                                    .CreateNew<Payload>("items", "map");
+                                    .CreateNew<Payload>("items", m => m.Id);
 
             var payloads = new[]
             {
@@ -187,8 +187,6 @@ namespace Weknow.CoreIntegrationTests
                                 .Entities
                                     .CreateIfNotExists("items",
                                                 nameof(Payload),
-                                                "n",
-                                                "map",
                                                 nameof(Payload.Id));
 
             var payloads = new[]
@@ -248,7 +246,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateIfNotExists<Payload>("items", "n", "map", nameof(Payload.Id));
+                                    .CreateIfNotExists<Payload>("items", n => n.Id);
             var payloads = new[]
             {
                 new Payload { Id = 1, Date = DATE, Name = "Test 1" },
@@ -323,10 +321,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateOrUpdate<Payload>("items",
-                                                            "n",
-                                                            "map",
-                                                            nameof(Payload.Id));
+                                    .CreateOrUpdate<Payload>("items", n => n.Id);
 
             await ExecuteAndAssertCreateOrUpdateAsync(cypher);
         }
@@ -418,10 +413,7 @@ namespace Weknow.CoreIntegrationTests
         {
             var cypher = _builder
                                 .Entities
-                                    .CreateOrReplace<Payload>("items",
-                                                            "n",
-                                                            "map",
-                                                            nameof(Payload.Id));
+                                    .CreateOrReplace<Payload>("items", n => n.Id);
 
             await ExecuteAndAssertCreateOrReplaceAsync(cypher);
         }

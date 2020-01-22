@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Pluralize.NET;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+
+// TODO: discuss with avi whether to have default implementation
 
 namespace Weknow
 {
@@ -13,6 +16,25 @@ namespace Weknow
     [DebuggerDisplay("Node: {NodeLabelConvention}, Relation: {RelationTagConvention}")]
     public class CypherNamingConfig
     {
+        private IPluralize _pluralizeImp;
+
+        #region Ctor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CypherNamingConfig"/> class.
+        /// </summary>
+        public CypherNamingConfig()
+        {
+            _pluralizeImp = new Pluralizer();
+            Pluralization =
+                    new LambdaPluralization(
+                                word => _pluralizeImp.Pluralize(word),
+                                word => _pluralizeImp.Singularize(word)
+                            );
+        } 
+
+        #endregion // Ctor
+
         #region NodeLabelConvention
 
         /// <summary>
@@ -30,5 +52,31 @@ namespace Weknow
         public CypherNamingConvention RelationTagConvention { get; set; } = CypherNamingConvention.Default;
 
         #endregion // RelationTagConvention
+
+        #region Pluralization
+
+        /// <summary>
+        /// Gets or sets the pluralization service.
+        /// </summary>
+        public IPluralization Pluralization { get; set; }
+
+        #endregion // Pluralization
+
+        #region SetPluralization
+
+        /// <summary>
+        /// Sets the pluralization service.
+        /// </summary>
+        /// <param name="pluralize">The pluralize.</param>
+        /// <param name="singularize">The singularize.</param>
+        public void SetPluralization(
+            Func<string, string> pluralize,
+            Func<string, string> singularize)
+        {
+            Pluralization =
+                    new LambdaPluralization(pluralize, singularize);
+        }
+
+        #endregion // SetPluralization
     }
 }
