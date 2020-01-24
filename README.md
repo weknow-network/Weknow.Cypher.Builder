@@ -1,4 +1,4 @@
-# Weknow Cypher Builder
+# Weknow Cypher Builder [![NuGet](https://img.shields.io/nuget/v/Weknow.Cypher.Builder.svg)](https://www.nuget.org/packages/Weknow.Cypher.Builder/)
 This library is still in **alpha stage**.  
 This means that the API still constantly changing.  
 Our goals to reach Beta (more stable API) in the next few months.
