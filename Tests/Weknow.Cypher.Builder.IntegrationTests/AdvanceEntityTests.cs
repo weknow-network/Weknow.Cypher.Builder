@@ -89,7 +89,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -113,7 +113,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -137,7 +137,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -176,7 +176,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -202,7 +202,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = new DateTime(2019, 01, 01), Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -228,7 +228,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -252,7 +252,7 @@ namespace Weknow.CoreIntegrationTests
             var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
 
             var parms = new Neo4jParameters()
-                         .WithEntity<Payload>($"map", payload);
+                         .WithEntity<Payload>("map", payload);
 
             IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -352,7 +352,7 @@ namespace Weknow.CoreIntegrationTests
             var item2 = new { Id = 1, Name = "Test 2" };
 
             parms = new Neo4jParameters()
-                         .WithEntity($"map", item2);
+                         .WithEntity("map", item2);
 
             cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result2 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
@@ -432,7 +432,7 @@ namespace Weknow.CoreIntegrationTests
             var item2 = new { Id = 1, Name = "Test 2" };
 
             parms = new Neo4jParameters()
-                         .WithEntity($"map", item2);
+                         .WithEntity("map", item2);
 
             cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             Payload result2 = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);

@@ -13,7 +13,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
-    <Version>1.0.33</Version>
+    <Version>1.0.34</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,7 +34,14 @@
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.1" />
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
-    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.10" />
+    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
