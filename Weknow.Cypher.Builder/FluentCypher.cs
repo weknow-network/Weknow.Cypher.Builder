@@ -79,9 +79,27 @@ namespace Weknow
         /// Initialize constructor
         /// </summary>
         /// <param name="config">The configuration.</param>
-        protected FluentCypher(CypherConfig config)
+        internal FluentCypher(CypherConfig config)
         {
             _config = config;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CypherBuilder" /> class.
+        /// </summary>
+        /// <param name="cypher">The cypher.</param>
+        /// <param name="phrase">The phrase.</param>
+        /// <param name="cypherClose">The cypher close.</param>
+        /// <param name="children">The children.</param>
+        /// <param name="childrenSeparator">The children separator.</param>
+        internal protected FluentCypher(
+            string cypher,
+            CypherPhrase phrase,
+            string? cypherClose = null,
+            IEnumerable<FluentCypher>? children = null,
+            string? childrenSeparator = null)
+            : this(Default, cypher, phrase, cypherClose, children, childrenSeparator)
+        {
         }
 
         /// <summary>
@@ -96,8 +114,8 @@ namespace Weknow
         /// <param name="config">The configuration.</param>
         private protected FluentCypher(
             FluentCypher copyFrom,
-            string cypher,
-            CypherPhrase phrase,
+            string cypher = "",
+            CypherPhrase phrase = CypherPhrase.None,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
@@ -114,7 +132,6 @@ namespace Weknow
         }
 
         #endregion // Ctor
-
 
         #region AddStatement
 
@@ -181,7 +198,7 @@ namespace Weknow
         /// <param name="labels">The labels.</param>
         /// <returns></returns>
         public FluentCypher AddAmbientLabels(params string[] labels) =>
-            new CypherBuilder(this, config: _config.Clone(labels));
+            new FluentCypher(this, config: _config.Clone(labels));
 
         #endregion // AddAmbientLabels
 
@@ -1251,7 +1268,7 @@ namespace Weknow
             string? openCypher = null,
             string? closeCypher = null)
         {
-            return new CypherBuilder(this, openCypher ?? string.Empty, phrase, closeCypher, children, childrenSeparator);
+            return new FluentCypher(this, openCypher ?? string.Empty, phrase, closeCypher, children, childrenSeparator);
         }
 
         #endregion // Composite

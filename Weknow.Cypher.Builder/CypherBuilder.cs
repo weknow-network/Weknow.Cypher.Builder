@@ -23,38 +23,6 @@ namespace Weknow
     /// <seealso cref="Weknow.FluentCypher" />
     public class C : CypherBuilder
     {
-        /// <summary>
-        /// Prevents a default instance of the <see cref="C"/> class from being created.
-        /// </summary>
-        private protected C()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="C"/> class.
-        /// </summary>
-        /// <param name="cypher">The cypher.</param>
-        /// <param name="phrase">The phrase.</param>
-        /// <param name="cypherClose">The cypher close.</param>
-        /// <param name="children">The children.</param>
-        /// <param name="childrenSeparator">The children separator.</param>
-        protected internal C(string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(cypher, phrase, cypherClose, children, childrenSeparator)
-        {
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="C"/> class.
-        /// </summary>
-        /// <param name="copyFrom">The copy from.</param>
-        /// <param name="cypher">The cypher.</param>
-        /// <param name="phrase">The phrase.</param>
-        /// <param name="cypherClose">The cypher close.</param>
-        /// <param name="children">The children.</param>
-        /// <param name="childrenSeparator">The children separator.</param>
-        private protected C(FluentCypher copyFrom, string cypher, CypherPhrase phrase, string? cypherClose = null, IEnumerable<FluentCypher>? children = null, string? childrenSeparator = null) : base(copyFrom, cypher, phrase, cypherClose, children, childrenSeparator)
-        {
-        }
     }
 
     /// <summary>
@@ -76,71 +44,9 @@ namespace Weknow
         {
             var configuration = new CypherConfig();
             config?.Invoke(configuration);
-            return new CypherBuilder(configuration);
+            return new FluentCypher(configuration);
         }
 
         #endregion // static Create
-
-        #region Ctor
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="FluentCypher" /> class from being created.
-        /// </summary>
-        internal CypherBuilder()
-        {
-        }
-
-        /// <summary>
-        /// Initialize constructor
-        /// </summary>
-        /// <param name="config">The configuration.</param>
-        private protected CypherBuilder(CypherConfig config)
-            : base(config)
-        {
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherBuilder" /> class.
-        /// </summary>
-        /// <param name="cypher">The cypher.</param>
-        /// <param name="phrase">The phrase.</param>
-        /// <param name="cypherClose">The cypher close.</param>
-        /// <param name="children">The children.</param>
-        /// <param name="childrenSeparator">The children separator.</param>
-        internal protected CypherBuilder(
-            string cypher,
-            CypherPhrase phrase,
-            string? cypherClose = null,
-            IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null)
-            : base(Default, cypher, phrase, cypherClose, children, childrenSeparator)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherBuilder" /> class.
-        /// </summary>
-        /// <param name="copyFrom">The copy from.</param>
-        /// <param name="cypher">The cypher.</param>
-        /// <param name="phrase">The phrase.</param>
-        /// <param name="cypherClose">The cypher close.</param>
-        /// <param name="children">The children.</param>
-        /// <param name="childrenSeparator">The children separator.</param>
-        /// <param name="config">The configuration.</param>
-        internal protected CypherBuilder(
-            FluentCypher copyFrom,
-            string cypher = "",
-            CypherPhrase phrase = CypherPhrase.Dynamic,
-            string? cypherClose = null,
-            IEnumerable<FluentCypher>? children = null,
-            string? childrenSeparator = null,
-            CypherConfig? config = null)
-            : base(copyFrom, cypher, phrase, cypherClose,
-                  children, childrenSeparator, config)
-        {
-        }
-
-        #endregion // Ctor
     }
 }

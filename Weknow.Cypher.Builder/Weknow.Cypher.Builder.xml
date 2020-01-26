@@ -885,32 +885,6 @@
             </summary>
             <seealso cref="T:Weknow.FluentCypher" />
         </member>
-        <member name="M:Weknow.C.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.C"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.C.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.C"/> class.
-            </summary>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-        </member>
-        <member name="M:Weknow.C.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.C"/> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-        </member>
         <member name="T:Weknow.CypherBuilder">
             <summary>
             Fluent cypher builder
@@ -924,39 +898,6 @@
             <summary>
             Root Cypher Builder with configuration.
             </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypher" /> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.#ctor(Weknow.CypherConfig)">
-            <summary>
-            Initialize constructor
-            </summary>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="M:Weknow.CypherBuilder.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
-            </summary>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-        </member>
-        <member name="M:Weknow.CypherBuilder.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="phrase">The phrase.</param>
-            <param name="cypherClose">The cypher close.</param>
-            <param name="children">The children.</param>
-            <param name="childrenSeparator">The children separator.</param>
-            <param name="config">The configuration.</param>
         </member>
         <member name="T:Weknow.CypherFactory">
             <summary>
@@ -2084,6 +2025,16 @@
             Initialize constructor
             </summary>
             <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Weknow.FluentCypher.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <param name="phrase">The phrase.</param>
+            <param name="cypherClose">The cypher close.</param>
+            <param name="children">The children.</param>
+            <param name="childrenSeparator">The children separator.</param>
         </member>
         <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
