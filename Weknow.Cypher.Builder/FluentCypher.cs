@@ -364,7 +364,7 @@ namespace Weknow
             string variable,
             params Expression<Func<T, dynamic>>[] excludes)
         {
-            return N<T>(variable, typeof(T).Name, p => p.AddAll(excludes));
+            return N<T>(variable, typeof(T).Name, p => p.All(excludes));
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Weknow
             string label,
             params Expression<Func<T, dynamic>>[] excludes)
         {
-            return N<T>(variable, label, p => p.AddAll(excludes));
+            return N<T>(variable, label, p => p.All(excludes));
         }
 
         #endregion // NodeAll
@@ -400,7 +400,7 @@ namespace Weknow
         {
             string variable = ExtractExpressionVariable(filter);
             var lambdaFilter = filter.Compile();
-            return N<T>(variable, typeof(T).Name, p => p.AddByConvention(lambdaFilter));
+            return N<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Weknow
             string variable,
             Func<string, bool> filter)
         {
-            return N<T>(variable, typeof(T).Name, p => p.AddByConvention(filter));
+            return N<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
         }
 
         /// <summary>
@@ -430,11 +430,168 @@ namespace Weknow
             string label,
             Func<string, bool> filter)
         {
-            return N<T>(variable, label, p => p.AddByConvention(filter));
+            return N<T>(variable, label, p => p.ByConvention(filter));
         }
 
         #endregion // NodeByConvention
 
+        #region Relation
+
+        /// <summary>
+        /// Create Relations representation.
+        /// N and Relation are the same (it's only matter of naming flavor)
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        public FluentCypher R(
+            string variable,
+            string type,
+            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+        {
+            return Relation(variable, type, properties);
+        }
+
+        /// <summary>
+        /// Create Relations representation.
+        /// N and Relation are the same (it's only matter of naming flavor)
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        public FluentCypher Relation(
+            string variable,
+            string type,
+            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+        {
+            ICypherPropertiesConfig root = CypherPropertiesFactory.CreateProperties(_config, variable);
+            ICypherPropertiesFactory? props = properties?.Invoke(root);
+            return new Relation(this, variable, type, props);
+        }
+
+        /// <summary>
+        /// Create Relations representation.
+        /// N and Relation are the same (it's only matter of naming flavor)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        public FluentCypher R<T>(
+            string variable,
+            string type,
+            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
+        {
+            return Relation(variable, type, properties);
+        }
+
+        /// <summary>
+        /// Create Relations representation.
+        /// N and Relation are the same (it's only matter of naming flavor)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        public FluentCypher Relation<T>(
+            string variable,
+            string type,
+            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
+        {
+            ICypherPropertiesConfig<T> root = CypherPropertiesFactory.CreateProperties<T>(_config, variable);
+            ICypherPropertiesFactory? props = properties?.Invoke(root);
+            return new Relation(this, variable, type, props);
+        }
+
+        #endregion // Relation
+
+        #region RelationAll
+
+        /// <summary>
+        /// Compose all properties of a type with optional excludes.
+        /// </summary>
+        /// <typeparam name="T">Will be taken as the label</typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="excludes">The excludes.</param>
+        /// <returns></returns>
+        public FluentCypher RelationAll<T>(
+            string variable,
+            params Expression<Func<T, dynamic>>[] excludes)
+        {
+            return R<T>(variable, typeof(T).Name, p => p.All(excludes));
+        }
+
+        /// <summary>
+        /// Compose all properties of a type with optional excludes.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="excludes">The excludes.</param>
+        /// <returns></returns>
+        public FluentCypher RelationAll<T>(
+            string variable,
+            string label,
+            params Expression<Func<T, dynamic>>[] excludes)
+        {
+            return R<T>(variable, label, p => p.All(excludes));
+        }
+
+        #endregion // RelationAll
+
+        #region RelationByConvention
+
+        /// <summary>
+        /// Compose properties of a type by convention delegate.
+        /// </summary>
+        /// <typeparam name="T">T is taken as the Label</typeparam>
+        /// <param name="filter">The convention filter.
+        /// The variable will betaken from the filter expression.
+        /// </param>
+        /// <returns></returns>
+        public FluentCypher RelationByConvention<T>(
+            Expression<Func<string, bool>> filter)
+        {
+            string variable = ExtractExpressionVariable(filter);
+            var lambdaFilter = filter.Compile();
+            return R<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
+        }
+
+        /// <summary>
+        /// Compose properties of a type by convention delegate.
+        /// </summary>
+        /// <typeparam name="T">T is taken as the Label</typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="filter">The convention filter.</param>
+        /// <returns></returns>
+        public FluentCypher RelationByConvention<T>(
+            string variable,
+            Func<string, bool> filter)
+        {
+            return R<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
+        }
+
+        /// <summary>
+        /// Compose properties of a type by convention delegate.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="variable">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="filter">The convention filter.</param>
+        /// <returns></returns>
+        public FluentCypher RelationByConvention<T>(
+            string variable,
+            string label,
+            Func<string, bool> filter)
+        {
+            return R<T>(variable, label, p => p.ByConvention(filter));
+        }
+
+        #endregion // RelationByConvention
 
         #region Cypher Operators
 
@@ -2864,6 +3021,7 @@ namespace Weknow
             {
                 case CypherPhrase.None:
                 case CypherPhrase.Node:
+                case CypherPhrase.Relation:
                 case CypherPhrase.Property when repeat == 0 || repeat % BREAK_LINE_ON != 0:
                     break;
                 case CypherPhrase.Where:

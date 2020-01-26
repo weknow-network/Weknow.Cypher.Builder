@@ -61,6 +61,15 @@ namespace Weknow
 
         #endregion // Naming
 
+        #region Convention
+
+        /// <summary>
+        /// Gets the convention.
+        /// </summary>
+        ICypherConvention ICypherConfig.Convention => Naming; 
+
+        #endregion // Convention
+
         #region Pluralization
 
         /// <summary>

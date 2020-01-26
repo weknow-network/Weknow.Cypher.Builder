@@ -936,9 +936,10 @@
             Properties contract
             </summary>
         </member>
-        <member name="M:Weknow.ICypherPropertiesFactory.Add(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Weknow.ICypherPropertiesFactory._(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
             </summary>
             <param name="propNames">The property's names.</param>
             <returns></returns>
@@ -950,9 +951,41 @@
             { Name: $prefix_Name, Id: $prefix_Id }
             ]]></example>
         </member>
+        <member name="M:Weknow.ICypherPropertiesFactory.Add(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="propNames">The property's names.</param>
+            <returns></returns>
+            <example><![CDATA[
+            -----------------------------------------------
+            Add(new ["Name", "Id"])
+            Results in (depend on the initialized prefix & sign):
+            { Name: $Name, Id: $Id }
+            { Name: $prefix_Name, Id: $prefix_Id }
+            ]]></example>
+        </member>
+        <member name="M:Weknow.ICypherPropertiesFactory._(System.String,System.String[])">
+            <summary>
+            Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="name">The property's name.</param>
+            <param name="moreNames">The more property's names.</param>
+            <returns></returns>
+            <example><![CDATA[
+            -----------------------------------------------
+            Add("Name", "Id")
+            Results in (depend on the initialized prefix & sign):
+            { Name: $Name, Id: $Id }
+            { Name: $prefix_Name, Id: $prefix_Id }
+            ]]></example>
+        </member>
         <member name="M:Weknow.ICypherPropertiesFactory.Add(System.String,System.String[])">
             <summary>
             Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
             </summary>
             <param name="name">The property's name.</param>
             <param name="moreNames">The more property's names.</param>
@@ -971,6 +1004,18 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="M:Weknow.ICypherPropertiesFactory`1._(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Compose properties phrase from a type expression.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="propExpressions">The property expressions.</param>
+            <example><![CDATA[
+            Add(f => f.Name, f => f.Id)
+            { Name: $Name, Id: $Id}
+            ]]></example>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.ICypherPropertiesFactory`1.Add(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
             <summary>
             Compose properties phrase from a type expression.
@@ -982,16 +1027,17 @@
             ]]></example>
             <returns></returns>
         </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1.AddAll(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+        <member name="M:Weknow.ICypherPropertiesFactory`1.All(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
             <summary>
             Compose properties phrase by reflection with exclude option.
             </summary>
             <param name="excludes">The excludes.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1.AddByConvention(System.Func{System.String,System.Boolean})">
+        <member name="M:Weknow.ICypherPropertiesFactory`1.ByConvention(System.Func{System.String,System.Boolean})">
             <summary>
             Compose properties phrase by convention.
+            (ByConvention and Conv are same, only matter of code styling).
             </summary>
             <param name="filter">The filter.</param>
             <returns></returns>
@@ -2177,6 +2223,18 @@
             <param name="propNames">The names.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#_(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Compose properties phrase from a type expression.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="propExpressions">The property expressions.</param>
+            <returns></returns>
+            <example><![CDATA[
+            Add(f => f.Name, f => f.Id)
+            { Name: $Name, Id: $Id}
+            ]]></example>
+        </member>
         <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#Add(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
             <summary>
             Compose properties phrase from a type expression.
@@ -2188,7 +2246,7 @@
             { Name: $Name, Id: $Id}
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#AddByConvention(System.Func{System.String,System.Boolean})">
+        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#ByConvention(System.Func{System.String,System.Boolean})">
             <summary>
             Compose properties phrase by convention.
             </summary>
@@ -2199,7 +2257,7 @@
             { Name: $Name, Id: $Id}
             ]]></example>
         </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#AddAll(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#All(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
             <summary>
             Compose all properties of a type with optional excludes.
             </summary>
@@ -2288,9 +2346,10 @@
             <param name="name">The name.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#Add(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#_(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
             </summary>
             <param name="propNames">The property's names.</param>
             <returns></returns>
@@ -2302,9 +2361,41 @@
             { Name: $prefix_Name, Id: $prefix_Id }
             ]]></example>
         </member>
+        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#Add(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="propNames">The property's names.</param>
+            <returns></returns>
+            <example><![CDATA[
+            -----------------------------------------------
+            Add(new ["Name", "Id"])
+            Results in (depend on the initialized prefix & sign):
+            { Name: $Name, Id: $Id }
+            { Name: $prefix_Name, Id: $prefix_Id }
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#_(System.String,System.String[])">
+            <summary>
+            Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
+            </summary>
+            <param name="name">The property's name.</param>
+            <param name="moreNames">The more property's names.</param>
+            <returns></returns>
+            <example><![CDATA[
+            -----------------------------------------------
+            Add("Name", "Id")
+            Results in (depend on the initialized prefix & sign):
+            { Name: $Name, Id: $Id }
+            { Name: $prefix_Name, Id: $prefix_Id }
+            ]]></example>
+        </member>
         <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#Add(System.String,System.String[])">
             <summary>
             Compose properties phrase.
+            (Add and _ are same, only matter of code styling).
             </summary>
             <param name="name">The property's name.</param>
             <param name="moreNames">The more property's names.</param>
@@ -2516,6 +2607,96 @@
             <returns></returns>
         </member>
         <member name="M:Weknow.FluentCypher.NodeByConvention``1(System.String,System.String,System.Func{System.String,System.Boolean})">
+            <summary>
+            Compose properties of a type by convention delegate.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="filter">The convention filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.R(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
+            <summary>
+            Create Relations representation.
+            N and Relation are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.Relation(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
+            <summary>
+            Create Relations representation.
+            N and Relation are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.R``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
+            <summary>
+            Create Relations representation.
+            N and Relation are the same (it's only matter of naming flavor)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.Relation``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
+            <summary>
+            Create Relations representation.
+            N and Relation are the same (it's only matter of naming flavor)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.RelationAll``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
+            <summary>
+            Compose all properties of a type with optional excludes.
+            </summary>
+            <typeparam name="T">Will be taken as the label</typeparam>
+            <param name="variable">The variable.</param>
+            <param name="excludes">The excludes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.RelationAll``1(System.String,System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
+            <summary>
+            Compose all properties of a type with optional excludes.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="variable">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="excludes">The excludes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.Linq.Expressions.Expression{System.Func{System.String,System.Boolean}})">
+            <summary>
+            Compose properties of a type by convention delegate.
+            </summary>
+            <typeparam name="T">T is taken as the Label</typeparam>
+            <param name="filter">The convention filter.
+            The variable will betaken from the filter expression.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.String,System.Func{System.String,System.Boolean})">
+            <summary>
+            Compose properties of a type by convention delegate.
+            </summary>
+            <typeparam name="T">T is taken as the Label</typeparam>
+            <param name="variable">The variable.</param>
+            <param name="filter">The convention filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.String,System.String,System.Func{System.String,System.Boolean})">
             <summary>
             Compose properties of a type by convention delegate.
             </summary>
@@ -4278,6 +4459,11 @@
             Gets the naming convention.
             </summary>
         </member>
+        <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Convention">
+            <summary>
+            Gets the convention.
+            </summary>
+        </member>
         <member name="P:Weknow.CypherConfig.Weknow#ICypherConfig#Pluralization">
             <summary>
             Gets the pluralization.
@@ -4310,10 +4496,24 @@
             Gets or sets the property parameter convention.
             </summary>
         </member>
-        <member name="P:Weknow.CypherNamingConfig.RelationTagConvention">
+        <member name="P:Weknow.CypherNamingConfig.RelationTypeConvention">
             <summary>
-            Gets or sets the relation tag convention.
+            Gets or sets the relation type convention.
             </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.FormatLabel(System.String)">
+            <summary>
+            Formats the label.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.FormatRelation(System.String)">
+            <summary>
+            Formats the relation.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
         </member>
         <member name="P:Weknow.CypherNamingConfig.Pluralization">
             <summary>
@@ -4341,6 +4541,25 @@
             <summary>
             Gets or sets the property parameter's prefix.
             </summary>
+        </member>
+        <member name="T:Weknow.ICypherConvention">
+            <summary>
+            Naming Config
+            </summary>
+        </member>
+        <member name="M:Weknow.ICypherConvention.FormatLabel(System.String)">
+            <summary>
+            Formats a label.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherConvention.FormatRelation(System.String)">
+            <summary>
+            Formats a relation.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.ICypherPropertiesConventions">
             <summary>
@@ -4428,6 +4647,11 @@
         <member name="P:Weknow.ICypherConfig.Pluralization">
             <summary>
             Gets the pluralization.
+            </summary>
+        </member>
+        <member name="P:Weknow.ICypherConfig.Convention">
+            <summary>
+            Gets the convention.
             </summary>
         </member>
         <member name="T:Weknow.IPluralization">
@@ -4690,6 +4914,35 @@
             </summary>
             <param name="variable">The variable.</param>
             <param name="labels">The labels.</param>
+            <param name="config">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.Relation">
+            <summary>
+            Extends the phrases option under WHERE context
+            </summary>
+            <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="M:Weknow.Relation.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:Weknow.Relation.#ctor(Weknow.FluentCypher,System.String,System.String,Weknow.ICypherPropertiesFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+        </member>
+        <member name="M:Weknow.Relation.ComposeOpenCypher(System.String,System.String,Weknow.ICypherConfig)">
+            <summary>
+            Composes open cypher phrase.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="type">The type.</param>
             <param name="config">The configuration.</param>
             <returns></returns>
         </member>

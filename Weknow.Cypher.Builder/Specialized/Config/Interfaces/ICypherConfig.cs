@@ -19,5 +19,10 @@
         /// Gets the pluralization.
         /// </summary>
         IPluralization Pluralization { get; }
+
+        /// <summary>
+        /// Gets the convention.
+        /// </summary>
+        ICypherConvention Convention { get; }
     }
 }

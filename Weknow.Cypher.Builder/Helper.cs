@@ -184,6 +184,7 @@ namespace Weknow.Helpers
                 case CypherPhrase.Project when repeat != 0:
                 case CypherPhrase.With when repeat != 0:
                 case CypherPhrase.Node:
+                case CypherPhrase.Relation:
                 case CypherPhrase.Property:
                 case CypherPhrase.PropertyScope:
                     break;

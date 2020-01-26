@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using static Weknow.Helpers.Helper;
 
 // TODO: discuss with avi whether to have default implementation
 
@@ -14,7 +15,7 @@ namespace Weknow
     /// Naming convention
     /// </summary>
     [DebuggerDisplay("Node: {NodeLabelConvention}, Relation: {RelationTagConvention}")]
-    public class CypherNamingConfig
+    public class CypherNamingConfig : ICypherConvention
     {
         private IPluralize _pluralizeImp;
 
@@ -31,7 +32,7 @@ namespace Weknow
                                 word => _pluralizeImp.Pluralize(word),
                                 word => _pluralizeImp.Singularize(word)
                             );
-        } 
+        }
 
         #endregion // Ctor
 
@@ -53,14 +54,38 @@ namespace Weknow
 
         #endregion // PropertyParameterConvention
 
-        #region RelationTagConvention
+        #region RelationTypeConvention
 
         /// <summary>
-        /// Gets or sets the relation tag convention.
+        /// Gets or sets the relation type convention.
         /// </summary>
-        public CypherNamingConvention RelationTagConvention { get; set; } = CypherNamingConvention.Default;
+        public CypherNamingConvention RelationTypeConvention { get; set; } = CypherNamingConvention.Default;
 
-        #endregion // RelationTagConvention
+        #endregion // RelationTypeConvention
+
+        #region FormatLabel
+
+        /// <summary>
+        /// Formats the label.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public string FormatLabel(string text) =>
+            FormatByConvention(text, NodeLabelConvention);
+
+        #endregion // FormatLabel
+
+        #region FormatRelation
+
+        /// <summary>
+        /// Formats the relation.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
+        public string FormatRelation(string text) =>
+            FormatByConvention(text, RelationTypeConvention);
+
+        #endregion // FormatRelation
 
         #region Pluralization
 

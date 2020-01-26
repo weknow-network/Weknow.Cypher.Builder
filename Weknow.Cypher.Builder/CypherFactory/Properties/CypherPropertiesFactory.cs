@@ -24,7 +24,7 @@ namespace Weknow
     /// <seealso cref="Weknow.CypherPropertiesFactory" />
     /// <seealso cref="Weknow.ICypherPropertiesConfig{T}" />
     /// <seealso cref="Weknow.ICypherPropertiesFactory{T}" />
-    internal class CypherPropertiesFactory<T> : 
+    internal class CypherPropertiesFactory<T> :
         CypherPropertiesFactory,
         ICypherPropertiesConfig<T>
     {
@@ -45,7 +45,7 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         internal protected CypherPropertiesFactory(
             CypherConfig? config,
-            string variable): base(config, variable)
+            string variable) : base(config, variable)
         {
         }
 
@@ -78,9 +78,9 @@ namespace Weknow
                     string? parameterSign)
         {
             var cfg = this._config.Clone();
-            if(parameterPrefix != null)
+            if (parameterPrefix != null)
                 cfg.Naming.PropertyParameterConvention.Prefix = parameterPrefix;
-            if(parameterSign != null)
+            if (parameterSign != null)
                 cfg.Naming.PropertyParameterConvention.Sign = parameterSign;
             return new CypherPropertiesFactory<T>(
                                 this,
@@ -130,6 +130,22 @@ namespace Weknow
 
         /// <summary>
         /// Compose properties phrase from a type expression.
+        /// (Add and _ are same, only matter of code styling).
+        /// </summary>
+        /// <param name="propExpressions">The property expressions.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// Add(f => f.Name, f => f.Id)
+        /// { Name: $Name, Id: $Id}
+        /// ]]></example>
+        ICypherPropertiesFactory<T> ICypherPropertiesFactory<T>._(params Expression<Func<T, dynamic>>[] propExpressions)
+        {
+            ICypherPropertiesFactory<T> self = this;
+            return self.Add(propExpressions);
+        }
+
+        /// <summary>
+        /// Compose properties phrase from a type expression.
         /// </summary>
         /// <param name="propExpressions">The property expressions.</param>
         /// <returns></returns>
@@ -159,7 +175,7 @@ namespace Weknow
         /// Add(name => name == nameof(Foo.Id) || name == nameof(Foo.Name))
         /// { Name: $Name, Id: $Id}
         /// ]]></example>
-        ICypherPropertiesFactory<T> ICypherPropertiesFactory<T>.AddByConvention(Func<string, bool> filter)
+        ICypherPropertiesFactory<T> ICypherPropertiesFactory<T>.ByConvention(Func<string, bool> filter)
         {
             IEnumerable<string> names = GetProperties<T>();
             IEnumerable<string> propNames =
@@ -169,7 +185,7 @@ namespace Weknow
 
         #endregion // AddByConvention
 
-        #region AddAll
+        #region All
 
         /// <summary>
         /// Compose all properties of a type with optional excludes.
@@ -177,7 +193,7 @@ namespace Weknow
         /// <param name="excludes">The excludes .</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        ICypherPropertiesFactory<T> ICypherPropertiesFactory<T>.AddAll(
+        ICypherPropertiesFactory<T> ICypherPropertiesFactory<T>.All(
             params Expression<Func<T, dynamic>>[] excludes)
         {
             IEnumerable<string> avoid = from exclude in excludes
@@ -187,11 +203,11 @@ namespace Weknow
 
             ICypherPropertiesFactory<T> self = this;
             ICypherPropertiesFactory<T> properties =
-                self.AddByConvention(name => !excludeMap.ContainsKey(name));
+                self.ByConvention(name => !excludeMap.ContainsKey(name));
             return properties;
         }
 
-        #endregion // AddAll
+        #endregion // All
     }
 
     /// <summary>
@@ -249,9 +265,9 @@ namespace Weknow
                     string? parameterSign)
         {
             var cfg = this._config.Clone();
-            if(parameterPrefix != null)
+            if (parameterPrefix != null)
                 cfg.Naming.PropertyParameterConvention.Prefix = parameterPrefix;
-            if(parameterSign != null)
+            if (parameterSign != null)
                 cfg.Naming.PropertyParameterConvention.Sign = parameterSign;
             return new CypherPropertiesFactory(
                                 this,
@@ -280,7 +296,7 @@ namespace Weknow
         internal protected CypherPropertiesFactory(
             CypherConfig? config,
             string variable) :
-            base("{ ", CypherPhrase.PropertyScope, " }", null, "", config) 
+            base("{ ", CypherPhrase.PropertyScope, " }", null, "", config)
         {
             _variable = variable;
         }
@@ -355,6 +371,27 @@ namespace Weknow
 
         /// <summary>
         /// Compose properties phrase.
+        /// (Add and _ are same, only matter of code styling).
+        /// </summary>
+        /// <param name="propNames">The property's names.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// -----------------------------------------------
+        /// Add(new ["Name", "Id"])
+        /// Results in (depend on the initialized prefix & sign):
+        /// { Name: $Name, Id: $Id }
+        /// { Name: $prefix_Name, Id: $prefix_Id }
+        /// ]]></example>
+        ICypherPropertiesFactory ICypherPropertiesFactory._(
+            IEnumerable<string> propNames)
+        {
+            ICypherPropertiesFactory self = this;
+            return self.Add(propNames);
+        }
+
+        /// <summary>
+        /// Compose properties phrase.
+        /// (Add and _ are same, only matter of code styling).
         /// </summary>
         /// <param name="propNames">The property's names.</param>
         /// <returns></returns>
@@ -377,6 +414,27 @@ namespace Weknow
 
         /// <summary>
         /// Compose properties phrase.
+        /// (Add and _ are same, only matter of code styling).
+        /// </summary>
+        /// <param name="name">The property's name.</param>
+        /// <param name="moreNames">The more property's names.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[
+        /// -----------------------------------------------
+        /// Add("Name", "Id")
+        /// Results in (depend on the initialized prefix & sign):
+        /// { Name: $Name, Id: $Id }
+        /// { Name: $prefix_Name, Id: $prefix_Id }
+        /// ]]></example>
+        ICypherPropertiesFactory ICypherPropertiesFactory._(string name, params string[] moreNames)
+        {
+            ICypherPropertiesFactory self = this;
+            return self.Add(name, moreNames);
+        }
+
+        /// <summary>
+        /// Compose properties phrase.
+        /// (Add and _ are same, only matter of code styling).
         /// </summary>
         /// <param name="name">The property's name.</param>
         /// <param name="moreNames">The more property's names.</param>

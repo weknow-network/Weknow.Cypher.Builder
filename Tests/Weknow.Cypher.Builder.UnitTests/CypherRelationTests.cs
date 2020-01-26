@@ -8,59 +8,41 @@ using static Weknow.CypherFactory;
 
 namespace Weknow.UnitTests
 {
-    public class CypherNodeTests
+    public class CypherRelationTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public CypherNodeTests(ITestOutputHelper outputHelper)
+        public CypherRelationTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
 
         #endregion // Ctor
 
-        #region Node_Test
+        #region Relation_Test
 
         [Fact]
-        public void Node_Test()
+        public void Relation_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
                         {
                             cfg.AmbientLabels.Add("TestLabel");
                         })
-                        .N("n", "LabelA");  
+                        .R("n", "TypeA");  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel)", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_Test
+        #endregion // Relation_Test
 
-        //#region Node_OfT_Test
-
-        //[Fact]
-        //public void Node_OfT_Test()
-        //{
-        //    FluentCypher cypherCommand =
-        //                C.Create(cfg =>
-        //                {
-        //                    cfg.AmbientLabels.Add("TestLabel");
-        //                })
-        //                .N<Foo>(n =>);
-
-        //    _outputHelper.WriteLine(cypherCommand);
-        //    Assert.Equal("(n:LabelA:TestLabel)", cypherCommand.ToCypher(CypherFormat.SingleLine));
-        //}
-
-        //#endregion // Node_OfT_Test
-
-        #region Node_WithPropPrefix_Test
+        #region Relation_WithPropPrefix_Test
 
         [Fact]
-        public void Node_WithPropPrefix_Test()
+        public void Relation_WithPropPrefix_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -69,18 +51,18 @@ namespace Weknow.UnitTests
                             cfg.Naming.PropertyParameterConvention.Sign = string.Empty;
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .N("n", "LabelA",  p => p.Add("Name", "Id"));  
+                        .R("n", "TypeA",  p => p.Add("Name", "Id"));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Name: x_Name ,n.Id: x_Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Name: x_Name ,n.Id: x_Id }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_WithPropPrefix_Test
+        #endregion // Relation_WithPropPrefix_Test
 
-        #region Node_WithPropPrefix_Short_Test
+        #region Relation_WithPropPrefix_Short_Test
 
         [Fact]
-        public void Node_WithPropPrefix_Short_Test()
+        public void Relation_WithPropPrefix_Short_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -89,55 +71,36 @@ namespace Weknow.UnitTests
                             cfg.Naming.PropertyParameterConvention.Sign = string.Empty;
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .N("n", "LabelA",  p => p._("Name", "Id"));  
+                        .R("n", "TypeA",  p => p._("Name", "Id"));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Name: x_Name ,n.Id: x_Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Name: x_Name ,n.Id: x_Id }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_WithPropPrefix_Short_Test
+        #endregion // Relation_WithPropPrefix_Short_Test
 
-        #region Node_WithSign_Test
+        #region Relation_WithSign_Test
 
         [Fact]
-        public void Node_WithSign_Test()
+        public void Relation_WithSign_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
                         {
                             cfg.AmbientLabels.Add("TestLabel");
                         })
-                        .N("n", "LabelA",  p => p.Add("Name", "Id"));  
+                        .R("n", "TypeA",  p => p.Add("Name", "Id"));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Name: $Name ,n.Id: $Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Name: $Name ,n.Id: $Id }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_WithSign_Test
+        #endregion // Relation_WithSign_Test
 
-        #region Node_WithSignAndPrefix_Test
-
-        [Fact]
-        public void Node_WithSignAndPrefix_Test()
-        {
-            FluentCypher cypherCommand = 
-                        C.Create(cfg =>
-                        {
-                            cfg.AmbientLabels.Add("TestLabel");
-                            cfg.Naming.PropertyParameterConvention.Prefix = "x_";
-                        })
-                        .N("n", "LabelA",  p => p.Add("Name", "Id"));  
-
-            _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Name: $x_Name ,n.Id: $x_Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
-        }
-
-        #endregion // Node_WithSignAndPrefix_Test
-
-        #region Node_ofT_All_Test
+        #region Relation_WithSignAndPrefix_Test
 
         [Fact]
-        public void Node_ofT_All_Test()
+        public void Relation_WithSignAndPrefix_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -145,18 +108,18 @@ namespace Weknow.UnitTests
                             cfg.AmbientLabels.Add("TestLabel");
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .N<Foo>("n", "LabelA",  p => p.All(f => f.DateOfBirth));  
+                        .R("n", "TypeA",  p => p.Add("Name", "Id"));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Id: $x_Id ,n.Name: $x_Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Name: $x_Name ,n.Id: $x_Id }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_ofT_All_Test
+        #endregion // Relation_WithSignAndPrefix_Test
 
-        #region Node_ofT_Convention_Test
+        #region Relation_ofT_All_Test
 
         [Fact]
-        public void Node_ofT_Convention_Test()
+        public void Relation_ofT_All_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -164,20 +127,39 @@ namespace Weknow.UnitTests
                             cfg.AmbientLabels.Add("TestLabel");
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .N<Foo>("n", "LabelA",  
+                        .R<Foo>("n", "TypeA",  p => p.All(f => f.DateOfBirth));  
+
+            _outputHelper.WriteLine(cypherCommand);
+            Assert.Equal("[n:TypeA { n.Id: $x_Id ,n.Name: $x_Name }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
+        }
+
+        #endregion // Relation_ofT_All_Test
+
+        #region Relation_ofT_Convention_Test
+
+        [Fact]
+        public void Relation_ofT_Convention_Test()
+        {
+            FluentCypher cypherCommand = 
+                        C.Create(cfg =>
+                        {
+                            cfg.AmbientLabels.Add("TestLabel");
+                            cfg.Naming.PropertyParameterConvention.Prefix = "x_";
+                        })
+                        .R<Foo>("n", "TypeA",  
                                 p => p.ByConvention(
                                    name => name != nameof(Foo.DateOfBirth)));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Id: $x_Id ,n.Name: $x_Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Id: $x_Id ,n.Name: $x_Name }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_ofT_Convention_Test
+        #endregion // Relation_ofT_Convention_Test
 
-        #region Node_ofT_WithSignAndPrefix_Test
+        #region Relation_ofT_WithSignAndPrefix_Test
 
         [Fact]
-        public void Node_ofT_WithSignAndPrefix_Test()
+        public void Relation_ofT_WithSignAndPrefix_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -185,19 +167,19 @@ namespace Weknow.UnitTests
                             cfg.AmbientLabels.Add("TestLabel");
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .N<Foo>("n", "LabelA",  p => p.Add(f => f.Name)
+                        .R<Foo>("n", "TypeA",  p => p.Add(f => f.Name)
                                                       .Add(f => f.Id));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:LabelA:TestLabel { n.Name: $x_Name ,n.Id: $x_Id })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:TypeA { n.Name: $x_Name ,n.Id: $x_Id }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // Node_ofT_WithSignAndPrefix_Test
+        #endregion // Relation_ofT_WithSignAndPrefix_Test
 
-        #region NodeAll_Test
+        #region RelationAll_Test
 
         [Fact]
-        public void NodeAll_Test()
+        public void RelationAll_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -205,18 +187,18 @@ namespace Weknow.UnitTests
                             cfg.AmbientLabels.Add("TestLabel");
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .NodeAll<Foo>("n", f => f.DateOfBirth);  
+                        .RelationAll<Foo>("n", f => f.DateOfBirth);  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:Foo:TestLabel { n.Id: $x_Id ,n.Name: $x_Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:Foo { n.Id: $x_Id ,n.Name: $x_Name }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // NodeAll_Test
+        #endregion // RelationAll_Test
 
-        #region NodeByConvention_Test
+        #region RelationByConvention_Test
 
         [Fact]
-        public void NodeByConvention_Test()
+        public void RelationByConvention_Test()
         {
             FluentCypher cypherCommand = 
                         C.Create(cfg =>
@@ -224,13 +206,13 @@ namespace Weknow.UnitTests
                             cfg.AmbientLabels.Add("TestLabel");
                             cfg.Naming.PropertyParameterConvention.Prefix = "x_";
                         })
-                        .NodeByConvention<Foo>(  
+                        .RelationByConvention<Foo>(  
                                 n => n != nameof(Foo.DateOfBirth));  
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n:Foo:TestLabel { n.Id: $x_Id ,n.Name: $x_Name })", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("[n:Foo { n.Id: $x_Id ,n.Name: $x_Name }]", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
-        #endregion // NodeByConvention_Test
+        #endregion // RelationByConvention_Test
     }
 }
