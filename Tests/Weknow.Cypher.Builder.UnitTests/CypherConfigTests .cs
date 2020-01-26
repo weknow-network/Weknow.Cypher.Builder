@@ -38,7 +38,7 @@ namespace Weknow.UnitTests
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal("UNWIND $items AS map " +
                             "MERGE (f:FOO:'@X_DEV':'@X_GIT_HUB' { Id: map.Id })" +
-                            " ON CREATE SET f = map RETURN f "
+                            " ON CREATE SET f = map RETURN f"
                             , cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 

@@ -33,7 +33,7 @@ namespace Weknow.UnitTests
                             .Return("b");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) MATCH (b:Bar) RETURN f , b", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) MATCH (b:Bar) RETURN f ,b", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Return_Test
@@ -50,7 +50,7 @@ namespace Weknow.UnitTests
                             .With("b");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) MATCH (b:Bar) WITH f , b", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) MATCH (b:Bar) WITH f ,b", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_With_Test
@@ -66,7 +66,7 @@ namespace Weknow.UnitTests
                             .Set("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) SET f.Name = $Name , f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) SET f.Name = $Name ,f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Set_Test
@@ -83,7 +83,7 @@ namespace Weknow.UnitTests
                             .Where("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name AND f.Date = $Date ", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name = $Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Where_Test
@@ -100,7 +100,7 @@ namespace Weknow.UnitTests
                             .Where("f", "Date");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (f:Foo) WHERE f.Name < f_Name AND f.Date = $Date ", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (f:Foo) WHERE f.Name < f_Name AND f.Date = $Date", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Multi_Where_WithPrefix_Test

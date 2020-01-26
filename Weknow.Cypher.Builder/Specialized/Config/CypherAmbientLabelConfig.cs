@@ -66,7 +66,7 @@ namespace Weknow
         /// </summary>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
-        internal string Combine(params string[] additionalLabels)
+        public string Combine(params string[] additionalLabels)
         {
             return Combine((IEnumerable<string>)additionalLabels);
         }
@@ -76,7 +76,7 @@ namespace Weknow
         /// </summary>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
-        internal string Combine(IEnumerable<string> additionalLabels)
+        public string Combine(IEnumerable<string> additionalLabels)
         {
             IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
             var values = Values.Select(m => AmbientFormat(m));

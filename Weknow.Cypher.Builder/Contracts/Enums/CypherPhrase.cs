@@ -10,6 +10,22 @@
         /// </summary>
         None,
         /// <summary>
+        /// The node
+        /// </summary>
+        Node,
+        /// <summary>
+        /// The relation
+        /// </summary>
+        Relation,
+        /// <summary>
+        /// The property
+        /// </summary>
+        Property,
+        /// <summary>
+        /// The property scope
+        /// </summary>
+        PropertyScope,
+        /// <summary>
         /// Arbitrary statement (non-structured)
         /// </summary>
         Dynamic,

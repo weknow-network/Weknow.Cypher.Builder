@@ -23,6 +23,8 @@ namespace Weknow
 
         #endregion // Ctor
 
+        #region AmbientLabels
+
         /// <summary>
         /// Ambient Label configuration
         /// </summary>
@@ -33,6 +35,10 @@ namespace Weknow
         /// </summary>
         ICypherAmbientLabelConfig ICypherConfig.AmbientLabels => AmbientLabels;
 
+        #endregion // AmbientLabels
+
+        #region Concurrency
+
         /// <summary>
         /// Sets the concurrency behavior.
         /// </summary>
@@ -41,18 +47,36 @@ namespace Weknow
         /// <summary>
         /// Sets the concurrency behavior.
         /// </summary>
+        
         IConcurrencyConfig ICypherConfig.Concurrency => Concurrency;
+
+        #endregion // Concurrency
+
+        #region Naming
 
         /// <summary>
         /// Gets the naming convention.
         /// </summary>
         public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();
 
+        #endregion // Naming
+
+        #region Pluralization
+
         /// <summary>
         /// Gets the pluralization.
         /// </summary>
         IPluralization ICypherConfig.Pluralization => Naming.Pluralization;
 
+        #endregion // Pluralization
+
+        #region Clone
+
+        /// <summary>
+        /// Clones the specified additional ambient labels.
+        /// </summary>
+        /// <param name="additionalAmbientLabels">The additional ambient labels.</param>
+        /// <returns></returns>
         internal CypherConfig Clone(params string[] additionalAmbientLabels)
         {
             return new CypherConfig
@@ -62,5 +86,7 @@ namespace Weknow
                 Naming = Naming
             };
         }
+
+        #endregion // Clone
     }
 }

@@ -31,7 +31,7 @@ namespace Weknow.UnitTests
                             .Where("n", "Name");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name ", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Match_WhereWithVariable_Test
@@ -46,7 +46,7 @@ namespace Weknow.UnitTests
                             .Where("n", "Name", "Id");
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name AND n.Id = $Id ", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (n:Foo) WHERE n.Name = $Name AND n.Id = $Id", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // WhereCollection_WithVariable_Test
@@ -63,7 +63,7 @@ namespace Weknow.UnitTests
                             .Or.Where("n", "PropA".ToYield("PropB"));
 
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("MATCH (n:Foo) WHERE n.Id > $Id AND n.Date = $Date OR n.PropA = $PropA AND n.PropB = $PropB ", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("MATCH (n:Foo) WHERE n.Id > $Id AND n.Date = $Date OR n.PropA = $PropA AND n.PropB = $PropB", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // WhereCollection_WithVariable_Test

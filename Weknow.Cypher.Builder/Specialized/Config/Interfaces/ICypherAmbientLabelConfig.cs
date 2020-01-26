@@ -31,5 +31,23 @@ namespace Weknow
         string? Formatter { get; }
 
         #endregion // Formatter
+
+        #region Combine
+
+        /// <summary>
+        /// Get combined label string with ambient and additional labels.
+        /// </summary>
+        /// <param name="additionalLabels">The labels.</param>
+        /// <returns></returns>
+        string Combine(params string[] additionalLabels);
+
+        /// <summary>
+        /// Get combined label string with ambient and additional labels.
+        /// </summary>
+        /// <param name="additionalLabels">The labels.</param>
+        /// <returns></returns>
+        string Combine(IEnumerable<string> additionalLabels); 
+
+        #endregion // Combine
     }
 }

@@ -229,9 +229,9 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $Id , f.Name = $Name " +
+                "SET f.Id = $Id ,f.Name = $Name " +
                 "ON MATCH " +
-                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
+                "SET f.Name = $Name ,f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand.ToCypher(CypherFormat.SingleLine));
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
@@ -254,9 +254,9 @@ namespace Weknow.UnitTests
 
             string expected = "MERGE (n:Foo { Id: $f_Id }) " +
                 "ON CREATE " +
-                "SET f.Id = $Id , f.Name = $Name " +
+                "SET f.Id = $Id ,f.Name = $Name " +
                 "ON MATCH " +
-                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
+                "SET f.Name = $Name ,f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }

@@ -26,6 +26,7 @@ namespace Weknow.Helpers
         internal const int BREAK_LINE_ON = 3;
         internal const string COMMA = " ,";
         internal const string SPACE = " ";
+        internal const char SPACE_CHAR = ' ';
         internal const string INDENT = "    ";
         internal const string HALF_INDENT = "  ";
         internal const string INDENT_COMMA = INDENT + ",";
@@ -80,6 +81,21 @@ namespace Weknow.Helpers
         }
 
         #endregion // ExtractLambdaExpressionParameters
+
+        #region ExtractExpressionVariable
+
+        /// <summary>
+        /// Extracts the variable.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        internal static string ExtractExpressionVariable(
+            LambdaExpression expression)
+        {
+            return expression.Parameters.First().Name;
+        }
+
+        #endregion // ExtractExpressionVariable
 
         #region GetProperties
 
@@ -167,6 +183,9 @@ namespace Weknow.Helpers
                 case CypherPhrase.Return when repeat != 0:
                 case CypherPhrase.Project when repeat != 0:
                 case CypherPhrase.With when repeat != 0:
+                case CypherPhrase.Node:
+                case CypherPhrase.Property:
+                case CypherPhrase.PropertyScope:
                     break;
                 case CypherPhrase.OrderByDesc:
                     builder = builder.Append(CypherPhrase.OrderBy.ToString().ToSCREAMING(' '))

@@ -44,6 +44,15 @@ namespace Weknow
 
         #endregion // NodeLabelConvention
 
+        #region PropertyParameterConvention
+
+        /// <summary>
+        /// Gets or sets the property parameter convention.
+        /// </summary>
+        public CypherPropertiesConventions PropertyParameterConvention { get; set; } = new CypherPropertiesConventions();
+
+        #endregion // PropertyParameterConvention
+
         #region RelationTagConvention
 
         /// <summary>

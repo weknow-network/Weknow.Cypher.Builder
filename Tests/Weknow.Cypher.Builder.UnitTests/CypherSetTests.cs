@@ -37,11 +37,11 @@ namespace Weknow.UnitTests
             string expected =
                 "MERGE (f:Foo) " +
                 "MERGE (b:Bar) " +
-                "SET f.SomeProperty = $sp , " +
-                "f.SomeOtherProp = $SomeOtherProp , " +
-                "f.More = $More , " +
-                "f.Id = $Id , " +
-                "b.Value = $Value , " +
+                "SET f.SomeProperty = $sp ," +
+                "f.SomeOtherProp = $SomeOtherProp ," +
+                "f.More = $More ," +
+                "f.Id = $Id ," +
+                "b.Value = $Value ," +
                 "b.Name = $Name";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
@@ -60,7 +60,7 @@ namespace Weknow.UnitTests
                                .SetByConvention<Foo>("f", n => n != "Id");
 
             string expected = "MERGE (f:Foo { Id: $f_Id }) " +
-                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
+                "SET f.Name = $Name ,f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -78,7 +78,7 @@ namespace Weknow.UnitTests
                                .SetAll<Foo>("f", f => f.Id);
 
             string expected = "MERGE (f:Foo { Id: $f_Id }) " +
-                "SET f.Name = $Name , f.DateOfBirth = $DateOfBirth";
+                "SET f.Name = $Name ,f.DateOfBirth = $DateOfBirth";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
@@ -153,8 +153,8 @@ namespace Weknow.UnitTests
             string expected =
                 "MATCH (person:Person {name: 'Cuba Gooding Jr.'})-[:ACTED_IN]->(movie:Movie) " +
                 "WITH person, collect(movie.Rank) as ranks " +
-                "SET person.MinRank = apoc.coll.min(ranks) , " +
-                "person.MaxRank = apoc.coll.max(ranks) , " +
+                "SET person.MinRank = apoc.coll.min(ranks) ," +
+                "person.MaxRank = apoc.coll.max(ranks) ," +
                 "person.AvgRank = apoc.coll.avg(ranks)";
             _outputHelper.WriteLine(cypherCommand);
             Assert.Equal(expected, cypherCommand.ToCypher(CypherFormat.SingleLine));

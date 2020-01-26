@@ -120,8 +120,8 @@ namespace Weknow
             /// <returns></returns>
             public static FluentCypher Create<T>(
                 params Expression<Func<T, dynamic>>[] propExpressions)
-            { 
-                IEnumerable<(string variable, string Name)> vns = 
+            {
+                IEnumerable<(string variable, string Name)> vns =
                                                     from exp in propExpressions
                                                     select ExtractLambdaExpression(exp);
 
@@ -220,7 +220,6 @@ namespace Weknow
             }
 
             #endregion // SetSeparatorStrategy
-
         }
     }
 }
