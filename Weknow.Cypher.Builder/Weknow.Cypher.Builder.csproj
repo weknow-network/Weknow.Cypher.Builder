@@ -27,6 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\Interfaces\ICypherPropertiesFactory.deprecate.cs" />
+    <Compile Remove="CypherFactory\Properties\CypherPropertiesFactory.deprecate.cs" />
     <Compile Remove="ICypherFluent.tmp.cs" />
   </ItemGroup>
 
@@ -38,6 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Contracts\Interfaces\ICypherPropertiesFactory.deprecate.cs" />
+    <None Include="CypherFactory\Properties\CypherPropertiesFactory.deprecate.cs" />
     <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

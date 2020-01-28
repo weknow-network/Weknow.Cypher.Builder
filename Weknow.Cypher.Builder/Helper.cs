@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Weknow.Helpers
 {
@@ -33,6 +34,11 @@ namespace Weknow.Helpers
         internal static readonly string LINE_SEPERATOR = $" {Environment.NewLine}";
         internal static readonly string LINE_INDENT_SEPERATOR = $" {Environment.NewLine}{INDENT}";
         internal static readonly string LINE_INDENT_COMMA_SEPERATOR = $" {Environment.NewLine}{INDENT_COMMA}";
+
+        /// <summary>
+        /// The configuration context
+        /// </summary>
+        public static readonly AsyncLocal<CypherConfig?> ConfigContext = new AsyncLocal<CypherConfig?>();
 
         #region ExtractLambdaExpression
 
@@ -183,8 +189,7 @@ namespace Weknow.Helpers
                 case CypherPhrase.Return when repeat != 0:
                 case CypherPhrase.Project when repeat != 0:
                 case CypherPhrase.With when repeat != 0:
-                case CypherPhrase.Node:
-                case CypherPhrase.Relation:
+                case CypherPhrase.Pattern:
                 case CypherPhrase.Property:
                 case CypherPhrase.PropertyScope:
                     break;
@@ -214,7 +219,8 @@ namespace Weknow.Helpers
                                      .Append(SPACE);
                     break;
             }
-            builder = builder.Append(current._cypher);
+            var text = current._cypher.ToCypher(current);
+            builder = builder.Append(text);
             return builder;
         }
 
@@ -229,9 +235,12 @@ namespace Weknow.Helpers
         /// <param name="convention">The convention.</param>
         /// <returns></returns>
         public static string FormatByConvention(
-                string text,
+                string? text,
                 CypherNamingConvention convention)
         {
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+
             return convention switch
             {
                 CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),

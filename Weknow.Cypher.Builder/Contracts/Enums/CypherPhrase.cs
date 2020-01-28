@@ -10,13 +10,9 @@
         /// </summary>
         None,
         /// <summary>
-        /// The node
+        /// The node / relation pattern
         /// </summary>
-        Node,
-        /// <summary>
-        /// The relation
-        /// </summary>
-        Relation,
+        Pattern,
         /// <summary>
         /// The property
         /// </summary>

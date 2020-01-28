@@ -61,7 +61,7 @@ namespace Weknow
             /// <example><![CDATA[coalesce(n.property, $defaultValue)]]></example>
             public static FluentCypher Coalesce(Func<FluentCypher, FluentCypher> contentExpression)
             {
-                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.None, "coalesce(", ")");
+                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.Dynamic, "coalesce(", ")");
             }
 
             /// <summary>
@@ -72,7 +72,7 @@ namespace Weknow
             /// <example><![CDATA[coalesce(n.property, $defaultValue)]]></example>
             public static FluentCypher Coalesce(FluentCypher content)
             {
-                return CypherBuilder.Default.Composite(content, CypherPhrase.None, "coalesce(", ")");
+                return CypherBuilder.Default.Composite(content, CypherPhrase.Dynamic, "coalesce(", ")");
             }
 
             #endregion // Coalesce

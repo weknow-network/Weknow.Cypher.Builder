@@ -128,7 +128,7 @@ namespace Weknow
             /// ]]></example>
             public static FluentCypher Reduce(Func<FluentCypher, FluentCypher> contentExpression)
             {
-                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.None, "reduce(", ")");
+                return CypherBuilder.Default.Composite(contentExpression, CypherPhrase.Dynamic, "reduce(", ")");
             }
 
             /// <summary>
@@ -141,7 +141,7 @@ namespace Weknow
             /// ]]></example>
             public static FluentCypher Reduce(FluentCypher content)
             {
-                return CypherBuilder.Default.Composite(content, CypherPhrase.None, "reduce(", ")");
+                return CypherBuilder.Default.Composite(content, CypherPhrase.Dynamic, "reduce(", ")");
             }
 
 

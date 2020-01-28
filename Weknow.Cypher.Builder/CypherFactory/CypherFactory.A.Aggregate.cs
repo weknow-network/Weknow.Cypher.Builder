@@ -89,7 +89,7 @@ namespace Weknow
             /// <param name="asName">As name.</param>
             /// <returns></returns>
             /// <example><![CDATA[collect(n.property)]]></example>
-            public static FluentCypher Collect(string variable, string asName) => new FluentCypher($"collect({variable}", CypherPhrase.None, $") AS {asName}");
+            public static FluentCypher Collect(string variable, string asName) => new FluentCypher($"collect({variable}", CypherPhrase.Dynamic, $") AS {asName}");
 
             /// <summary>
             /// Collect list from the values, ignores null.

@@ -59,14 +59,9 @@
             The none
             </summary>
         </member>
-        <member name="F:Weknow.CypherPhrase.Node">
+        <member name="F:Weknow.CypherPhrase.Pattern">
             <summary>
-            The node
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherPhrase.Relation">
-            <summary>
-            The relation
+            The node / relation pattern
             </summary>
         </member>
         <member name="F:Weknow.CypherPhrase.Property">
@@ -897,153 +892,6 @@
             Results in:
             MERGE (p:Person {name: $map.name})
             SET p = $map, p.eTag = p.eTag + 1
-            ]]></example>
-        </member>
-        <member name="T:Weknow.ICypherPropertiesConfig">
-            <summary>
-            Config setup
-            </summary>
-            <seealso cref="T:Weknow.ICypherPropertiesFactory" />
-        </member>
-        <member name="M:Weknow.ICypherPropertiesConfig.Config(System.String,System.String)">
-            <summary>
-            Configurations for the property build.
-            </summary>
-            <param name="parameterPrefix">The property's parameter prefix.
-            if not sets, will use the configuration (default = "")</param>
-            <param name="parameterSign">The property's parameter sign.
-            if not sets, will use the configuration (default = "$")</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.ICypherPropertiesConfig`1">
-            <summary>
-            Config setup
-            </summary>
-            <seealso cref="T:Weknow.ICypherPropertiesFactory" />
-        </member>
-        <member name="M:Weknow.ICypherPropertiesConfig`1.Config(System.String,System.String)">
-            <summary>
-            Configurations for the property build.
-            </summary>
-            <param name="parameterPrefix">The property's parameter prefix.
-            if not sets, will use the configuration (default = "")</param>
-            <param name="parameterSign">The property's parameter sign.
-            if not sets, will use the configuration (default = "$")</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.ICypherPropertiesFactory">
-            <summary>
-            Properties contract
-            </summary>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory._(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propNames">The property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add(new ["Name", "Id"])
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory.Add(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propNames">The property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add(new ["Name", "Id"])
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory._(System.String,System.String[])">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="name">The property's name.</param>
-            <param name="moreNames">The more property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add("Name", "Id")
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory.Add(System.String,System.String[])">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="name">The property's name.</param>
-            <param name="moreNames">The more property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add("Name", "Id")
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="T:Weknow.ICypherPropertiesFactory`1">
-            <summary>
-            Properties contract
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1._(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose properties phrase from a type expression.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propExpressions">The property expressions.</param>
-            <example><![CDATA[
-            Add(f => f.Name, f => f.Id)
-            { Name: $Name, Id: $Id}
-            ]]></example>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1.Add(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose properties phrase from a type expression.
-            </summary>
-            <param name="propExpressions">The property expressions.</param>
-            <example><![CDATA[
-            Add(f => f.Name, f => f.Id)
-            { Name: $Name, Id: $Id}
-            ]]></example>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1.All(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose properties phrase by reflection with exclude option.
-            </summary>
-            <param name="excludes">The excludes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.ICypherPropertiesFactory`1.ByConvention(System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties phrase by convention.
-            (ByConvention and Conv are same, only matter of code styling).
-            </summary>
-            <param name="filter">The filter.</param>
-            <returns></returns>
-            <example><![CDATA[
-            Add(name => name == nameof(Foo.Id) || name == nameof(Foo.Name))
-            { Name: $Name, Id: $Id}
             ]]></example>
         </member>
         <member name="T:Weknow.C">
@@ -2172,242 +2020,6 @@
             <param name="propNames">The property names.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.CypherPropertiesFactory`1">
-            <summary>
-            Properties factory
-            </summary>
-            <typeparam name="T"></typeparam>
-            <seealso cref="T:Weknow.CypherPropertiesFactory" />
-            <seealso cref="T:Weknow.ICypherPropertiesConfig`1" />
-            <seealso cref="T:Weknow.ICypherPropertiesFactory`1" />
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.#ctor(Weknow.CypherConfig,System.String)">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class from being created.
-            </summary>
-            <param name="config">The configuration.</param>
-            <param name="variable">The variable.</param>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.#ctor(Weknow.CypherPropertiesFactory,System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesConfig{T}#Config(System.String,System.String)">
-            <summary>
-            Configurations for the property build.
-            </summary>
-            <param name="parameterPrefix">The parameter prefix.</param>
-            <param name="parameterSign">The parameter sign.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.AddName(System.String)">
-            <summary>
-            Adds the specified name.
-            </summary>
-            <param name="name">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.AddNames(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Adds the specified names.
-            </summary>
-            <param name="propNames">The names.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#_(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose properties phrase from a type expression.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propExpressions">The property expressions.</param>
-            <returns></returns>
-            <example><![CDATA[
-            Add(f => f.Name, f => f.Id)
-            { Name: $Name, Id: $Id}
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#Add(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose properties phrase from a type expression.
-            </summary>
-            <param name="propExpressions">The property expressions.</param>
-            <returns></returns>
-            <example><![CDATA[
-            Add(f => f.Name, f => f.Id)
-            { Name: $Name, Id: $Id}
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#ByConvention(System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties phrase by convention.
-            </summary>
-            <param name="filter">The filter.</param>
-            <returns></returns>
-            <example><![CDATA[
-            Add(name => name == nameof(Foo.Id) || name == nameof(Foo.Name))
-            { Name: $Name, Id: $Id}
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory`1.Weknow#ICypherPropertiesFactory{T}#All(System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
-            <summary>
-            Compose all properties of a type with optional excludes.
-            </summary>
-            <param name="excludes">The excludes .</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="T:Weknow.CypherPropertiesFactory">
-            <summary>
-            Properties factory
-            </summary>
-            <seealso cref="T:Weknow.CypherPropertiesFactory" />
-            <seealso cref="T:Weknow.ICypherPropertiesConfig`1" />
-            <seealso cref="T:Weknow.ICypherPropertiesFactory`1" />
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.CreateProperties(Weknow.CypherConfig,System.String)">
-            <summary>
-            The create instance
-            </summary>
-            <param name="config">The configuration.</param>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.CreateProperties``1(Weknow.CypherConfig,System.String)">
-            <summary>
-            The create instance
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesConfig#Config(System.String,System.String)">
-            <summary>
-            Configurations for the property build.
-            </summary>
-            <param name="parameterPrefix">The parameter prefix.</param>
-            <param name="parameterSign">The parameter sign.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class from being created.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.#ctor(Weknow.CypherConfig,System.String)">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class from being created.
-            </summary>
-            <param name="config">The configuration.</param>
-            <param name="variable">The variable.</param>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.#ctor(Weknow.CypherPropertiesFactory,System.String,Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherReturn" /> class.
-            </summary>
-            <param name="copyFrom">The copy from.</param>
-            <param name="cypher">The cypher.</param>
-            <param name="config">The configuration.</param>
-        </member>
-        <member name="P:Weknow.CypherPropertiesFactory.Prefix">
-            <summary>
-            Gets the property's parameter prefix.
-            </summary>
-            <example>
-            { n.Id: prefixId }
-            </example>
-        </member>
-        <member name="P:Weknow.CypherPropertiesFactory.Sign">
-            <summary>
-            Gets the property's parameter sign.
-            </summary>
-            <example>
-            { n.Id: $Id }
-            </example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.FormatProperty(System.String)">
-            <summary>
-            Formats the property.
-            </summary>
-            <param name="name">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.AddName(System.String)">
-            <summary>
-            Adds the specified name.
-            </summary>
-            <param name="name">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#_(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propNames">The property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add(new ["Name", "Id"])
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#Add(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="propNames">The property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add(new ["Name", "Id"])
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#_(System.String,System.String[])">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="name">The property's name.</param>
-            <param name="moreNames">The more property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add("Name", "Id")
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherPropertiesFactory.Weknow#ICypherPropertiesFactory#Add(System.String,System.String[])">
-            <summary>
-            Compose properties phrase.
-            (Add and _ are same, only matter of code styling).
-            </summary>
-            <param name="name">The property's name.</param>
-            <param name="moreNames">The more property's names.</param>
-            <returns></returns>
-            <example><![CDATA[
-            -----------------------------------------------
-            Add("Name", "Id")
-            Results in (depend on the initialized prefix & sign):
-            { Name: $Name, Id: $Id }
-            { Name: $prefix_Name, Id: $prefix_Id }
-            ]]></example>
-        </member>
         <member name="T:Weknow.FluentCypher">
             <summary>
             Fluent Cypher
@@ -2429,7 +2041,7 @@
             </summary>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Weknow.FluentCypher.#ctor(System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+        <member name="M:Weknow.FluentCypher.#ctor(Weknow.CypherText,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder" /> class.
             </summary>
@@ -2440,7 +2052,7 @@
             <param name="childrenSeparator">The children separator.</param>
             <param name="config">The configuration.</param>
         </member>
-        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,System.String,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
+        <member name="M:Weknow.FluentCypher.#ctor(Weknow.FluentCypher,Weknow.CypherText,Weknow.CypherPhrase,System.String,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.String,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypher" /> class.
             </summary>
@@ -2484,9 +2096,9 @@
             <param name="labels">The labels.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.N(System.String,System.Collections.Generic.IEnumerable{System.String},System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
+        <member name="M:Weknow.FluentCypher.N(System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.FluentCypher[])">
             <summary>
-            Create Nodes representation.
+            Create Nodes pattern representation.
             N and Node are the same (it's only matter of naming flavor)
             </summary>
             <param name="variable">The variable.</param>
@@ -2494,9 +2106,9 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.Node(System.String,System.Collections.Generic.IEnumerable{System.String},System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
+        <member name="M:Weknow.FluentCypher.Node(System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.FluentCypher[])">
             <summary>
-            Create Nodes representation.
+            Create Nodes pattern representation.
             N and Node are the same (it's only matter of naming flavor)
             </summary>
             <param name="variable">The variable.</param>
@@ -2504,31 +2116,9 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.N``1(System.String,System.Collections.Generic.IEnumerable{System.String},System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
+        <member name="M:Weknow.FluentCypher.N(System.String,System.String,Weknow.FluentCypher[])">
             <summary>
-            Create Nodes representation.
-            N and Node are the same (it's only matter of naming flavor)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="labels">The labels.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.Node``1(System.String,System.Collections.Generic.IEnumerable{System.String},System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Nodes representation.
-            N and Node are the same (it's only matter of naming flavor)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="labels">The labels.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.N(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Nodes representation.
+            Create Nodes pattern representation.
             N and Node are the same (it's only matter of naming flavor)
             </summary>
             <param name="variable">The variable.</param>
@@ -2536,9 +2126,9 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.Node(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
+        <member name="M:Weknow.FluentCypher.Node(System.String,System.String,Weknow.FluentCypher[])">
             <summary>
-            Create Nodes representation.
+            Create Nodes pattern representation.
             N and Node are the same (it's only matter of naming flavor)
             </summary>
             <param name="variable">The variable.</param>
@@ -2546,165 +2136,17 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.N``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
+        <member name="P:Weknow.FluentCypher.R">
             <summary>
-            Create Nodes representation.
-            N and Node are the same (it's only matter of naming flavor)
+            Gets the relation.
+            R and Relation are the same (it's only matter of naming flavor)
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.Node``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
+        <member name="P:Weknow.FluentCypher.Relation">
             <summary>
-            Create Nodes representation.
-            N and Node are the same (it's only matter of naming flavor)
+            Gets the relation.
+            R and Relation are the same (it's only matter of naming flavor)
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.NodeAll``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
-            <summary>
-            Compose all properties of a type with optional excludes.
-            </summary>
-            <typeparam name="T">Will be taken as the label</typeparam>
-            <param name="variable">The variable.</param>
-            <param name="excludes">The excludes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.NodeAll``1(System.String,System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
-            <summary>
-            Compose all properties of a type with optional excludes.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="excludes">The excludes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.NodeByConvention``1(System.Linq.Expressions.Expression{System.Func{System.String,System.Boolean}})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T">T is taken as the Label</typeparam>
-            <param name="filter">The convention filter.
-            The variable will betaken from the filter expression.
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.NodeByConvention``1(System.String,System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T">T is taken as the Label</typeparam>
-            <param name="variable">The variable.</param>
-            <param name="filter">The convention filter.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.NodeByConvention``1(System.String,System.String,System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="filter">The convention filter.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.R(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Relations representation.
-            N and Relation are the same (it's only matter of naming flavor)
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.Relation(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig,Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Relations representation.
-            N and Relation are the same (it's only matter of naming flavor)
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.R``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Relations representation.
-            N and Relation are the same (it's only matter of naming flavor)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.Relation``1(System.String,System.String,System.Func{Weknow.ICypherPropertiesConfig{``0},Weknow.ICypherPropertiesFactory})">
-            <summary>
-            Create Relations representation.
-            N and Relation are the same (it's only matter of naming flavor)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.RelationAll``1(System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
-            <summary>
-            Compose all properties of a type with optional excludes.
-            </summary>
-            <typeparam name="T">Will be taken as the label</typeparam>
-            <param name="variable">The variable.</param>
-            <param name="excludes">The excludes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.RelationAll``1(System.String,System.String,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
-            <summary>
-            Compose all properties of a type with optional excludes.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="excludes">The excludes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.Linq.Expressions.Expression{System.Func{System.String,System.Boolean}})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T">T is taken as the Label</typeparam>
-            <param name="filter">The convention filter.
-            The variable will betaken from the filter expression.
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.String,System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T">T is taken as the Label</typeparam>
-            <param name="variable">The variable.</param>
-            <param name="filter">The convention filter.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.FluentCypher.RelationByConvention``1(System.String,System.String,System.Func{System.String,System.Boolean})">
-            <summary>
-            Compose properties of a type by convention delegate.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="variable">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="filter">The convention filter.</param>
-            <returns></returns>
         </member>
         <member name="M:Weknow.FluentCypher.Generate(System.String)">
             <summary>
@@ -4108,6 +3550,11 @@
             RETURN i
             ]]></example>
         </member>
+        <member name="P:Weknow.FluentCypher.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+        </member>
         <member name="P:Weknow.FluentCypher._config">
             <summary>
             Gets the configuration.
@@ -4144,17 +3591,16 @@
             <param name="phrase">The phrase.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.FluentCypher.AccumulateForward(System.Text.StringBuilder,Weknow.FluentCypher,Weknow.CypherFormat)">
+        <member name="M:Weknow.FluentCypher.Aggregate(Weknow.CypherFormat,System.Collections.Generic.IEnumerable{Weknow.FluentCypher},System.Text.StringBuilder)">
             <summary>
-            Accumulates function for aggregation - used fromGenerateCypher .
+            Aggregates the specified cypher format.
             </summary>
-            <param name="sb">The sb.</param>
-            <param name="current">The current.</param>
             <param name="cypherFormat">The cypher format.</param>
+            <param name="items">The forward.</param>
+            <param name="sb">The sb.</param>
             <returns></returns>
-            <exception cref="T:System.InvalidOperationException">Delegation must be of phrase None</exception>
         </member>
-        <member name="M:Weknow.FluentCypher.AccumulateBackward(System.Text.StringBuilder,Weknow.FluentCypher,Weknow.CypherFormat)">
+        <member name="M:Weknow.FluentCypher.Accumulate(System.Text.StringBuilder,Weknow.FluentCypher,Weknow.CypherFormat)">
             <summary>
             Accumulates function for aggregation - used fromGenerateCypher .
             </summary>
@@ -4243,11 +3689,40 @@
             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
             </returns>
         </member>
+        <member name="M:Weknow.FluentCypher.Concat(Weknow.FluentCypher)">
+            <summary>
+            Concatenate child cypher.
+            </summary>
+            <param name="child">The child.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.ChainClone(Weknow.FluentCypher,Weknow.FluentCypher[])">
+            <summary>
+            Clones the specified from as the next cypher.
+            </summary>
+            <param name="from">The child.</param>
+            <param name="additionalChildren">The additional children.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.FluentCypher.AppendChild(Weknow.FluentCypher,System.String)">
+            <summary>
+            Clones current instance (this)
+            with the additional child.
+            </summary>
+            <param name="child">The child.</param>
+            <param name="childrenSeperator">The children seperator.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.Helpers.Helper">
             <summary>
             Fluent cypher builder
             </summary>
             <seealso cref="T:Weknow.FluentCypher" />
+        </member>
+        <member name="F:Weknow.Helpers.Helper.ConfigContext">
+            <summary>
+            The configuration context
+            </summary>
         </member>
         <member name="M:Weknow.Helpers.Helper.ExtractLambdaExpression``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
             <summary>
@@ -4427,6 +3902,11 @@
         <member name="T:Weknow.CypherConfig">
             <summary>
             The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherConfig.Default">
+            <summary>
+            The default
             </summary>
         </member>
         <member name="M:Weknow.CypherConfig.#ctor">
@@ -4699,6 +4179,68 @@
             <param name="word">The word to singularize.</param>
             <returns>The singularized word.</returns>
         </member>
+        <member name="T:Weknow.CypherText">
+            <summary>
+            Lazy cypher 
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherText.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherText"/> class.
+            </summary>
+            <param name="cypher">The cypher.</param>
+        </member>
+        <member name="M:Weknow.CypherText.ToCypher(Weknow.FluentCypher)">
+            <summary>
+            Converts to cypher.
+            </summary>
+            <param name="fluentCypher">The fluent cypher.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherText.op_Implicit(Weknow.CypherText)~System.String">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.CypherBuilder" /> to <see cref="T:System.String" />.
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherText.op_Implicit(System.String)~Weknow.CypherText">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.CypherBuilder" /> to <see cref="T:System.String" />.
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherText.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:Weknow.LazyCypher">
+            <summary>
+            Lazy cypher 
+            </summary>
+        </member>
+        <member name="M:Weknow.LazyCypher.#ctor(System.Func{Weknow.FluentCypher,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.LazyCypher" /> class.
+            </summary>
+            <param name="composer">The composer.</param>
+        </member>
+        <member name="M:Weknow.LazyCypher.ToCypher(Weknow.FluentCypher)">
+            <summary>
+            Converts to cypher.
+            </summary>
+            <param name="fluentCypher">The fluent cypher.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.FluentCypherReturn">
             <summary>
             Fluent Cypher Return phrase
@@ -4888,62 +4430,178 @@
             SET user.Name = $user.Name, user.Id = $user.Id // Update or create a property.
             ]]></example>
         </member>
-        <member name="T:Weknow.Node">
+        <member name="T:Weknow.IRelation">
             <summary>
-            Extends the phrases option under WHERE context
-            </summary>
-            <seealso cref="T:Weknow.FluentCypher" />
-        </member>
-        <member name="M:Weknow.Node.#ctor">
-            <summary>
-            Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
+            Relation contract
             </summary>
         </member>
-        <member name="M:Weknow.Node.#ctor(Weknow.FluentCypher,System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.ICypherPropertiesFactory)">
+        <member name="P:Weknow.IRelation.Item(System.String,System.String,Weknow.FluentCypher[])">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
+            Create Relations representation.
             </summary>
-            <param name="copyFrom">The copy from.</param>
             <param name="variable">The variable.</param>
-            <param name="labels">The labels.</param>
+            <param name="type">The type.</param>
             <param name="properties">The properties.</param>
-        </member>
-        <member name="M:Weknow.Node.ComposeOpenCypher(System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.ICypherConfig)">
-            <summary>
-            Composes open cypher phrase.
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="labels">The labels.</param>
-            <param name="config">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.Relation">
+        <member name="T:Weknow.Pattern">
             <summary>
-            Extends the phrases option under WHERE context
+            Pattern representation
             </summary>
             <seealso cref="T:Weknow.FluentCypher" />
         </member>
-        <member name="M:Weknow.Relation.#ctor">
+        <member name="M:Weknow.Pattern.#ctor">
             <summary>
             Prevents a default instance of the <see cref="T:Weknow.FluentCypherWhereExpression"/> class from being created.
             </summary>
         </member>
-        <member name="M:Weknow.Relation.#ctor(Weknow.FluentCypher,System.String,System.String,Weknow.ICypherPropertiesFactory)">
+        <member name="M:Weknow.Pattern.#ctor(Weknow.FluentCypher,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
             </summary>
             <param name="copyFrom">The copy from.</param>
+            <param name="cypher">The cypher.</param>
+        </member>
+        <member name="M:Weknow.Pattern.#ctor(Weknow.FluentCypher,Weknow.PatternType,System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.FluentCypher[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.FluentCypherWhereExpression" /> class.
+            </summary>
+            <param name="copyFrom">The copy from.</param>
+            <param name="patternType">Type of the pattern.</param>
             <param name="variable">The variable.</param>
-            <param name="type">The type.</param>
+            <param name="tags">The labels.</param>
             <param name="properties">The properties.</param>
         </member>
-        <member name="M:Weknow.Relation.ComposeOpenCypher(System.String,System.String,Weknow.ICypherConfig)">
+        <member name="M:Weknow.Pattern.ComposeCypher(Weknow.PatternType,System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Composes open cypher phrase.
             </summary>
+            <param name="patternType">Type of the pattern.</param>
+            <param name="variable">The variable.</param>
+            <param name="tags">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.Pattern.PatternType">
+            <summary>
+            Gets the type of the pattern.
+            </summary>
+        </member>
+        <member name="M:Weknow.Pattern.op_Subtraction(Weknow.Pattern,Weknow.Pattern)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Pattern.op_GreaterThan(Weknow.Pattern,Weknow.Pattern)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Pattern.op_LessThan(Weknow.Pattern,Weknow.Pattern)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Pattern.op_Multiply(Weknow.Pattern,System.Range)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.Pattern.op_Multiply(Weknow.Pattern,System.Int32)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:Weknow.Pattern.Item(System.String,System.String,Weknow.FluentCypher[])">
+            <summary>
+            Create Relations representation.
+            </summary>
             <param name="variable">The variable.</param>
             <param name="type">The type.</param>
-            <param name="config">The configuration.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.PatternFactory">
+            <summary>
+            Pattern factory
+            </summary>
+        </member>
+        <member name="P:Weknow.PatternFactory.R">
+            <summary>
+            Gets the Pattern
+            R and Relation are the same (it's only matter of naming flavor)
+            </summary>
+        </member>
+        <member name="P:Weknow.PatternFactory.Relation">
+            <summary>
+            Gets the Pattern
+            R and Relation are the same (it's only matter of naming flavor)
+            </summary>
+        </member>
+        <member name="M:Weknow.PatternFactory.N(System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.FluentCypher[])">
+            <summary>
+            Create Nodes pattern representation.
+            N and Node are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="labels">The labels.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.PatternFactory.Node(System.String,System.Collections.Generic.IEnumerable{System.String},Weknow.FluentCypher[])">
+            <summary>
+            Create Nodes pattern representation.
+            N and Node are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="labels">The labels.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.PatternFactory.N(System.String,System.String,Weknow.FluentCypher[])">
+            <summary>
+            Create Nodes pattern representation.
+            N and Node are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.PatternFactory.Node(System.String,System.String,Weknow.FluentCypher[])">
+            <summary>
+            Create Nodes pattern representation.
+            N and Node are the same (it's only matter of naming flavor)
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
             <returns></returns>
         </member>
         <member name="T:Weknow.FluentCypherWhereExpression">

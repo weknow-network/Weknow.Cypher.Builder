@@ -81,7 +81,7 @@ namespace Weknow
 
             #endregion // Validation
 
-            string prevCypher = _previous._cypher;
+            string? prevCypher = _previous._cypher?.ToCypher(_previous) ?? string.Empty;
             int spaceIndex = prevCypher.LastIndexOf(" ");
             int dotIndex = prevCypher.LastIndexOf(".");
             #region Validation
@@ -171,7 +171,7 @@ namespace Weknow
 
             #endregion // Validation
 
-            string prevCypher = _previous._cypher;
+            string prevCypher = _previous._cypher?.ToCypher(_previous) ?? string.Empty;
             int spaceIndex = prevCypher.LastIndexOf(" ");
             int dotIndex = prevCypher.LastIndexOf(".");
             #region Validation

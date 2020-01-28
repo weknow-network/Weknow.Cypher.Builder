@@ -14,6 +14,7 @@ using System.Linq;
 using System.Collections.Generic;
 using static Weknow.Helpers.Helper;
 using System.Collections;
+using static Weknow.CypherFactory;
 
 namespace Weknow
 {
@@ -26,7 +27,7 @@ namespace Weknow
     /// <seealso cref="Weknow.ICypherPropertiesFactory{T}" />
     internal class CypherPropertiesFactory<T> :
         CypherPropertiesFactory,
-        ICypherPropertiesConfig<T>
+        ICypherPropertiesFactory<T>
     {
         #region Ctor
 
@@ -54,41 +55,14 @@ namespace Weknow
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
         /// <param name="cypher">The cypher.</param>
-        /// <param name="config">The configuration.</param>
         internal CypherPropertiesFactory(
             CypherPropertiesFactory copyFrom,
-            string cypher,
-            CypherConfig? config = null)
-            : base(copyFrom, cypher, config)
+            string cypher)
+            : base(copyFrom, cypher)
         {
         }
 
         #endregion // Ctor
-
-        #region Config
-
-        /// <summary>
-        /// Configurations for the property build.
-        /// </summary>
-        /// <param name="parameterPrefix">The parameter prefix.</param>
-        /// <param name="parameterSign">The parameter sign.</param>
-        /// <returns></returns>
-        ICypherPropertiesFactory<T> ICypherPropertiesConfig<T>.Config(
-                    string? parameterPrefix,
-                    string? parameterSign)
-        {
-            var cfg = this._config.Clone();
-            if (parameterPrefix != null)
-                cfg.Naming.PropertyParameterConvention.Prefix = parameterPrefix;
-            if (parameterSign != null)
-                cfg.Naming.PropertyParameterConvention.Sign = parameterSign;
-            return new CypherPropertiesFactory<T>(
-                                this,
-                                string.Empty,
-                                cfg);
-        }
-
-        #endregion // Config
 
         #region AddName
 
@@ -218,7 +192,7 @@ namespace Weknow
     /// <seealso cref="Weknow.ICypherPropertiesFactory{T}" />
     internal class CypherPropertiesFactory :
         FluentCypher,
-        ICypherPropertiesConfig
+        ICypherPropertiesFactory
 
     {
         private readonly string _variable;
@@ -232,7 +206,7 @@ namespace Weknow
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
         internal static ICypherPropertiesConfig CreateProperties(
-            CypherConfig config,
+            CypherConfig? config,
             string variable)
         {
             return new CypherPropertiesFactory(config, variable);
@@ -244,7 +218,7 @@ namespace Weknow
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         internal static ICypherPropertiesConfig<T> CreateProperties<T>(
-            CypherConfig config,
+            CypherConfig? config,
             string variable)
         {
             return new CypherPropertiesFactory<T>(config, variable);
@@ -264,7 +238,7 @@ namespace Weknow
                     string? parameterPrefix,
                     string? parameterSign)
         {
-            var cfg = this._config.Clone();
+            var cfg = Configuration.Clone();
             if (parameterPrefix != null)
                 cfg.Naming.PropertyParameterConvention.Prefix = parameterPrefix;
             if (parameterSign != null)
@@ -301,19 +275,25 @@ namespace Weknow
             _variable = variable;
         }
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FluentCypherReturn" /> class.
         /// </summary>
         /// <param name="copyFrom">The copy from.</param>
         /// <param name="cypher">The cypher.</param>
-        /// <param name="config">The configuration.</param>
         internal CypherPropertiesFactory(
             CypherPropertiesFactory copyFrom,
-            string cypher,
-            CypherConfig? config = null)
-            : base(copyFrom, cypher, CypherPhrase.Property, childrenSeparator: ",", config: config ?? copyFrom._config)
+            string cypher)
+            : base(
+                  copyFrom?._previous, 
+                  "{ ", 
+                  CypherPhrase.Property,
+                  " }",
+                  (copyFrom?._children ?? Array.Empty<FluentCypher>())
+                        .Concat(new FluentCypher(cypher, CypherPhrase.Property)),
+                  childrenSeparator: ",")
         {
-            _variable = copyFrom._variable;
+            _variable = copyFrom?._variable ?? string.Empty;
         }
 
         #endregion // Ctor
@@ -326,7 +306,7 @@ namespace Weknow
         /// <example>
         /// { n.Id: prefixId }
         /// </example>
-        public string Prefix => _config.Naming.PropertyParameterConvention.Prefix;
+        public string Prefix => Configuration.Naming.PropertyParameterConvention.Prefix;
 
         #endregion // Prefix
 
@@ -338,7 +318,7 @@ namespace Weknow
         /// <example>
         /// { n.Id: $Id }
         /// </example>
-        public string Sign => _config.Naming.PropertyParameterConvention.Sign;
+        public string Sign => Configuration.Naming.PropertyParameterConvention.Sign;
 
         #endregion // Sign
 
@@ -366,6 +346,10 @@ namespace Weknow
             if (string.IsNullOrEmpty(name))
                 return this;
             var prop = FormatProperty(name);
+            if (_phrase == CypherPhrase.PropertyScope)
+            { 
+                return this._previous.AppendChild(prop, ",");
+            }
             return new CypherPropertiesFactory(this, prop);
         }
 

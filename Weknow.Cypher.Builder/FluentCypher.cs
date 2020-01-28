@@ -29,6 +29,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using static Weknow.CypherFactory;
 using static Weknow.Helpers.Helper;
 
@@ -38,10 +39,13 @@ namespace Weknow
     /// Fluent Cypher
     /// </summary>
     [DebuggerTypeProxy(typeof(FluentCypherDebugView))]
+    [DebuggerDisplay("{_phrase}")]
     public class FluentCypher :
         IEnumerable<FluentCypher>,
         ICypherEntityMutations,
         ICypherEntitiesMutations
+        //INode,
+        //IRelation
     {
         #region static Default
 
@@ -57,7 +61,7 @@ namespace Weknow
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected internal readonly FluentCypher? _previous;
-        protected internal readonly string _cypher = string.Empty;
+        protected internal readonly CypherText _cypher = string.Empty;
         protected internal readonly string _cypherClose = string.Empty;
         protected internal readonly IEnumerable<FluentCypher> _children = Array.Empty<FluentCypher>();
         protected internal readonly string _childrenSeperator = SPACE;
@@ -72,7 +76,7 @@ namespace Weknow
         /// </summary>
         private protected FluentCypher()
         {
-            _config = new CypherConfig();
+            _config = null;
         }
 
         /// <summary>
@@ -95,13 +99,13 @@ namespace Weknow
         /// <param name="childrenSeparator">The children separator.</param>
         /// <param name="config">The configuration.</param>
         internal protected FluentCypher(
-            string cypher,
+            CypherText cypher,
             CypherPhrase phrase,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
             string? childrenSeparator = null,
             CypherConfig? config = null)
-            : this(Default, cypher, phrase, cypherClose, children, childrenSeparator, config)
+            : this(null, cypher, phrase, cypherClose, children, childrenSeparator, config)
         {
         }
 
@@ -116,8 +120,8 @@ namespace Weknow
         /// <param name="childrenSeparator">The children separator  (space if empty).</param>
         /// <param name="config">The configuration.</param>
         private protected FluentCypher(
-            FluentCypher copyFrom,
-            string cypher = "",
+            FluentCypher? copyFrom,
+            CypherText cypher,
             CypherPhrase phrase = CypherPhrase.None,
             string? cypherClose = null,
             IEnumerable<FluentCypher>? children = null,
@@ -125,13 +129,12 @@ namespace Weknow
             CypherConfig? config = null)
         {
             _previous = copyFrom;
-            _config = copyFrom._config;
             _cypher = cypher;
             _phrase = phrase;
             _cypherClose = cypherClose ?? string.Empty;
             _children = children ?? Array.Empty<FluentCypher>();
-            _childrenSeperator = childrenSeparator ?? copyFrom._childrenSeperator ?? SPACE;
-            _config = config ?? copyFrom._config;
+            _childrenSeperator = childrenSeparator ?? copyFrom?._childrenSeperator ?? SPACE;
+            _config = config ?? copyFrom?._config;
         }
 
         #endregion // Ctor
@@ -200,398 +203,265 @@ namespace Weknow
         /// </summary>
         /// <param name="labels">The labels.</param>
         /// <returns></returns>
-        public FluentCypher AddAmbientLabels(params string[] labels) =>
-            new FluentCypher(this, config: _config.Clone(labels));
+        public FluentCypher AddAmbientLabels(params string[] labels)
+        {
+            var cfg = Config as CypherConfig ?? CypherConfig.Default;
+            return new FluentCypher(this, string.Empty, config: cfg.Clone(labels));
+        }
 
         #endregion // AddAmbientLabels
 
-        #region Node
+        #region N / Node
 
         /// <summary>
-        /// Create Nodes representation.
+        /// Create Nodes pattern representation.
         /// N and Node are the same (it's only matter of naming flavor)
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        public FluentCypher N(
+        public Pattern N(
             string variable,
             IEnumerable<string> labels,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+            params FluentCypher[] properties)
         {
             return Node(variable, labels, properties);
         }
 
         /// <summary>
-        /// Create Nodes representation.
+        /// Create Nodes pattern representation.
         /// N and Node are the same (it's only matter of naming flavor)
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="labels">The labels.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        public FluentCypher Node(
+        public Pattern Node(
             string variable,
             IEnumerable<string> labels,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+            params FluentCypher[] properties)
         {
-            ICypherPropertiesConfig root = CypherPropertiesFactory.CreateProperties(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Node(this, variable, labels, props);
-        }
-
-
-        /// <summary>
-        /// Create Nodes representation.
-        /// N and Node are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="labels">The labels.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher N<T>(
-            string variable,
-            IEnumerable<string> labels,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            return Node(variable, labels, properties);
+            return new Pattern(this, PatternType.Node, variable, labels, properties);
         }
 
         /// <summary>
-        /// Create Nodes representation.
-        /// N and Node are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="labels">The labels.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher Node<T>(
-            string variable,
-            IEnumerable<string> labels,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            ICypherPropertiesConfig<T> root = CypherPropertiesFactory.CreateProperties<T>(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Node(this, variable, labels, props);
-        }
-
-        /// <summary>
-        /// Create Nodes representation.
+        /// Create Nodes pattern representation.
         /// N and Node are the same (it's only matter of naming flavor)
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="label">The label.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        public FluentCypher N(
+        public Pattern N(
             string variable,
             string label,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+            params FluentCypher[] properties)
         {
             return Node(variable, label, properties);
         }
 
         /// <summary>
-        /// Create Nodes representation.
+        /// Create Nodes pattern representation.
         /// N and Node are the same (it's only matter of naming flavor)
         /// </summary>
         /// <param name="variable">The variable.</param>
         /// <param name="label">The label.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        public FluentCypher Node(
+        public Pattern Node(
             string variable,
             string label,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
+            params FluentCypher[] properties)
         {
-            ICypherPropertiesConfig root = CypherPropertiesFactory.CreateProperties(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Node(this, variable, label.AsYield(), props);
+            return new Pattern(this, PatternType.Node, variable, label.AsYield(), properties);
         }
 
+        #endregion // N / Node
+
+        #region R / Relation
+    
+        /// <summary>
+        /// Gets the relation.
+        /// R and Relation are the same (it's only matter of naming flavor)
+        /// </summary>
+        public Pattern R => Relation;
 
         /// <summary>
-        /// Create Nodes representation.
-        /// N and Node are the same (it's only matter of naming flavor)
+        /// Gets the relation.
+        /// R and Relation are the same (it's only matter of naming flavor)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher N<T>(
-            string variable,
-            string label,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            return Node(variable, label, properties);
-        }
+        public Pattern Relation => new Pattern(this, string.Empty);
 
-        /// <summary>
-        /// Create Nodes representation.
-        /// N and Node are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher Node<T>(
-            string variable,
-            string label,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            ICypherPropertiesConfig<T> root = CypherPropertiesFactory.CreateProperties<T>(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Node(this, variable, label.AsYield(), props);
-        }
+        #endregion // R / Relation
 
-        #endregion // Node
+        //#region NodeAll
 
-        #region NodeAll
+        ///// <summary>
+        ///// Compose all properties of a type with optional excludes.
+        ///// </summary>
+        ///// <typeparam name="T">Will be taken as the label</typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="excludes">The excludes.</param>
+        ///// <returns></returns>
+        //public FluentCypher NodeAll<T>(
+        //    string variable,
+        //    params Expression<Func<T, dynamic>>[] excludes)
+        //{
+        //    return N<T>(variable, typeof(T).Name, p => p.All(excludes));
+        //}
 
-        /// <summary>
-        /// Compose all properties of a type with optional excludes.
-        /// </summary>
-        /// <typeparam name="T">Will be taken as the label</typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="excludes">The excludes.</param>
-        /// <returns></returns>
-        public FluentCypher NodeAll<T>(
-            string variable,
-            params Expression<Func<T, dynamic>>[] excludes)
-        {
-            return N<T>(variable, typeof(T).Name, p => p.All(excludes));
-        }
+        ///// <summary>
+        ///// Compose all properties of a type with optional excludes.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="label">The label.</param>
+        ///// <param name="excludes">The excludes.</param>
+        ///// <returns></returns>
+        //public FluentCypher NodeAll<T>(
+        //    string variable,
+        //    string label,
+        //    params Expression<Func<T, dynamic>>[] excludes)
+        //{
+        //    return N<T>(variable, label, p => p.All(excludes));
+        //}
 
-        /// <summary>
-        /// Compose all properties of a type with optional excludes.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="excludes">The excludes.</param>
-        /// <returns></returns>
-        public FluentCypher NodeAll<T>(
-            string variable,
-            string label,
-            params Expression<Func<T, dynamic>>[] excludes)
-        {
-            return N<T>(variable, label, p => p.All(excludes));
-        }
+        //#endregion // NodeAll
 
-        #endregion // NodeAll
+        //#region NodeByConvention
 
-        #region NodeByConvention
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T">T is taken as the Label</typeparam>
+        ///// <param name="filter">The convention filter.
+        ///// The variable will betaken from the filter expression.
+        ///// </param>
+        ///// <returns></returns>
+        //public FluentCypher NodeByConvention<T>(
+        //    Expression<Func<string, bool>> filter)
+        //{
+        //    string variable = ExtractExpressionVariable(filter);
+        //    var lambdaFilter = filter.Compile();
+        //    return N<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
+        //}
 
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T">T is taken as the Label</typeparam>
-        /// <param name="filter">The convention filter.
-        /// The variable will betaken from the filter expression.
-        /// </param>
-        /// <returns></returns>
-        public FluentCypher NodeByConvention<T>(
-            Expression<Func<string, bool>> filter)
-        {
-            string variable = ExtractExpressionVariable(filter);
-            var lambdaFilter = filter.Compile();
-            return N<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
-        }
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T">T is taken as the Label</typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="filter">The convention filter.</param>
+        ///// <returns></returns>
+        //public FluentCypher NodeByConvention<T>(
+        //    string variable,
+        //    Func<string, bool> filter)
+        //{
+        //    return N<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
+        //}
 
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T">T is taken as the Label</typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="filter">The convention filter.</param>
-        /// <returns></returns>
-        public FluentCypher NodeByConvention<T>(
-            string variable,
-            Func<string, bool> filter)
-        {
-            return N<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
-        }
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="label">The label.</param>
+        ///// <param name="filter">The convention filter.</param>
+        ///// <returns></returns>
+        //public FluentCypher NodeByConvention<T>(
+        //    string variable,
+        //    string label,
+        //    Func<string, bool> filter)
+        //{
+        //    return N<T>(variable, label, p => p.ByConvention(filter));
+        //}
 
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="filter">The convention filter.</param>
-        /// <returns></returns>
-        public FluentCypher NodeByConvention<T>(
-            string variable,
-            string label,
-            Func<string, bool> filter)
-        {
-            return N<T>(variable, label, p => p.ByConvention(filter));
-        }
+        //#endregion // NodeByConvention
 
-        #endregion // NodeByConvention
+        //#region RelationAll
 
-        #region Relation
+        ///// <summary>
+        ///// Compose all properties of a type with optional excludes.
+        ///// </summary>
+        ///// <typeparam name="T">Will be taken as the label</typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="excludes">The excludes.</param>
+        ///// <returns></returns>
+        //public FluentCypher RelationAll<T>(
+        //    string variable,
+        //    params Expression<Func<T, dynamic>>[] excludes)
+        //{
+        //    return R<T>(variable, typeof(T).Name, p => p.All(excludes));
+        //}
 
-        /// <summary>
-        /// Create Relations representation.
-        /// N and Relation are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher R(
-            string variable,
-            string type,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
-        {
-            return Relation(variable, type, properties);
-        }
+        ///// <summary>
+        ///// Compose all properties of a type with optional excludes.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="label">The label.</param>
+        ///// <param name="excludes">The excludes.</param>
+        ///// <returns></returns>
+        //public FluentCypher RelationAll<T>(
+        //    string variable,
+        //    string label,
+        //    params Expression<Func<T, dynamic>>[] excludes)
+        //{
+        //    return R<T>(variable, label, p => p.All(excludes));
+        //}
 
-        /// <summary>
-        /// Create Relations representation.
-        /// N and Relation are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher Relation(
-            string variable,
-            string type,
-            Func<ICypherPropertiesConfig, ICypherPropertiesFactory>? properties = null)
-        {
-            ICypherPropertiesConfig root = CypherPropertiesFactory.CreateProperties(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Relation(this, variable, type, props);
-        }
+        //#endregion // RelationAll
 
-        /// <summary>
-        /// Create Relations representation.
-        /// N and Relation are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher R<T>(
-            string variable,
-            string type,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            return Relation(variable, type, properties);
-        }
+        //#region RelationByConvention
 
-        /// <summary>
-        /// Create Relations representation.
-        /// N and Relation are the same (it's only matter of naming flavor)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        public FluentCypher Relation<T>(
-            string variable,
-            string type,
-            Func<ICypherPropertiesConfig<T>, ICypherPropertiesFactory>? properties = null)
-        {
-            ICypherPropertiesConfig<T> root = CypherPropertiesFactory.CreateProperties<T>(_config, variable);
-            ICypherPropertiesFactory? props = properties?.Invoke(root);
-            return new Relation(this, variable, type, props);
-        }
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T">T is taken as the Label</typeparam>
+        ///// <param name="filter">The convention filter.
+        ///// The variable will betaken from the filter expression.
+        ///// </param>
+        ///// <returns></returns>
+        //public FluentCypher RelationByConvention<T>(
+        //    Expression<Func<string, bool>> filter)
+        //{
+        //    string variable = ExtractExpressionVariable(filter);
+        //    var lambdaFilter = filter.Compile();
+        //    return R<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
+        //}
 
-        #endregion // Relation
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T">T is taken as the Label</typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="filter">The convention filter.</param>
+        ///// <returns></returns>
+        //public FluentCypher RelationByConvention<T>(
+        //    string variable,
+        //    Func<string, bool> filter)
+        //{
+        //    return R<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
+        //}
 
-        #region RelationAll
+        ///// <summary>
+        ///// Compose properties of a type by convention delegate.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="label">The label.</param>
+        ///// <param name="filter">The convention filter.</param>
+        ///// <returns></returns>
+        //public FluentCypher RelationByConvention<T>(
+        //    string variable,
+        //    string label,
+        //    Func<string, bool> filter)
+        //{
+        //    return R<T>(variable, label, p => p.ByConvention(filter));
+        //}
 
-        /// <summary>
-        /// Compose all properties of a type with optional excludes.
-        /// </summary>
-        /// <typeparam name="T">Will be taken as the label</typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="excludes">The excludes.</param>
-        /// <returns></returns>
-        public FluentCypher RelationAll<T>(
-            string variable,
-            params Expression<Func<T, dynamic>>[] excludes)
-        {
-            return R<T>(variable, typeof(T).Name, p => p.All(excludes));
-        }
-
-        /// <summary>
-        /// Compose all properties of a type with optional excludes.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="excludes">The excludes.</param>
-        /// <returns></returns>
-        public FluentCypher RelationAll<T>(
-            string variable,
-            string label,
-            params Expression<Func<T, dynamic>>[] excludes)
-        {
-            return R<T>(variable, label, p => p.All(excludes));
-        }
-
-        #endregion // RelationAll
-
-        #region RelationByConvention
-
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T">T is taken as the Label</typeparam>
-        /// <param name="filter">The convention filter.
-        /// The variable will betaken from the filter expression.
-        /// </param>
-        /// <returns></returns>
-        public FluentCypher RelationByConvention<T>(
-            Expression<Func<string, bool>> filter)
-        {
-            string variable = ExtractExpressionVariable(filter);
-            var lambdaFilter = filter.Compile();
-            return R<T>(variable, typeof(T).Name, p => p.ByConvention(lambdaFilter));
-        }
-
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T">T is taken as the Label</typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="filter">The convention filter.</param>
-        /// <returns></returns>
-        public FluentCypher RelationByConvention<T>(
-            string variable,
-            Func<string, bool> filter)
-        {
-            return R<T>(variable, typeof(T).Name, p => p.ByConvention(filter));
-        }
-
-        /// <summary>
-        /// Compose properties of a type by convention delegate.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="variable">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="filter">The convention filter.</param>
-        /// <returns></returns>
-        public FluentCypher RelationByConvention<T>(
-            string variable,
-            string label,
-            Func<string, bool> filter)
-        {
-            return R<T>(variable, label, p => p.ByConvention(filter));
-        }
-
-        #endregion // RelationByConvention
+        //#endregion // RelationByConvention
 
         #region Cypher Operators
 
@@ -1382,7 +1252,7 @@ namespace Weknow
         /// ]]></example>
         public FluentCypher SetLabel(string variable, string label)
         {
-            string statement = $"{variable}:{_config.AmbientLabels.Combine(label)}";
+            string statement = $"{variable}:{Configuration.AmbientLabels.Combine(label)}";
             var result = AddStatement(statement, CypherPhrase.Set);
             return result;
         }
@@ -1708,7 +1578,7 @@ namespace Weknow
             string parameter)
         {
             parameter = parameter ?? variable;
-            string labelsStr = _config.AmbientLabels.Combine(labels);
+            string labelsStr = Configuration.AmbientLabels.Combine(labels);
             return Create($"({variable}:{labelsStr} ${parameter})")
                     .Return(variable);
         }
@@ -1798,7 +1668,7 @@ namespace Weknow
             string? parameter)
         {
             parameter = parameter ?? variable;
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = Configuration.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".");
             return Merge($"({variable}:{joinedLabel} {props})")
                         .OnCreate()
@@ -1915,12 +1785,13 @@ namespace Weknow
             string parameterSign = "$",
             FluentCypher? parent = null)
         {
-            string? eTagName = _config.Concurrency.eTagName;
+            var cfg = Configuration;
+            string? eTagName = cfg.Concurrency.eTagName;
             bool withConcurrency = !string.IsNullOrEmpty(eTagName);
-            bool autoIncConcurrency = _config.Concurrency.AutoIncrement;
+            bool autoIncConcurrency = cfg.Concurrency.AutoIncrement;
             string eTag = withConcurrency ? $"{variable}.{eTagName}" : string.Empty;
 
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = cfg.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", parameterSign);
             parent = parent ?? CypherBuilder.Default;
             var result = parent.Merge($"({variable}:{joinedLabel} {props})");
@@ -2236,7 +2107,7 @@ namespace Weknow
         {
             item = item ?? Config.Pluralization.Singularize(collection);
             variable = variable ?? Char.ToLower(collection[0]).ToString();
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = Configuration.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, item, ".", string.Empty);
             var parent = Unwind(collection, item);
             FluentCypher result = AddOrModify(
@@ -2293,7 +2164,7 @@ namespace Weknow
         {
             item = item ?? Config.Pluralization.Singularize(collection);
             variable = variable ?? Char.ToLower(collection[0]).ToString();
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = Configuration.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, item, ".", string.Empty);
 
             var parent = _previous ?? CypherBuilder.Default;
@@ -2419,7 +2290,7 @@ namespace Weknow
         {
             item = item ?? Config.Pluralization.Singularize(collection);
             variable = variable ?? Char.ToLower(collection[0]).ToString();
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = Configuration.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, item, ".", string.Empty);
 
             var parent = _previous ?? CypherBuilder.Default;
@@ -2521,12 +2392,13 @@ namespace Weknow
             string parameterSign = "$",
             FluentCypher? parent = null)
         {
-            string? eTagName = _config.Concurrency.eTagName;
+            var cfg = Configuration;
+            string? eTagName = cfg.Concurrency.eTagName;
             bool withConcurrency = !string.IsNullOrEmpty(eTagName);
-            bool autoIncConcurrency = _config.Concurrency.AutoIncrement;
+            bool autoIncConcurrency = cfg.Concurrency.AutoIncrement;
             string eTag = withConcurrency ? $"{variable}.{eTagName}" : string.Empty;
 
-            string joinedLabel = _config.AmbientLabels.Combine(labels);
+            string joinedLabel = cfg.AmbientLabels.Combine(labels);
             var props = P.Create(matchProperties, parameter, ".", parameterSign);
             parent = parent ?? CypherBuilder.Default;
             var result = parent
@@ -2798,16 +2670,36 @@ namespace Weknow
 
         // ------------------------------------------------------------
 
+        #region Configuration
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        internal protected CypherConfig Configuration
+        {
+            get
+            {
+                var config = ConfigContext.Value ?? _config;
+                if (_config != null)
+                    return _config;
+                var cfg = this.FirstOrDefault(m => m._config != null)?._config;
+                return cfg ?? CypherConfig.Default;
+            }
+        }
+
+        #endregion // Configuration
+
         #region Config
 
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        internal protected CypherConfig _config { get; }
+        internal protected CypherConfig? _config { get; }
+
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        public ICypherConfig Config => _config;
+        public ICypherConfig Config => Configuration;
 
         #endregion // Config
 
@@ -2816,7 +2708,11 @@ namespace Weknow
         /// <summary>
         /// Gets the cypher statement.
         /// </summary>
-        public string ToCypher(CypherFormat cypherFormat = CypherFormat.MultiLineDense) => GenerateCypher(cypherFormat);
+        public string ToCypher(CypherFormat cypherFormat = CypherFormat.MultiLineDense)
+        {
+            string cypher = GenerateCypher(cypherFormat);
+            return cypher;
+        }
 
         #endregion // ToCypher
 
@@ -2851,9 +2747,9 @@ namespace Weknow
 
         private StringBuilder GenerateCypher(CypherFormat cypherFormat, StringBuilder sb)
         {
+            ConfigContext.Value = Configuration;
             IEnumerable<FluentCypher> forward = this;
-            IEnumerable<FluentCypher> backward = ReverseEnumerable();
-            sb = Aggregate(cypherFormat, forward, backward, sb);
+            sb = Aggregate(cypherFormat, forward, sb);
             for (int i = sb.Length - 1; i >= 0; i--)
             {
                 if (sb[i] != SPACE_CHAR)
@@ -2899,20 +2795,25 @@ namespace Weknow
 
         #region Aggregate
 
+        /// <summary>
+        /// Aggregates the specified cypher format.
+        /// </summary>
+        /// <param name="cypherFormat">The cypher format.</param>
+        /// <param name="items">The forward.</param>
+        /// <param name="sb">The sb.</param>
+        /// <returns></returns>
         private static StringBuilder Aggregate(
             CypherFormat cypherFormat,
-            IEnumerable<FluentCypher> forward,
-            IEnumerable<FluentCypher> backward,
+            IEnumerable<FluentCypher> items,
             StringBuilder sb)
         {
-            sb = forward.Aggregate(sb, (acc, current) => AccumulateForward(acc, current, cypherFormat)); // tag or open tag
-            sb = backward.Aggregate(sb, (acc, current) => AccumulateBackward(acc, current, cypherFormat)); // close tag
+            sb = items.Aggregate(sb, (acc, current) => Accumulate(acc, current, cypherFormat)); // tag or open tag
             return sb;
         }
 
         #endregion // Aggregate
 
-        #region AccumulateForward
+        #region Accumulate
 
         /// <summary>
         /// Accumulates function for aggregation - used fromGenerateCypher .
@@ -2922,12 +2823,11 @@ namespace Weknow
         /// <param name="cypherFormat">The cypher format.</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
-        private static StringBuilder AccumulateForward(
+        private static StringBuilder Accumulate(
             StringBuilder sb,
             FluentCypher current,
             CypherFormat cypherFormat)
         {
-
             int repeat = RepeatCount(current);
             sb = cypherFormat switch
             {
@@ -2951,27 +2851,12 @@ namespace Weknow
                 }
             }
 
+            sb.Append(current._cypherClose);
+
             return sb;
         }
 
-        #endregion // AccumulateForward
-
-        #region AccumulateBackward
-
-        /// <summary>
-        /// Accumulates function for aggregation - used fromGenerateCypher .
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="current">The current.</param>
-        /// <param name="cypherFormat">The cypher format.</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException">Delegation must be of phrase None</exception>
-        private static StringBuilder AccumulateBackward(StringBuilder sb, FluentCypher current, CypherFormat cypherFormat)
-        {
-            return sb.Append(current._cypherClose);
-        }
-
-        #endregion // AccumulateBackward
+        #endregion // Accumulate
 
         #region FormatSingleLine
 
@@ -2982,8 +2867,11 @@ namespace Weknow
         /// <param name="sb">The sb.</param>
         private static StringBuilder FormatSingleLine(FluentCypher current, StringBuilder sb)
         {
-            if (sb.Length == 0)
+            if (sb.Length == 0 ||
+                current._phrase == CypherPhrase.Pattern)
+            {
                 return sb;
+            }
             sb = FormatConnectionPhrase(current, sb);
 
             char last1 = sb[sb.Length - 1];
@@ -3020,9 +2908,8 @@ namespace Weknow
             switch (current._phrase)
             {
                 case CypherPhrase.None:
-                case CypherPhrase.Node:
-                case CypherPhrase.Relation:
                 case CypherPhrase.Property when repeat == 0 || repeat % BREAK_LINE_ON != 0:
+                case CypherPhrase.Pattern:
                     break;
                 case CypherPhrase.Where:
                 case CypherPhrase.Set:
@@ -3106,7 +2993,7 @@ namespace Weknow
                     case CypherPhrase.ReturnDistinct:
                     case CypherPhrase.Property
                             when prevPhrase == CypherPhrase.Property &&
-                                !string.IsNullOrEmpty(previous._cypher):
+                                !string.IsNullOrEmpty(previous._cypher.ToCypher(previous)):
                         {
                             sb = sb.Append(COMMA);
                         }
@@ -3137,7 +3024,16 @@ namespace Weknow
             {
                 CypherPhrase prevPhrase = previous._phrase;
 
-                if (phrase == CypherPhrase.Property && string.IsNullOrEmpty(current._cypher))
+                string? cypher = current._cypher.ToCypher(current);
+                if (phrase == CypherPhrase.Property && string.IsNullOrEmpty(cypher))
+                {
+                    previous = previous._previous;
+                    continue;
+                }
+
+                if (phrase == CypherPhrase.Pattern && 
+                    (string.IsNullOrEmpty(cypher) || 
+                    (current as Pattern)?.PatternType == PatternType.Connector))
                 {
                     previous = previous._previous;
                     continue;
@@ -3177,7 +3073,8 @@ namespace Weknow
         /// </returns>
         public static implicit operator string(FluentCypher builder)
         {
-            return builder.ToCypher();
+            string cypher = builder.ToCypher();
+            return cypher;
         }
 
         #endregion // Cast Overloads
@@ -3258,5 +3155,78 @@ namespace Weknow
         }
 
         #endregion // FluentCypherDebugView
+
+        #region Concat
+
+        /// <summary>
+        /// Concatenate child cypher.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <returns></returns>
+        public FluentCypher Concat(FluentCypher child)
+        {
+            FluentCypher result = this;
+            foreach (var c in child.ReverseEnumerable()) // TODO: review ReverseEnumerable
+            {
+                if(c._phrase != CypherPhrase.None || c._children.Any())
+                    result = result.ChainClone(c);
+            }
+            return result;
+        }
+
+        #endregion // Concat
+
+        #region ChainClone
+
+        /// <summary>
+        /// Clones the specified from as the next cypher.
+        /// </summary>
+        /// <param name="from">The child.</param>
+        /// <param name="additionalChildren">The additional children.</param>
+        /// <returns></returns>
+        protected virtual FluentCypher ChainClone(
+            FluentCypher from, 
+            params FluentCypher[] additionalChildren)
+        {
+            var children = from._children;
+            if (additionalChildren != null && additionalChildren.Length != 0)
+                children = children.Concat(additionalChildren);
+
+            return new FluentCypher(this,
+                                from._cypher,
+                                from._phrase,
+                                from._cypherClose,
+                                children,
+                                from._childrenSeperator,
+                                this._config);
+        }
+
+        #endregion // ChainClone
+
+        #region AppendChild
+
+        /// <summary>
+        /// Clones current instance (this)
+        /// with the additional child.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="childrenSeperator">The children seperator.</param>
+        /// <returns></returns>
+        protected internal FluentCypher AppendChild(
+            FluentCypher child,
+            string? childrenSeperator = null)
+        {
+            var children = _children.Concat(child);
+
+            return new FluentCypher(this._previous,
+                                _cypher,
+                                _phrase,
+                                _cypherClose,
+                                children,
+                                childrenSeperator ?? _childrenSeperator,
+                                this._config);
+        }
+
+        #endregion // AppendChild
     }
 }

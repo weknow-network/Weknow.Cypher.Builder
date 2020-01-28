@@ -10,6 +10,15 @@ namespace Weknow
     /// </summary>
     public class CypherConfig: ICypherConfig
     {
+        #region Default
+
+        /// <summary>
+        /// The default
+        /// </summary>
+        public static readonly CypherConfig Default = new CypherConfig();
+
+        #endregion // Default
+
         #region Ctor
 
         /// <summary>
