@@ -51,12 +51,17 @@ namespace Weknow.UnitTests
                         {
                             cfg.AmbientLabels.Add("TestLabel");
                         })
-                        .N("n1", "LabelA") - R["r", "RelB"] > N("n2", "LabelA");
+                        .Scope(
+                                R["r", "RelB"],
+                                P.Create<Foo>(f => f.Id, f => f.Name),
+                                P.Create<Bar>(f => f.Value),
+                                (parent, r, p1, p2) =>
+                                    parent.N("n1", "LabelA", p1) - r > N("n2", "LabelA", p2)
+                            );
                         // .N("n1", "LabelA") - R["r", "RelB"] * 1..3 > N("n2", "LabelA");
 
-            //string cypher = cypherCommand;
             _outputHelper.WriteLine(cypherCommand);
-            Assert.Equal("(n1:LabelA:TestLabel)-[r:RelB]->(n2:LabelA:TestLabel)", cypherCommand.ToCypher(CypherFormat.SingleLine));
+            Assert.Equal("(n1:LabelA:TestLabel { n1.Id: $f_Id, Name: $f_Name }))-[r:RelB]->(n2:LabelA:TestLabel { n2.Id: $f_Value }))", cypherCommand.ToCypher(CypherFormat.SingleLine));
         }
 
         #endregion // Complex_Pattern_Test

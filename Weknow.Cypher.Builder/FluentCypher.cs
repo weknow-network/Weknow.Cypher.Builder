@@ -44,8 +44,8 @@ namespace Weknow
         IEnumerable<FluentCypher>,
         ICypherEntityMutations,
         ICypherEntitiesMutations
-        //INode,
-        //IRelation
+    //INode,
+    //IRelation
     {
         #region static Default
 
@@ -280,7 +280,7 @@ namespace Weknow
         #endregion // N / Node
 
         #region R / Relation
-    
+
         /// <summary>
         /// Gets the relation.
         /// R and Relation are the same (it's only matter of naming flavor)
@@ -3031,8 +3031,8 @@ namespace Weknow
                     continue;
                 }
 
-                if (phrase == CypherPhrase.Pattern && 
-                    (string.IsNullOrEmpty(cypher) || 
+                if (phrase == CypherPhrase.Pattern &&
+                    (string.IsNullOrEmpty(cypher) ||
                     (current as Pattern)?.PatternType == PatternType.Connector))
                 {
                     previous = previous._previous;
@@ -3168,7 +3168,7 @@ namespace Weknow
             FluentCypher result = this;
             foreach (var c in child.ReverseEnumerable()) // TODO: review ReverseEnumerable
             {
-                if(c._phrase != CypherPhrase.None || c._children.Any())
+                if (c._phrase != CypherPhrase.None || c._children.Any())
                     result = result.ChainClone(c);
             }
             return result;
@@ -3185,7 +3185,7 @@ namespace Weknow
         /// <param name="additionalChildren">The additional children.</param>
         /// <returns></returns>
         protected virtual FluentCypher ChainClone(
-            FluentCypher from, 
+            FluentCypher from,
             params FluentCypher[] additionalChildren)
         {
             var children = from._children;
