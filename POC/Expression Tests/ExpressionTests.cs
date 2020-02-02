@@ -119,11 +119,25 @@ LIMIT $p_2", cypher.Query);
         #region Properties_Convention_Test
 
         [Fact]
+        public void Properties_Convention_WithDefaultLabel_Test()
+        {
+            CypherCommand cypher = P(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
+
+            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+        }
+
+        #endregion // Properties_Convention_Test
+
+        // TODO: overload
+        #region Properties_Convention_Test
+
+        [Fact]
         public void Properties_Convention_Test()
         {
-            CypherCommand cypher = P(n => N<Foo>(n, Convention(name => name.EndsWith("B")))); 
+            //CypherCommand cypher = P(n => N(n, Person , Convention<Foo>(name => name.StartsWith("Prop")))); 
 
-            Assert.Equal("???", cypher.Query);
+            //Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            throw new NotImplementedException();
         }
 
         #endregion // Properties_Convention_Test
