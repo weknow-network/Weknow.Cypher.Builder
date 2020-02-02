@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -91,6 +91,7 @@ namespace test
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
+                IDisposable disp = null;
                 for (int i = 0; i < format.Length; i++)
                 {
                     switch (format[i])
@@ -102,16 +103,17 @@ namespace test
                             Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
                             break;
                         case '+':
-                            expression[int.Parse(format[++i].ToString())].Set(node.Arguments[int.Parse(format[++i].ToString())]);
+                            disp = expression[int.Parse(format[++i].ToString())].Set(node.Arguments[int.Parse(format[++i].ToString())]);
                             break;
                         case '.':
-                            expression[int.Parse(format[++i].ToString())].Set(node);
+                            disp = expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
                         default:
                             Query.Append(format[i]);
                             break;
                     }
                 }
+                disp?.Dispose();
             }
             else if (node.Method.Name == nameof(Pattern.All))
             {
@@ -144,6 +146,12 @@ namespace test
 
         protected override Expression VisitMember(MemberExpression node)
         {
+            if(node.Type == typeof(Expression<Func<IProperties>>))
+            {
+                var expr = (node.Member as FieldInfo).GetValue((node.Expression as ConstantExpression).Value) as Expression;
+                Visit(expr);
+                return node;
+            }
             if (node.Expression != null && !isProperties.Value)
             {
                 Visit(node.Expression);
@@ -282,6 +290,8 @@ namespace test
         public static IProperties P(params object[] properties) => throw new NotImplementedException();
         [Cypher("$0")]
         public static IProperties P<T>(Func<T, IProperties> properties) => throw new NotImplementedException();
+        [Cypher("$0")]
+        public static IProperties P(Expression<Func<IProperties>> properties) => throw new NotImplementedException();
         [Cypher("+00$1")]
         public static IProperties Pre(IVar var, IProperties properties) => throw new NotImplementedException();
         public static IProperties Convention(Func<string, bool> filter) => throw new NotImplementedException();
@@ -359,6 +369,8 @@ namespace test
                       .Skip(1)
                       .Limit(10)).Print();
 
+            Expression<Func<IProperties>> p = () => P(PropA, PropB);
+            P(n => N(n, Person, P(p))).Print();
             P(n => N(n, Person, P(PropA, PropB))).Print();
             P(n => N<Foo>(n, n => P(n.PropA, n.PropB))).Print();
             P(n => N<Foo>(n, Person, n => P(n.PropA, n.PropB))).Print();
