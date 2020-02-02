@@ -129,7 +129,10 @@ namespace Weknow.Cypher.Builder
             else if (node.Method.Name == nameof(Pattern.Convention))
             {
                 var filter = (node.Arguments[0] as Expression<Func<string, bool>>).Compile();
-                var properties = (expression[1].Value as MethodCallExpression).Method.GetGenericArguments()[0].GetProperties().Where(p => filter(p.Name)).ToArray();
+                var arguments = node.Method.IsGenericMethod
+                    ? node.Method.GetGenericArguments()
+                    : (expression[1].Value as MethodCallExpression).Method.GetGenericArguments();
+                var properties = arguments[0].GetProperties().Where(p => filter(p.Name)).ToArray();
                 foreach (var item in properties)
                 {
                     Query.Append(item.Name);
@@ -296,6 +299,7 @@ namespace Weknow.Cypher.Builder
         [Cypher("+00$1")]
         public static IProperties Pre(IVar var, IProperties properties) => throw new NotImplementedException();
         public static IProperties Convention(Func<string, bool> filter) => throw new NotImplementedException();
+        public static IProperties Convention<T>(Func<string, bool> filter) => throw new NotImplementedException();
         [Cypher("$0")]
         public static T As<T>(this IVar var) => throw new NotImplementedException();
         public static object All<T>(this IVar var) => throw new NotImplementedException();
