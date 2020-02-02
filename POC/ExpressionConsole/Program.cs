@@ -370,6 +370,7 @@ namespace test
                       .Limit(10)).Print();
 
             Expression<Func<IProperties>> p = () => P(PropA, PropB);
+            // TODO: P(n => N(n, Person, p)) instead of P(n => N(n, Person, P(p))) 
             P(n => N(n, Person, P(p))).Print();
             P(n => N(n, Person, P(PropA, PropB))).Print();
             P(n => N<Foo>(n, n => P(n.PropA, n.PropB))).Print();
