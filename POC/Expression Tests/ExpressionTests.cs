@@ -139,5 +139,27 @@ LIMIT $p_2", cypher.Query);
         }
 
         #endregion // Properties_Convention_Test
+
+        [Fact]
+        public void Unwind_Test()
+        {
+            CypherCommand cypher = P(items => item => n => 
+                                    Unwind(items, item,
+                                    Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))))));
+
+            Assert.Equal(@"UNWIND items as item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+        }
+
+        [Fact]
+        public void Unwind1_Test()
+        {
+            CypherCommand cypher = P(items => item => n =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P(PropA, PropB)))));
+
+            Assert.Equal(@"UNWIND items as item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+        }
     }
 }

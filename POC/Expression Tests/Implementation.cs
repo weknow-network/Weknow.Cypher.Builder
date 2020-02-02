@@ -52,6 +52,7 @@ namespace Weknow.Cypher.Builder
         {
             [0] = new ContextValue<Expression>(null),
             [1] = new ContextValue<Expression>(null),
+            [2] = new ContextValue<Expression>(null)
         };
 
         protected override Expression VisitLambda<T>(Expression<T> node)
@@ -136,7 +137,14 @@ namespace Weknow.Cypher.Builder
                 foreach (var item in properties)
                 {
                     Query.Append(item.Name);
-                    Query.Append(": $");
+                    Query.Append(": ");
+                    if (expression[2].Value != null)
+                    {
+                        Visit(expression[2].Value);
+                        Query.Append(".");
+                    }
+                    else
+                        Query.Append("$");
                     Query.Append(item.Name);
                     Parameters[item.Name] = null;
                     if (item != properties.Last())
@@ -162,9 +170,19 @@ namespace Weknow.Cypher.Builder
             Query.Append(node.Member.Name);
             if (node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || isProperties.Value)
             {
-                Query.Append(": $");
+                Query.Append(": ");
                 if (expression[0].Value != null)
+                {
+                    Query.Append("$");
                     Visit(expression[0].Value);
+                }
+                else if (expression[2].Value != null)
+                {
+                    Visit(expression[2].Value);
+                    Query.Append(".");
+                }
+                else
+                    Query.Append("$");
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
             }
@@ -312,6 +330,8 @@ namespace Weknow.Cypher.Builder
         public static PD Create(PD p) => throw new NotImplementedException();
         [Cypher("MERGE $0")]
         public static PD Merge(PD p) => throw new NotImplementedException();
+        [Cypher("UNWIND $0 as $1\r\n+21$2")]
+        public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
     }
 
     public static class PatternExtensions
