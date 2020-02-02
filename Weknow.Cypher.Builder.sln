@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{0A872885-74BB-4878-A8FF-30642DDDCC86}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionConsole", "POC\ExpressionConsole\ExpressionConsole.csproj", "{708614B5-79EC-44C2-AC03-EE4A90C38999}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{0A872885-74BB-4878-A8FF-30642DDDCC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A872885-74BB-4878-A8FF-30642DDDCC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A872885-74BB-4878-A8FF-30642DDDCC86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{708614B5-79EC-44C2-AC03-EE4A90C38999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{708614B5-79EC-44C2-AC03-EE4A90C38999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{708614B5-79EC-44C2-AC03-EE4A90C38999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{708614B5-79EC-44C2-AC03-EE4A90C38999}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{539920D7-A242-4568-84C4-431AF83536EB} = {51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}
 		{0A872885-74BB-4878-A8FF-30642DDDCC86} = {51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}
+		{708614B5-79EC-44C2-AC03-EE4A90C38999} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5165861-FF25-467F-9B2D-E9626AF32A1A}
