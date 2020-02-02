@@ -4,6 +4,7 @@ using Xunit;
 using static Weknow.Cypher.Builder.Pattern;
 using static Weknow.Cypher.Builder.Schema;
 
+// TODO: replace the Pattern P with Cypher C or with _ in order to differentiate it form Properties P
 namespace Weknow.Cypher.Builder
 {
     public class ExpressionTests
@@ -140,10 +141,12 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Properties_Convention_Test
 
+        #region Unwind_WithPropConvention_Test
+
         [Fact]
-        public void Unwind_Test()
+        public void Unwind_WithPropConvention_Test()
         {
-            CypherCommand cypher = P(items => item => n => 
+            CypherCommand cypher = P(items => item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))))));
 
@@ -151,15 +154,144 @@ LIMIT $p_2", cypher.Query);
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
+        #endregion // Unwind_WithPropConvention_Test
+
+        #region Unwind_Test
+
         [Fact]
-        public void Unwind1_Test()
+        public void Unwind_Test()
         {
             CypherCommand cypher = P(items => item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, P(PropA, PropB)))));
 
-            Assert.Equal(@"UNWIND items as item
+            Assert.Equal(@"UNWIND $items as item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
+
+        #endregion // Unwind_Test
+
+        #region Unwind_Entities_Test
+
+        [Fact]
+        public void Unwind_Entities_Test()
+        {
+//            CypherCommand cypher = P(items => item => n =>
+//                                    Unwind(items, item,
+//                                    Match(N(n, Person, P(Id))))
+//                                    .SetEntity(item, EntitySetBehavior.Update));
+
+//            Assert.Equal(@"UNWIND $items AS item
+//MATCH (n:Person {Id: item.Id}) // NO $ SIGN
+//SET n += item", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Unwind_Entities_Test
+
+        #region Concurrency_Pattern_Test
+
+        [Fact]
+        public void Concurrency_Pattern_Test()
+        {
+            //CypherCommand cypher = P(n =>
+            //                        Match(N(n, Person, P(PropA, PropB, Concurrency))),
+            //                        SET(eTag(n, Concurrency));
+
+            //Assert.Equal(@"
+            //MATCH (n:Person { PropA: $PropA, PropB: $PropB, Concurrency: $Concurrency })
+            //ON CREATE SET n.Concurrency = 1
+            //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Concurrency_Pattern_Test
+
+        #region Unwind_Concurrency_Pattern_Test
+
+        [Fact]
+        public void Unwind_Concurrency_Pattern_Test()
+        {
+            //CypherCommand cypher = P(items => item => n =>
+            //                        Unwind(items, item,
+            //                        Match(N(n, Person, P(PropA, PropB, Concurrency))),
+            //                        SET(eTag(n, Concurrency)));
+
+            //Assert.Equal(@"UNWIND $items as item
+            //MATCH (n:Person { PropA: item.PropA, PropB: item.PropB, Concurrency: $Concurrency })
+            //ON CREATE SET n.Concurrency = 1
+            //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Unwind_Concurrency_Pattern_Test
+
+        #region NodeToNode_Test
+
+        [Fact]
+        public void NodeToNode_Test()
+        {
+            //CypherCommand cypher = P(n1 => n2 =>
+            //                        Match(N(n1, Person))->N(n2 Person));
+
+            //Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // NodeToNode_Test
+
+        #region Nested_NodeToNode_WithProp_Test
+
+        [Fact]
+        public void Nested_NodeToNode_WithProp_Test()
+        {
+            CypherCommand cypher = P(n1 => n2 => n2_ =>
+                                    N(n1, Person, P(PropA, PropB)) ->
+                                    N(n2, Person, Pre(n2_, P(PropA, PropB))));
+
+            Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Nested_NodeToNode_WithProp_Test
+
+        #region Nested_NodeToNode_ReusedProp_Test
+
+        [Fact]
+        public void Nested_NodeToNode_ReusedProp_Test()
+        {
+            //CypherCommand cypher = P(p => P(PropA, PropB),
+            //                        n1 => n2 => n2_ =>
+            //                        N(n1, Person, p) ->
+            //                        N(n2, Person, Pre(n2_, p)));
+
+            //Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Nested_NodeToNode_ReusedProp_Test
+
+        #region WhereExists_Test
+
+        [Fact]
+        public void WhereExists_Test()
+        {
+//            CypherCommand cypher = P(n => m =>
+//                                    Match(N(n, Person, P(PropA)))
+//                                    .WhereExists<Foo>(Match(N(n))->N(n)
+//                                    .Where(n.Name = m.Name)));
+
+//            Assert.Equal(
+//@"WHERE EXISTS {
+//  MATCH (n)-->(m) WHERE n.Name = m.Name
+//}", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // WhereExists_Test
+
+        // todo: {name: 'Alice', age: 38,
+        //       address: {city: 'London', residential: true}
+}
     }
 }

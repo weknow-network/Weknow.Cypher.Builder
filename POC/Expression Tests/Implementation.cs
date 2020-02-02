@@ -266,6 +266,7 @@ namespace Weknow.Cypher.Builder
     public interface ILabel { }
     public interface IType { }
     public interface IProperty { }
+    public interface IETagProperty { }
     public interface IProperties { }
 
     public class CypherAttribute : Attribute
@@ -364,8 +365,10 @@ namespace Weknow.Cypher.Builder
     {
         public static ILabel Person => throw new NotImplementedException();
         public static IType KNOWS => throw new NotImplementedException();
+        public static IProperty Id => throw new NotImplementedException();
         public static IProperty PropA => throw new NotImplementedException();
         public static IProperty PropB => throw new NotImplementedException();
+        public static IETagProperty Concurrency => throw new NotImplementedException();
     }
 
     public class Foo
