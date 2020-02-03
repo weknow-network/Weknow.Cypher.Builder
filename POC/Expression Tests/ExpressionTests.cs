@@ -129,7 +129,7 @@ LIMIT $p_2", cypher.Query);
         {
             CypherCommand cypher = P(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
 
-            Assert.Equal("(n:Foo { Id: $Id, PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Convention_WithDefaultLabel_Test
@@ -315,7 +315,7 @@ LIMIT $p_2", cypher.Query);
                                     Unwind(items, item,
                                     Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))))));
 
-            Assert.Equal(@"UNWIND items as item
+            Assert.Equal(@"UNWIND $items as item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
@@ -470,7 +470,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
             CypherCommand cypher = P(n =>
                                     Create(N(n, Person, P(PropA, PropB))));
 
-            Assert.Equal("CREATE (n:Person {PropA: $PropA, PropB: $PropB}))", cypher.Query);
+            Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Create_Test

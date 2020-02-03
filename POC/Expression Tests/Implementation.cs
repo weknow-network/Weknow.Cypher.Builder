@@ -109,6 +109,9 @@ namespace Weknow.Cypher.Builder
                         case '.':
                             disp = expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
+                        case '\\':
+                            Query.Append(format[++i]);
+                            break;
                         default:
                             Query.Append(format[i]);
                             break;
@@ -335,7 +338,7 @@ namespace Weknow.Cypher.Builder
         public static PD Create(PD p) => throw new NotImplementedException();
         [Cypher("MERGE $0")]
         public static PD Merge(PD p) => throw new NotImplementedException();
-        [Cypher("UNWIND $0 as $1\r\n+21$2")]
+        [Cypher("UNWIND \\$$0 as $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
     }
 
