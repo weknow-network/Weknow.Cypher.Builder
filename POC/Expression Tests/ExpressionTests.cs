@@ -507,11 +507,10 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void CreateRelation_Test()
         {
-            //CypherCommand cypher = P(n => r => m =>
-            //                        Create(N(n) - R[r, KNOWS] > N(m)));
+            CypherCommand cypher = P(n => r => m =>
+                                    Create(N(n) - R[r, KNOWS] > N(m)));
 
-            //Assert.Equal("CREATE (n)-[r:KNOWS]->(m))", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_Test
@@ -521,11 +520,10 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void CreateRelation_WithPrams_Test()
         {
-            //CypherCommand cypher = P(n => r => m =>
-            //                        Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
+            CypherCommand cypher = P(n => r => m =>
+                                    Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
 
-            //Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m))", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_WithPrams_Test
