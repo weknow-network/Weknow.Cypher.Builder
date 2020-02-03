@@ -4,7 +4,7 @@ using Xunit;
 using static Weknow.Cypher.Builder.Pattern;
 using static Weknow.Cypher.Builder.Schema;
 
-// TODO: replace the Pattern P with Cypher C or with _ in order to differentiate it form Properties P
+// TODO: replace the Pattern P with Cypher C or with _ in order to differentiate it form Properties P - done
 
 // TODO: replace Interfaces with sealed or abstract classes for having better flexibility like operator overloads
 
@@ -19,7 +19,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void ComplexExpression_Test()
         {
-            CypherCommand cypher = P(a => r1 => b => r2 => c =>
+            CypherCommand cypher = _(a => r1 => b => r2 => c =>
              Match(N(a, Person) - R[r1, KNOWS] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
              .Where(a.As<Foo>().Name == "Avi")
              .Return(a.As<Foo>().Name, r1, b.All<Bar>(), r2, c)
@@ -49,7 +49,7 @@ LIMIT $p_2", cypher.Query);
         public void CaptureProperties_Test()
         {
             Expression<Func<IProperties>> p = () => P(PropA, PropB);
-            CypherCommand cypher = P(n => N(n, Person, P(p)));
+            CypherCommand cypher = _(n => N(n, Person, P(p)));
 
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -61,7 +61,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Test()
         {
-            CypherCommand cypher = P(n => N(n, Person, P(PropA, PropB)));
+            CypherCommand cypher = _(n => N(n, Person, P(PropA, PropB)));
 
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -73,7 +73,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
         {
-            CypherCommand cypher = P(n => N<Foo>(n, n => P(n.PropA, n.PropB)));
+            CypherCommand cypher = _(n => N<Foo>(n, n => P(n.PropA, n.PropB)));
 
             Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -85,7 +85,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultAndAdditionLabel_Test()
         {
-            CypherCommand cypher = P(n => N<Foo>(n, Person, n => P(n.PropA, n.PropB)));
+            CypherCommand cypher = _(n => N<Foo>(n, Person, n => P(n.PropA, n.PropB)));
 
             Assert.Equal("(n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -98,7 +98,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_Test()
         {
-            CypherCommand cypher = P(n => N(n, Person, P<Foo>(n => P(n.PropA, n.PropB))));
+            CypherCommand cypher = _(n => N(n, Person, P<Foo>(n => P(n.PropA, n.PropB))));
 
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -110,7 +110,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_WithPrefix_Test()
         {
-            CypherCommand cypher = P(n1 => n2 => n2_ =>
+            CypherCommand cypher = _(n1 => n2 => n2_ =>
                                     N(n1, Person, P(PropA, PropB)) -
                                     R[n1, KNOWS] >
                                     N(n2, Person, Pre(n2_, P(PropA, PropB))));
@@ -127,7 +127,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Convention_WithDefaultLabel_Test()
         {
-            CypherCommand cypher = P(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
+            CypherCommand cypher = _(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
 
             Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -151,7 +151,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Convention_Test()
         {
-            CypherCommand cypher = P(n => N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))));
+            CypherCommand cypher = _(n => N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))));
 
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -294,7 +294,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_Set_AddLabel_Test()
         {
-            CypherCommand cypher = P(n =>
+            CypherCommand cypher = _(n =>
                                     Match(N<Foo>(n, P(Id)))
                                     .Set(n, Person));
 
@@ -310,11 +310,11 @@ SET n:Person", cypher.Query);
         [Fact]
         public void Unwind_WithPropConvention_Test()
         {
-            CypherCommand cypher = P(items => item => n =>
+            CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))))));
 
-            Assert.Equal(@"UNWIND $items as item
+            Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
@@ -325,11 +325,11 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Test()
         {
-            CypherCommand cypher = P(items => item => n =>
+            CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, P(PropA, PropB)))));
 
-            Assert.Equal(@"UNWIND $items as item
+            Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
@@ -340,22 +340,14 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Entities_Update_Test()
         {
-            //            CypherCommand cypher = P(items => item => n =>
-            //                                    Unwind(items, item,
-            //                                    Match(N(n, Person, P(Id))))
-            //                                    .SetEntity(+item)); // + should be unary operator of IVar
+            CypherCommand cypher = _(items => item => n =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(n + item))); // + should be unary operator of IVar
 
-            // other syntax can be 
-
-            //            CypherCommand cypher = P(items => item => n =>
-            //                                    Unwind(items, item,
-            //                                    Match(N(n, Person, P(Id))))
-            //                                    .Set += item); // + should be unary operator of IVar
-
-            //            Assert.Equal(@"UNWIND $items AS item
-            //MATCH (n:Person {Id: item.Id}) 
-            //SET n += item", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: item.Id })
+SET n += item", cypher.Query);
         }
 
         #endregion // Unwind_Entities_Update_Test
@@ -466,7 +458,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Create_Test()
         {
-            CypherCommand cypher = P(n =>
+            CypherCommand cypher = _(n =>
                                     Create(N(n, Person, P(PropA, PropB))));
 
             Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -507,7 +499,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void CreateRelation_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS] > N(m)));
 
             Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
@@ -520,7 +512,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void CreateRelation_WithPrams_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
 
             Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
@@ -533,7 +525,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Range_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
                                     R[1..5] >
                                     N(m)));
@@ -548,7 +540,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Range_FromAny_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
                                     R[..5] >
                                     N(m)));
@@ -563,7 +555,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Range_WithVar_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
                                     R[r, 1..5] >
                                     N(m)));
@@ -578,7 +570,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Range_WithVarAndProp_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
                                     R[r, KNOWS, P(PropA), 1..5] >
                                     N(m)));
@@ -593,7 +585,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Range_Infinit_Test()
         {
-            CypherCommand cypher = P(n => r => m =>
+            CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
                                     R[..] >
                                     N(m)));

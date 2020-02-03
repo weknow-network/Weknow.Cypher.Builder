@@ -79,6 +79,9 @@ namespace Weknow.Cypher.Builder
                 case ExpressionType.Equal:
                     Query.Append(" = ");
                     break;
+                case ExpressionType.Add:
+                    Query.Append(" += ");
+                    break;
             }
             Visit(node.Right);
             return node;
@@ -291,8 +294,12 @@ namespace Weknow.Cypher.Builder
         public static PD operator <(PD l, Relation r) => throw new NotImplementedException();
     }
 
+    public interface IVar
+    {
+        public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
+    }
+
     public interface INode { }
-    public interface IVar { }
     public interface ILabel { }
     public interface IType { }
     public interface IProperty { }
@@ -316,7 +323,7 @@ namespace Weknow.Cypher.Builder
     {
         public delegate PD PD(IVar var);
 
-        public static CypherCommand P(Expression<PD> expr)
+        public static CypherCommand _(Expression<PD> expr)
         {
             var visitor = new CypherVisitor();
             visitor.Visit(expr);
@@ -366,7 +373,7 @@ namespace Weknow.Cypher.Builder
         public static PD Create(PD p) => throw new NotImplementedException();
         [Cypher("MERGE $0")]
         public static PD Merge(PD p) => throw new NotImplementedException();
-        [Cypher("UNWIND \\$$0 as $1\r\n+21$2")]
+        [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
     }
 
@@ -396,6 +403,8 @@ namespace Weknow.Cypher.Builder
         public static PD Limit(this PD p, int count) => throw new NotImplementedException();
         [Cypher("$0\r\nSET $1:$2")]
         public static PD Set(this PD p, IVar node, ILabel label) => throw new NotImplementedException();
+        [Cypher("$0\r\nSET $1")]
+        public static PD Set(this PD p, IVar node) => throw new NotImplementedException();
     }
 
     static class Schema
