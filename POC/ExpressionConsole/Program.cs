@@ -246,6 +246,7 @@ namespace test
     interface IProperty { }
     interface IProperties { }
 
+    [AttributeUsage(AttributeTargets.Method)]
     class CypherAttribute : Attribute
     {
         public string Format { get; }
@@ -357,7 +358,7 @@ namespace test
         public DateTime Date { get; set; }
     }
 
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using static Weknow.Cypher.Builder.Pattern;
+#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.Cypher.Builder
 {
@@ -268,7 +269,10 @@ namespace Weknow.Cypher.Builder
     public interface IProperty { }
     public interface IETagProperty { }
     public interface IProperties { }
+    public interface IParameter { }
+    public interface IInfinit { }
 
+    [AttributeUsage(AttributeTargets.Method)]
     public class CypherAttribute : Attribute
     {
         public string Format { get; }
@@ -369,10 +373,13 @@ namespace Weknow.Cypher.Builder
         public static IProperty PropA => throw new NotImplementedException();
         public static IProperty PropB => throw new NotImplementedException();
         public static IETagProperty Concurrency => throw new NotImplementedException();
+        public static IParameter map => throw new NotImplementedException();
+        public static IInfinit Infinit => throw new NotImplementedException();
     }
 
     public class Foo
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string PropA { get; set; }
         public string PropB { get; set; }
