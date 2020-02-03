@@ -4,11 +4,11 @@ using Xunit;
 using static Weknow.Cypher.Builder.Pattern;
 using static Weknow.Cypher.Builder.Schema;
 
-// TODO: replace the Pattern P with Cypher C or with _ in order to differentiate it form Properties P - done
-
-// TODO: replace Interfaces with sealed or abstract classes for having better flexibility like operator overloads
+// TODO: Copy class Pattern to FullBamePattern for naming standard
 
 // TODO: parameter factory injection for enabling to work with Neo4jParameters (Neo4jMapper)
+//       Mimic Neo4jMappaer WithEntity, WithEntities + integration test
+//       validate flat entity (in deep complex type throw exception with recommendation for best practice)
 
 namespace Weknow.Cypher.Builder
 {
@@ -92,7 +92,7 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
 
-        // TODO: make it less repetitive P<Foo>(n => (n.PropA, n.PropB)) with value tuple instead of P<Foo>(n => P(n.PropA, n.PropB))
+        // TODO: TBD: how can we use syntax with single P()
         #region Properties_OfT_Test
 
         [Fact]
@@ -142,6 +142,7 @@ LIMIT $p_2", cypher.Query);
             //CypherCommand cypher = P(n => N<Foo>(n, All(f => f.Id, f => f.Name)));
 
             //Assert.Equal("(n:Foo {  PropA: $PropA, PropB: $PropB })", cypher.Query);
+            throw new NotImplementedException();
         }
 
         #endregion // Properties_All_WithDefaultLabel_Test
@@ -158,51 +159,39 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Properties_Convention_Test
 
-        #region Match_SetEntity_Update_Test
+        #region Match_SetAsMap_Update_Test
 
         [Fact]
-        public void Match_SetEntity_Update_Test()
+        public void Match_SetAsMap_Update_Test()
         {
             //            CypherCommand cypher = P(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .SetEntity(n, +item)); // + should be unary operator of IVar
-
-            //            // other syntax option
-
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .SetEntity(n) += item); // += operator overload (Set is property)
+            //                                    .Set(n, + n.AsMap)); // + should be unary operator of IVar
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
-            //SET n += item", cypher.Query);
+            //SET n += $n", cypher.Query);
             throw new NotImplementedException();
         }
 
-        #endregion // Match_SetEntity_Update_Test
+        #endregion // Match_SetAsMap_Update_Test
 
-        #region Match_SetEntity_Replace_Test
+        #region Match_SetAsMap_Replace_Test
 
         [Fact]
-        public void Match_SetEntity_Replace_Test()
+        public void Match_SetAsMap_Replace_Test()
         {
             //            CypherCommand cypher = P(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .SetEntity(n, item)); 
-
-            //            // other syntax option
-
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .SetEntity(n) = item); 
+            //                                    .Set(n, + n.AsMap)); 
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
-            //SET n += item", cypher.Query);
+            //SET n += $n", cypher.Query);
             throw new NotImplementedException();
         }
 
-        #endregion // Match_SetEntity_Replace_Test
+        #endregion // Match_SetAsMap_Replace_Test
 
         #region Match_Set_WithPrefix_Test
 
@@ -211,7 +200,7 @@ LIMIT $p_2", cypher.Query);
         {
             //            CypherCommand cypher = P(n => n_ =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, P(PropA, Pre(n_, PropB)))); // + should be unary operator of IVar
+            //                                    .Set(n, P(PropA, Pre(n_, PropB)))); 
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
@@ -245,7 +234,7 @@ LIMIT $p_2", cypher.Query);
         {
 //            CypherCommand cypher = P(n =>
 //                                    Match(N(n, Person, P(Id)))
-//                                    .Set(n, P<Foo>(f => f.PropA, f => f.PropB))); // + should be unary operator of IVar
+//                                    .Set(n, P<Foo>(f => P(f.PropA, f.PropB)))); 
 
 //            Assert.Equal(
 //@"MATCH (n:Person {Id: $Id})
@@ -279,7 +268,7 @@ LIMIT $p_2", cypher.Query);
         {
             //            CypherCommand cypher = P(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, All(f => f.Id, f => f.Name))); 
+            //                                    .Set(n, All<Foo>(f => f.Id, f => f.Name))); 
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
@@ -288,6 +277,23 @@ LIMIT $p_2", cypher.Query);
         }
 
         #endregion // Match_Set_OfT_All_Test
+
+        #region Match_Set_OfT_Except_Test
+
+        [Fact]
+        public void Match_Set_OfT_Except_Test()
+        {
+            //            CypherCommand cypher = P(n =>
+            //                                    Match(N(n, Person, P(Id)))
+            //                                    .Set(n, Except<Foo>(n => P(n.Id, n.Name)))); 
+
+            //            Assert.Equal(
+            //@"MATCH (n:Person {Id: $Id})
+            //            SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Match_Set_OfT_Except_Test
 
         #region Match_Set_AddLabel_Test
 
@@ -340,29 +346,49 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Entities_Update_Test()
         {
-            CypherCommand cypher = _(items => item => n =>
-                                    Unwind(items, item,
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n + item))); // + should be unary operator of IVar
+//            CypherCommand cypher = _(items => item => n =>
+//                                    Unwind(items, item,
+//                                    Match(N(n, Person, P(Id)))
+//                                    .Set(n, +item))); // + should be unary operator of IVar
 
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: item.Id })
-SET n += item", cypher.Query);
+//            Assert.Equal(@"UNWIND $items AS item
+//MATCH (n:Person { Id: item.Id })
+//SET n += item", cypher.Query);
+            throw new NotImplementedException();
         }
 
         #endregion // Unwind_Entities_Update_Test
 
+        #region Unwind_Entities_Replace_Test
+
+        [Fact]
+        public void Unwind_Entities_Replace_Test()
+        {
+            //            CypherCommand cypher = _(items => item => n =>
+            //                                    Unwind(items, item,
+            //                                    Match(N(n, Person, P(Id)))
+            //                                    .Set(n, item))); // + should be unary operator of IVar
+
+            //            Assert.Equal(@"UNWIND $items AS item
+            //MATCH (n:Person { Id: item.Id })
+            //SET n += item", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Unwind_Entities_Replace_Test
+
+        // TODO: Move Higher order component tests
         #region Concurrency_Pattern_Test
 
         [Fact]
         public void Concurrency_Pattern_Test()
         {
             //CypherCommand cypher = P(n =>
-            //                        Match(N(n, Person, P(PropA, PropB, Concurrency))),
+            //                        Merge(N(n, Person, P(PropA, PropB, Concurrency))),
             //                        SET(eTag(n, Concurrency));
 
             //Assert.Equal(@"
-            //MATCH (n:Person { PropA: $PropA, PropB: $PropB, Concurrency: $Concurrency })
+            //Merge (n:Person { PropA: $PropA, PropB: $PropB, Concurrency: $Concurrency })
             //ON CREATE SET n.Concurrency = 1
             //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);
             throw new NotImplementedException();
@@ -370,6 +396,7 @@ SET n += item", cypher.Query);
 
         #endregion // Concurrency_Pattern_Test
 
+        // TODO: Move to Higher component tests
         #region Unwind_Concurrency_Pattern_Test
 
         [Fact]
@@ -377,11 +404,11 @@ SET n += item", cypher.Query);
         {
             //CypherCommand cypher = P(items => item => n =>
             //                        Unwind(items, item,
-            //                        Match(N(n, Person, P(PropA, PropB, Concurrency))),
+            //                        Merge(N(n, Person, P(PropA, PropB, Concurrency))),
             //                        SET(eTag(n, Concurrency)));
 
             //Assert.Equal(@"UNWIND $items as item
-            //MATCH (n:Person { PropA: item.PropA, PropB: item.PropB, Concurrency: $Concurrency })
+            //Merge (n:Person { PropA: item.PropA, PropB: item.PropB, Concurrency: $Concurrency })
             //ON CREATE SET n.Concurrency = 1
             //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);
             throw new NotImplementedException();
@@ -395,13 +422,41 @@ SET n += item", cypher.Query);
         public void NodeToNode_Test()
         {
             //CypherCommand cypher = P(n1 => n2 =>
-            //                        Match(N(n1, Person))->N(n2 Person));
+            //                        Match(N(n1, Person))-N(n2 Person));
+
+            //Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // NodeToNode_Test
+
+        #region NodeToNode_Forward_Test
+
+        [Fact]
+        public void NodeToNode_Forward_Test()
+        {
+            //CypherCommand cypher = P(n1 => n2 =>
+            //                        Match(N(n1, Person))>N(n2 Person));
 
             //Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
             throw new NotImplementedException();
         }
 
-        #endregion // NodeToNode_Test
+        #endregion // NodeToNode_Forward_Test
+
+        #region NodeToNode_Backward_Test
+
+        [Fact]
+        public void NodeToNode_Backward_Test()
+        {
+            //CypherCommand cypher = P(n1 => n2 =>
+            //                        Match(N(n1, Person))<N(n2 Person));
+
+            //Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // NodeToNodNodeToNode_Backward_Teste_Forward_Test
 
         #region Nested_NodeToNode_WithProp_Test
 
@@ -441,11 +496,11 @@ SET n += item", cypher.Query);
         {
             //            CypherCommand cypher = P(n => m =>
             //                                    Match(N(n, Person, P(PropA)))
-            //                                    .WhereExists<Foo>(Match(N(n))->N(n)
-            //                                    .Where(n.Name = m.Name)));
+            //                                    .Where<Foo>(Exists(Match(N(n))->N(n)
+            //                                    .Where(n.Name = m.Name))));
 
             //            Assert.Equal(
-            //@"WHERE EXISTS {
+            //@"MATCH (n:Person {PropA: $PropA})WHERE EXISTS {
             //  MATCH (n)-->(m) WHERE n.Name = m.Name
             //}", cypher.Query);
             throw new NotImplementedException();
@@ -466,33 +521,33 @@ SET n += item", cypher.Query);
 
         #endregion // Create_Test
 
-        #region CreateEntity_Test
+        #region CreateAsMap_Test
 
         [Fact]
-        public void CreateEntity_Test()
+        public void CreateAsMap_Test()
         {
             //CypherCommand cypher = P(n => 
-            //                        CreateEntity(N(n, Person))); 
+            //                        Create(N(n, Person, n.AsMap))); 
 
             //Assert.Equal("CREATE (n:Person {$n}))", cypher.Query);
             throw new NotImplementedException();
         }
 
-        #endregion // CreateEntity_Test
+        #endregion // CreateAsMap_Test
 
-        #region CreateEntity_WithParamName_Test
+        #region CreateAsMap_WithParamName_Test
 
         [Fact]
-        public void CreateEntity_WithParamName_Test()
+        public void CreateAsMap_WithParamName_Test()
         {
-            //CypherCommand cypher = P(n => 
-            //                        CreateEntity(N(n, Person, map))); 
+            //CypherCommand cypher = P(n => map =>
+            //                        Create(N(n, Person, map.AsMap))); 
 
             //Assert.Equal("CREATE (n:Person {$map})", cypher.Query);
             throw new NotImplementedException();
         }
 
-        #endregion // CreateEntity_WithParamName_Test
+        #endregion // CreateAsMap_WithParamName_Test
 
         #region CreateRelation_Test
 
@@ -507,10 +562,10 @@ SET n += item", cypher.Query);
 
         #endregion // CreateRelation_Test
 
-        #region CreateRelation_WithPrams_Test
+        #region CreateRelation_WithParams_Test
 
         [Fact]
-        public void CreateRelation_WithPrams_Test()
+        public void CreateRelation_WithParams_Test()
         {
             CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
@@ -518,7 +573,7 @@ SET n += item", cypher.Query);
             Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
         }
 
-        #endregion // CreateRelation_WithPrams_Test
+        #endregion // CreateRelation_WithParams_Test
 
         #region Range_Test
 
@@ -596,7 +651,7 @@ SET n += item", cypher.Query);
         #endregion // Range_Infinit_Test
 
         // todo: {name: 'Alice', age: 38,
-        //       address: {city: 'London', residential: true}
+        //       address: {city: 'London', residential: true}}
 
         // TODO: FOREACH, DELETE, DETACH
         // TODO: UNION, UNION ALL
