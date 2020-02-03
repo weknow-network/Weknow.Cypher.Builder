@@ -119,6 +119,16 @@ namespace Weknow.Cypher.Builder
                 }
                 disp?.Dispose();
             }
+            else if (node.Method.Name == nameof(Range.EndAt))
+            {
+                Query.Append("*..");
+                var index = node.Arguments[0] as UnaryExpression;
+                Query.Append(index.Operand);
+            }
+            else if (node.Method.Name == "get_" + nameof(Range.All))
+            {
+                Query.Append("*");
+            }
             else if (node.Method.Name == nameof(Pattern.All))
             {
                 var properties = node.Method.GetGenericArguments()[0].GetProperties();
@@ -206,6 +216,18 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitNew(NewExpression node)
         {
+            if (node.Type == typeof(Range))
+            {
+                Query.Append("*");
+                var index = node.Arguments[0] as UnaryExpression;
+                Query.Append(index.Operand);
+                Query.Append("..");
+                index = node.Arguments[1] as UnaryExpression;
+                Query.Append(index.Operand);
+
+                return node;
+            }
+
             using var _ = isProperties.Set(true);
             foreach (var expr in node.Arguments)
             {
@@ -255,6 +277,9 @@ namespace Weknow.Cypher.Builder
     public class Relation
     {
         public Relation this[IVar var, IType type] { [Cypher("[$0:$1]")]get => throw new NotImplementedException(); }
+        public Relation this[Range r] { [Cypher("[$0]")]get => throw new NotImplementedException(); }
+        public Relation this[IVar var, Range r] { [Cypher("[$0$1]")]get => throw new NotImplementedException(); }
+        public Relation this[IVar var, IType type, IProperties properties, Range r] { [Cypher("[$0:$1 { $2 } $3]")]get => throw new NotImplementedException(); }
         public static Relation operator -(PD l, Relation r) => throw new NotImplementedException();
         public static Relation operator -(Relation l, PD r) => throw new NotImplementedException();
         public static Relation operator >(Relation l, Relation r) => throw new NotImplementedException();
@@ -297,6 +322,8 @@ namespace Weknow.Cypher.Builder
             return new CypherCommand(visitor.Query.ToString(), visitor.Parameters);
         }
 
+        [Cypher("($0)")]
+        public static PD N(IVar var) => throw new NotImplementedException();
         [Cypher("($0:$1)")]
         public static PD N(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:$1 { $2 })")]
@@ -366,6 +393,8 @@ namespace Weknow.Cypher.Builder
         public static PD Skip(this PD p, int count) => throw new NotImplementedException();
         [Cypher("$0\r\nLIMIT $1")]
         public static PD Limit(this PD p, int count) => throw new NotImplementedException();
+        [Cypher("$0\r\nSET $1:$2")]
+        public static PD Set(this PD p, IVar node, ILabel label) => throw new NotImplementedException();
     }
 
     static class Schema
