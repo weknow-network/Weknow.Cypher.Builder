@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using static Weknow.Cypher.Builder.Pattern;
+using static Weknow.Cypher.Builder.Cypher;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.Cypher.Builder
 {
 
-    public static class PatternExtensions
+    public static class CypherExtensions
     {
         [Cypher("$0\r\nMATCH $1")]
         public static PD Match(this PD p, PD pp) => throw new NotImplementedException();
@@ -40,6 +40,8 @@ namespace Weknow.Cypher.Builder
         public static PD Set(this PD p, IVar node, IVar map) => throw new NotImplementedException();
         [Cypher("$0\r\nSET $1")]
         public static PD Set(this PD p, IVar node) => throw new NotImplementedException();
+        [Cypher("$0\r\nSET $1 = $2")]
+        public static PD Set(this PD p, IVar node, IProperties properties) => throw new NotImplementedException();
     }
 
 }

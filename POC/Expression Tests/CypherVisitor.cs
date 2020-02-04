@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using static Weknow.Cypher.Builder.Pattern;
+using static Weknow.Cypher.Builder.Cypher;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.Cypher.Builder
@@ -113,7 +113,7 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append("*");
             }
-            else if (node.Method.Name == nameof(Pattern.All))
+            else if (node.Method.Name == nameof(Cypher.All))
             {
                 var properties = node.Method.GetGenericArguments()[0].GetProperties();
                 foreach (var item in properties)
@@ -125,7 +125,7 @@ namespace Weknow.Cypher.Builder
                         Query.Append(", ");
                 }
             }
-            else if (node.Method.Name == nameof(Pattern.Convention))
+            else if (node.Method.Name == nameof(Cypher.Convention))
             {
                 var filter = (node.Arguments[0] as Expression<Func<string, bool>>).Compile();
                 var arguments = node.Method.IsGenericMethod
@@ -162,6 +162,12 @@ namespace Weknow.Cypher.Builder
             }
             if (node.Expression != null && !_isProperties.Value)
             {
+                if(node.Member.Name == nameof(IVar.AsMap))
+                {
+                    Query.Append("$");
+                    Visit(node.Expression);
+                    return node;
+                }
                 Visit(node.Expression);
                 Query.Append(".");
             }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using static Weknow.Cypher.Builder.Pattern;
+using static Weknow.Cypher.Builder.Cypher;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.Cypher.Builder
@@ -13,6 +13,8 @@ namespace Weknow.Cypher.Builder
     {
         public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
         public static IVar operator +(IVar item) => throw new NotImplementedException();
+
+        IProperties AsMap { get; }
     }
 
     public interface INode { }

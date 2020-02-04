@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using static Weknow.Cypher.Builder.Pattern;
+using static Weknow.Cypher.Builder.Cypher;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.Cypher.Builder
 {
 
-    public static class Pattern
+    public static class Cypher
     {
         public delegate PD PD(IVar var);
 
@@ -38,7 +38,7 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0:!0:$1 { $2 })")]
         public static PD N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
 
-        public static Relation R => throw new NotImplementedException();
+        public static IRelation R => throw new NotImplementedException();
 
         [Cypher("$0")]
         public static IProperties P(params IProperty[] properties) => throw new NotImplementedException();

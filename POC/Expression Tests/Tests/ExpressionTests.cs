@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using Xunit;
-using static Weknow.Cypher.Builder.Pattern;
+using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
 // TODO: Copy class Pattern to FullBamePattern for naming standard
@@ -164,14 +164,13 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, + n.AsMap)); // + should be unary operator of IVar
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(+n, n.AsMap)); // + should be unary operator of IVar
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
-            //SET n += $n", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n += $n", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Update_Test
@@ -181,14 +180,13 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Replace_Test()
         {
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, + n.AsMap)); 
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(+n, n.AsMap));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
-            //SET n += $n", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n += $n", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Replace_Test
@@ -232,13 +230,13 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Test()
         {
-//            CypherCommand cypher = P(n =>
-//                                    Match(N(n, Person, P(Id)))
-//                                    .Set(n, P<Foo>(f => P(f.PropA, f.PropB)))); 
+            //            CypherCommand cypher = P(n =>
+            //                                    Match(N(n, Person, P(Id)))
+            //                                    .Set(n, P<Foo>(f => P(f.PropA, f.PropB)))); 
 
-//            Assert.Equal(
-//@"MATCH (n:Person {Id: $Id})
-//            SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
+            //            Assert.Equal(
+            //@"MATCH (n:Person {Id: $Id})
+            //            SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
             throw new NotImplementedException();
         }
 
@@ -524,11 +522,10 @@ SET n = item", cypher.Query);
         [Fact]
         public void CreateAsMap_Test()
         {
-            //CypherCommand cypher = P(n => 
-            //                        Create(N(n, Person, n.AsMap))); 
+            CypherCommand cypher = _(n =>
+                                    Create(N(n, Person, n.AsMap)));
 
-            //Assert.Equal("CREATE (n:Person {$n}))", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("CREATE (n:Person { $n })", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -538,11 +535,10 @@ SET n = item", cypher.Query);
         [Fact]
         public void CreateAsMap_WithParamName_Test()
         {
-            //CypherCommand cypher = P(n => map =>
-            //                        Create(N(n, Person, map.AsMap))); 
+            CypherCommand cypher = _(n => map =>
+                                    Create(N(n, Person, map.AsMap)));
 
-            //Assert.Equal("CREATE (n:Person {$map})", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("CREATE (n:Person { $map })", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test
