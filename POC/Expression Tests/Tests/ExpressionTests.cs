@@ -213,12 +213,12 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_Set_Test()
         {
-            //            CypherCommand cypher = P(n =>
+            //            CypherCommand cypher = _(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, P(PropA, PropB))); // + should be unary operator of IVar
+            //                                    .Set(n, P(PropA, PropB)));
 
             //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
+            //@"MATCH (n:Person { Id: $Id })
             //SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
             throw new NotImplementedException();
         }
@@ -445,8 +445,8 @@ SET n = item", cypher.Query);
         [Fact]
         public void NodeToNode_Backward_Test()
         {
-            //CypherCommand cypher = P(n1 => n2 =>
-            //                        Match(N(n1, Person))<N(n2 Person));
+            //CypherCommand cypher = _(n1 => n2 =>
+            //                        Match(N(n1, Person)) < N(n2, Person));
 
             //Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
             throw new NotImplementedException();
@@ -490,16 +490,15 @@ SET n = item", cypher.Query);
         [Fact]
         public void WhereExists_Test()
         {
-            //            CypherCommand cypher = P(n => m =>
-            //                                    Match(N(n, Person, P(PropA)))
-            //                                    .Where<Foo>(Exists(Match(N(n))->N(n)
-            //                                    .Where(n.Name = m.Name))));
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(Exists(m => r => Match(N(n))-R[r, KNOWS]>N(m)
+                                    .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person {PropA: $PropA})WHERE EXISTS {
-            //  MATCH (n)-->(m) WHERE n.Name = m.Name
-            //}", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m)
+WHERE n.Name = m.Name }", cypher.Query);
         }
 
         #endregion // WhereExists_Test

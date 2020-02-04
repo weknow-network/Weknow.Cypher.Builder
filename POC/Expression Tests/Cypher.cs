@@ -66,6 +66,8 @@ namespace Weknow.Cypher.Builder
         public static PD Merge(PD p) => throw new NotImplementedException();
         [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
+        [Cypher("EXISTS { $0 }")]
+        public static bool Exists(PD p) => throw new NotImplementedException();
     }
 
 }
