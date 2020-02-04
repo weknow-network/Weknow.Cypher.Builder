@@ -13,8 +13,10 @@ namespace Weknow.Cypher.Builder
     {
         public StringBuilder Query { get; } = new StringBuilder();
         public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
-        private ContextValue<bool> isProperties = new ContextValue<bool>(false);
-        private Dictionary<int, ContextValue<Expression>> expression = new Dictionary<int, ContextValue<Expression>>()
+        private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
+        private ContextValue<string> _methodName = new ContextValue<string>(string.Empty);
+        private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
+        private Dictionary<int, ContextValue<Expression>> _expression = new Dictionary<int, ContextValue<Expression>>()
         {
             [0] = new ContextValue<Expression>(null),
             [1] = new ContextValue<Expression>(null),
@@ -52,16 +54,30 @@ namespace Weknow.Cypher.Builder
             return node;
         }
 
+        protected override Expression VisitUnary(UnaryExpression node)
+        { 
+            var result = base.VisitUnary(node);
+            var formatter = _formatter.Value;
+            if (_methodName == "Set" && node.NodeType == ExpressionType.UnaryPlus)
+            {
+                formatter++;
+                Query.Append(" +");
+            }
+
+            return result;
+        }
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            using var _ = isProperties.Set(isProperties.Value || node.Method.ReturnType == typeof(IProperties));
+            using var _ = _isProperties.Set(_isProperties.Value || node.Method.ReturnType == typeof(IProperties));
+            using var _1 = _methodName.Set(node.Method.Name);
 
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
                 IDisposable disp = null;
-                for (int i = 0; i < format.Length; i++)
+                using var formatter = _formatter.Set(new FormatingState(format));
+                for (var i = _formatter.Value; !i.Ended; i++)
                 {
                     switch (format[i])
                     {
@@ -72,10 +88,10 @@ namespace Weknow.Cypher.Builder
                             Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
                             break;
                         case '+':
-                            disp = expression[int.Parse(format[++i].ToString())].Set(node.Arguments[int.Parse(format[++i].ToString())]);
+                            disp = _expression[int.Parse(format[++i].ToString())].Set(node.Arguments[int.Parse(format[++i].ToString())]);
                             break;
                         case '.':
-                            disp = expression[int.Parse(format[++i].ToString())].Set(node);
+                            disp = _expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
                         case '\\':
                             Query.Append(format[++i]);
@@ -88,7 +104,7 @@ namespace Weknow.Cypher.Builder
                 disp?.Dispose();
             }
             else if (node.Method.Name == nameof(Range.EndAt))
-            {
+            {   // TODO: consider to move implementation into VisitUnary
                 Query.Append("*..");
                 var index = node.Arguments[0] as UnaryExpression;
                 Query.Append(index.Operand);
@@ -114,15 +130,15 @@ namespace Weknow.Cypher.Builder
                 var filter = (node.Arguments[0] as Expression<Func<string, bool>>).Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
-                    : (expression[1].Value as MethodCallExpression).Method.GetGenericArguments();
+                    : (_expression[1].Value as MethodCallExpression).Method.GetGenericArguments();
                 var properties = arguments[0].GetProperties().Where(p => filter(p.Name)).ToArray();
                 foreach (var item in properties)
                 {
                     Query.Append(item.Name);
                     Query.Append(": ");
-                    if (expression[2].Value != null)
+                    if (_expression[2].Value != null)
                     {
-                        Visit(expression[2].Value);
+                        Visit(_expression[2].Value);
                         Query.Append(".");
                     }
                     else
@@ -144,23 +160,23 @@ namespace Weknow.Cypher.Builder
                 Visit(expr);
                 return node;
             }
-            if (node.Expression != null && !isProperties.Value)
+            if (node.Expression != null && !_isProperties.Value)
             {
                 Visit(node.Expression);
                 Query.Append(".");
             }
             Query.Append(node.Member.Name);
-            if (node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || isProperties.Value)
+            if (node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value)
             {
                 Query.Append(": ");
-                if (expression[0].Value != null)
+                if (_expression[0].Value != null)
                 {
                     Query.Append("$");
-                    Visit(expression[0].Value);
+                    Visit(_expression[0].Value);
                 }
-                else if (expression[2].Value != null)
+                else if (_expression[2].Value != null)
                 {
-                    Visit(expression[2].Value);
+                    Visit(_expression[2].Value);
                     Query.Append(".");
                 }
                 else
@@ -196,7 +212,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
 
-            using var _ = isProperties.Set(true);
+            using var _ = _isProperties.Set(true);
             foreach (var expr in node.Arguments)
             {
                 Visit(expr);

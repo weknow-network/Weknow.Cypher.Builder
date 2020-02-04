@@ -28,6 +28,8 @@ namespace Weknow.Cypher.Builder
             values.Push(value);
             return new DisposeableAction(() => values.Pop());
         }
+
+        public static implicit operator T(ContextValue<T> context) => context.Value;
     }
 
 }

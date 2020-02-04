@@ -346,14 +346,14 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Entities_Update_Test()
         {
-//            CypherCommand cypher = _(items => item => n =>
-//                                    Unwind(items, item,
-//                                    Match(N(n, Person, P(Id)))
-//                                    .Set(n, +item))); // + should be unary operator of IVar
+            CypherCommand cypher = _(items => item => n =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(+n, item))); // + should be unary operator of IVar
 
-//            Assert.Equal(@"UNWIND $items AS item
-//MATCH (n:Person { Id: item.Id })
-//SET n += item", cypher.Query);
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: item.Id })
+SET n += item", cypher.Query);
         }
 
         #endregion // Unwind_Entities_Update_Test

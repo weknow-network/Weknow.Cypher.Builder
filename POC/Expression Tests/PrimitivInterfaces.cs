@@ -12,6 +12,7 @@ namespace Weknow.Cypher.Builder
     public interface IVar
     {
         public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
+        public static IVar operator +(IVar item) => throw new NotImplementedException();
     }
 
     public interface INode { }
