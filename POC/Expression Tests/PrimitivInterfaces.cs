@@ -14,7 +14,7 @@ namespace Weknow.Cypher.Builder
         public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
         public static IVar operator +(IVar item) => throw new NotImplementedException();
 
-        IProperties AsMap { get; }
+        IMap AsMap { get; }
     }
 
     public interface IPattern
@@ -28,6 +28,7 @@ namespace Weknow.Cypher.Builder
     public interface IType { }
     public interface IProperty { }
     public interface IETagProperty { }
+    public interface IMap { }
     public interface IProperties { }
     public interface IParameter { }
     public interface IInfinit { }

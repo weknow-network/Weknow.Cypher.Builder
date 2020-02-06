@@ -46,7 +46,7 @@ namespace Weknow.Cypher.Builder
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
-                    if(node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
                         Query.Append("-");
                     break;
                 case ExpressionType.Equal:
@@ -131,6 +131,11 @@ namespace Weknow.Cypher.Builder
                         Visit(node.Arguments[0]);
                         Query.Append(".");
                         Query.Append(item.Name);
+                        if(_methodName == "Set")
+                        {
+                            Query.Append(" = $");
+                            Query.Append(item.Name);
+                        }
                         if (item != properties.Last())
                             Query.Append(", ");
                     }
@@ -186,7 +191,7 @@ namespace Weknow.Cypher.Builder
                 Visit(expr);
                 return node;
             }
-            if (node.Expression != null && !_isProperties.Value)
+            if (node.Expression != null && (!_isProperties.Value || _methodName == "Set"))
             {
                 if (node.Member.Name == nameof(IVar.AsMap))
                 {
@@ -198,7 +203,7 @@ namespace Weknow.Cypher.Builder
                 Query.Append(".");
             }
             Query.Append(node.Member.Name);
-            if (node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value)
+            if ((node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value) && _methodName != "Set")
             {
                 Query.Append(": ");
                 if (_expression[0].Value != null)
@@ -216,7 +221,7 @@ namespace Weknow.Cypher.Builder
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
             }
-            if(_methodName == "Set")
+            if (_methodName == "Set")
             {
                 Query.Append(" = $");
                 Query.Append(node.Member.Name);

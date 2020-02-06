@@ -27,6 +27,8 @@ namespace Weknow.Cypher.Builder
         public static IPattern N(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        [Cypher("($0:$1 { $2 })")]
+        public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
         [Cypher("($0:!0)")]
         public static IPattern N<T>(IVar var) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
@@ -52,7 +54,7 @@ namespace Weknow.Cypher.Builder
         public static IProperties Convention<T>(Func<string, bool> filter) => throw new NotImplementedException();
         [Cypher("$0")]
         public static T As<T>(this IVar var) => throw new NotImplementedException();
-        public static object All<T>(this IVar var) => throw new NotImplementedException();
+        public static IProperties All<T>(this IVar var) => throw new NotImplementedException();
         public static IProperties All(params object[] p) => throw new NotImplementedException();
 
         [Cypher("PROFILE")]

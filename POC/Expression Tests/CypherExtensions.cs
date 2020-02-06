@@ -41,9 +41,9 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\nSET $1")]
         public static PD Set(this PD p, IVar node) => throw new NotImplementedException();
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static PD Set(this PD p, IVar node, IProperties properties) => throw new NotImplementedException();
+        public static PD Set(this PD p, IVar node, IMap properties) => throw new NotImplementedException();
         [Cypher("$0\r\n&SET $1")]
-        public static PD Set(this PD p, params object[] properties) => throw new NotImplementedException();
+        public static PD Set(this PD p, IProperties properties) => throw new NotImplementedException();
     }
 
 }
