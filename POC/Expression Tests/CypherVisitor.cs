@@ -14,7 +14,7 @@ namespace Weknow.Cypher.Builder
         public StringBuilder Query { get; } = new StringBuilder();
         public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
         private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-        private ContextValue<string> _methodName = new ContextValue<string>(string.Empty);
+        private ContextValue<MethodCallExpression> _methodExpr = new ContextValue<MethodCallExpression>(null);
         private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private Dictionary<int, ContextValue<Expression>> _expression = new Dictionary<int, ContextValue<Expression>>()
         {
@@ -63,15 +63,15 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
-            var result = base.VisitUnary(node);
+            Visit(node.Operand);
             var formatter = _formatter.Value;
-            if (_methodName == "Set" && node.NodeType == ExpressionType.UnaryPlus)
+            if (_methodExpr.Value?.Method.Name == "Set" && node.NodeType == ExpressionType.UnaryPlus)
             {
                 formatter++;
                 Query.Append(" +");
             }
 
-            return result;
+            return node;
         }
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
@@ -104,7 +104,7 @@ namespace Weknow.Cypher.Builder
                             disp = _expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
                         case '&':
-                            disp = _methodName.Set(node.Method.Name);
+                            disp = _methodExpr.Set(node);
                             break;
                         case '\\':
                             Query.Append(format[++i]);
@@ -140,7 +140,7 @@ namespace Weknow.Cypher.Builder
                         Visit(node.Arguments[0]);
                         Query.Append(".");
                         Query.Append(item.Name);
-                        if (_methodName == "Set")
+                        if (_methodExpr.Value?.Method.Name == "Set")
                         {
                             Query.Append(" = $");
                             Query.Append(item.Name);
@@ -202,25 +202,15 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Type == typeof(Expression<Func<IProperties>>))
+            if (node.Expression != null && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
-                var expr = (node.Member as FieldInfo).GetValue((node.Expression as ConstantExpression).Value) as Expression;
-                Visit(expr);
-                return node;
-            }
-            if (node.Expression != null && (!_isProperties.Value || _methodName == "Set"))
-            {
-                if (node.Member.Name == nameof(IVar.AsMap))
-                {
-                    Query.Append("$");
-                    Visit(node.Expression);
-                    return node;
-                }
                 Visit(node.Expression);
+                if (node.Member.Name == nameof(IVar.AsMap))
+                    return node;
                 Query.Append(".");
             }
             Query.Append(node.Member.Name);
-            if ((node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value) && _methodName != "Set")
+            if ((node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value) && _methodExpr.Value?.Method.Name != "Set")
             {
                 Query.Append(": ");
                 if (_expression[0].Value != null)
@@ -238,7 +228,7 @@ namespace Weknow.Cypher.Builder
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
             }
-            if (_methodName == "Set")
+            if (_methodExpr.Value?.Method.Name == "Set")
             {
                 Query.Append(" = $");
                 Query.Append(node.Member.Name);

@@ -163,7 +163,7 @@ LIMIT $p_2", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(+n, n.AsMap)); // + should be unary operator of IVar
+                                    .Set(n.AsMap));
 
             Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
@@ -179,7 +179,7 @@ SET n += $n", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(+n, n.AsMap));
+                                    .Set(n.AsMap));
 
             Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
@@ -193,14 +193,13 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_Set_WithPrefix_Test()
         {
-            //            CypherCommand cypher = _(n => n_ =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n.P(PropA, Pre(n_, PropB)))); 
+            CypherCommand cypher = _(n => n_ =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(n.P(PropA, Pre(n_, PropB))));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
-            //SET n.PropA  = $PropA, n.PropB  = $n_PropB", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         }
 
         #endregion // Match_Set_WithPrefix_Test
@@ -210,14 +209,13 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_Set_Test()
         {
-            //            CypherCommand cypher = _(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n.P(PropA, PropB)));
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(n.P(PropA, PropB)));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person { Id: $Id })
-            //SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
         #endregion // Match_Set_Test
@@ -341,7 +339,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, P(Id)))
-                                    .Set(+n, item))); // + should be unary operator of IVar
+                                    .Set(+n, item)));
 
             Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { Id: item.Id })
