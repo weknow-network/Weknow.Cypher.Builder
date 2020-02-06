@@ -195,9 +195,9 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_Set_WithPrefix_Test()
         {
-            //            CypherCommand cypher = P(n => n_ =>
+            //            CypherCommand cypher = _(n => n_ =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, P(PropA, Pre(n_, PropB)))); 
+            //                                    .Set(n.P(PropA, Pre(n_, PropB)))); 
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
@@ -214,7 +214,7 @@ SET n += $n", cypher.Query);
         {
             //            CypherCommand cypher = _(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, P(PropA, PropB)));
+            //                                    .Set(n.P(PropA, PropB)));
 
             //            Assert.Equal(
             //@"MATCH (n:Person { Id: $Id })
@@ -279,7 +279,7 @@ SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Quer
         {
             //            CypherCommand cypher = P(n =>
             //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, Except<Foo>(n => P(n.Id, n.Name)))); 
+            //                                    .Set(n.Except<Foo>(n => P(n.Id, n.Name)))); 
 
             //            Assert.Equal(
             //@"MATCH (n:Person {Id: $Id})
@@ -452,12 +452,11 @@ SET n = item", cypher.Query);
         [Fact]
         public void Nested_NodeToNode_WithProp_Test()
         {
-            //CypherCommand cypher = P(n1 => n2 => n2_ =>
-            //                        N(n1, Person, P(PropA, PropB))->
-            //                        N(n2, Person, Pre(n2_, P(PropA, PropB))));
+            CypherCommand cypher = _(n1 => n2 => n2_ =>
+                                    Match(N(n1, Person, P(PropA, PropB)) >
+                                          N(n2, Person, Pre(n2_, P(PropA, PropB)))));
 
-            //Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
         #endregion // Nested_NodeToNode_WithProp_Test

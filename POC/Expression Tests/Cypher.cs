@@ -48,6 +48,7 @@ namespace Weknow.Cypher.Builder
         public static IProperties P(params object[] properties) => throw new NotImplementedException();
         [Cypher("$0")]
         public static IProperties P(Expression<Func<IProperties>> properties) => throw new NotImplementedException();
+        public static IProperties P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
         [Cypher("+00$1")]
         public static IProperties Pre(IVar var, IProperties properties) => throw new NotImplementedException();
         public static IProperties Convention(Func<string, bool> filter) => throw new NotImplementedException();
