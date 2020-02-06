@@ -17,7 +17,13 @@ namespace Weknow.Cypher.Builder
         IProperties AsMap { get; }
     }
 
-    public interface INode { }
+    public interface IPattern
+    {
+        public static IPattern operator -(IPattern l, IPattern r) => throw new NotImplementedException();
+        public static IPattern operator >(IPattern l, IPattern r) => throw new NotImplementedException();
+        public static IPattern operator <(IPattern l, IPattern r) => throw new NotImplementedException();
+    }
+
     public interface ILabel { }
     public interface IType { }
     public interface IProperty { }

@@ -35,13 +35,19 @@ namespace Weknow.Cypher.Builder
             switch (node.NodeType)
             {
                 case ExpressionType.GreaterThan:
+                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                        Query.Append("-");
                     Query.Append("->");
                     break;
                 case ExpressionType.LessThan:
                     Query.Append("<-");
+                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                        Query.Append("-");
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
+                    if(node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                        Query.Append("-");
                     break;
                 case ExpressionType.Equal:
                     Query.Append(" = ");

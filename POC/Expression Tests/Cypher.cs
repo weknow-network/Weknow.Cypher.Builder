@@ -22,21 +22,21 @@ namespace Weknow.Cypher.Builder
         }
 
         [Cypher("($0)")]
-        public static PD N(IVar var) => throw new NotImplementedException();
+        public static IPattern N(IVar var) => throw new NotImplementedException();
         [Cypher("($0:$1)")]
-        public static PD N(IVar var, ILabel label) => throw new NotImplementedException();
+        public static IPattern N(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:$1 { $2 })")]
-        public static PD N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0)")]
-        public static PD N<T>(IVar var) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
-        public static PD N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
-        public static PD N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0:$1)")]
-        public static PD N<T>(IVar var, ILabel label) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:!0:$1 { $2 })")]
-        public static PD N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
 
         public static IRelation R => throw new NotImplementedException();
 
@@ -58,11 +58,11 @@ namespace Weknow.Cypher.Builder
         [Cypher("PROFILE")]
         public static PD Profile() => throw new NotImplementedException();
         [Cypher("MATCH $0")]
-        public static PD Match(PD p) => throw new NotImplementedException();
+        public static PD Match(IPattern p) => throw new NotImplementedException();
         [Cypher("CREATE $0")]
-        public static PD Create(PD p) => throw new NotImplementedException();
+        public static PD Create(IPattern p) => throw new NotImplementedException();
         [Cypher("MERGE $0")]
-        public static PD Merge(PD p) => throw new NotImplementedException();
+        public static PD Merge(IPattern p) => throw new NotImplementedException();
         [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
         [Cypher("EXISTS { $0 }")]

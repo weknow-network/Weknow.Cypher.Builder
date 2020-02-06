@@ -49,9 +49,9 @@ LIMIT $p_2", cypher.Query);
         public void CaptureProperties_Test()
         {
             Expression<Func<IProperties>> p = () => P(PropA, PropB);
-            CypherCommand cypher = _(n => N(n, Person, P(p)));
+            CypherCommand cypher = _(n => Match(N(n, Person, P(p))));
 
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // CaptureProperties_Test
@@ -61,9 +61,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Test()
         {
-            CypherCommand cypher = _(n => N(n, Person, P(PropA, PropB)));
+            CypherCommand cypher = _(n => Match(N(n, Person, P(PropA, PropB))));
 
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Test
@@ -73,9 +73,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => N<Foo>(n, n => P(n.PropA, n.PropB)));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, n => P(n.PropA, n.PropB))));
 
-            Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultLabel_Test
@@ -85,9 +85,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultAndAdditionLabel_Test()
         {
-            CypherCommand cypher = _(n => N<Foo>(n, Person, n => P(n.PropA, n.PropB)));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, Person, n => P(n.PropA, n.PropB))));
 
-            Assert.Equal("(n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
@@ -98,9 +98,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_Test()
         {
-            CypherCommand cypher = _(n => N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
+            CypherCommand cypher = _(n => Match(N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_Test
@@ -111,11 +111,11 @@ LIMIT $p_2", cypher.Query);
         public void Properties_WithPrefix_Test()
         {
             CypherCommand cypher = _(n1 => n2 => n2_ =>
-                                    N(n1, Person, P(PropA, PropB)) -
-                                    R[n1, KNOWS] >
-                                    N(n2, Person, Pre(n2_, P(PropA, PropB))));
+                                    Match(N(n1, Person, P(PropA, PropB)) -
+                                          R[n1, KNOWS] >
+                                          N(n2, Person, Pre(n2_, P(PropA, PropB)))));
 
-            Assert.Equal("(n1:Person { PropA: $PropA, PropB: $PropB })-" +
+            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-" +
                          "[n1:KNOWS]->" +
                          "(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
@@ -127,9 +127,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Convention_WithDefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, Convention(name => name.StartsWith("Prop")))));
 
-            Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Convention_WithDefaultLabel_Test
@@ -139,9 +139,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_All_WithDefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => N<Foo>(n, f => All(f.Id, f.Name)));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, f => All(f.Id, f.Name))));
 
-            Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_All_WithDefaultLabel_Test
@@ -151,9 +151,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_Convention_Test()
         {
-            CypherCommand cypher = _(n => N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))));
+            CypherCommand cypher = _(n => Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop")))));
 
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Convention_Test
@@ -415,11 +415,10 @@ SET n = item", cypher.Query);
         [Fact]
         public void NodeToNode_Test()
         {
-            //CypherCommand cypher = P(n1 => n2 =>
-            //                        Match(N(n1, Person))-N(n2 Person));
+            CypherCommand cypher = _(n1 => n2 =>
+                                    Match(N(n1, Person) - N(n2, Person)));
 
-            //Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNode_Test
@@ -429,11 +428,10 @@ SET n = item", cypher.Query);
         [Fact]
         public void NodeToNode_Forward_Test()
         {
-            //CypherCommand cypher = P(n1 => n2 =>
-            //                        Match(N(n1, Person))>N(n2 Person));
+            CypherCommand cypher = _(n1 => n2 =>
+                                    Match(N(n1, Person) > N(n2, Person)));
 
-            //Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNode_Forward_Test
@@ -443,11 +441,10 @@ SET n = item", cypher.Query);
         [Fact]
         public void NodeToNode_Backward_Test()
         {
-            //CypherCommand cypher = _(n1 => n2 =>
-            //                        Match(N(n1, Person)) < N(n2, Person));
+            CypherCommand cypher = _(n1 => n2 =>
+                                    Match(N(n1, Person) < N(n2, Person)));
 
-            //Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNodNodeToNode_Backward_Teste_Forward_Test
@@ -490,8 +487,9 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(PropA)))
-                                    .Where(Exists(m => r => Match(N(n)) - R[r, KNOWS] > N(m)
-                                    .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
+                                    .Where(Exists(m => r => 
+                                        Match(N(n) - R[r, KNOWS] > N(m))
+                                        .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
 
             Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
