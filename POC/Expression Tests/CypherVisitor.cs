@@ -22,6 +22,7 @@ namespace Weknow.Cypher.Builder
             [1] = new ContextValue<Expression>(null),
             [2] = new ContextValue<Expression>(null)
         };
+        private Dictionary<string, Expression> _reuseParameters = new Dictionary<string, Expression>();
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
@@ -87,7 +88,11 @@ namespace Weknow.Cypher.Builder
                     switch (format[i])
                     {
                         case '$':
-                            Visit(node.Arguments[int.Parse(format[++i].ToString())]);
+                            var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                            if (expr is ParameterExpression p && _reuseParameters.ContainsKey(p.Name))
+                                Visit(_reuseParameters[p.Name]);
+                            else
+                                Visit(expr);
                             break;
                         case '!':
                             Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
@@ -110,6 +115,10 @@ namespace Weknow.Cypher.Builder
                     }
                 }
                 disp?.Dispose();
+            }
+            else if (node.Method.Name == nameof(Cypher.Reuse))
+            {
+                _reuseParameters[(node.Arguments[0] as ParameterExpression).Name] = node.Arguments[1];
             }
             else if (node.Method.Name == nameof(Range.EndAt))
             {   // TODO: consider to move implementation into VisitUnary

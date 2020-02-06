@@ -42,14 +42,12 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // ComplexExpression_Test
 
-        // TODO: P(n => N(n, Person, p)) instead of P(n => N(n, Person, P(p))) 
         #region CaptureProperties_Test
 
         [Fact]
         public void CaptureProperties_Test()
         {
-            Expression<Func<IProperties>> p = () => P(PropA, PropB);
-            CypherCommand cypher = _(n => Match(N(n, Person, P(p))));
+            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))(p => n => Match(N(n, Person, p))));
 
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -466,13 +464,11 @@ SET n = item", cypher.Query);
         [Fact]
         public void Nested_NodeToNode_ReusedProp_Test()
         {
-            //CypherCommand cypher = P(p => P(PropA, PropB),
-            //                        n1 => n2 => n2_ =>
-            //                        N(n1, Person, p) ->
-            //                        N(n2, Person, Pre(n2_, p)));
+            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
+                                    (p => n1 => n2 => n2_ =>
+                                    Match(N(n1, Person, p) > N(n2, Person, Pre(n2_, p)))));
 
-            //Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
         #endregion // Nested_NodeToNode_ReusedProp_Test

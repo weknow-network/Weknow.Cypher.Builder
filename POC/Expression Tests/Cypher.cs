@@ -71,6 +71,8 @@ namespace Weknow.Cypher.Builder
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
         [Cypher("EXISTS { $0 }")]
         public static bool Exists(PD p) => throw new NotImplementedException();
+
+        public static Func<Func<T, PD>, PD> Reuse<T>(this IVar var, T v) => f => f(v);
     }
 
 }
