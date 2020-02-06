@@ -55,7 +55,7 @@ namespace Weknow.Cypher.Builder
         }
 
         protected override Expression VisitUnary(UnaryExpression node)
-        { 
+        {
             var result = base.VisitUnary(node);
             var formatter = _formatter.Value;
             if (_methodName == "Set" && node.NodeType == ExpressionType.UnaryPlus)
@@ -69,7 +69,6 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             using var _ = _isProperties.Set(_isProperties.Value || node.Method.ReturnType == typeof(IProperties));
-            using var _1 = _methodName.Set(node.Method.Name);
 
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
@@ -93,6 +92,9 @@ namespace Weknow.Cypher.Builder
                         case '.':
                             disp = _expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
+                        case '&':
+                            disp = _methodName.Set(node.Method.Name);
+                            break;
                         case '\\':
                             Query.Append(format[++i]);
                             break;
@@ -115,14 +117,32 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Method.Name == nameof(Cypher.All))
             {
-                var properties = node.Method.GetGenericArguments()[0].GetProperties();
-                foreach (var item in properties)
+                if (node.Method.IsGenericMethod)
                 {
-                    Visit(node.Arguments[0]);
-                    Query.Append(".");
-                    Query.Append(item.Name);
-                    if (item != properties.Last())
-                        Query.Append(", ");
+                    var properties = node.Method.GetGenericArguments()[0].GetProperties();
+                    foreach (var item in properties)
+                    {
+                        Visit(node.Arguments[0]);
+                        Query.Append(".");
+                        Query.Append(item.Name);
+                        if (item != properties.Last())
+                            Query.Append(", ");
+                    }
+                }
+                else
+                {
+                    var properties = (_expression[1].Value as MethodCallExpression).Method.GetGenericArguments()[0].GetProperties();
+                    var exclude = (node.Arguments[0] as NewArrayExpression).Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
+                    foreach (var item in properties)
+                    {
+                        if (exclude.Contains(item.Name)) continue;
+
+                        Query.Append(item.Name);
+                        Query.Append(": $");
+                        Query.Append(item.Name);
+                        if (item != properties.Last())
+                            Query.Append(", ");
+                    }
                 }
             }
             else if (node.Method.Name == nameof(Cypher.Convention))
@@ -162,7 +182,7 @@ namespace Weknow.Cypher.Builder
             }
             if (node.Expression != null && !_isProperties.Value)
             {
-                if(node.Member.Name == nameof(IVar.AsMap))
+                if (node.Member.Name == nameof(IVar.AsMap))
                 {
                     Query.Append("$");
                     Visit(node.Expression);
@@ -189,6 +209,11 @@ namespace Weknow.Cypher.Builder
                     Query.Append("$");
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
+            }
+            if(_methodName == "Set")
+            {
+                Query.Append(" = $");
+                Query.Append(node.Member.Name);
             }
             return node;
         }

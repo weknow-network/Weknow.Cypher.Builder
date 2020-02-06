@@ -98,7 +98,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_Test()
         {
-            CypherCommand cypher = _(n => N(n, Person, P<Foo>(n => P(n.PropA, n.PropB))));
+            CypherCommand cypher = _(n => N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
 
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -139,10 +139,9 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_All_WithDefaultLabel_Test()
         {
-            //CypherCommand cypher = P(n => N<Foo>(n, All(f => f.Id, f => f.Name)));
+            CypherCommand cypher = _(n => N<Foo>(n, f => All(f.Id, f.Name)));
 
-            //Assert.Equal("(n:Foo {  PropA: $PropA, PropB: $PropB })", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_All_WithDefaultLabel_Test
@@ -230,14 +229,13 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Test()
         {
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, P<Foo>(f => P(f.PropA, f.PropB)))); 
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(n.As<Foo>().PropA, n.As<Foo>().PropB));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
-            //            SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
         #endregion // Match_Set_OfT_Test
@@ -492,7 +490,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(PropA)))
-                                    .Where(Exists(m => r => Match(N(n))-R[r, KNOWS]>N(m)
+                                    .Where(Exists(m => r => Match(N(n)) - R[r, KNOWS] > N(m)
                                     .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
 
             Assert.Equal(
