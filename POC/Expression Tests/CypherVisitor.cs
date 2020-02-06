@@ -13,6 +13,7 @@ namespace Weknow.Cypher.Builder
     {
         public StringBuilder Query { get; } = new StringBuilder();
         public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
+
         private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
         private ContextValue<MethodCallExpression> _methodExpr = new ContextValue<MethodCallExpression>(null);
         private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -20,7 +21,8 @@ namespace Weknow.Cypher.Builder
         {
             [0] = new ContextValue<Expression>(null),
             [1] = new ContextValue<Expression>(null),
-            [2] = new ContextValue<Expression>(null)
+            [2] = new ContextValue<Expression>(null),
+            [3] = new ContextValue<Expression>(null),
         };
         private Dictionary<string, Expression> _reuseParameters = new Dictionary<string, Expression>();
 
@@ -230,7 +232,14 @@ namespace Weknow.Cypher.Builder
             }
             if (_methodExpr.Value?.Method.Name == "Set")
             {
-                Query.Append(" = $");
+                Query.Append(" = ");
+                if (_expression[0].Value != null)
+                {
+                    Query.Append("$");
+                    Visit(_expression[0].Value);
+                }
+                else
+                    Query.Append("$");
                 Query.Append(node.Member.Name);
             }
             return node;
@@ -240,6 +249,11 @@ namespace Weknow.Cypher.Builder
         {
             foreach (var expr in node.Expressions)
             {
+                if(_expression[3].Value != null)
+                {
+                    Visit(_expression[3].Value);
+                    Query.Append(".");
+                }    
                 Visit(expr);
                 if (expr != node.Expressions.Last())
                     Query.Append(", ");

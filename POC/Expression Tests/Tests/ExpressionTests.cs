@@ -71,7 +71,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, n => P(n.PropA, n.PropB))));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
             Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -83,7 +83,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_OfT_DefaultAndAdditionLabel_Test()
         {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, Person, n => P(n.PropA, n.PropB))));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
             Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -137,7 +137,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Properties_All_WithDefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, f => All(f.Id, f.Name))));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, All(n.As<Foo>().Id, n.As<Foo>().Name))));
 
             Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }

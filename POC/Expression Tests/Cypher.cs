@@ -32,13 +32,11 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0:!0)")]
         public static IPattern N<T>(IVar var) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
-        public static IPattern N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
-        [Cypher(".1($0:!0 { $1 })")]
         public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0:$1)")]
         public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:!0:$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
 
         public static IRelation R => throw new NotImplementedException();
 
@@ -48,6 +46,7 @@ namespace Weknow.Cypher.Builder
         public static IProperties P(params object[] properties) => throw new NotImplementedException();
         [Cypher("$0")]
         public static IProperties P(Expression<Func<IProperties>> properties) => throw new NotImplementedException();
+        [Cypher("+30$1")]
         public static IProperties P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
         [Cypher("+00$1")]
         public static IProperties Pre(IVar var, IProperties properties) => throw new NotImplementedException();
