@@ -55,6 +55,7 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0")]
         public static T As<T>(this IVar var) => throw new NotImplementedException();
         public static IProperties All<T>(this IVar var) => throw new NotImplementedException();
+        public static IProperties Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
         public static IProperties All(params object[] p) => throw new NotImplementedException();
 
         [Cypher("PROFILE")]

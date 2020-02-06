@@ -245,14 +245,13 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Convention_Test()
         {
-            //            CypherCommand cypher = _(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n, Convention<Foo>(name => name.StartsWith("Prop"))));
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person { Id: $Id })
-            //SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
         #endregion // Match_Set_OfT_Convention_Test

@@ -131,7 +131,7 @@ namespace Weknow.Cypher.Builder
                         Visit(node.Arguments[0]);
                         Query.Append(".");
                         Query.Append(item.Name);
-                        if(_methodName == "Set")
+                        if (_methodName == "Set")
                         {
                             Query.Append(" = $");
                             Query.Append(item.Name);
@@ -158,15 +158,23 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Method.Name == nameof(Cypher.Convention))
             {
-                var filter = (node.Arguments[0] as Expression<Func<string, bool>>).Compile();
+                var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>).Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
                     : (_expression[1].Value as MethodCallExpression).Method.GetGenericArguments();
                 var properties = arguments[0].GetProperties().Where(p => filter(p.Name)).ToArray();
                 foreach (var item in properties)
                 {
+                    if (node.Arguments.Count == 2)
+                    {
+                        Visit(node.Arguments[0]);
+                        Query.Append(".");
+                    }
                     Query.Append(item.Name);
-                    Query.Append(": ");
+                    if (node.Arguments.Count == 1)
+                        Query.Append(": ");
+                    else
+                        Query.Append(" = ");
                     if (_expression[2].Value != null)
                     {
                         Visit(_expression[2].Value);
