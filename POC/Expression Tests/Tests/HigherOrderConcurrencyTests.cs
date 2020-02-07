@@ -1,13 +1,25 @@
 using System;
 using System.Linq.Expressions;
 using Xunit;
+using Xunit.Abstractions;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    public class HigherOrderTests
+    public class HigherOrderConcurrencyTests
     {
+        private readonly ITestOutputHelper _outputHelper;
+
+        #region Ctor
+
+        public HigherOrderConcurrencyTests(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+        }
+
+        #endregion // Ctor
+
         // TODO: Move Higher order component tests
         #region Concurrency_Pattern_Test
 

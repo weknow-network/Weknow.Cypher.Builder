@@ -14,7 +14,6 @@
     <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
     <Version>1.0.35</Version>
-    <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
 
