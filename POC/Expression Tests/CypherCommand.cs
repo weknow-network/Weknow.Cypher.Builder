@@ -9,14 +9,15 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder
 {
-
     public class CypherCommand
     {
         public string Query { get; }
         public Dictionary<string, object> Parameters { get; }
 
-        public CypherCommand(string query, Dictionary<string, object> parameters)
-        {
+        public CypherCommand(
+            string query, 
+            Dictionary<string, object> parameters) // TODO: not necessary dictionary
+           {
             Query = query;
             Parameters = parameters;
         }

@@ -11,6 +11,13 @@ namespace Weknow.Cypher.Builder
 {
     public class CypherVisitor : ExpressionVisitor
     {
+        private readonly ICypherConfig _configuration; // TODO: Use to format cypher
+
+        public CypherVisitor(ICypherConfig configuration)
+        {
+            _configuration = configuration;
+        }
+
         public StringBuilder Query { get; } = new StringBuilder();
         public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
 

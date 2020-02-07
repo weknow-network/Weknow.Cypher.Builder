@@ -14,11 +14,17 @@ namespace Weknow.Cypher.Builder
     {
         public delegate PD PD(IVar var);
 
-        public static CypherCommand _(Expression<PD> expr)
+        public static CypherCommand _(
+                            Expression<PD> expr, 
+                            Action<CypherConfig>? configuration = null)
         {
-            var visitor = new CypherVisitor();
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
             visitor.Visit(expr);
-            return new CypherCommand(visitor.Query.ToString(), visitor.Parameters);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
         }
 
         [Cypher("($0)")]

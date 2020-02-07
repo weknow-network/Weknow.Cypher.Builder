@@ -9,6 +9,7 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder
 {
+    // TODO: rename to ICypherUnit
     public interface IVar
     {
         public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
@@ -31,6 +32,5 @@ namespace Weknow.Cypher.Builder
     public interface IMap { }
     public interface IProperties { }
     public interface IParameter { }
-    public interface IInfinit { }
 
 }
