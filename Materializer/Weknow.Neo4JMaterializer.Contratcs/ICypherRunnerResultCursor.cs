@@ -38,15 +38,15 @@ namespace Weknow
         /// Exposed as reactive stream.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="options">The options.</param>
         /// <returns></returns>
-        ISourceBlock<CypherResult<T, object>> ToDataflow<T>(DataflowBlockOptions? options = null);
+        IObservable<CypherResult<T, TContext>> ToReactive<T, TContext>(TContext context);
         /// <summary>
         /// Exposed as reactive stream.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="options">The options.</param>
         /// <returns></returns>
-        IObservable<CypherResult<T, TContext>> ToReactive<T, TContext>(TContext context);
+        ISourceBlock<CypherResult<T, object>> ToDataflow<T>(DataflowBlockOptions? options = null);
         /// <summary>
         /// Exposed as reactive stream.
         /// </summary>
