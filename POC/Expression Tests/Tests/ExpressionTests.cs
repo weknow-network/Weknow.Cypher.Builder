@@ -78,6 +78,21 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Properties_OfT_DefaultLabel_Test
 
+        // TODO: thinking on a way to keep the generics within the method scope in order to reduce suplication
+        #region Properties_OfT_DefaultLabel_AvoidDuplication_Test
+
+        [Fact]
+        public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
+        {
+            //// Current style: CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
+            //CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.PropA /* N<Foo> */, n.As<Bar>().Date))));
+
+            //Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date })", cypher.Query);
+            throw new NotFiniteNumberException();
+        }
+
+        #endregion // Properties_OfT_DefaultLabel_AvoidDuplication_Test
+
         #region Properties_OfT_DefaultAndAdditionLabel_Test
 
         [Fact]
