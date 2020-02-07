@@ -4,7 +4,7 @@ using Xunit;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
-// TODO: Copy class Pattern to FullBamePattern for naming standard
+// TODO: Duplicate class Pattern to FullNamePattern for naming standard
 
 // TODO: parameter factory injection for enabling to work with Neo4jParameters (Neo4jMapper)
 //       Mimic Neo4jMappaer WithEntity, WithEntities + integration test
@@ -90,7 +90,6 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
 
-        // TODO: TBD: how can we use syntax with single P()
         #region Properties_OfT_Test
 
         [Fact]
@@ -161,13 +160,14 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.AsMap));
+            //            CypherCommand cypher = _(n =>
+            //                                    Match(N(n, Person, P(Id)))
+            //                                    .Set(+n.AsMap));
 
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n += $n", cypher.Query);
+            //            Assert.Equal(
+            //@"MATCH (n:Person { Id: $Id })
+            //SET n += $n", cypher.Query);
+            throw new NotImplementedException();
         }
 
         #endregion // Match_SetAsMap_Update_Test
@@ -183,7 +183,7 @@ SET n += $n", cypher.Query);
 
             Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
-SET n += $n", cypher.Query);
+SET n = $n", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Replace_Test
@@ -591,51 +591,62 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #endregion // Range_Infinit_Test
 
-        // todo: {name: 'Alice', age: 38,
-        //       address: {city: 'London', residential: true}}
-
         // TODO: FOREACH, DELETE, DETACH
         // TODO: UNION, UNION ALL
-        // TODO: Auto WITH
-        // TODO: RETURN & RETURN<T> with projection
+        /*
+         CALL {
+  MATCH (p:Person)-[:FRIEND_OF]->(other:Person) RETURN p, other
+  UNION
+  MATCH (p:Child)-[:CHILD_OF]->(other:Parent) RETURN p, other
+}
+         */
 
-        // TODO: AND, OR, AS, LIMIT, SKIP, ORDER BY, 
+        // TODO: Auto WITH
+
+        // TODO: AND, OR, AS,
         // TODO: variable IS NULL
         // TODO: NOT exists(n.property
-        // TODO: MATCH OnCreate OnMatch
+        // TODO: MERGE OnCreate OnMatch
         // TODO: [x IN list | x.prop]
         // TODO: [x IN list WHERE x.prop <> $value]
         // TODO: [x IN list WHERE x.prop <> $value | x.prop]
-        // TODO: reduce(s = "", x IN list | s + x.prop)
-        // TODO: all(x IN coll WHERE exists(x.property))
-        // TODO: any(x IN coll WHERE exists(x.property))
-        // TODO: none(x IN coll WHERE exists(x.property))
-        // TODO: single(x IN coll WHERE exists(x.property))
-        // TODO: CASE  WHEN ELSE
+        // TODO: reduce(s = "", x IN list | s + x.prop) // Aggregate + Reduce overloads
+        // TODO: all(x IN coll WHERE exists(x.property)) // LINQ
+        // TODO: any(x IN coll WHERE exists(x.property)) // LINQ
+        // TODO: none(x IN coll WHERE exists(x.property))  // LINQ + overload for none
+        // TODO: single(x IN coll WHERE exists(x.property)) // LINQ
+        // TODO: CASE  WHEN ELSE 
 
-        // TODO:list[$idx] AS value,
-        // TODO:list[$startIdx..$endIdx] AS slice
+        // TODO:list[$idx] AS value, // Indexer
+        // TODO:list[$startIdx..$endIdx] AS slice // Indexer[range]
 
-        // TODO: n.property STARTS WITH 'Tim' OR
-        // TODO: n.property ENDS WITH 'n' OR
-        // TODO: n.property CONTAINS 'goodie'
-        // TODO: n.property =~ 'Tim.*'
-        // TODO: n.property IN [$value1, $value2]'
+        // TODO: n.property STARTS WITH 'Tim' OR // string + analyzer in future
+        // TODO: n.property ENDS WITH 'n' OR// string + analyzer in future
+        // TODO: n.property CONTAINS 'goodie'// string + analyzer in future
+        // TODO: n.property =~ 'Tim.*' 
+        // TODO: n.property IN [$value1, $value2]' // LINQ Contains + overload In
 
         // TODO: exists(n.property),
-        // TODO: coalesce,timestamp, id, toInteger, toFloat, toBoolean,
-        // TODO: head, last, tail,
+        // TODO: coalesce, // ??
+        // TODO: timestamp, id, 
+        // TODO: toInteger, toFloat, toBoolean, // cast
+        // TODO: head, last, tail, // LINQ first, last, skip(1), apoc -> skip (n)
         // TODO: keys, properties, 
-        // TODO: count, collect, sum, percentileDisc, stDev
-        // TODO: length, nodes, relationships, 
+        // TODO: count // LINQ
+        // TODO: length, Size // TODO: what is the right usage
+        // TODO: collect, 
+        // TODO: nodes, relationships, 
 
-        // TODO: abs, rand, sqrt, sign, 
+        // TODO: sum, percentileDisc, stDev, abs, rand, sqrt, sign, 
         // TODO: sin, cos, tan, cot, asin, acos, atan, atan2, haversin
         // TODO: degrees, radians, pi, 
         // TODO: log10, log, exp, pi
-        // TODO: toString, replace, substring, left, trim, toUpper, split, reverse, size
 
-        // TODO: Spatial, date time / duration related
+        // TODO: toString, replace, substring, left, trim, toUpper, split, reverse
+
+        // TODO: Spatial, 
+        // TODO: date time / duration related // DateTime / TimeSpan
+
         // TODO: Constraint and Index
 
         // TODO: USER / ROLE MANAGEMENT and Privileges
@@ -647,6 +658,9 @@ WHERE n.Name = m.Name }", cypher.Query);
   MATCH (p:Child)-[:CHILD_OF]->(other:Parent) RETURN p, other
 }*/
 
+
+        // todo: {name: 'Alice', age: 38,
+        //       address: {city: 'London', residential: true}}
     }
 }
 
