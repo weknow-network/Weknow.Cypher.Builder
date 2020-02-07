@@ -1,4 +1,4 @@
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using Neo4jMapper;
 using System;
 using System.Collections;
@@ -27,7 +27,7 @@ namespace Weknow.CoreIntegrationTests
 
     public class AdvanceEntitiesTests : IDisposable
     {
-        private readonly ISession _session;
+        private readonly IAsyncSession _session;
         private const string TEST_ENV_LABEL = "TEST_ENV";
         private const string ID = "Id";
         private readonly FluentCypher _builder =
@@ -47,13 +47,14 @@ namespace Weknow.CoreIntegrationTests
             string password = Environment.GetEnvironmentVariable("TEST_N4J_PASS") ?? "123456";
 
             var driver = GraphDatabase.Driver(connectionString, AuthTokens.Basic(userName, password));
-            _session = driver.Session(AccessMode.Write);
+            _session = driver.AsyncSession(cfg => cfg.WithDefaultAccessMode(AccessMode.Write));
+            var session = driver.Session(cfg => cfg.WithDefaultAccessMode(AccessMode.Write));
 
             try
             {
-                _session.Run($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n");
+                session.Run($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n");
                 string cypher = I.CreateUniqueConstraint<Payload>(P => P.Id, CypherNamingConvention.SCREAMING_CASE);
-                _session.Run(cypher);
+                session.Run(cypher);
             }
             catch (Exception)
             {
@@ -98,7 +99,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>($"items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -128,7 +129,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>($"items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<(string Name, DateTime? Date)> results = 
                 await cursor.MapAsync<string, DateTime, (string name, DateTime? date)>(
                     (n,d) => (n,d)    
@@ -160,7 +161,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -188,7 +189,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>($"items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -233,7 +234,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -264,7 +265,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -291,7 +292,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -319,7 +320,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads, results);
@@ -410,7 +411,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities<Payload>("items", payloads1);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results1 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads1, results1);
@@ -506,7 +507,7 @@ namespace Weknow.CoreIntegrationTests
             var parms = new Neo4jParameters()
                          .WithEntities("items", payloads1);
 
-            IStatementResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
             IList<Payload> results1 = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
             Assert.Equal(payloads1, results1);
