@@ -380,6 +380,47 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
         #endregion // Unwind_Test
 
+        #region Unwind_ShouldUseDefaultPlurality_Test
+
+        [Fact]
+        public void Unwind_ShouldUseDefaultPlurality_Test()
+        {
+            CypherCommand cypher = _(items => n =>
+                                    Unwind(items, // TODO: should use plurality
+                                    Match(N(n, Person, P(PropA, PropB)))));
+
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+        }
+
+        #endregion // Unwind_ShouldUseDefaultPlurality_Test
+
+        #region Unwind_ShouldUseCustomPlurality_Test
+
+        [Fact]
+        public void Unwind_ShouldUseCustomPlurality_Test()
+        {
+            CypherCommand cypher = _(items => n =>
+                                    Unwind(items, // TODO: should use plurality
+                                    Match(N(n, Person, P(PropA, PropB)))),
+                                    cfg => cfg.Naming.SetPluralization(
+                                                n => n switch
+                                                { 
+                                                    "unit" => "items",
+                                                    _ => $"{n}s"
+                                                },
+                                                n => n switch
+                                                {
+                                                    "items" => "item",
+                                                    _ => $"unitOf{n}"
+                                                }));
+
+            Assert.Equal(@"UNWIND $items AS unit
+MATCH (n:Person { PropA: unit.PropA, PropB: unit.PropB })", cypher.Query);
+        }
+
+        #endregion // Unwind_ShouldUseCustomPlurality_Test
+
         #region Unwind_Entities_Update_Test
 
         [Fact]
