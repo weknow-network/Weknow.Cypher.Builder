@@ -219,9 +219,9 @@ namespace Weknow.Cypher.Builder
                 Query.Append(".");
             }
             Query.Append(node.Member.Name);
-            if ((node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value) && _methodExpr.Value?.Method.Name != "Set")
+            if (_isProperties.Value)
             {
-                Query.Append(": ");
+                Query.Append(_methodExpr.Value?.Method.Name == "Set" ? " = " : ": ");
                 if (_expression[0].Value != null)
                 {
                     Query.Append("$");
@@ -236,18 +236,6 @@ namespace Weknow.Cypher.Builder
                     Query.Append("$");
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
-            }
-            if (_methodExpr.Value?.Method.Name == "Set")
-            {
-                Query.Append(" = ");
-                if (_expression[0].Value != null)
-                {
-                    Query.Append("$");
-                    Visit(_expression[0].Value);
-                }
-                else
-                    Query.Append("$");
-                Query.Append(node.Member.Name);
             }
             return node;
         }
