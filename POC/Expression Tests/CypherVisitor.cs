@@ -74,7 +74,7 @@ namespace Weknow.Cypher.Builder
         {
             Visit(node.Operand);
             var formatter = _formatter.Value;
-            if (_methodExpr.Value?.Method.Name == "Set" && node.NodeType == ExpressionType.UnaryPlus)
+            if (_methodExpr.Value?.Method.Name == "Set" && formatter.Index + 2 < formatter.Format.Length && formatter.Format[formatter.Index + 2] == '=' && node.NodeType == ExpressionType.UnaryPlus)
             {
                 formatter++;
                 Query.Append(" +");
