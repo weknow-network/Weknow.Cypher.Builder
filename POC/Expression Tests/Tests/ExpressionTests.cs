@@ -83,10 +83,6 @@ LIMIT $p_2", cypher.Query);
         {
             CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))(p => n => Match(N(n, Person, p))));
 
-            CypherCommand cypher1 = _(p1 => p2 => p1.Reuse(P(PropA, PropB)).Reuse(p2, P(PropA, PropB))
-                                     (p1 => p2 => n => 
-                                      Match(N(n, Person, p1))));
-
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
