@@ -12,10 +12,10 @@ namespace Weknow.Cypher.Builder
 
     public class Foo
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string PropA { get; set; }
-        public string PropB { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string PropA { get; set; } = string.Empty;
+        public string PropB { get; set; } = string.Empty;
     }
 
 }

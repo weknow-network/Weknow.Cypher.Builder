@@ -11,25 +11,25 @@ namespace Weknow.Cypher.Builder
 {
     public class CypherVisitor : ExpressionVisitor
     {
-        private readonly ICypherConfig _configuration; // TODO: Use to format cypher
+        private readonly CypherConfig _configuration; // TODO: Use to format cypher
 
-        public CypherVisitor(ICypherConfig configuration)
+        public CypherVisitor(CypherConfig configuration)
         {
             _configuration = configuration;
         }
 
         public StringBuilder Query { get; } = new StringBuilder();
-        public Dictionary<string, object> Parameters { get; } = new Dictionary<string, object>();
+        public Dictionary<string, object?> Parameters { get; } = new Dictionary<string, object?>();
 
         private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-        private ContextValue<MethodCallExpression> _methodExpr = new ContextValue<MethodCallExpression>(null);
+        private ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
-        private Dictionary<int, ContextValue<Expression>> _expression = new Dictionary<int, ContextValue<Expression>>()
+        private Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
         {
-            [0] = new ContextValue<Expression>(null),
-            [1] = new ContextValue<Expression>(null),
-            [2] = new ContextValue<Expression>(null),
-            [3] = new ContextValue<Expression>(null),
+            [0] = new ContextValue<Expression?>(null),
+            [1] = new ContextValue<Expression?>(null),
+            [2] = new ContextValue<Expression?>(null),
+            [3] = new ContextValue<Expression?>(null),
         };
         private Dictionary<string, Expression> _reuseParameters = new Dictionary<string, Expression>();
 
@@ -90,7 +90,7 @@ namespace Weknow.Cypher.Builder
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
-                IDisposable disp = null;
+                IDisposable? disp = null;
                 using var formatter = _formatter.Set(new FormatingState(format));
                 for (var i = _formatter.Value; !i.Ended; i++)
                 {
@@ -127,13 +127,13 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Method.Name == nameof(Cypher.Reuse))
             {
-                _reuseParameters[(node.Arguments[0] as ParameterExpression).Name] = node.Arguments[1];
+                _reuseParameters[(node.Arguments[0] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[1];
             }
             else if (node.Method.Name == nameof(Range.EndAt))
             {   // TODO: consider to move implementation into VisitUnary
                 Query.Append("*..");
                 var index = node.Arguments[0] as UnaryExpression;
-                Query.Append(index.Operand);
+                Query.Append(index?.Operand);
             }
             else if (node.Method.Name == "get_" + nameof(Range.All))
             {
@@ -160,8 +160,15 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                 {
-                    var properties = (_expression[1].Value as MethodCallExpression).Method.GetGenericArguments()[0].GetProperties();
-                    var exclude = (node.Arguments[0] as NewArrayExpression).Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
+                    MethodCallExpression? methodExp = _expression[1].Value as MethodCallExpression;
+                    var properties = methodExp == null ? 
+                                    Array.Empty<PropertyInfo>() : 
+                                    methodExp.Method.GetGenericArguments()[0].GetProperties();
+
+                    NewArrayExpression? arrayExp = node.Arguments[0] as NewArrayExpression;
+                    string[] exclude = arrayExp == null ?
+                        Array.Empty<string>() :
+                        arrayExp.Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
                     foreach (var item in properties)
                     {
                         if (exclude.Contains(item.Name)) continue;
@@ -176,12 +183,13 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Method.Name == nameof(Cypher.Convention))
             {
-                var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>).Compile();
+                var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
-                    : (_expression[1].Value as MethodCallExpression).Method.GetGenericArguments();
-                var properties = arguments[0].GetProperties().Where(p => filter(p.Name)).ToArray();
-                foreach (var item in properties)
+                    : (_expression[1].Value as MethodCallExpression)?.Method?.GetGenericArguments();
+                Type? firstArgType = arguments?[0];
+                var properties = firstArgType?.GetProperties()?.Where(p => filter?.Invoke(p.Name) ?? true).ToArray();
+                foreach (var item in properties ?? Array.Empty<PropertyInfo>())
                 {
                     if (node.Arguments.Count == 2)
                     {
@@ -266,10 +274,10 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append("*");
                 var index = node.Arguments[0] as UnaryExpression;
-                Query.Append(index.Operand);
+                Query.Append(index?.Operand);
                 Query.Append("..");
                 index = node.Arguments[1] as UnaryExpression;
-                Query.Append(index.Operand);
+                Query.Append(index?.Operand);
 
                 return node;
             }
