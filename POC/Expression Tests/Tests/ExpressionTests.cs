@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
              });
 
             Assert.Equal(
-@"MATCH (a:'@PROD':'@MY_ORG':PERSON)-[r1:KNOWS]->(b:'@PROD':'@MY_ORG':PERSON)<-[r2:KNOWS]-(c:'@PROD':'@MY_ORG':PERSON)
+@"MATCH (a:PERSON:`@PROD`:`@MY_ORG`)-[r1:KNOWS]->(b:PERSON:`@PROD`:`@MY_ORG`)<-[r2:KNOWS]-(c:PERSON:`@PROD`:`@MY_ORG`)
 WHERE a.Name = $p_0
 RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c
 ORDER BY a.Name

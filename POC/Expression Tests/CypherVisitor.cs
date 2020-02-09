@@ -161,8 +161,8 @@ namespace Weknow.Cypher.Builder
                 else
                 {
                     MethodCallExpression? methodExp = _expression[1].Value as MethodCallExpression;
-                    var properties = methodExp == null ? 
-                                    Array.Empty<PropertyInfo>() : 
+                    var properties = methodExp == null ?
+                                    Array.Empty<PropertyInfo>() :
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
 
                     NewArrayExpression? arrayExp = node.Arguments[0] as NewArrayExpression;
@@ -226,9 +226,11 @@ namespace Weknow.Cypher.Builder
                     return node;
                 Query.Append(".");
             }
-            if(node.Type == typeof(ILabel))
+            if (node.Type == typeof(ILabel))
             {
                 Query.Append(":");
+                Query.Append(_configuration.AmbientLabels.Combine(node.Member.Name));
+                return node;
             }
             Query.Append(node.Member.Name);
             if (_isProperties.Value)
@@ -256,11 +258,11 @@ namespace Weknow.Cypher.Builder
         {
             foreach (var expr in node.Expressions)
             {
-                if(_expression[3].Value != null)
+                if (_expression[3].Value != null)
                 {
                     Visit(_expression[3].Value);
                     Query.Append(".");
-                }    
+                }
                 Visit(expr);
                 if (expr != node.Expressions.Last())
                     Query.Append(", ");
