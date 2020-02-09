@@ -218,6 +218,10 @@ namespace Weknow.Cypher.Builder
                     return node;
                 Query.Append(".");
             }
+            if(node.Type == typeof(ILabel))
+            {
+                Query.Append(":");
+            }
             Query.Append(node.Member.Name);
             if (_isProperties.Value)
             {

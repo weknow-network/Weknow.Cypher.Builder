@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
         public static PD Skip(this PD p, int count) => throw new NotImplementedException();
         [Cypher("$0\r\nLIMIT $1")]
         public static PD Limit(this PD p, int count) => throw new NotImplementedException();
-        [Cypher("$0\r\nSET $1:$2")]
+        [Cypher("$0\r\nSET $1$2")]
         public static PD Set(this PD p, IVar node, ILabel label) => throw new NotImplementedException();
         [Cypher("$0\r\n&SET $1 = $2")]
         public static PD Set(this PD p, IVar node, IVar map) => throw new NotImplementedException();
