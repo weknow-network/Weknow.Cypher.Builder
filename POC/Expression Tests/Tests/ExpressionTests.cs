@@ -104,13 +104,15 @@ LIMIT $p_2", cypher.Query);
         #endregion // CaptureNodeAndProperties_Test
 
 
+        // TODO: disable the option of chaining Reuse in a row because of the backward ordering (confusion)
         #region CaptureProperties_Test
 
         [Fact]
         public void CaptureAny_Test()
         {
-            CypherCommand cypher = _(n => Reuse(P(PropA, PropB)).Reuse(N(n, Person))
-                                     .By(n => p => n1 =>
+            CypherCommand cypher = _(n => Reuse(P(PropA, PropB))
+                                         .Reuse(N(n, Person))
+                                     .By(n => p => n1 => // backward ordering
                                       Match(N(n1, Person, p) - n)));
 
             Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })--(n:Person)", cypher.Query);
