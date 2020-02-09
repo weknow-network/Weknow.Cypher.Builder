@@ -94,16 +94,16 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureNodeAndProperties_Test()
         {
-            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
-                                          (p => n => n.Reuse(N(n, Person, p))
-                                          (n => Match(n))));
+            //CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
+            //                              (p => n => n.Reuse(N(n, Person, p))
+            //                              (n => Match(n))));
             //CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
             //                              .By(p => n => n.Reuse(N(n, Person, p))
             //                                             .By(n => Match(n)));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            //Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
 
-            throw new NotImplementedException(); // TODO: consider the .By syntax
+            throw new NotImplementedException(); // TODO: consider the .By syntax and using previous reused's var in the next reuse
         }
 
         #endregion // CaptureNodeAndProperties_Test
