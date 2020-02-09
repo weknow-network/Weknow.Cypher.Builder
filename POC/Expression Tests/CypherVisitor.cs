@@ -74,7 +74,7 @@ namespace Weknow.Cypher.Builder
         {
             Visit(node.Operand);
             var formatter = _formatter.Value;
-            if (_methodExpr.Value?.Method.Name == "Set" && node.NodeType == ExpressionType.UnaryPlus)
+            if (_methodExpr.Value?.Method.Name == "Set" && formatter.Index + 2 < formatter.Format.Length && formatter.Format[formatter.Index + 2] == '=' && node.NodeType == ExpressionType.UnaryPlus)
             {
                 formatter++;
                 Query.Append(" +");
@@ -218,10 +218,14 @@ namespace Weknow.Cypher.Builder
                     return node;
                 Query.Append(".");
             }
-            Query.Append(node.Member.Name);
-            if ((node.Member is PropertyInfo pi && pi.PropertyType == typeof(IProperty) || _isProperties.Value) && _methodExpr.Value?.Method.Name != "Set")
+            if(node.Type == typeof(ILabel))
             {
-                Query.Append(": ");
+                Query.Append(":");
+            }
+            Query.Append(node.Member.Name);
+            if (_isProperties.Value)
+            {
+                Query.Append(_methodExpr.Value?.Method.Name == "Set" ? " = " : ": ");
                 if (_expression[0].Value != null)
                 {
                     Query.Append("$");
@@ -236,18 +240,6 @@ namespace Weknow.Cypher.Builder
                     Query.Append("$");
                 Query.Append(node.Member.Name);
                 Parameters[node.Member.Name] = null;
-            }
-            if (_methodExpr.Value?.Method.Name == "Set")
-            {
-                Query.Append(" = ");
-                if (_expression[0].Value != null)
-                {
-                    Query.Append("$");
-                    Visit(_expression[0].Value);
-                }
-                else
-                    Query.Append("$");
-                Query.Append(node.Member.Name);
             }
             return node;
         }

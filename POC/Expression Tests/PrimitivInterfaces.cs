@@ -29,7 +29,10 @@ namespace Weknow.Cypher.Builder
     public interface IType { }
     public interface IProperty { }
     public interface IETagProperty { }
-    public interface IMap { }
+    public interface IMap
+    {
+        public static IMap operator +(IMap map) => throw new NotImplementedException();
+    }
     public interface IProperties { }
     public interface IParameter { }
 

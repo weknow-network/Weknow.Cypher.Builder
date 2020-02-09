@@ -209,14 +209,13 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            //            CypherCommand cypher = _(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(+n.AsMap));
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Set(+n.AsMap));
 
-            //            Assert.Equal(
-            //@"MATCH (n:Person { Id: $Id })
-            //SET n += $n", cypher.Query);
-            throw new NotImplementedException();
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n += $n", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Update_Test
