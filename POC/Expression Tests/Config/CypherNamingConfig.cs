@@ -15,7 +15,7 @@ namespace Weknow
     /// Naming convention
     /// </summary>
     [DebuggerDisplay("Node: {NodeLabelConvention}, Relation: {RelationTagConvention}")]
-    public class CypherNamingConfig : ICypherNamingConfig
+    public class CypherNamingConfig 
     {
         private IPluralize _pluralizeImp;
 
@@ -79,5 +79,29 @@ namespace Weknow
         }
 
         #endregion // SetPluralization
+
+        #region FormatByConvention
+
+        /// <summary>
+        /// Formats by convention.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="convention">The convention.</param>
+        /// <returns></returns>
+        public static string FormatByConvention(
+                string text,
+                CypherNamingConvention convention)
+        {
+            return convention switch
+            {
+                CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
+                CypherNamingConvention.CamelCase => text.ToCamelCase(),
+                CypherNamingConvention.pacalCase => text.ToCamelCase(),
+                _ => text
+            };
+        }
+
+        #endregion // FormatByConvention
+
     }
 }

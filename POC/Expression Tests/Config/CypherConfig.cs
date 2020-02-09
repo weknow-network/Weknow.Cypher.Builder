@@ -8,17 +8,21 @@ namespace Weknow
     /// <summary>
     /// The cypher builder configuration.
     /// </summary>
-    public class CypherConfig: ICypherConfig
+    public class CypherConfig
     {
         /// <summary>
-        /// Ambient Label configuration
+        /// Initializes a new instance of the <see cref="CypherConfig"/> class.
         /// </summary>
-        public CypherAmbientLabelConfig AmbientLabels { get; } = new CypherAmbientLabelConfig();
+        public CypherConfig()
+        {
+            AmbientLabels = new CypherAmbientLabelConfig(Naming);
+
+        }
 
         /// <summary>
         /// Ambient Label configuration
         /// </summary>
-        ICypherAmbientLabelConfig ICypherConfig.AmbientLabels => AmbientLabels;
+        public CypherAmbientLabelConfig AmbientLabels { get; }
 
         /// <summary>
         /// Sets the concurrency behavior.
@@ -26,18 +30,8 @@ namespace Weknow
         public ConcurrencyConfig Concurrency { get; private set; } = new ConcurrencyConfig();
 
         /// <summary>
-        /// Sets the concurrency behavior.
-        /// </summary>
-        IConcurrencyConfig ICypherConfig.Concurrency => Concurrency;
-
-        /// <summary>
         /// Gets the naming convention.
         /// </summary>
         public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();
-
-        /// <summary>
-        /// Gets the pluralization.
-        /// </summary>
-        ICypherNamingConfig ICypherConfig.Naming => Naming;
     }
 }

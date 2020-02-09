@@ -10,7 +10,7 @@ namespace Weknow
     /// Represent contextual operations.
     /// </summary>
     [DebuggerDisplay("{eTagName}, Auto Increment = {AutoIncrement}")]
-    public class ConcurrencyConfig: IConcurrencyConfig
+    public class ConcurrencyConfig
     {
         /// <summary>
         /// When supplied the concurrency field
