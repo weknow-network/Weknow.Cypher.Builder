@@ -24,6 +24,7 @@ namespace Weknow.Cypher.Builder
         private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
         private ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
+        private ContextValue<string> _reusedParameterName = new ContextValue<string>(null);
         private Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
         {
             [0] = new ContextValue<Expression?>(null),
@@ -98,10 +99,7 @@ namespace Weknow.Cypher.Builder
                     {
                         case '$':
                             var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                            if (expr is ParameterExpression p && _reuseParameters.ContainsKey(p.Name))
-                                Visit(_reuseParameters[p.Name]);
-                            else
-                                Visit(expr);
+                            Visit(expr);
                             break;
                         case '!':
                             Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
@@ -127,7 +125,13 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Method.Name == nameof(Cypher.Reuse))
             {
-                _reuseParameters[(node.Arguments[0] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[1];
+                if (node.Arguments.Count == 3)
+                {
+                    Visit(node.Arguments[0]);
+                    _reuseParameters[(node.Arguments[1] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[2];
+                }
+                else
+                    _reuseParameters[(node.Arguments[0] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[1];
             }
             else if (node.Method.Name == nameof(Range.EndAt))
             {   // TODO: consider to move implementation into VisitUnary
@@ -304,7 +308,13 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            Query.Append(node.Name);
+            if (_reusedParameterName != node.Name && _reuseParameters.ContainsKey(node.Name))
+            {
+                using var _ = _reusedParameterName.Set(node.Name);
+                Visit(_reuseParameters[node.Name]);
+            }
+            else
+                Query.Append(node.Name);
             return node;
         }
     }

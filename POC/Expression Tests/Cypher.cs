@@ -82,6 +82,7 @@ namespace Weknow.Cypher.Builder
         public static bool Exists(PD p) => throw new NotImplementedException();
 
         public static Func<Func<T, PD>, PD> Reuse<T>(this IVar var, T v) => f => f(v);
+        public static Func<Func<U, T>, PD> Reuse<T, U>(this Func<T, PD> r, IVar var, U v) => f => r(f(v));
     }
 
 }
