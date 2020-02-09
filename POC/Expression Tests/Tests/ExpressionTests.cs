@@ -81,7 +81,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureProperties_Test()
         {
-            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))(p => n => Match(N(n, Person, p))));
+            CypherCommand cypher = _(_ => Reuse(P(PropA, PropB)).By(p => n => Match(N(n, Person, p))));
 
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -94,16 +94,11 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureNodeAndProperties_Test()
         {
-            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
-                                          (p => n => n.Reuse(N(n, Person, p))
-                                          (n => Match(n))));
-            //CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
-            //                              .By(p => n => n.Reuse(N(n, Person, p))
-            //                                             .By(n => Match(n)));
+            CypherCommand cypher = _(n => Reuse(P(PropA, PropB))
+                                          .By(p => Reuse(N(n, Person, p))
+                                          .By(n => Match(n))));
 
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-
-            throw new NotImplementedException(); // TODO: consider the .By syntax
         }
 
         #endregion // CaptureNodeAndProperties_Test
@@ -114,8 +109,8 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureAny_Test()
         {
-            CypherCommand cypher = _(p => n => p.Reuse(P(PropA, PropB)).Reuse(n, N(n, Person))
-                                     (n => p => n1 =>
+            CypherCommand cypher = _(n => Reuse(P(PropA, PropB)).Reuse(N(n, Person))
+                                     .By(n => p => n1 =>
                                       Match(N(n1, Person, p) - n)));
 
             Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })--(n:Person)", cypher.Query);
@@ -547,8 +542,8 @@ SET n = item", cypher.Query);
         [Fact]
         public void Nested_NodeToNode_ReusedProp_Test()
         {
-            CypherCommand cypher = _(p => p.Reuse(P(PropA, PropB))
-                                    (p => n1 => n2 => n2_ =>
+            CypherCommand cypher = _(_ => Reuse(P(PropA, PropB))
+                                    .By(p => n1 => n2 => n2_ =>
                                     Match(N(n1, Person, p) > N(n2, Person, Pre(n2_, p)))));
 
             Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);

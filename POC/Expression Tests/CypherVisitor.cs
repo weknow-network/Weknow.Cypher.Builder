@@ -32,10 +32,14 @@ namespace Weknow.Cypher.Builder
             [2] = new ContextValue<Expression?>(null),
             [3] = new ContextValue<Expression?>(null),
         };
-        private Dictionary<string, Expression> _reuseParameters = new Dictionary<string, Expression>();
+        private List<Expression> _reuseParameters = new List<Expression>();
+        private List<string> _reuseParameterNames = new List<string>();
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
+            if (_reuseParameterNames.Count < _reuseParameters.Count)
+                _reuseParameterNames.Add(node.Parameters[0].Name);
+
             Visit(node.Body);
             return node;
         }
@@ -123,15 +127,20 @@ namespace Weknow.Cypher.Builder
                 }
                 disp?.Dispose();
             }
+            else if (node.Method.Name == nameof(IReuse<PD, PD>.By))
+            {
+                Visit(node.Object);
+                Visit(node.Arguments[0]);
+            }
             else if (node.Method.Name == nameof(Cypher.Reuse))
             {
-                if (node.Arguments.Count == 3)
+                if (node.Arguments.Count == 2)
                 {
+                    _reuseParameters.Add(node.Arguments[1]);
                     Visit(node.Arguments[0]);
-                    _reuseParameters[(node.Arguments[1] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[2];
                 }
                 else
-                    _reuseParameters[(node.Arguments[0] as ParameterExpression)?.Name ?? string.Empty] = node.Arguments[1];
+                    _reuseParameters.Add(node.Arguments[0]);
             }
             else if (node.Method.Name == nameof(Range.EndAt))
             {   // TODO: consider to move implementation into VisitUnary
@@ -308,10 +317,10 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (_reusedParameterName != node.Name && _reuseParameters.ContainsKey(node.Name))
+            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name))
             {
                 using var _ = _reusedParameterName.Set(node.Name);
-                Visit(_reuseParameters[node.Name]);
+                Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);
             }
             else
                 Query.Append(node.Name);

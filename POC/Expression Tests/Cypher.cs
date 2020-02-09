@@ -15,7 +15,7 @@ namespace Weknow.Cypher.Builder
         public delegate PD PD(IVar var);
 
         public static CypherCommand _(
-                            Expression<PD> expr, 
+                            Expression<PD> expr,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -81,8 +81,24 @@ namespace Weknow.Cypher.Builder
         [Cypher("EXISTS { $0 }")]
         public static bool Exists(PD p) => throw new NotImplementedException();
 
-        public static Func<Func<T, PD>, PD> Reuse<T>(this IVar var, T v) => f => f(v);
-        public static Func<Func<U, T>, PD> Reuse<T, U>(this Func<T, PD> r, IVar var, U v) => f => r(f(v));
+        public static IReuse<T, PD> Reuse<T>(T v) => new Reuse<T, PD>(f => f(v));
+        public static IReuse<U, Func<T, PD>> Reuse<T, U>(this IReuse<T, PD> r, U v) => new Reuse<U, Func<T, PD>>(f => r.By(f(v)));
     }
 
+    public interface IReuse<T, U>
+    {
+        PD By(Func<T, U> a);
+    }
+
+    class Reuse<T, U> : IReuse<T, U>
+    {
+        Func<Func<T, U>, PD> _by;
+
+        public Reuse(Func<Func<T, U>, PD> by)
+        {
+            _by = by;
+        }
+
+        PD IReuse<T, U>.By(Func<T, U> a) => _by(a);
+    }
 }
