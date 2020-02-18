@@ -26,7 +26,7 @@ namespace Weknow.Cypher.Builder
              .OrderBy(a.As<Foo>().Name)
              .Skip(1)
              .Limit(10),
-             cfg => 
+             cfg =>
              {
                  cfg.AmbientLabels.Add("Prod", "MyOrg");
                  cfg.AmbientLabels.Formatter = "`@{0}`";
@@ -105,6 +105,7 @@ LIMIT $p_2", cypher.Query);
 
 
         // TODO: disable the option of chaining Reuse in a row because of the backward ordering (confusion)
+        // TODO: Thinking how to maintain the order, for example having base class which will get enumerable and return enumerable. the enumerable can be reorder, it should be hidden from our user (maybe via base class).
         #region CaptureProperties_Test
 
         [Fact]
@@ -436,7 +437,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                                     Match(N(n, Person, P(PropA, PropB)))),
                                     cfg => cfg.Naming.SetPluralization(
                                                 n => n switch
-                                                { 
+                                                {
                                                     "unit" => "items",
                                                     _ => $"{n}s"
                                                 },
