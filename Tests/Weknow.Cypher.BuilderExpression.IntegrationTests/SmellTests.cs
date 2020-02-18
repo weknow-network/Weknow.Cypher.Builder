@@ -1,3 +1,4 @@
+using Neo4j.Driver;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,15 +11,13 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Tests
 {
-    public class SmellTests
+    public class SmellTests: TestBase
     {
-        private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public SmellTests(ITestOutputHelper outputHelper)
+        public SmellTests(ITestOutputHelper outputHelper): base(outputHelper)
         {
-            _outputHelper = outputHelper;
         }
 
         #endregion // Ctor

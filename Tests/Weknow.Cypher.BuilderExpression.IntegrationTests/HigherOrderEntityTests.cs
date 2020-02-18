@@ -1,3 +1,4 @@
+using Neo4j.Driver;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -9,35 +10,34 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Tests
 {
-    public class HigherOrderEntityTests
+    public class HigherOrderEntityTests: TestBase
     {
-        private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
         public HigherOrderEntityTests(ITestOutputHelper outputHelper)
+            :base (outputHelper)
         {
-            _outputHelper = outputHelper;
         }
 
         #endregion // Ctor
 
 
-        #region CreateNew_Test
+        #region CreateNewEntity_Test
 
         [Fact]
         [Trait("Type", "Integration")]
         [Trait("Category", "Entity")]
-        public async Task CreateNew_Test()
+        public async Task CreateNewEntity_Test()
         {
-            //CypherCommand cypher = _(a => 
+            //CypherCommand cypher = _(a =>
             // Create(N<Payload>(a, P(a.AsMap)))
             // .Return(a));
 
 
             //var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
             //// TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
-            //var parms = cypher.Parameters 
+            //var parms = cypher.Parameters
             //             .WithEntity<Payload>("a", payload);
 
             //IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
@@ -47,7 +47,38 @@ namespace Weknow.Tests
             throw new NotImplementedException();
         }
 
-        #endregion // CreateNew_Test
+        #endregion // CreateNewEntity_Test
+
+        #region CreateNewEntities_Test
+
+        [Fact]
+        [Trait("Type", "Integration")]
+        [Trait("Category", "Entity")]
+        public async Task CreateNewEntities_Test()
+        {
+            //CypherCommand cypher = _(a => items =>
+            //    Unwind(items,
+            //        Create(N<Payload>(a, P(a.AsMap)))
+            //    .Return(a)));
+
+
+            //var payloads = new[]
+            //{
+            //    new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
+            //    new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+            //};
+            //// TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
+            //var parms = cypher.Parameters
+            //             .WithEntities<Payload>("items", payloads);
+
+            //IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            //Payload[] result = await cursor.MapAsync<Payload>().ConfigureAwait(false);
+
+            //Assert.Equal(payloads, result);
+            throw new NotImplementedException();
+        }
+
+        #endregion // CreateNewEntities_Test
 
         //#region CreateNew_OfT_Test
 
