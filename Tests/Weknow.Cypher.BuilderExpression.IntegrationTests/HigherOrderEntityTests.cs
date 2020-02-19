@@ -5,18 +5,71 @@ using System.Threading.Tasks;
 using Weknow.Cypher.Builder;
 using Xunit;
 using Xunit.Abstractions;
+using System.Collections.Generic;
+using System.Linq;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Tests
 {
-    public class HigherOrderEntityTests: TestBase
+    public static class Neo4jExtensions
+    {
+        public static IDictionary<string, object> WithEntity<T>(this IDictionary<string, object> parameters, string key, T value)
+        {
+            parameters.Add(key, value.From());
+            return parameters;
+        }
+
+        public static IDictionary<string, object> WithEntities<T>(this IDictionary<string, object> parameters, string key, T[] value)
+        {
+            parameters.Add(key, value.Select(v => v.From()));
+            return parameters;
+        }
+
+        public static Task<TReturn> MapSingleAsync<TReturn>(this IResultCursor resultCursor)
+        {
+            return resultCursor.SingleAsync(r => r[0].As<IEntity>().To<TReturn>());
+        }
+
+        public static async Task<TReturn[]> MapAsync<TReturn>(this IResultCursor resultCursor)
+        {
+            var res = await resultCursor.ToListAsync(r => r[0].As<IEntity>().To<TReturn>());
+            return res.ToArray();
+        }
+
+        public static T To<T>(this IEntity value)
+        {
+            var instance = Activator.CreateInstance<T>();
+            foreach (var property in typeof(T).GetProperties())
+            {
+                if (value.Properties.ContainsKey(property.Name))
+                    property.SetValue(instance, value[property.Name].ConvertValue(property.PropertyType));
+            }
+            return instance;
+        }
+
+        public static IDictionary<string, object> From<T>(this T value)
+        {
+            return typeof(T).GetProperties().ToDictionary(p => p.Name, p => p.GetValue(value));
+        }
+
+        public static object ConvertValue(this object value, Type type)
+        {
+            if (type == typeof(DateTime) || type == typeof(DateTime?))
+            {
+                return (value as LocalDateTime).ToDateTime();
+            }
+            return Convert.ChangeType(value, type);
+        }
+    }
+
+    public class HigherOrderEntityTests : TestBase
     {
 
         #region Ctor
 
         public HigherOrderEntityTests(ITestOutputHelper outputHelper)
-            :base (outputHelper)
+            : base(outputHelper)
         {
         }
 
@@ -30,21 +83,20 @@ namespace Weknow.Tests
         [Trait("Category", "Entity")]
         public async Task CreateNewEntity_Test()
         {
-            //CypherCommand cypher = _(a =>
-            // Create(N<Payload>(a, P(a.AsMap)))
-            // .Return(a));
+            CypherCommand cypher = _(a =>
+             Create(N<Payload>(a, a.AsMap))
+             .Return(a));
 
 
-            //var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
-            //// TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
-            //var parms = cypher.Parameters
-            //             .WithEntity<Payload>("a", payload);
+            var payload = new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" };
+            // TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
+            var parms = cypher.Parameters
+                         .WithEntity<Payload>("a", payload);
 
-            //IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            //Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload result = await cursor.MapSingleAsync<Payload>().ConfigureAwait(false);
 
-            //Assert.Equal(payload, result);
-            throw new NotImplementedException();
+            Assert.Equal(payload, result);
         }
 
         #endregion // CreateNewEntity_Test
@@ -56,26 +108,26 @@ namespace Weknow.Tests
         [Trait("Category", "Entity")]
         public async Task CreateNewEntities_Test()
         {
-            //CypherCommand cypher = _(a => items =>
-            //    Unwind(items,
-            //        Create(N<Payload>(a, P(a.AsMap)))
-            //    .Return(a)));
+            CypherCommand cypher = _(a => items => item =>
+                Unwind(items, item,
+                    Create(N<Payload>(a))
+                    .Set(a, item))
+                .Return(a));
 
 
-            //var payloads = new[]
-            //{
-            //    new Payload { Id = 1, Date = DateTime.Now, Name = "Test 1" },
-            //    new Payload { Id = 2, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
-            //};
-            //// TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
-            //var parms = cypher.Parameters
-            //             .WithEntities<Payload>("items", payloads);
+            var payloads = new[]
+            {
+                new Payload { Id = 2, Date = DateTime.Now, Name = "Test 1" },
+                new Payload { Id = 3, Date = DateTime.Now.AddDays(1), Name = "Test 2" },
+            };
+            // TODO: encapsulate Parameter to enable WithEntity (it might not have to be dictionary)
+            var parms = cypher.Parameters
+                         .WithEntities<Payload>("items", payloads);
 
-            //IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
-            //Payload[] result = await cursor.MapAsync<Payload>().ConfigureAwait(false);
+            IResultCursor cursor = await _session.RunAsync(cypher, parms).ConfigureAwait(false);
+            Payload[] result = await cursor.MapAsync<Payload>().ConfigureAwait(false);
 
-            //Assert.Equal(payloads, result);
-            throw new NotImplementedException();
+            Assert.Equal(payloads, result);
         }
 
         #endregion // CreateNewEntities_Test

@@ -81,7 +81,7 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureProperties_Test()
         {
-            CypherCommand cypher = _(_ => Reuse(P(PropA, PropB)).By(p => n => Match(N(n, Person, p))));
+            CypherCommand cypher = _(_ => P(PropA, PropB).Reuse().By(p => n => Match(N(n, Person, p))));
 
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
@@ -94,8 +94,8 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void CaptureNodeAndProperties_Test()
         {
-            CypherCommand cypher = _(n => Reuse(P(PropA, PropB))
-                                          .By(p => Reuse(N(n, Person, p))
+            CypherCommand cypher = _(n => P(PropA, PropB).Reuse()
+                                          .By(p => N(n, Person, p).Reuse()
                                           .By(n => Match(n))));
 
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -131,12 +131,11 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Reuse_UnorderedNode_Test()
         {
-            CypherCommand cypher = _(person => animal => Reuse(N(person, Person))
-                             .Reuse(N(animal, Animal))
-                         .By(animal => person => r => // backward ordering bug will be very tricky to observe
+            CypherCommand cypher = _(person => animal => N(person, Person).Reuse(N(animal, Animal).Reuse())
+                         .By(person => animal => r =>
                           Match(person - R[r, LIKE] > animal)));
 
-            Assert.Equal("MATCH (n1:Person)-[r:LIKE]->(n:Animal)", cypher.Query);
+            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
         #endregion // Reuse_Unordered_Test
@@ -146,9 +145,8 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Reuse_Unordered_Test()
         {
-            CypherCommand cypher = _(n => Reuse(P(PropA, PropB))
-                                         .Reuse(N(n, Person))
-                                     .By(n => p => n1 => // backward ordering
+            CypherCommand cypher = _(n => P(PropA, PropB).Reuse(N(n, Person).Reuse())
+                                     .By(p => n => n1 =>
                                       Match(N(n1, Person, p) - n)));
 
             Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })--(n:Person)", cypher.Query);
@@ -161,8 +159,8 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Reuse_Plural_UNWIND_Test()
         {
-            CypherCommand cypher = _(n => 
-                          Reuse(P(PropA, PropB))
+            CypherCommand cypher = _(n =>
+                          P(PropA, PropB).Reuse()
                          .By(p => items =>
                             Unwind(items, Match(N(n, Person, p)))
                          ));
@@ -597,7 +595,7 @@ SET n = item", cypher.Query);
         [Fact]
         public void Nested_NodeToNode_ReusedProp_Test()
         {
-            CypherCommand cypher = _(_ => Reuse(P(PropA, PropB))
+            CypherCommand cypher = _(_ => P(PropA, PropB).Reuse()
                                     .By(p => n1 => n2 => n2_ =>
                                     Match(N(n1, Person, p) > N(n2, Person, Pre(n2_, p)))));
 

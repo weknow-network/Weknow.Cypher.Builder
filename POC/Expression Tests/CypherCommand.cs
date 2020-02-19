@@ -24,6 +24,8 @@ namespace Weknow.Cypher.Builder
 
         public void Print() => Console.WriteLine(this);
 
+        public static implicit operator string(CypherCommand command) => command.Query;
+
         public override string ToString()
         {
             return $@"{Query}

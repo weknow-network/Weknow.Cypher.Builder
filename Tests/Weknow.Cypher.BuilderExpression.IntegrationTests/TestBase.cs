@@ -34,8 +34,7 @@ namespace Weknow.Tests
             try
             {
                 session.RunAsync($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n").Wait();
-                session.RunAsync(@"CREATE CONSTRAINT ON (p:Payload)
-       ASSERT p.Id IS UNIQUE").Wait();
+                session.RunAsync(@"CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE").Wait();
             }
             catch (Exception)
             {

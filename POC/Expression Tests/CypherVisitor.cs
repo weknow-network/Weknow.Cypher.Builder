@@ -115,7 +115,10 @@ namespace Weknow.Cypher.Builder
                             disp = _expression[int.Parse(format[++i].ToString())].Set(node);
                             break;
                         case '&':
-                            disp = _methodExpr.Set(node);
+                            if (disp == null)
+                                disp = _methodExpr.Set(node);
+                            else
+                                disp.Dispose();
                             break;
                         case '\\':
                             Query.Append(format[++i]);
@@ -136,8 +139,8 @@ namespace Weknow.Cypher.Builder
             {
                 if (node.Arguments.Count == 2)
                 {
-                    _reuseParameters.Add(node.Arguments[1]);
-                    Visit(node.Arguments[0]);
+                    _reuseParameters.Add(node.Arguments[0]);
+                    Visit(node.Arguments[1]);
                 }
                 else
                     _reuseParameters.Add(node.Arguments[0]);
@@ -232,11 +235,21 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Expression != null && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
+            if (node.Member.Name == nameof(IVar.AsMap))
+            {
+                if (_expression[2].Value != null)
+                {
+                    Visit(_expression[2].Value);
+                    Query.Append(".");
+                }
+                else if(_methodExpr.Value?.Method.Name != "Set")
+                    Query.Append("$");
+
+                Visit(node.Expression);
+            }
+            else if (node.Expression != null && node.Type != typeof(IMap) && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
-                if (node.Member.Name == nameof(IVar.AsMap))
-                    return node;
                 Query.Append(".");
             }
             if (node.Type == typeof(ILabel))
@@ -245,7 +258,12 @@ namespace Weknow.Cypher.Builder
                 Query.Append(_configuration.AmbientLabels.Combine(node.Member.Name));
                 return node;
             }
+            
+            if (node.Member.Name == nameof(IVar.AsMap))
+                return node;
+
             Query.Append(node.Member.Name);
+
             if (_isProperties.Value)
             {
                 Query.Append(_methodExpr.Value?.Method.Name == "Set" ? " = " : ": ");
@@ -317,7 +335,7 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name))
+            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name) && node.Type != typeof(IVar))
             {
                 using var _ = _reusedParameterName.Set(node.Name);
                 Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);

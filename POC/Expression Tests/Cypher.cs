@@ -33,10 +33,12 @@ namespace Weknow.Cypher.Builder
         public static IPattern N(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
-        [Cypher("($0$1 { \\$$2 })")]
+        [Cypher("($0$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
         [Cypher("($0:!0)")]
         public static IPattern N<T>(IVar var) => throw new NotImplementedException();
+        [Cypher("($0:!0 $1)")]
+        public static IPattern N<T>(IVar var, IMap properties) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
         public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0$1)")]
@@ -76,13 +78,13 @@ namespace Weknow.Cypher.Builder
         public static PD Merge(IPattern p) => throw new NotImplementedException();
         [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
-        [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
+        [Cypher("UNWIND \\$$0 AS $0\r\n+20$1")]
         public static PD Unwind(IVar items, PD p) => throw new NotImplementedException();
         [Cypher("EXISTS { $0 }")]
         public static bool Exists(PD p) => throw new NotImplementedException();
 
-        public static IReuse<T, PD> Reuse<T>(T v) => new Reuse<T, PD>(f => f(v));
-        public static IReuse<U, Func<T, PD>> Reuse<T, U>(this IReuse<T, PD> r, U v) => new Reuse<U, Func<T, PD>>(f => r.By(f(v)));
+        public static IReuse<T, PD> Reuse<T>(this T v) => new Reuse<T, PD>(f => f(v));
+        public static IReuse<T, Func<U, R>> Reuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
     }
 
     public interface IReuse<T, U>
