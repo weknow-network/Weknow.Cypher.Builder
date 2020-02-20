@@ -131,7 +131,8 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void Reuse_UnorderedNode_Test()
         {
-            CypherCommand cypher = _(person => animal => N(person, Person).Reuse(N(animal, Animal).Reuse())
+            CypherCommand cypher = _(person => animal => N(person, Person)
+                                    .Reuse(N(animal, Animal).Reuse())
                          .By(person => animal => r =>
                           Match(person - R[r, LIKE] > animal)));
 
