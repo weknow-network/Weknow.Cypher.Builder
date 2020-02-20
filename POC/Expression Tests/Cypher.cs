@@ -13,6 +13,7 @@ namespace Weknow.Cypher.Builder
     public static class Cypher
     {
         public delegate PD PD(IVar var);
+        public delegate PD PDE();
 
         public static CypherCommand _(
                             Expression<PD> expr,
@@ -27,6 +28,21 @@ namespace Weknow.Cypher.Builder
                             visitor.Parameters);
         }
 
+        public static CypherCommand _(
+                            Expression<PDE> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+        [Cypher("(:$0)")]
+        public static IPattern N(ILabel label) => throw new NotImplementedException();
         [Cypher("($0)")]
         public static IPattern N(IVar var) => throw new NotImplementedException();
         [Cypher("($0$1)")]
@@ -94,7 +110,7 @@ namespace Weknow.Cypher.Builder
 
     class Reuse<T, U> : IReuse<T, U>
     {
-        Func<Func<T, U>, PD> _by;
+        private Func<Func<T, U>, PD> _by;
 
         public Reuse(Func<Func<T, U>, PD> by)
         {

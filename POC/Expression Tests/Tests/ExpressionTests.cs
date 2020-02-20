@@ -126,6 +126,19 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // ReuseSuggestion_Test
 
+        #region Node_LabelOnly_Test
+
+        [Fact]
+        public void Node_LabelOnly_Test()
+        {
+            string cypher1 = _(() => Match(N(Person)));
+            string cypher2 = _(n => Match(N(Person)));
+
+            Assert.Equal(cypher1, cypher2);
+        }
+
+        #endregion // Node_LabelOnly_Test
+
         #region Reuse_Unordered_Test
 
         [Fact]
