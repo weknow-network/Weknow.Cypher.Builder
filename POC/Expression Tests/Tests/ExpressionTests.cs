@@ -154,6 +154,24 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Reuse_Unordered_Test
 
+        #region Reuse_API_SUGGESTION_Test
+
+        [Fact]
+        public void Reuse_API_SUGGESTION_Test()
+        {
+            // interface IBy { PD By<T1, T2>(Func<T1, Func<T2, PD>, PD> input) }
+            // overload of Func<T1, T2, Func<T1, T2, IBy>> 
+            //CypherCommand cypher = _(person => animal => Cypher.Reuse(
+            //                                        N(person, Person),
+            //                                        N(animal, Animal))
+            //                        .By(P => a => r => Match(p - [r: LIKE] > a)));
+
+            //Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
+            throw new NotImplementedException();
+        }
+
+        #endregion // Reuse_API_SUGGESTION_Test
+
         #region Reuse_Unordered_Test
 
         [Fact]
