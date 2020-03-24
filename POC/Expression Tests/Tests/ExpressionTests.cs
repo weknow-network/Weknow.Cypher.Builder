@@ -139,38 +139,41 @@ LIMIT $p_2", cypher.Query);
 
         #endregion // Node_LabelOnly_Test
 
-        #region Reuse_Unordered_Test
+        #region Reuse_Node_Test
 
         [Fact]
-        public void Reuse_UnorderedNode_Test()
+        public void Reuse_Node_Test()
         {
-            CypherCommand cypher = _(person => animal => N(person, Person)
-                                    .Reuse(N(animal, Animal).Reuse())
-                         .By(person => animal => r =>
-                          Match(person - R[r, LIKE] > animal)));
+            CypherCommand cypher = _(person => animal => 
+                                     N(person, Person).Reuse(
+                                     N(animal, Animal).Reuse())
+                         .By(reusedPerson => reusedAnimal => r =>
+                          Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
 
             Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
-        #endregion // Reuse_Unordered_Test
+        #endregion // Reuse_Node_Test
 
-        #region Reuse_API_SUGGESTION_Test
+        #region LazyReuse_Node_Test
 
         [Fact]
-        public void Reuse_API_SUGGESTION_Test()
+        public void LazyReuse_Node_Test()
         {
-            // interface IBy { PD By<T1, T2>(Func<T1, Func<T2, PD>, PD> input) }
-            // overload of Func<T1, T2, Func<T1, T2, IBy>> 
-            //CypherCommand cypher = _(person => animal => Cypher.Reuse(
-            //                                        N(person, Person),
-            //                                        N(animal, Animal))
-            //                        .By(P => a => r => Match(p - [r: LIKE] > a)));
+            throw new NotImplementedException("TODO: think of more intuitive api, if possible to break the reuse into multi statement (like linq)");
+
+            //var personReuse = _.Reuse(person => N(person, Person));
+            //var animalReuse = _.Reuse(animal => N(animal, Animal));
+            //var reused = _.ReuseMerge(personReuse, animalReuse);
+
+            //CypherCommand cypher = _.By(reused, 
+            //              reusedPerson => reusedAnimal => r =>
+            //              Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
 
             //Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
-            throw new NotImplementedException();
         }
 
-        #endregion // Reuse_API_SUGGESTION_Test
+        #endregion // LazyReuse_Node_Test
 
         #region Reuse_Unordered_Test
 
@@ -227,13 +230,13 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
         #endregion // Properties_OfT_DefaultLabel_Test
 
-        // TODO: thinking on a way to keep the generics within the method scope in order to reduce suplication
+        // TODO: thinking on a way to keep the generics within the method scope in order to reduce duplication
         #region Properties_OfT_DefaultLabel_AvoidDuplication_Test
 
         [Fact]
         public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
         {
-            //// Current style: CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
+            // Current style: CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
             //CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.PropA /* N<Foo> */, n.As<Bar>().Date))));
 
             //Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date })", cypher.Query);
@@ -430,23 +433,6 @@ SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Quer
         }
 
         #endregion // Match_Set_OfT_All_Test
-
-        #region Match_Set_OfT_Except_Test
-
-        [Fact]
-        public void Match_Set_OfT_Except_Test()
-        {
-            //            CypherCommand cypher = P(n =>
-            //                                    Match(N(n, Person, P(Id)))
-            //                                    .Set(n.Except<Foo>(n => P(n.Id, n.Name)))); 
-
-            //            Assert.Equal(
-            //@"MATCH (n:Person {Id: $Id})
-            //            SET n.PropA  = $PropA, n.PropB  = $PropB", cypher.Query);
-            throw new NotImplementedException();
-        }
-
-        #endregion // Match_Set_OfT_Except_Test
 
         #region Match_Set_AddLabel_Test
 
