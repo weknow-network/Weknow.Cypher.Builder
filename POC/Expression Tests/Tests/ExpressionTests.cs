@@ -511,7 +511,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                                                 },
                                                 n => n switch
                                                 {
-                                                    "items" => "item",
+                                                    "items" => "unit",
                                                     _ => $"unitOf{n}"
                                                 }));
 

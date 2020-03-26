@@ -94,7 +94,7 @@ namespace Weknow.Cypher.Builder
         public static PD Merge(IPattern p) => throw new NotImplementedException();
         [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
-        [Cypher("UNWIND \\$$0 AS $0\r\n+20$1")]
+        [Cypher("UNWIND \\$$0 AS $s0\r\n+s20$1")]
         public static PD Unwind(IVar items, PD p) => throw new NotImplementedException();
         [Cypher("EXISTS { $0 }")]
         public static bool Exists(PD p) => throw new NotImplementedException();

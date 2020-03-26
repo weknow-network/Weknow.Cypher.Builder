@@ -21,19 +21,21 @@ namespace Weknow.Cypher.Builder
         public StringBuilder Query { get; } = new StringBuilder();
         public Dictionary<string, object?> Parameters { get; } = new Dictionary<string, object?>();
 
-        private ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-        private ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
-        private ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
-        private ContextValue<string> _reusedParameterName = new ContextValue<string>(null);
-        private Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
+        private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> isPluralize = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> isSingularize = new ContextValue<bool>(false);
+        private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
+        private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
+        private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
+        private readonly Dictionary<int, ContextValue<ContextExpression?>> _expression = new Dictionary<int, ContextValue<ContextExpression?>>()
         {
-            [0] = new ContextValue<Expression?>(null),
-            [1] = new ContextValue<Expression?>(null),
-            [2] = new ContextValue<Expression?>(null),
-            [3] = new ContextValue<Expression?>(null),
+            [0] = new ContextValue<ContextExpression?>(null),
+            [1] = new ContextValue<ContextExpression?>(null),
+            [2] = new ContextValue<ContextExpression?>(null),
+            [3] = new ContextValue<ContextExpression?>(null),
         };
-        private List<Expression> _reuseParameters = new List<Expression>();
-        private List<string> _reuseParameterNames = new List<string>();
+        private readonly List<Expression> _reuseParameters = new List<Expression>();
+        private readonly List<string> _reuseParameterNames = new List<string>();
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
@@ -102,17 +104,49 @@ namespace Weknow.Cypher.Builder
                     switch (format[i])
                     {
                         case '$':
-                            var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                            Visit(expr);
+                            {
+                                var ch = format[++i];
+                                if (ch == 'p')
+                                {
+                                    using var __ = isPluralize.Set(true);
+                                    var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                    Visit(expr);
+                                }
+                                else if (ch == 's')
+                                {
+                                    using var __ = isSingularize.Set(true);
+                                    var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                    Visit(expr);
+                                }
+                                else
+                                {
+                                    var expr = node.Arguments[int.Parse(ch.ToString())];
+                                    Visit(expr);
+                                }
+                            }
                             break;
                         case '!':
                             Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
                             break;
                         case '+':
-                            disp = _expression[int.Parse(format[++i].ToString())].Set(node.Arguments[int.Parse(format[++i].ToString())]);
+                            {
+                                var ch = format[++i];
+                                if (ch == 'p')
+                                {
+                                    disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(true, false, node.Arguments[int.Parse(format[++i].ToString())]));
+                                }
+                                else if (ch == 's')
+                                {
+                                    disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, true, node.Arguments[int.Parse(format[++i].ToString())]));
+                                }
+                                else
+                                {
+                                    disp = _expression[int.Parse(ch.ToString())].Set(new ContextExpression(false, false, node.Arguments[int.Parse(format[++i].ToString())]));
+                                }
+                            }
                             break;
                         case '.':
-                            disp = _expression[int.Parse(format[++i].ToString())].Set(node);
+                            disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, false, node));
                             break;
                         case '&':
                             if (disp == null)
@@ -176,7 +210,7 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                 {
-                    MethodCallExpression? methodExp = _expression[1].Value as MethodCallExpression;
+                    MethodCallExpression? methodExp = _expression[1].Value.Expression as MethodCallExpression;
                     var properties = methodExp == null ?
                                     Array.Empty<PropertyInfo>() :
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
@@ -202,7 +236,7 @@ namespace Weknow.Cypher.Builder
                 var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
-                    : (_expression[1].Value as MethodCallExpression)?.Method?.GetGenericArguments();
+                    : (_expression[1].Value.Expression as MethodCallExpression)?.Method?.GetGenericArguments();
                 Type? firstArgType = arguments?[0];
                 var properties = firstArgType?.GetProperties()?.Where(p => filter?.Invoke(p.Name) ?? true).ToArray();
                 foreach (var item in properties ?? Array.Empty<PropertyInfo>())
@@ -242,7 +276,7 @@ namespace Weknow.Cypher.Builder
                     Visit(_expression[2].Value);
                     Query.Append(".");
                 }
-                else if(_methodExpr.Value?.Method.Name != "Set")
+                else if (_methodExpr.Value?.Method.Name != "Set")
                     Query.Append("$");
 
                 Visit(node.Expression);
@@ -258,7 +292,7 @@ namespace Weknow.Cypher.Builder
                 Query.Append(_configuration.AmbientLabels.Combine(node.Member.Name));
                 return node;
             }
-            
+
             if (node.Member.Name == nameof(IVar.AsMap))
                 return node;
 
@@ -340,9 +374,33 @@ namespace Weknow.Cypher.Builder
                 using var _ = _reusedParameterName.Set(node.Name);
                 Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);
             }
+            else if (isSingularize)
+                Query.Append(_configuration.Naming.Pluralization.Singularize(node.Name));
+            else if (isPluralize)
+                Query.Append(_configuration.Naming.Pluralization.Pluralize(node.Name));
             else
                 Query.Append(node.Name);
             return node;
+        }
+
+        private void Visit(ContextExpression? expression)
+        {
+            if (expression == null) return;
+
+            if(expression.IsPluralize)
+            {
+                using var _ = isPluralize.Set(true);
+                Visit(expression.Expression);
+            }
+            else if(expression.IsSingularize)
+            {
+                using var _ = isSingularize.Set(true);
+                Visit(expression.Expression);
+            }
+            else
+            {
+                Visit(expression.Expression);
+            }
         }
     }
 
