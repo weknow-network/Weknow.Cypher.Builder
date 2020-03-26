@@ -18,6 +18,11 @@ namespace Weknow.Cypher.Builder
         IMap AsMap { get; }
     }
 
+    public interface IVar<T> : IVar
+    {
+        T P { get; }
+    }
+
     public interface IPattern
     {
         public static IPattern operator -(IPattern l, IPattern r) => throw new NotImplementedException();

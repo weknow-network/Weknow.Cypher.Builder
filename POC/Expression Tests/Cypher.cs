@@ -13,10 +13,91 @@ namespace Weknow.Cypher.Builder
     public static class Cypher
     {
         public delegate PD PD(IVar var);
+        public delegate R PDT<T, R>(IVar<T> var);
         public delegate PD PDE();
 
         public static CypherCommand _(
                             Expression<PD> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+        public static CypherCommand _<T>(
+                            Expression<PDT<T, PD>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+        public static CypherCommand _<T1, T2>(
+                            Expression<PDT<T1, PDT<T1, PD>>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+
+        public static CypherCommand _<T1, T2, T3>(
+                            Expression<PDT<T1, PDT<T2, PDT<T3, PD>>>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+
+        public static CypherCommand _<T1, T2, T3, T4>(
+                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PD>>>>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+        public static CypherCommand _<T1, T2, T3, T4, T5>(
+                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PDT<T5, PD>>>>>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            var visitor = new CypherVisitor(cfg);
+            visitor.Visit(expr);
+            return new CypherCommand(
+                            visitor.Query.ToString(), // TODO: format according to the configuration
+                            visitor.Parameters);
+        }
+
+        public static CypherCommand _<T1, T2, T3, T4, T5, T6>(
+                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PDT<T5, PDT<T6, PD>>>>>>> expr,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -57,6 +138,8 @@ namespace Weknow.Cypher.Builder
         public static IPattern N<T>(IVar var, IMap properties) => throw new NotImplementedException();
         [Cypher(".1($0:!0 { $1 })")]
         public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
+        [Cypher(".1($0:!0 { $1 })")]
+        public static IPattern N<T>(IVar<T> var, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0$1)")]
         public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:!0$1 { $2 })")]

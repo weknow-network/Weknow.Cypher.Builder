@@ -230,17 +230,14 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
         #endregion // Properties_OfT_DefaultLabel_Test
 
-        // TODO: thinking on a way to keep the generics within the method scope in order to reduce duplication
         #region Properties_OfT_DefaultLabel_AvoidDuplication_Test
 
         [Fact]
         public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
         {
-            // Current style: CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
-            //CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.PropA /* N<Foo> */, n.As<Bar>().Date))));
+            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n.P.PropA, n.P.PropB))));
 
-            //Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date })", cypher.Query);
-            throw new NotFiniteNumberException();
+            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultLabel_AvoidDuplication_Test
