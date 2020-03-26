@@ -281,6 +281,11 @@ namespace Weknow.Cypher.Builder
 
                 Visit(node.Expression);
             }
+            else if (node.Type == typeof(IPattern) && node.Expression is ConstantExpression c && node.Member is FieldInfo fi && fi.GetValue(c.Value) is ExpressionPattern p)
+            {
+                Visit(p.expr);
+                return node;
+            }
             else if (node.Expression != null && node.Type != typeof(IMap) && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
@@ -387,12 +392,12 @@ namespace Weknow.Cypher.Builder
         {
             if (expression == null) return;
 
-            if(expression.IsPluralize)
+            if (expression.IsPluralize)
             {
                 using var _ = isPluralize.Set(true);
                 Visit(expression.Expression);
             }
-            else if(expression.IsSingularize)
+            else if (expression.IsSingularize)
             {
                 using var _ = isSingularize.Set(true);
                 Visit(expression.Expression);

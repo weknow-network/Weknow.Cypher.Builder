@@ -9,12 +9,32 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder
 {
+    public class ExpressionPattern : IPattern
+    {
+        public Expression expr { get; }
+        public CypherConfig configuration { get; }
+
+        public ExpressionPattern(Expression expr, CypherConfig configuration)
+        {
+            this.expr = expr;
+            this.configuration = configuration;
+        }
+    }
 
     public static class Cypher
     {
         public delegate PD PD(IVar var);
         public delegate R PDT<T, R>(IVar<T> var);
         public delegate PD PDE();
+
+        public static IPattern Reuse(
+                            Expression<Func<IVar, IPattern>> expr,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new ExpressionPattern(expr.Body, cfg);
+        }
 
         public static CypherCommand _(
                             Expression<PD> expr,

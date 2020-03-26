@@ -160,17 +160,13 @@ LIMIT $p_2", cypher.Query);
         [Fact]
         public void LazyReuse_Node_Test()
         {
-            throw new NotImplementedException("TODO: think of more intuitive api, if possible to break the reuse into multi statement (like linq)");
+            var reusedPerson = Reuse(person => N(person, Person));
+            var reusedAnimal = Reuse(animal => N(animal, Animal));
 
-            //var personReuse = _.Reuse(person => N(person, Person));
-            //var animalReuse = _.Reuse(animal => N(animal, Animal));
-            //var reused = _.ReuseMerge(personReuse, animalReuse);
+            CypherCommand cypher = _( r =>
+                          Match(reusedPerson - R[r, LIKE] > reusedAnimal));
 
-            //CypherCommand cypher = _.By(reused, 
-            //              reusedPerson => reusedAnimal => r =>
-            //              Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
-
-            //Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
+            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
         #endregion // LazyReuse_Node_Test
