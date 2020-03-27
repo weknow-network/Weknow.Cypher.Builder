@@ -81,7 +81,7 @@ LIMIT $p_2", cypher.Query);
                         });
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:Foo:GIT_HUB $f)
+            Assert.Equal(@"CREATE (f:FOO:GIT_HUB $f)
 RETURN f"
                             , cypher.Query);
         }

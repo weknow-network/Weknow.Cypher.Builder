@@ -387,13 +387,13 @@ namespace Weknow.Cypher.Builder
         public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
-        [Cypher("($0:!0)")]
+        [Cypher("($0:!l0)")]
         public static IPattern N<T>(IVar var) => throw new NotImplementedException();
-        [Cypher("($0:!0 $1)")]
+        [Cypher("($0:!l0 $1)")]
         public static IPattern N<T>(IVar var, IMap properties) => throw new NotImplementedException();
-        [Cypher(".1($0:!0 { $1 })")]
+        [Cypher(".1($0:!l0 { $1 })")]
         public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
-        [Cypher(".1($0:!0 { $1 })")]
+        [Cypher(".1($0:!l0 { $1 })")]
         public static IPattern N<T>(IVar<T> var, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0:!0$1)")]
         public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();

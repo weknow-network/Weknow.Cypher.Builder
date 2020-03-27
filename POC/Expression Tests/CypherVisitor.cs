@@ -126,7 +126,18 @@ namespace Weknow.Cypher.Builder
                             }
                             break;
                         case '!':
-                            Query.Append(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name);
+                            {
+                                var ch = format[++i];
+                                if (ch == 'l')
+                                {
+                                    Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
+
+                                }
+                                else
+                                {
+                                    Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
+                                }
+                            }
                             break;
                         case '+':
                             {
