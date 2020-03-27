@@ -44,6 +44,18 @@ namespace Weknow.Tests
         }
 
         #endregion // Ctor
+
+        #region Configuration
+
+        /// <summary>
+        /// Default configuration
+        /// </summary>
+        protected Action<CypherConfig> Configuration = cfg =>
+        {
+            cfg.AmbientLabels.Add(TEST_ENV_LABEL);
+        };
+
+        #endregion // Configuration
     }
 }
 

@@ -65,7 +65,6 @@ namespace Weknow.Tests
 
     public class HigherOrderEntityTests : TestBase
     {
-
         #region Ctor
 
         public HigherOrderEntityTests(ITestOutputHelper outputHelper)
@@ -74,7 +73,6 @@ namespace Weknow.Tests
         }
 
         #endregion // Ctor
-
 
         #region CreateNewEntity_Test
 

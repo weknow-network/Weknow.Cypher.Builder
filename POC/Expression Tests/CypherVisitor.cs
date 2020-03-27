@@ -19,7 +19,7 @@ namespace Weknow.Cypher.Builder
         }
 
         public StringBuilder Query { get; } = new StringBuilder();
-        public Dictionary<string, object?> Parameters { get; } = new Dictionary<string, object?>();
+        public CypherParameters Parameters { get; } = new CypherParameters();
 
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
         private readonly ContextValue<bool> isPluralize = new ContextValue<bool>(false);
@@ -283,7 +283,7 @@ namespace Weknow.Cypher.Builder
             }
             else if (node.Type == typeof(IPattern) && node.Expression is ConstantExpression c && node.Member is FieldInfo fi && fi.GetValue(c.Value) is ExpressionPattern p)
             {
-                Visit(p.expr);
+                Visit(p.expression);
                 return node;
             }
             else if (node.Expression != null && node.Type != typeof(IMap) && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
