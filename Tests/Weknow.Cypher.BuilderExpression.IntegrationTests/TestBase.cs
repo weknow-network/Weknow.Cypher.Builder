@@ -27,6 +27,10 @@ namespace Weknow.Tests
             string userName = Environment.GetEnvironmentVariable("TEST_N4J_USER") ?? "neo4j";
             string password = Environment.GetEnvironmentVariable("TEST_N4J_PASS") ?? "123456";
 
+            var cfg = new CypherConfig();
+            cfg.AmbientLabels.Add(TEST_ENV_LABEL);
+            Builder = CypherBuilder.Config(cfg);
+
             var driver = GraphDatabase.Driver(connectionString, AuthTokens.Basic(userName, password));
             _session = driver.AsyncSession(cfg => cfg.WithDefaultAccessMode(AccessMode.Write));
             var session = driver.AsyncSession(cfg => cfg.WithDefaultAccessMode(AccessMode.Write));
@@ -45,17 +49,14 @@ namespace Weknow.Tests
 
         #endregion // Ctor
 
-        #region Configuration
+        #region Builder
 
         /// <summary>
-        /// Default configuration
+        /// Builder
         /// </summary>
-        protected Action<CypherConfig> Configuration = cfg =>
-        {
-            cfg.AmbientLabels.Add(TEST_ENV_LABEL);
-        };
+        protected CypherBuilder Builder { get; }
 
-        #endregion // Configuration
+        #endregion // Builder
     }
 }
 

@@ -81,7 +81,7 @@ namespace Weknow.Tests
         [Trait("Category", "Entity")]
         public async Task CreateNewEntity_Test()
         {
-            CypherCommand cypher = _(a =>
+            CypherCommand cypher = Builder.Build(a =>
              Create(N<Payload>(a, a.AsMap))
              .Return(a));
 

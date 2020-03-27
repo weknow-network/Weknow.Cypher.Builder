@@ -8,6 +8,8 @@ using System.Text;
 using static Weknow.Cypher.Builder.Cypher;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
+// TODO: Get formatter and format the To string + enable ToString(format)
+
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
@@ -71,14 +73,24 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
+        public override string ToString() => Query;
+
+        #endregion // ToString
+
+        #region Dump
+
+        /// <summary>
+        /// Dumps the Cypher Query & parameter into text format.
+        /// </summary>
+        /// <returns></returns>
+        public string Dump()
         {
             return $@"{Query}
 ---Parameters---
 {string.Join(Environment.NewLine, Parameters)}";
         }
 
-        #endregion // ToString
+        #endregion // Dump
     }
 
 }
