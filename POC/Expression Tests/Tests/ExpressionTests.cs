@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using Xunit;
+using Xunit.Abstractions;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
@@ -14,6 +15,19 @@ namespace Weknow.Cypher.Builder
 {
     public class ExpressionTests
     {
+        private readonly ITestOutputHelper _outputHelper;
+
+        #region Ctor
+
+        public ExpressionTests(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+        }
+
+        #endregion // Ctor
+
+        // TODO: Constraint and Index: CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE
+
         #region ComplexExpression_Test
 
         [Fact]
@@ -41,245 +55,6 @@ LIMIT $p_2", cypher.Query);
         }
 
         #endregion // ComplexExpression_Test
-
-        #region CaptureProperties_Test
-
-        [Fact]
-        public void CaptureProperties_Test()
-        {
-            CypherCommand cypher = _(_ => P(PropA, PropB).Reuse().By(p => n => Match(N(n, Person, p))));
-
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // CaptureProperties_Test
-
-
-        #region CaptureNodeAndProperties_Test
-
-        [Fact]
-        public void CaptureNodeAndProperties_Test()
-        {
-            CypherCommand cypher = _(n => P(PropA, PropB).Reuse()
-                                          .By(p => N(n, Person, p).Reuse()
-                                          .By(n => Match(n))));
-
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // CaptureNodeAndProperties_Test
-
-
-        // TODO: disable the option of chaining Reuse in a row because of the backward ordering (confusion)
-        // TODO: Thinking how to maintain the order, for example having base class which will get enumerable and return enumerable. the enumerable can be reorder, it should be hidden from our user (maybe via base class).
-        #region ReuseSuggestion_Test
-
-        [Fact]
-        public void ReuseSuggestion_Test()
-        {
-            // What if the reuse will return CypherPart class, which is not a full cypher query. this class can implement enumerable (backward implementation)
-
-            //CypherPhrases phrases = _(person => animal => Reuse(N(person, Person))
-            //                 .Reuse(N(animal, Animal)));
-            //CypherCommand cypher = _(.Use(phrases, person => animal => r => // backward ordering bug will be very tricky to observe
-            //              Match(person - R[r, LIKE] > animal)));
-
-
-            // Assert.Equal("MATCH (n1:Person)-[r:LIKE]->(n:Animal)", cypher.Query);
-
-            throw new NotImplementedException();
-        }
-
-        #endregion // ReuseSuggestion_Test
-
-        #region Node_LabelOnly_Test
-
-        [Fact]
-        public void Node_LabelOnly_Test()
-        {
-            string cypher1 = _(() => Match(N(Person)));
-            string cypher2 = _(n => Match(N(Person)));
-
-            Assert.Equal(cypher1, cypher2);
-        }
-
-        #endregion // Node_LabelOnly_Test
-
-        #region Reuse_Node_Test
-
-        [Fact]
-        public void Reuse_Node_Test()
-        {
-            CypherCommand cypher = _(person => animal => 
-                                     N(person, Person).Reuse(
-                                     N(animal, Animal).Reuse())
-                         .By(reusedPerson => reusedAnimal => r =>
-                          Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
-
-            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
-        }
-
-        #endregion // Reuse_Node_Test
-
-        #region LazyReuse_Node_Test
-
-        [Fact]
-        public void LazyReuse_Node_Test()
-        {
-            var reusedPerson = Reuse(person => N(person, Person));
-            var reusedAnimal = Reuse(animal => N(animal, Animal));
-
-            CypherCommand cypher = _( r =>
-                          Match(reusedPerson - R[r, LIKE] > reusedAnimal));
-
-            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
-        }
-
-        #endregion // LazyReuse_Node_Test
-
-        #region Reuse_Unordered_Test
-
-        [Fact]
-        public void Reuse_Unordered_Test()
-        {
-            CypherCommand cypher = _(n => P(PropA, PropB).Reuse(N(n, Person).Reuse())
-                                     .By(p => n => n1 =>
-                                      Match(N(n1, Person, p) - n)));
-
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })--(n:Person)", cypher.Query);
-        }
-
-        #endregion // Reuse_Unordered_Test
-
-        #region Reuse_Plural_UNWIND_Test
-
-        [Fact]
-        public void Reuse_Plural_UNWIND_Test()
-        {
-            CypherCommand cypher = _(n =>
-                          P(PropA, PropB).Reuse()
-                         .By(p => items =>
-                            Unwind(items, Match(N(n, Person, p)))
-                         ));
-
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
-        }
-
-        #endregion // Reuse_Plural_UNWIND_Test
-
-        #region Properties_Test
-
-        [Fact]
-        public void Properties_Test()
-        {
-            CypherCommand cypher = _(n => Match(N(n, Person, P(PropA, PropB))));
-
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_Test
-
-        #region Properties_OfT_DefaultLabel_Test
-
-        [Fact]
-        public void Properties_OfT_DefaultLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
-
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_OfT_DefaultLabel_Test
-
-        #region Properties_OfT_DefaultLabel_AvoidDuplication_Test
-
-        [Fact]
-        public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n.P.PropA, n.P.PropB))));
-
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_OfT_DefaultLabel_AvoidDuplication_Test
-
-        #region Properties_OfT_DefaultAndAdditionLabel_Test
-
-        [Fact]
-        public void Properties_OfT_DefaultAndAdditionLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
-
-            Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
-
-        #region Properties_OfT_Test
-
-        [Fact]
-        public void Properties_OfT_Test()
-        {
-            CypherCommand cypher = _(n => Match(N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
-
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_OfT_Test
-
-        #region Properties_WithPrefix_Test
-
-        [Fact]
-        public void Properties_WithPrefix_Test()
-        {
-            CypherCommand cypher = _(n1 => n2 => n2_ =>
-                                    Match(N(n1, Person, P(PropA, PropB)) -
-                                          R[n1, KNOWS] >
-                                          N(n2, Person, Pre(n2_, P(PropA, PropB)))));
-
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-" +
-                         "[n1:KNOWS]->" +
-                         "(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_WithPrefix_Test
-
-        #region Properties_Convention_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_Convention_WithDefaultLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, Convention(name => name.StartsWith("Prop")))));
-
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_Convention_WithDefaultLabel_Test
-
-        #region Properties_All_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_All_WithDefaultLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, All(n.As<Foo>().Id, n.As<Foo>().Name))));
-
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_All_WithDefaultLabel_Test
-
-        #region Properties_Convention_Test
-
-        [Fact]
-        public void Properties_Convention_Test()
-        {
-            CypherCommand cypher = _(n => Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop")))));
-
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Properties_Convention_Test
 
         #region Match_SetAsMap_Update_Test
 
@@ -799,7 +574,6 @@ WHERE n.Name = m.Name }", cypher.Query);
         // TODO: Spatial, 
         // TODO: date time / duration related // DateTime / TimeSpan
 
-        // TODO: Constraint and Index
 
         // TODO: USER / ROLE MANAGEMENT and Privileges
 

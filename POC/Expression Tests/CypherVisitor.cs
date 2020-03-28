@@ -9,6 +9,10 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder
 {
+    /// <summary>
+    /// Expression visitor
+    /// </summary>
+    /// <seealso cref="System.Linq.Expressions.ExpressionVisitor" />
     public class CypherVisitor : ExpressionVisitor
     {
         private readonly CypherConfig _configuration; // TODO: Use to format cypher
@@ -200,8 +204,10 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append("*");
             }
-            else if (node.Method.Name == nameof(Cypher.All))
+            else if (node.Method.Name == nameof(Cypher.All) ||
+                    node.Method.Name == nameof(Cypher.AllExcept))
             {
+                bool isExcept = node.Method.Name == nameof(Cypher.AllExcept);
                 if (node.Method.IsGenericMethod)
                 {
                     var properties = node.Method.GetGenericArguments()[0].GetProperties();
@@ -227,12 +233,13 @@ namespace Weknow.Cypher.Builder
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
 
                     NewArrayExpression? arrayExp = node.Arguments[0] as NewArrayExpression;
-                    string[] exclude = arrayExp == null ?
+                    string[] exclude = !isExcept || arrayExp == null ?
                         Array.Empty<string>() :
                         arrayExp.Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
                     foreach (var item in properties)
                     {
-                        if (exclude.Contains(item.Name)) continue;
+                        if (exclude.Contains(item.Name)) 
+                            continue;
 
                         Query.Append(item.Name);
                         Query.Append(": $");

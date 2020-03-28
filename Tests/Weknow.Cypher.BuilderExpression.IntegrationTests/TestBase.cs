@@ -29,6 +29,9 @@ namespace Weknow.Tests
 
             var cfg = new CypherConfig();
             cfg.AmbientLabels.Add(TEST_ENV_LABEL);
+            cfg.AmbientLabels.Formatter = "`@{0}`";
+            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+
             Builder = CypherBuilder.Config(cfg);
 
             var driver = GraphDatabase.Driver(connectionString, AuthTokens.Basic(userName, password));
@@ -37,8 +40,8 @@ namespace Weknow.Tests
 
             try
             {
-                session.RunAsync($"MATCH (n:{TEST_ENV_LABEL}) DETACH DELETE n").Wait();
-                session.RunAsync(@"CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE").Wait();
+                session.RunAsync($"MATCH (n:`@{TEST_ENV_LABEL}`) DETACH DELETE n").Wait();
+                session.RunAsync(@"CREATE CONSTRAINT ON (p:PAYLOAD) ASSERT p.Id IS UNIQUE").Wait();
             }
             catch (Exception)
             {
