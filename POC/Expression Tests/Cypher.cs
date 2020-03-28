@@ -9,7 +9,6 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder
 {
-
     public static class Cypher
     {
         public delegate PD PD(IVar var);
