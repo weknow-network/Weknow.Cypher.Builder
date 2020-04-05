@@ -35,37 +35,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Node_SingleSchema_Property_Test
 
-        #region Node_SingleSchema_Property_Without_P_Wrapper_Test
-
-        [Fact]
-        public void Node_SingleSchema_Property_Without_P_Wrapper_Test()
-        {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
-            var pattern = Reuse(n => N(n, Person, Id));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
-        }
-
-        #endregion // Node_SingleSchema_Property_Without_P_Wrapper_Test
-
-        #region Node_SingleSting_Property_Test
-
-        [Fact]
-        public void Node_SingleSting_Property_Test()
-        {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
-            //Reuse(n => N(n, Person, P(Id))).ToString();
-            var pattern = Reuse(n => N(n, Person, "Id"));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
-        }
-
-        #endregion // Node_SingleSting_Property_Test
-
         #region Node_LabelOnly_Test
 
         [Fact]

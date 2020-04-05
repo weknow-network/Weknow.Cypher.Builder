@@ -43,11 +43,11 @@ namespace Weknow.Tests.Smell
             //CypherCommand cypher = Builder.Build(n1 => items => item => 
             //            Unwind(items, item, N<Payload>(N, item.AsMap);
 
-            CypherCommand cypher = Builder.Build(n =>
-              P(Id, Name).Reuse()
-             .By(p => items =>
-                Unwind(items, Create(N(n, Person, "Id")))
-             ));
+            //CypherCommand cypher = Builder.Build(n =>
+            //  P(Id, Name).Reuse()
+            // .By(p => items =>
+            //    Unwind(items, Create(N(n, Person, "Id")))
+            // ));
             throw new NotImplementedException();
             //throw new NotImplementedException(items => Unwind(items, Create(N());
             //CypherCommand cypher = _(n1 => n2 => r =>

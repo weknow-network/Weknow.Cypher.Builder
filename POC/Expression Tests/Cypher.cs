@@ -209,10 +209,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, [Property]params IProperty[] properties) => throw new NotImplementedException();
-        [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, [Property]params string[] properties) => throw new NotImplementedException();
-        [Cypher("($0$1 { $2 })")]
         public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
         [Cypher("($0:!l0)")]
         public static IPattern N<T>(IVar var) => throw new NotImplementedException();
@@ -226,10 +222,6 @@ namespace Weknow.Cypher.Builder
         public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
         [Cypher("($0:!0$1 { $2 })")]
         public static IPattern N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
-        [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, [Property]params IProperty[] properties) => throw new NotImplementedException();
-        [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, [Property]params string[] properties) => throw new NotImplementedException();
 
         public static IRelation R => throw new NotImplementedException();
 
