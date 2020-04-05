@@ -232,7 +232,7 @@ namespace Weknow.Cypher.Builder
                                     Array.Empty<PropertyInfo>() :
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
 
-                    NewArrayExpression? arrayExp = node.Arguments[0] as NewArrayExpression;
+                    NewArrayExpression? arrayExp = node.Arguments.Count > 0 ? node.Arguments[0] as NewArrayExpression : null;
                     string[] exclude = !isExcept || arrayExp == null ?
                         Array.Empty<string>() :
                         arrayExp.Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
