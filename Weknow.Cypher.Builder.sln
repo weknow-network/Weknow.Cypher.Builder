@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitTests", "Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{539920D7-A242-4568-84C4-431AF83536EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitTests", "Deprecated\Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{539920D7-A242-4568-84C4-431AF83536EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{0A872885-74BB-4878-A8FF-30642DDDCC86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Deprecated\Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{0A872885-74BB-4878-A8FF-30642DDDCC86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.BuilderExpres
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materializer", "Materializer", "{D76BCBDB-E632-4BCB-9AE4-4F642C63936C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj", "{96754373-6682-434C-B89E-A9D2526E2793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Deprecated", "Deprecated\Weknow.Cypher.Builder.Deprecated\Weknow.Cypher.Builder.Deprecated.csproj", "{96754373-6682-434C-B89E-A9D2526E2793}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Neo4JMaterializer.Contratcs", "Materializer\Weknow.Neo4JMaterializer.Contratcs\Weknow.Neo4JMaterializer.Contratcs.csproj", "{C1F18C0D-DE96-4597-AAD2-347D23591490}"
 EndProject
@@ -28,6 +28,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serializers", "Serializers", "{040470D8-B550-41DC-9BF4-B6E95CEE893A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Neo4JMaterializer.Neo4jMapper", "Materializer\Serializers\Weknow.Neo4JMaterializer.Neo4jMapper\Weknow.Neo4JMaterializer.Neo4jMapper.csproj", "{B705C27A-DF40-4BFE-B51B-562DE6A2D167}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deprecated", "Deprecated", "{1138ED4F-F208-4C92-A1DD-88647194FAB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj", "{3A06C4F6-FFB3-40A4-A600-D779659C5D53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,16 +75,22 @@ Global
 		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{51F1849A-A0AC-46AA-B9CD-0BC0F40A930E} = {1138ED4F-F208-4C92-A1DD-88647194FAB6}
 		{539920D7-A242-4568-84C4-431AF83536EB} = {51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}
 		{0A872885-74BB-4878-A8FF-30642DDDCC86} = {51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}
 		{708614B5-79EC-44C2-AC03-EE4A90C38999} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
 		{56840E7B-F51D-4B64-BFFC-96DD439217AC} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
 		{A3DC65FF-E5F6-4456-9151-EC5781099C23} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
+		{96754373-6682-434C-B89E-A9D2526E2793} = {1138ED4F-F208-4C92-A1DD-88647194FAB6}
 		{C1F18C0D-DE96-4597-AAD2-347D23591490} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
 		{A5A84BEF-AA1C-4BE1-B561-318E16B47109} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
 		{040470D8-B550-41DC-9BF4-B6E95CEE893A} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}

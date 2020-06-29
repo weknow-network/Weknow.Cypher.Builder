@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj" />
+    <ProjectReference Include="..\..\Weknow.Cypher.Builder.Deprecated\Weknow.Cypher.Builder.Deprecated.csproj" />
   </ItemGroup>
 
 </Project>

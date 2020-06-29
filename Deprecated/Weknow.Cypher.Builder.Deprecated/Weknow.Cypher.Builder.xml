@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Weknow.Cypher.Builder.Deprecated</name>
+        <name>Weknow.Cypher.Builder</name>
     </assembly>
     <members>
         <member name="T:Weknow.CypherFormat">
