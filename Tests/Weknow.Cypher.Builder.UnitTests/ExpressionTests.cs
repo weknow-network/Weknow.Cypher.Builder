@@ -443,7 +443,7 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #region Range_Test
 
-        [Fact]
+        [Fact(Skip = "Expression don't support Range")]
         public void Range_Test()
         {
             //CypherCommand cypher = _(n => r => m =>
@@ -459,7 +459,7 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #region Range_FromAny_Test
 
-        [Fact]
+        [Fact(Skip = "Expression don't support Range")]
         public void Range_FromAny_Test()
         {
             //CypherCommand cypher = _(n => r => m =>
@@ -475,7 +475,7 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #region Range_WithVar_Test
 
-        [Fact]
+        [Fact(Skip = "Expression don't support Range")]
         public void Range_WithVar_Test()
         {
             //CypherCommand cypher = _(n => r => m =>
@@ -491,15 +491,15 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #region Range_WithVarAndProp_Test
 
-        [Fact]
+        [Fact(Skip = "Expression don't support Range")]
         public void Range_WithVarAndProp_Test()
         {
-            //CypherCommand cypher = _(n => r => m =>
-            //                        Match(N(n) -
-            //                        R[r, KNOWS, P(PropA), 1..5] >
-            //                        N(m)));
+            //    CypherCommand cypher = _(n => r => m =>
+            //                            Match(N(n) -
+            //                            R[r, KNOWS, P(PropA), 1..5] >
+            //                            N(m)));
 
-            //Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+            //    Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -507,7 +507,7 @@ WHERE n.Name = m.Name }", cypher.Query);
 
         #region Range_Infinit_Test
 
-        [Fact]
+        [Fact(Skip = "Expression don't support Range")]
         public void Range_Infinit_Test()
         {
             //CypherCommand cypher = _(n => r => m =>
@@ -520,6 +520,81 @@ WHERE n.Name = m.Name }", cypher.Query);
         }
 
         #endregion // Range_Infinit_Test
+
+        #region Range_Enum_AtMost_Test
+
+        [Fact]
+        public void Range_Enum_AtMost_Test()
+        {
+            CypherCommand cypher = _(n => r => m =>
+                                    Match(N(n) -
+                                    R[Rng.AtMost(5)] >
+                                    N(m)));
+
+            Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
+        }
+
+        #endregion // Range_Enum_AtMost_Test
+
+        #region Range_Enum_AtLeast_Test
+
+        [Fact]
+        public void Range_Enum_AtLeast_Test()
+        {
+            CypherCommand cypher = _(n => r => m =>
+                                    Match(N(n) -
+                                    R[Rng.AtLeast(3)] >
+                                    N(m)));
+
+            Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
+        }
+
+        #endregion // Range_Enum_AtLeast_Test
+
+        #region Range_Enum_WithVar_Test
+
+        [Fact]
+        public void Range_Enum_WithVar_Test()
+        {
+            CypherCommand cypher = _(n => r => m =>
+                                    Match(N(n) -
+                                    R[r, Rng.Scope(1,5)] >
+                                    N(m)));
+
+            Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
+        }
+
+        #endregion // Range_Enum_WithVar_Test
+
+        #region Range_Enum_WithVarAndProp_Test
+
+        [Fact]
+        public void Range_Enum_WithVarAndProp_Test()
+        {
+            CypherCommand cypher = _(n => r => m =>
+                                    Match(N(n) -
+                                    R[r, KNOWS, P(PropA), Rng.Scope(1, 5)] >
+                                    N(m)));
+
+            Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+        }
+
+        #endregion // Range_Enum_WithVarAndProp_Test
+
+        #region Range_Enum_Infinit_Test
+
+        [Fact]
+        public void Range_Enum_Infinit_Test()
+        {
+            CypherCommand cypher = _(n => r => m =>
+                                    Match(N(n) -
+                                    R[Rng.Any()] >
+                                    N(m)));
+
+            Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
+        }
+
+        #endregion // Range_Enum_Infinit_Test
 
         // TODO: FOREACH, DELETE, DETACH
         // TODO: UNION, UNION ALL

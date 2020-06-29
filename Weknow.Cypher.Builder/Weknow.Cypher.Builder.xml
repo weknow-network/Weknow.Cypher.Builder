@@ -679,6 +679,70 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="T:Weknow.Cypher.Builder.IType">
+            <summary>
+            Relation's Type primitive for the Cypher expression.
+            </summary>
+            <example>
+            The KNOWS in the following expression will use the Type primitive.
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IVar`1">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IVar`1.P">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IVar">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IVar.op_Addition(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IVar.op_UnaryPlus(Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Declaration for unary operator +.
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.IRelation">
             <summary>
             Relation primitive for the Cypher expression.
@@ -721,6 +785,49 @@
             </example>
         </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
+            <summary>
+            Represent relation with variable, type and range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="var">Variable</param>
+            <param name="type"></param>
+            <param name="properties"></param>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[r:KNOW*1..5 {level: 2}]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Rng)">
+            <summary>
+            Represent relation with range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.Rng)">
+            <summary>
+            Represent relation with variable and range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="var">Variable</param>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[r:*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -804,69 +911,47 @@
             </example>
         </member>
         <!-- Badly formed XML comment ignored for member "M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IPattern,Weknow.Cypher.Builder.IRelation)" -->
-        <member name="T:Weknow.Cypher.Builder.IType">
+        <member name="T:Weknow.Cypher.Builder.Rng">
             <summary>
-            Relation's Type primitive for the Cypher expression.
+            Represent alternative to range syntax (currently the range syntax is not supported as expression)
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Rng.Any">
+            <summary>
+            Any length
             </summary>
             <example>
-            The KNOWS in the following expression will use the Type primitive.
-            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            (a)-[*]->(b)
             </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IVar`1">
+        <member name="M:Weknow.Cypher.Builder.Rng.AtLeast(System.Int32)">
             <summary>
-            Variable primitive for the Cypher expression.
+            At least
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="i">The i.</param>
             <example>
-            The n in the following expression will use the variable primitive. 
-            CREATE (n {name: $value})
+            (a)-[*3..]->(b)
             </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IVar`1.P">
+        <member name="M:Weknow.Cypher.Builder.Rng.AtMost(System.Int32)">
             <summary>
-            Gets type representation of the variable.
+            At most
             </summary>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IVar">
-            <summary>
-            Variable primitive for the Cypher expression.
-            </summary>
+            <param name="i">The i.</param>
             <example>
-            The n in the following expression will use the variable primitive. 
-            CREATE (n {name: $value})
+            (a)-[*..5]->(b)
             </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
-        <member name="M:Weknow.Cypher.Builder.IVar.op_Addition(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.Rng.Scope(System.Int32,System.Int32)">
             <summary>
-            Declaration for operator +.
+            From start index to end index.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IVar.op_UnaryPlus(Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Declaration for unary operator +.
-            </summary>
-            <param name="item">The item.</param>
-            <returns>
-            The result of the operator.
-            </returns>
+            <param name="start">The start.</param>
+            <param name="end">The end.</param>
+            <returns></returns>
+            <example>
+            (a)-[*3..5]->(b)
+            </example>
         </member>
         <member name="T:Weknow.Cypher.Builder.Reuse`2">
             <summary>

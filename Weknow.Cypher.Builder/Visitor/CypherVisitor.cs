@@ -168,96 +168,23 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
+            string mtdName = node.Method.Name;
+            string type = node.Type.Name;
+
             using var _ = _isProperties.Set(_isProperties.Value || node.Method.ReturnType == typeof(IProperties));
 
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
-                IDisposable? disp = null;
-                using var formatter = _formatter.Set(new FormatingState(format));
-                for (var i = _formatter.Value; !i.Ended; i++)
-                {
-                    switch (format[i])
-                    {
-                        case '$':
-                            {
-                                var ch = format[++i];
-                                if (ch == 'p')
-                                {
-                                    using var __ = isPluralize.Set(true);
-                                    var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                                    Visit(expr);
-                                }
-                                else if (ch == 's')
-                                {
-                                    using var __ = isSingularize.Set(true);
-                                    var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                                    Visit(expr);
-                                }
-                                else
-                                {
-                                    var expr = node.Arguments[int.Parse(ch.ToString())];
-                                    Visit(expr);
-                                }
-                            }
-                            break;
-                        case '!':
-                            {
-                                var ch = format[++i];
-                                if (ch == 'l')
-                                {
-                                    Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
-
-                                }
-                                else
-                                {
-                                    Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
-                                }
-                            }
-                            break;
-                        case '+':
-                            {
-                                var ch = format[++i];
-                                if (ch == 'p')
-                                {
-                                    disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(true, false, node.Arguments[int.Parse(format[++i].ToString())]));
-                                }
-                                else if (ch == 's')
-                                {
-                                    disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, true, node.Arguments[int.Parse(format[++i].ToString())]));
-                                }
-                                else
-                                {
-                                    disp = _expression[int.Parse(ch.ToString())].Set(new ContextExpression(false, false, node.Arguments[int.Parse(format[++i].ToString())]));
-                                }
-                            }
-                            break;
-                        case '.':
-                            disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, false, node));
-                            break;
-                        case '&':
-                            if (disp == null)
-                                disp = _methodExpr.Set(node);
-                            else
-                                disp.Dispose();
-                            break;
-                        case '\\':
-                            Query.Append(format[++i]);
-                            break;
-                        default:
-                            Query.Append(format[i]);
-                            break;
-                    }
-                }
-                disp?.Dispose();
+                IDisposable formatter = ApplyFormat(node, format);
             }
-            else if (node.Method.Name == nameof(IReuse<PD, PD>.By))
+            else if (mtdName == nameof(IReuse<PD, PD>.By))
             {
                 Visit(node.Object);
                 Visit(node.Arguments[0]);
             }
-            else if (node.Method.Name == nameof(Cypher.Reuse))
+            else if (mtdName == nameof(Cypher.Reuse))
             {
                 if (node.Arguments.Count == 2)
                 {
@@ -267,20 +194,53 @@ namespace Weknow.Cypher.Builder
                 else
                     _reuseParameters.Add(node.Arguments[0]);
             }
-            else if (node.Method.Name == nameof(Range.EndAt))
-            {   // TODO: consider to move implementation into VisitUnary
+            else if (mtdName == nameof(Range.EndAt))
+            {
                 Query.Append("*..");
                 var index = node.Arguments[0] as UnaryExpression;
                 Query.Append(index?.Operand);
             }
-            else if (node.Method.Name == "get_" + nameof(Range.All))
+            else if (type == nameof(Rng))
+            {
+                if (mtdName == nameof(Rng.Scope))
+                {
+                    Query.Append("*");
+                    var index0 = node.Arguments[0] as ConstantExpression;
+                    Query.Append(index0?.Value);
+                    Query.Append("..");
+                    var index1 = node.Arguments[1] as ConstantExpression;
+                    Query.Append(index1?.Value);
+                }
+                else if (mtdName == nameof(Rng.AtMost))
+                {
+                    Query.Append("*..");
+                    var index = node.Arguments[0] as ConstantExpression;
+                    Query.Append(index?.Value);
+                }
+                else if (mtdName == nameof(Rng.AtLeast))
+                {
+                    Query.Append("*");
+                    var index = node.Arguments[0] as ConstantExpression;
+                    Query.Append(index?.Value);
+                    Query.Append("..");
+                }
+                else if (mtdName == nameof(Rng.Any))
+                {
+                    Query.Append("*");
+                }
+            }
+            else if (mtdName == "get_item")
+            {
+                Visit(node.Arguments[0]);
+            }
+            else if (mtdName == "get_" + nameof(Range.All))
             {
                 Query.Append("*");
             }
-            else if (node.Method.Name == nameof(Cypher.All) ||
-                    node.Method.Name == nameof(Cypher.AllExcept))
+            else if (mtdName == nameof(Cypher.All) ||
+                    mtdName == nameof(Cypher.AllExcept))
             {
-                bool isExcept = node.Method.Name == nameof(Cypher.AllExcept);
+                bool isExcept = mtdName == nameof(Cypher.AllExcept);
                 if (node.Method.IsGenericMethod)
                 {
                     var properties = node.Method.GetGenericArguments()[0].GetProperties();
@@ -311,7 +271,7 @@ namespace Weknow.Cypher.Builder
                         arrayExp.Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
                     foreach (var item in properties)
                     {
-                        if (exclude.Contains(item.Name)) 
+                        if (exclude.Contains(item.Name))
                             continue;
 
                         Query.Append(item.Name);
@@ -322,7 +282,7 @@ namespace Weknow.Cypher.Builder
                     }
                 }
             }
-            else if (node.Method.Name == nameof(Cypher.Convention))
+            else if (mtdName == nameof(Cypher.Convention))
             {
                 var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
                 var arguments = node.Method.IsGenericMethod
@@ -360,6 +320,92 @@ namespace Weknow.Cypher.Builder
 
         #endregion // VisitMethodCall
 
+        #region ApplyFormat
+
+        private IDisposable ApplyFormat(MethodCallExpression node, string? format)
+        {
+            IDisposable? disp = null;
+            var formatter = _formatter.Set(new FormatingState(format));
+            for (var i = _formatter.Value; !i.Ended; i++)
+            {
+                switch (format[i])
+                {
+                    case '$':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'p')
+                            {
+                                using var __ = isPluralize.Set(true);
+                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                Visit(expr);
+                            }
+                            else if (ch == 's')
+                            {
+                                using var __ = isSingularize.Set(true);
+                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                Visit(expr);
+                            }
+                            else
+                            {
+                                var expr = node.Arguments[int.Parse(ch.ToString())];
+                                Visit(expr);
+                            }
+                        }
+                        break;
+                    case '!':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'l')
+                            {
+                                Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
+
+                            }
+                            else
+                            {
+                                Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
+                            }
+                        }
+                        break;
+                    case '+':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'p')
+                            {
+                                disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(true, false, node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                            else if (ch == 's')
+                            {
+                                disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, true, node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                            else
+                            {
+                                disp = _expression[int.Parse(ch.ToString())].Set(new ContextExpression(false, false, node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                        }
+                        break;
+                    case '.':
+                        disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, false, node));
+                        break;
+                    case '&':
+                        if (disp == null)
+                            disp = _methodExpr.Set(node);
+                        else
+                            disp.Dispose();
+                        break;
+                    case '\\':
+                        Query.Append(format[++i]);
+                        break;
+                    default:
+                        Query.Append(format[i]);
+                        break;
+                }
+            }
+            disp?.Dispose();
+            return formatter;
+        }
+
+        #endregion // ApplyFormat
+
         #region VisitMember
 
         /// <summary>
@@ -371,7 +417,9 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Member.Name == nameof(IVar.AsMap))
+            string name = node.Member.Name;
+
+            if (name == nameof(IVar.AsMap))
             {
                 if (_expression[2].Value != null)
                 {
@@ -396,14 +444,14 @@ namespace Weknow.Cypher.Builder
             if (node.Type == typeof(ILabel))
             {
                 Query.Append(":");
-                Query.Append(_configuration.AmbientLabels.Combine(node.Member.Name));
+                Query.Append(_configuration.AmbientLabels.Combine(name));
                 return node;
             }
 
-            if (node.Member.Name == nameof(IVar.AsMap))
+            if (name == nameof(IVar.AsMap))
                 return node;
 
-            Query.Append(node.Member.Name);
+            Query.Append(name);
 
             if (_isProperties.Value)
             {
@@ -420,8 +468,8 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                     Query.Append("$");
-                Query.Append(node.Member.Name);
-                Parameters[node.Member.Name] = null;
+                Query.Append(name);
+                Parameters[name] = null;
             }
             return node;
         }
