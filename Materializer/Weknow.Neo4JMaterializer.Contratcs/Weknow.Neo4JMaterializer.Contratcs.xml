@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Weknow.Neo4JMaterializer.Contratcs</name>
+    </assembly>
+    <members>
+        <member name="T:Weknow.CypherResult">
+            <summary>
+            Cypher query result factory observe some context (useful for reactive queries)
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherResult.Create``2(``0,``1,System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Create.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="item">The item.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherResult`2">
+            <summary>
+            Cypher query result with some context (useful for reactive queries)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TContext">The type of the context.</typeparam>
+        </member>
+        <member name="M:Weknow.CypherResult`2.#ctor(`0,`1,System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Initializes a new instance of the <see cref="!:CypherResult&lt;T&gt;" /> class.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="context">The context.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="P:Weknow.CypherResult`2.Item">
+            <summary>
+            Gets the item.
+            </summary>
+            <value>
+            The item.
+            </value>
+        </member>
+        <member name="P:Weknow.CypherResult`2.Context">
+            <summary>
+            Gets the context.
+            </summary>
+            <value>
+            The context.
+            </value>
+        </member>
+        <member name="P:Weknow.CypherResult`2.CancellationToken">
+            <summary>
+            Gets the cancellation token (indication for cancellation).
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherResult`2.Deconstruct(`0@,`1@,System.Threading.CancellationToken@)">
+            <summary>
+            Enable the de-construct functionality.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="context">The context.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Weknow.CypherResult`2.op_Implicit(Weknow.CypherResult{`0,`1})~`0">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.CypherResult`2"/> to <see cref="!:T"/>.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="T:Weknow.ICypherRunnerResultCursor">
+            <summary>
+            Raw execution results facilitator.
+            </summary>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToSingleAsync``1">
+            <summary>
+            Gets single result.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToManyAsync``1">
+            <summary>
+            Get multiple results (all result materialized not deferred ).
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToAsyncStream``1">
+            <summary>
+            Exposed as async stream.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToReactive``1">
+            <summary>
+            Exposed as reactive stream.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToReactive``2(``1)">
+            <summary>
+            Exposed as reactive stream.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToDataflow``1(System.Threading.Tasks.Dataflow.DataflowBlockOptions)">
+            <summary>
+            Exposed as reactive stream.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="options">The options.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.ICypherRunnerResultCursor.ToDataflow``2(``1,System.Threading.Tasks.Dataflow.DataflowBlockOptions)">
+            <summary>
+            Exposed as reactive stream.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="options">The options.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

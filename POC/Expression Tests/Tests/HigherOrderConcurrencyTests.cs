@@ -1,9 +1,7 @@
 using System;
-using System.Linq.Expressions;
+
 using Xunit;
 using Xunit.Abstractions;
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {

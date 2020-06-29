@@ -5,7 +5,6 @@
 // https://github.com/barnardos-au/Neo4jMapper
 
 using System.Collections.Generic;
-using System.Collections.Immutable;
 
 namespace Weknow
 {

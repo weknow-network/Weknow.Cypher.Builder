@@ -18,12 +18,8 @@
     <PackageIconUrl />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\.repo\GitHub\.weknow\neo4j\Weknow.Cypher.Builder\Weknow.Cypher.Builder\Weknow.Cypher.Builder.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\.repo\GitHub\.weknow\neo4j\Weknow.Cypher.Builder\Weknow.Cypher.Builder\Weknow.Cypher.Builder.xml</DocumentationFile>
+  <PropertyGroup>
+    <DocumentationFile>Weknow.Cypher.Builder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

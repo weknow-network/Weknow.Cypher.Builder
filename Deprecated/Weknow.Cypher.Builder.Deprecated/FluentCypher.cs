@@ -20,6 +20,7 @@
 // TODO: STARTS WITH, ENDS WITH, CONTAINS, IN, CASE, Path
 
 using Microsoft.Extensions.ObjectPool;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Text.RegularExpressions;
+
 using static Weknow.CypherFactory;
 using static Weknow.Helpers.Helper;
 

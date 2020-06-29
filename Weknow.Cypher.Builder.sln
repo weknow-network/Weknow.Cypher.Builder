@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitTests", "Deprecated\Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{539920D7-A242-4568-84C4-431AF83536EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Deprecated.UnitTests", "Deprecated\Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.Deprecated.UnitTests.csproj", "{539920D7-A242-4568-84C4-431AF83536EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Deprecated\Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{0A872885-74BB-4878-A8FF-30642DDDCC86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Deprecated.IntegrationTests", "Deprecated\Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.Deprecated.IntegrationTests.csproj", "{0A872885-74BB-4878-A8FF-30642DDDCC86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}"
 EndProject
@@ -32,6 +32,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deprecated", "Deprecated", "{1138ED4F-F208-4C92-A1DD-88647194FAB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj", "{3A06C4F6-FFB3-40A4-A600-D779659C5D53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weknow.Cypher.Builder.UnitTests", "Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{1F2B3CCE-AB81-4024-9C6C-1B1354070246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,14 @@ Global
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F2B3CCE-AB81-4024-9C6C-1B1354070246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F2B3CCE-AB81-4024-9C6C-1B1354070246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F2B3CCE-AB81-4024-9C6C-1B1354070246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F2B3CCE-AB81-4024-9C6C-1B1354070246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +109,8 @@ Global
 		{A5A84BEF-AA1C-4BE1-B561-318E16B47109} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
 		{040470D8-B550-41DC-9BF4-B6E95CEE893A} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
 		{B705C27A-DF40-4BFE-B51B-562DE6A2D167} = {040470D8-B550-41DC-9BF4-B6E95CEE893A}
+		{1F2B3CCE-AB81-4024-9C6C-1B1354070246} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
+		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5165861-FF25-467F-9B2D-E9626AF32A1A}

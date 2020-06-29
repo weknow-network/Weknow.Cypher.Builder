@@ -6,14 +6,6 @@
 
 // TODO: main phrases + prop setup + where
 
-using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
-using static Weknow.Helpers.Helper;
-
 namespace Weknow
 {
     /// <summary>

@@ -5,15 +5,6 @@
 // https://github.com/barnardos-au/Neo4jMapper
 
 using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
-using System.Collections;
-using static Weknow.Helpers.Helper;
-using static Weknow.CypherFactory;
-using System.Collections.Immutable;
 
 namespace Weknow
 {

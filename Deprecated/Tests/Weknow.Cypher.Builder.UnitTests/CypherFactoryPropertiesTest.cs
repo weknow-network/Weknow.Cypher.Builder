@@ -1,7 +1,8 @@
 using System;
-using System.Diagnostics;
+
 using Xunit;
 using Xunit.Abstractions;
+
 using static Weknow.CypherFactory;
 
 // https://neo4j.com/docs/cypher-refcard/current/

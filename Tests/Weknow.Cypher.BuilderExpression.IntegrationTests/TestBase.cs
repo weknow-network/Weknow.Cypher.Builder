@@ -1,13 +1,10 @@
 using Neo4j.Driver;
+
 using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+
 using Weknow.Cypher.Builder;
-using Xunit;
+
 using Xunit.Abstractions;
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Tests
 {

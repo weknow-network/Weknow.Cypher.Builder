@@ -5,9 +5,9 @@
 // https://github.com/barnardos-au/Neo4jMapper
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
+
 using static Weknow.Helpers.Helper;
 
 namespace Weknow

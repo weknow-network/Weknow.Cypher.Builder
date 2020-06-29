@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq.Expressions;
-
-namespace Weknow
+﻿namespace Weknow
 {
     /// <summary>
     /// The cypher builder configuration.

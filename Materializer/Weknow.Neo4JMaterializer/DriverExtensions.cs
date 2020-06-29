@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Weknow;
-
-namespace Neo4j.Driver
+﻿namespace Neo4j.Driver
 {
     /// <summary>
     /// Common extensions for Neo4J ORM (Query and materialization)

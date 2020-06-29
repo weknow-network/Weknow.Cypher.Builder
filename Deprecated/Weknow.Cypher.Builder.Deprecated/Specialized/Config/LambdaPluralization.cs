@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq.Expressions;
 
 // Pluralize libraries:
 // https://github.com/sarathkcm/Pluralize.NET

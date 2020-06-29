@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq.Expressions;
-
-// Pluralize libraries:
+﻿// Pluralize libraries:
 // https://github.com/sarathkcm/Pluralize.NET
 // https://github.com/rvegajr/Pluralize.NET.Core
-
 
 namespace Weknow
 {
