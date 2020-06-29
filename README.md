@@ -11,5 +11,3 @@ Cypher Builder aim to be developer friendly library for cypher query.
 It bring as match intellisense & cypher correction as it can
 while keeping the Cypher expression readable.
 
-## Better Together
-This library don't aim to execute the Cypher, it design to work with other libraries like Neo4JMapper & others.
