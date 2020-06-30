@@ -99,43 +99,6 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // Reuse_Plural_UNWIND_Test
-
-        #region Lazy_Reuse_Properties_Test
-
-        [Fact]
-        [Trait("Issues", "open")]
-        public void Lazy_Reuse_Properties_Test()
-        {
-            throw new NotImplementedException();
-
-            //var p = Reuse(P(PropA, PropB));
-            //var reusedPerson = Reuse(person => N(person, p));
-
-            //CypherCommand cypher = _(() =>
-            //             Match(reusedPerson));
-
-            //Assert.Equal("MATCH (person:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // Lazy_Reuse_Properties_Test
-
-        // TODO: disable the option of chaining Reuse in a row because of the backward ordering (confusion)
-        #region Reuse_Unordered_Test
-
-        [Fact]
-        [Trait("Issues", "open")]
-        public void Reuse_Unordered_Test()
-        {
-            CypherCommand cypher = _(n => P(PropA, PropB).Reuse(
-                                          N(n, Person).Reuse())
-                                     .By(p => n => n1 =>
-                                      Match(N(n1, Person, p) - n)));
-
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })--(n:Person)", cypher.Query);
-            throw new InvalidOperationException("disable the option of chaining Reuse in a row because of the backward ordering (confusion)");
-        }
-
-        #endregion // Reuse_Unordered_Test
     }
 }
 

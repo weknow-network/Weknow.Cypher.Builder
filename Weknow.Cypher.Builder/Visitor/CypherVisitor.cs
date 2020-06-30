@@ -149,24 +149,10 @@ namespace Weknow.Cypher.Builder
             Visit(node.Operand);
             if (node.NodeType == ExpressionType.UnaryPlus)
             {
-                if (node.Operand.Type.Name == nameof(IMap))
+                if (!_duplication.Contains(node))
                 {
-                    if (!_duplication.Contains(node))
-                    {
-                        Query.Append(" +");
-                        _duplication.Add(node);
-                    }
-                }
-                else
-                {
-                    var formatter = _formatter.Value;
-                    if (_methodExpr.Value?.Method.Name == "Set" && 
-                        formatter.Index + 2 < formatter.Format.Length && 
-                        formatter.Format[formatter.Index + 2] == '=')
-                    {
-                        formatter++;
-                        Query.Append(" +");
-                    }
+                    Query.Append(" +");
+                    _duplication.Add(node);
                 }
             }
 
