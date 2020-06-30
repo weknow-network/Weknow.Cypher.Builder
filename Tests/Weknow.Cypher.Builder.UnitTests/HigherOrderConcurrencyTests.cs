@@ -22,6 +22,7 @@ namespace Weknow.Cypher.Builder
         #region Concurrency_Pattern_Test
 
         [Fact]
+        [Trait("Issues", "open")]
         public void Concurrency_Pattern_Test()
         {
             //CypherCommand cypher = P(n =>
@@ -41,6 +42,7 @@ namespace Weknow.Cypher.Builder
         #region Unwind_Concurrency_Pattern_Test
 
         [Fact]
+        [Trait("Issues", "open")]
         public void Unwind_Concurrency_Pattern_Test()
         {
             //CypherCommand cypher = P(items => item => n =>

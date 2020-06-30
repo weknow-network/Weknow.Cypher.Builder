@@ -67,6 +67,8 @@ namespace Weknow.Cypher.Builder
             [3] = new ContextValue<ContextExpression?>(null),
         };
 
+        private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
+
         private readonly List<Expression> _reuseParameters = new List<Expression>();
         private readonly List<string> _reuseParameterNames = new List<string>();
 
@@ -145,11 +147,27 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitUnary(UnaryExpression node)
         {
             Visit(node.Operand);
-            var formatter = _formatter.Value;
-            if (_methodExpr.Value?.Method.Name == "Set" && formatter.Index + 2 < formatter.Format.Length && formatter.Format[formatter.Index + 2] == '=' && node.NodeType == ExpressionType.UnaryPlus)
+            if (node.NodeType == ExpressionType.UnaryPlus)
             {
-                formatter++;
-                Query.Append(" +");
+                if (node.Operand.Type.Name == nameof(IMap))
+                {
+                    if (!_duplication.Contains(node))
+                    {
+                        Query.Append(" +");
+                        _duplication.Add(node);
+                    }
+                }
+                else
+                {
+                    var formatter = _formatter.Value;
+                    if (_methodExpr.Value?.Method.Name == "Set" && 
+                        formatter.Index + 2 < formatter.Format.Length && 
+                        formatter.Format[formatter.Index + 2] == '=')
+                    {
+                        formatter++;
+                        Query.Append(" +");
+                    }
+                }
             }
 
             return node;
@@ -394,6 +412,14 @@ namespace Weknow.Cypher.Builder
                         break;
                     case '\\':
                         Query.Append(format[++i]);
+                        break;
+                    case '=':
+                        char last2 = Query[^2];
+                        char last1 = Query[^1];
+                        if (last2 == '+' && last1 == ' ')
+                            Query.Remove(Query.Length - 1, 1);
+
+                        Query.Append(format[i]);
                         break;
                     default:
                         Query.Append(format[i]);

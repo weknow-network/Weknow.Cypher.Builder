@@ -6,6 +6,8 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
+    [Trait("Category", "Property")]
+    [Trait("Segment", "Expression")]
     public class PropertiesExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

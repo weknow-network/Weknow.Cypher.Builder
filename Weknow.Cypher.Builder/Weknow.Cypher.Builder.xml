@@ -1366,6 +1366,68 @@
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
         </member>
+        <member name="T:Weknow.Cypher.Builder.FormatingState">
+            <summary>
+            Represent Formatting state.
+            Relevant to parsing of CypherAttribute's Format
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.FormatingState.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.FormatingState"/> class.
+            </summary>
+            <param name="format">The format.</param>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.FormatingState.Index">
+            <summary>
+            Gets the current index.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.FormatingState.Format">
+            <summary>
+            Gets the format.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.FormatingState.Current">
+            <summary>
+            Gets the current char.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.FormatingState.Ended">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Weknow.Cypher.Builder.FormatingState"/> is ended.
+            </summary>
+            <value>
+              <c>true</c> if ended; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.FormatingState.op_Implicit(Weknow.Cypher.Builder.FormatingState)~System.Int32">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.Cypher.Builder.FormatingState"/> to <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.FormatingState.op_Increment(Weknow.Cypher.Builder.FormatingState)">
+            <summary>
+            Implements the operator ++.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.FormatingState.op_Decrement(Weknow.Cypher.Builder.FormatingState)">
+            <summary>
+            Implements the operator --.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
         <member name="T:Weknow.ConcurrencyConfig">
             <summary>
             Represent contextual operations.
