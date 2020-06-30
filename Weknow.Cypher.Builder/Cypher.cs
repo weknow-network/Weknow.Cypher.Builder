@@ -391,10 +391,10 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Gets properties by convention with variable.
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="var">The variable.</param>
+        /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        /// <example>
-        /// </example>
+        /// <example></example>
         public static IProperties Convention(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
         // TODO: Generics has no meanings
         ///// <summary>
@@ -511,7 +511,8 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// UNWIND phrase.
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="items">The items.</param>
+        /// <param name="item">The item.</param>
         /// <param name="p">The p.</param>
         /// <returns></returns>
         /// <example>

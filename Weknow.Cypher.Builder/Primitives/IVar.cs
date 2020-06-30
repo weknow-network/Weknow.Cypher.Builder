@@ -54,7 +54,11 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         public static IVar operator +(IVar item) => throw new NotImplementedException();
-        
+
+        /// <summary>
+        /// Use mapping technique.
+        /// For example: CREATE (n $map)
+        /// </summary>
         IMap AsMap { get; }
     }
 

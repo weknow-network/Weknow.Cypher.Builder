@@ -6,7 +6,7 @@
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
-    /// Representation of Cypher Query & Parameters
+    /// <![CDATA[Representation of Cypher Query & Parameters]]>
     /// </summary>
     public class CypherCommand
     {
@@ -73,7 +73,7 @@ namespace Weknow.Cypher.Builder
         #region Dump
 
         /// <summary>
-        /// Dumps the Cypher Query & parameter into text format.
+        /// <![CDATA[Dumps the Cypher Query & parameter into text format.]]>
         /// </summary>
         /// <returns></returns>
         public string Dump()

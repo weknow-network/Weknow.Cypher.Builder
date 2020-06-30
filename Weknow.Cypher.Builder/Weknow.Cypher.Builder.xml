@@ -302,10 +302,10 @@
             <summary>
             Gets properties by convention with variable.
             </summary>
-            <param name="filter"></param>
+            <param name="var">The variable.</param>
+            <param name="filter">The filter.</param>
             <returns></returns>
-            <example>
-            </example>
+            <example></example>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.All">
             <summary>
@@ -377,7 +377,8 @@
             <summary>
             UNWIND phrase.
             </summary>
-            <param name="item"></param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
             <param name="p">The p.</param>
             <returns></returns>
             <example>
@@ -432,7 +433,11 @@
             <param name="v"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Weknow.Cypher.Builder.CypherCommand" -->
+        <member name="T:Weknow.Cypher.Builder.CypherCommand">
+            <summary>
+            <![CDATA[Representation of Cypher Query & Parameters]]>
+            </summary>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherCommand.#ctor(System.String,Weknow.Cypher.Builder.CypherParameters)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.CypherCommand"/> class.
@@ -467,7 +472,12 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Weknow.Cypher.Builder.CypherCommand.Dump" -->
+        <member name="M:Weknow.Cypher.Builder.CypherCommand.Dump">
+            <summary>
+            <![CDATA[Dumps the Cypher Query & parameter into text format.]]>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.CypherDelegates">
             <summary>
             Common delegate of the Cypher builder
@@ -745,6 +755,12 @@
             The result of the operator.
             </returns>
         </member>
+        <member name="P:Weknow.Cypher.Builder.IVar.AsMap">
+            <summary>
+            Use mapping technique.
+            For example: CREATE (n $map)
+            </summary>
+        </member>
         <member name="T:Weknow.Cypher.Builder.IRelation">
             <summary>
             Relation primitive for the Cypher expression.
@@ -757,8 +773,32 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)" -->
-        <!-- Badly formed XML comment ignored for member "P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)" -->
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)">
+            <summary>
+            Represent relation with variable and type.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[(m)<-[r:KNOWS]-(n)]]>
+            </example>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
+            <summary>
+            Represent relation with variable, type and properties.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
+            </example>
+        </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(System.Range)">
             <summary>
             Represent relation with range.
@@ -884,7 +924,19 @@
             [n]->[m]
             </example>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IRelation,Weknow.Cypher.Builder.IRelation)" -->
+        <member name="M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IRelation,Weknow.Cypher.Builder.IRelation)">
+            <summary>
+            Represent relation operator..
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example>
+            <![CDATA[ [n]<-[m] ]]>
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.IRelation.op_GreaterThan(Weknow.Cypher.Builder.IRelation,Weknow.Cypher.Builder.IPattern)">
             <summary>
             Represent relation operator..
@@ -895,10 +947,22 @@
             The result of the operator.
             </returns>
             <example>
-            [n]->(m)
+            <![CDATA[ [n]->(m) ]]>
             </example>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IRelation,Weknow.Cypher.Builder.IPattern)" -->
+        <member name="M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IRelation,Weknow.Cypher.Builder.IPattern)">
+            <summary>
+            Represent relation operator..
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example>
+            <![CDATA[ [n]<-(m) ]]>
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.IRelation.op_GreaterThan(Weknow.Cypher.Builder.IPattern,Weknow.Cypher.Builder.IRelation)">
             <summary>
             Represent relation operator..
@@ -909,10 +973,22 @@
             The result of the operator.
             </returns>
             <example>
-            (n)->[m]
+            <![CDATA[ (n)->[m] ]]>
             </example>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IPattern,Weknow.Cypher.Builder.IRelation)" -->
+        <member name="M:Weknow.Cypher.Builder.IRelation.op_LessThan(Weknow.Cypher.Builder.IPattern,Weknow.Cypher.Builder.IRelation)">
+            <summary>
+            Represent relation operator..
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example>
+            <![CDATA[ (n)<-[m] ]]>
+            </example>
+        </member>
         <member name="T:Weknow.Cypher.Builder.Rng">
             <summary>
             Represent alternative to range syntax (currently the range syntax is not supported as expression)
@@ -954,6 +1030,20 @@
             <example>
             (a)-[*3..5]->(b)
             </example>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IReuse`2">
+            <summary>
+            Reuse contract
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="U"></typeparam>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IReuse`2.By(System.Func{`0,`1})">
+            <summary>
+            Pipe the reuse content.
+            </summary>
+            <param name="a">a.</param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.Reuse`2">
             <summary>
@@ -1036,6 +1126,13 @@
             <returns>
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.ApplyFormat(System.Linq.Expressions.MethodCallExpression,System.String)">
+            <summary>
+            Applies the format.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="format">The format.</param>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.VisitMember(System.Linq.Expressions.MemberExpression)">
             <summary>
@@ -1142,7 +1239,7 @@
         </member>
         <member name="M:Weknow.Cypher.Builder.ContextValue`1.op_Implicit(Weknow.Cypher.Builder.ContextValue{`0})~`0">
             <summary>
-            Performs an implicit conversion from <see cref="T:Weknow.Cypher.Builder.ContextValue`1"/> to <see cref="!:T"/>.
+            Performs an implicit conversion.
             </summary>
             <param name="context">The context.</param>
             <returns>
@@ -1317,12 +1414,11 @@
             SET phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="node"></param>
-            <param name="label"></param>
+            <param name="properties">The properties.</param>
             <returns></returns>
             <example>
             SET n.property1 = $value1,
-                n.property2 = $value2
+            n.property2 = $value2
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar)">
@@ -1330,12 +1426,11 @@
             SET phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="node"></param>
-            <param name="label"></param>
+            <param name="node">The node.</param>
             <returns></returns>
             <example>
             SET n.property1 = $value1,
-                n.property2 = $value2
+            n.property2 = $value2
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IProperties)">
@@ -1343,12 +1438,11 @@
             SET phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="node"></param>
-            <param name="label"></param>
+            <param name="properties">The properties.</param>
             <returns></returns>
             <example>
             SET n.property1 = $value1,
-                n.property2 = $value2
+            n.property2 = $value2
             </example>
         </member>
         <member name="T:Weknow.Cypher.Builder.DisposeableAction">
@@ -1372,6 +1466,11 @@
             <summary>
             Represent Formatting state.
             Relevant to parsing of CypherAttribute's Format
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.FormatingState.Default">
+            <summary>
+            Singleton
             </summary>
         </member>
         <member name="M:Weknow.Cypher.Builder.FormatingState.#ctor(System.String)">
@@ -1455,6 +1554,12 @@
             <summary>
             Label configuration
             </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
+            </summary>
+            <param name="naming">The naming.</param>
         </member>
         <member name="P:Weknow.CypherAmbientLabelConfig.Values">
             <summary>

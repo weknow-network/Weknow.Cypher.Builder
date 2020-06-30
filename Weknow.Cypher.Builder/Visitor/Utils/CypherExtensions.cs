@@ -232,12 +232,11 @@ namespace Weknow.Cypher.Builder
         /// SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="label"></param>
+        /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>
         /// SET n.property1 = $value1,
-        ///     n.property2 = $value2
+        /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1 = &$1")]
         public static PD Set(this PD p, IMap properties) => throw new NotImplementedException();
@@ -246,12 +245,11 @@ namespace Weknow.Cypher.Builder
         /// SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="label"></param>
+        /// <param name="node">The node.</param>
         /// <returns></returns>
         /// <example>
         /// SET n.property1 = $value1,
-        ///     n.property2 = $value2
+        /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\nSET $1")]
         public static PD Set(this PD p, IVar node) => throw new NotImplementedException();
@@ -260,12 +258,11 @@ namespace Weknow.Cypher.Builder
         /// SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="label"></param>
+        /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>
         /// SET n.property1 = $value1,
-        ///     n.property2 = $value2
+        /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1")]
         public static PD Set(this PD p, IProperties properties) => throw new NotImplementedException();

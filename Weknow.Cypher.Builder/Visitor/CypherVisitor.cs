@@ -264,7 +264,7 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                 {
-                    MethodCallExpression? methodExp = _expression[1].Value.Expression as MethodCallExpression;
+                    MethodCallExpression? methodExp = _expression[1].Value?.Expression as MethodCallExpression;
                     var properties = methodExp == null ?
                                     Array.Empty<PropertyInfo>() :
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
@@ -291,7 +291,7 @@ namespace Weknow.Cypher.Builder
                 var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
-                    : (_expression[1].Value.Expression as MethodCallExpression)?.Method?.GetGenericArguments();
+                    : (_expression[1].Value?.Expression as MethodCallExpression)?.Method?.GetGenericArguments();
                 Type? firstArgType = arguments?[0];
                 var properties = firstArgType?.GetProperties()?.Where(p => filter?.Invoke(p.Name) ?? true).ToArray();
                 foreach (var item in properties ?? Array.Empty<PropertyInfo>())
@@ -326,7 +326,12 @@ namespace Weknow.Cypher.Builder
 
         #region ApplyFormat
 
-        private void ApplyFormat(MethodCallExpression node, string? format)
+        /// <summary>
+        /// Applies the format.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="format">The format.</param>
+        private void ApplyFormat(MethodCallExpression node, string format)
         {
             IDisposable? disp = null;
             var formatter = _formatter.Set(new FormatingState(format));

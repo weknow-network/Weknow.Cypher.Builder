@@ -3,9 +3,6 @@
 using System;
 using System.Diagnostics;
 
-// TODO: discuss with avi whether to have default implementation
-// TODO: can be extension method but static code analyzer should suggest it when using UNWIND
-
 namespace Weknow
 {
     /// <summary>

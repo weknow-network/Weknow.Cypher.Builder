@@ -12,6 +12,9 @@ namespace Weknow.Cypher.Builder
     [DebuggerDisplay("{Format} » '{Current}'/[{Index}]")]
     public class FormatingState
     {
+        /// <summary>
+        /// Singleton
+        /// </summary>
         public static readonly FormatingState Default = new FormatingState(string.Empty);
 
         #region Ctor

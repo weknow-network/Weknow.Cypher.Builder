@@ -14,10 +14,18 @@ namespace Weknow
     {
         private readonly CypherNamingConfig _naming;
 
+        #region Ctor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CypherAmbientLabelConfig"/> class.
+        /// </summary>
+        /// <param name="naming">The naming.</param>
         public CypherAmbientLabelConfig(CypherNamingConfig naming)
         {
             _naming = naming;
         }
+
+        #endregion // Ctor
 
         #region Values
 

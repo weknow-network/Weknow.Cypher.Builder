@@ -52,7 +52,7 @@ namespace Weknow.Cypher.Builder
         #region Casting Operators
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ContextValue{T}"/> to <see cref="T"/>.
+        /// Performs an implicit conversion.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>

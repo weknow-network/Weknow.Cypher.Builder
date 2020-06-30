@@ -26,7 +26,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="type">The type.</param>
         /// <returns></returns>
         /// <example>
-        /// (m)<-[r:KNOWS]-(n)
+        /// <![CDATA[(m)<-[r:KNOWS]-(n)]]>
         /// </example>
         IRelation this[IVar var, IType type] { [Cypher("[$0:$1]")] get; }
         /// <summary>
@@ -40,7 +40,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>
-        /// (m)<-[r:KNOWS {name: $name}]-(n)
+        /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
         IRelation this[IVar var, IType type, IProperties properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
@@ -173,7 +173,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example>
-        /// [n]<-[m]
+        /// <![CDATA[ [n]<-[m] ]]>
         /// </example>
         public static IRelation operator <(IRelation l, IRelation r) => throw new NotImplementedException();
         /// <summary>
@@ -185,7 +185,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example>
-        /// [n]->(m)
+        /// <![CDATA[ [n]->(m) ]]>
         /// </example>
         public static IPattern operator >(IRelation l, IPattern r) => throw new NotImplementedException();
         /// <summary>
@@ -197,7 +197,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example>
-        /// [n]<-(m)
+        /// <![CDATA[ [n]<-(m) ]]>
         /// </example>
         public static IPattern operator <(IRelation l, IPattern r) => throw new NotImplementedException();
         /// <summary>
@@ -209,7 +209,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example>
-        /// (n)->[m]
+        /// <![CDATA[ (n)->[m] ]]>
         /// </example>
         public static IPattern operator >(IPattern l, IRelation r) => throw new NotImplementedException();
         /// <summary>
@@ -221,7 +221,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example>
-        /// (n)<-[m]
+        /// <![CDATA[ (n)<-[m] ]]>
         /// </example>
         public static IPattern operator <(IPattern l, IRelation r) => throw new NotImplementedException();
 
