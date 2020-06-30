@@ -6,14 +6,14 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Weknow.Cypher.Builder</PackageId>
-    <Authors>Weknow Network</Authors>
-    <Company>Weknow Network</Company>
+    <Authors>Weknow</Authors>
+    <Company>Weknow</Company>
     <Product>Weknow Cypher builder</Product>
-    <Copyright>Weknow Network ©</Copyright>
+    <Copyright>Weknow</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
-    <Version>2.0.1</Version>
+    <Version>2.0.1-alpha</Version>
     <PackageIconUrl />
   </PropertyGroup>
 
