@@ -177,7 +177,7 @@ namespace Weknow.Cypher.Builder
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
-                IDisposable formatter = ApplyFormat(node, format);
+                ApplyFormat(node, format);
             }
             else if (mtdName == nameof(IReuse<PD, PD>.By))
             {
@@ -322,7 +322,7 @@ namespace Weknow.Cypher.Builder
 
         #region ApplyFormat
 
-        private IDisposable ApplyFormat(MethodCallExpression node, string? format)
+        private void ApplyFormat(MethodCallExpression node, string? format)
         {
             IDisposable? disp = null;
             var formatter = _formatter.Set(new FormatingState(format));
@@ -401,7 +401,6 @@ namespace Weknow.Cypher.Builder
                 }
             }
             disp?.Dispose();
-            return formatter;
         }
 
         #endregion // ApplyFormat
@@ -443,7 +442,9 @@ namespace Weknow.Cypher.Builder
             }
             if (node.Type == typeof(ILabel))
             {
-                Query.Append(":");
+                char lastChar = Query[^1];
+                if (lastChar != ':')
+                    Query.Append(":");
                 Query.Append(_configuration.AmbientLabels.Combine(name));
                 return node;
             }

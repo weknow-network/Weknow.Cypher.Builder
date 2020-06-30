@@ -28,7 +28,6 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Test()
         {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
             var pattern = Reuse(n => N(n));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -43,7 +42,6 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Label_Test()
         {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
             var pattern = Reuse(n => N(Person));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -58,7 +56,6 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Test()
         {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
             var pattern = Reuse(n => N(n, Person));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -73,7 +70,6 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Property_Test()
         {
-            //string cypher = _(n => Match(N(n, Person, "Id")));
             var pattern = Reuse(n => N(n, Person, P(Id)));
 
             _outputHelper.WriteLine(pattern.ToString());
