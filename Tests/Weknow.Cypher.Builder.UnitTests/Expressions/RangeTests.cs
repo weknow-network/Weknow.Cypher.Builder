@@ -33,7 +33,8 @@ namespace Weknow.Cypher.Builder
             //                        R[1..5] >
             //                        N(m)));
 
-            //Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -49,7 +50,8 @@ namespace Weknow.Cypher.Builder
             //                        R[..5] >
             //                        N(m)));
 
-            //Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -65,7 +67,8 @@ namespace Weknow.Cypher.Builder
             //                        R[r, 1..5] >
             //                        N(m)));
 
-            //Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -81,7 +84,8 @@ namespace Weknow.Cypher.Builder
             //                            R[r, KNOWS, P(PropA), 1..5] >
             //                            N(m)));
 
-            //    Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+            //    _outputHelper.WriteLine(cypher);
+			// Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -97,7 +101,8 @@ namespace Weknow.Cypher.Builder
             //                        R[..] >
             //                        N(m)));
 
-            //Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -113,7 +118,8 @@ namespace Weknow.Cypher.Builder
                                     R[Rng.AtMost(5)] >
                                     N(m)));
 
-            Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_AtMost_Test
@@ -128,7 +134,8 @@ namespace Weknow.Cypher.Builder
                                     R[Rng.AtLeast(3)] >
                                     N(m)));
 
-            Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_AtLeast_Test
@@ -143,7 +150,8 @@ namespace Weknow.Cypher.Builder
                                     R[r, Rng.Scope(1,5)] >
                                     N(m)));
 
-            Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_WithVar_Test
@@ -158,7 +166,8 @@ namespace Weknow.Cypher.Builder
                                     R[r, KNOWS, P(PropA), Rng.Scope(1, 5)] >
                                     N(m)));
 
-            Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_WithVarAndProp_Test
@@ -173,7 +182,8 @@ namespace Weknow.Cypher.Builder
                                     R[Rng.Any()] >
                                     N(m)));
 
-            Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_Infinit_Test

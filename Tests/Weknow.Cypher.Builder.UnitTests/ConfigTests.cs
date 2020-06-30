@@ -50,7 +50,8 @@ namespace Weknow.Cypher.Builder
              });
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (a:PERSON:`@PROD`:`@MY_ORG`)-[r1:KNOWS]->(b:PERSON:`@PROD`:`@MY_ORG`)<-[r2:KNOWS]-(c:PERSON:`@PROD`:`@MY_ORG`)
 WHERE a.Name = $p_0
 RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c
@@ -58,9 +59,12 @@ ORDER BY a.Name
 SKIP $p_1
 LIMIT $p_2", cypher.Query);
 
-            Assert.Equal("Avi", cypher.Parameters["p_0"]);
-            Assert.Equal(1, cypher.Parameters["p_1"]);
-            Assert.Equal(10, cypher.Parameters["p_2"]);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("Avi", cypher.Parameters["p_0"]);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(1, cypher.Parameters["p_1"]);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(10, cypher.Parameters["p_2"]);
         }
 
         #endregion // Config_Test
@@ -81,7 +85,8 @@ LIMIT $p_2", cypher.Query);
                         });
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:FOO:GIT_HUB $f)
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(@"CREATE (f:FOO:GIT_HUB $f)
 RETURN f"
                             , cypher.Query);
         }

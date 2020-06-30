@@ -32,7 +32,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n =>
                                     Create(N(n, Person, P(PropA, PropB))));
 
-            Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Create_Test
@@ -45,7 +46,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n =>
                                     Create(N(n, Person, n.AsMap)));
 
-            Assert.Equal("CREATE (n:Person { $n })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("CREATE (n:Person { $n })", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -58,7 +60,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n => map =>
                                     Create(N(n, Person, map.AsMap)));
 
-            Assert.Equal("CREATE (n:Person { $map })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("CREATE (n:Person { $map })", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test
@@ -71,7 +74,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS] > N(m)));
 
-            Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_Test
@@ -84,7 +88,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
 
-            Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_WithParams_Test

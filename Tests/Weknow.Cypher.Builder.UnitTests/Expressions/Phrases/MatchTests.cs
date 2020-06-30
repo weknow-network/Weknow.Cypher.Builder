@@ -39,7 +39,8 @@ namespace Weknow.Cypher.Builder
                                     Match(N(n, Person, P(Id)))
                                     .Set(+n.AsMap));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n += $n", cypher.Query);
         }
@@ -55,7 +56,8 @@ SET n += $n", cypher.Query);
                                     Match(N(n, Person, P(Id)))
                                     .Set(n.AsMap));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n = $n", cypher.Query);
         }
@@ -71,7 +73,8 @@ SET n = $n", cypher.Query);
                                     Match(N(n, Person, P(Id)))
                                     .Set(n.P(PropA, Pre(n_, PropB))));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         }
@@ -87,7 +90,8 @@ SET n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
                                     Match(N(n, Person, P(Id)))
                                     .Set(n.P(PropA, PropB)));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
@@ -103,7 +107,8 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
                                     Match(N(n, Person, P(Id)))
                                     .Set(P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
@@ -117,9 +122,10 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
+                                    .Set(n.Convention(name => name.StartsWith("Prop"))));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
@@ -135,7 +141,8 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
                                     Match(N(n, Person, P(Id)))
                                     .Set(n.All<Foo>()));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
@@ -151,7 +158,8 @@ SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Quer
                                     Match(N<Foo>(n, P(Id)))
                                     .Set(n, Person));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Foo { Id: $Id })
 SET n:Person", cypher.Query);
         }

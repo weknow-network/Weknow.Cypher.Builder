@@ -152,7 +152,7 @@
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
             <summary>
-            Specified node with variable, label and properties map.
+            Specified node with variable, label and map.
             </summary>
             <param name="var">The variable.</param>
             <param name="label">The label.</param>
@@ -212,6 +212,17 @@
             <param name="label">The label.</param>
             <param name="properties">The properties.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
+            <summary>
+            Specified node with variable, label and map.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="P:Weknow.Cypher.Builder.Cypher.R">
             <summary>
@@ -287,18 +298,9 @@
             <example>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(Weknow.Cypher.Builder.IVar,System.Func{System.String,System.Boolean})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Convention(Weknow.Cypher.Builder.IVar,System.Func{System.String,System.Boolean})">
             <summary>
             Gets properties by convention with variable.
-            </summary>
-            <param name="filter"></param>
-            <returns></returns>
-            <example>
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(System.Func{System.String,System.Boolean})">
-            <summary>
-            Gets properties by convention.
             </summary>
             <param name="filter"></param>
             <returns></returns>

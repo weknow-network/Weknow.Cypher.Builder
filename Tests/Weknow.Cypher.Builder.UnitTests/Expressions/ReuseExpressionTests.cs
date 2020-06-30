@@ -35,7 +35,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _( r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal));
 
-            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
         #endregion // LazyReuse_Node_Test
@@ -48,7 +49,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(_ => P(PropA, PropB).Reuse()
                                          .By(p => n => Match(N(n, Person, p))));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // CaptureProperties_Test
@@ -62,7 +64,8 @@ namespace Weknow.Cypher.Builder
                                           .By(p => N(n, Person, p).Reuse()
                                           .By(n => Match(n))));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // CaptureNodeAndProperties_Test
@@ -78,7 +81,8 @@ namespace Weknow.Cypher.Builder
                          .By(reusedPerson => reusedAnimal => r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
 
-            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
         #endregion // Reuse_Node_Test
@@ -94,7 +98,8 @@ namespace Weknow.Cypher.Builder
                             Unwind(items, Match(N(n, Person, p)))
                          ));
 
-            Assert.Equal(@"UNWIND $items AS item
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 

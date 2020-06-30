@@ -28,7 +28,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N(n, Person, P(PropA, PropB))));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Test
@@ -40,7 +41,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultLabel_Test
@@ -52,7 +54,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _<Foo>(n => Match(N(n, P(n.P.PropA, n.P.PropB))));
 
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultLabel_AvoidDuplication_Test
@@ -64,7 +67,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N<Foo>(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
-            Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
@@ -76,7 +80,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_OfT_Test
@@ -91,7 +96,8 @@ namespace Weknow.Cypher.Builder
                                           R[n1, KNOWS] >
                                           N(n2, Person, Pre(n2_, P(PropA, PropB)))));
 
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-" +
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-" +
                          "[n1:KNOWS]->" +
                          "(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
@@ -105,7 +111,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N<Foo>(n, Convention(name => name.StartsWith("Prop")))));
 
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Convention_WithDefaultLabel_Test
@@ -117,7 +124,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N<Foo>(n, All())));
 
-            Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_All_WithDefaultLabel_Test
@@ -129,7 +137,8 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => Match(N<Foo>(n, AllExcept(n.As<Foo>().Id, n.As<Foo>().Name))));
 
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_All_Except_WithDefaultLabel_Test
@@ -139,9 +148,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Convention_Test()
         {
-            CypherCommand cypher = _(n => Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop")))));
+            CypherCommand cypher = _(n => Match(N(n, Person, Convention(name => name.StartsWith("Prop")))));
 
-            Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Properties_Convention_Test

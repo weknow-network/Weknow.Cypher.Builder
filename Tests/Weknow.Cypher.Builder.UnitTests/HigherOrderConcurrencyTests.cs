@@ -29,7 +29,8 @@ namespace Weknow.Cypher.Builder
             //                        Merge(N(n, Person, P(PropA, PropB, Concurrency))),
             //                        SET(eTag(n, Concurrency));
 
-            //Assert.Equal(@"
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal(@"
             //Merge (n:Person { PropA: $PropA, PropB: $PropB, Concurrency: $Concurrency })
             //ON CREATE SET n.Concurrency = 1
             //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);
@@ -50,7 +51,8 @@ namespace Weknow.Cypher.Builder
             //                        Merge(N(n, Person, P(PropA, PropB, Concurrency))),
             //                        SET(eTag(n, Concurrency)));
 
-            //Assert.Equal(@"UNWIND $items as item
+            //_outputHelper.WriteLine(cypher);
+			// Assert.Equal(@"UNWIND $items as item
             //Merge (n:Person { PropA: item.PropA, PropB: item.PropB, Concurrency: $Concurrency })
             //ON CREATE SET n.Concurrency = 1
             //ON MATCH SET n.Concurrency = n.Concurrency + 1", cypher.Query);

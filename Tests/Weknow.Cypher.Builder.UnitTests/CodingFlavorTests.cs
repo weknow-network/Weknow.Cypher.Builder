@@ -30,11 +30,12 @@ namespace Weknow.Cypher.Builder
             string cypher1 = _(() => Match(N(Person)));
             string cypher2 = _(n => Match(N(Person)));
 
-            Assert.Equal(cypher1, cypher2);
+            _outputHelper.WriteLine(cypher1);
+            _outputHelper.WriteLine(cypher2);
+			 Assert.Equal(cypher1, cypher2);
         }
 
         #endregion // Empty_vs_variable_Test
-
     }
 }
 

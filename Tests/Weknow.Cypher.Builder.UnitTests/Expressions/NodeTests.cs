@@ -32,7 +32,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(pattern.ToString());
 
-            Assert.Equal(@"(n)", pattern.ToString());
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Test
@@ -46,7 +47,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(pattern.ToString());
 
-            Assert.Equal(@"(:Person)", pattern.ToString());
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(:Person)", pattern.ToString());
         }
 
         #endregion // Node_Label_Test
@@ -60,7 +62,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(pattern.ToString());
 
-            Assert.Equal(@"(n:Person)", pattern.ToString());
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Person)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_Test
@@ -74,10 +77,116 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(pattern.ToString());
 
-            Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_Property_Test
+
+        #region Node_Variable_Label_Map_Test
+
+        [Fact]
+        public void Node_Variable_Label_Map_Test()
+        {
+            var pattern = Reuse(n => N(n, Person, n.AsMap));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Person { $n })", pattern.ToString());
+        }
+
+        #endregion // Node_Variable_Label_Map_Test
+
+        #region Node_Variable_Label_MapAsVar_Test
+
+        [Fact]
+        public void Node_Variable_Label_MapAsVar_Test()
+        {
+            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+        }
+
+        #endregion // Node_Variable_Label_MapAsVar_Test
+
+        #region Node_T_Variable_Test
+
+        [Fact]
+        public void Node_T_Variable_Test()
+        {
+            var pattern = Reuse(n => N<Foo>(n));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Foo)", pattern.ToString());
+        }
+
+        #endregion // Node_T_Variable_Test
+
+        #region Node_T_Variable_Label_Test
+
+        [Fact]
+        public void Node_T_Variable_Label_Test()
+        {
+            var pattern = Reuse(n => N<Foo>(n, Person));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Foo:Person)", pattern.ToString());
+        }
+
+        #endregion // Node_T_Variable_Label_Test
+
+        #region Node_T_Variable_Label_Property_Test
+
+        [Fact]
+        public void Node_T_Variable_Label_Property_Test()
+        {
+            var pattern = Reuse(n => N<Foo>(n, Person, P(Id)));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Foo:Person { Id: $Id })", pattern.ToString());
+        }
+
+        #endregion // Node_T_Variable_Label_Property_Test
+
+        #region Node_T_Variable_Label_Map_Test
+
+        [Fact]
+        public void Node_T_Variable_Label_Map_Test()
+        {
+            var pattern = Reuse(n => N<Foo>(n, Person, n.AsMap));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Foo:Person { $n })", pattern.ToString());
+        }
+
+        #endregion // Node_T_Variable_Label_Map_Test
+
+        #region Node_T_Variable_Label_MapAsVar_Test
+
+        [Fact]
+        public void Node_T_Variable_Label_MapAsVar_Test()
+        {
+            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+        }
+
+        #endregion // Node_T_Variable_Label_MapAsVar_Test
 
         #region NodeToNode_Test
 
@@ -87,7 +196,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n1 => n2 =>
                                     Match(N(n1, Person) - N(n2, Person)));
 
-            Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNode_Test
@@ -100,7 +210,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n1 => n2 =>
                                     Match(N(n1, Person) > N(n2, Person)));
 
-            Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNode_Forward_Test
@@ -113,7 +224,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n1 => n2 =>
                                     Match(N(n1, Person) < N(n2, Person)));
 
-            Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
         }
 
         #endregion // NodeToNodNodeToNode_Backward_Teste_Forward_Test
@@ -127,7 +239,8 @@ namespace Weknow.Cypher.Builder
                                     Match(N(n1, Person, P(PropA, PropB)) >
                                           N(n2, Person, Pre(n2_, P(PropA, PropB)))));
 
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
         #endregion // Nested_NodeToNode_WithProp_Test
@@ -141,7 +254,8 @@ namespace Weknow.Cypher.Builder
                                     .By(p => n1 => n2 => n2_ =>
                                     Match(N(n1, Person, p) > N(n2, Person, Pre(n2_, p)))));
 
-            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
         #endregion // Nested_NodeToNode_ReusedProp_Test

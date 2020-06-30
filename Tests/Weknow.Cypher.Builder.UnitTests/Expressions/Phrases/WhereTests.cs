@@ -35,7 +35,8 @@ namespace Weknow.Cypher.Builder
                                         Match(N(n) - R[r, KNOWS] > N(m))
                                         .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
 
-            Assert.Equal(
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m)
 WHERE n.Name = m.Name }", cypher.Query);
