@@ -7,6 +7,7 @@ using static Weknow.CypherFactory;
 
 namespace Weknow.UnitTests
 {
+    [Trait("Segment", "Deprecate")]
     public class CypherFactoryIndicesTests
     {
         private readonly ITestOutputHelper _outputHelper;

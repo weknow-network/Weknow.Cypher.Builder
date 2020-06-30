@@ -18,10 +18,10 @@ namespace Weknow.Cypher.Builder.IntegrationTests
 
         #endregion // Ctor
 
-        [Fact]
-        public void Test1()
-        {
+        //[Fact]
+        //public void Test1()
+        //{
 
-        }
+        //}
     }
 }

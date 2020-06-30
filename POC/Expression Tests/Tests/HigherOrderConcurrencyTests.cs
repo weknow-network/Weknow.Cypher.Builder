@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 namespace Weknow.Cypher.Builder
 {
+    [Trait("Segment", "Deprecate")]
     public class HigherOrderConcurrencyTests
     {
         private readonly ITestOutputHelper _outputHelper;

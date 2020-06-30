@@ -6,184 +6,23 @@ using Xunit.Abstractions;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
-// TODO: Duplicate class Pattern to FullNamePattern for naming standard
-
-// TODO: parameter factory injection for enabling to work with Neo4jParameters (Neo4jMapper)
-//       Mimic Neo4jMappaer WithEntity, WithEntities + integration test
-//       validate flat entity (in deep complex type throw exception with recommendation for best practice)
-
 namespace Weknow.Cypher.Builder
 {
-    public class ExpressionTests
+    [Trait("Category", "Unwind")]
+    [Trait("Group", "Phrases")]
+    [Trait("Segment", "Expression")]
+    public class UnwindTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public ExpressionTests(ITestOutputHelper outputHelper)
+        public UnwindTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
 
         #endregion // Ctor
-
-        // TODO: Constraint and Index: CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE
-
-        #region ComplexExpression_Test
-
-        [Fact]
-        public void ComplexExpression_Test()
-        {
-            CypherCommand cypher = _(a => r1 => b => r2 => c =>
-             Match(N(a, Person) - R[r1, KNOWS] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
-             .Where(a.As<Foo>().Name == "Avi")
-             .Return(a.As<Foo>().Name, r1, b.All<Bar>(), r2, c)
-             .OrderBy(a.As<Foo>().Name)
-             .Skip(1)
-             .Limit(10));
-
-            Assert.Equal(
-@"MATCH (a:Person)-[r1:KNOWS]->(b:Person)<-[r2:KNOWS]-(c:Person)
-WHERE a.Name = $p_0
-RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c
-ORDER BY a.Name
-SKIP $p_1
-LIMIT $p_2", cypher.Query);
-
-            Assert.Equal("Avi", cypher.Parameters["p_0"]);
-            Assert.Equal(1, cypher.Parameters["p_1"]);
-            Assert.Equal(10, cypher.Parameters["p_2"]);
-        }
-
-        #endregion // ComplexExpression_Test
-
-        #region Match_SetAsMap_Update_Test
-
-        [Fact]
-        public void Match_SetAsMap_Update_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(+n.AsMap));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n += $n", cypher.Query);
-        }
-
-        #endregion // Match_SetAsMap_Update_Test
-
-        #region Match_SetAsMap_Replace_Test
-
-        [Fact]
-        public void Match_SetAsMap_Replace_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.AsMap));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n = $n", cypher.Query);
-        }
-
-        #endregion // Match_SetAsMap_Replace_Test
-
-        #region Match_Set_WithPrefix_Test
-
-        [Fact]
-        public void Match_Set_WithPrefix_Test()
-        {
-            CypherCommand cypher = _(n => n_ =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.P(PropA, Pre(n_, PropB))));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_WithPrefix_Test
-
-        #region Match_Set_Test
-
-        [Fact]
-        public void Match_Set_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.P(PropA, PropB)));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_Test
-
-        #region Match_Set_OfT_Test
-
-        [Fact]
-        public void Match_Set_OfT_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_OfT_Test
-
-        #region Match_Set_OfT_Convention_Test
-
-        [Fact]
-        public void Match_Set_OfT_Convention_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_OfT_Convention_Test
-
-        #region Match_Set_OfT_All_Test
-
-        [Fact]
-        public void Match_Set_OfT_All_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.All<Foo>()));
-
-            Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_OfT_All_Test
-
-        #region Match_Set_AddLabel_Test
-
-        [Fact]
-        public void Match_Set_AddLabel_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N<Foo>(n, P(Id)))
-                                    .Set(n, Person));
-
-            Assert.Equal(
-@"MATCH (n:Foo { Id: $Id })
-SET n:Person", cypher.Query);
-        }
-
-        #endregion // Match_Set_AddLabel_Test
 
         #region Unwind_WithPropConvention_Test
 
@@ -595,79 +434,6 @@ WHERE n.Name = m.Name }", cypher.Query);
         }
 
         #endregion // Range_Enum_Infinit_Test
-
-        // TODO: FOREACH, DELETE, DETACH
-        // TODO: UNION, UNION ALL
-        /*
-         CALL {
-  MATCH (p:Person)-[:FRIEND_OF]->(other:Person) RETURN p, other
-  UNION
-  MATCH (p:Child)-[:CHILD_OF]->(other:Parent) RETURN p, other
-}
-         */
-
-        // TODO: Ambient Context Label
-        // TODO: Label convention
-
-        // TODO: Auto WITH
-
-        // TODO: AND, OR, AS,
-        // TODO: variable IS NULL
-        // TODO: NOT exists(n.property
-        // TODO: MERGE OnCreate OnMatch
-        // TODO: [x IN list | x.prop]
-        // TODO: [x IN list WHERE x.prop <> $value]
-        // TODO: [x IN list WHERE x.prop <> $value | x.prop]
-        // TODO: reduce(s = "", x IN list | s + x.prop) // Aggregate + Reduce overloads
-        // TODO: all(x IN coll WHERE exists(x.property)) // LINQ
-        // TODO: any(x IN coll WHERE exists(x.property)) // LINQ
-        // TODO: none(x IN coll WHERE exists(x.property))  // LINQ + overload for none
-        // TODO: single(x IN coll WHERE exists(x.property)) // LINQ
-        // TODO: CASE  WHEN ELSE 
-
-        // TODO:list[$idx] AS value, // Indexer
-        // TODO:list[$startIdx..$endIdx] AS slice // Indexer[range]
-
-        // TODO: n.property STARTS WITH 'Tim' OR // string + analyzer in future
-        // TODO: n.property ENDS WITH 'n' OR// string + analyzer in future
-        // TODO: n.property CONTAINS 'goodie'// string + analyzer in future
-        // TODO: n.property =~ 'Tim.*' 
-        // TODO: n.property IN [$value1, $value2]' // LINQ Contains + overload In
-
-        // TODO: exists(n.property),
-        // TODO: coalesce, // ??
-        // TODO: timestamp, id, 
-        // TODO: toInteger, toFloat, toBoolean, // cast
-        // TODO: head, last, tail, // LINQ first, last, skip(1), apoc -> skip (n)
-        // TODO: keys, properties, 
-        // TODO: count // LINQ
-        // TODO: length, Size // TODO: what is the right usage
-        // TODO: collect, 
-        // TODO: nodes, relationships, 
-
-        // TODO: sum, percentileDisc, stDev, abs, rand, sqrt, sign, 
-        // TODO: sin, cos, tan, cot, asin, acos, atan, atan2, haversin
-        // TODO: degrees, radians, pi, 
-        // TODO: log10, log, exp, pi
-
-        // TODO: toString, replace, substring, left, trim, toUpper, split, reverse
-
-        // TODO: Spatial, 
-        // TODO: date time / duration related // DateTime / TimeSpan
-
-
-        // TODO: USER / ROLE MANAGEMENT and Privileges
-
-        /* TODO:          
-         CALL {
-  MATCH (p:Person)-[:FRIEND_OF]->(other:Person) RETURN p, other
-  UNION
-  MATCH (p:Child)-[:CHILD_OF]->(other:Parent) RETURN p, other
-}*/
-
-
-        // todo: {name: 'Alice', age: 38,
-        //       address: {city: 'London', residential: true}}
     }
 }
 

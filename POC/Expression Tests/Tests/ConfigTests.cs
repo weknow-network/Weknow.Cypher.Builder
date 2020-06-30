@@ -12,6 +12,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
+    [Trait("Segment", "Deprecate")]
     public class ConfigTests
     {
         protected readonly ITestOutputHelper _outputHelper;

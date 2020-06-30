@@ -23,6 +23,7 @@ namespace Weknow.CoreIntegrationTests
     /// Advance Entity
     /// </summary>
     /// <seealso cref="System.IDisposable" />
+    [Trait("Segment", "Deprecate")]
     public class AdvanceEntityTests : IDisposable
     {
         private readonly IAsyncSession _session;
@@ -79,8 +80,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateNew")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateNew")]
         public async Task CreateNew_Test()
         {
             var cypher = _builder
@@ -103,8 +104,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_OfT_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateNew")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateNew")]
         public async Task CreateNew_OfT_Test()
         {
             var cypher = _builder
@@ -127,8 +128,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_OfT_NoParam_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateNew")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateNew")]
         public async Task CreateNew_OfT_NoParam_Test()
         {
             var cypher = _builder
@@ -151,8 +152,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateNew_Fail_OnDuplicate_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateNew")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateNew")]
         public async Task CreateNew_Fail_OnDuplicate_Test()
         {
             await CreateNew_Test();
@@ -166,8 +167,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateIfNotExists")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_Test()
         {
             var cypher = _builder
@@ -190,8 +191,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_NoParam_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateIfNotExists")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_NoParam_Test()
         {
             var cypher = _builder
@@ -216,8 +217,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_OfT_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateIfNotExists")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_OfT_Test()
         {
             var cypher = _builder
@@ -242,8 +243,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateIfNotExists_OfT_NoParam_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateIfNotExists")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateIfNotExists")]
         public async Task CreateIfNotExists_OfT_NoParam_Test()
         {
             var cypher = _builder
@@ -266,8 +267,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrUpdate")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_Test()
         {
             var cypher = _builder
@@ -285,8 +286,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrUpdate")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Test()
         {
             var cypher = _builder
@@ -303,8 +304,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Expression_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrUpdate")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Expression_Test()
         {
             var cypher = _builder
@@ -319,8 +320,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrUpdate_OfT_Expression_NoParam_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrUpdate")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrUpdate")]
         public async Task CreateOrUpdate_OfT_Expression_NoParam_Test()
         {
             var cypher = _builder
@@ -367,8 +368,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrReplace")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Test()
         {
             var cypher = _builder
@@ -383,8 +384,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Expression_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrReplace")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Expression_Test()
         {
             var cypher = _builder
@@ -399,8 +400,8 @@ namespace Weknow.CoreIntegrationTests
         #region CreateOrReplace_OfT_Expression_NoParam_Test
 
         [Fact]
-        [Trait("Category", "Entity")]
-        [Trait("Case", "CreateOrReplace")]
+        // [Trait("Category", "Entity")]
+        // [Trait("Case", "CreateOrReplace")]
         public async Task CreateOrReplace_OfT_Expression_NoParam_Test()
         {
             var cypher = _builder

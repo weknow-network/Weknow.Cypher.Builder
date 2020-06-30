@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionConsole", "POC\Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expression Tests", "POC\Expression Tests\Expression Tests.csproj", "{56840E7B-F51D-4B64-BFFC-96DD439217AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.BuilderExpression.IntegrationTests", "Tests\Weknow.Cypher.BuilderExpression.IntegrationTests\Weknow.Cypher.BuilderExpression.IntegrationTests.csproj", "{A3DC65FF-E5F6-4456-9151-EC5781099C23}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materializer", "Materializer", "{D76BCBDB-E632-4BCB-9AE4-4F642C63936C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Deprecated", "Deprecated\Weknow.Cypher.Builder.Deprecated\Weknow.Cypher.Builder.Deprecated.csproj", "{96754373-6682-434C-B89E-A9D2526E2793}"
@@ -35,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weknow.Cypher.Builder.UnitTests", "Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{1F2B3CCE-AB81-4024-9C6C-1B1354070246}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitTests", "Tests\Weknow.Cypher.Builder.UnitTests\Weknow.Cypher.Builder.UnitTests.csproj", "{1F2B3CCE-AB81-4024-9C6C-1B1354070246}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{56840E7B-F51D-4B64-BFFC-96DD439217AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56840E7B-F51D-4B64-BFFC-96DD439217AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56840E7B-F51D-4B64-BFFC-96DD439217AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3DC65FF-E5F6-4456-9151-EC5781099C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3DC65FF-E5F6-4456-9151-EC5781099C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3DC65FF-E5F6-4456-9151-EC5781099C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3DC65FF-E5F6-4456-9151-EC5781099C23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96754373-6682-434C-B89E-A9D2526E2793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96754373-6682-434C-B89E-A9D2526E2793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96754373-6682-434C-B89E-A9D2526E2793}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,7 +97,6 @@ Global
 		{0A872885-74BB-4878-A8FF-30642DDDCC86} = {51F1849A-A0AC-46AA-B9CD-0BC0F40A930E}
 		{708614B5-79EC-44C2-AC03-EE4A90C38999} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
 		{56840E7B-F51D-4B64-BFFC-96DD439217AC} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
-		{A3DC65FF-E5F6-4456-9151-EC5781099C23} = {CE6131A1-B8FE-4CD8-A807-C4DD6C43BB94}
 		{96754373-6682-434C-B89E-A9D2526E2793} = {1138ED4F-F208-4C92-A1DD-88647194FAB6}
 		{C1F18C0D-DE96-4597-AAD2-347D23591490} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
 		{A5A84BEF-AA1C-4BE1-B561-318E16B47109} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}

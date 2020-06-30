@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 namespace Weknow.UnitTests
 {
+    [Trait("Segment", "Deprecate")]
     public class CypherWithTests
     {
         private readonly ITestOutputHelper _outputHelper;

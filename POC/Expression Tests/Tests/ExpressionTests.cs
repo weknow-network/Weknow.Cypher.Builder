@@ -14,6 +14,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
+    [Trait("Segment", "Deprecate")]
     public class ExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;
