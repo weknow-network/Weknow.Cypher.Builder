@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Backups\backup.csv" />
+    <None Remove="FromBackups\backup.csv" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Backups\backup.csv">
+    <Content Include="FromBackups\backup.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
