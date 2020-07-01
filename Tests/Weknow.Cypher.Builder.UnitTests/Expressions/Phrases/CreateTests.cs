@@ -47,7 +47,7 @@ namespace Weknow.Cypher.Builder
                                     Create(N(n, Person, n.AsMap)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person { $n })", cypher.Query);
+			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -61,7 +61,7 @@ namespace Weknow.Cypher.Builder
                                     Create(N(n, Person, map.AsMap)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person { $map })", cypher.Query);
+			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test

@@ -73,7 +73,7 @@ SET n = $n", cypher.Query);
                                     Create(N(n, Person, n.AsMap)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person { $n })", cypher.Query);
+			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -87,7 +87,7 @@ SET n = $n", cypher.Query);
                                     Create(N(n, Person, map.AsMap)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person { $map })", cypher.Query);
+			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test
@@ -102,7 +102,7 @@ SET n = $n", cypher.Query);
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person { $n })", pattern.ToString());
+			 Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_Map_Test
@@ -117,7 +117,7 @@ SET n = $n", cypher.Query);
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_MapAsVar_Test
@@ -132,7 +132,7 @@ SET n = $n", cypher.Query);
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person { $n })", pattern.ToString());
+			 Assert.Equal(@"(n:Foo:Person $n)", pattern.ToString());
         }
 
         #endregion // Node_T_Variable_Label_Map_Test
@@ -147,7 +147,7 @@ SET n = $n", cypher.Query);
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // Node_T_Variable_Label_MapAsVar_Test

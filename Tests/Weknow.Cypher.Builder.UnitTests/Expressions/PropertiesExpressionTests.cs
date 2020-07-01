@@ -148,7 +148,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Convention_Test()
         {
-            CypherCommand cypher = _(n => Match(N(n, Person, Convention(name => name.StartsWith("Prop")))));
+            CypherCommand cypher = _(n => Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop")))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);

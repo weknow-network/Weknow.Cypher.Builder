@@ -93,7 +93,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person { $n })", pattern.ToString());
+			 Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_Map_Test
@@ -108,7 +108,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_MapAsVar_Test
@@ -168,7 +168,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person { $n })", pattern.ToString());
+			 Assert.Equal(@"(n:Foo:Person $n)", pattern.ToString());
         }
 
         #endregion // Node_T_Variable_Label_Map_Test
@@ -183,7 +183,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person { $map })", pattern.ToString());
+			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // Node_T_Variable_Label_MapAsVar_Test

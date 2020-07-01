@@ -122,7 +122,7 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(n.Convention(name => name.StartsWith("Prop"))));
+                                    .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

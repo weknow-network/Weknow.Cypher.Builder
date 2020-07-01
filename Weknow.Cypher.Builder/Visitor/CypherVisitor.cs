@@ -59,6 +59,7 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
+        // TODO: [bnaya 2020-07] use string key for better clarity
         private readonly Dictionary<int, ContextValue<ContextExpression?>> _expression = new Dictionary<int, ContextValue<ContextExpression?>>()
         {
             [0] = new ContextValue<ContextExpression?>(null),
@@ -324,104 +325,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // VisitMethodCall
 
-        #region ApplyFormat
-
-        /// <summary>
-        /// Applies the format.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        /// <param name="format">The format.</param>
-        private void ApplyFormat(MethodCallExpression node, string format)
-        {
-            IDisposable? disp = null;
-            var formatter = _formatter.Set(new FormatingState(format));
-            for (var i = _formatter.Value; !i.Ended; i++)
-            {
-                switch (format[i])
-                {
-                    case '$':
-                        {
-                            var ch = format[++i];
-                            if (ch == 'p')
-                            {
-                                using var __ = isPluralize.Set(true);
-                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                                Visit(expr);
-                            }
-                            else if (ch == 's')
-                            {
-                                using var __ = isSingularize.Set(true);
-                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
-                                Visit(expr);
-                            }
-                            else
-                            {
-                                var expr = node.Arguments[int.Parse(ch.ToString())];
-                                Visit(expr);
-                            }
-                        }
-                        break;
-                    case '!':
-                        {
-                            var ch = format[++i];
-                            if (ch == 'l')
-                            {
-                                Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
-
-                            }
-                            else
-                            {
-                                Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
-                            }
-                        }
-                        break;
-                    case '+':
-                        {
-                            var ch = format[++i];
-                            if (ch == 'p')
-                            {
-                                disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(true, false, node.Arguments[int.Parse(format[++i].ToString())]));
-                            }
-                            else if (ch == 's')
-                            {
-                                disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, true, node.Arguments[int.Parse(format[++i].ToString())]));
-                            }
-                            else
-                            {
-                                disp = _expression[int.Parse(ch.ToString())].Set(new ContextExpression(false, false, node.Arguments[int.Parse(format[++i].ToString())]));
-                            }
-                        }
-                        break;
-                    case '.':
-                        disp = _expression[int.Parse(format[++i].ToString())].Set(new ContextExpression(false, false, node));
-                        break;
-                    case '&':
-                        if (disp == null)
-                            disp = _methodExpr.Set(node);
-                        else
-                            disp.Dispose();
-                        break;
-                    case '\\':
-                        Query.Append(format[++i]);
-                        break;
-                    case '=':
-                        char last2 = Query[^2];
-                        char last1 = Query[^1];
-                        if (last2 == '+' && last1 == ' ')
-                            Query.Remove(Query.Length - 1, 1);
-
-                        Query.Append(format[i]);
-                        break;
-                    default:
-                        Query.Append(format[i]);
-                        break;
-                }
-            }
-            disp?.Dispose();
-        }
-
-        #endregion // ApplyFormat
-
         #region VisitMember
 
         /// <summary>
@@ -618,5 +521,112 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Visit
+
+        // TODO: [bnaya 2020-07] document formats
+        
+        #region ApplyFormat
+
+        /// <summary>
+        /// Applies the format.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="format">The format.</param>
+        private void ApplyFormat(MethodCallExpression node, string format)
+        {
+            IDisposable? disp = null;
+            var formatter = _formatter.Set(new FormatingState(format));
+            for (var i = _formatter.Value; !i.Ended; i++)
+            {
+                switch (format[i])
+                {
+                    case '$':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'p')
+                            {
+                                using var __ = isPluralize.Set(true);
+                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                Visit(expr);
+                            }
+                            else if (ch == 's')
+                            {
+                                using var __ = isSingularize.Set(true);
+                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                Visit(expr);
+                            }
+                            else
+                            {
+                                var expr = node.Arguments[int.Parse(ch.ToString())];
+                                Visit(expr);
+                            }
+                        }
+                        break;
+                    case '!':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'l')
+                            {
+                                Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
+
+                            }
+                            else
+                            {
+                                Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
+                            }
+                        }
+                        break;
+                    case '+':
+                        {
+                            var ch = format[++i];
+                            if (ch == 'p')
+                            {
+                                disp = _expression[int.Parse(format[++i].ToString())]
+                                                      .Set(new ContextExpression(true, false, 
+                                                               node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                            else if (ch == 's')
+                            {
+                                disp = _expression[int.Parse(format[++i].ToString())]
+                                                      .Set(new ContextExpression(false, true,
+                                                                node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                            else
+                            {
+                                disp = _expression[int.Parse(ch.ToString())]
+                                                      .Set(new ContextExpression(false, false,
+                                                                node.Arguments[int.Parse(format[++i].ToString())]));
+                            }
+                        }
+                        break;
+                    case '.':
+                        disp = _expression[int.Parse(format[++i].ToString())]
+                                              .Set(new ContextExpression(false, false, node));
+                        break;
+                    case '&':
+                        if (disp == null)
+                            disp = _methodExpr.Set(node);
+                        else
+                            disp.Dispose();
+                        break;
+                    case '\\':
+                        Query.Append(format[++i]);
+                        break;
+                    case '=':
+                        char last2 = Query[^2];
+                        char last1 = Query[^1];
+                        if (last2 == '+' && last1 == ' ')
+                            Query.Remove(Query.Length - 1, 1);
+
+                        Query.Append(format[i]);
+                        break;
+                    default:
+                        Query.Append(format[i]);
+                        break;
+                }
+            }
+            disp?.Dispose();
+        }
+
+        #endregion // ApplyFormat
     }
 }

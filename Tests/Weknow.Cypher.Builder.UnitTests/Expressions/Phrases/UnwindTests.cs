@@ -31,7 +31,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, Convention(name => name.StartsWith("Prop"))))));
+                                    Match(N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(@"UNWIND $items AS item
@@ -55,6 +55,43 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // Unwind_Test
+
+        #region Unwind_Create_Map_Test
+
+        [Fact]
+        public void Unwind_Create_Map_Test()
+        {
+            CypherCommand cypher = _(items => map => n =>
+                                        Unwind(items, map,
+                                            Create(N(n, Person, map.AsMap))
+                                            .Return(n)));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(@"UNWIND $items AS map
+CREATE (n:Person map)", cypher.Query);
+        }
+
+        #endregion // Unwind_Create_Map_Test
+
+        #region Unwind_Create_Set_Map_Test
+
+        [Fact]
+        public void Unwind_Create_Set_Map_Test()
+        {
+            CypherCommand cypher = _(items => map => n =>
+                                    Unwind(items, map,
+                                        Create(N(n, Person))
+                                        .Set(n, map)
+                                        .Return(n)));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(@"UNWIND $items AS map
+CREATE (n:Person)
+SET n = map
+RETURN n", cypher.Query);
+        }
+
+        #endregion // Unwind_Create_Set_Map_Test
 
         #region Unwind_ShouldUseDefaultPlurality_Test
 

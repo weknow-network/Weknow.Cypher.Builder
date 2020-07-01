@@ -9,7 +9,8 @@ using static Weknow.Cypher.Builder.CypherDelegates;
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
-    /// Entry point for constructing Cypher query
+    /// Entry point for constructing root level Cypher.
+    /// For fluent cypher check <see cref="CypherExtensions"/>
     /// </summary>
     public static class Cypher
     {
@@ -228,7 +229,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        [Cypher("($0$1 { $2 })")]
+        [Cypher("($0$1 $2)")]
         public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with label.
@@ -293,7 +294,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        [Cypher("($0:!0$1 { $2 })")]
+        [Cypher("($0:!0$1 $2)")]
         public static IPattern N<T>(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
@@ -391,20 +392,20 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Gets properties by convention with variable.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="var">The variable.</param>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
         /// <example></example>
-        public static IProperties Convention(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
-        // TODO: Generics has no meanings
-        ///// <summary>
-        ///// Gets properties by convention.
-        ///// </summary>
-        ///// <param name="filter"></param>
-        ///// <returns></returns>
-        ///// <example>
-        ///// </example>
-        //public static IProperties Convention<T>(Func<string, bool> filter) => throw new NotImplementedException();
+        public static IProperties Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
+        /// <summary>
+        /// Gets properties by convention.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        /// <example></example>
+        public static IProperties Convention<T>(Func<string, bool> filter) => throw new NotImplementedException();
 
         #endregion // IProperties Convention (Properties by convention)
 

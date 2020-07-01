@@ -37,7 +37,8 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// CREATE (n {name: $value})
         /// </example>
-        [Cypher("$0\r\nCREATE $1")]
+        [Cypher("$0\r\n" +
+            "CREATE $1")]
         public static PD Create(this PD p, PD pp) => throw new NotImplementedException();
 
         #endregion // Create
@@ -57,6 +58,41 @@ namespace Weknow.Cypher.Builder
         public static PD Merge(this PD p, PD pp) => throw new NotImplementedException();
 
         #endregion // Merge
+
+        #region OnCreateSet
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE SET $1")]
+        public static PD OnCreateSet(this PD p, IProperties properties) => throw new NotImplementedException();
+
+        #endregion // OnCreateSet
+
+        #region OnCreateSet
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE SET $1 = &$2")]
+        public static PD OnCreateSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
+
+        #endregion // OnCreateSet
 
         #region OptionalMatch
 
@@ -232,14 +268,14 @@ namespace Weknow.Cypher.Builder
         /// SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="map">The properties.</param>
         /// <returns></returns>
         /// <example>
         /// SET n.property1 = $value1,
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1 = &$1")]
-        public static PD Set(this PD p, IMap properties) => throw new NotImplementedException();
+        public static PD Set(this PD p, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.

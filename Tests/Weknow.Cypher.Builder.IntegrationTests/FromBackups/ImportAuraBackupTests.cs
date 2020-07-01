@@ -15,6 +15,7 @@ using static Weknow.Cypher.Builder.Cypher;
 
 namespace Weknow.Cypher.Builder.IntegrationTests
 {
+    [Trait("TestType", "Integration")]
     public class ImportAuraBackupTests
     {
         private readonly ITestOutputHelper _outputHelper;
