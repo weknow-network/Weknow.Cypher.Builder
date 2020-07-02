@@ -355,7 +355,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static PD Set(this PD p, IProperties properties) => throw new NotImplementedException();
+        public static PD Set(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Set
     }

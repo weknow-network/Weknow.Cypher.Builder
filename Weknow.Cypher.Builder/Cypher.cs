@@ -329,7 +329,7 @@ namespace Weknow.Cypher.Builder
         /// {name: $name, value: $value}
         /// </example>
         [Cypher("$0")]
-        public static IProperties P(params object[] properties) => throw new NotImplementedException();
+        public static IPropertiesOfType P(params object[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
@@ -349,7 +349,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IProperties P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
+        public static IPropertiesOfType P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
 
         #endregion // IProperties P (Properties)
 
@@ -364,17 +364,17 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+00$1")]
-        public static IProperties Pre(IVar var, IProperties properties) => throw new NotImplementedException();
+        public static IPropertiesOfType Pre(IVar var, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent properties with prefix.
         /// </summary>
         /// <param name="var"></param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="property">The properties.</param>
         /// <returns></returns>
         /// <example>
         /// </example>
         [Cypher("+00$1")]
-        public static IProperty Pre(IVar var, IProperty properties) => throw new NotImplementedException();
+        public static IProperty Pre(IVar var, IProperty property) => throw new NotImplementedException();
 
         #endregion // IProperties Pre (Properties with prefix)
 
@@ -397,7 +397,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
         /// <example></example>
-        public static IProperties Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
+        public static IPropertiesOfType Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
         /// <summary>
         /// Gets properties by convention.
         /// </summary>
@@ -422,7 +422,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static IProperties All<T>(this IVar var) => throw new NotImplementedException();
+        public static IPropertiesOfType All<T>(this IVar var) => throw new NotImplementedException();
 
         #endregion // IProperties All (All Properties)
 

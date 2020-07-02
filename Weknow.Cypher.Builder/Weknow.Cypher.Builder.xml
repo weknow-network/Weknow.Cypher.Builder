@@ -285,7 +285,7 @@
             Represent properties with prefix.
             </summary>
             <param name="var"></param>
-            <param name="properties">The properties.</param>
+            <param name="property">The properties.</param>
             <returns></returns>
             <example>
             </example>
@@ -777,7 +777,7 @@
             n.property2 = $value2
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             SET phrase.
             </summary>
@@ -949,32 +949,6 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IProperties">
-            <summary>
-            Properties primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name, age in the following expression will use the Properties primitive.
-            MATCH (n {name: 'Alice', age: 37})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IProperty">
-            <summary>
-            Property primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name in the following expression will use the Property primitive.
-            MATCH (n {name: 'Alice'})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IType">
             <summary>
             Relation's Type primitive for the Cypher expression.
@@ -1044,6 +1018,45 @@
             Use mapping technique.
             For example: CREATE (n $map)
             </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IProperties">
+            <summary>
+            Properties primitive for the Cypher expression.
+            </summary>
+            <example>
+            The name, age in the following expression will use the Properties primitive.
+            MATCH (n {name: 'Alice', age: 37})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IPropertiesOfType">
+            <summary>
+            Properties primitive for the Cypher expression.
+            </summary>
+            <example>
+            The name, age in the following expression will use the Properties primitive.
+            MATCH (n {name: 'Alice', age: 37})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IProperty">
+            <summary>
+            Property primitive for the Cypher expression.
+            </summary>
+            <example>
+            The name in the following expression will use the Property primitive.
+            MATCH (n {name: 'Alice'})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
         </member>
         <member name="T:Weknow.Cypher.Builder.IRelation">
             <summary>

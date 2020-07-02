@@ -176,7 +176,9 @@ namespace Weknow.Cypher.Builder
             string mtdName = node.Method.Name;
             string type = node.Type.Name;
 
-            using var _ = _isProperties.Set(_isProperties.Value || node.Method.ReturnType == typeof(IProperties));
+            using var _ = _isProperties.Set(_isProperties.Value || 
+                                                node.Method.ReturnType == typeof(IProperties) ||
+                                                node.Method.ReturnType == typeof(IPropertiesOfType));
 
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
