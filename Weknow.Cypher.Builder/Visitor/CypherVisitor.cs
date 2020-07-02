@@ -381,6 +381,7 @@ namespace Weknow.Cypher.Builder
                 bool equalPattern = _methodExpr.Value?.Method.Name switch
                 {
                     nameof(CypherExtensions.Set) => true,
+                    nameof(CypherExtensions.Where) => true,
                     nameof(CypherExtensions.OnCreateSet) => true,
                     nameof(CypherExtensions.OnMatchSet) => true,
                     _ => false,

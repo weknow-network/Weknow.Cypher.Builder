@@ -49,18 +49,19 @@ WHERE n.Name = $p_1", cypher.Query);
         [Fact]
         public void Where_Parameter_Test()
         {
-            throw new NotImplementedException("Add overload");
-//            CypherCommand cypher = _(n =>
-//                                    Match(N(n, Person, P(PropA)))
-//                                    .Where(n.As<Foo>().Name));
+            // throw new NotImplementedException("Add overload");
+            CypherCommand cypher = _(n => n_ =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(n.P(PropA, Pre(n_, PropB))));
 
-//            _outputHelper.WriteLine(cypher.Dump());
-//			 Assert.Equal(
-//@"MATCH (n:Person { PropA: $PropA })
-//WHERE n.Name = $p_name", cypher.Query);
-//            Assert.NotEmpty(cypher.Parameters);
-//            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
-//            Assert.Contains(cypher.Parameters, p => p.Key == "p_1");
+            _outputHelper.WriteLine(cypher.Dump());
+            // TODO: Fix the parameter to respect Pre
+            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
+            Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
         }
 
         #endregion // Where_Parameter_Test

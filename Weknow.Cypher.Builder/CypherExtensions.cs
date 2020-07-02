@@ -179,6 +179,20 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\nWHERE $1")]
         public static PD Where(this PD p, bool condition) => throw new NotImplementedException();
 
+        /// <summary>
+        /// WHERE phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        /// <example>
+        /// MATCH (user)-[:FRIEND]-(friend)
+        /// WHERE user.name = $name
+        /// </example>
+        [Cypher("$0\r\n&WHERE $1")]
+        public static PD Where(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
+
         #endregion // Where
 
         #region Return
