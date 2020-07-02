@@ -342,12 +342,7 @@ namespace Weknow.Cypher.Builder
 
             if (name == nameof(IVar.AsMap))
             {
-                if (_expression[2].Value != null)
-                {
-                    Visit(_expression[2].Value);
-                    Query.Append(".");
-                }
-                else if (_methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
+                if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
                     Query.Append("$");
 
                 Visit(node.Expression);
