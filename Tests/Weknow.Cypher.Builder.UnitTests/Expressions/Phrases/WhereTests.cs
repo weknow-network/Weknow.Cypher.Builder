@@ -24,6 +24,47 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
+        #region Where_Test
+
+        [Fact]
+        public void Where_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(n.As<Foo>().Name == "my-name"));
+
+            _outputHelper.WriteLine(cypher.Dump());
+			 Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE n.Name = $p_1", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value,"my-name"));
+        }
+
+        #endregion // Where_Test
+
+        #region Where_Parameter_Test
+
+        [Fact]
+        public void Where_Parameter_Test()
+        {
+            throw new NotImplementedException("Add overload");
+//            CypherCommand cypher = _(n =>
+//                                    Match(N(n, Person, P(PropA)))
+//                                    .Where(n.As<Foo>().Name));
+
+//            _outputHelper.WriteLine(cypher.Dump());
+//			 Assert.Equal(
+//@"MATCH (n:Person { PropA: $PropA })
+//WHERE n.Name = $p_name", cypher.Query);
+//            Assert.NotEmpty(cypher.Parameters);
+//            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+//            Assert.Contains(cypher.Parameters, p => p.Key == "p_1");
+        }
+
+        #endregion // Where_Parameter_Test
+
         #region WhereExists_Test
 
         [Fact]
@@ -43,6 +84,29 @@ WHERE n.Name = m.Name }", cypher.Query);
         }
 
         #endregion // WhereExists_Test
+
+        #region WhereExists_Const_Test
+
+        [Fact]
+        public void WhereExists_Const_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(Exists(m => r =>
+                                        Match(N(n) - R[r, KNOWS] > N(m))
+                                        .Where(true))));
+
+            _outputHelper.WriteLine(cypher.Dump());
+			 Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m)
+WHERE $p_1 }", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, true));
+        }
+
+        #endregion // WhereExists_Const_Test
     }
 }
 
