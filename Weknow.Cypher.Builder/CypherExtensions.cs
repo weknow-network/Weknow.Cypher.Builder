@@ -71,12 +71,8 @@ namespace Weknow.Cypher.Builder
         /// MERGE (n:Person {id: $value})
         /// ON CREATE SET p = $map
         /// </example>
-        [Cypher("$0\r\n\tON CREATE SET $1")]
+        [Cypher("$0\r\n\tON CREATE &SET $1")]
         public static PD OnCreateSet(this PD p, IProperties properties) => throw new NotImplementedException();
-
-        #endregion // OnCreateSet
-
-        #region OnCreateSet
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -92,7 +88,65 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\n\tON CREATE SET $1 = &$2")]
         public static PD OnCreateSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
 
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET $1 = &$1")]
+        public static PD OnCreateSet(this PD p, IMap map) => throw new NotImplementedException();
+
         #endregion // OnCreateSet
+
+        #region OnMatchSet
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET $1")]
+        public static PD OnMatchSet(this PD p, IProperties properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH SET $1 = &$2")]
+        public static PD OnMatchSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH SET $1 = &$1")]
+        public static PD OnMatchSet(this PD p, IMap map) => throw new NotImplementedException();
+
+
+        #endregion // OnMatchSet
 
         #region OptionalMatch
 

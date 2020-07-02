@@ -67,8 +67,9 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                                             .Return(n)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(@"UNWIND $items AS map
-CREATE (n:Person map)", cypher.Query);
+			 Assert.Equal("UNWIND $items AS map\r\n" +
+                 "CREATE (n:Person map)\r\n" +
+                 "RETURN n", cypher.Query);
         }
 
         #endregion // Unwind_Create_Map_Test

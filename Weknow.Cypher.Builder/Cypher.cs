@@ -227,10 +227,10 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="var">The variable.</param>
         /// <param name="label">The label.</param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="map">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 $2)")]
-        public static IPattern N(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
+        public static IPattern N(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with label.
         /// </summary>
@@ -244,10 +244,10 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="var">The variable.</param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="map">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!l0 $1)")]
-        public static IPattern N<T>(IVar var, IMap properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, IMap map) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable and properties.
         /// </summary>
@@ -291,11 +291,11 @@ namespace Weknow.Cypher.Builder
         /// <typeparam name="T"></typeparam>
         /// <param name="var">The variable.</param>
         /// <param name="label">The label.</param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="map">The properties.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("($0:!0$1 $2)")]
-        public static IPattern N<T>(IVar var, ILabel label, IMap properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
 

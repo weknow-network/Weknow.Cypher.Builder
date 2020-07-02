@@ -35,8 +35,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-@"MERGE (n:Person { Id: $Id })
-SET n += $n", cypher.Query);
+                "MERGE (n:Person { Id: $Id })\r\n" +
+                "SET n += $n", cypher.Query);
         }
 
         #endregion // Merge_SetAsMap_Update_Test
@@ -52,8 +52,8 @@ SET n += $n", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MERGE (n:Person { Id: $Id })
-SET n = $n", cypher.Query);
+                "MERGE (n:Person { Id: $Id })\r\n" +
+                "SET n = $n", cypher.Query);
         }
 
         #endregion // Merge_SetAsMap_Replace_Test
@@ -65,13 +65,11 @@ SET n = $n", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, P(Id)))
-                                    .OnCreateSet(P(PropA, PropB)));
+                                    .OnCreateSet(n.P(PropA, PropB)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-@"MERGE (n:Person { Id: $Id })
-    ON CREATE SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-            throw new NotImplementedException();
+"MERGE (n:Person { Id: $Id })\r\n\tON CREATE SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
         #endregion // Merge_On_Create_SetProperties_Test
@@ -92,22 +90,53 @@ SET n = $n", cypher.Query);
 
         #endregion // Merge_On_Create_SetAsMap_Update_Test
 
+        #region Merge_On_Match_SetProperties_Test
+
+        [Fact]
+        public void Merge_On_Match_SetProperties_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnMatchSet(n.P(PropA, PropB)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+"MERGE (n:Person { Id: $Id })\r\n\tON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
+        }
+
+        #endregion // Merge_On_Match_SetProperties_Test
+
+        #region Merge_On_Match_SetProperties_Update_Test
+
+        [Fact]
+        public void Merge_On_Match_SetProperties_Update_Test()
+        {
+            CypherCommand cypher = _(n => map =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnMatchSet(n, map.AsMap));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+"MERGE (n:Person { Id: $Id })\r\n\tON MATCH SET n = $map", cypher.Query);
+        }
+
+        #endregion // Merge_On_Match_SetProperties_Update_Test
+
         #region Merge_On_SetAsMap_Update_Test
 
         [Fact]
         public void Merge_On_SetAsMap_Update_Test()
         {
-            //            CypherCommand cypher = _(n =>
-            //                                    Merge(N(n, Person, P(Id)))
-            //                                    .OnCreate(Convention<Foo>(m => n != nameof(Foo.Id)))
-            //                                    .OnMatch(+n.AsMap));
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnCreateSet(n.Convention<Bar>(m => m != nameof(Foo.Id)))
+                                    .OnMatchSet(+n.AsMap));
 
-            //			 _outputHelper.WriteLine(cypher);
-            //			 Assert.Equal(
-            //@"MERGE (n:Person { Id: $Id })
-            //ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth
-            //ON MATCH SET n += $n", cypher.Query);
-            throw new NotImplementedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.Date = $Date\r\n\t" +
+                    "ON MATCH SET n += $n", cypher.Query);
         }
 
         #endregion // Merge_On_SetAsMap_Update_Test
@@ -117,17 +146,16 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Merge_On_SetAsMap_Replace_Test()
         {
-            //            CypherCommand cypher = _(n =>
-            //                                    Merge(N(n, Person, P(Id)))
-            //                                    .OnCreate(Convention<Foo>(m => n != nameof(Foo.Id)))
-            //                                    .OnMatch(n.AsMap));
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
+                                    .OnMatchSet(n, n.AsMap));
 
-            //			 _outputHelper.WriteLine(cypher);
-            //			 Assert.Equal(
-            //@"MERGE (n:Person { Id: $Id })
-            //ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth
-            //ON MATCH SET n = $n", cypher.Query);
-            throw new NotImplementedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                    "ON MATCH SET n = $n", cypher.Query);
         }
 
         #endregion // Merge_On_SetAsMap_Replace_Test
@@ -137,17 +165,16 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Merge_On_SetNamedAsMap_Update_Test()
         {
-            //            CypherCommand cypher = _(n => map =>
-            //                                    Merge(N(n, Person, P(Id)))
-            //                                    .OnCreate(Convention<Foo>(m => n != nameof(Foo.Id)))
-            //                                    .OnMatch(+map.AsMap));
+            CypherCommand cypher = _(n => map =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
+                                    .OnMatchSet(n, +map.AsMap));
 
-            //			 _outputHelper.WriteLine(cypher);
-            //			 Assert.Equal(
-            //@"MERGE (n:Person { Id: $Id })
-            //ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth
-            //ON MATCH SET n += $map", cypher.Query);
-            throw new NotImplementedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                    "ON MATCH SET n += $map", cypher.Query);
         }
 
         #endregion // Merge_On_SetNamedAsMap_Update_Test
@@ -157,17 +184,16 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Merge_On_SetNamedAsMap_Replace_Test()
         {
-            //            CypherCommand cypher = _(n => map =>
-            //                                    Merge(N(n, Person, P(Id)))
-            //                                    .OnCreate(Convention<Foo>(m => n != nameof(Foo.Id)))
-            //                                    .OnMatch(map.AsMap));
+            CypherCommand cypher = _(n => map =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
+                                    .OnMatchSet(n, map.AsMap));
 
-            //            _outputHelper.WriteLine(cypher);
-            //            Assert.EqualConvention
-            //@"MERGE (n:Person { Id: $Id })
-            //            ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth
-            //            ON MATCH SET n = $map", cypher.Query);
-            throw new NotImplementedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+            "MERGE (n:Person { Id: $Id })\r\n\t" +
+                "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                "ON MATCH SET n = $map", cypher.Query);
         }
 
         #endregion // Merge_On_SetNamedAsMap_Replace_Test
