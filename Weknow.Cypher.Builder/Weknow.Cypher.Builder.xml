@@ -554,7 +554,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -591,7 +591,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             ON MATCH SET phrase.
             </summary>

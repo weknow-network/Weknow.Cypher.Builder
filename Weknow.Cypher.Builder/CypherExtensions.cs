@@ -72,7 +72,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static PD OnCreateSet(this PD p, IProperties properties) => throw new NotImplementedException();
+        public static PD OnCreateSet(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -116,7 +116,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static PD OnMatchSet(this PD p, IProperties properties) => throw new NotImplementedException();
+        public static PD OnMatchSet(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
