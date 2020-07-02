@@ -176,7 +176,7 @@ namespace Weknow.Cypher.Builder
             string mtdName = node.Method.Name;
             string type = node.Type.Name;
 
-            using var _ = _isProperties.Set(_isProperties.Value || 
+            using var _ = _isProperties.Set(_isProperties.Value ||
                                                 node.Method.ReturnType == typeof(IProperties) ||
                                                 node.Method.ReturnType == typeof(IPropertiesOfType));
 
@@ -373,6 +373,7 @@ namespace Weknow.Cypher.Builder
 
             if (_isProperties.Value)
             {
+                string parameterName = name;
                 bool equalPattern = _methodExpr.Value?.Method.Name switch
                 {
                     nameof(CypherExtensions.Set) => true,
@@ -385,7 +386,9 @@ namespace Weknow.Cypher.Builder
                 if (_expression[0].Value != null)
                 {
                     Query.Append("$");
+                    var length = Query.Length;
                     Visit(_expression[0].Value);
+                    parameterName = Query.ToString().Substring(length) + name;
                 }
                 else if (_expression[2].Value != null)
                 {
@@ -395,7 +398,7 @@ namespace Weknow.Cypher.Builder
                 else
                     Query.Append("$");
                 Query.Append(name);
-                Parameters[name] = null;
+                Parameters[parameterName] = null;
             }
             return node;
         }
@@ -528,7 +531,7 @@ namespace Weknow.Cypher.Builder
         #endregion // Visit
 
         // TODO: [bnaya 2020-07] document formats
-        
+
         #region ApplyFormat
 
         /// <summary>
@@ -586,7 +589,7 @@ namespace Weknow.Cypher.Builder
                             if (ch == 'p')
                             {
                                 disp = _expression[int.Parse(format[++i].ToString())]
-                                                      .Set(new ContextExpression(true, false, 
+                                                      .Set(new ContextExpression(true, false,
                                                                node.Arguments[int.Parse(format[++i].ToString())]));
                             }
                             else if (ch == 's')
