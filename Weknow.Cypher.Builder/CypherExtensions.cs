@@ -129,7 +129,7 @@ namespace Weknow.Cypher.Builder
         /// MERGE (n:Person {id: $value})
         /// ON CREATE SET p = $map
         /// </example>
-        [Cypher("$0\r\n\tON MATCH SET $1 = &$2")]
+        [Cypher("$0\r\n\tON MATCH SET $1 = $2")]
         public static PD OnMatchSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
 
         /// <summary>
