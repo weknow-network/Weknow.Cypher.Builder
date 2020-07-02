@@ -347,7 +347,7 @@ namespace Weknow.Cypher.Builder
                     Visit(_expression[2].Value);
                     Query.Append(".");
                 }
-                else if (_methodExpr.Value?.Method.Name != "Set")
+                else if (_methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
                     Query.Append("$");
 
                 Visit(node.Expression);
