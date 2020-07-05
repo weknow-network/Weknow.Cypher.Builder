@@ -22,6 +22,17 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Represent relation with variable and type.
         /// </summary>
+        /// <value>
+        /// The <see cref="IRelation"/>.
+        /// </value>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
+        IRelation this[IType type] { [Cypher("[:$0]")] get; }
+
+        /// <summary>
+        /// Represent relation with variable and type.
+        /// </summary>
         /// <param name="var">The variable.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>

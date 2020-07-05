@@ -46,7 +46,6 @@ ORDER BY a.Name
 SKIP $p_1
 LIMIT $p_2", cypher.Query);
 
-            _outputHelper.WriteLine(cypher);
 			 Assert.Equal("Avi", cypher.Parameters["p_0"]);
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(1, cypher.Parameters["p_1"]);

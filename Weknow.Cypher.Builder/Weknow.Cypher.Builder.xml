@@ -1109,6 +1109,17 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IType)">
+            <summary>
+            Represent relation with variable and type.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[(m)<-[r:KNOWS]-(n)]]>
+            </example>
+        </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)">
             <summary>
             Represent relation with variable and type.
