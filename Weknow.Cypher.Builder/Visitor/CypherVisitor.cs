@@ -550,18 +550,21 @@ namespace Weknow.Cypher.Builder
                             if (ch == 'p')
                             {
                                 using var __ = isPluralize.Set(true);
-                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                int index = int.Parse(format[++i].ToString());
+                                var expr = node.Arguments[index];
                                 Visit(expr);
                             }
                             else if (ch == 's')
                             {
                                 using var __ = isSingularize.Set(true);
-                                var expr = node.Arguments[int.Parse(format[++i].ToString())];
+                                int index = int.Parse(format[++i].ToString());
+                                var expr = node.Arguments[index];
                                 Visit(expr);
                             }
                             else
                             {
-                                var expr = node.Arguments[int.Parse(ch.ToString())];
+                                int index = int.Parse(ch.ToString());
+                                var expr = node.Arguments[index];
                                 Visit(expr);
                             }
                         }
@@ -571,42 +574,55 @@ namespace Weknow.Cypher.Builder
                             var ch = format[++i];
                             if (ch == 'l')
                             {
-                                Query.Append(_configuration.AmbientLabels.Combine(node.Method.GetGenericArguments()[int.Parse(format[++i].ToString())].Name));
+                                int index = int.Parse(format[++i].ToString());
+                                Type[] tps = node.Method.GetGenericArguments();
+                                string name = tps[index].Name;
+                                Query.Append(_configuration.AmbientLabels.Combine(name));
 
                             }
                             else
                             {
-                                Query.Append(node.Method.GetGenericArguments()[int.Parse(ch.ToString())].Name);
+                                int index = int.Parse(ch.ToString());
+                                Query.Append(node.Method.GetGenericArguments()[index].Name);
                             }
                         }
                         break;
                     case '+':
                         {
                             var ch = format[++i];
+                            string fmt1;
+                            if(ch == 'p' || ch == 's')
+                                fmt1 = format[++i].ToString();
+                            else
+                                fmt1 = ch.ToString();
+
+                            string fmt2 = format[++i].ToString();
+                            int index1 = int.Parse(fmt1);
+                            int index2 = int.Parse(fmt2);
+                            Expression? expr = node.Arguments[index2];
+                            ContextValue<ContextExpression?>? ctx = _expression[index1];
                             if (ch == 'p')
                             {
-                                disp = _expression[int.Parse(format[++i].ToString())]
-                                                      .Set(new ContextExpression(true, false,
-                                                               node.Arguments[int.Parse(format[++i].ToString())]));
+                                disp = ctx.Set(new ContextExpression(true, false, expr));
                             }
                             else if (ch == 's')
                             {
-                                disp = _expression[int.Parse(format[++i].ToString())]
-                                                      .Set(new ContextExpression(false, true,
-                                                                node.Arguments[int.Parse(format[++i].ToString())]));
+                                disp = ctx.Set(new ContextExpression(false, true, expr));
                             }
                             else
                             {
-                                disp = _expression[int.Parse(ch.ToString())]
-                                                      .Set(new ContextExpression(false, false,
-                                                                node.Arguments[int.Parse(format[++i].ToString())]));
+                                disp = ctx.Set(new ContextExpression(false, false, expr));
                             }
                         }
                         break;
                     case '.':
-                        disp = _expression[int.Parse(format[++i].ToString())]
-                                              .Set(new ContextExpression(false, false, node));
-                        break;
+                        {
+                            string fmt = format[++i].ToString();
+                            int index = int.Parse(fmt);
+                            ContextValue<ContextExpression?>? expr = _expression[index];
+                            disp = expr.Set(new ContextExpression(false, false, node));
+                            break;
+                        }
                     case '&':
                         if (disp == null)
                             disp = _methodExpr.Set(node);
