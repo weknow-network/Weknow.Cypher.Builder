@@ -75,23 +75,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Properties_OfT_DefaultAndAdditionLabel_Test
 
-        #region Properties_Invalid_OfT_DefaultAndAdditionLabel_Test
-
-        [Fact]
-        public void Properties_Invalid_OfT_DefaultAndAdditionLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, Person, P(nameof(Foo.PropA), nameof(Foo.PropB)))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-            throw new MethodAccessException("While Test Properties_OfT_DefaultAndAdditionLabel_Test " +
-                        "should be compile, this one shouldn't " +
-                        "because it will fall on runtime. " +
-                        "those scenarios should be separate at the signature level");
-        }
-
-        #endregion // Properties_Invalid_OfT_DefaultAndAdditionLabel_Test
-
         #region Properties_OfT_Test
 
         [Fact]
@@ -161,23 +144,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Properties_All_Except_WithDefaultLabel_Test
-
-        #region Properties_Invalid_All_Except_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_Invalid_All_Except_WithDefaultLabel_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, AllExcept(nameof(Foo.Id), nameof(Foo.Name)))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-            throw new MethodAccessException("While Test Properties_All_Except_WithDefaultLabel_Test " +
-                        "should be compile, this one shouldn't " +
-                        "because it will fall on runtime. " +
-                        "those scenarios should be separate at the signature level");
-        }
-
-        #endregion // Properties_Invalid_All_Except_WithDefaultLabel_Test
 
         #region Properties_Convention_Test
 

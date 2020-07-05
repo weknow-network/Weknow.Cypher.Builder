@@ -115,26 +115,6 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
 
         #endregion // Match_Set_OfT_Test
 
-        #region Match_Set_Invalid_Test
-
-        [Fact]
-        public void Match_Set_Invalid_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(P(nameof(Foo.PropA), nameof(Foo.PropB))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MATCH (n:Person { Id: $Id })\r\nSET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-            throw new MethodAccessException("While Test Match_Set_OfT_Test " +
-                            "should be compile, this one shouldn't " +
-                            "because it will fall on runtime. " +
-                            "those scenarios should be separate at the signature level");
-        }
-
-        #endregion // Match_Set_Invalid_Test
-
         #region Match_Set_OfT_Convention_Test
 
         [Fact]

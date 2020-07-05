@@ -154,7 +154,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
                     "ON MATCH SET n = $n", cypher.Query);
         }
 
@@ -168,12 +168,12 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(n => map =>
                                     Merge(N(n, Person, P(Id)))
                                     .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(n, +map.AsMap));
+                                    .OnMatchSet(+n, map.AsMap));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
                     "ON MATCH SET n += $map", cypher.Query);
         }
 
@@ -192,7 +192,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
             "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON CREATE SET n.Name = $Name, n.DateOfBirth = DateOfBirth\r\n\t" +
+                "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
                 "ON MATCH SET n = $map", cypher.Query);
         }
 
