@@ -27,7 +27,9 @@ namespace Weknow
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+#pragma warning disable AMNF0001 // Asynchronous method name is not ending with 'Async'
         IAsyncEnumerable<T> ToAsyncStream<T>();
+#pragma warning restore AMNF0001 // Asynchronous method name is not ending with 'Async'
         /// <summary>
         /// Exposed as reactive stream.
         /// </summary>
@@ -38,6 +40,8 @@ namespace Weknow
         /// Exposed as reactive stream.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TContext">The type of the context.</typeparam>
+        /// <param name="context">The context.</param>
         /// <returns></returns>
         IObservable<CypherResult<T, TContext>> ToReactive<T, TContext>(TContext context);
         /// <summary>
@@ -51,6 +55,8 @@ namespace Weknow
         /// Exposed as reactive stream.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TContext">The type of the context.</typeparam>
+        /// <param name="context">The context.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
         ISourceBlock<CypherResult<T, TContext>> ToDataflow<T, TContext>(TContext context, DataflowBlockOptions? options = null);

@@ -11,8 +11,10 @@ namespace Weknow
         /// Create.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TContext">The type of the context.</typeparam>
         /// <param name="item">The item.</param>
         /// <param name="context">The context.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
         public static CypherResult<T, TContext> Create<T, TContext>(
                             T item,
@@ -32,7 +34,7 @@ namespace Weknow
         #region Ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CypherResult{T}" /> class.
+        /// Initializes a new instance.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="context">The context.</param>
@@ -104,7 +106,7 @@ namespace Weknow
         #region Cast Overloads
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="CypherResult{T, TContext}"/> to <see cref="T"/>.
+        /// Casting overload.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns>
