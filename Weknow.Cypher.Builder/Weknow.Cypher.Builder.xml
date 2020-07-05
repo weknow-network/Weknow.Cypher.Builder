@@ -1486,6 +1486,14 @@
             <param name="node">The node.</param>
             <param name="format">The format.</param>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.IsEqualPattern">
+            <summary>
+            Determines whether [is equal pattern].
+            </summary>
+            <returns>
+              <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
             <summary>
             Context of the expression
@@ -1540,12 +1548,33 @@
             Gets the value.
             </summary>
         </member>
+        <member name="P:Weknow.Cypher.Builder.ContextValue`1.Values">
+            <summary>
+            Gets all values.
+            </summary>
+        </member>
         <member name="M:Weknow.Cypher.Builder.ContextValue`1.Set(`0)">
             <summary>
             Sets the specified value.
             </summary>
             <param name="value">The value.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.ContextValue`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.ContextValue`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.ContextValue`1.op_Implicit(Weknow.Cypher.Builder.ContextValue{`0})~`0">
             <summary>

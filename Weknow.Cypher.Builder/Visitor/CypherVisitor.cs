@@ -374,14 +374,7 @@ namespace Weknow.Cypher.Builder
             if (_isProperties.Value)
             {
                 string parameterName = name;
-                bool equalPattern = _methodExpr.Value?.Method.Name switch
-                {
-                    nameof(CypherExtensions.Set) => true,
-                    nameof(CypherExtensions.Where) => true,
-                    nameof(CypherExtensions.OnCreateSet) => true,
-                    nameof(CypherExtensions.OnMatchSet) => true,
-                    _ => false,
-                };
+                bool equalPattern = IsEqualPattern();
                 Query.Append(equalPattern ? " = " : ": ");
                 if (_expression[0].Value != null)
                 {
@@ -420,8 +413,12 @@ namespace Weknow.Cypher.Builder
             {
                 if (_expression[3].Value != null)
                 {
-                    Visit(_expression[3].Value);
-                    Query.Append(".");
+                    bool equalPattern = IsEqualPattern();
+                    if (!_isProperties.Value || equalPattern)
+                    { 
+                        Visit(_expression[3].Value);
+                        Query.Append(".");
+                    }
                 }
                 Visit(expr);
                 if (expr != node.Expressions.Last())
@@ -636,5 +633,27 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // ApplyFormat
+
+        #region IsEqualPattern
+
+        /// <summary>
+        /// Determines whether [is equal pattern].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsEqualPattern()
+        {
+            return _methodExpr.Value?.Method.Name switch
+            {
+                nameof(CypherExtensions.Set) => true,
+                nameof(CypherExtensions.Where) => true,
+                nameof(CypherExtensions.OnCreateSet) => true,
+                nameof(CypherExtensions.OnMatchSet) => true,
+                _ => false,
+            };
+        }
+
+        #endregion // IsEqualPattern
     }
 }
