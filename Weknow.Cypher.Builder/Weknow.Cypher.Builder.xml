@@ -270,6 +270,19 @@
             <example>
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Set property with variable (useful for unwind's variable).
+            <param name="var"></param>
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            UNWIND $items AS item
+            MERGE(n:Person { Id: item })
+            RETURN n
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Pre(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Represent properties with prefix.
@@ -1033,6 +1046,19 @@
             </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.IProperties">
+            <summary>
+            Properties primitive for the Cypher expression.
+            </summary>
+            <example>
+            The name, age in the following expression will use the Properties primitive.
+            MATCH (n {name: 'Alice', age: 37})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IPropertiesConst">
             <summary>
             Properties primitive for the Cypher expression.
             </summary>

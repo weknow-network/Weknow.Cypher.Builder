@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -157,6 +158,24 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Properties_Convention_Test
+
+        #region Properties_Const_Test
+
+        [Fact]
+        public void Properties_Const_Test()
+        {
+            CypherCommand cypher =  _(items => item => n =>
+                                    Unwind(items,
+                                    Merge(N(n, Person, P(Id, item)))
+                                    .Return(n)));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal($"UNWIND $items AS item{NewLine}" +
+                            $"MERGE (n:Person {{ Id: item }}){NewLine}" +
+                             "RETURN n", cypher.Query);
+        }
+
+        #endregion // Properties_Const_Test
     }
 }
 

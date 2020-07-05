@@ -350,6 +350,19 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("+30$1")]
         public static IPropertiesOfType P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Set property with variable (useful for unwind's variable).
+        /// <param name="var"></param>
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $items AS item
+        /// MERGE(n:Person { Id: item })
+        /// RETURN n
+        /// </example>
+        [Cypher("$0: $1")]
+        public static IPropertiesConst P(IProperty properties, IVar var) => throw new NotImplementedException();
 
         #endregion // IProperties P (Properties)
 
