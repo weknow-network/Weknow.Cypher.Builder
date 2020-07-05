@@ -67,9 +67,13 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                                             .Return(n)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("UNWIND $items AS map\r\n" +
-                 "CREATE (n:Person map)\r\n" +
-                 "RETURN n", cypher.Query);
+
+            // Require remodel of the cypher generator,
+            // On the remodeling it would be nice to add built-in indentation
+			Assert.Equal("UNWIND $items AS map\r\n" +
+                 "\tCREATE (n:Person)\r\n" +
+                 "\t\tSET n = map\r\n" +
+                 "\tRETURN n", cypher.Query);
         }
 
         #endregion // Unwind_Create_Map_Test

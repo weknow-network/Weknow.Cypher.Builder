@@ -160,24 +160,24 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Merge_On_SetAsMap_Replace_Test
 
-        #region Merge_On_SetNamedAsMap_Update_Test
+        #region Merge_On_SetNamedAsMapDefault_Update_Test
 
         [Fact]
-        public void Merge_On_SetNamedAsMap_Update_Test()
+        public void Merge_On_SetNamedAsMapDefault_Update_Test()
         {
-            CypherCommand cypher = _(n => map =>
+            CypherCommand cypher = _(n => 
                                     Merge(N(n, Person, P(Id)))
                                     .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(+n, map.AsMap));
+                                    .OnMatchSet(+n.AsMap));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (n:Person { Id: $Id })\r\n\t" +
                     "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
-                    "ON MATCH SET n += $map", cypher.Query);
+                    "ON MATCH SET n += $n", cypher.Query);
         }
 
-        #endregion // Merge_On_SetNamedAsMap_Update_Test
+        #endregion // Merge_On_SetNamedAsMapDefault_Update_Test
 
         #region Merge_On_SetNamedAsMap_Replace_Test
 
