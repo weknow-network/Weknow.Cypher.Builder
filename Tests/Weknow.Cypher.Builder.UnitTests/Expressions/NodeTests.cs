@@ -237,7 +237,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n1 => n2 => n2_ =>
                                     Match(N(n1, Person, P(PropA, PropB)) >
-                                          N(n2, Person, Pre(n2_, P(PropA, PropB)))));
+                                          N(n2, Person, _P(n2_, P(PropA, PropB)))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
@@ -252,7 +252,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(_ => P(PropA, PropB).Reuse()
                                     .By(p => n1 => n2 => n2_ =>
-                                    Match(N(n1, Person, p) > N(n2, Person, Pre(n2_, p)))));
+                                    Match(N(n1, Person, p) > N(n2, Person, _P(n2_, p)))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);

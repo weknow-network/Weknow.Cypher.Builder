@@ -398,7 +398,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IProperties P (Properties)
 
-        #region IProperties Pre (Properties with prefix)
+        #region IProperties _P (Properties with prefix)
 
         /// <summary>
         /// Represent properties with prefix.
@@ -409,7 +409,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+00$1")]
-        public static IPropertiesOfType Pre(IVar var, IProperties properties) => throw new NotImplementedException();
+        public static IPropertiesOfType _P(IVar var, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent properties with prefix.
         /// </summary>
@@ -419,9 +419,9 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+00$1")]
-        public static IProperty P_(IVar var, IProperty property) => throw new NotImplementedException();
+        public static IProperty _P(IVar var, IProperty property) => throw new NotImplementedException();
 
-        #endregion // IProperties Pre (Properties with prefix)
+        #endregion // IProperties _P (Properties with prefix)
 
         #region IProperties Convention (Properties by convention)
 
@@ -566,7 +566,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
-        [Cypher("UNWIND \\$$0 AS $1\r\n+21$2")]
+        [Cypher("&UNWIND \\$$0 AS $1\r\n+21$2")]
         public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
         /// <summary>
         /// UNWIND phrase.
@@ -579,7 +579,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
-        [Cypher("UNWIND \\$$0 AS $s0\r\n+s20$1")]
+        [Cypher("&UNWIND \\$$0 AS $s0\r\n+s20$1")]
         public static PD Unwind(IVar items, PD p) => throw new NotImplementedException();
 
         #endregion // Unwind

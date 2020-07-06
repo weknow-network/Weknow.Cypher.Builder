@@ -53,7 +53,7 @@ RETURN n", cypher.Query);
         public void Match_Pre_Return_Test()
         {
             CypherCommand cypher = _(n => n_ =>
-                                    Match(N(n, Person, P_(n_, Id)))
+                                    Match(N(n, Person, _P(n_, Id)))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -69,15 +69,15 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_Multi_Return_Test()
         {
-            CypherCommand cypher = _(n => m => n_ => m_ =>
-                                    Match(N(n, Person, P_(n_, Id)))
-                                    .Match(N(m, Person, P_(m_, Id)))
+            CypherCommand cypher = _(n => m =>
+                                    Match(N(n, Person, _P(n, Id)))
+                                    .Match(N(m, Person, _P(m, Id)))
                                     .Return(n, m));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-@"MATCH (n:Person { Id: $n_Id })
-MATCH (m:Person { Id: $m_Id })
+@"MATCH (n:Person { Id: $nId })
+MATCH (m:Person { Id: $mId })
 RETURN n, m", cypher.Query);
         }
 
@@ -124,7 +124,7 @@ SET n = $n", cypher.Query);
         {
             CypherCommand cypher = _(n => n_ =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(n.P(PropA, P_(n_, PropB))));
+                                    .Set(n.P(PropA, _P(n_, PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

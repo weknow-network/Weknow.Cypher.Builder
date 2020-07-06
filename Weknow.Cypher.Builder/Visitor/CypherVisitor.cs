@@ -341,6 +341,8 @@ namespace Weknow.Cypher.Builder
         {
             string name = node.Member.Name;
 
+            var pi = node.Member as PropertyInfo;
+
             if (name == nameof(IVar.AsMap))
             {
                 if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
@@ -372,7 +374,10 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            if (_isProperties.Value)
+            bool isDirectProp = !_isProperties.Value && 
+                                pi?.PropertyType == typeof(IProperty) &&
+                                CanBeDirectProp();
+            if (_isProperties.Value || isDirectProp)
             {
                 string parameterName = name;
                 bool equalPattern = IsEqualPattern();
@@ -463,6 +468,17 @@ namespace Weknow.Cypher.Builder
             return node;
         }
 
+        #endregion // VisitNew
+
+        #region VisitConstant
+
+        /// <summary>
+        /// Visits the <see cref="T:System.Linq.Expressions.ConstantExpression" />.
+        /// </summary>
+        /// <param name="node">The expression to visit.</param>
+        /// <returns>
+        /// The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+        /// </returns>
         protected override Expression VisitConstant(ConstantExpression node)
         {
             var parameterName = $"p_{Parameters.Count}";
@@ -471,7 +487,7 @@ namespace Weknow.Cypher.Builder
             return node;
         }
 
-        #endregion // VisitNew
+        #endregion // VisitConstant
 
         #region VisitParameter
 
@@ -672,5 +688,24 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // IsEqualPattern
+
+        #region CanBeDirectProp
+
+        /// <summary>
+        /// Determines whether this instance [can be direct property].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance [can be direct property]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool CanBeDirectProp()
+        {
+            return _methodExpr.Value?.Method.Name switch
+            {
+                nameof(Cypher.Unwind) => false,
+                _ => true,
+            };
+        }
+
+        #endregion // CanBeDirectProp
     }
 }

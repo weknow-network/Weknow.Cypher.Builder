@@ -310,7 +310,7 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Pre(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher._P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Represent properties with prefix.
             </summary>
@@ -320,7 +320,7 @@
             <example>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P_(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher._P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Represent properties with prefix.
             </summary>
@@ -1582,6 +1582,15 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ConstantExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
             <summary>
             Visits the <see cref="T:System.Linq.Expressions.ParameterExpression" />.
@@ -1610,6 +1619,14 @@
             </summary>
             <returns>
               <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.CanBeDirectProp">
+            <summary>
+            Determines whether this instance [can be direct property].
+            </summary>
+            <returns>
+              <c>true</c> if this instance [can be direct property]; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
@@ -1678,6 +1695,14 @@
             <param name="value">The value.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.ContextValue`1.Set(`0,System.Boolean)">
+            <summary>
+            Sets the specified value.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="condition">if set to <c>true</c> [condition].</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.ContextValue`1.GetEnumerator">
             <summary>
             Returns an enumerator that iterates through the collection.
@@ -1708,6 +1733,11 @@
             Dispose-able action
             </summary>
             <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:Weknow.Cypher.Builder.DisposeableAction.Empty">
+            <summary>
+            Empty
+            </summary>
         </member>
         <member name="M:Weknow.Cypher.Builder.DisposeableAction.#ctor(System.Action)">
             <summary>

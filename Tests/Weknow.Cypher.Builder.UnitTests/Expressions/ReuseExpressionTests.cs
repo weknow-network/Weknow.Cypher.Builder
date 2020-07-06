@@ -46,11 +46,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void LazyReuse_Overloads_Test()
         {
-            IPattern? pattern1 = Reuse(n => N(n, Person, P_(n, PropA)));
-            IPattern? pattern2 = Reuse(n => n_ => N(n, Person, P_(n_, PropA)));
-            IPattern? pattern3 = Reuse(n => n1_ => n2_ => N(n, Person, P_(n1_, PropA), P_(n2_, PropB)));
-            IPattern? pattern4 = Reuse(n => n1_ => n2_ => n3_ => N(n, Person, P_(n1_, Id), P_(n2_, PropA), P_(n3_, PropB)));
-            IPattern? pattern5 = Reuse(n => n1_ => n2_ => n3_ => n4_ => N(n, Person, P_(n1_, Id), P_(n2_, PropA), P_(n3_, PropB), P_(n4_, PropC)));
+            IPattern? pattern1 = Reuse(n => N(n, Person, _P(n, PropA)));
+            IPattern? pattern2 = Reuse(n => n_ => N(n, Person, _P(n_, PropA)));
+            IPattern? pattern3 = Reuse(n => n1_ => n2_ => N(n, Person, _P(n1_, PropA), _P(n2_, PropB)));
+            IPattern? pattern4 = Reuse(n => n1_ => n2_ => n3_ => N(n, Person, _P(n1_, Id), _P(n2_, PropA), _P(n3_, PropB)));
+            IPattern? pattern5 = Reuse(n => n1_ => n2_ => n3_ => n4_ => N(n, Person, _P(n1_, Id), _P(n2_, PropA), _P(n3_, PropB), _P(n4_, PropC)));
 
             string? cypher1 = pattern1?.ToString();
             string? cypher2 = pattern2?.ToString();

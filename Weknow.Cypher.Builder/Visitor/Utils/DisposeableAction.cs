@@ -9,6 +9,11 @@ namespace Weknow.Cypher.Builder
     /// <seealso cref="System.IDisposable" />
     public class DisposeableAction : IDisposable
     {
+        /// <summary>
+        /// Empty
+        /// </summary>
+        public static readonly IDisposable Empty = new DisposeableAction(() => { });
+
         private readonly Action _action;
 
         #region Ctor

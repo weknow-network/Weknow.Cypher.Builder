@@ -60,6 +60,25 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Set
 
+        #region Set
+
+        /// <summary>
+        /// Sets the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="condition">if set to <c>true</c> [condition].</param>
+        /// <returns></returns>
+        public IDisposable Set(T value, bool condition)
+        {
+            if (!condition)
+                return DisposeableAction.Empty;
+
+            _values = _values.Push(value);
+            return new DisposeableAction(() => _values = _values.Pop());
+        }
+
+        #endregion // Set
+
         #region IEnumerable<T> members
 
         /// <summary>

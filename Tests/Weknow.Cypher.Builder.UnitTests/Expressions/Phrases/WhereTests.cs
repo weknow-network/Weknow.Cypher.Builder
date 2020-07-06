@@ -51,7 +51,7 @@ WHERE n.Name = $p_1", cypher.Query);
         {
             CypherCommand cypher = _(n => n_ =>
                                     Match(N(n, Person, P(PropA)))
-                                    .Where(n.P(PropA, P_(n_, PropB))));
+                                    .Where(n.P(PropA, _P(n_, PropB))));
 
             _outputHelper.WriteLine(cypher.Dump());
 
