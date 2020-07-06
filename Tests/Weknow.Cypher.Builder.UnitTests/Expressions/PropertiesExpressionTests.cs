@@ -127,7 +127,7 @@ namespace Weknow.Cypher.Builder
         {
             IPattern pattern = Reuse(n => N(n, Person, _P(n, PropA)));
 
-            string cypher = pattern.ToString();
+            string? cypher = pattern?.ToString();
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("(n:Person { PropA: $nPropA })", cypher);
         }
@@ -155,7 +155,7 @@ namespace Weknow.Cypher.Builder
         {
             IPattern pattern = Reuse(n => n_ => N(n, Person, _P(n_, P(PropA))));
 
-            string cypher = pattern.ToString();
+            string? cypher = pattern?.ToString();
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("(n:Person { PropA: $n_PropA })", cypher);
         }

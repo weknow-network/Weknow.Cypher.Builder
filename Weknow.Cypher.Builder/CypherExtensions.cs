@@ -68,6 +68,17 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0\r\nMERGE $1")]
         public static PD Merge(this PD p, PD pp) => throw new NotImplementedException();
+        /// <summary>
+        /// MERGE phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {name: $value})
+        /// </example>
+        [Cypher("$0\r\nMERGE $1")]
+        public static PD Merge(this PD p, IPattern pattern) => throw new NotImplementedException();
 
         #endregion // Merge
 

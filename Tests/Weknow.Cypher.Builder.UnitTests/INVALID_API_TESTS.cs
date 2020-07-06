@@ -10,19 +10,19 @@ using static Weknow.Cypher.Builder.Schema;
 namespace Weknow.Cypher.Builder
 {
     [Trait("Segment", "Invalid-Api")]
-    public class InvalidApiTests
+    public class INVALID_API_TESTS
     {
         private readonly ITestOutputHelper _outputHelper;
 
-        private const string INVALID_MESSAGE = "While Test Match_Set_OfT_Test " +
-                            "should be compile, this one shouldn't " +
+        private const string INVALID_MESSAGE = 
+                            "Shouldn't compile " +
                             "because it will fall on runtime. " +
                             "those scenarios should be separate at the signature level," +
                             "Either by changing the signature or by analyzer";
 
         #region Ctor
 
-        public InvalidApiTests(ITestOutputHelper outputHelper)
+        public INVALID_API_TESTS(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
@@ -93,5 +93,20 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Properties_Invalid_All_Except_WithDefaultLabel_Test
+
+        #region With_Needed_Test
+
+        [Fact]
+        public void With_Needed_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, Id))
+                                    .Match(N(n, Person, Id)));
+
+            _outputHelper.WriteLine(cypher);
+            throw new MethodAccessException(INVALID_MESSAGE);
+        }
+
+        #endregion // MWith_Needed_Test
     }
 }

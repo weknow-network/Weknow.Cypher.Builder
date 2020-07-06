@@ -637,6 +637,17 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Merge(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPattern)">
+            <summary>
+            MERGE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+            <example>
+            MERGE (n:Person {name: $value})
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             ON CREATE SET phrase.
