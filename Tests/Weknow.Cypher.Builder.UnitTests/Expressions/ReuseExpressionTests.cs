@@ -29,8 +29,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void LazyReuse_Node_Test()
         {
-            var reusedPerson = Reuse(person => N(person, Person));
-            var reusedAnimal = Reuse(animal => N(animal, Animal));
+            IPattern reusedPerson = Reuse(person => N(person, Person));
+            IPattern reusedAnimal = Reuse(animal => N(animal, Animal));
 
             CypherCommand cypher = _( r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal));
@@ -40,6 +40,38 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // LazyReuse_Node_Test
+
+        #region LazyReuse_Overloads_Test
+
+        [Fact]
+        public void LazyReuse_Overloads_Test()
+        {
+            IPattern? pattern1 = Reuse(n => N(n, Person, P_(n, PropA)));
+            IPattern? pattern2 = Reuse(n => n_ => N(n, Person, P_(n_, PropA)));
+            IPattern? pattern3 = Reuse(n => n1_ => n2_ => N(n, Person, P_(n1_, PropA), P_(n2_, PropB)));
+            IPattern? pattern4 = Reuse(n => n1_ => n2_ => n3_ => N(n, Person, P_(n1_, Id), P_(n2_, PropA), P_(n3_, PropB)));
+            IPattern? pattern5 = Reuse(n => n1_ => n2_ => n3_ => n4_ => N(n, Person, P_(n1_, Id), P_(n2_, PropA), P_(n3_, PropB), P_(n4_, PropC)));
+
+            string? cypher1 = pattern1?.ToString();
+            string? cypher2 = pattern2?.ToString();
+            string? cypher3 = pattern3?.ToString();
+            string? cypher4 = pattern4?.ToString();
+            string? cypher5 = pattern5?.ToString();
+
+            _outputHelper.WriteLine(cypher1);
+            _outputHelper.WriteLine(cypher2);
+            _outputHelper.WriteLine(cypher3);
+            _outputHelper.WriteLine(cypher4);
+            _outputHelper.WriteLine(cypher5);
+
+            Assert.Equal("(n:Person { PropA: $nPropA })", cypher1);
+            Assert.Equal("(n:Person { PropA: $n_PropA })", cypher2);
+            Assert.Equal("(n:Person { PropA: $n1_PropA, PropB: $n2_PropB })", cypher3);
+            Assert.Equal("(n:Person { Id: $n1_Id, PropA: $n2_PropA, PropB: $n3_PropB })", cypher4);
+            Assert.Equal("(n:Person { Id: $n1_Id, PropA: $n2_PropA, PropB: $n3_PropB, PropC: $n4_PropC })", cypher5);
+        }
+
+        #endregion // LazyReuse_Overloads_Test
 
         #region CaptureProperties_Test
 

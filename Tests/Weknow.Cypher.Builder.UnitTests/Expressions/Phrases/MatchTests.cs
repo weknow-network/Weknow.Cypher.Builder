@@ -30,6 +30,59 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
+        #region Match_Return_Test
+
+        [Fact]
+        public void Match_Return_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+RETURN n", cypher.Query);
+        }
+
+        #endregion // Match_Return_Test
+
+        #region Match_Pre_Return_Test
+
+        [Fact]
+        public void Match_Pre_Return_Test()
+        {
+            CypherCommand cypher = _(n => n_ =>
+                                    Match(N(n, Person, P_(n_, Id)))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+@"MATCH (n:Person { Id: $n_Id })
+RETURN n", cypher.Query);
+        }
+
+        #endregion // Match_Pre_Return_Test
+
+        #region Match_Multi_Return_Test
+
+        [Fact]
+        public void Match_Multi_Return_Test()
+        {
+            CypherCommand cypher = _(n => m => n_ => m_ =>
+                                    Match(N(n, Person, P_(n_, Id)))
+                                    .Match(N(m, Person, P_(m_, Id)))
+                                    .Return(n, m));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+@"MATCH (n:Person { Id: $n_Id })
+MATCH (m:Person { Id: $m_Id })
+RETURN n, m", cypher.Query);
+        }
+
+        #endregion // Match_Multi_Return_Test
+
         #region Match_SetAsMap_Update_Test
 
         [Fact]
@@ -71,7 +124,7 @@ SET n = $n", cypher.Query);
         {
             CypherCommand cypher = _(n => n_ =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(n.P(PropA, Pre(n_, PropB))));
+                                    .Set(n.P(PropA, P_(n_, PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

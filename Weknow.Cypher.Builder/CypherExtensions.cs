@@ -19,10 +19,22 @@ namespace Weknow.Cypher.Builder
         /// <param name="pp"></param>
         /// <returns></returns>
         /// <example>
-        /// MATCH (n:Person)-[:KNOWS]->(m:Person)
+        /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
         /// </example>
         [Cypher("$0\r\nMATCH $1")]
         public static PD Match(this PD p, PD pp) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Matches phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns></returns>
+        /// <example>
+        /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
+        /// </example>
+        [Cypher("$0\r\nMATCH $1")]
+        public static PD Match(this PD p, IPattern pattern) => throw new NotImplementedException();
 
         #endregion // Match
 
@@ -336,11 +348,23 @@ namespace Weknow.Cypher.Builder
         /// SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
+        /// <param name="node"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        /// <example>
+        /// SET n = $map
+        /// </example>
+        [Cypher("$0\r\n&SET $1 = $2")]
+        public static PD Set(this PD p, IVar node, IMap map) => throw new NotImplementedException();
+
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
         /// <param name="map">The properties.</param>
         /// <returns></returns>
         /// <example>
-        /// SET n.property1 = $value1,
-        /// n.property2 = $value2
+        /// SET n = $n
         /// </example>
         [Cypher("$0\r\n&SET $1 = &$1")]
         public static PD Set(this PD p, IMap map) => throw new NotImplementedException();

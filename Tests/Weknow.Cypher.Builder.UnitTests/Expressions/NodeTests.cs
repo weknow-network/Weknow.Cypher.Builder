@@ -23,7 +23,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region Node_Variable_Test
+        #region (n) / Node_Variable_Test
 
         [Fact]
         public void Node_Variable_Test()
@@ -36,9 +36,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Test
+        #endregion // (n) / Node_Variable_Test
 
-        #region Node_Label_Test
+        #region (:Person) / Node_Label_Test
 
         [Fact]
         public void Node_Label_Test()
@@ -51,9 +51,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(:Person)", pattern.ToString());
         }
 
-        #endregion // Node_Label_Test
+        #endregion // (:Person) / Node_Label_Test
 
-        #region Node_Variable_Label_Test
+        #region (n:Person) / Node_Variable_Label_Test
 
         [Fact]
         public void Node_Variable_Label_Test()
@@ -66,9 +66,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Person)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_Test
+        #endregion // (n:Person) / Node_Variable_Label_Test
 
-        #region Node_Variable_Label_Property_Test
+        #region (n:Person { Id: $Id }) / Node_Variable_Label_Property_Test
 
         [Fact]
         public void Node_Variable_Label_Property_Test()
@@ -81,9 +81,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_Property_Test
+        #endregion // (n:Person { Id: $Id }) / Node_Variable_Label_Property_Test
 
-        #region Node_Variable_Label_Map_Test
+        #region (n:Person $n) / Node_Variable_Label_Map_Test
 
         [Fact]
         public void Node_Variable_Label_Map_Test()
@@ -96,9 +96,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_Map_Test
+        #endregion // (n:Person $n) / Node_Variable_Label_Map_Test
 
-        #region Node_Variable_Label_MapAsVar_Test
+        #region CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
 
         [Fact]
         public void Node_Variable_Label_MapAsVar_Test()
@@ -111,9 +111,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_MapAsVar_Test
+        #endregion // CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
 
-        #region Node_T_Variable_Test
+        #region (n:Foo) / Node_T_Variable_Test
 
         [Fact]
         public void Node_T_Variable_Test()
@@ -126,9 +126,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Foo)", pattern.ToString());
         }
 
-        #endregion // Node_T_Variable_Test
+        #endregion // (n:Foo) / Node_T_Variable_Test
 
-        #region Node_T_Variable_Label_Test
+        #region (n:Foo:Person) / Node_T_Variable_Label_Test
 
         [Fact]
         public void Node_T_Variable_Label_Test()
@@ -141,9 +141,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Foo:Person)", pattern.ToString());
         }
 
-        #endregion // Node_T_Variable_Label_Test
+        #endregion // (n:Foo:Person) / Node_T_Variable_Label_Test
 
-        #region Node_T_Variable_Label_Property_Test
+        #region (n:Foo:Person { Id: $Id }) / Node_T_Variable_Label_Property_Test
 
         [Fact]
         public void Node_T_Variable_Label_Property_Test()
@@ -156,9 +156,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Foo:Person { Id: $Id })", pattern.ToString());
         }
 
-        #endregion // Node_T_Variable_Label_Property_Test
+        #endregion // (n:Foo:Person { Id: $Id }) / Node_T_Variable_Label_Property_Test
 
-        #region Node_T_Variable_Label_Map_Test
+        #region (n:Foo:Person $n) / Node_T_Variable_Label_Map_Test
 
         [Fact]
         public void Node_T_Variable_Label_Map_Test()
@@ -171,9 +171,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"(n:Foo:Person $n)", pattern.ToString());
         }
 
-        #endregion // Node_T_Variable_Label_Map_Test
+        #endregion //(n:Foo:Person $n) /  Node_T_Variable_Label_Map_Test
 
-        #region Node_T_Variable_Label_MapAsVar_Test
+        #region CREATE (n:Person $map / Node_T_Variable_Label_MapAsVar_Test
 
         [Fact]
         public void Node_T_Variable_Label_MapAsVar_Test()
@@ -186,9 +186,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
-        #endregion // Node_T_Variable_Label_MapAsVar_Test
+        #endregion // CREATE (n:Person $map / Node_T_Variable_Label_MapAsVar_Test
 
-        #region NodeToNode_Test
+        #region MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
 
         [Fact]
         public void NodeToNode_Test()
@@ -200,9 +200,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
         }
 
-        #endregion // NodeToNode_Test
+        #endregion // MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
 
-        #region NodeToNode_Forward_Test
+        #region MATCH (n1:Person)-->(n2:Person) / NodeToNode_Forward_Test
 
         [Fact]
         public void NodeToNode_Forward_Test()
@@ -214,9 +214,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
         }
 
-        #endregion // NodeToNode_Forward_Test
+        #endregion // MATCH (n1:Person)-->(n2:Person) / NodeToNode_Forward_Test
 
-        #region NodeToNode_Backward_Test
+        #region MATCH (n1:Person)<--(n2:Person) / NodeToNode_Backward_Test
 
         [Fact]
         public void NodeToNode_Backward_Test()
@@ -228,9 +228,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
         }
 
-        #endregion // NodeToNodNodeToNode_Backward_Teste_Forward_Test
+        #endregion // MATCH (n1:Person)<--(n2:Person) / NodeToNodNodeToNode_Backward_Teste_Forward_Test
 
-        #region Nested_NodeToNode_WithProp_Test
+        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test
 
         [Fact]
         public void Nested_NodeToNode_WithProp_Test()
@@ -243,9 +243,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
-        #endregion // Nested_NodeToNode_WithProp_Test
+        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test
 
-        #region Nested_NodeToNode_ReusedProp_Test
+        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB } / Nested_NodeToNode_ReusedProp_Test
 
         [Fact]
         public void Nested_NodeToNode_ReusedProp_Test()
@@ -258,7 +258,7 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
-        #endregion // Nested_NodeToNode_ReusedProp_Test
+        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB } / Nested_NodeToNode_ReusedProp_Test
     }
 }
 

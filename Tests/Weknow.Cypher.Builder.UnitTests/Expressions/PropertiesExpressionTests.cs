@@ -89,10 +89,52 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Properties_OfT_Test
 
+        #region Properties_WithPrefix_Light_Test
+
+        [Fact]
+        public void Properties_WithPrefix_Light_Test()
+        {
+            IPattern? pattern = Reuse(n => N(n, Person, P_(n, PropA)));
+
+            string? cypher = pattern?.ToString();
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("(n:Person { PropA: $nPropA })", cypher);
+        }
+
+        #endregion // Properties_WithPrefix_Light_Test
+
+        #region Properties_WithPrefixMulti_Light_Test
+
+        [Fact]
+        public void Properties_WithPrefixMulti_Light_Test()
+        {
+            IPattern? pattern = Reuse(n => n_ => N(n, Person, P_(n_, PropA)));
+
+            string? cypher = pattern?.ToString();
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("(n:Person { PropA: $n_PropA })", cypher);
+        }
+
+        #endregion // Properties_WithPrefixMulti_Light_Test
+
         #region Properties_WithPrefix_Test
 
         [Fact]
         public void Properties_WithPrefix_Test()
+        {
+            IPattern? pattern = Reuse(n => n_ => N(n, Person, Pre(n_, P(PropA))));
+
+            string? cypher = pattern?.ToString();
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("(n:Person { PropA: $n_PropA })", cypher);
+        }
+
+        #endregion // Properties_WithPrefix_Test
+
+        #region Properties_WithPrefix_Complex_Test
+
+        [Fact]
+        public void Properties_WithPrefix_Complex_Test()
         {
             CypherCommand cypher = _(n1 => n2 => n2_ =>
                                     Match(N(n1, Person, P(PropA, PropB)) -
@@ -105,7 +147,7 @@ namespace Weknow.Cypher.Builder
                          "(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
-        #endregion // Properties_WithPrefix_Test
+        #endregion // Properties_WithPrefix_Complex_Test
 
         #region Properties_Convention_WithDefaultLabel_Test
 

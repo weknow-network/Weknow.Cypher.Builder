@@ -16,10 +16,7 @@ namespace Weknow.Cypher.Builder
 {
     public class DEPRECATE
     {
-        // TODO: Constraint and Index: CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE
-
-        // TODO: FOREACH, DELETE, DETACH
-        // TODO: UNION, UNION ALL
+        // TODO: SUB QUERY, UNION, UNION ALL
         /*
          CALL {
   MATCH (p:Person)-[:FRIEND_OF]->(other:Person) RETURN p, other
@@ -27,6 +24,9 @@ namespace Weknow.Cypher.Builder
   MATCH (p:Child)-[:CHILD_OF]->(other:Parent) RETURN p, other
 }
          */
+        // TODO: Constraint and Index: CREATE CONSTRAINT ON (p:Payload) ASSERT p.Id IS UNIQUE
+
+        // TODO: FOREACH, DELETE, DETACH
 
         // TODO: Ambient Context Label
         // TODO: Label convention

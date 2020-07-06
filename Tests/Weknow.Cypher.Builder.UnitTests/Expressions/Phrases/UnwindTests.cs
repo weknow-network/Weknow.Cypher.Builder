@@ -63,18 +63,40 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => map => n =>
                                         Unwind(items, map,
-                                            Create(N(n, Person, map.AsMap))));
+                                            Create(N(n, Person))
+                                            .Set(n, map)));
 
             _outputHelper.WriteLine(cypher);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
 			Assert.Equal("UNWIND $items AS map\r\n" +
-                 "\tCREATE (n:Person)\r\n" +
-                 "\t\tSET n = map\r\n", cypher.Query);
+                 "CREATE (n:Person)\r\n" +
+                 "SET n = map", cypher.Query);
         }
 
         #endregion // Unwind_Create_Map_Test
+
+        #region Unwind_Create_AsMap_Test
+
+        [Fact]
+        public void Unwind_Create_AsMap_Test()
+        {
+            CypherCommand cypher = _(items => map => n =>
+                                        Unwind(items, map,
+                                            Create(N(n, Person))
+                                            .Set(n, map.AsMap)));
+
+            _outputHelper.WriteLine(cypher);
+
+            // Require remodel of the cypher generator,
+            // On the remodeling it would be nice to add built-in indentation
+			Assert.Equal("UNWIND $items AS map\r\n" +
+                 "CREATE (n:Person)\r\n" +
+                 "SET n = map", cypher.Query);
+        }
+
+        #endregion // Unwind_Create_AsMap_Test
 
         #region Unwind_Create_Set_Map_Test
 

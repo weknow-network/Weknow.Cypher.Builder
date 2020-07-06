@@ -177,6 +177,7 @@ namespace Weknow.Cypher.Builder
             string type = node.Type.Name;
 
             using var _ = _isProperties.Set(_isProperties.Value ||
+                                                node.Method.ReturnType == typeof(IProperty) ||
                                                 node.Method.ReturnType == typeof(IProperties) ||
                                                 node.Method.ReturnType == typeof(IPropertiesOfType));
 
