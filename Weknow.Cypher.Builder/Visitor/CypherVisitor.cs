@@ -53,8 +53,10 @@ namespace Weknow.Cypher.Builder
         #endregion // Parameters
 
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> isPluralize = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> isSingularize = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _isPluralize = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _isSingularize = new ContextValue<bool>(false);
+
+        private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -185,6 +187,12 @@ namespace Weknow.Cypher.Builder
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
+                using IDisposable scp = node.Method?.Name switch
+                {
+                    nameof(Cypher.P_) => _isCustomProp.Set(node.Arguments[1].ToString()),
+                    _ => DisposeableAction.Empty
+                };
+
                 ApplyFormat(node, format);
             }
             else if (mtdName == nameof(IReuse<PD, PD>.By))
@@ -396,7 +404,7 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                     Query.Append("$");
-                Query.Append(name);
+                Query.Append(_isCustomProp.Value ?? name);
                 Parameters[parameterName] = null;
             }
             return node;
@@ -505,9 +513,9 @@ namespace Weknow.Cypher.Builder
                 using var _ = _reusedParameterName.Set(node.Name);
                 Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);
             }
-            else if (isSingularize)
+            else if (_isSingularize)
                 Query.Append(_configuration.Naming.Pluralization.Singularize(node.Name));
-            else if (isPluralize)
+            else if (_isPluralize)
                 Query.Append(_configuration.Naming.Pluralization.Pluralize(node.Name));
             else
                 Query.Append(node.Name);
@@ -528,12 +536,12 @@ namespace Weknow.Cypher.Builder
 
             if (expression.IsPluralize)
             {
-                using var _ = isPluralize.Set(true);
+                using var _ = _isPluralize.Set(true);
                 Visit(expression.Expression);
             }
             else if (expression.IsSingularize)
             {
-                using var _ = isSingularize.Set(true);
+                using var _ = _isSingularize.Set(true);
                 Visit(expression.Expression);
             }
             else
@@ -564,23 +572,24 @@ namespace Weknow.Cypher.Builder
                     case '$':
                         {
                             var ch = format[++i];
+                            IDisposable scope = DisposeableAction.Empty;
+                            int index = -1;
                             if (ch == 'p')
                             {
-                                using var __ = isPluralize.Set(true);
-                                int index = int.Parse(format[++i].ToString());
-                                var expr = node.Arguments[index];
-                                Visit(expr);
+                                scope = _isPluralize.Set(true);
+                                index = int.Parse(format[++i].ToString());
                             }
                             else if (ch == 's')
                             {
-                                using var __ = isSingularize.Set(true);
-                                int index = int.Parse(format[++i].ToString());
-                                var expr = node.Arguments[index];
-                                Visit(expr);
+                                scope = _isSingularize.Set(true);
+                                index = int.Parse(format[++i].ToString());
                             }
                             else
                             {
-                                int index = int.Parse(ch.ToString());
+                                index = int.Parse(ch.ToString());
+                            }
+                            using (scope)
+                            {
                                 var expr = node.Arguments[index];
                                 Visit(expr);
                             }

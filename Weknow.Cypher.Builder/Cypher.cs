@@ -403,23 +403,41 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Represent properties with prefix.
         /// </summary>
-        /// <param name="var"></param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="prefix"></param>
+        /// <param name="properties"></param>
         /// <returns></returns>
         /// <example>
+        /// { Name: $pre_Name }
         /// </example>
         [Cypher("+00$1")]
-        public static IPropertiesOfType _P(IVar var, IProperties properties) => throw new NotImplementedException();
+        public static IPropertiesOfType _P(IVar prefix, IProperties properties) => throw new NotImplementedException();
         /// <summary>
-        /// Represent properties with prefix.
+        /// Represent property with prefix.
         /// </summary>
-        /// <param name="var"></param>
-        /// <param name="property">The properties.</param>
+        /// <param name="prefix"></param>
+        /// <param name="property"></param>
         /// <returns></returns>
         /// <example>
+        /// { Name: $pre_Name }
         /// </example>
         [Cypher("+00$1")]
-        public static IProperty _P(IVar var, IProperty property) => throw new NotImplementedException();
+        public static IProperty _P(IVar prefix, IProperty property) => throw new NotImplementedException();
+
+        #endregion // IProperties _P (Properties with prefix)
+
+        #region IProperties _P (Properties with prefix)
+
+        /// <summary>
+        /// Represent property with prefix.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="variableName">Name of the variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// { Id: $Key }
+        /// </example>
+        [Cypher("$0")]
+        public static IProperty P_(IProperty property, IVar variableName) => throw new NotImplementedException();
 
         #endregion // IProperties _P (Properties with prefix)
 

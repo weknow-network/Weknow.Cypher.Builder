@@ -314,20 +314,33 @@
             <summary>
             Represent properties with prefix.
             </summary>
-            <param name="var"></param>
-            <param name="properties">The properties.</param>
+            <param name="prefix"></param>
+            <param name="properties"></param>
             <returns></returns>
             <example>
+            { Name: $pre_Name }
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher._P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
             <summary>
-            Represent properties with prefix.
+            Represent property with prefix.
             </summary>
-            <param name="var"></param>
-            <param name="property">The properties.</param>
+            <param name="prefix"></param>
+            <param name="property"></param>
             <returns></returns>
             <example>
+            { Name: $pre_Name }
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P_(Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Represent property with prefix.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="variableName">Name of the variable.</param>
+            <returns></returns>
+            <example>
+            { Id: $Key }
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Convention(System.Func{System.String,System.Boolean})">
