@@ -267,6 +267,26 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
+        public static IPattern N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specified typed node with typed variable and label.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher(".1($0:!l0 { $1 })")]
+        public static IPattern N<T>(IVar<T> var, Func<T, IProperties> properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specified typed node with variable and properties.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher(".1($0:!l0 { $1 })")]
         public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with typed variable and label.
@@ -317,6 +337,28 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
         public static IPattern N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Specified typed node with variable, label and properties.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="properties">The properties.</param>
+        /// <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
+        /// <returns></returns>
+        [Cypher("($0:!0$1 { $2 })")]
+        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Specified typed node with variable, label and properties.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="properties">The properties.</param>
+        /// <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
+        /// <returns></returns>
+        [Cypher("($0:!0$1 { $2 })")]
+        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties, LabelFromGenerics genericAslabel) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
@@ -511,19 +553,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IProperties AllExcept (All properties except)
 
-        #region As
-
-        /// <summary>
-        /// Define variable as type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="var">The variable.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static T As<T>(this IVar var) => throw new NotImplementedException();
-
-        #endregion // As
-
         #region Profile
 
         /// <summary>
@@ -546,7 +575,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// </example>
         [Cypher("MATCH $0")]
-        public static Fluent Match(IPattern p) => throw new NotImplementedException();
+        public static Fluent Match(params IPattern[] p) => throw new NotImplementedException();
 
         #endregion // Match
 
@@ -720,5 +749,18 @@ namespace Weknow.Cypher.Builder
         public static IReuse<T, Func<U, R>> Reuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
         #endregion // Reuse
+
+        #region As
+
+        /// <summary>
+        /// Define variable as type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static T As<T>(this IVar var) => throw new NotImplementedException();
+
+        #endregion // As
     }
 }

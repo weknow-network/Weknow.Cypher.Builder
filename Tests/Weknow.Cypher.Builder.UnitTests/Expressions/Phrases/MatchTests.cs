@@ -47,6 +47,44 @@ RETURN n", cypher.Query);
 
         #endregion // Match_Return_Test
 
+        #region Match_2_Return_Test
+
+        [Fact]
+        public void Match_2_Return_Test()
+        {
+            CypherCommand cypher = _(n => a =>
+                                    Match(N(n, Person, P(Id)),
+                                          N<Bar>(a, Animal, x => P(x.Name)))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+                        "MATCH (n:Person { Id: $Id }), " +
+                        "(a:Bar:Animal { Name: $Name })\r\n" +
+                        "RETURN n", cypher.Query);
+        }
+
+        #endregion // Match_2_Return_Test
+
+        #region Match_2_Return_NoGenLabel_Test
+
+        [Fact]
+        public void Match_2_Return_NoGenLabel_Test()
+        {
+            CypherCommand cypher = _(n => a =>
+                                    Match(N(n, Person, P(Id)),
+                                          N<Bar>(a, Animal, x => P(x.Name), LabelFromGenerics.Ignore))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+                        "MATCH (n:Person { Id: $Id }), " +
+                        "(a:Animal { Name: $Name })\r\n" +
+                        "RETURN n", cypher.Query);
+        }
+
+        #endregion // Match_2_Return_NoGenLabel_Test
+
         #region Match_Pre_Return_Test
 
         [Fact]

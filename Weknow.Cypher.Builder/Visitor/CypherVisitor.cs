@@ -588,18 +588,21 @@ namespace Weknow.Cypher.Builder
                     case '!':
                         {
                             var ch = format[++i];
-                            if (ch == 'l')
+                            if (node.Arguments.All(UseGenericsAsLabel))
                             {
-                                int index = int.Parse(format[++i].ToString());
-                                Type[] tps = node.Method.GetGenericArguments();
-                                string name = tps[index].Name;
-                                Query.Append(_configuration.AmbientLabels.Combine(name));
+                                if (ch == 'l')
+                                {
+                                    int index = int.Parse(format[++i].ToString());
+                                    Type[] tps = node.Method.GetGenericArguments();
+                                    string name = tps[index].Name;
+                                    Query.Append(_configuration.AmbientLabels.Combine(name));
 
-                            }
-                            else
-                            {
-                                int index = int.Parse(ch.ToString());
-                                Query.Append(node.Method.GetGenericArguments()[index].Name);
+                                }
+                                else
+                                {
+                                    int index = int.Parse(ch.ToString());
+                                    Query.Append(node.Method.GetGenericArguments()[index].Name);
+                                }
                             }
                         }
                         break;
@@ -738,5 +741,23 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // HandleProperties
+
+        #region UseGenericsAsLabel
+
+        /// <summary>
+        /// Uses the generics as label.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        /// <returns></returns>
+        private bool UseGenericsAsLabel(Expression arg)
+        {
+            if (!(arg is ConstantExpression c))
+                return true;
+            var result = !(c.Type == typeof(LabelFromGenerics) &&
+                                        Equals(c.Value, LabelFromGenerics.Ignore));
+            return result;
+        }
+
+        #endregion // UseGenericsAsLabel
     }
 }

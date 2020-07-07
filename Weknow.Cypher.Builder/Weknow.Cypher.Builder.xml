@@ -186,6 +186,24 @@
             <param name="map">The properties.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
+            <summary>
+            Specified typed node with variable and properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar{``0},System.Func{``0,Weknow.Cypher.Builder.IProperties})">
+            <summary>
+            Specified typed node with typed variable and label.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified typed node with variable and properties.
@@ -239,6 +257,28 @@
             <param name="var">The variable.</param>
             <param name="label">The label.</param>
             <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
+            <summary>
+            Specified typed node with variable, label and properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
+            <summary>
+            Specified typed node with variable, label and properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
@@ -403,21 +443,13 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.As``1(Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Define variable as type
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <returns></returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Profile">
             <summary>
             Profile execution.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Match(Weknow.Cypher.Builder.IPattern)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Match(Weknow.Cypher.Builder.IPattern[])">
             <summary>
             Matches phrase.
             </summary>
@@ -537,6 +569,14 @@
             </summary>
             <param name="r"></param>
             <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.As``1(Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Define variable as type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
             <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherCommand">
@@ -959,6 +999,21 @@
             </summary>
             <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
             <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.LabelFromGenerics">
+            <summary>
+            Indicate whether to use the generics argument as label
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.LabelFromGenerics.Use">
+            <summary>
+            The use
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.LabelFromGenerics.Ignore">
+            <summary>
+            The ignore
+            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.ExpressionPattern">
             <summary>
@@ -1670,6 +1725,13 @@
             </summary>
             <param name="name">The name.</param>
             <exception cref="T:System.ArgumentNullException">name</exception>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.UseGenericsAsLabel(System.Linq.Expressions.Expression)">
+            <summary>
+            Uses the generics as label.
+            </summary>
+            <param name="args">The arguments.</param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
             <summary>
