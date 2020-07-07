@@ -22,7 +22,7 @@ namespace Weknow.Cypher.Builder
         /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
         /// </example>
         [Cypher("$0\r\nMATCH $1")]
-        public static PD Match(this PD p, PD pp) => throw new NotImplementedException();
+        public static Fluent Match(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
         /// <summary>
         /// Matches phrase.
@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
         /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
         /// </example>
         [Cypher("$0\r\nMATCH $1")]
-        public static PD Match(this PD p, IPattern pattern) => throw new NotImplementedException();
+        public static Fluent Match(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
         #endregion // Match
 
@@ -51,7 +51,7 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0\r\n" +
             "CREATE $1")]
-        public static PD Create(this PD p, PD pp) => throw new NotImplementedException();
+        public static Fluent Create(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
         #endregion // Create
 
@@ -67,7 +67,7 @@ namespace Weknow.Cypher.Builder
         /// MERGE (n:Person {name: $value})
         /// </example>
         [Cypher("$0\r\nMERGE $1")]
-        public static PD Merge(this PD p, PD pp) => throw new NotImplementedException();
+        public static Fluent Merge(this Fluent p, Fluent pp) => throw new NotImplementedException();
         /// <summary>
         /// MERGE phrase.
         /// </summary>
@@ -78,7 +78,7 @@ namespace Weknow.Cypher.Builder
         /// MERGE (n:Person {name: $value})
         /// </example>
         [Cypher("$0\r\nMERGE $1")]
-        public static PD Merge(this PD p, IPattern pattern) => throw new NotImplementedException();
+        public static Fluent Merge(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
         #endregion // Merge
 
@@ -95,7 +95,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static PD OnCreateSet(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -109,7 +109,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE SET $1 = &$2")]
-        public static PD OnCreateSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, IVar var, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -122,7 +122,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1 = &$1")]
-        public static PD OnCreateSet(this PD p, IMap map) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, IMap map) => throw new NotImplementedException();
 
         #endregion // OnCreateSet
 
@@ -139,7 +139,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static PD OnMatchSet(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
@@ -153,7 +153,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH SET $1 = $2")]
-        public static PD OnMatchSet(this PD p, IVar var, IMap map) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, IVar var, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
@@ -166,7 +166,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1 = &$1")]
-        public static PD OnMatchSet(this PD p, IMap map) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, IMap map) => throw new NotImplementedException();
 
 
         #endregion // OnMatchSet
@@ -183,7 +183,7 @@ namespace Weknow.Cypher.Builder
         /// OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// </example>
         [Cypher("$0\r\nOPTIONAL MATCH $1")]
-        public static PD OptionalMatch(this PD p, PD pp) => throw new NotImplementedException();
+        public static Fluent OptionalMatch(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
         #endregion // OptionalMatch
 
@@ -200,7 +200,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE user.name = $name
         /// </example>
         [Cypher("$0\r\nWHERE $1")]
-        public static PD Where(this PD p, bool condition) => throw new NotImplementedException();
+        public static Fluent Where(this Fluent p, bool condition) => throw new NotImplementedException();
 
         /// <summary>
         /// WHERE phrase.
@@ -214,7 +214,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE user.name = $name
         /// </example>
         [Cypher("$0\r\n&WHERE $1")]
-        public static PD Where(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent Where(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Where
 
@@ -230,7 +230,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN n
         /// </example>
         [Cypher("$0\r\nRETURN $1")]
-        public static PD Return(this PD p, params object[] vars) => throw new NotImplementedException();
+        public static Fluent Return(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         #endregion // Return
 
@@ -250,7 +250,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN user
         /// </example>
         [Cypher("$0\r\nWITH $1")]
-        public static PD With(this PD p, params object[] vars) => throw new NotImplementedException();
+        public static Fluent With(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         #endregion // With
 
@@ -269,7 +269,7 @@ namespace Weknow.Cypher.Builder
         /// ORDER BY friends
         /// </example>
         [Cypher("$0\r\nORDER BY $1")]
-        public static PD OrderBy(this PD p, params object[] vars) => throw new NotImplementedException();
+        public static Fluent OrderBy(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         #endregion // OrderBy
 
@@ -287,7 +287,7 @@ namespace Weknow.Cypher.Builder
         /// ORDER BY friends DESC
         /// </example>
         [Cypher("$0\r\nORDER BY $1 DESC")]
-        public static PD OrderByDesc(this PD p, params object[] vars) => throw new NotImplementedException();
+        public static Fluent OrderByDesc(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         #endregion // OrderByDesc
 
@@ -305,7 +305,7 @@ namespace Weknow.Cypher.Builder
         /// LIMIT 5
         /// </example>
         [Cypher("$0\r\nSKIP $1")]
-        public static PD Skip(this PD p, int count) => throw new NotImplementedException();
+        public static Fluent Skip(this Fluent p, int count) => throw new NotImplementedException();
 
         #endregion // Skip
 
@@ -323,7 +323,7 @@ namespace Weknow.Cypher.Builder
         /// LIMIT 5
         /// </example>
         [Cypher("$0\r\nLIMIT $1")]
-        public static PD Limit(this PD p, int count) => throw new NotImplementedException();
+        public static Fluent Limit(this Fluent p, int count) => throw new NotImplementedException();
 
         #endregion // Limit
 
@@ -340,7 +340,7 @@ namespace Weknow.Cypher.Builder
         /// SSET n:Person
         /// </example>
         [Cypher("$0\r\nSET $1$2")]
-        public static PD Set(this PD p, IVar node, ILabel label) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node, ILabel label) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -353,7 +353,7 @@ namespace Weknow.Cypher.Builder
         /// SET n = $map
         /// </example>
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static PD Set(this PD p, IVar node, IVar map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node, IVar map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -366,7 +366,7 @@ namespace Weknow.Cypher.Builder
         /// SET n = $map
         /// </example>
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static PD Set(this PD p, IVar node, IMap map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -378,7 +378,7 @@ namespace Weknow.Cypher.Builder
         /// SET n = $n
         /// </example>
         [Cypher("$0\r\n&SET $1 = &$1")]
-        public static PD Set(this PD p, IMap map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -391,7 +391,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\nSET $1")]
-        public static PD Set(this PD p, IVar node) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -404,7 +404,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static PD Set(this PD p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Set
     }

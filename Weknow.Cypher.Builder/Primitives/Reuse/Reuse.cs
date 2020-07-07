@@ -16,7 +16,7 @@ namespace Weknow.Cypher.Builder
     /// <seealso cref="Weknow.Cypher.Builder.IReuse{T, U}" />
     internal class Reuse<T, U> : IReuse<T, U>
     {
-        private Func<Func<T, U>, PD> _by;
+        private Func<Func<T, U>, Fluent> _by;
 
         #region Ctor
 
@@ -24,7 +24,7 @@ namespace Weknow.Cypher.Builder
         /// Initializes a new instance of the <see cref="Reuse{T, U}"/> class.
         /// </summary>
         /// <param name="by">The by.</param>
-        public Reuse(Func<Func<T, U>, PD> by)
+        public Reuse(Func<Func<T, U>, Fluent> by)
         {
             _by = by;
         }
@@ -38,7 +38,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="a">a.</param>
         /// <returns></returns>
-        PD IReuse<T, U>.By(Func<T, U> a) => _by(a);
+        Fluent IReuse<T, U>.By(Func<T, U> a) => _by(a);
 
         #endregion // By
     }

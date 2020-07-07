@@ -35,7 +35,7 @@
             <param name="expression">The expression.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PD},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -43,7 +43,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``1(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PD}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``1(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Fluent}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -52,7 +52,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``2(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PDT{``1,Weknow.Cypher.Builder.CypherDelegates.PD}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``2(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Project{``1,Weknow.Cypher.Builder.CypherDelegates.Fluent}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -62,7 +62,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``3(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PDT{``1,Weknow.Cypher.Builder.CypherDelegates.PDT{``2,Weknow.Cypher.Builder.CypherDelegates.PD}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``3(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Project{``1,Weknow.Cypher.Builder.CypherDelegates.Project{``2,Weknow.Cypher.Builder.CypherDelegates.Fluent}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -73,7 +73,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``4(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PDT{``1,Weknow.Cypher.Builder.CypherDelegates.PDT{``2,Weknow.Cypher.Builder.CypherDelegates.PDT{``3,Weknow.Cypher.Builder.CypherDelegates.PD}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``4(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Project{``1,Weknow.Cypher.Builder.CypherDelegates.Project{``2,Weknow.Cypher.Builder.CypherDelegates.Project{``3,Weknow.Cypher.Builder.CypherDelegates.Fluent}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -85,7 +85,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``5(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PDT{``1,Weknow.Cypher.Builder.CypherDelegates.PDT{``2,Weknow.Cypher.Builder.CypherDelegates.PDT{``3,Weknow.Cypher.Builder.CypherDelegates.PDT{``4,Weknow.Cypher.Builder.CypherDelegates.PD}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``5(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Project{``1,Weknow.Cypher.Builder.CypherDelegates.Project{``2,Weknow.Cypher.Builder.CypherDelegates.Project{``3,Weknow.Cypher.Builder.CypherDelegates.Project{``4,Weknow.Cypher.Builder.CypherDelegates.Fluent}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -98,7 +98,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._``6(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDT{``0,Weknow.Cypher.Builder.CypherDelegates.PDT{``1,Weknow.Cypher.Builder.CypherDelegates.PDT{``2,Weknow.Cypher.Builder.CypherDelegates.PDT{``3,Weknow.Cypher.Builder.CypherDelegates.PDT{``4,Weknow.Cypher.Builder.CypherDelegates.PDT{``5,Weknow.Cypher.Builder.CypherDelegates.PD}}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._``6(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Project{``0,Weknow.Cypher.Builder.CypherDelegates.Project{``1,Weknow.Cypher.Builder.CypherDelegates.Project{``2,Weknow.Cypher.Builder.CypherDelegates.Project{``3,Weknow.Cypher.Builder.CypherDelegates.Project{``4,Weknow.Cypher.Builder.CypherDelegates.Project{``5,Weknow.Cypher.Builder.CypherDelegates.Fluent}}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -112,7 +112,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.PDE},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher._(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.NoVariable},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -184,6 +184,15 @@
             <typeparam name="T"></typeparam>
             <param name="var">The variable.</param>
             <param name="map">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
+            <summary>
+            Specified typed node with variable and properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <param name="properties">The properties.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar{``0},Weknow.Cypher.Builder.IProperties)">
@@ -438,7 +447,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
             </summary>
@@ -452,7 +461,7 @@
             RETURN avg(n.age)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
             </summary>
@@ -465,7 +474,7 @@
             RETURN avg(n.age)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Exists(Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Exists(Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
             </summary>
@@ -580,25 +589,26 @@
             Common delegate of the Cypher builder
             </summary>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherDelegates.PD">
+        <member name="T:Weknow.Cypher.Builder.CypherDelegates.Fluent">
             <summary>
-            Pattern delegate
+            Fluent delegate is the underline used to glue the Cypher expression.
             </summary>
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherDelegates.PDT`2">
+        <member name="T:Weknow.Cypher.Builder.CypherDelegates.Project`2">
             <summary>
-            Pattern delegate for relation definition
+            <![CDATA[Pattern delegate of T.
+            Used for having IVar<T>]]>
             </summary>
             <typeparam name="T"></typeparam>
             <typeparam name="R"></typeparam>
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherDelegates.PDE">
+        <member name="T:Weknow.Cypher.Builder.CypherDelegates.NoVariable">
             <summary>
-            Pattern delegate expression
+            Enable starting point which don't use any variable
             </summary>
             <returns></returns>
         </member>
@@ -607,7 +617,7 @@
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Match(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Match(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             Matches phrase.
             </summary>
@@ -618,7 +628,7 @@
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Match(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPattern)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Match(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPattern)">
             <summary>
             Matches phrase.
             </summary>
@@ -629,7 +639,7 @@
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Create(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Create(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             Create phrase.
             </summary>
@@ -640,7 +650,7 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Merge(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Merge(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             MERGE phrase.
             </summary>
@@ -651,7 +661,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Merge(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPattern)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Merge(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPattern)">
             <summary>
             MERGE phrase.
             </summary>
@@ -662,7 +672,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -674,7 +684,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -687,7 +697,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -699,7 +709,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -711,7 +721,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -724,7 +734,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -736,7 +746,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OptionalMatch(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.CypherDelegates.PD)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OptionalMatch(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             Optional Matches phrase.
             </summary>
@@ -747,7 +757,7 @@
             OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.PD,System.Boolean)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Boolean)">
             <summary>
             WHERE phrase.
             </summary>
@@ -759,7 +769,7 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             WHERE phrase.
             </summary>
@@ -772,7 +782,7 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.PD,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             RETURN phrase.
             </summary>
@@ -783,7 +793,7 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.PD,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             WITH phrase.
             </summary>
@@ -798,7 +808,7 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OrderBy(Weknow.Cypher.Builder.CypherDelegates.PD,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OrderBy(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             ORDER BY phrase.
             </summary>
@@ -811,7 +821,7 @@
             ORDER BY friends
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OrderByDesc(Weknow.Cypher.Builder.CypherDelegates.PD,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.OrderByDesc(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             ORDER BY DESC phrase.
             </summary>
@@ -824,7 +834,7 @@
             ORDER BY friends DESC
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Skip(Weknow.Cypher.Builder.CypherDelegates.PD,System.Int32)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Skip(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Int32)">
             <summary>
             SKIP phrase.
             </summary>
@@ -837,7 +847,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Limit(Weknow.Cypher.Builder.CypherDelegates.PD,System.Int32)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Limit(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Int32)">
             <summary>
             LIMIT phrase.
             </summary>
@@ -850,7 +860,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
             <summary>
             SET label phrase.
             </summary>
@@ -862,7 +872,7 @@
             SSET n:Person
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
             <summary>
             SET phrase.
             </summary>
@@ -874,7 +884,7 @@
             SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
             <summary>
             SET phrase.
             </summary>
@@ -886,7 +896,7 @@
             SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IMap)">
             <summary>
             SET phrase.
             </summary>
@@ -897,7 +907,7 @@
             SET n = $n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar)">
             <summary>
             SET phrase.
             </summary>
@@ -909,7 +919,7 @@
             n.property2 = $value2
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.PD,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
             <summary>
             SET phrase.
             </summary>
@@ -1506,7 +1516,7 @@
             <typeparam name="U"></typeparam>
             <seealso cref="T:Weknow.Cypher.Builder.IReuse`2" />
         </member>
-        <member name="M:Weknow.Cypher.Builder.Reuse`2.#ctor(System.Func{System.Func{`0,`1},Weknow.Cypher.Builder.CypherDelegates.PD})">
+        <member name="M:Weknow.Cypher.Builder.Reuse`2.#ctor(System.Func{System.Func{`0,`1},Weknow.Cypher.Builder.CypherDelegates.Fluent})">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.Reuse`2"/> class.
             </summary>

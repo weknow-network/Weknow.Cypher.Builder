@@ -195,7 +195,7 @@ namespace Weknow.Cypher.Builder
 
                 ApplyFormat(node, format);
             }
-            else if (mtdName == nameof(IReuse<PD, PD>.By))
+            else if (mtdName == nameof(IReuse<Fluent, Fluent>.By))
             {
                 Visit(node.Object);
                 Visit(node.Arguments[0]);

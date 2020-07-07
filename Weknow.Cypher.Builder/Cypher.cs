@@ -42,7 +42,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _(
-                            Expression<PD> expression,
+                            Expression<Fluent> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -59,7 +59,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T>(
-                            Expression<PDT<T, PD>> expression,
+                            Expression<Project<T, Fluent>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -77,7 +77,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T1, T2>(
-                            Expression<PDT<T1, PDT<T2, PD>>> expression,
+                            Expression<Project<T1, Project<T2, Fluent>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -97,7 +97,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T1, T2, T3>(
-                            Expression<PDT<T1, PDT<T2, PDT<T3, PD>>>> expression,
+                            Expression<Project<T1, Project<T2, Project<T3, Fluent>>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -118,7 +118,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T1, T2, T3, T4>(
-                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PD>>>>> expression,
+                            Expression<Project<T1, Project<T2, Project<T3, Project<T4, Fluent>>>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -139,7 +139,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T1, T2, T3, T4, T5>(
-                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PDT<T5, PD>>>>>> expression,
+                            Expression<Project<T1, Project<T2, Project<T3, Project<T4, Project<T5, Fluent>>>>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -161,7 +161,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _<T1, T2, T3, T4, T5, T6>(
-                            Expression<PDT<T1, PDT<T2, PDT<T3, PDT<T4, PDT<T5, PDT<T6, PD>>>>>>> expression,
+                            Expression<Project<T1, Project<T2, Project<T3, Project<T4, Project<T5, Project<T6, Fluent>>>>>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -177,7 +177,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         public static CypherCommand _(
-                            Expression<PDE> expression,
+                            Expression<NoVariable> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -531,7 +531,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <returns></returns>
         [Cypher("PROFILE")]
-        public static PD Profile() => throw new NotImplementedException();
+        public static Fluent Profile() => throw new NotImplementedException();
 
         #endregion // Profile
 
@@ -546,7 +546,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// </example>
         [Cypher("MATCH $0")]
-        public static PD Match(IPattern p) => throw new NotImplementedException();
+        public static Fluent Match(IPattern p) => throw new NotImplementedException();
 
         #endregion // Match
 
@@ -561,7 +561,7 @@ namespace Weknow.Cypher.Builder
         /// CREATE (n {name: $value})
         /// </example>
         [Cypher("CREATE $0")]
-        public static PD Create(IPattern p) => throw new NotImplementedException();
+        public static Fluent Create(IPattern p) => throw new NotImplementedException();
 
         #endregion // Create
 
@@ -576,7 +576,7 @@ namespace Weknow.Cypher.Builder
         /// MERGE (n:Person {name: $value})
         /// </example>
         [Cypher("MERGE $0")]
-        public static PD Merge(IPattern p) => throw new NotImplementedException();
+        public static Fluent Merge(IPattern p) => throw new NotImplementedException();
 
         #endregion // Merge
 
@@ -595,7 +595,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN avg(n.age)
         /// </example>
         [Cypher("&UNWIND \\$$0 AS $1\r\n+21$2")]
-        public static PD Unwind(IVar items, IVar item, PD p) => throw new NotImplementedException();
+        public static Fluent Unwind(IVar items, IVar item, Fluent p) => throw new NotImplementedException();
         /// <summary>
         /// UNWIND phrase.
         /// </summary>
@@ -608,7 +608,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN avg(n.age)
         /// </example>
         [Cypher("&UNWIND \\$$0 AS $s0\r\n+s20$1")]
-        public static PD Unwind(IVar items, PD p) => throw new NotImplementedException();
+        public static Fluent Unwind(IVar items, Fluent p) => throw new NotImplementedException();
 
         #endregion // Unwind
 
@@ -623,7 +623,7 @@ namespace Weknow.Cypher.Builder
         /// exists(n.property)
         /// </example>
         [Cypher("EXISTS { $0 }")]
-        public static bool Exists(PD p) => throw new NotImplementedException();
+        public static bool Exists(Fluent p) => throw new NotImplementedException();
 
         #endregion // Exists
 
@@ -709,7 +709,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static IReuse<T, PD> Reuse<T>(this T v) => new Reuse<T, PD>(f => f(v));
+        public static IReuse<T, Fluent> Reuse<T>(this T v) => new Reuse<T, Fluent>(f => f(v));
 
         /// <summary>
         /// Use for encapsulation of reusable expression.

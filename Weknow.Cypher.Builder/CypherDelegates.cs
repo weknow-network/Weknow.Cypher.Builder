@@ -10,23 +10,24 @@ namespace Weknow.Cypher.Builder
     public static class CypherDelegates
     {
         /// <summary>
-        /// Pattern delegate
+        /// Fluent delegate is the underline used to glue the Cypher expression.
         /// </summary>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
-        public delegate PD PD(IVar var);
+        public delegate Fluent Fluent(IVar var);
         /// <summary>
-        /// Pattern delegate for relation definition
+        /// <![CDATA[Pattern delegate of T.
+        /// Used for having IVar<T>]]>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="R"></typeparam>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
-        public delegate R PDT<T, R>(IVar<T> var);
+        public delegate R Project<T, R>(IVar<T> var);
         /// <summary>
-        /// Pattern delegate expression
+        /// Enable starting point which don't use any variable
         /// </summary>
         /// <returns></returns>
-        public delegate PD PDE();
+        public delegate Fluent NoVariable();
     }
 }

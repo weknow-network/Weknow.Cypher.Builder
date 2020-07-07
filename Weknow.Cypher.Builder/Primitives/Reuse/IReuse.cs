@@ -20,6 +20,6 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="a">a.</param>
         /// <returns></returns>
-        PD By(Func<T, U> a);
+        Fluent By(Func<T, U> a);
     }
 }
