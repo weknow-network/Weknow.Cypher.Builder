@@ -382,30 +382,12 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool isDirectProp = !_isProperties.Value && 
+            bool isDirectProp = !_isProperties.Value &&
                                 pi?.PropertyType == typeof(IProperty) &&
                                 CanBeDirectProp();
             if (_isProperties.Value || isDirectProp)
             {
-                string parameterName = name;
-                bool equalPattern = IsEqualPattern();
-                Query.Append(equalPattern ? " = " : ": ");
-                if (_expression[0].Value != null)
-                {
-                    Query.Append("$");
-                    var length = Query.Length;
-                    Visit(_expression[0].Value);
-                    parameterName = Query.ToString().Substring(length) + name;
-                }
-                else if (_expression[2].Value != null)
-                {
-                    Visit(_expression[2].Value);
-                    Query.Append(".");
-                }
-                else
-                    Query.Append("$");
-                Query.Append(_isCustomProp.Value ?? name);
-                Parameters[parameterName] = null;
+                HandleProperties(name);
             }
             return node;
         }
@@ -429,7 +411,7 @@ namespace Weknow.Cypher.Builder
                 {
                     bool equalPattern = IsEqualPattern();
                     if (!_isProperties.Value || equalPattern)
-                    { 
+                    {
                         Visit(_expression[3].Value);
                         Query.Append(".");
                     }
@@ -489,9 +471,17 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            var parameterName = $"p_{Parameters.Count}";
-            Query.Append($"${parameterName}");
-            Parameters[parameterName] = node.Value;
+            if (_isProperties.Value)
+            {
+                Query.Append(node.Value);
+                HandleProperties(node.Value);
+            }
+            else
+            {
+                var parameterName = $"p_{Parameters.Count}";
+                Query.Append($"${parameterName}");
+                Parameters[parameterName] = node.Value;
+            }
             return node;
         }
 
@@ -617,7 +607,7 @@ namespace Weknow.Cypher.Builder
                         {
                             var ch = format[++i];
                             string fmt1;
-                            if(ch == 'p' || ch == 's')
+                            if (ch == 'p' || ch == 's')
                                 fmt1 = format[++i].ToString();
                             else
                                 fmt1 = ch.ToString();
@@ -716,5 +706,37 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // CanBeDirectProp
+
+        #region HandleProperties
+
+        /// <summary>
+        /// Handles the properties.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <exception cref="ArgumentNullException">name</exception>
+        private void HandleProperties(object? name)
+        {
+            string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
+            bool equalPattern = IsEqualPattern();
+            Query.Append(equalPattern ? " = " : ": ");
+            if (_expression[0].Value != null)
+            {
+                Query.Append("$");
+                var length = Query.Length;
+                Visit(_expression[0].Value);
+                parameterName = Query.ToString().Substring(length) + parameterName;
+            }
+            else if (_expression[2].Value != null)
+            {
+                Visit(_expression[2].Value);
+                Query.Append(".");
+            }
+            else
+                Query.Append("$");
+            Query.Append(_isCustomProp.Value ?? name);
+            Parameters[parameterName] = null;
+        }
+
+        #endregion // HandleProperties
     }
 }

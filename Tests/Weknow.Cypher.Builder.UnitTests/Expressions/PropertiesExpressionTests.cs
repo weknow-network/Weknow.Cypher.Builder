@@ -52,19 +52,34 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
 
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Match_Test
+        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_P_nameof_Test
 
         [Fact]
-        public void Properties_Match_Test()
+        public void Properties_P_nameof_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P(PropA, PropB)));
-            var cypher = pattern.ToString();
+            IPattern pattern = Reuse(n => N(n, Person, P(PropA, nameof(PropB))));
 
+            var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
         }
 
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Match_Test
+        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_P_nameof_Test
+
+        #region MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA / Properties_Match_Set_nameof_Test_Test
+
+        [Fact]
+        public void Properties_Match_Set_nameof_Test_Test()
+        {
+            CypherCommand cypher = _(n => Match(N(n, Person, P(nameof(Id))))
+                                            .Set(n.P(PropA)));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { Id: $Id })\r\n" +
+                            "SET n.PropA = $PropA", cypher.Query);
+        }
+
+        #endregion // MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA / Properties_Match_Set_nameof_Test_Test
 
         #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_Test
 

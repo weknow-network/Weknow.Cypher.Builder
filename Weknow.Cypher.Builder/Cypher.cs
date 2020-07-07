@@ -381,6 +381,16 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
+        public static IPropertiesOfType P(this IVar var, params object[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Represent variable with properties collection.
+        /// <param name="var"></param>
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// </example>
+        [Cypher("+30$1")]
         public static IPropertiesOfType P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Set property with variable (useful for unwind's variable).

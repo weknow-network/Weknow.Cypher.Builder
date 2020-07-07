@@ -287,6 +287,16 @@
             {name: $name, value: $value}
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IVar,System.Object[])">
+            <summary>
+            Represent variable with properties collection.
+            <param name="var"></param>
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Represent variable with properties collection.
@@ -1652,6 +1662,13 @@
             <returns>
               <c>true</c> if this instance [can be direct property]; otherwise, <c>false</c>.
             </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.HandleProperties(System.Object)">
+            <summary>
+            Handles the properties.
+            </summary>
+            <param name="name">The name.</param>
+            <exception cref="T:System.ArgumentNullException">name</exception>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
             <summary>
