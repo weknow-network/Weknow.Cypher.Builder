@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using static Weknow.Cypher.Builder.CypherDelegates;
@@ -403,6 +404,16 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0")]
         public static IPropertiesOfType P(params object[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Represent  properties collection.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// {name: $name, value: $value}
+        /// </example>
+        [Cypher("$0")]
+        public static IPropertiesOfType P<T>(params Func<T, object>[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>

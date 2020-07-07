@@ -267,7 +267,6 @@
             <param name="var">The variable.</param>
             <param name="label">The label.</param>
             <param name="properties">The properties.</param>
-            <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
@@ -308,6 +307,16 @@
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(System.Object[])">
+            <summary>
+            Represent  properties collection.
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            {name: $name, value: $value}
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P``1(System.Func{``0,System.Object}[])">
             <summary>
             Represent  properties collection.
             </summary>
@@ -1730,7 +1739,7 @@
             <summary>
             Uses the generics as label.
             </summary>
-            <param name="args">The arguments.</param>
+            <param name="arg">The argument.</param>
             <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">

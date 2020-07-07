@@ -38,6 +38,48 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
 
+        #region (n:Person { Id: $Id }) / Properties_Lambda_Test
+
+        [Fact]
+        public void Properties_Lambda_Test()
+        {
+            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => x.Id.Length )));
+
+            var cypher = pattern.ToString();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("(n:Person { Length: $Length })", cypher);
+        }
+
+        #endregion // (n:Person { Id: $Id }) / Properties_Lambda_Test
+
+        #region (n:Person { Length: $Length }) / Properties_Lambda_Nest_Test
+
+        [Fact]
+        public void Properties_Lambda_Nest_Test()
+        {
+            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => x.Id.Length )));
+
+            var cypher = pattern.ToString();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("(n:Person { Length: $Length })", cypher);
+        }
+
+        #endregion // (n:Person { Length: $Length }) / Properties_Lambda_Nest_Test
+
+        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Lambda_Array_Test
+
+        [Fact]
+        public void Properties_Lambda_Array_Test()
+        {
+            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => new []{ x.PropA, x.PropB })));
+
+            var cypher = pattern.ToString();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
+        }
+
+        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Lambda_Array_Test
+
         #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
 
         [Fact]
