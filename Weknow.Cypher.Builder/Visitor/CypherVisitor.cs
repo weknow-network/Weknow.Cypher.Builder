@@ -747,7 +747,7 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Uses the generics as label.
         /// </summary>
-        /// <param name="args">The arguments.</param>
+        /// <param name="arg">The argument.</param>
         /// <returns></returns>
         private bool UseGenericsAsLabel(Expression arg)
         {

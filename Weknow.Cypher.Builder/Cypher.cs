@@ -344,7 +344,6 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <param name="label">The label.</param>
         /// <param name="properties">The properties.</param>
-        /// <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
         public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
