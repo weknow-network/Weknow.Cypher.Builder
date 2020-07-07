@@ -99,7 +99,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
         {
-            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n.P.PropA, n.P.PropB))));
+            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n._.PropA, n._.PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);

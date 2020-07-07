@@ -20,7 +20,7 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
-        T P { get; }
+        T _ { get; }
     }
 
     /// <summary>
