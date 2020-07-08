@@ -271,6 +271,20 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // (n:Person { Id: $key }) / Properties_CustomVariable_Test
+       
+        #region (n:Person { Id: $Name }) / Properties_CustomVariable_Lambda_Test
+
+        [Fact]
+        public void Properties_CustomVariable_Lambda_Test()
+        {
+            IPattern pattern = Reuse(n => N(n, Person, P_<Foo>(Id, x => x.Name)));
+
+            string? cypher = pattern?.ToString();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("(n:Person { Id: $Name })", cypher);
+        }
+
+        #endregion // (n:Person { Id: $key }) / Properties_CustomVariable_Test
 
         #region (n:Person { Id: $key, PropA: $PropA }) / Properties_CustomVariable_Nested_Test
 

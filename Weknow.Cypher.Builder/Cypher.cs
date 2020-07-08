@@ -511,6 +511,18 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0")]
         public static IProperty P_(IProperty property, IVar variableName) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Represent property with prefix.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="variableName">Name of the variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// { Id: $Key }
+        /// </example>
+        [Cypher("$0")]
+        public static IProperty P_<T>(IProperty property, Func<T, object> variableName) => throw new NotImplementedException();
+
         #endregion // IProperties _P (Properties with prefix)
 
         #region IProperties Convention (Properties by convention)

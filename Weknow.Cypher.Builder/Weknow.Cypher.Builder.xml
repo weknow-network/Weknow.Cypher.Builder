@@ -412,6 +412,17 @@
             { Id: $Key }
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P_``1(Weknow.Cypher.Builder.IProperty,System.Func{``0,System.Object})">
+            <summary>
+            Represent property with prefix.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="variableName">Name of the variable.</param>
+            <returns></returns>
+            <example>
+            { Id: $Key }
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Convention(System.Func{System.String,System.Boolean})">
             <summary>
             Gets properties by convention.

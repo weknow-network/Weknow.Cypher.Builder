@@ -188,9 +188,17 @@ namespace Weknow.Cypher.Builder
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
+                ParameterExpression? prm = node.Arguments
+                                                .Skip(1)
+                                                .FirstOrDefault() as ParameterExpression;
+                LambdaExpression? lmba = node.Arguments
+                                                .Skip(1)
+                                                .FirstOrDefault() as LambdaExpression;
+                MemberExpression? prp = lmba?.Body as MemberExpression;
                 using IDisposable scp = node.Method?.Name switch
                 {
-                    nameof(Cypher.P_) => _isCustomProp.Set(node.Arguments[1].ToString()),
+                    nameof(Cypher.P_) when prm != null => _isCustomProp.Set(prm.Name),
+                    nameof(Cypher.P_) when prp != null => _isCustomProp.Set(prp.Member.Name),
                     _ => DisposeableAction.Empty
                 };
 
