@@ -71,7 +71,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Lambda_Array_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => new []{ x.PropA, x.PropB })));
+            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => new { x.PropA, x.PropB })));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);

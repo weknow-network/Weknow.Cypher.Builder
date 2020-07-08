@@ -356,6 +356,16 @@
             <example>
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P``1(Weknow.Cypher.Builder.IVar,System.Func{``0,System.Object})">
+            <summary>
+            Represent variable with properties collection.
+            <param name="var"></param>
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
             <summary>
             Set property with variable (useful for unwind's variable).
@@ -1741,6 +1751,19 @@
             </summary>
             <param name="arg">The argument.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.SetGenPropertiesContext(System.Linq.Expressions.MethodCallExpression,System.Linq.Expressions.Expression)">
+            <summary>
+            Sets the gen properties context.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="expr">The expr.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.AddGenPrefix">
+            <summary>
+            Adds the gen prefix.
+            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
             <summary>

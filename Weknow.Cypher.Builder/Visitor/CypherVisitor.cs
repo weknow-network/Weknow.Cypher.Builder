@@ -57,6 +57,7 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<bool> _isSingularize = new ContextValue<bool>(false);
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
+        private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -351,6 +352,10 @@ namespace Weknow.Cypher.Builder
 
             var pi = node.Member as PropertyInfo;
 
+            bool isEqualsPttern = IsEqualPattern();
+
+            AddGenPrefix();
+
             if (name == nameof(IVar.AsMap))
             {
                 if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
@@ -363,7 +368,9 @@ namespace Weknow.Cypher.Builder
                 Visit(p.expression);
                 return node;
             }
-            else if (node.Expression != null && node.Type != typeof(IMap) && (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
+            else if (node.Expression != null &&
+                     node.Type != typeof(IMap) &&
+                     (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
                 Query.Append(".");
@@ -580,8 +587,12 @@ namespace Weknow.Cypher.Builder
                             }
                             using (scope)
                             {
-                                var expr = node.Arguments[index];
-                                Visit(expr);
+                                Expression expr = node.Arguments[index];
+                                IDisposable d = SetGenPropertiesContext(node, expr);
+                                using (d)
+                                {
+                                    Visit(expr);
+                                }
                             }
                         }
                         break;
@@ -649,19 +660,28 @@ namespace Weknow.Cypher.Builder
                             disp.Dispose();
                         break;
                     case '\\':
-                        Query.Append(format[++i]);
-                        break;
+                        {
+                            char f = format[++i];
+                            Query.Append(f);
+                            break;
+                        }
                     case '=':
-                        char last2 = Query[^2];
-                        char last1 = Query[^1];
-                        if (last2 == '+' && last1 == ' ')
-                            Query.Remove(Query.Length - 1, 1);
+                        {
+                            char last2 = Query[^2];
+                            char last1 = Query[^1];
+                            if (last2 == '+' && last1 == ' ')
+                                Query.Remove(Query.Length - 1, 1);
 
-                        Query.Append(format[i]);
-                        break;
+                            char f = format[i];
+                            Query.Append(f);
+                            break;
+                        }
                     default:
-                        Query.Append(format[i]);
-                        break;
+                        {
+                            char f = format[i];
+                            Query.Append(f);
+                            break;
+                        }
                 }
             }
             disp?.Dispose();
@@ -759,5 +779,89 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // UseGenericsAsLabel
+
+        #region SetGenPropertiesContext
+
+        /// <summary>
+        /// Sets the gen properties context.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="expr">The expr.</param>
+        /// <returns></returns>
+        private IDisposable SetGenPropertiesContext(MethodCallExpression node, Expression expr)
+        {
+            IDisposable result = DisposeableAction.Empty;
+            if(!IsEqualPattern())
+                return result;
+
+            var args = node.Arguments;
+            Expression? arg0 = args.FirstOrDefault();
+            if (arg0?.Type != typeof(Fluent))
+                return result;
+
+            MethodCallExpression? propExpr = args.OfType<MethodCallExpression>()
+                                   .LastOrDefault(
+                                        m => m.Type == typeof(IProperties) ||
+                                        m.Type == typeof(IPropertiesOfType));
+            if (propExpr == null)
+                return result;
+
+            var propArgs = propExpr.Arguments;
+            var varExpr = propArgs.FirstOrDefault() as ParameterExpression;
+            var lambdaEpr = propArgs.Skip(1).LastOrDefault();
+
+            if (varExpr == null || lambdaEpr == null)
+                return result;
+
+            var lambdaType = lambdaEpr.GetType();
+            if (!lambdaType.IsGenericType)
+                return result;
+
+            var lambdaArgs = lambdaType.GenericTypeArguments;
+            if (lambdaArgs.Length != 1)
+                return result;
+
+            var lambda = lambdaArgs[0];
+            var genArgs = lambda.GenericTypeArguments;
+            if (genArgs.Length == 2 &&
+                genArgs[1] == typeof(object))
+            {
+                result = _varExtension.Set(varExpr?.Name);
+            }
+
+            return result;
+        }
+
+        #endregion // SetGenPropertiesContext
+
+        #region AddGenPrefix
+
+        /// <summary>
+        /// Adds the gen prefix.
+        /// </summary>
+        private void AddGenPrefix()
+        {
+            var prefix = _varExtension.Value;
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                bool shouldAppend = false;
+                string append = $"{prefix}.";
+                int qlen = Query.Length;
+                int start = qlen - append.Length;
+                if (start > 0)
+                {
+                    int j = 0;
+                    for (int i = start; i < Query.Length && !shouldAppend; i++)
+                    {
+                        if (Query[i] != append[j++])
+                            shouldAppend = true;
+                    }
+                }
+                if (shouldAppend)
+                    Query.Append(append);
+            }
+        }
+
+        #endregion // AddGenPrefix
     }
 }
