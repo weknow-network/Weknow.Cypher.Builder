@@ -1614,6 +1614,55 @@
             <param name="a">a.</param>
             <returns></returns>
         </member>
+        <member name="T:Weknow.Cypher.Builder.CypherQueryBuilder">
+            <summary>
+            Responsible for abstracting the logic of the actual 
+            Cypher text building.
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Char"/> at the specified index.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Append``1(``0)">
+            <summary>
+            Appends text.
+            </summary>
+            <param name="text">The text.</param>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Remove(System.Int32,System.Int32)">
+            <summary>
+            Removes the specified start index.
+            </summary>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Length">
+            <summary>
+            Gets the length.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.CypherVisitor">
             <summary>
             The cypher visitor is the heart of the ORM implementation
@@ -1625,6 +1674,11 @@
             Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.CypherVisitor"/> class.
             </summary>
             <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
         </member>
         <member name="P:Weknow.Cypher.Builder.CypherVisitor.Query">
             <summary>

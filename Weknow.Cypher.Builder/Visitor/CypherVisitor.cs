@@ -15,7 +15,7 @@ namespace Weknow.Cypher.Builder
     /// The cypher visitor is the heart of the ORM implementation
     /// </summary>
     /// <seealso cref="System.Linq.Expressions.ExpressionVisitor" />
-    internal class CypherVisitor : ExpressionVisitor
+    internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private readonly CypherConfig _configuration;
 
@@ -32,13 +32,25 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
+        #region Dispose
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Query.Dispose();
+        }
+
+        #endregion // Dispose
+
         #region Query
 
         /// <summary>
         /// Mutable state of the cypher query.
         /// Query build during the visitor traverse.
         /// </summary>
-        public StringBuilder Query { get; } = new StringBuilder();
+        public CypherQueryBuilder Query { get; } = new CypherQueryBuilder();
 
         #endregion // Query
 
@@ -123,8 +135,11 @@ namespace Weknow.Cypher.Builder
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
-                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                    if (node.Left.Type != typeof(IRelation) &&
+                        node.Right.Type != typeof(IRelation))
+                    {
                         Query.Append("-");
+                    }
                     break;
                 case ExpressionType.Equal:
                     Query.Append(" = ");

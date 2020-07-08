@@ -124,6 +124,24 @@ RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c", cypher.Query);
         }
 
         #endregion // Relation_WithProp_2_Test
+
+        #region Relation_WithReuse_Test
+
+        [Fact]
+        public void Relation_WithReuse_Test()
+        {
+            IPattern maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, _P(maintainer_, Id)));
+
+            CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
+
+            _outputHelper.WriteLine(cypher);
+
+            // Require remodel of the cypher generator,
+            // On the remodeling it would be nice to add built-in indentation
+            Assert.Equal("MERGE (n:Person { Id: $Id })-[:By]->(maintainer_:Maintainer { Id: $maintainer_Id })", cypher.Query);
+        }
+
+        #endregion // Relation_WithReuse_Test
     }
 }
 

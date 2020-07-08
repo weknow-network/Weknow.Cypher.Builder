@@ -240,6 +240,50 @@ SET n = item", cypher.Query);
         }
 
         #endregion // Unwind_Create_Param_Test
+
+        #region Unwind_Param_WithoutMap_Test
+
+        [Fact]
+        public void Unwind_Param_WithoutMap_Test()
+        {
+            IPattern maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(_P(maintainer_, Id), Date)));
+
+            CypherCommand cypher = _(items => map => n =>
+                                    Unwind(items, map,
+                                    Merge(N(n, Person, n.P(Id)) - maintainer)),
+                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+
+            _outputHelper.WriteLine(cypher);
+
+            // Require remodel of the cypher generator,
+            // On the remodeling it would be nice to add built-in indentation
+			Assert.Equal("UNWIND $items AS map\r\n" +
+                "MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date })", cypher.Query);
+        }
+
+        #endregion // Unwind_Param_WithoutMap_Test
+
+        #region Unwind_Param_WithoutMap_Direct_Test
+
+        [Fact]
+        public void Unwind_Param_WithoutMap_Direct_Test()
+        {
+            IPattern maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, _P(maintainer_, Id), Date));
+
+            CypherCommand cypher = _(items => map => n =>
+                                    Unwind(items, map,
+                                    Merge(N(n, Person, n.P(Id)) - maintainer)),
+                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+
+            _outputHelper.WriteLine(cypher);
+
+            // Require remodel of the cypher generator,
+            // On the remodeling it would be nice to add built-in indentation
+			Assert.Equal("UNWIND $items AS map\r\n" +
+                "MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date })", cypher.Query);
+        }
+
+        #endregion // Unwind_Param_WithoutMap_Direct_Test
     }
 }
 

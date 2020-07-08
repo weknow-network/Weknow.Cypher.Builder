@@ -25,11 +25,15 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         internal static CypherCommand Init(CypherConfig cfg, Expression expression)
         {
-            var visitor = new CypherVisitor(cfg);
+            using var visitor = new CypherVisitor(cfg);
+
             visitor.Visit(expression);
+            string cypher = visitor.Query.ToString();
+            CypherParameters parameters = visitor.Parameters;
+
             return new CypherCommand(
-                            visitor.Query.ToString(), // TODO: format according to the configuration
-                            visitor.Parameters);
+                            cypher, // TODO: format according to the configuration
+                            parameters);
         }
 
         #endregion // Init
