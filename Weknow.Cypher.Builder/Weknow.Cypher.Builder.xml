@@ -306,6 +306,17 @@
             {name: $name, value: $value}
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.PropertyOptions,Weknow.Cypher.Builder.IProperty[])">
+            <summary>
+            Represent  properties collection.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            {name: $name, value: $value}
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(System.Object[])">
             <summary>
             Represent  properties collection.
@@ -1043,6 +1054,23 @@
         <member name="F:Weknow.Cypher.Builder.LabelFromGenerics.Ignore">
             <summary>
             The ignore
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.PropertyOptions">
+            <summary>
+            Property Options
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.PropertyOptions.None">
+            <summary>
+            The none
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.PropertyOptions.Detached">
+            <summary>
+            Detached from default formatting like UNWIND $items AS item
+            Which will set the property by default to
+            { Name: item.Name }
             </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.ExpressionPattern">

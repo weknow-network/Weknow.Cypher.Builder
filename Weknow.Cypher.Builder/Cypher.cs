@@ -398,6 +398,18 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0")]
         public static IProperties P(params IProperty[] properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Represent  properties collection.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// {name: $name, value: $value}
+        /// </example>
+        [Cypher("$1")]
+        public static IProperties P(PropertyOptions options, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>

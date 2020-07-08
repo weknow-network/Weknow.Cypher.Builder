@@ -70,6 +70,7 @@ namespace Weknow.Cypher.Builder
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
+        private readonly ContextValue<PropertyOptions> _propOptions = new ContextValue<PropertyOptions>(PropertyOptions.None);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -217,7 +218,20 @@ namespace Weknow.Cypher.Builder
                     _ => DisposeableAction.Empty
                 };
 
-                ApplyFormat(node, format);
+                // Looking for property options
+                var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
+                var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
+                IDisposable poptScp = DisposeableAction.Empty;
+                if (opt?.Type == typeof(PropertyOptions)) 
+                {
+                    string tmp = opt?.Value?.ToString() ?? string.Empty;
+                    if (Enum.TryParse<PropertyOptions>(tmp, out var options))
+                        poptScp = _propOptions.Set(options);
+                }
+                using (poptScp)
+                {
+                    ApplyFormat(node, format);
+                }
             }
             else if (mtdName == nameof(IReuse<Fluent, Fluent>.By))
             {
@@ -412,8 +426,7 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool isDirectProp = !_isProperties.Value &&
-                                pi?.PropertyType == typeof(IProperty) &&
+            bool isDirectProp = pi?.PropertyType == typeof(IProperty) &&
                                 CanBeDirectProp();
             if (_isProperties.Value || isDirectProp)
             {
@@ -746,7 +759,10 @@ namespace Weknow.Cypher.Builder
         {
             return _methodExpr.Value?.Method.Name switch
             {
-                nameof(Cypher.Unwind) => false,
+                nameof(Cypher.Unwind) 
+                        when (_propOptions.Value & PropertyOptions.Detached) 
+                                    == PropertyOptions.None 
+                        => false,
                 _ => true,
             };
         }
@@ -772,8 +788,10 @@ namespace Weknow.Cypher.Builder
                 Visit(_expression[0].Value);
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
-            else if (_expression[2].Value != null)
+            else if (_expression[2].Value != null && 
+                    (_propOptions.Value & PropertyOptions.Detached) == PropertyOptions.None )
             {
+                // Adding Unwind variable as prefix
                 Visit(_expression[2].Value);
                 Query.Append(".");
             }
