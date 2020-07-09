@@ -879,9 +879,9 @@
             RETURN phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="var">The variable.</param>
             <param name="properties">The properties.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             RETURN n
             </example>
@@ -1023,6 +1023,15 @@
             SET n.property1 = $value1,
             n.property2 = $value2
             </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
+            <summary>
+            Compares the specified with.
+            </summary>
+            <param name="compare">The compare.</param>
+            <param name="with">The with.</param>
+            <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherParameters">
             <summary>
@@ -1666,6 +1675,30 @@
             Initializes a new instance.
             </summary>
         </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Char"/> at the specified index.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets the <see cref="!:ReadOnlySpan&lt;System.Char&gt;" /> with the specified start index.
+            </summary>
+            <value>
+            The <see cref="!:ReadOnlySpan&lt;System.Char&gt;" />.
+            </value>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Range)">
+            <summary>
+            Gets the <see cref="T:System.String"/> with the specified range.
+            </summary>
+            <param name="range">The range.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Append``1(``0)">
             <summary>
             Appends text.
@@ -1697,10 +1730,37 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32)">
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.ToString(System.Range)">
             <summary>
-            Gets the <see cref="T:System.Char"/> at the specified index.
+            Converts to string.
             </summary>
+            <param name="range">The range.</param>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.GetRange(System.Int32,System.Int32)">
+            <summary>
+            Gets the range.
+            </summary>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
             <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherVisitor">

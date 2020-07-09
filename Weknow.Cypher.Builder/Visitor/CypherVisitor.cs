@@ -460,10 +460,15 @@ namespace Weknow.Cypher.Builder
                         // use for tracing duplication
                         int idx = Query.Length;
                         Visit(_expression[3].Value);
-                        //if ()
-                        //{ 
-                        //}
                         Query.Append(".");
+                        var range = Range.StartAt(idx);
+                        var addition = Query[range];
+                        int len = addition.Length;
+                        var prev = Query[idx - len, len];
+                        if (addition.Compare(prev))
+                        {
+                            Query.Remove(idx, len);
+                        }
                     }
                 }
                 Visit(expr);
@@ -521,7 +526,12 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            if (_isProperties.Value)
+            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
+            if (isReturn)
+            {
+                Query.Append(node.Value);
+            }
+            else if (_isProperties.Value)
             {
                 Query.Append(node.Value);
                 HandleProperties(node.Value);

@@ -72,21 +72,37 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n) RETURN n.Id, n.PropA / Return_Prop_Test
 
-        #region MATCH (n) RETURN n.Id, n.PropA / Return_Props_Lambda_Test
+        #region MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Props_Lambda_Test
 
         [Fact]
         public void Return_Props_Lambda_Test()
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n))
-                                    .Return(n.P(Id, P<Foo>(x => x.PropA))));
+                                    .Return(n.P(Id, P<Foo>(x => x.PropA, x => x.PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n)\r\n" +
-                            "RETURN n.Id, n.PropA", cypher.Query);
+                            "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
         }
 
-        #endregion // MATCH (n) RETURN n.Id, n.PropA / Return_Props_Lambda_Test
+        #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Props_Lambda_Test
+
+        #region MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Objects_Test
+
+        [Fact]
+        public void Return_Objects_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n))
+                                    .Return("n.Id", "n.PropA", "n.PropB"));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)\r\n" +
+                            "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Objects_Test
     }
 }
 

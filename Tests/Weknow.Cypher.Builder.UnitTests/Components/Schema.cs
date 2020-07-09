@@ -16,7 +16,7 @@ namespace Weknow.Cypher.Builder
         public static IProperty Date => throw new NotImplementedException();
         public static IProperty PropA => throw new NotImplementedException();
         public static IProperty PropB => throw new NotImplementedException();
-        public static IProperty PropC=> throw new NotImplementedException();
+        public static IProperty PropC => throw new NotImplementedException();
         // public static IETagProperty Concurrency => throw new NotImplementedException();
     }
 

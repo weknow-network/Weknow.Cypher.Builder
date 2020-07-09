@@ -229,16 +229,16 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// RETURN n
         /// </example>
-        [Cypher("$0\r\nRETURN $1")]
+        [Cypher("$0\r\n&RETURN $1")]
         public static Fluent Return(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// RETURN phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="var">The variable.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// RETURN n
         /// </example>
@@ -420,6 +420,39 @@ namespace Weknow.Cypher.Builder
         public static Fluent Set(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Set
-    }
 
+        #region Compare
+
+        /// <summary>
+        /// Compares the specified with.
+        /// </summary>
+        /// <param name="compare">The compare.</param>
+        /// <param name="with">The with.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <returns></returns>
+        public static bool Compare(
+            this ReadOnlySpan<char> compare,
+            ReadOnlySpan<char> with,
+            bool ignoreCase = false)
+        {
+            if (compare.Length != with.Length)
+                return false;
+            for (int i = 0; i < compare.Length; i++)
+            {
+                if (ignoreCase)
+                {
+                    if (Char.ToLower(compare[i]) != Char.ToLower(with[i]))
+                        return false;
+                }
+                else
+                {
+                    if (compare[i] != with[i])
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        #endregion // Compare
+    }
 }

@@ -12,7 +12,7 @@ namespace Weknow.Cypher.Builder
     /// Cypher text building.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
-    internal sealed class CypherQueryBuilder : IDisposable// , IEnumerable<char>
+    internal sealed class CypherQueryBuilder : IDisposable, IEnumerable<char>
     {
         private static readonly ObjectPoolProvider _objectPoolProvider = new DefaultObjectPoolProvider();
         private static readonly ObjectPool<StringBuilder> _stringBuilderPool = _objectPoolProvider.CreateStringBuilderPool();
@@ -43,11 +43,19 @@ namespace Weknow.Cypher.Builder
         #region string this[Range range]
 
         /// <summary>
+        /// <![CDATA[Gets the <see cref="ReadOnlySpan{System.Char}" /> with the specified start index.]]>
+        /// </summary>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
+        public ReadOnlySpan<char> this[int startIndex, int length] => GetRange(startIndex, length);
+
+        /// <summary>
         /// Gets the <see cref="System.String"/> with the specified range.
         /// </summary>
         /// <param name="range">The range.</param>
         /// <returns></returns>
-        public string this[Range range]
+        public ReadOnlySpan<char> this[Range range]
         {
             get
             {
@@ -57,8 +65,8 @@ namespace Weknow.Cypher.Builder
                 int to =  range.End.Value;
                 if (range.End.IsFromEnd)
                     to = _builder.Length - to;
-                var result = GetRange(from, to - from);
-                return new string(result);
+                ReadOnlySpan<char> result = GetRange(from, to - from);
+                return result;
             }
         }
 
@@ -124,35 +132,44 @@ namespace Weknow.Cypher.Builder
                         .Replace(")--[", ")-[")
                         .ToString();
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public string ToString(Range range) =>
+            new string(this[range]);
+
         #endregion // ToString
 
-        #region // IEnumerable<char>
+        #region IEnumerable<char>
 
-        ///// <summary>
-        ///// Returns an enumerator that iterates through the collection.
-        ///// </summary>
-        ///// <returns>
-        ///// An enumerator that can be used to iterate through the collection.
-        ///// </returns>
-        //public IEnumerator<char> GetEnumerator()
-        //{
-        //    foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
-        //    {
-        //        var enumerator = chunk.Span.GetEnumerator();
-        //        while (enumerator.MoveNext())
-        //        {
-        //            yield return enumerator.Current;
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<char> GetEnumerator()
+        {
+            foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
+            {
+                for (int i = 0; i < chunk.Length; i++)
+                {
+                    yield return chunk.Span[i];
+                }
+            }
+        }
 
-        ///// <summary>
-        ///// Returns an enumerator that iterates through a collection.
-        ///// </summary>
-        ///// <returns>
-        ///// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        ///// </returns>
-        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion // IEnumerable<char>
 
@@ -167,7 +184,7 @@ namespace Weknow.Cypher.Builder
         private ReadOnlySpan<char> GetRange(int startIndex, int length)
         {
             Span<char> result = new char[length];
-
+            
             int index = 0;
             foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
             {
