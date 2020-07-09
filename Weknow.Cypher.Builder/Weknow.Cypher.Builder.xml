@@ -1683,11 +1683,8 @@
         </member>
         <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32,System.Int32)">
             <summary>
-            Gets the <see cref="!:ReadOnlySpan&lt;System.Char&gt;" /> with the specified start index.
+            <![CDATA[Gets the <see cref="ReadOnlySpan{System.Char}" /> with the specified start index.]]>
             </summary>
-            <value>
-            The <see cref="!:ReadOnlySpan&lt;System.Char&gt;" />.
-            </value>
             <param name="startIndex">The start index.</param>
             <param name="length">The length.</param>
             <returns></returns>
