@@ -48,6 +48,8 @@ namespace Weknow.Cypher.Builder
                     "ON CREATE SET n = map\r\n\t" +
                     "ON MATCH SET n += map\r\n" +
                 "RETURN n", cypher.Query);
+
+            throw new NotImplementedException("WITH: Wrong Cypher");
         }
 
         #endregion // Explicit_With_Test

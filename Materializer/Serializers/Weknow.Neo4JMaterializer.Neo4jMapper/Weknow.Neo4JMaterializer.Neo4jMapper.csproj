@@ -19,6 +19,7 @@
 
   <PropertyGroup>
     <DocumentationFile>Weknow.Neo4JMaterializer.Neo4jMapper.xml</DocumentationFile>
+    <PackageTags>cypher, neo4j, graph, graphdb, orm, csharp, .net, driver, weknow</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
