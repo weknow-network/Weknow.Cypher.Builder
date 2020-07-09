@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.ObjectPool;
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace Weknow.Cypher.Builder
     /// Cypher text building.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
-    internal sealed class CypherQueryBuilder: IDisposable
+    internal sealed class CypherQueryBuilder : IDisposable// , IEnumerable<char>
     {
         private static readonly ObjectPoolProvider _objectPoolProvider = new DefaultObjectPoolProvider();
         private static readonly ObjectPool<StringBuilder> _stringBuilderPool = _objectPoolProvider.CreateStringBuilderPool();
@@ -39,21 +40,29 @@ namespace Weknow.Cypher.Builder
 
         #endregion // char this[int index]
 
-        //public Span<char> this[Range range]
-        //{
-        //    get 
-        //    {
-        //        int end = range.End.Value;
-        //        if (range.End.IsFromEnd)
-        //            end = range.End.Value;
-        //        int start = 0h;
-        //        if (range.Start.IsFromEnd)
-        //            start = range.End.Value;
+        #region string this[Range range]
 
-        //        char[] buffer = new char[ - range.Start];
-        //           var s = new Span<char>()
-        //    }
-        //}
+        /// <summary>
+        /// Gets the <see cref="System.String"/> with the specified range.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <returns></returns>
+        public string this[Range range]
+        {
+            get
+            {
+                int from = range.Start.Value;
+                if (range.Start.IsFromEnd)
+                    from = _builder.Length - from;
+                int to =  range.End.Value;
+                if (range.End.IsFromEnd)
+                    to = _builder.Length - to;
+                var result = GetRange(from, to - from);
+                return new string(result);
+            }
+        }
+
+        #endregion // string this[Range range]
 
         #region Append
 
@@ -109,12 +118,85 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString() => 
+        public override string ToString() =>
                     _builder
                         .Replace("]--(", "]-(") // TODO: Avi review (ugly fix for the issu in tests [Relation_WithReuse_Test])
                         .Replace(")--[", ")-[")
                         .ToString();
 
         #endregion // ToString
+
+        #region // IEnumerable<char>
+
+        ///// <summary>
+        ///// Returns an enumerator that iterates through the collection.
+        ///// </summary>
+        ///// <returns>
+        ///// An enumerator that can be used to iterate through the collection.
+        ///// </returns>
+        //public IEnumerator<char> GetEnumerator()
+        //{
+        //    foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
+        //    {
+        //        var enumerator = chunk.Span.GetEnumerator();
+        //        while (enumerator.MoveNext())
+        //        {
+        //            yield return enumerator.Current;
+        //        }
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Returns an enumerator that iterates through a collection.
+        ///// </summary>
+        ///// <returns>
+        ///// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        ///// </returns>
+        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        #endregion // IEnumerable<char>
+
+        #region GetRange
+
+        /// <summary>
+        /// Gets the range.
+        /// </summary>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
+        private ReadOnlySpan<char> GetRange(int startIndex, int length)
+        {
+            Span<char> result = new char[length];
+
+            int index = 0;
+            foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
+            {
+                ReadOnlySpan<char> span = chunk.Span;
+                int len = span.Length;
+                if (len + index < startIndex)
+                {
+                    index += len;
+                    continue;
+                }
+                int startPoint = startIndex - index;
+                var enumerator = chunk.Span.GetEnumerator();
+                for (int i = 0; i < startPoint; i++)
+                {
+                    enumerator.MoveNext();
+                    index++;
+                }
+                int end = startIndex + length;
+                while (enumerator.MoveNext() && index < end)
+                {
+                    result[index - startIndex] = enumerator.Current;
+                    index++;
+                }
+                if (index >= end)
+                    break;
+            }
+            return result;
+        }
+
+        #endregion // GetRange
     }
 }

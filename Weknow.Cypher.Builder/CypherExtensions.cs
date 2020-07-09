@@ -232,6 +232,19 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\nRETURN $1")]
         public static Fluent Return(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
+        /// <summary>
+        /// RETURN phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// RETURN n
+        /// </example>
+        [Cypher("$0\r\n&RETURN $1")]
+        public static Fluent Return(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+
         #endregion // Return
 
         #region With

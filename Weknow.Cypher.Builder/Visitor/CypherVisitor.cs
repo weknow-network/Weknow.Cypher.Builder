@@ -428,7 +428,8 @@ namespace Weknow.Cypher.Builder
 
             bool isDirectProp = pi?.PropertyType == typeof(IProperty) &&
                                 CanBeDirectProp();
-            if (_isProperties.Value || isDirectProp)
+            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
+            if ((_isProperties.Value || isDirectProp) && !isReturn)
             {
                 HandleProperties(name);
             }
@@ -450,12 +451,18 @@ namespace Weknow.Cypher.Builder
         {
             foreach (var expr in node.Expressions)
             {
-                if (_expression[3].Value != null)
+                if (_expression[3].Value != null) // generics properties, example: n.P(ID)
                 {
                     bool equalPattern = IsEqualPattern();
-                    if (!_isProperties.Value || equalPattern)
+                    bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
+                    if (!_isProperties.Value || equalPattern || isReturn)
                     {
+                        // use for tracing duplication
+                        int idx = Query.Length;
                         Visit(_expression[3].Value);
+                        //if ()
+                        //{ 
+                        //}
                         Query.Append(".");
                     }
                 }

@@ -90,6 +90,15 @@ namespace Weknow.Cypher.Builder
 
         // todo: {name: 'Alice', age: 38,
         //       address: {city: 'London', residential: true}}
+
+
+
+        /*
+MATCH (n:INDUSTRY) RETURN n {.Label, .Id , 
+                                strength:[(n)--(r:TAG_MEDIUM) | 
+                                    { level: labels(r), 
+                                        tags:[(r)--(t:TAG) | t.Id]}]}         
+         */
     }
 }
 

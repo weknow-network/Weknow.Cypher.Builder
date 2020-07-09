@@ -874,6 +874,18 @@
             RETURN n
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            RETURN n
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             WITH phrase.
@@ -1654,12 +1666,6 @@
             Initializes a new instance.
             </summary>
         </member>
-        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32)">
-            <summary>
-            Gets the <see cref="T:System.Char"/> at the specified index.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Append``1(``0)">
             <summary>
             Appends text.
@@ -1690,6 +1696,12 @@
             <returns>
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Char"/> at the specified index.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherVisitor">
             <summary>
