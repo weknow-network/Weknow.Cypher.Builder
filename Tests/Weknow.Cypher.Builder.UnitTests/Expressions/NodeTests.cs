@@ -98,6 +98,21 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (n:Person $n) / Node_Variable_Label_Map_Test
 
+        #region (n:Person: Animal) / Node_MultiLabel_Test
+
+        [Fact]
+        public void Node_MultiLabel_Test()
+        {
+            var pattern = Reuse(n => N(n, Person & Animal));
+
+            _outputHelper.WriteLine(pattern.ToString());
+
+            _outputHelper.WriteLine(pattern.ToString());
+			 Assert.Equal(@"(n:Person:Animal)", pattern.ToString());
+        }
+
+        #endregion // (n:Person $n) / Node_MultiLabel_Test
+
         #region CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
 
         [Fact]

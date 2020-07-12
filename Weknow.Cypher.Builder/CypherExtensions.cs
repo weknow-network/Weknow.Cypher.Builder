@@ -353,7 +353,7 @@ namespace Weknow.Cypher.Builder
         /// SSET n:Person
         /// </example>
         [Cypher("$0\r\nSET $1$2")]
-        public static Fluent Set(this Fluent p, IVar node, ILabel label) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node, CypherLabel label) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.

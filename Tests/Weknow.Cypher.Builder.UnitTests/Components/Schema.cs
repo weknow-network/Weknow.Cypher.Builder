@@ -6,12 +6,12 @@ namespace Weknow.Cypher.Builder
 
     static class Schema
     {
-        public static ILabel Person => throw new NotImplementedException();
-        public static ILabel Animal => throw new NotImplementedException();
-        public static ILabel Maintainer => throw new NotImplementedException();
-        public static IType KNOWS => throw new NotImplementedException();
-        public static IType LIKE => throw new NotImplementedException();
-        public static IType By => throw new NotImplementedException();
+        public static CypherLabel Person => throw new NotImplementedException();
+        public static CypherLabel Animal => throw new NotImplementedException();
+        public static CypherLabel Maintainer => throw new NotImplementedException();
+        public static CypherType KNOWS => throw new NotImplementedException();
+        public static CypherType LIKE => throw new NotImplementedException();
+        public static CypherType By => throw new NotImplementedException();
         public static IProperty Id => throw new NotImplementedException();
         public static IProperty Date => throw new NotImplementedException();
         public static IProperty PropA => throw new NotImplementedException();

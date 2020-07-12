@@ -202,7 +202,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("(:$0)")]
-        public static IPattern N(ILabel label) => throw new NotImplementedException();
+        public static IPattern N(CypherLabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable.
         /// </summary>
@@ -217,7 +217,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("($0$1)")]
-        public static IPattern N(IVar var, ILabel label) => throw new NotImplementedException();
+        public static IPattern N(IVar var, CypherLabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and properties.
         /// </summary>
@@ -226,7 +226,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        public static IPattern N(IVar var, CypherLabel label, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and properties.
         /// </summary>
@@ -235,7 +235,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties"></param>
         /// <returns></returns>
         [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, params IProperty[] properties) => throw new NotImplementedException();
+        public static IPattern N(IVar var, CypherLabel label, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
@@ -244,7 +244,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="map">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 $2)")]
-        public static IPattern N(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
+        public static IPattern N(IVar var, CypherLabel label, IMap map) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with label.
         /// </summary>
@@ -331,7 +331,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1)")]
-        public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, CypherLabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -341,7 +341,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, CypherLabel label, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -351,7 +351,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, CypherLabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -362,7 +362,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties, LabelFromGenerics genericAslabel) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, CypherLabel label, Func<T, IProperties> properties, LabelFromGenerics genericAslabel) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
@@ -373,7 +373,7 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("($0:!0$1 $2)")]
-        public static IPattern N<T>(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
+        public static IPattern N<T>(IVar var, CypherLabel label, IMap map) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
 

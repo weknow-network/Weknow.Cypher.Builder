@@ -1,5 +1,7 @@
 ﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
 
+using System;
+
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
@@ -13,6 +15,18 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IType { }
+    public sealed class CypherType 
+    {
+        /// <summary>
+        /// Implements the operator |.
+        /// </summary>
+        /// <param name="a">a.</param>
+        /// <param name="b">The b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        /// <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
+        public static CypherType operator |(CypherType a, CypherType b) => throw new NotImplementedException();
+    }
 
 }

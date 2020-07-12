@@ -148,6 +148,9 @@ namespace Weknow.Cypher.Builder
                 case ExpressionType.Add:
                     Query.Append(" += ");
                     break;
+                case ExpressionType.Or:
+                    Query.Append("|:");
+                    break;
             }
             Visit(node.Right);
             return node;
@@ -412,7 +415,7 @@ namespace Weknow.Cypher.Builder
                 Visit(node.Expression);
                 Query.Append(".");
             }
-            if (node.Type == typeof(ILabel))
+            if (node.Type == typeof(CypherLabel))
             {
                 char lastChar = Query[^1];
                 if (lastChar != ':')

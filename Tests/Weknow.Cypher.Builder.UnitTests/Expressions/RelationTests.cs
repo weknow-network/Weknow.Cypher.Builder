@@ -75,6 +75,21 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Relation_WithProp_Test
 
+        #region (n:Person: Animal) / Relation_MultiType_Test
+
+        [Fact]
+        public void Relation_MultiType_Test()
+        {
+            CypherCommand cypher = _(a => r => b =>
+             Match(N(a, Person) - R[r, KNOWS | LIKE] > N(b, Person)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+            @"MATCH (a:Person)-[r:KNOWS|:LIKE]->(b:Person)", cypher.Query);
+        }
+
+        #endregion // (n:Person $n) / Relation_MultiType_Test
+
         #region Relation_2_Test
 
         [Fact]

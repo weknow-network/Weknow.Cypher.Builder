@@ -12,8 +12,8 @@ namespace Weknow.Cypher.Builder.IntegrationTests
 {
     static class Schema
     {
-        public static ILabel Industry => throw new NotImplementedException();
-        public static IType Affinity => throw new NotImplementedException();
+        public static CypherLabel Industry => throw new NotImplementedException();
+        public static CypherType Affinity => throw new NotImplementedException();
     }
 
     static class SchemaProperties
