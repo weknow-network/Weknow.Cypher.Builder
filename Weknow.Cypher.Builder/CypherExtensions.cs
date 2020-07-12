@@ -240,7 +240,7 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         /// <example>
-        /// RETURN n
+        /// RETURN n.Id
         /// </example>
         [Cypher("$0\r\n&RETURN $1")]
         public static Fluent Return(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
@@ -420,6 +420,34 @@ namespace Weknow.Cypher.Builder
         public static Fluent Set(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Set
+
+        #region Delete / Detach
+
+        /// <summary>
+        /// DELETE phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="vars"></param>
+        /// <returns></returns>
+        /// <example>
+        /// DELETE n
+        /// </example>
+        [Cypher("$0\r\nDELETE $1")]
+        public static Fluent Delete(this Fluent p, params object[] vars) => throw new NotImplementedException();
+
+        /// <summary>
+        /// DETACH DELETE phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="vars"></param>
+        /// <returns></returns>
+        /// <example>
+        /// DETACH DELETE n
+        /// </example>
+        [Cypher("$0\r\nDETACH DELETE $1")]
+        public static Fluent DetachDelete(this Fluent p, params object[] vars) => throw new NotImplementedException();
+
+        #endregion // Delete / Detach
 
         #region Compare
 

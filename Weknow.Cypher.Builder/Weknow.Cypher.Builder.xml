@@ -883,7 +883,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
             <example>
-            RETURN n
+            RETURN n.Id
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
@@ -1022,6 +1022,28 @@
             <example>
             SET n.property1 = $value1,
             n.property2 = $value2
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Delete(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            DELETE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            DELETE n
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.DetachDelete(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            DETACH DELETE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            DETACH DELETE n
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
