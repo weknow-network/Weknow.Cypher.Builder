@@ -22,7 +22,7 @@ namespace Weknow.Cypher.Builder.IntegrationTests
     //[Trait("Category", "In")]
     //[Trait("Group", "Predicates")]
     //[Trait("Segment", "Expression")]
-    public class In_IntegTests: BaseIntegrationTests
+    public class In_IntegTests : BaseIntegrationTests
     {
         #region Ctor
 
@@ -39,7 +39,7 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         /// Initializes the data.
         /// </summary>
         public async Task InitDataAsync()
-        { 
+        {
             CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
                                     Create(N(p1, Person, _P(p1, P(Id))))
                                     .Create(N(p2, Person, _P(p2, P(Id))))
@@ -71,7 +71,7 @@ namespace Weknow.Cypher.Builder.IntegrationTests
             await InitDataAsync();
 
             CypherCommand cypher = _(n => t => items =>
-                                    Match(N(n, Person)-R[Affinity]>N(t, Tag))
+                                    Match(N(n, Person) - R[Affinity] > N(t, Tag))
                                     .Where(t.In(Id, items))
                                     .Return(n),
                                     CONFIGURATION);

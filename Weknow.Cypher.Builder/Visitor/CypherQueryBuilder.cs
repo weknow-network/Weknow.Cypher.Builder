@@ -128,7 +128,6 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         public override string ToString() =>
                     _builder
-                        .FixCypher()
                         .ToString();
 
         /// <summary>

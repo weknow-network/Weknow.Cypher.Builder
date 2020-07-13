@@ -16,6 +16,8 @@ namespace Weknow.Cypher.Builder
     /// </remarks>
     public interface INode: IPattern
     {
+        public static INode operator -(INode l, IRelationNode r) => throw new NotImplementedException();
+
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
@@ -33,7 +35,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static IRelation operator -(INode l, IRelation r) => throw new NotImplementedException();
+        public static INodeRelation operator -(INode l, IRelation r) => throw new NotImplementedException();
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>

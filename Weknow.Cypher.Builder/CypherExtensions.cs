@@ -538,22 +538,5 @@ namespace Weknow.Cypher.Builder
         public static bool In(this IVar variable, IVar compareWith) => throw new NotImplementedException();
 
         #endregion // In
-
-        // TODO: Avi review (ugly fix for the issue in tests [Relation_WithReuse_Test] & [Reuse_Complex5_Test])
-        #region FixCypher
-
-        /// <summary>
-        /// Fixes the cypher is walk around for fixing illegal cypher.
-        /// </summary>
-        /// <param name="cypher">The cypher.</param>
-        /// <returns></returns>
-        internal static StringBuilder FixCypher(this StringBuilder cypher) =>
-                        cypher
-                        .Replace("]--(", "]-(")
-                        .Replace(")--[", ")-[")
-                        .Replace(")<--[", ")<-[")
-                        .Replace("]-->(", "]->(");
-
-        #endregion // FixCypher
     }
 }

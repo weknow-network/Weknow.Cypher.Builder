@@ -125,22 +125,19 @@ namespace Weknow.Cypher.Builder
             switch (node.NodeType)
             {
                 case ExpressionType.GreaterThan:
-                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
                         Query.Append("-");
                     Query.Append("->");
                     break;
                 case ExpressionType.LessThan:
                     Query.Append("<-");
-                    if (node.Left.Type != typeof(IRelation) && node.Right.Type != typeof(IRelation))
+                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
                         Query.Append("-");
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
-                    if (node.Left.Type != typeof(IRelation) &&
-                        node.Right.Type != typeof(IRelation))
-                    {
+                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
                         Query.Append("-");
-                    }
                     break;
                 case ExpressionType.Equal:
                     Query.Append(" = ");
@@ -408,7 +405,7 @@ namespace Weknow.Cypher.Builder
 
                 Visit(node.Expression);
             }
-            else if ((node.Type == typeof(INode) || node.Type == typeof(IRelation)) &&
+            else if ((node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode)) &&
                     node.Expression is ConstantExpression c &&
                     node.Member is FieldInfo fi && 
                     fi.GetValue(c.Value) is ExpressionPattern p)

@@ -706,6 +706,24 @@ namespace Weknow.Cypher.Builder
 
         #region Reuse
 
+        public static IRelationNode Reuse(
+                            Expression<Func<IVar, IRelationNode>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationNodePattern(expression.Body, cfg);
+        }
+
+        public static INodeRelation Reuse(
+                            Expression<Func<IVar, INodeRelation>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodeRelationPattern(expression.Body, cfg);
+        }
+
         /// <summary>
         /// Use for encapsulation of reusable expression.
         /// </summary>
@@ -734,6 +752,15 @@ namespace Weknow.Cypher.Builder
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
             return new RelationPattern(expression.Body, cfg);
+        }
+
+        public static INodeRelation Reuse(
+                            Expression<Func<IVar, Func<IVar, INodeRelation>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodeRelationPattern(expression.Body, cfg);
         }
 
         /// <summary>

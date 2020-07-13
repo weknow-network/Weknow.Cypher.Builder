@@ -1129,13 +1129,6 @@
             n.property IN [$value1, $value2]
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.FixCypher(System.Text.StringBuilder)">
-            <summary>
-            Fixes the cypher is walk around for fixing illegal cypher.
-            </summary>
-            <param name="cypher">The cypher.</param>
-            <returns></returns>
-        </member>
         <member name="T:Weknow.Cypher.Builder.CypherParameters">
             <summary>
             Cypher Parameters representation
@@ -1320,6 +1313,20 @@
             <seealso cref="T:Weknow.Cypher.Builder.IPattern" />
         </member>
         <member name="M:Weknow.Cypher.Builder.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>

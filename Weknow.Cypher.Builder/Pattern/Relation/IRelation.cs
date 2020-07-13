@@ -5,6 +5,21 @@
 
 namespace Weknow.Cypher.Builder
 {
+
+    public interface INodeRelation : IPattern
+    {
+        public static INode operator >(INodeRelation l, INode r) => throw new NotImplementedException();
+        public static INode operator <(INodeRelation l, INode r) => throw new NotImplementedException();
+
+    }
+
+    public interface IRelationNode : IPattern
+    {
+        public static INode operator >(INode l, IRelationNode r) => throw new NotImplementedException();
+        public static INode operator <(INode l, IRelationNode r) => throw new NotImplementedException();
+
+    }
+
     /// <summary>
     /// Relation primitive for the Cypher expression.
     /// </summary>
@@ -15,7 +30,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IRelation: IPattern
+    public interface IRelation : IPattern
     {
         #region Indexers this[...]
 
@@ -157,7 +172,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static INode operator -(IRelation l, INode r) => throw new NotImplementedException();
+        public static IRelationNode operator -(IRelation l, INode r) => throw new NotImplementedException();
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
@@ -175,7 +190,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static INode operator >(IRelation l, INode r) => throw new NotImplementedException();
+        public static IRelationNode operator >(IRelation l, INode r) => throw new NotImplementedException();
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>
@@ -193,7 +208,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static INode operator <(IRelation l, INode r) => throw new NotImplementedException();
+        public static IRelationNode operator <(IRelation l, INode r) => throw new NotImplementedException();
         /// <summary>
         /// Declaration for operator &lt;.
         /// </summary>
