@@ -128,8 +128,7 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         public override string ToString() =>
                     _builder
-                        .Replace("]--(", "]-(") // TODO: Avi review (ugly fix for the issu in tests [Relation_WithReuse_Test])
-                        .Replace(")--[", ")-[")
+                        .FixCypher()
                         .ToString();
 
         /// <summary>

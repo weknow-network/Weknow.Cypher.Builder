@@ -145,7 +145,7 @@ RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c", cypher.Query);
         [Fact]
         public void Relation_WithReuse_Test()
         {
-            IPattern maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, _P(maintainer_, Id)));
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, _P(maintainer_, Id)));
 
             CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
 

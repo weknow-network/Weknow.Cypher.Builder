@@ -130,12 +130,12 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length, Position: $Position }) / TTTTTT_Test
 
-        #region MATCH (n:Foo { PropA: $PropA, m: $m, l: $l, s: $s, srm: $srm }) / TTTTTT_Test
+        #region MATCH (n:Foo { PropA: $PropAvar var pattern, m: $m, l: $l, s: $s, srm: $srm }) / TTTTTT_Test
 
         [Fact]
         public void Tttttt_Test()
         {
-            IPattern pattern = Reuse(n => m => l => s => srm => 
+            var pattern = Reuse(n => m => l => s => srm => 
                             N<Foo>(n, x => P(x.PropA, m, l, s, srm)));
             CypherCommand cypher = _<Foo>(n => 
                                         Match(pattern));

@@ -246,7 +246,7 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
-            IPattern maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(PropertyOptions.Detached, _P(maintainer_, Id), Date)));
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(PropertyOptions.Detached, _P(maintainer_, Id), Date)));
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,

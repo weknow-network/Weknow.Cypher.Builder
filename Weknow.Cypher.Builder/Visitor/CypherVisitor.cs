@@ -408,7 +408,10 @@ namespace Weknow.Cypher.Builder
 
                 Visit(node.Expression);
             }
-            else if (node.Type == typeof(IPattern) && node.Expression is ConstantExpression c && node.Member is FieldInfo fi && fi.GetValue(c.Value) is ExpressionPattern p)
+            else if ((node.Type == typeof(INode) || node.Type == typeof(IRelation)) &&
+                    node.Expression is ConstantExpression c &&
+                    node.Member is FieldInfo fi && 
+                    fi.GetValue(c.Value) is ExpressionPattern p)
             {
                 Visit(p.expression);
                 return node;

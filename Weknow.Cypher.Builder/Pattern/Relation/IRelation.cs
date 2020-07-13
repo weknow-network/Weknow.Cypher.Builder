@@ -15,7 +15,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IRelation
+    public interface IRelation: IPattern
     {
         #region Indexers this[...]
 
@@ -29,6 +29,16 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         /// <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         IRelation this[IType type] { [Cypher("[:$0]")] get; }
+        /// <summary>
+        /// Represent relation with variable and type.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IRelation" />.
+        /// </value>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        /// <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
+        IRelation this[IVar var] { [Cypher("[$0]")] get; }
 
         /// <summary>
         /// Represent relation with variable and type.
@@ -140,101 +150,59 @@ namespace Weknow.Cypher.Builder
         #region Operators
 
         /// <summary>
-        /// Represent relation operator..
+        /// Declaration for operator -.
         /// </summary>
         /// <param name="l">The l.</param>
         /// <param name="r">The r.</param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        /// <example>
-        /// [n]-[m]
-        /// </example>
-        public static IRelation operator -(IPattern l, IRelation r) => throw new NotImplementedException();
+        public static INode operator -(IRelation l, INode r) => throw new NotImplementedException();
         /// <summary>
-        /// Represent relation operator..
+        /// Declaration for operator -.
         /// </summary>
         /// <param name="l">The l.</param>
         /// <param name="r">The r.</param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        /// <example>
-        /// [n]-(m)
-        /// </example>
-        public static IRelation operator -(IRelation l, IPattern r) => throw new NotImplementedException();
+        public static IRelation operator -(IRelation l, IRelation r) => throw new NotImplementedException();
         /// <summary>
-        /// Represent relation operator..
+        /// Declaration for operator &gt;.
         /// </summary>
         /// <param name="l">The l.</param>
         /// <param name="r">The r.</param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        /// <example>
-        /// [n]->[m]
-        /// </example>
+        public static INode operator >(IRelation l, INode r) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator &gt;.
+        /// </summary>
+        /// <param name="l">The l.</param>
+        /// <param name="r">The r.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static IRelation operator >(IRelation l, IRelation r) => throw new NotImplementedException();
         /// <summary>
-        /// Represent relation operator..
+        /// Declaration for operator &lt;.
         /// </summary>
         /// <param name="l">The l.</param>
         /// <param name="r">The r.</param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        /// <example>
-        /// <![CDATA[ [n]<-[m] ]]>
-        /// </example>
+        public static INode operator <(IRelation l, INode r) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator &lt;.
+        /// </summary>
+        /// <param name="l">The l.</param>
+        /// <param name="r">The r.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static IRelation operator <(IRelation l, IRelation r) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent relation operator..
-        /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        /// <example>
-        /// <![CDATA[ [n]->(m) ]]>
-        /// </example>
-        public static IPattern operator >(IRelation l, IPattern r) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent relation operator..
-        /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        /// <example>
-        /// <![CDATA[ [n]<-(m) ]]>
-        /// </example>
-        public static IPattern operator <(IRelation l, IPattern r) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent relation operator..
-        /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        /// <example>
-        /// <![CDATA[ (n)->[m] ]]>
-        /// </example>
-        public static IPattern operator >(IPattern l, IRelation r) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent relation operator..
-        /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        /// <example>
-        /// <![CDATA[ (n)<-[m] ]]>
-        /// </example>
-        public static IPattern operator <(IPattern l, IRelation r) => throw new NotImplementedException();
 
         #endregion // Operators
     }

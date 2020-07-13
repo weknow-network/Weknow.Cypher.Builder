@@ -202,14 +202,14 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("(:$0)")]
-        public static IPattern N(ILabel label) => throw new NotImplementedException();
+        public static INode N(ILabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable.
         /// </summary>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         [Cypher("($0)")]
-        public static IPattern N(IVar var) => throw new NotImplementedException();
+        public static INode N(IVar var) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable and label.
         /// </summary>
@@ -217,7 +217,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("($0$1)")]
-        public static IPattern N(IVar var, ILabel label) => throw new NotImplementedException();
+        public static INode N(IVar var, ILabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and properties.
         /// </summary>
@@ -226,7 +226,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        public static INode N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and properties.
         /// </summary>
@@ -235,7 +235,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties"></param>
         /// <returns></returns>
         [Cypher("($0$1 { $2 })")]
-        public static IPattern N(IVar var, ILabel label, params IProperty[] properties) => throw new NotImplementedException();
+        public static INode N(IVar var, ILabel label, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
@@ -244,7 +244,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="map">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 $2)")]
-        public static IPattern N(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
+        public static INode N(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with label.
         /// </summary>
@@ -252,7 +252,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         [Cypher("($0:!l0)")]
-        public static IPattern N<T>(IVar var) => throw new NotImplementedException();
+        public static INode N<T>(IVar var) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable and properties map.
         /// </summary>
@@ -261,7 +261,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="map">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!l0 $1)")]
-        public static IPattern N<T>(IVar var, IMap map) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, IMap map) => throw new NotImplementedException();
 
 
         /// <summary>
@@ -272,7 +272,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
 
         /// <summary>
         /// Specified typed node with typed variable and label.
@@ -282,7 +282,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar<T> var, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar<T> var, Func<T, IProperties> properties) => throw new NotImplementedException();
 
         /// <summary>
         /// Specified typed node with variable and properties.
@@ -292,7 +292,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with typed variable and label.
         /// </summary>
@@ -301,7 +301,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar<T> var, IProperties properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar<T> var, IProperties properties) => throw new NotImplementedException();
 
         /// <summary>
         /// Specified typed node with variable and properties.
@@ -311,7 +311,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="property">.</param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar var, IProperty property) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, IProperty property) => throw new NotImplementedException();
 
         /// <summary>
         /// Specified typed node with typed variable and label.
@@ -321,7 +321,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="property"></param>
         /// <returns></returns>
         [Cypher(".1($0:!l0 { $1 })")]
-        public static IPattern N<T>(IVar<T> var, IProperty property) => throw new NotImplementedException();
+        public static INode N<T>(IVar<T> var, IProperty property) => throw new NotImplementedException();
 
         /// <summary>
         /// Specified typed node with variable and label.
@@ -331,7 +331,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1)")]
-        public static IPattern N<T>(IVar var, ILabel label) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, ILabel label) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -341,7 +341,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -351,7 +351,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, ILabel label, Func<T, IProperties> properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -362,7 +362,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
         /// <returns></returns>
         [Cypher("($0:!0$1 { $2 })")]
-        public static IPattern N<T>(IVar var, ILabel label, Func<T, IProperties> properties, LabelFromGenerics genericAslabel) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, ILabel label, Func<T, IProperties> properties, LabelFromGenerics genericAslabel) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
@@ -373,7 +373,7 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("($0:!0$1 $2)")]
-        public static IPattern N<T>(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
+        public static INode N<T>(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
 
@@ -623,7 +623,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH (n:Person)-[:KNOWS]->(m:Person)
         /// </example>
         [Cypher("MATCH $0")]
-        public static Fluent Match(params IPattern[] p) => throw new NotImplementedException();
+        public static Fluent Match(params INode[] p) => throw new NotImplementedException();
 
         #endregion // Match
 
@@ -712,13 +712,13 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IPattern Reuse(
-                            Expression<Func<IVar, IPattern>> expression,
+        public static INode Reuse(
+                            Expression<Func<IVar, INode>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
-            return new ExpressionPattern(expression.Body, cfg);
+            return new NodePattern(expression.Body, cfg);
         }
 
         /// <summary>
@@ -727,13 +727,13 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IPattern Reuse(
-                            Expression<Func<IVar, Func<IVar, IPattern>>> expression,
+        public static IRelation Reuse(
+                            Expression<Func<IVar, IRelation>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
-            return new ExpressionPattern(expression.Body, cfg);
+            return new RelationPattern(expression.Body, cfg);
         }
 
         /// <summary>
@@ -742,13 +742,13 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IPattern Reuse(
-                            Expression<Func<IVar, Func<IVar, Func<IVar, IPattern>>>> expression,
+        public static INode Reuse(
+                            Expression<Func<IVar, Func<IVar, INode>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
-            return new ExpressionPattern(expression.Body, cfg);
+            return new NodePattern(expression.Body, cfg);
         }
 
         /// <summary>
@@ -757,13 +757,13 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IPattern Reuse(
-                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, IPattern>>>>> expression,
+        public static IRelation Reuse(
+                            Expression<Func<IVar, Func<IVar, IRelation>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
-            return new ExpressionPattern(expression.Body, cfg);
+            return new RelationPattern(expression.Body, cfg);
         }
 
         /// <summary>
@@ -772,13 +772,88 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
-        public static IPattern Reuse(
-                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, Func<IVar, IPattern>>>>>> expression,
+        public static INode Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, INode>>>> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
             configuration?.Invoke(cfg);
-            return new ExpressionPattern(expression.Body, cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, IRelation>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, INode>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, IRelation>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, Func<IVar, INode>>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<IVar, Func<IVar, Func<IVar, Func<IVar, Func<IVar, IRelation>>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
         }
 
         /// <summary>

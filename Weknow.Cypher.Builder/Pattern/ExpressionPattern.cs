@@ -55,7 +55,8 @@ namespace Weknow.Cypher.Builder
         {
             var visitor = new CypherVisitor(new CypherConfig());
             visitor.Visit(expression);
-            return visitor.Query.ToString();
+            string result = visitor.Query.ToString();
+            return result;
         }
 
         #endregion // ToString

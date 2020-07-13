@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -24,13 +25,13 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region LazyReuse_Node_Test
+        #region MATCH (person:Person)-[r:LIKE]->(animal:Animal) / LazyReuse_Node_Test
 
         [Fact]
         public void LazyReuse_Node_Test()
         {
-            IPattern reusedPerson = Reuse(person => N(person, Person));
-            IPattern reusedAnimal = Reuse(animal => N(animal, Animal));
+            var reusedPerson = Reuse(person => N(person, Person));
+            var reusedAnimal = Reuse(animal => N(animal, Animal));
 
             CypherCommand cypher = _( r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal));
@@ -39,9 +40,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
-        #endregion // LazyReuse_Node_Test
+        #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / LazyReuse_Node_Test
 
-        #region LazyReuse_Overloads_Test
+        #region (n:Person { PropA: $nPropA }) ... / LazyReuse_Overloads_Test
 
         [Fact]
         public void LazyReuse_Overloads_Test()
@@ -71,9 +72,9 @@ namespace Weknow.Cypher.Builder
             Assert.Equal("(n:Person { Id: $n1_Id, PropA: $n2_PropA, PropB: $n3_PropB, PropC: $n4_PropC })", cypher5);
         }
 
-        #endregion // LazyReuse_Overloads_Test
+        #endregion // (n:Person { PropA: $nPropA }) ... / LazyReuse_Overloads_Test
 
-        #region CaptureProperties_Test
+        #region MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureProperties_Test
 
         [Fact]
         public void CaptureProperties_Test()
@@ -85,9 +86,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
-        #endregion // CaptureProperties_Test
+        #endregion // MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureProperties_Test
 
-        #region CaptureNodeAndProperties_Test
+        #region MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureNodeAndProperties_Test
 
         [Fact]
         public void CaptureNodeAndProperties_Test()
@@ -100,9 +101,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
-        #endregion // CaptureNodeAndProperties_Test
+        #endregion // MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureNodeAndProperties_Test
 
-        #region Reuse_Node_Test
+        #region MATCH (person:Person)-[r:LIKE]->(animal:Animal) / Reuse_Node_Test
 
         [Fact]
         public void Reuse_Node_Test()
@@ -117,9 +118,9 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
-        #endregion // Reuse_Node_Test
+        #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / Reuse_Node_Test
 
-        #region Reuse_Plural_UNWIND_Test
+        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Reuse_Plural_UNWIND_Test
 
         [Fact]
         public void Reuse_Plural_UNWIND_Test()
@@ -135,7 +136,81 @@ namespace Weknow.Cypher.Builder
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
-        #endregion // Reuse_Plural_UNWIND_Test
+        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Reuse_Plural_UNWIND_Test
+
+        #region [:LIKE] / Reuse_Relation_Test
+
+        [Fact]
+        public void Reuse_Relation_Test()
+        {
+            var pattern = Reuse(n => R[LIKE]);
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"[:LIKE]", pattern.ToString());
+        }
+
+        #endregion // [:LIKE] / Reuse_Relation_Test
+
+        #region (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+
+        [Fact]
+        public void Reuse_Node_And_Relation_Test()
+        {
+            var pattern = Reuse(n => N(n, Person & Animal) - R[LIKE] );
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(n:Person:Animal)-[:LIKE]", pattern.ToString());
+        }
+
+        #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+
+        #region (a)-[r1]->(b)<-[r2] / Reuse_Complex4_Test
+
+        [Fact]
+        public void Reuse_Complex4_Test()
+        {
+            var pattern = Reuse(a => r1 => b => r2 =>
+                        N(a) - R[r1] > N(b) < R[r2]);
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(a)-[r1]->(b)<-[r2]", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1]->(b)<-[r2] / Reuse_Complex4_Test
+
+        #region (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Test
+
+        [Fact]
+        public void Reuse_Complex5_Test()
+        {
+            var pattern = Reuse(a => r1 => b => r2 => c =>
+                        N(a) - R[r1] > N(b) < R[r2] - N(c));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(a)-[r1]->(b)<-[r2]-(c)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Test
+
+        #region (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
+
+        [Fact]
+        public void Reuse_Complex5_Broken_Test()
+        {
+            var start = Reuse(a => r1  =>
+                        N(a) - R[r1]);
+
+            var b = Reuse(b  => N(b));
+            var r2 = Reuse(r2  => R[r2]);
+
+            var pattern = Reuse(c =>
+                        start > b < r2 - N(c));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(a)-[r1]->(b)<-[r2]-(c)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
     }
 }
 
