@@ -30,7 +30,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region Match_Return_Test
+        #region MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
 
         [Fact]
         public void Match_Return_Test()
@@ -45,9 +45,9 @@ namespace Weknow.Cypher.Builder
 RETURN n", cypher.Query);
         }
 
-        #endregion // Match_Return_Test
+        #endregion // MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
 
-        #region Match_2_Return_Test
+        #region MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n / Match_2_Return_Test
 
         [Fact]
         public void Match_2_Return_Test()
@@ -64,9 +64,9 @@ RETURN n", cypher.Query);
                         "RETURN n", cypher.Query);
         }
 
-        #endregion // Match_2_Return_Test
+        #endregion // MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n / Match_2_Return_Test
 
-        #region Match_2_Return_NoGenLabel_Test
+        #region MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n / Match_2_Return_NoGenLabel_Test
 
         [Fact]
         public void Match_2_Return_NoGenLabel_Test()
@@ -83,7 +83,7 @@ RETURN n", cypher.Query);
                         "RETURN n", cypher.Query);
         }
 
-        #endregion // Match_2_Return_NoGenLabel_Test
+        #endregion // MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n / Match_2_Return_NoGenLabel_Test
 
         #region Match_Pre_Return_Test
 

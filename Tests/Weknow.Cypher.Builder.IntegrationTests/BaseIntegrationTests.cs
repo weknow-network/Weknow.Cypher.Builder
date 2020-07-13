@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+using Xunit;
+using Xunit.Abstractions;
+
+using static Weknow.Cypher.Builder.IntegrationTests.Schema;
+using static Weknow.Cypher.Builder.IntegrationTests.SchemaProperties;
+
+using static Weknow.Cypher.Builder.Cypher;
+using Neo4j.Driver;
+using System.Diagnostics;
+
+namespace Weknow.Cypher.Builder.IntegrationTests
+{
+    [Trait("TestType", "Integration")]
+    public class BaseIntegrationTests: IDisposable
+    {
+        protected readonly ITestOutputHelper _outputHelper;
+        protected readonly IAsyncSession _session;
+        private const string TEST_LABEL = nameof(_Test_);
+        private ILabel _Test_ => throw new NotImplementedException();
+
+        #region Action<CypherConfig> CONFIGURATION = ...
+
+        protected Action<CypherConfig> CONFIGURATION = cfg =>
+        {
+            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            cfg.AmbientLabels.Add(TEST_LABEL);
+        };
+
+        #endregion // Action<CypherConfig> CONFIGURATION = ...
+
+        #region Ctor
+
+        public BaseIntegrationTests(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+
+            string connectionString = Environment.GetEnvironmentVariable("TEST_N4J_URL") ?? "bolt://localhost";
+            string userName = Environment.GetEnvironmentVariable("TEST_N4J_USER") ?? "neo4j";
+            string password = Environment.GetEnvironmentVariable("TEST_N4J_PASS") ?? "123456";
+
+            IDriver driver = GraphDatabase.Driver(connectionString, AuthTokens.Basic(userName, password));
+            _session = driver.AsyncSession(o => o.WithDatabase("neo4j"));
+        }
+
+        #endregion // Ctor
+
+        #region CleanAsync
+
+        private async Task CleanAsync()
+        {
+            CypherCommand cypher = _(n => 
+                                    Match(N(n))
+                                    .DetachDelete(n),
+                                    CONFIGURATION);
+            var results = await _session.RunAsync(cypher);
+            await results.ConsumeAsync();
+        }
+
+        #endregion // CleanAsync
+
+        #region Dispose
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+            CleanAsync().Wait();
+            _session.CloseAsync().Wait();
+        }
+
+        protected virtual void Dispose(bool disposing) { }
+        ~BaseIntegrationTests()
+        {
+            Dispose(false);
+        }
+
+        #endregion // Dispose
+    }
+}

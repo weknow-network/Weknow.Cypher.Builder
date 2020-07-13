@@ -202,6 +202,11 @@ namespace Weknow.Cypher.Builder
                                                 node.Method.ReturnType == typeof(IProperty) ||
                                                 node.Method.ReturnType == typeof(IProperties) ||
                                                 node.Method.ReturnType == typeof(IPropertiesOfType));
+            using IDisposable inScp = mtdName switch
+            {
+                nameof(CypherExtensions.In) => _methodExpr.Set(node),
+                _ => DisposeableAction.Empty
+            };
 
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
@@ -225,7 +230,7 @@ namespace Weknow.Cypher.Builder
                 var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
                 var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
                 IDisposable poptScp = DisposeableAction.Empty;
-                if (opt?.Type == typeof(PropertyOptions)) 
+                if (opt?.Type == typeof(PropertyOptions))
                 {
                     string tmp = opt?.Value?.ToString() ?? string.Empty;
                     if (Enum.TryParse<PropertyOptions>(tmp, out var options))
@@ -415,7 +420,7 @@ namespace Weknow.Cypher.Builder
                 Visit(node.Expression);
                 Query.Append(".");
             }
-            if (node.Type == typeof(CypherLabel))
+            if (node.Type == typeof(ILabel))
             {
                 char lastChar = Query[^1];
                 if (lastChar != ':')
@@ -431,8 +436,13 @@ namespace Weknow.Cypher.Builder
 
             bool isDirectProp = pi?.PropertyType == typeof(IProperty) &&
                                 CanBeDirectProp();
-            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
-            if ((_isProperties.Value || isDirectProp) && !isReturn)
+            bool ignore = _methodExpr.Value?.Method.Name switch
+            {
+                nameof(CypherExtensions.Return) => true,
+                nameof(CypherExtensions.In) => true,
+                _ => false
+            };
+            if ((_isProperties.Value || isDirectProp) && !ignore)
             {
                 HandleProperties(name);
             }
@@ -474,6 +484,8 @@ namespace Weknow.Cypher.Builder
                         }
                     }
                 }
+                if (_methodExpr.Value?.Method.Name == nameof(CypherExtensions.In))
+                    Query.Append("$");
                 Visit(expr);
                 if (expr != node.Expressions.Last())
                     Query.Append(", ");
@@ -779,9 +791,9 @@ namespace Weknow.Cypher.Builder
         {
             return _methodExpr.Value?.Method.Name switch
             {
-                nameof(Cypher.Unwind) 
-                        when (_propOptions.Value & PropertyOptions.Detached) 
-                                    == PropertyOptions.None 
+                nameof(Cypher.Unwind)
+                        when (_propOptions.Value & PropertyOptions.Detached)
+                                    == PropertyOptions.None
                         => false,
                 _ => true,
             };
@@ -808,8 +820,8 @@ namespace Weknow.Cypher.Builder
                 Visit(_expression[0].Value);
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
-            else if (_expression[2].Value != null && 
-                    (_propOptions.Value & PropertyOptions.Detached) == PropertyOptions.None )
+            else if (_expression[2].Value != null &&
+                    (_propOptions.Value & PropertyOptions.Detached) == PropertyOptions.None)
             {
                 // Adding Unwind variable as prefix
                 Visit(_expression[2].Value);
@@ -852,7 +864,7 @@ namespace Weknow.Cypher.Builder
         private IDisposable SetGenPropertiesContext(MethodCallExpression node, Expression expr)
         {
             IDisposable result = DisposeableAction.Empty;
-            if(!IsEqualPattern())
+            if (!IsEqualPattern())
                 return result;
 
             var args = node.Arguments;

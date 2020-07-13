@@ -53,6 +53,19 @@ namespace Weknow.Cypher.Builder
             "CREATE $1")]
         public static Fluent Create(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Create phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        /// <example>
+        /// CREATE (n {name: $value})
+        /// </example>
+        [Cypher("$0\r\n" +
+            "CREATE $1")]
+        public static Fluent Create(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+
         #endregion // Create
 
         #region Merge
@@ -353,7 +366,7 @@ namespace Weknow.Cypher.Builder
         /// SSET n:Person
         /// </example>
         [Cypher("$0\r\nSET $1$2")]
-        public static Fluent Set(this Fluent p, IVar node, CypherLabel label) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IVar node, ILabel label) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -482,5 +495,47 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Compare
+
+        #region As
+
+        /// <summary>
+        /// Define variable as type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static T As<T>(this IVar var) => throw new NotImplementedException();
+
+        #endregion // As
+
+        #region In
+
+        /// <summary>
+        /// IN phrase.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="property">The property.</param>
+        /// <param name="compareWith">The compare with.</param>
+        /// <returns></returns>
+        /// <example>
+        /// n.property IN [$value1, $value2]
+        /// </example>
+        [Cypher("$0\\.$1 IN [$2]")]
+        public static bool In(this IVar variable, IProperty property, params IVar[] compareWith) => throw new NotImplementedException();
+
+        /// <summary>
+        /// IN phrase.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="compareWith">The compare with.</param>
+        /// <returns></returns>
+        /// <example>
+        /// n.property IN [$value1, $value2]
+        /// </example>
+        [Cypher("$0 IN [$1]")]
+        public static bool In(this IVar variable, params IVar[] compareWith) => throw new NotImplementedException();
+
+        #endregion // In
     }
 }

@@ -15,7 +15,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public sealed class CypherType 
+    public interface IType 
     {
         /// <summary>
         /// Implements the operator |.
@@ -26,7 +26,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
-        public static CypherType operator |(CypherType a, CypherType b) => throw new NotImplementedException();
+        public static IType operator |(IType a, IType b) => throw new NotImplementedException();
     }
 
 }

@@ -16,7 +16,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public sealed class CypherLabel 
+    public interface ILabel 
     {
         /// <summary>
         /// Implements the operator &amp;.
@@ -27,7 +27,7 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         /// <example><![CDATA[(n:Person:Animal)]]></example>
-        public static CypherLabel operator & (CypherLabel a, CypherLabel b) => throw new NotImplementedException();
+        public static ILabel operator & (ILabel a, ILabel b) => throw new NotImplementedException();
     }
 
 }

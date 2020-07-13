@@ -120,7 +120,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.CypherLabel)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.ILabel)">
             <summary>
             Specified node with label.
             </summary>
@@ -134,7 +134,7 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
             <summary>
             Specified node with variable and label.
             </summary>
@@ -142,7 +142,7 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -151,7 +151,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.IProperty[])">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -160,7 +160,7 @@
             <param name="properties"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
             <summary>
             Specified node with variable, label and map.
             </summary>
@@ -240,7 +240,7 @@
             <param name="property"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
             <summary>
             Specified typed node with variable and label.
             </summary>
@@ -249,7 +249,7 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -259,7 +259,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -269,7 +269,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -280,7 +280,7 @@
             <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
             <summary>
             Specified node with variable, label and map.
             </summary>
@@ -549,7 +549,7 @@
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Exists(Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
-            UNWIND phrase.
+            EXISTS phrase.
             </summary>
             <param name="p">The p.</param>
             <returns></returns>
@@ -610,14 +610,6 @@
             </summary>
             <param name="r"></param>
             <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.As``1(Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Define variable as type
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
             <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherCommand">
@@ -726,6 +718,17 @@
             </summary>
             <param name="p">The p.</param>
             <param name="pp"></param>
+            <returns></returns>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Create(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPattern)">
+            <summary>
+            Create phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern"></param>
             <returns></returns>
             <example>
             CREATE (n {name: $value})
@@ -953,7 +956,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherLabel)">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
             <summary>
             SET label phrase.
             </summary>
@@ -1055,6 +1058,37 @@
             <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.As``1(Weknow.Cypher.Builder.IVar)">
+            <summary>
+            Define variable as type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar[])">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            n.property IN [$value1, $value2]
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar[])">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            n.property IN [$value1, $value2]
+            </example>
+        </member>
         <member name="T:Weknow.Cypher.Builder.CypherParameters">
             <summary>
             Cypher Parameters representation
@@ -1146,7 +1180,17 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherLabel">
+        <member name="T:Weknow.Cypher.Builder.IETagProperty">
+            <summary>
+            ETag Property is a special primitive which will translate 
+            to optimistic concurrency pattern in the Cypher expression.
+            </summary>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.ILabel">
             <summary>
             Label primitive for the Cypher expression.
             </summary>
@@ -1159,7 +1203,7 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherLabel.op_BitwiseAnd(Weknow.Cypher.Builder.CypherLabel,Weknow.Cypher.Builder.CypherLabel)">
+        <member name="M:Weknow.Cypher.Builder.ILabel.op_BitwiseAnd(Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.ILabel)">
             <summary>
             Implements the operator &amp;.
             </summary>
@@ -1169,40 +1213,6 @@
             The result of the operator.
             </returns>
             <example><![CDATA[(n:Person:Animal)]]></example>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.CypherType">
-            <summary>
-            Relation's Type primitive for the Cypher expression.
-            </summary>
-            <example>
-            The KNOWS in the following expression will use the Type primitive.
-            MATCH (n:Person)-[:KNOWS]->(m:Person)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherType.op_BitwiseOr(Weknow.Cypher.Builder.CypherType,Weknow.Cypher.Builder.CypherType)">
-            <summary>
-            Implements the operator |.
-            </summary>
-            <param name="a">a.</param>
-            <param name="b">The b.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-            <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IETagProperty">
-            <summary>
-            ETag Property is a special primitive which will translate 
-            to optimistic concurrency pattern in the Cypher expression.
-            </summary>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
         <member name="T:Weknow.Cypher.Builder.IMap">
             <summary>
@@ -1281,6 +1291,30 @@
             <returns>
             The result of the operator.
             </returns>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IType">
+            <summary>
+            Relation's Type primitive for the Cypher expression.
+            </summary>
+            <example>
+            The KNOWS in the following expression will use the Type primitive.
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IType.op_BitwiseOr(Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IType)">
+            <summary>
+            Implements the operator |.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
         </member>
         <member name="T:Weknow.Cypher.Builder.IVar`1">
             <summary>
@@ -1403,7 +1437,7 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.CypherType)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IType)">
             <summary>
             Represent relation with variable and type.
             </summary>
@@ -1414,7 +1448,7 @@
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherType)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)">
             <summary>
             Represent relation with variable and type.
             </summary>
@@ -1425,7 +1459,7 @@
             <![CDATA[(m)<-[r:KNOWS]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherType,Weknow.Cypher.Builder.IProperties)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
@@ -1467,7 +1501,7 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherType,Weknow.Cypher.Builder.IProperties,System.Range)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -1510,7 +1544,7 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
