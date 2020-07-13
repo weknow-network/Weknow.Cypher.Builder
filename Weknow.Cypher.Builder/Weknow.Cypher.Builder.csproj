@@ -16,6 +16,7 @@
     <Version>2.0.20-alpha</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
+    <PackageTags>cypher, neo4j, graph, graphdb, orm, csharp, .net, driver</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>

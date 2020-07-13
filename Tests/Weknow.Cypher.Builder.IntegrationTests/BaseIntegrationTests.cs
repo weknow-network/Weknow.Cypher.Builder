@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.IntegrationTests.Schema;
-using static Weknow.Cypher.Builder.IntegrationTests.SchemaProperties;
-
 using static Weknow.Cypher.Builder.Cypher;
 using Neo4j.Driver;
 using System.Diagnostics;
