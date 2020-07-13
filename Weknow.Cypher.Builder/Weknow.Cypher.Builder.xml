@@ -1066,7 +1066,7 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
             <summary>
             IN phrase.
             </summary>
@@ -1078,7 +1078,7 @@
             n.property IN [$value1, $value2]
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar[])">
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
             <summary>
             IN phrase.
             </summary>

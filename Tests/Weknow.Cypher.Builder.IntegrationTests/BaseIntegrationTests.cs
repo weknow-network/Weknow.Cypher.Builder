@@ -70,13 +70,15 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
+#pragma warning disable CA1063 // Implement IDisposable Correctly
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
             CleanAsync().Wait();
             _session.CloseAsync().Wait();
+            GC.SuppressFinalize(this);
         }
+#pragma warning restore CA1063 // Implement IDisposable Correctly
 
         protected virtual void Dispose(bool disposing) { }
         ~BaseIntegrationTests()

@@ -30,7 +30,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region MATCH (n:Person { Id: $Id }) WHERE n IN [$items] RETURN n / In_Test
+        #region MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Test
 
         [Fact]
         public void In_Test()
@@ -47,28 +47,9 @@ namespace Weknow.Cypher.Builder
                     "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }) WHERE n IN [$items] RETURN n / In_Test
+        #endregion // MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Test
 
-        #region MATCH (n:Person { Id: $Id }) WHERE n IN [$x, $y] RETURN n / In_Multi_Test
-
-        [Fact]
-        public void In_Multi_Test()
-        {
-            CypherCommand cypher = _(n => x => y =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Where(n.In(x, y))
-                                    .Return(n));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                    "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n IN [$x, $y]\r\n" +
-                    "RETURN n", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Person { Id: $Id }) WHERE n.Id IN [$x, $y] RETURN n / In_Multi_Test
-
-        #region MATCH (n:Person { Id: $Id }) WHERE n IN [$items] RETURN n / In_Prop_Test
+        #region MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Prop_Test
 
         [Fact]
         public void In_Prop_Test()
@@ -81,11 +62,11 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
                     "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n.Id IN [$items]\r\n" +
+                    "WHERE n.Id IN $items\r\n" +
                     "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }) WHERE n.Id IN [$items] RETURN n / In_Prop_Test
+        #endregion // MATCH (n:Person { Id: $Id }) WHERE n.Id IN $items RETURN n / In_Prop_Test
     }
 }
 
