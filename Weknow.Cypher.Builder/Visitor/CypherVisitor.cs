@@ -149,7 +149,7 @@ namespace Weknow.Cypher.Builder
                     Query.Append(" += ");
                     break;
                 case ExpressionType.Or:
-                    Query.Append("|:");
+                    Query.Append("|");
                     break;
             }
             Visit(node.Right);

@@ -85,7 +85,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-            @"MATCH (a:Person)-[r:KNOWS|:LIKE]->(b:Person)", cypher.Query);
+            @"MATCH (a:Person)-[r:KNOWS|LIKE]->(b:Person)", cypher.Query);
         }
 
         #endregion // (n:Person $n) / Relation_MultiType_Test
