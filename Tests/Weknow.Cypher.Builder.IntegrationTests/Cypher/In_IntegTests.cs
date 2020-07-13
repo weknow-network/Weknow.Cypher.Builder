@@ -19,9 +19,9 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder.IntegrationTests
 {
-    [Trait("Category", "In")]
-    [Trait("Group", "Predicates")]
-    [Trait("Segment", "Expression")]
+    //[Trait("Category", "In")]
+    //[Trait("Group", "Predicates")]
+    //[Trait("Segment", "Expression")]
     public class In_IntegTests: BaseIntegrationTests
     {
         #region Ctor

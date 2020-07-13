@@ -521,7 +521,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// n.property IN [$value1, $value2]
         /// </example>
-        [Cypher("$0\\.$1 IN $2")]
+        [Cypher("$0\\.$1 IN \\$$2")]
         public static bool In(this IVar variable, IProperty property, IVar compareWith) => throw new NotImplementedException();
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// n.property IN [$value1, $value2]
         /// </example>
-        [Cypher("$0 IN $1")]
+        [Cypher("$0 IN \\$$1")]
         public static bool In(this IVar variable, IVar compareWith) => throw new NotImplementedException();
 
         #endregion // In
