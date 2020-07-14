@@ -2372,6 +2372,12 @@
             <param name="startIndex">The start index.</param>
             <param name="length">The length.</param>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Remove(System.Range)">
+            <summary>
+            Removes the specified range.
+            </summary>
+            <param name="range">The range.</param>
+        </member>
         <member name="P:Weknow.Cypher.Builder.CypherQueryBuilder.Length">
             <summary>
             Gets the length.
@@ -2422,6 +2428,14 @@
             <param name="startIndex">The start index.</param>
             <param name="length">The length.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherQueryBuilder.Deconstruct(System.Range,System.Int32@,System.Int32@)">
+            <summary>
+            Deconstruct the range.
+            </summary>
+            <param name="range">The range.</param>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherVisitor">
             <summary>

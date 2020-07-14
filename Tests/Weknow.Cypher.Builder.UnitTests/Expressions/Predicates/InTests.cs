@@ -81,7 +81,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
                     "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n.PropA IN $items AND n.PropB IN $items \r\n" +
+                    "WHERE n.PropA IN $items AND n.PropB IN $items\r\n" +
                     "RETURN n", cypher.Query);
         }
 

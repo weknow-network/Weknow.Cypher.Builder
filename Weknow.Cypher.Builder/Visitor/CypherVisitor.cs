@@ -148,6 +148,12 @@ namespace Weknow.Cypher.Builder
                 case ExpressionType.Or:
                     Query.Append("|");
                     break;
+                case ExpressionType.AndAlso:
+                    Query.Append(" AND ");
+                    break;
+                case ExpressionType.OrElse:
+                    Query.Append(" OR ");
+                    break;
             }
             Visit(node.Right);
             return node;

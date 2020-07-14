@@ -40,7 +40,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // char this[int index]
 
-        #region string this[Range range]
+        #region ReadOnlySpan<char> this[Range range]
 
         /// <summary>
         /// <![CDATA[Gets the <see cref="ReadOnlySpan{System.Char}" /> with the specified start index.]]>
@@ -59,18 +59,13 @@ namespace Weknow.Cypher.Builder
         {
             get
             {
-                int from = range.Start.Value;
-                if (range.Start.IsFromEnd)
-                    from = _builder.Length - from;
-                int to =  range.End.Value;
-                if (range.End.IsFromEnd)
-                    to = _builder.Length - to;
+                Deconstruct(range, out int from, out int to);
                 ReadOnlySpan<char> result = GetRange(from, to - from);
                 return result;
             }
         }
 
-        #endregion // string this[Range range]
+        #endregion // ReadOnlySpan<char> this[Range range]
 
         #region Append
 
@@ -80,7 +75,20 @@ namespace Weknow.Cypher.Builder
         /// <param name="text">The text.</param>
         public void Append<T>(T text)
         {
-            _builder.Append(text);
+            var addition = text switch
+            {
+                string str => str,
+                null => string.Empty,
+                _ => text.ToString()
+            };
+
+            ReadOnlySpan<char> tail = this[^2..];
+            if (addition == "." && tail[0] == '.' && tail[1] == '_')
+            {
+                Remove(^1..);
+            }
+            else
+                _builder.Append(text);
         }
 
         #endregion // Append
@@ -94,6 +102,15 @@ namespace Weknow.Cypher.Builder
         /// <param name="length">The length.</param>
         public void Remove(int startIndex, int length) =>
                             _builder.Remove(startIndex, length);
+        /// <summary>
+        /// Removes the specified range.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        public void Remove(Range range)
+        {
+            Deconstruct(range, out int from, out int to);
+            _builder.Remove(from, to - from);
+        }
 
         #endregion // Remove
 
@@ -213,5 +230,25 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // GetRange
+
+        #region Deconstruct
+
+        /// <summary>
+        /// Deconstruct the range.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        private void Deconstruct(Range range, out int from, out int to)
+        {
+            from = range.Start.Value;
+            if (range.Start.IsFromEnd)
+                from = _builder.Length - from;
+            to = range.End.Value;
+            if (range.End.IsFromEnd)
+                to = _builder.Length - to;
+        }
+
+        #endregion // Deconstruct
     }
 }
