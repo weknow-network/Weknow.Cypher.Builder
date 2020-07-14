@@ -67,6 +67,25 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n.Id IN $items RETURN n / In_Prop_Test
+
+        #region MATCH (n:Person { Id: $Id }) WHERE n.PropA IN $items AND n.PropB IN $items RETURN n / In_Complex_Test
+
+        [Fact]
+        public void In_Complex_Test()
+        {
+            CypherCommand cypher = _(n => items =>
+                                    Match(N(n, Person, P(Id)))
+                                    .Where(n.In(PropA, items) && n.In(PropB, items))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+                    "MATCH (n:Person { Id: $Id })\r\n" +
+                    "WHERE n.PropA IN $items AND n.PropB IN $items \r\n" +
+                    "RETURN n", cypher.Query);
+        }
+
+        #endregion // MATCH (n:Person { Id: $Id }) WHERE n.PropA IN $items AND n.PropB IN $items RETURN n / In_Complex_Test
     }
 }
 
