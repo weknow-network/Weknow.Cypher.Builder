@@ -3,11 +3,13 @@
 
 namespace Weknow.Cypher.Builder
 {
+
     /// <summary>
-    /// Represent predefine pattern
+    /// Represent node to relation
     /// </summary>
-    /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
-    public class NodePattern : ExpressionPattern, INode
+    /// <seealso cref="Weknow.Cypher.Builder.ExpressionPattern" />
+    /// <seealso cref="Weknow.Cypher.Builder.INodeRelation" />
+    public class NodeRelationPattern : ExpressionPattern, INodeRelation
     {
         #region Ctor
 
@@ -16,7 +18,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
-        public NodePattern(Expression expression, CypherConfig configuration)
+        public NodeRelationPattern(Expression expression, CypherConfig configuration)
             : base(expression, configuration)
         {
         }

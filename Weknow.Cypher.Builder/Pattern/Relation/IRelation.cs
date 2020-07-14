@@ -6,20 +6,6 @@
 namespace Weknow.Cypher.Builder
 {
 
-    public interface INodeRelation : IPattern
-    {
-        public static INode operator >(INodeRelation l, INode r) => throw new NotImplementedException();
-        public static INode operator <(INodeRelation l, INode r) => throw new NotImplementedException();
-
-    }
-
-    public interface IRelationNode : IPattern
-    {
-        public static INode operator >(INode l, IRelationNode r) => throw new NotImplementedException();
-        public static INode operator <(INode l, IRelationNode r) => throw new NotImplementedException();
-
-    }
-
     /// <summary>
     /// Relation primitive for the Cypher expression.
     /// </summary>

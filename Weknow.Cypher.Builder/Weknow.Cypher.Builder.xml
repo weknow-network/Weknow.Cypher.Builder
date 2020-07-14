@@ -557,6 +557,22 @@
             exists(n.property)
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelationNode}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Reuses the specified expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INodeRelation}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Reuses the specified expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
@@ -566,6 +582,14 @@
             <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INodeRelation}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -637,14 +661,14 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse``1(``0)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.AsReuse``1(``0)">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
             <param name="v"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse``3(``0,Weknow.Cypher.Builder.IReuse{``1,``2})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.AsReuse``3(``0,Weknow.Cypher.Builder.IReuse{``1,``2})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -927,6 +951,20 @@
             <exception cref="T:System.NotImplementedException"></exception>
             <example>
             RETURN n.Id
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent)">
+            <summary>
+            WITH phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            WITH user, count(friend) AS friends
+            WHERE friends > 10
+            RETURN user
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
@@ -1233,6 +1271,16 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="M:Weknow.Cypher.Builder.INode.op_Subtraction(Weknow.Cypher.Builder.INode,Weknow.Cypher.Builder.IRelationNode)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.INode.op_Subtraction(Weknow.Cypher.Builder.INode,Weknow.Cypher.Builder.INode)">
             <summary>
             Declaration for operator -.
@@ -1293,6 +1341,32 @@
             The result of the operator.
             </returns>
         </member>
+        <member name="T:Weknow.Cypher.Builder.INodeRelation">
+            <summary>
+            Represent node to relation
+            </summary>
+            <seealso cref="T:Weknow.Cypher.Builder.IPattern" />
+        </member>
+        <member name="M:Weknow.Cypher.Builder.INodeRelation.op_GreaterThan(Weknow.Cypher.Builder.INodeRelation,Weknow.Cypher.Builder.INode)">
+            <summary>
+            Implements the operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.INodeRelation.op_LessThan(Weknow.Cypher.Builder.INodeRelation,Weknow.Cypher.Builder.INode)">
+            <summary>
+            Implements the operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.IPattern">
             <summary>
             Pattern primitive for the Cypher expression.
@@ -1305,6 +1379,32 @@
             Primitives don't have actual implementation, 
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IRelationNode">
+            <summary>
+            Represent relation to node
+            </summary>
+            <seealso cref="T:Weknow.Cypher.Builder.IPattern" />
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IRelationNode.op_GreaterThan(Weknow.Cypher.Builder.INode,Weknow.Cypher.Builder.IRelationNode)">
+            <summary>
+            Implements the operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IRelationNode.op_LessThan(Weknow.Cypher.Builder.INode,Weknow.Cypher.Builder.IRelationNode)">
+            <summary>
+            Implements the operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.NodePattern">
             <summary>
@@ -1319,12 +1419,26 @@
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
+        <member name="T:Weknow.Cypher.Builder.NodeRelationPattern">
+            <summary>
+            Represent node to relation
+            </summary>
+            <seealso cref="T:Weknow.Cypher.Builder.ExpressionPattern" />
+            <seealso cref="T:Weknow.Cypher.Builder.INodeRelation" />
+        </member>
         <member name="M:Weknow.Cypher.Builder.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.RelationNodePattern">
+            <summary>
+            Represent relation to node
+            </summary>
+            <seealso cref="T:Weknow.Cypher.Builder.ExpressionPattern" />
+            <seealso cref="T:Weknow.Cypher.Builder.IRelationNode" />
         </member>
         <member name="M:Weknow.Cypher.Builder.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>

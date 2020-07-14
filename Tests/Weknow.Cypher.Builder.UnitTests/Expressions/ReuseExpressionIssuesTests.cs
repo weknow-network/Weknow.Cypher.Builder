@@ -50,8 +50,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unordered_Test()
         {
-            CypherCommand cypher = _(n => P(PropA, PropB).Reuse(
-                                          N(n, Person).Reuse())
+            CypherCommand cypher = _(n => P(PropA, PropB).AsReuse(
+                                          N(n, Person).AsReuse())
                                      .By(p => n => n1 =>
                                       Match(N(n1, Person, p) - n)));
 

@@ -16,6 +16,14 @@ namespace Weknow.Cypher.Builder
     /// </remarks>
     public interface INode: IPattern
     {
+        /// <summary>
+        /// Implements the operator -.
+        /// </summary>
+        /// <param name="l">The l.</param>
+        /// <param name="r">The r.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static INode operator -(INode l, IRelationNode r) => throw new NotImplementedException();
 
         /// <summary>

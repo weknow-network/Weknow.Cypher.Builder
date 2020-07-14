@@ -267,6 +267,21 @@ namespace Weknow.Cypher.Builder
         /// WITH phrase.
         /// </summary>
         /// <param name="p">The p.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (user)-[:FRIEND]-(friend)
+        /// WHERE user.name = $name
+        /// WITH user, count(friend) AS friends
+        /// WHERE friends > 10
+        /// RETURN user
+        /// </example>
+        [Cypher("$0\r\nWITH *")]
+        public static Fluent With(this Fluent p) => throw new NotImplementedException();
+
+        /// <summary>
+        /// WITH phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
         /// <param name="vars"></param>
         /// <returns></returns>
         /// <example>

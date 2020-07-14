@@ -265,7 +265,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Nested_NodeToNode_ReusedProp_Test()
         {
-            CypherCommand cypher = _(_ => P(PropA, PropB).Reuse()
+            CypherCommand cypher = _(_ => P(PropA, PropB).AsReuse()
                                     .By(p => n1 => n2 => n2_ =>
                                     Match(N(n1, Person, p) > N(n2, Person, _P(n2_, p)))));
 

@@ -243,7 +243,7 @@ namespace Weknow.Cypher.Builder
                 Visit(node.Object);
                 Visit(node.Arguments[0]);
             }
-            else if (mtdName == nameof(Cypher.Reuse))
+            else if (mtdName == nameof(Cypher.Reuse) || mtdName == nameof(Cypher.AsReuse))
             {
                 if (node.Arguments.Count == 2)
                 {

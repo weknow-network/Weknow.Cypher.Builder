@@ -706,6 +706,12 @@ namespace Weknow.Cypher.Builder
 
         #region Reuse
 
+        /// <summary>
+        /// Reuses the specified expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
         public static IRelationNode Reuse(
                             Expression<Func<IVar, IRelationNode>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -715,6 +721,12 @@ namespace Weknow.Cypher.Builder
             return new RelationNodePattern(expression.Body, cfg);
         }
 
+        /// <summary>
+        /// Reuses the specified expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
         public static INodeRelation Reuse(
                             Expression<Func<IVar, INodeRelation>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -754,6 +766,12 @@ namespace Weknow.Cypher.Builder
             return new RelationPattern(expression.Body, cfg);
         }
 
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
         public static INodeRelation Reuse(
                             Expression<Func<IVar, Func<IVar, INodeRelation>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -883,12 +901,16 @@ namespace Weknow.Cypher.Builder
             return new RelationPattern(expression.Body, cfg);
         }
 
+        #endregion // Reuse
+
+        #region AsReuse
+
         /// <summary>
         /// Use for encapsulation of reusable expression.
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static IReuse<T, Fluent> Reuse<T>(this T v) => new Reuse<T, Fluent>(f => f(v));
+        public static IReuse<T, Fluent> AsReuse<T>(this T v) => new Reuse<T, Fluent>(f => f(v));
 
         /// <summary>
         /// Use for encapsulation of reusable expression.
@@ -896,8 +918,8 @@ namespace Weknow.Cypher.Builder
         /// <param name="r"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static IReuse<T, Func<U, R>> Reuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
+        public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
-        #endregion // Reuse
+        #endregion // AsReuse
     }
 }

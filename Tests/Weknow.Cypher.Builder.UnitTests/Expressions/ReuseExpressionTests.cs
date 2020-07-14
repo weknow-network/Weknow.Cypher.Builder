@@ -79,7 +79,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CaptureProperties_Test()
         {
-            CypherCommand cypher = _(_ => P(PropA, PropB).Reuse()
+            CypherCommand cypher = _(_ => P(PropA, PropB).AsReuse()
                                          .By(p => n => Match(N(n, Person, p))));
 
             _outputHelper.WriteLine(cypher);
@@ -93,8 +93,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CaptureNodeAndProperties_Test()
         {
-            CypherCommand cypher = _(n => P(PropA, PropB).Reuse()
-                                          .By(p => N(n, Person, p).Reuse()
+            CypherCommand cypher = _(n => P(PropA, PropB).AsReuse()
+                                          .By(p => N(n, Person, p).AsReuse()
                                           .By(n => Match(n))));
 
             _outputHelper.WriteLine(cypher);
@@ -109,8 +109,8 @@ namespace Weknow.Cypher.Builder
         public void Reuse_Node_Test()
         {
             CypherCommand cypher = _(person => animal => 
-                                     N(person, Person).Reuse(
-                                     N(animal, Animal).Reuse())
+                                     N(person, Person).AsReuse(
+                                     N(animal, Animal).AsReuse())
                          .By(reusedPerson => reusedAnimal => r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
 
@@ -126,7 +126,7 @@ namespace Weknow.Cypher.Builder
         public void Reuse_Plural_UNWIND_Test()
         {
             CypherCommand cypher = _(n =>
-                          P(PropA, PropB).Reuse()
+                          P(PropA, PropB).AsReuse()
                          .By(p => items =>
                             Unwind(items, Match(N(n, Person, p)))
                          ));
@@ -211,6 +211,20 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
+
+        #region (n:Foo { PropA: $PropA, m: $m }) / Dash_Reuse_Test
+
+        [Fact]
+        public void Dash_Reuse_Test()
+        {
+            var pattern = Reuse(n => m =>
+                        N<Foo>(n, x => P(x.PropA, m)));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal("(n:Foo { PropA: $PropA, m: $m })", pattern.ToString());
+        }
+
+        #endregion // (n:Foo { PropA: $PropA, m: $m }) / Dash_Reuse_Test
     }
 }
 
