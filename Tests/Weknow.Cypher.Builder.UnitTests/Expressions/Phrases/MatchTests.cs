@@ -196,7 +196,7 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(Id)))
-                                    .Set(P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
+                                    .Set(P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

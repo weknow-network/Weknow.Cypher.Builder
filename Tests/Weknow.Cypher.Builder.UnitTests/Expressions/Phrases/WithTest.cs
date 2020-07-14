@@ -33,7 +33,7 @@ namespace Weknow.Cypher.Builder
                         Merge(N(n, Person, n.P(Id)))
                         .With()
                         .Match(N(i, Person, n.P(Id)))
-                        .Return(i.As<Foo>().Name),
+                        .Return(i.OfType<Foo>().Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
 
@@ -56,7 +56,7 @@ namespace Weknow.Cypher.Builder
                         Merge(N(n, Person, n.P(Id)))
                         .With(n)
                         .Match(N(i, Person, n.P(Id)))
-                        .Return(i.As<Foo>().Name),
+                        .Return(i.OfType<Foo>().Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
 

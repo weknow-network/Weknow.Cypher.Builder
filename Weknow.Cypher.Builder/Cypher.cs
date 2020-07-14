@@ -11,7 +11,7 @@ namespace Weknow.Cypher.Builder
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.
-    /// For fluent cypher check <see cref="CypherExtensions"/>
+    /// For fluent cypher check <see cref="CypherPhraseExtensions"/>
     /// </summary>
     public static class Cypher
     {
@@ -469,7 +469,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IPropertiesOfType P<T>(this IVar var, Func<T, object> properties) => throw new NotImplementedException();
+        public static IPropertyOfType P<T>(this IVar var, Func<T, object> properties) => throw new NotImplementedException();
         /// <summary>
         /// Set property with variable (useful for unwind's variable).
         /// <param name="var"></param>
@@ -482,7 +482,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN n
         /// </example>
         [Cypher("$0: $1")]
-        public static IPropertiesConst P(IProperty properties, IVar var) => throw new NotImplementedException();
+        public static IPropertyConst P(IProperty properties, IVar var) => throw new NotImplementedException();
 
         #endregion // IProperties P (Properties)
 
@@ -921,5 +921,20 @@ namespace Weknow.Cypher.Builder
         public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
         #endregion // AsReuse
+
+        #region Timestamp / timestamp()
+
+        /// <summary>
+        /// Milliseconds since midnight, January 1, 1970 UTC.
+        /// </summary>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// RETURN count(n)
+        /// </example>
+        [Cypher("timestamp()")]
+        public static IVar Timestamp() => throw new NotImplementedException();
+
+        #endregion // Timestamp / timestamp()
     }
 }

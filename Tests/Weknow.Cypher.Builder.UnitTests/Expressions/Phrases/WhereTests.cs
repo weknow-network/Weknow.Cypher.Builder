@@ -31,7 +31,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, P(PropA)))
-                                    .Where(n.As<Foo>().Name == "my-name"));
+                                    .Where(n.OfType<Foo>().Name == "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
@@ -74,7 +74,7 @@ WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
                                     Match(N(n, Person, P(PropA)))
                                     .Where(Exists(m => r =>
                                         Match(N(n) - R[r, KNOWS] > N(m))
-                                        .Where(n.As<Foo>().Name == m.As<Foo>().Name))));
+                                        .Where(n.OfType<Foo>().Name == m.OfType<Foo>().Name))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

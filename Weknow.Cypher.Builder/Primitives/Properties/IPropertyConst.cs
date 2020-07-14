@@ -13,6 +13,6 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IPropertiesConst : IProperties { }
+    public interface IPropertyConst : IProperty { }
 
 }

@@ -9,7 +9,7 @@ namespace Weknow.Cypher.Builder
     /// <summary>
     /// Cypher Extensions
     /// </summary>
-    public static class CypherExtensions
+    public static class CypherPhraseExtensions
     {
         #region Match
 
@@ -115,6 +115,19 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET $1")]
+        public static Fluent OnCreateSet(this Fluent p, IPropertyOfType properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
         /// <param name="var">The variable.</param>
         /// <param name="map"></param>
         /// <returns></returns>
@@ -154,6 +167,19 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
         public static Fluent OnMatchSet(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MERGE (n:Person {id: $value})
+        /// ON CREATE SET p = $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET $1")]
+        public static Fluent OnMatchSet(this Fluent p, IPropertyOfType properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
@@ -477,81 +503,5 @@ namespace Weknow.Cypher.Builder
         public static Fluent DetachDelete(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
         #endregion // Delete / Detach
-
-        #region Compare
-
-        /// <summary>
-        /// Compares the specified with.
-        /// </summary>
-        /// <param name="compare">The compare.</param>
-        /// <param name="with">The with.</param>
-        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
-        /// <returns></returns>
-        public static bool Compare(
-            this ReadOnlySpan<char> compare,
-            ReadOnlySpan<char> with,
-            bool ignoreCase = false)
-        {
-            if (compare.Length != with.Length)
-                return false;
-            for (int i = 0; i < compare.Length; i++)
-            {
-                if (ignoreCase)
-                {
-                    if (Char.ToLower(compare[i]) != Char.ToLower(with[i]))
-                        return false;
-                }
-                else
-                {
-                    if (compare[i] != with[i])
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        #endregion // Compare
-
-        #region As
-
-        /// <summary>
-        /// Define variable as type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="var">The variable.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static T As<T>(this IVar var) => throw new NotImplementedException();
-
-        #endregion // As
-
-        #region In
-
-        /// <summary>
-        /// IN phrase.
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="property">The property.</param>
-        /// <param name="compareWith">The compare with.</param>
-        /// <returns></returns>
-        /// <example>
-        /// n.property IN [$value1, $value2]
-        /// </example>
-        [Cypher("$0\\.$1 IN \\$$2")]
-        public static bool In(this IVar variable, IProperty property, IVar compareWith) => throw new NotImplementedException();
-
-        /// <summary>
-        /// IN phrase.
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="compareWith">The compare with.</param>
-        /// <returns></returns>
-        /// <example>
-        /// n.property IN [$value1, $value2]
-        /// </example>
-        [Cypher("$0 IN \\$$1")]
-        public static bool In(this IVar variable, IVar compareWith) => throw new NotImplementedException();
-
-        #endregion // In
     }
 }

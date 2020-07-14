@@ -37,9 +37,9 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(a => r1 => b => r2 => c =>
              Match(N(a, Person) - R[r1, KNOWS] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
-             .Where(a.As<Foo>().Name == "Avi")
-             .Return(a.As<Foo>().Name, r1, b.All<Bar>(), r2, c)
-             .OrderBy(a.As<Foo>().Name)
+             .Where(a.OfType<Foo>().Name == "Avi")
+             .Return(a.OfType<Foo>().Name, r1, b.All<Bar>(), r2, c)
+             .OrderBy(a.OfType<Foo>().Name)
              .Skip(1)
              .Limit(10),
              cfg =>

@@ -128,7 +128,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.As<Foo>().PropA, n.As<Foo>().PropB))));
+            CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -193,7 +193,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_OfT_DefaultAndAdditionLabel_Test()
         {
-            IPattern pattern = Reuse(n => N<Foo>(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
+            IPattern pattern = Reuse(n => N<Foo>(n, Person, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
             var cypher = pattern.ToString();
 
             _outputHelper.WriteLine(cypher);
@@ -207,7 +207,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_OfT_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P(n.As<Foo>().PropA, n.As<Foo>().PropB)));
+            IPattern pattern = Reuse(n => N(n, Person, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
             var cypher = pattern.ToString();
 
             _outputHelper.WriteLine(cypher);
@@ -366,7 +366,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_All_Except_WithDefaultLabel_Test()
         {
-            IPattern pattern = Reuse(n => N<Foo>(n, AllExcept(n.As<Foo>().Id, n.As<Foo>().Name)));
+            IPattern pattern = Reuse(n => N<Foo>(n, AllExcept(n.OfType<Foo>().Id, n.OfType<Foo>().Name)));
             string? cypher = pattern?.ToString();
 
             _outputHelper.WriteLine(cypher);

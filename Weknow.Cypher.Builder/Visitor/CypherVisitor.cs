@@ -198,10 +198,11 @@ namespace Weknow.Cypher.Builder
             using var _ = _isProperties.Set(_isProperties.Value ||
                                                 node.Method.ReturnType == typeof(IProperty) ||
                                                 node.Method.ReturnType == typeof(IProperties) ||
+                                                node.Method.ReturnType == typeof(IPropertyOfType) ||
                                                 node.Method.ReturnType == typeof(IPropertiesOfType));
             using IDisposable inScp = mtdName switch
             {
-                nameof(CypherExtensions.In) => _methodExpr.Set(node),
+                nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
                 _ => DisposeableAction.Empty
             };
 
@@ -438,8 +439,8 @@ namespace Weknow.Cypher.Builder
                                 CanBeDirectProp();
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
-                nameof(CypherExtensions.Return) => true,
-                nameof(CypherExtensions.In) => true,
+                nameof(CypherPhraseExtensions.Return) => true,
+                nameof(CypherPredicateExtensions.In) => true,
                 _ => false
             };
             if ((_isProperties.Value || isDirectProp) && !ignore)
@@ -467,7 +468,7 @@ namespace Weknow.Cypher.Builder
                 if (_expression[3].Value != null) // generics properties, example: n.P(ID)
                 {
                     bool equalPattern = IsEqualPattern();
-                    bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
+                    bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
                     if (!_isProperties.Value || equalPattern || isReturn)
                     {
                         // use for tracing duplication
@@ -484,10 +485,11 @@ namespace Weknow.Cypher.Builder
                         }
                     }
                 }
-                if (_methodExpr.Value?.Method.Name == nameof(CypherExtensions.In))
+                if (_methodExpr.Value?.Method.Name == nameof(CypherPredicateExtensions.In))
                     Query.Append("$");
                 Visit(expr);
-                if (expr != node.Expressions.Last())
+                bool isLabels = node.Type == typeof(ILabel[]);
+                if (expr != node.Expressions.Last() && !isLabels)
                     Query.Append(", ");
             }
             return node;
@@ -541,7 +543,7 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
+            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
             if (isReturn)
             {
                 Query.Append(node.Value);
@@ -769,10 +771,10 @@ namespace Weknow.Cypher.Builder
         {
             return _methodExpr.Value?.Method.Name switch
             {
-                nameof(CypherExtensions.Set) => true,
-                nameof(CypherExtensions.Where) => true,
-                nameof(CypherExtensions.OnCreateSet) => true,
-                nameof(CypherExtensions.OnMatchSet) => true,
+                nameof(CypherPhraseExtensions.Set) => true,
+                nameof(CypherPhraseExtensions.Where) => true,
+                nameof(CypherPhraseExtensions.OnCreateSet) => true,
+                nameof(CypherPhraseExtensions.OnMatchSet) => true,
                 _ => false,
             };
         }
@@ -875,6 +877,7 @@ namespace Weknow.Cypher.Builder
             MethodCallExpression? propExpr = args.OfType<MethodCallExpression>()
                                    .LastOrDefault(
                                         m => m.Type == typeof(IProperties) ||
+                                        m.Type == typeof(IPropertyOfType) ||
                                         m.Type == typeof(IPropertiesOfType));
             if (propExpr == null)
                 return result;
