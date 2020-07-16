@@ -327,6 +327,18 @@
             {name: $name, value: $value}
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IMap,System.Object[])">
+            <summary>
+            Represent  properties collection.
+            with assignment via the map.
+            </summary>
+            <param name="map">The map.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            {name: map.name, value: map.value}
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P``1(System.Func{``0,System.Object}[])">
             <summary>
             Represent  properties collection.
@@ -372,7 +384,7 @@
             Represent variable with properties collection.
             <param name="var"></param>
             </summary>
-            <param name="properties">The properties.</param>
+            <param name="property">The properties.</param>
             <returns></returns>
             <example>
             </example>
@@ -2186,6 +2198,11 @@
         <member name="P:Weknow.Cypher.Builder.IVar`1._">
             <summary>
             Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IVar`1.Inc">
+            <summary>
+            Gets type representation of the variable which should be increment.
             </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.IVar">

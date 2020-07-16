@@ -422,6 +422,18 @@ namespace Weknow.Cypher.Builder
         public static IPropertiesOfType P(params object[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
+        /// with assignment via the map.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// {name: map.name, value: map.value}
+        /// </example>
+        [Cypher("$1")]
+        public static IPropertiesOfType P(IMap map, params object[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Represent  properties collection.
         /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
@@ -464,12 +476,12 @@ namespace Weknow.Cypher.Builder
         /// Represent variable with properties collection.
         /// <param name="var"></param>
         /// </summary>
-        /// <param name="properties">The properties.</param>
+        /// <param name="property">The properties.</param>
         /// <returns></returns>
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IPropertyOfType P<T>(this IVar var, Func<T, object> properties) => throw new NotImplementedException();
+        public static IPropertyOfType P<T>(this IVar var, Func<T, object> property) => throw new NotImplementedException();
         /// <summary>
         /// Set property with variable (useful for unwind's variable).
         /// <param name="var"></param>

@@ -21,6 +21,10 @@ namespace Weknow.Cypher.Builder
         /// Gets type representation of the variable.
         /// </summary>
         T _ { get; }
+        /// <summary>
+        /// Gets type representation of the variable which should be increment.
+        /// </summary>
+        T Inc { get; }
     }
 
     /// <summary>

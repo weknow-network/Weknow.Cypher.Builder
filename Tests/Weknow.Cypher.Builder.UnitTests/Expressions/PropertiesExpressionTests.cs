@@ -406,6 +406,23 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n / Properties_Const_Test
+
+        #region MERGE (n:Person { Id: map.Id, Name: map.Name }) RETURN n / Map_Properties_Test
+
+        [Fact]
+        public void Map_Properties_Test()
+        {
+            CypherCommand cypher = _<Fellow>(n => map =>
+                                        Merge(N(n, Person, P(map.AsMap, n._.Id, n._.Name)))
+                                        .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                       "MERGE (n:Person { Id: map.Id, Name: map.Name })\r\n" +
+                       "RETURN n", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: map.Id, Name: map.Name }) RETURN n / Map_Properties_Test
     }
 }
 
