@@ -146,7 +146,7 @@ WHERE $p_1 }", cypher.Query);
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
                     "MATCH (n:Person { PropA: $PropA })\r\n" +
-                    "WHERE NOT n.Name = $p_1", cypher.Query);
+                    "WHERE n.Name <> $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
             Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, "my-name"));

@@ -39,7 +39,8 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal(
                         "MERGE (n:Person { Id: $Id, eTag: $eTag })\r\n" +
                         "SET n += map\r\n" +
-                        "SET n.eTag = n.eTag + 1", cypher.Query);
+                        "SET n.eTag = n.eTag + 1\r\n" +
+                        "RETURN n.eTag", cypher.Query);
         }
 
         #endregion // ETag_Test
@@ -60,7 +61,8 @@ namespace Weknow.Cypher.Builder
 			 Assert.Equal("UNWIND $items AS item\r\n" +
                         "MERGE (n:Person { Id: item.Id, eTag: item.eTag })\r\n" +
                         "SET n += item\r\n" +
-                        "SET n.eTag = n.eTag + 1", cypher.Query);
+                        "SET n.eTag = n.eTag + 1\r\n" +
+                        "RETURN n.eTag", cypher.Query);
         }
 
         #endregion // ETag_Test

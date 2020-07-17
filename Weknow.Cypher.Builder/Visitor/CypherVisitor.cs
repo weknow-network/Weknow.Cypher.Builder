@@ -142,6 +142,9 @@ namespace Weknow.Cypher.Builder
                 case ExpressionType.Equal:
                     Query.Append(" = ");
                     break;
+                case ExpressionType.NotEqual:
+                    Query.Append(" <> ");
+                    break;
                 case ExpressionType.Add:
                     Query.Append(" += ");
                     break;
@@ -403,6 +406,17 @@ namespace Weknow.Cypher.Builder
 
             bool isEqualsPttern = IsEqualPattern();
 
+            if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(IVar<int>.Inc))
+            {
+                Query.Append(name);
+                Query.Append(" = ");
+                Visit(mme.Expression);
+                Query.Append(".");
+                Query.Append(name);
+                Query.Append(" + 1");
+                return node;
+            }
+
             AddGenPrefix();
 
             if (name == nameof(IVar.AsMap))
@@ -414,7 +428,7 @@ namespace Weknow.Cypher.Builder
             }
             else if ((node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode)) &&
                     node.Expression is ConstantExpression c &&
-                    node.Member is FieldInfo fi && 
+                    node.Member is FieldInfo fi &&
                     fi.GetValue(c.Value) is ExpressionPattern p)
             {
                 Visit(p.expression);
@@ -453,6 +467,7 @@ namespace Weknow.Cypher.Builder
             {
                 HandleProperties(name);
             }
+
             return node;
         }
 
