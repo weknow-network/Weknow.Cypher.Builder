@@ -9,8 +9,7 @@ using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Property")]
-    [Trait("Segment", "Expression")]
+        [Trait("Segment", "Expression")]
     public class PropertiesExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

@@ -385,6 +385,51 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IRelation R (Relation)
 
+        #region IgnoreContext
+
+        /// <summary>
+        /// Ignores the context of unwind and alike so the properties 
+        /// won't be affected by the context formatting.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IProperty[] IgnoreContext (params IProperty[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Ignores the context of unwind and alike so the properties 
+        /// won't be affected by the context formatting.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IProperties IgnoreContext(IProperties properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Ignores the context of unwind and alike so the properties 
+        /// won't be affected by the context formatting.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertiesOfType IgnoreContext(IPropertiesOfType properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Ignores the context of unwind and alike so the properties 
+        /// won't be affected by the context formatting.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertyOfType IgnoreContext(IPropertyOfType property) => throw new NotImplementedException();
+        /// <summary>
+        /// Ignores the context of unwind and alike so the properties 
+        /// won't be affected by the context formatting.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertyConst IgnoreContext(IPropertyConst property) => throw new NotImplementedException();
+
+        #endregion // IgnoreContext
+        
         #region IProperties P (Properties)
 
         /// <summary>
@@ -397,18 +442,6 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0")]
         public static IProperties P(params IProperty[] properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <param name="options">The options.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$1")]
-        public static IProperties P(PropertyOptions options, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
@@ -441,18 +474,6 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0")]
         public static IPropertiesOfType P<T>(params Func<T, object>[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="options">The options.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$0")]
-        public static IPropertiesOfType P<T>(PropertyOptions options, params Func<T, object>[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
@@ -549,6 +570,18 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0")]
         public static IProperty P_(IProperty property, IVar variableName) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Represent property with prefix.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="variableName">Name of the variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// { Id: $Key }
+        /// </example>
+        [Cypher("$0")]
+        public static IProperty P_(IProperty property, object variableName) => throw new NotImplementedException();
 
         /// <summary>
         /// Represent property with prefix.

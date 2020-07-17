@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -70,11 +71,12 @@ namespace Weknow.Cypher.Builder
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
-        private readonly ContextValue<PropertyOptions> _propOptions = new ContextValue<PropertyOptions>(PropertyOptions.None);
+        private readonly ContextValue<bool> _ignoreContext = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
+        private readonly ContextValue<string?> _propPrefix = new ContextValue<string?>(null);
 
         private readonly Dictionary<int, ContextValue<ContextExpression?>> _expression = new Dictionary<int, ContextValue<ContextExpression?>>()
         {
@@ -190,6 +192,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // VisitUnary
 
+
         #region VisitMethodCall
 
         /// <summary>
@@ -203,15 +206,18 @@ namespace Weknow.Cypher.Builder
         {
             string mtdName = node.Method.Name;
             string type = node.Type.Name;
+            ReadOnlyCollection<Expression> args = node.Arguments;
+            Expression? firstArg = args.FirstOrDefault();
 
-            using var _ = _isProperties.Set(_isProperties.Value ||
-                                                node.Method.ReturnType == typeof(IProperty) ||
-                                                node.Method.ReturnType == typeof(IProperties) ||
-                                                node.Method.ReturnType == typeof(IPropertyOfType) ||
-                                                node.Method.ReturnType == typeof(IPropertiesOfType));
+            using var _ = IsProperty(node.Method.ReturnType);
             using IDisposable inScp = mtdName switch
             {
                 nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
+                _ => DisposeableAction.Empty
+            };
+            using IDisposable igCtx = node.Method.Name switch
+            {
+                nameof(Cypher.IgnoreContext) => _ignoreContext.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -219,30 +225,21 @@ namespace Weknow.Cypher.Builder
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
-                ParameterExpression? prm = node.Arguments
-                                                .Skip(1)
-                                                .FirstOrDefault() as ParameterExpression;
-                LambdaExpression? lmba = node.Arguments
-                                                .Skip(1)
-                                                .FirstOrDefault() as LambdaExpression;
-                MemberExpression? prp = lmba?.Body as MemberExpression;
-                using IDisposable scp = node.Method?.Name switch
-                {
-                    nameof(Cypher.P_) when prm != null => _isCustomProp.Set(prm.Name),
-                    nameof(Cypher.P_) when prp != null => _isCustomProp.Set(prp.Member.Name),
-                    _ => DisposeableAction.Empty
-                };
+                using IDisposable scp = IsCustomProp(node);
 
                 // Looking for property options
                 var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
                 var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
                 IDisposable poptScp = DisposeableAction.Empty;
-                if (opt?.Type == typeof(PropertyOptions))
+                using IDisposable mapProps = node.Method.Name switch
                 {
-                    string tmp = opt?.Value?.ToString() ?? string.Empty;
-                    if (Enum.TryParse<PropertyOptions>(tmp, out var options))
-                        poptScp = _propOptions.Set(options);
-                }
+                    nameof(Cypher.P) when firstArg.Type == typeof(IMap) &&
+                                          args.Count > 1 &&
+                                          firstArg is MemberExpression me &&
+                                          me.Expression is ParameterExpression mme =>
+                         _propPrefix.Set($"{mme.Name}."),
+                    _ => DisposeableAction.Empty
+                };
                 using (poptScp)
                 {
                     ApplyFormat(node, format);
@@ -455,8 +452,8 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool isDirectProp = pi?.PropertyType == typeof(IProperty) &&
-                                CanBeDirectProp();
+            bool isDirectProp = // pi?.PropertyType == typeof(IProperty) &&
+                                _ignoreContext.Value;
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
                 nameof(CypherPhraseExtensions.Return) => true,
@@ -508,6 +505,7 @@ namespace Weknow.Cypher.Builder
                 }
                 if (_methodExpr.Value?.Method.Name == nameof(CypherPredicateExtensions.In))
                     Query.Append("$");
+                using IDisposable _ = IsProperty(expr.Type);
                 Visit(expr);
                 bool isLabels = node.Type == typeof(ILabel[]);
                 if (expr != node.Expressions.Last() && !isLabels)
@@ -800,28 +798,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IsEqualPattern
 
-        #region CanBeDirectProp
-
-        /// <summary>
-        /// Determines whether this instance [can be direct property].
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance [can be direct property]; otherwise, <c>false</c>.
-        /// </returns>
-        private bool CanBeDirectProp()
-        {
-            return _methodExpr.Value?.Method.Name switch
-            {
-                nameof(Cypher.Unwind)
-                        when (_propOptions.Value & PropertyOptions.Detached)
-                                    == PropertyOptions.None
-                        => false,
-                _ => true,
-            };
-        }
-
-        #endregion // CanBeDirectProp
-
         #region HandleProperties
 
         /// <summary>
@@ -842,14 +818,17 @@ namespace Weknow.Cypher.Builder
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
             else if (_expression[2].Value != null &&
-                    (_propOptions.Value & PropertyOptions.Detached) == PropertyOptions.None)
+                    !_ignoreContext.Value)
             {
                 // Adding Unwind variable as prefix
                 Visit(_expression[2].Value);
                 Query.Append(".");
             }
             else
-                Query.Append("$");
+            {
+                string? prefix = _propPrefix.Value;
+                Query.Append(prefix ?? "$");
+            }
             Query.Append(_isCustomProp.Value ?? name);
             Parameters[parameterName] = null;
         }
@@ -958,5 +937,57 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // AddGenPrefix
+
+        #region IsCustomProp
+
+        /// <summary>
+        /// Determines whether [is custom property] [the specified node].
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        private IDisposable IsCustomProp(MethodCallExpression node)
+        {
+            if (node.Method?.Name != nameof(Cypher.P_))
+                return DisposeableAction.Empty;
+
+            var arg1 = node.Arguments[1];
+            switch (arg1)
+            {
+                case ParameterExpression e:
+                    return _isCustomProp.Set(e.Name);
+                case MemberExpression e:
+                    return _isCustomProp.Set(e.Member.Name);
+                case LambdaExpression e:
+                    if (e?.Body is MemberExpression e1)
+                        return _isCustomProp.Set(e1.Member.Name);
+                    break;
+
+            }
+            return DisposeableAction.Empty;
+        }
+
+        #endregion // IsCustomProp
+
+        #region IsProperty
+
+        /// <summary>
+        /// Determines whether the specified type is property.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        private IDisposable IsProperty(Type type)
+        {
+            var result = type.Name switch
+            {
+                nameof(IProperty) => _isProperties.Set(true),
+                nameof(IProperties) => _isProperties.Set(true),
+                nameof(IPropertyOfType) => _isProperties.Set(true),
+                nameof(IPropertiesOfType) => _isProperties.Set(true),
+                _ => DisposeableAction.Empty
+            };
+            return result;
+        }
+
+        #endregion // IsProperty
     }
 }

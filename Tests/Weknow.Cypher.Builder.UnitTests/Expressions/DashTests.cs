@@ -12,8 +12,7 @@ using System.Text;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Property")]
-    [Trait("Segment", "Expression")]
+        [Trait("Segment", "Expression")]
     public class DashTests
     {
         private readonly ITestOutputHelper _outputHelper;

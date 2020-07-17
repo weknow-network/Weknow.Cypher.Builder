@@ -8,8 +8,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "eTag")]
-    [Trait("Group", "Pattern")]
+        [Trait("Group", "Pattern")]
     [Trait("Segment", "Expression")]
     public class ETagTests
     {

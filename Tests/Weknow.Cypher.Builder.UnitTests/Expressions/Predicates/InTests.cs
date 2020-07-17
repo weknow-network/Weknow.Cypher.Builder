@@ -9,8 +9,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "In")]
-    [Trait("Group", "Predicates")]
+        [Trait("Group", "Predicates")]
     [Trait("Segment", "Expression")]
     public class InTests
     {

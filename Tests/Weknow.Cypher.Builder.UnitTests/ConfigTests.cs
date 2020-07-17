@@ -6,8 +6,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Deprecated")]
-    public class ConfigTests
+        public class ConfigTests
     {
         protected readonly ITestOutputHelper _outputHelper;
 

@@ -9,8 +9,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    //[Trait("Category", "Reuse")]
-    //[Trait("Segment", "Expression")]
+    //    //[Trait("Segment", "Expression")]
     [Trait("Issues", "open")]
     public class ReuseExpressionIssuesTests
     {

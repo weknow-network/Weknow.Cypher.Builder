@@ -10,8 +10,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Functions")]
-    [Trait("Segment", "Expression")]
+        [Trait("Segment", "Expression")]
     public class FunctionsExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

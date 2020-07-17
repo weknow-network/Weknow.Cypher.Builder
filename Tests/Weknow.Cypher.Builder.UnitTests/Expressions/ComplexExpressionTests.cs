@@ -9,8 +9,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Complex")]
-    [Trait("Segment", "Expression")]
+        [Trait("Segment", "Expression")]
     public class ComplexExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

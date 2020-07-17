@@ -8,8 +8,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Unwind")]
-    [Trait("Group", "Phrases")]
+        [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class UnwindTests
     {
@@ -36,9 +35,6 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
-            Assert.True(cypher.Parameters.ContainsKey("items"));
-            Assert.False(cypher.Parameters.ContainsKey(nameof(PropA)));
-            Assert.False(cypher.Parameters.ContainsKey(nameof(PropB)));
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
@@ -50,14 +46,11 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => id =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(PropertyOptions.Detached, P_(Id, id), PropB)))));
+                                    Match(N(n, Person, IgnoreContext(P( P_(Id, id), PropB))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
-            Assert.True(cypher.Parameters.ContainsKey("items"));
-            Assert.True(cypher.Parameters.ContainsKey("id"));
-            Assert.True(cypher.Parameters.ContainsKey(nameof(PropB)));
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { Id: $id, PropB: $PropB }) / Unwind_NonWindProp_Test
@@ -69,17 +62,46 @@ MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(PropertyOptions.Detached, "Id")))));
+                                    Match(N(n, Person, IgnoreContext(P("Id"))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { Id: $Id })", cypher.Query);
-            Assert.True(cypher.Parameters.ContainsKey("items"));
-            Assert.True(cypher.Parameters.ContainsKey(nameof(Id)));
-            Assert.True(cypher.Parameters.ContainsKey(nameof(PropB)));
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Unwind_NonWindProp_T_Test
+
+        #region UNWIND $items AS item MATCH (n:Person { Id: item.custom }) / Unwind_NonWindProp_T_Test
+
+        [Fact]
+        public void Unwind_CustomProp_Test()
+        {
+            CypherCommand cypher = _(items => item => n => custom =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P(P_(Id, custom))))));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: item.custom })", cypher.Query);
+        }
+
+        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.custom }) / Unwind_NonWindProp_T_Test
+
+        #region UNWIND $items AS item MATCH (n:Person { Id: item.Name }) / Unwind_NonWindProp_T_Test
+
+        [Fact]
+        public void Unwind_CustomProp_T_Test()
+        {
+            CypherCommand cypher = _<Foo>(n => items => item => 
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P(P_(Id, n._.Name))))));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: item.Name })", cypher.Query);
+        }
+
+        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Name }) / Unwind_NonWindProp_T_Test
 
         #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_WithPropConvention_Test
 
@@ -359,7 +381,7 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
-            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(PropertyOptions.Detached, _P(maintainer_, Id), Date)));
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, IgnoreContext(P(_P(maintainer_, Id), Date))));
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,

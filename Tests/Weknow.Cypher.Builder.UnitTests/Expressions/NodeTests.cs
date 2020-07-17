@@ -8,8 +8,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-    [Trait("Category", "Node")]
-    [Trait("Segment", "Expression")]
+        [Trait("Segment", "Expression")]
     public class NodeTests
     {
         private readonly ITestOutputHelper _outputHelper;
