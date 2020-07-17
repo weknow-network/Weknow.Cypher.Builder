@@ -4,12 +4,6 @@ using Xunit.Abstractions;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
-// TODO: Duplicate class Pattern to FullNamePattern for naming standard
-
-// TODO: parameter factory injection for enabling to work with Neo4jParameters (Neo4jMapper)
-//       Mimic Neo4jMappaer WithEntity, WithEntities + integration test
-//       validate flat entity (in deep complex type throw exception with recommendation for best practice)
-
 namespace Weknow.Cypher.Builder
 {
     [Trait("Category", "Deprecated")]

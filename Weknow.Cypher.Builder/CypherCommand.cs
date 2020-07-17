@@ -1,8 +1,6 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-// TODO: Get formatter and format the To string + enable ToString(format)
-
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
@@ -19,7 +17,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="parameters">The parameters.</param>
         public CypherCommand(
             string query,
-            CypherParameters parameters) // TODO: not necessary dictionary
+            CypherParameters parameters) 
         {
             Query = query;
             Parameters = parameters;

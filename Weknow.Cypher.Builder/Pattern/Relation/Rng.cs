@@ -1,8 +1,6 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-// TODO: [bnaya, 2020-07] test and fix the examples
-
 namespace Weknow.Cypher.Builder
 {
     /// <summary>

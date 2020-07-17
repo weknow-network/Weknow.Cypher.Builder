@@ -165,7 +165,7 @@ RETURN n", cypher.Query);
         public void Unwind_ShouldUseDefaultPlurality_Test()
         {
             CypherCommand cypher = _(items => n =>
-                                    Unwind(items, // TODO: should use plurality
+                                    Unwind(items, 
                                     Match(N(n, Person, P(PropA, PropB)))));
 
             _outputHelper.WriteLine(cypher);
@@ -181,7 +181,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         public void Unwind_ShouldUseCustomPlurality_Test()
         {
             CypherCommand cypher = _(items => n =>
-                                    Unwind(items, // TODO: should use plurality
+                                    Unwind(items, 
                                     Match(N(n, Person, P(PropA, PropB)))),
                                     cfg => cfg.Naming.SetPluralization(
                                                 n => n switch

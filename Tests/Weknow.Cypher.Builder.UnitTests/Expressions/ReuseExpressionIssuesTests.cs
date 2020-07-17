@@ -44,7 +44,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Lazy_Reuse_Properties_Test
 
-        // TODO: disable the option of chaining Reuse in a row because of the backward ordering (confusion)
         #region Reuse_Unordered_Test
 
         [Fact]

@@ -75,7 +75,7 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
-        // TODO: [bnaya 2020-07] use string key for better clarity
+
         private readonly Dictionary<int, ContextValue<ContextExpression?>> _expression = new Dictionary<int, ContextValue<ContextExpression?>>()
         {
             [0] = new ContextValue<ContextExpression?>(null),
@@ -624,8 +624,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Visit
-
-        // TODO: [bnaya 2020-07] document formats
 
         #region ApplyFormat
 

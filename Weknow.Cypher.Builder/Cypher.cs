@@ -32,7 +32,7 @@ namespace Weknow.Cypher.Builder
             CypherParameters parameters = visitor.Parameters;
 
             return new CypherCommand(
-                            cypher, // TODO: format according to the configuration
+                            cypher, 
                             parameters);
         }
 
@@ -193,7 +193,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // dash '_'
 
-        // TODO: [bnaya, 2020-07] Test each IPattern N (Node) and add example to the documentation
         #region IPattern N (Node)
 
         /// <summary>
