@@ -445,6 +445,18 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="options">The options.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// {name: $name, value: $value}
+        /// </example>
+        [Cypher("$0")]
+        public static IPropertiesOfType P<T>(PropertyOptions options, params Func<T, object>[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Represent  properties collection.
+        /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>

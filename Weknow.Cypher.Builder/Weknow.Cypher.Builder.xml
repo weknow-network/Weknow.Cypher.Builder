@@ -317,6 +317,17 @@
             {name: $name, value: $value}
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.PropertyOptions,System.Object[])">
+            <summary>
+            Represent  properties collection.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            {name: $name, value: $value}
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(System.Object[])">
             <summary>
             Represent  properties collection.
@@ -343,6 +354,18 @@
             <summary>
             Represent  properties collection.
             </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            {name: $name, value: $value}
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.P``1(Weknow.Cypher.Builder.PropertyOptions,System.Func{``0,System.Object}[])">
+            <summary>
+            Represent  properties collection.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="options">The options.</param>
             <param name="properties">The properties.</param>
             <returns></returns>
             <example>
