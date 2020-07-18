@@ -13,7 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
-    <Version>2.0.30-alpha</Version>
+    <Version>2.1.32-alpha</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageTags>CYPHER, NEO4J, GRAPH, GRAPH DATABASE, ORM, CSHARP, .NET, DRIVER</PackageTags>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.6" />
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
     <PackageReference Include="Weknow-BasicExtensions" Version="1.0.17" />

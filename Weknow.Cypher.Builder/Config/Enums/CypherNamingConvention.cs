@@ -16,10 +16,10 @@
         /// <summary>
         /// The camel case
         /// </summary>
-        CamelCase,
+        camelCase,
         /// <summary>
         /// The pacal case
         /// </summary>
-        pacalCase
+        PacalCase
     }
 }

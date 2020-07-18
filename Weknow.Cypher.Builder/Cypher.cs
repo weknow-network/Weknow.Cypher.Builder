@@ -1022,20 +1022,5 @@ namespace Weknow.Cypher.Builder
         public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
         #endregion // AsReuse
-
-        #region Timestamp / timestamp()
-
-        /// <summary>
-        /// Milliseconds since midnight, January 1, 1970 UTC.
-        /// </summary>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// RETURN count(n)
-        /// </example>
-        [Cypher("timestamp()")]
-        public static IVar Timestamp() => throw new NotImplementedException();
-
-        #endregion // Timestamp / timestamp()
     }
 }

@@ -39,6 +39,22 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Match
 
+        #region OptionalMatch
+
+        /// <summary>
+        /// Optional Matches phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="pp"></param>
+        /// <returns></returns>
+        /// <example>
+        /// OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
+        /// </example>
+        [Cypher("$0\r\nOPTIONAL MATCH $1")]
+        public static Fluent OptionalMatch(this Fluent p, Fluent pp) => throw new NotImplementedException();
+
+        #endregion // OptionalMatch
+
         #region Create
 
         /// <summary>
@@ -210,22 +226,6 @@ namespace Weknow.Cypher.Builder
 
 
         #endregion // OnMatchSet
-
-        #region OptionalMatch
-
-        /// <summary>
-        /// Optional Matches phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="pp"></param>
-        /// <returns></returns>
-        /// <example>
-        /// OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
-        /// </example>
-        [Cypher("$0\r\nOPTIONAL MATCH $1")]
-        public static Fluent OptionalMatch(this Fluent p, Fluent pp) => throw new NotImplementedException();
-
-        #endregion // OptionalMatch
 
         #region Where
 

@@ -20,11 +20,6 @@
         public CypherAmbientLabelConfig AmbientLabels { get; }
 
         /// <summary>
-        /// Sets the concurrency behavior.
-        /// </summary>
-        public ConcurrencyConfig Concurrency { get; private set; } = new ConcurrencyConfig();
-
-        /// <summary>
         /// Gets the naming convention.
         /// </summary>
         public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();

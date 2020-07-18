@@ -89,8 +89,8 @@ namespace Weknow
             return convention switch
             {
                 CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
-                CypherNamingConvention.CamelCase => text.ToCamelCase(),
-                CypherNamingConvention.pacalCase => text.ToCamelCase(),
+                CypherNamingConvention.camelCase => text.ToCamelCase(),
+                CypherNamingConvention.PacalCase => text.ToCamelCase(),
                 _ => text
             };
         }

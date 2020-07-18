@@ -276,7 +276,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_CustomVariable_Obj_Test()
         {
-            var cypher = _<Foo>(n => key => Match(N(n, Person, P_(Id, n._.Name))));
+            var cypher = _<Foo>(n => Match(N(n, Person, P_(Id, n._.Name))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Person { Id: $Name })", cypher);
