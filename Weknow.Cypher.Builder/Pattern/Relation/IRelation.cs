@@ -71,12 +71,12 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="var">The variable.</param>
         /// <param name="type">The type.</param>
-        /// <param name="property"></param>
+        /// <param name="properties"></param>
         /// <returns></returns>
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
-        IRelation this[IVar var, IType type, IProperty property] { [Cypher("[$0:$1 { $2 }]")] get; }
+        IRelation this[IVar var, IType type, params IProperty[] properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
         /// Represent relation with range.
         /// </summary>

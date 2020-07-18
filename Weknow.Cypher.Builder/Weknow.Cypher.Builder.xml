@@ -1843,7 +1843,7 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
@@ -1852,7 +1852,7 @@
             </value>
             <param name="var">The variable.</param>
             <param name="type">The type.</param>
-            <param name="property"></param>
+            <param name="properties"></param>
             <returns></returns>
             <example>
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
@@ -2107,7 +2107,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>

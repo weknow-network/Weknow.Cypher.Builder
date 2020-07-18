@@ -134,7 +134,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="property"></param>
         /// <returns></returns>
 
-        IRelation IRelation.this[IVar var, IType type, IProperty property] => throw new NotImplementedException();
+        IRelation IRelation.this[IVar var, IType type, params IProperty[] property] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
