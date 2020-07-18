@@ -8,7 +8,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-        [Trait("Segment", "Execution")]
+    [Trait("Segment", "Execution")]
     public class ParametersTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -48,7 +48,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => id =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, IgnoreContext(P( P_(Id, id), PropB))))));
+                                    Match(N(n, Person, NoLoopFormat(P( P_(Id, id), PropB))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -67,7 +67,7 @@ MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, IgnoreContext(P("Id"))))));
+                                    Match(N(n, Person, NoLoopFormat(P("Id"))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item

@@ -385,16 +385,16 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IRelation R (Relation)
 
-        #region IgnoreContext
+        #region NoLoopFormat
 
         /// <summary>
-        /// Ignores the context of unwind and alike so the properties 
-        /// won't be affected by the context formatting.
+        /// Avoid properties' loop formatting prefix except $
+        /// for example unwind's item.
         /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static IProperty[] IgnoreContext (params IProperty[] properties) => throw new NotImplementedException();
+        public static IProperty[] NoLoopFormat (params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Ignores the context of unwind and alike so the properties 
         /// won't be affected by the context formatting.
@@ -402,34 +402,79 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static IProperties IgnoreContext(IProperties properties) => throw new NotImplementedException();
+        public static IProperties NoLoopFormat(IProperties properties) => throw new NotImplementedException();
         /// <summary>
-        /// Ignores the context of unwind and alike so the properties 
-        /// won't be affected by the context formatting.
+        /// Avoid properties' loop formatting prefix except $
+        /// for example unwind's item.
         /// </summary>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static IPropertiesOfType IgnoreContext(IPropertiesOfType properties) => throw new NotImplementedException();
+        public static IPropertiesOfType NoLoopFormat(IPropertiesOfType properties) => throw new NotImplementedException();
         /// <summary>
-        /// Ignores the context of unwind and alike so the properties 
-        /// won't be affected by the context formatting.
+        /// Avoid properties' loop formatting prefix except $
+        /// for example unwind's item.
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static IPropertyOfType IgnoreContext(IPropertyOfType property) => throw new NotImplementedException();
+        public static IPropertyOfType NoLoopFormat(IPropertyOfType property) => throw new NotImplementedException();
         /// <summary>
-        /// Ignores the context of unwind and alike so the properties 
-        /// won't be affected by the context formatting.
+        /// Avoid properties' loop formatting prefix except $
+        /// for example unwind's item.
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static IPropertyConst IgnoreContext(IPropertyConst property) => throw new NotImplementedException();
+        public static IPropertyConst NoLoopFormat(IPropertyConst property) => throw new NotImplementedException();
 
-        #endregion // IgnoreContext
-        
+        #endregion // NoLoopFormat
+
+        #region NoFormat
+
+        /// <summary>
+        /// Avoid properties' formatting prefix including $
+        /// for example unwind's item.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IProperty[] NoFormat (params IProperty[] properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Avoid properties' formatting prefix including $
+        /// for example unwind's item.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IProperties NoFormat(IProperties properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Avoid properties' formatting prefix including $
+        /// for example unwind's item.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertiesOfType NoFormat(IPropertiesOfType properties) => throw new NotImplementedException();
+        /// <summary>
+        /// Avoid properties' formatting prefix including $
+        /// for example unwind's item.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertyOfType NoFormat(IPropertyOfType property) => throw new NotImplementedException();
+        /// <summary>
+        /// Avoid properties' formatting prefix including $
+        /// for example unwind's item.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        [Cypher("$0")]
+        public static IPropertyConst NoFormat(IPropertyConst property) => throw new NotImplementedException();
+
+        #endregion // NoFormat
+
         #region IProperties P (Properties)
 
         /// <summary>
@@ -528,7 +573,7 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0: $1")]
         public static IPropertyConst P(IProperty properties, IVar var) => throw new NotImplementedException();
 
-        #endregion // IProperties P (Properties)
+        #endregion // IProperties P (Properties)NoLoopFormat
 
         #region IProperties _P (Properties with prefix)
 

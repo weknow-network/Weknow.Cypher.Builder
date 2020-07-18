@@ -71,7 +71,8 @@ namespace Weknow.Cypher.Builder
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
-        private readonly ContextValue<bool> _ignoreContext = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _noFormat = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -215,9 +216,14 @@ namespace Weknow.Cypher.Builder
                 nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
                 _ => DisposeableAction.Empty
             };
-            using IDisposable igCtx = node.Method.Name switch
+            using IDisposable noLoop = node.Method.Name switch
             {
-                nameof(Cypher.IgnoreContext) => _ignoreContext.Set(true),
+                nameof(Cypher.NoLoopFormat) => _noLoopFormat.Set(true),
+                _ => DisposeableAction.Empty
+            };
+            using IDisposable noFormat = node.Method.Name switch
+            {
+                nameof(Cypher.NoFormat) => _noFormat.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -452,15 +458,16 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool isDirectProp = // pi?.PropertyType == typeof(IProperty) &&
-                                _ignoreContext.Value;
+            bool reduceFormatting = // pi?.PropertyType == typeof(IProperty) &&
+                                _noLoopFormat.Value ||
+                                _noFormat.Value;
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
                 nameof(CypherPhraseExtensions.Return) => true,
                 nameof(CypherPredicateExtensions.In) => true,
                 _ => false
             };
-            if ((_isProperties.Value || isDirectProp) && !ignore)
+            if ((_isProperties.Value || reduceFormatting) && !ignore)
             {
                 HandleProperties(name);
             }
@@ -810,7 +817,10 @@ namespace Weknow.Cypher.Builder
             string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
             bool equalPattern = IsEqualPattern();
             Query.Append(equalPattern ? " = " : ": ");
-            if (_expression[0].Value != null)
+            if (_noFormat.Value)
+            {  // avoid othe if's formatting
+            }
+            else if (_expression[0].Value != null)
             {
                 Query.Append("$");
                 var length = Query.Length;
@@ -818,7 +828,7 @@ namespace Weknow.Cypher.Builder
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
             else if (_expression[2].Value != null &&
-                    !_ignoreContext.Value)
+                    !_noLoopFormat.Value)
             {
                 // Adding Unwind variable as prefix
                 Visit(_expression[2].Value);
