@@ -248,7 +248,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="p">The p.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         /// <example>
         /// MATCH (user)-[:FRIEND]-(friend)
         /// WHERE user.name = $name
@@ -278,7 +278,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="p">The p.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         /// <example>
         /// RETURN n.Id
         /// </example>

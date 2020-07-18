@@ -37,7 +37,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var, IType type, IProperties properties, Rng r] => throw new NotImplementedException();
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -47,7 +47,7 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var] => throw new NotImplementedException();
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var, Rng r] => throw new NotImplementedException();
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[Rng r] => throw new NotImplementedException();
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var, IType type, IProperties properties, Range r] => throw new NotImplementedException();
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var, Range r] => throw new NotImplementedException();
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[Range r] => throw new NotImplementedException();
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="type">The type.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IVar var, IType type, IProperties properties] => throw new NotImplementedException();
 
         /// <summary>
@@ -131,8 +131,21 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="var">The variable.</param>
         /// <param name="type">The type.</param>
+        /// <param name="property"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+
+        IRelation IRelation.this[IVar var, IType type, IProperty property] => throw new NotImplementedException();
+
+        /// <summary>
+        /// Gets the <see cref="IRelation"/> with the specified variable.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IRelation"/>.
+        /// </value>
+        /// <param name="var">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        
         IRelation IRelation.this[IVar var, IType type] => throw new NotImplementedException();
 
         /// <summary>
@@ -143,7 +156,7 @@ namespace Weknow.Cypher.Builder
         /// </value>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         IRelation IRelation.this[IType type] => throw new NotImplementedException();
 
         #endregion // Indexer

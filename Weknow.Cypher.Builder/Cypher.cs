@@ -370,7 +370,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <param name="map">The properties.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         [Cypher("($0:!0$1 $2)")]
         public static INode N<T>(IVar var, ILabel label, IMap map) => throw new NotImplementedException();
 
@@ -634,13 +634,13 @@ namespace Weknow.Cypher.Builder
         /// All properties of the type.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         public static IProperties All() => throw new NotImplementedException();
         /// <summary>
         /// All properties of the type.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         public static IPropertiesOfType All<T>(this IVar var) => throw new NotImplementedException();
 
         #endregion // IProperties All (All Properties)
@@ -652,7 +652,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="except">The except.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        
         public static IProperties AllExcept(params object[] except) => throw new NotImplementedException();
 
         #endregion // IProperties AllExcept (All properties except)

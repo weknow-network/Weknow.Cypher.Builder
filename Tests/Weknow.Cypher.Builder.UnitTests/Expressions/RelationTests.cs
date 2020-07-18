@@ -68,6 +68,21 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Relation_WithProp_Test
 
+        #region Relation_WithPropConst_Test
+
+        [Fact]
+        public void Relation_WithPropConst_Test()
+        {
+            CypherCommand cypher = _(a => r => b => prop =>
+             Match(N(a, Person) - R[r, KNOWS, P_(PropA, prop)] > N(b, Person)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+@"MATCH (a:Person)-[r:KNOWS { PropA: $prop }]->(b:Person)", cypher.Query);
+        }
+
+        #endregion // Relation_WithPropConst_Test
+
         #region (n:Person: Animal) / Relation_MultiType_Test
 
         [Fact]

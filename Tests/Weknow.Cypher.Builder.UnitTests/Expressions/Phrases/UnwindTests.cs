@@ -39,6 +39,22 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
 
+        #region UNWIND $items AS item MATCH (n:Person { PropA: item.x }) / Unwind_PropConst_Test
+
+        [Fact]
+        public void Unwind_PropConst_Test()
+        {
+            CypherCommand cypher = _(items => item => n => x =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, P_(PropA, x)))));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { PropA: item.x })", cypher.Query);
+        }
+
+        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.x }) / Unwind_PropConst_Test
+
         #region UNWIND $items AS item MATCH (n:Person { Id: $id, PropB: $PropB }) / Unwind_NonWindProp_Test
 
         [Fact]
@@ -46,7 +62,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => id =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, IgnoreContext(P( P_(Id, id), PropB))))));
+                                    Match(N(n, Person, IgnoreContext(P( P(Id, id), PropB))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item

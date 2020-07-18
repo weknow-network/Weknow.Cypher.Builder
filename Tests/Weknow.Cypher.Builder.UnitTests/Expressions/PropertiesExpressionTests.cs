@@ -270,7 +270,20 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // (n:Person { Id: $key }) / Properties_CustomVariable_Test
-       
+
+        #region MATCH (n:Person { Id: $Name }) / Properties_CustomVariable_Obj_Test
+
+        [Fact]
+        public void Properties_CustomVariable_Obj_Test()
+        {
+            var cypher = _<Foo>(n => key => Match(N(n, Person, P_(Id, n._.Name))));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n:Person { Id: $Name })", cypher);
+        }
+
+        #endregion // MATCH (n:Person { Id: $Name }) / Properties_CustomVariable_Obj_Test
+
         #region (n:Person { Id: $Name }) / Properties_CustomVariable_Lambda_Test
 
         [Fact]

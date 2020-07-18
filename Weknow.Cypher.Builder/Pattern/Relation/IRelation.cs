@@ -64,6 +64,20 @@ namespace Weknow.Cypher.Builder
         /// </example>
         IRelation this[IVar var, IType type, IProperties properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
+        /// Represent relation with variable, type and properties.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IRelation"/>.
+        /// </value>
+        /// <param name="var">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
+        /// </example>
+        IRelation this[IVar var, IType type, IProperty property] { [Cypher("[$0:$1 { $2 }]")] get; }
+        /// <summary>
         /// Represent relation with range.
         /// </summary>
         /// <value>
