@@ -702,6 +702,31 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IProperties AllExcept (All properties except)
 
+        #region Rgx
+
+        /// <summary>
+        /// Use regular expression comparison under WHERE clause.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        /// <example>
+        /// WHERE n.name =~ 'Tim.*'
+        /// </example>
+        [Cypher("$0")]
+        public static bool Rgx(bool condition) => throw new NotImplementedException();
+        /// <summary>
+        /// Use regular expression comparison under WHERE clause.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// WHERE n.name =~ 'Tim.*'
+        /// </example>
+        [Cypher("$0")]
+        public static IPropertiesOfType Rgx(IPropertiesOfType properties) => throw new NotImplementedException();
+
+        #endregion // Rgx
+
         #region Profile
 
         /// <summary>
@@ -1022,5 +1047,20 @@ namespace Weknow.Cypher.Builder
         public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
         #endregion // AsReuse
+
+        #region Timestamp / timestamp()
+
+        /// <summary>
+        /// Milliseconds since midnight, January 1, 1970 UTC.
+        /// </summary>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// RETURN count(n)
+        /// </example>
+        [Cypher("timestamp()")]
+        public static IVar Timestamp() => throw new NotImplementedException();
+
+        #endregion // Timestamp / timestamp()
     }
 }

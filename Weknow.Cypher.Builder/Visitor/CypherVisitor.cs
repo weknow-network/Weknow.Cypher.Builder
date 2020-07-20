@@ -73,6 +73,7 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
         private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
         private readonly ContextValue<bool> _noFormat = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _rgx = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -143,7 +144,10 @@ namespace Weknow.Cypher.Builder
                         Query.Append("-");
                     break;
                 case ExpressionType.Equal:
-                    Query.Append(" = ");
+                    if (_rgx.Value)
+                        Query.Append(" =~ ");
+                    else
+                        Query.Append(" = ");
                     break;
                 case ExpressionType.NotEqual:
                     Query.Append(" <> ");
@@ -224,6 +228,11 @@ namespace Weknow.Cypher.Builder
             using IDisposable noFormat = node.Method.Name switch
             {
                 nameof(Cypher.NoFormat) => _noFormat.Set(true),
+                _ => DisposeableAction.Empty
+            };
+            using IDisposable rgx = node.Method.Name switch
+            {
+                nameof(Cypher.Rgx) => _rgx.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -815,8 +824,7 @@ namespace Weknow.Cypher.Builder
         private void HandleProperties(object? name)
         {
             string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
-            bool equalPattern = IsEqualPattern();
-            Query.Append(equalPattern ? " = " : ": ");
+            AppendPropSeparator();
             if (_noFormat.Value)
             {  // avoid othe if's formatting
             }
@@ -999,5 +1007,28 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // IsProperty
+
+        #region AppendPropSeparator
+
+        /// <summary>
+        /// Appends the property separator.
+        /// </summary>
+        private void AppendPropSeparator()
+        {
+            bool equalPattern = IsEqualPattern();
+            if (equalPattern)
+            {
+                if (_rgx.Value)
+                    Query.Append(" =~ ");
+                else
+                    Query.Append(" = ");
+            }
+            else
+            {
+                Query.Append(": ");
+            }
+        }
+
+        #endregion // AppendPropSeparator
     }
 }

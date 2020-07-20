@@ -43,6 +43,46 @@ WHERE n.Name = $p_1", cypher.Query);
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.Name = $p_1 / Where_Test
 
+        #region MATCH (n:Person { PropA: $PropA }) WHERE n.Name =~ $p_1 / Where_Regex_Test
+
+        [Fact]
+        public void Where_Regex_Test()
+        {
+            CypherCommand cypher = _<Foo>(n =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(Rgx(n._.Name == "my-name.*")));
+
+            _outputHelper.WriteLine(cypher.Dump());
+			 Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE n.Name =~ $p_1", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value,"my-name.*"));
+        }
+
+        #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.Name =~ $p_1 / Where_Regex_Test
+
+        #region MATCH (n:Person { PropA: $PropA }) WHERE n.Name =~ $p_1 / Where_Regex_Prop_Test
+
+        [Fact]
+        public void Where_Regex_Prop_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(Rgx(n.P(Name))));
+
+            _outputHelper.WriteLine(cypher.Dump());
+			 Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE n.Name =~ $Name", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+            Assert.Contains(cypher.Parameters, p => p.Key == "Name");
+        }
+
+        #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.Name =~ $p_1 / Where_Regex_Prop_Test
+
         #region MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test
 
         [Fact]
@@ -63,6 +103,27 @@ WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test
+
+        #region MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Gen_Test
+
+        [Fact]
+        public void Where_Parameter_Gen_Test()
+        {
+            CypherCommand cypher = _<Foo>(n => n_ =>
+                                    Match(N(n, Person, P(PropA)))
+                                    .Where(n.P(n._.Name)));
+
+            _outputHelper.WriteLine(cypher.Dump());
+
+            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
+            Assert.Equal(
+@"MATCH (n:Person { PropA: $PropA })
+WHERE n.Name = $Name", cypher.Query);
+            Assert.NotEmpty(cypher.Parameters);
+            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+        }
+
+        #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Gen_Test
 
         #region MATCH (n:Person { PropA: $PropA }) WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m) WHERE n.Name = m.Name } / WhereExists_Test
 

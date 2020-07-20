@@ -272,21 +272,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
-        #region Timestamp / timestamp()
-
-        /// <summary>
-        /// Milliseconds since midnight, January 1, 1970 UTC.
-        /// </summary>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// RETURN count(n)
-        /// </example>
-        [Cypher("timestamp()")]
-        public static IVar Timestamp() => throw new NotImplementedException();
-
-        #endregion // Timestamp / timestamp()
-
         #region // Coalesce / coalesce(n)
 
         ///// <summary>

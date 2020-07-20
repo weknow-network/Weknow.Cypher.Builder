@@ -572,6 +572,26 @@
             <param name="except">The except.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(System.Boolean)">
+            <summary>
+            Use regular expression comparison under WHERE clause.
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+            <example>
+            WHERE n.name =~ 'Tim.*'
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(Weknow.Cypher.Builder.IPropertiesOfType)">
+            <summary>
+            Use regular expression comparison under WHERE clause.
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            WHERE n.name =~ 'Tim.*'
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Profile">
             <summary>
             Profile execution.
@@ -1119,6 +1139,17 @@
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OptionalMatch(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
+            <summary>
+            Optional Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pp"></param>
+            <returns></returns>
+            <example>
+            OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+        </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Create(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             Create phrase.
@@ -1259,17 +1290,6 @@
             <example>
             MERGE (n:Person {id: $value})
             ON CREATE SET p = $map
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OptionalMatch(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
-            <summary>
-            Optional Matches phrase.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="pp"></param>
-            <returns></returns>
-            <example>
-            OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Boolean)">
@@ -2721,6 +2741,11 @@
             <param name="type">The type.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.AppendPropSeparator">
+            <summary>
+            Appends the property separator.
+            </summary>
+        </member>
         <member name="T:Weknow.Cypher.Builder.ContextExpression">
             <summary>
             Context of the expression
@@ -2909,27 +2934,6 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.ConcurrencyConfig">
-            <summary>
-            Represent contextual operations.
-            </summary>
-        </member>
-        <member name="P:Weknow.ConcurrencyConfig.eTagName">
-            <summary>
-            When supplied the concurrency field
-            used for incrementing the concurrency version (Optimistic concurrency)
-            make sure to set unique constraint (on the matching properties),
-            otherwise a new node with different concurrency will be created when not match.
-            </summary>
-        </member>
-        <member name="P:Weknow.ConcurrencyConfig.AutoIncrement">
-            <summary>
-            Gets or sets a value indicating whether [automatic increment].
-            </summary>
-            <value>
-              <c>true</c> if [automatic increment]; otherwise, <c>false</c>.
-            </value>
-        </member>
         <member name="T:Weknow.CypherAmbientLabelConfig">
             <summary>
             Label configuration
@@ -3012,11 +3016,6 @@
             Ambient Label configuration
             </summary>
         </member>
-        <member name="P:Weknow.CypherConfig.Concurrency">
-            <summary>
-            Sets the concurrency behavior.
-            </summary>
-        </member>
         <member name="P:Weknow.CypherConfig.Naming">
             <summary>
             Gets the naming convention.
@@ -3097,12 +3096,12 @@
             The screaming case
             </summary>
         </member>
-        <member name="F:Weknow.CypherNamingConvention.CamelCase">
+        <member name="F:Weknow.CypherNamingConvention.camelCase">
             <summary>
             The camel case
             </summary>
         </member>
-        <member name="F:Weknow.CypherNamingConvention.pacalCase">
+        <member name="F:Weknow.CypherNamingConvention.PacalCase">
             <summary>
             The pacal case
             </summary>
