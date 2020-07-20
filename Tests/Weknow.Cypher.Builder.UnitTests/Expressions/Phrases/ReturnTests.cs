@@ -102,6 +102,38 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Objects_Test
+
+        #region MATCH (n) RETURN DISTINCT n / ReturnDistinct_Test
+
+        [Fact]
+        public void ReturnDistinct_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n))
+                                    .ReturnDistinct(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)\r\n" +
+                            "RETURN DISTINCT n", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN DISTINCT n / ReturnDistinct_Test
+
+        #region MATCH (n) RETURN DISTINCT n.Name / ReturnDistinct_Obj_Test
+
+        [Fact]
+        public void ReturnDistinct_Obj_Test()
+        {
+            CypherCommand cypher = _<Foo>(n =>
+                                    Match(N(n))
+                                    .ReturnDistinct(n._.Name));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("MATCH (n)\r\n" +
+                            "RETURN DISTINCT n.Name", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN DISTINCT n.Name / ReturnDistinct_Obj_Test
     }
 }
 

@@ -248,7 +248,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="p">The p.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// MATCH (user)-[:FRIEND]-(friend)
         /// WHERE user.name = $name
@@ -278,12 +278,39 @@ namespace Weknow.Cypher.Builder
         /// <param name="p">The p.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        
         /// <example>
         /// RETURN n.Id
         /// </example>
         [Cypher("$0\r\n&RETURN $1")]
         public static Fluent Return(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+
+        #endregion // Return
+
+        #region ReturnDistinct
+
+        /// <summary>
+        /// RETURN DISTINCT phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="vars"></param>
+        /// <returns></returns>
+        /// <example>
+        /// RETURN DISTINCT n
+        /// </example>
+        [Cypher("$0\r\n&RETURN DISTINCT $1")]
+        public static Fluent ReturnDistinct(this Fluent p, params object[] vars) => throw new NotImplementedException();
+
+        /// <summary>
+        /// RETURN phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// RETURN n.Id
+        /// </example>
+        [Cypher("$0\r\n&RETURN DISTINCT $1")]
+        public static Fluent ReturnDistinct(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Return
 
