@@ -73,7 +73,6 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
         private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
         private readonly ContextValue<bool> _noFormat = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> _rgx = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -144,10 +143,8 @@ namespace Weknow.Cypher.Builder
                         Query.Append("-");
                     break;
                 case ExpressionType.Equal:
-                    if (_rgx.Value)
-                        Query.Append(" =~ ");
-                    else
-                        Query.Append(" = ");
+                    string? eq = EqualPattern();
+                    Query.Append(eq);
                     break;
                 case ExpressionType.NotEqual:
                     Query.Append(" <> ");
@@ -228,11 +225,6 @@ namespace Weknow.Cypher.Builder
             using IDisposable noFormat = node.Method.Name switch
             {
                 nameof(Cypher.NoFormat) => _noFormat.Set(true),
-                _ => DisposeableAction.Empty
-            };
-            using IDisposable rgx = node.Method.Name switch
-            {
-                nameof(Cypher.Rgx) => _rgx.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -416,8 +408,6 @@ namespace Weknow.Cypher.Builder
 
             var pi = node.Member as PropertyInfo;
 
-            bool isEqualsPttern = IsEqualPattern();
-
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(IVar<int>.Inc))
             {
                 Query.Append(name);
@@ -501,9 +491,9 @@ namespace Weknow.Cypher.Builder
             {
                 if (_expression[3].Value != null) // generics properties, example: n.P(ID)
                 {
-                    bool equalPattern = IsEqualPattern();
+                    string? equalPattern = EqualPattern();
                     bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
-                    if (!_isProperties.Value || equalPattern || isReturn)
+                    if (!_isProperties.Value || equalPattern != null || isReturn)
                     {
                         // use for tracing duplication
                         int idx = Query.Length;
@@ -792,7 +782,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // ApplyFormat
 
-        #region IsEqualPattern
+        #region EqualPattern
 
         /// <summary>
         /// Determines whether [is equal pattern].
@@ -800,19 +790,20 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         ///   <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsEqualPattern()
+        private string? EqualPattern()
         {
             return _methodExpr.Value?.Method.Name switch
             {
-                nameof(CypherPhraseExtensions.Set) => true,
-                nameof(CypherPhraseExtensions.Where) => true,
-                nameof(CypherPhraseExtensions.OnCreateSet) => true,
-                nameof(CypherPhraseExtensions.OnMatchSet) => true,
-                _ => false,
+                nameof(CypherPhraseExtensions.Set) => " = ",
+                nameof(CypherPhraseExtensions.Where) => " = ",
+                nameof(CypherPhraseExtensions.OnCreateSet) => " = ",
+                nameof(CypherPhraseExtensions.OnMatchSet) => " = ",
+                nameof(Cypher.Rgx) => " =~ ",
+                _ => null,
             };
         }
 
-        #endregion // IsEqualPattern
+        #endregion // EqualPattern
 
         #region HandleProperties
 
@@ -882,7 +873,8 @@ namespace Weknow.Cypher.Builder
         private IDisposable SetGenPropertiesContext(MethodCallExpression node, Expression expr)
         {
             IDisposable result = DisposeableAction.Empty;
-            if (!IsEqualPattern())
+            string? eq = EqualPattern();
+            if (eq == null)
                 return result;
 
             var args = node.Arguments;
@@ -1015,18 +1007,11 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         private void AppendPropSeparator()
         {
-            bool equalPattern = IsEqualPattern();
-            if (equalPattern)
-            {
-                if (_rgx.Value)
-                    Query.Append(" =~ ");
-                else
-                    Query.Append(" = ");
-            }
+            string? equalPattern = EqualPattern();
+            if (equalPattern != null)
+                Query.Append(equalPattern);
             else
-            {
                 Query.Append(": ");
-            }
         }
 
         #endregion // AppendPropSeparator

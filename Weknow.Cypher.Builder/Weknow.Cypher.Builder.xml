@@ -2692,7 +2692,7 @@
             <param name="node">The node.</param>
             <param name="format">The format.</param>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.IsEqualPattern">
+        <member name="M:Weknow.Cypher.Builder.CypherVisitor.EqualPattern">
             <summary>
             Determines whether [is equal pattern].
             </summary>

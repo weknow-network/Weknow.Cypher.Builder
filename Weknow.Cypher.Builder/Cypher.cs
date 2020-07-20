@@ -712,7 +712,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// WHERE n.name =~ 'Tim.*'
         /// </example>
-        [Cypher("$0")]
+        [Cypher("&$0")]
         public static bool Rgx(bool condition) => throw new NotImplementedException();
         /// <summary>
         /// Use regular expression comparison under WHERE clause.
@@ -722,7 +722,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// WHERE n.name =~ 'Tim.*'
         /// </example>
-        [Cypher("$0")]
+        [Cypher("&$0")]
         public static IPropertiesOfType Rgx(IPropertiesOfType properties) => throw new NotImplementedException();
 
         #endregion // Rgx
