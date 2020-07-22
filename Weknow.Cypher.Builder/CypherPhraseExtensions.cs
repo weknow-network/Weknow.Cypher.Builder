@@ -239,7 +239,7 @@ namespace Weknow.Cypher.Builder
         /// MATCH (user)-[:FRIEND]-(friend)
         /// WHERE user.name = $name
         /// </example>
-        [Cypher("$0\r\nWHERE $1")]
+        [Cypher("$0\r\n&WHERE $1")]
         public static Fluent Where(this Fluent p, bool condition) => throw new NotImplementedException();
 
         /// <summary>
