@@ -11,13 +11,13 @@ namespace Weknow.Cypher.Builder
 {
     //    //[Trait("Segment", "Expression")]
     [Trait("Issues", "open")]
-    public class ReuseExpressionIssuesTests
+    public class ReuseIssuesTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public ReuseExpressionIssuesTests(ITestOutputHelper outputHelper)
+        public ReuseIssuesTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }

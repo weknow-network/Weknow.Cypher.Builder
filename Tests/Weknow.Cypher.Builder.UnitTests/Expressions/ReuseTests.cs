@@ -11,13 +11,13 @@ using static Weknow.Cypher.Builder.Schema;
 namespace Weknow.Cypher.Builder
 {
         [Trait("Segment", "Expression")]
-    public class ReuseExpressionTests
+    public class ReuseTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public ReuseExpressionTests(ITestOutputHelper outputHelper)
+        public ReuseTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
@@ -162,6 +162,62 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+
+        #region (a)-[r1]->(b) / Reuse_N_R_N_Test
+
+        [Fact]
+        public void Reuse_N_R_N_Test()
+        {
+            var pattern = Reuse(a => r1 => b => r2 =>
+                        N(a) - R[r1] > N(b));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(a)-[r1]->(b)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1]->(b) / Reuse_N_R_N_Test
+
+        #region (a)-[r1]->(b) / Reuse_N_R2_N_Test
+
+        [Fact]
+        public void Reuse_N_R2_N_Test()
+        {
+            var pattern = Reuse(a => b => r2 =>
+                        N(a) - R[LIKE, Id] > N(b));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal(@"(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1]->(b) / Reuse_N_R2_N_Test
+
+        #region (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
+
+        [Fact]
+        public void Reuse_N_R3_N_Test()
+        {
+            var pattern = Reuse(a => b => r2 =>
+                        N(a) - R[LIKE, NoFormat(Id)] > N(b));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal("(a)-[r1:LIKE { Id: Id }]->(b)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
+
+        #region (a)-[r1: KIKE { Id: $Id}]->(b) / Reuse_N_R1_N_Test
+
+        [Fact]
+        public void Reuse_N_R1_N_Test()
+        {
+            var pattern = Reuse(a => r1 => b => r2 =>
+                        N(a) - R[r1, LIKE, NoFormat(Id)] > N(b));
+
+            _outputHelper.WriteLine(pattern.ToString());
+            Assert.Equal("(a)-[r1:LIKE { Id: Id }]->(b)", pattern.ToString());
+        }
+
+        #endregion // (a)-[r1: KIKE { Id: $Id}]->(b) / Reuse_N_R1_N_Test
 
         #region (a)-[r1]->(b)<-[r2] / Reuse_Complex4_Test
 
