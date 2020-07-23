@@ -286,8 +286,8 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            IPattern user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
-            IPattern by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
+            INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
+            INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
             CypherCommand cypher =
                 _<Foo>(n => items => u => maintainer_ =>
                              Unwind(items, 
@@ -299,7 +299,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
             _outputHelper.WriteLine(cypher);
             Assert.Equal("UNWIND $items AS item\r\n" +
                 "MATCH (n:Person { Id: item.Id })\r\n" +
-                "MATCH (u:Maintainer { Id:  $maintainer_Id })\r\n" +
+                "MATCH (u:Maintainer { Id: $maintainer_Id })\r\n" +
                 "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
                 "RETURN n", cypher);
         }
