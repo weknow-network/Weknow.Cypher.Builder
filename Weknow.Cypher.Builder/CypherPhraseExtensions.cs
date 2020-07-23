@@ -501,6 +501,19 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\n&SET $1")]
         public static Fluent Set(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
 
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="property">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SET n.property1 = $value1,
+        /// n.property2 = $value2
+        /// </example>
+        [Cypher("$0\r\n&SET $1")]
+        public static Fluent Set(this Fluent p, IPropertyOfType property) => throw new NotImplementedException();
+
         #endregion // Set
 
         #region Delete / Detach

@@ -272,6 +272,23 @@ namespace Weknow.Cypher.Builder
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
+        #region Timestamp
+
+        /// <summary>
+        /// Milliseconds since midnight, January 1, 1970 UTC.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="prop">The property.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// SET n.Date = timestamp()
+        /// </example>
+        [Cypher("$0\\.$1 = timestamp()")]
+        public static ISelfFormat Timestamp(this IVar var, object prop) => throw new NotImplementedException();
+
+        #endregion // Timestamp
+
         #region // Coalesce / coalesce(n)
 
         ///// <summary>

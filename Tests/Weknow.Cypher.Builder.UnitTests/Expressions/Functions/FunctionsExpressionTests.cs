@@ -56,6 +56,30 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n) RETURN labels(n) / Labels_Test
 
+        #region MATCH (n) RETURN labels(n) / Timestamp_Test
+
+        [Fact]
+        public void Timestamp_Test()
+        {
+            CypherCommand cypher = _(n => m =>
+                                    Match(N(n))
+                                    .Set(Timestamp(n, Date))
+                                    .Merge(N(m))
+                                    .OnCreateSet(Timestamp(n, "CreationDate"))
+                                    .OnMatchSet(n.Timestamp("ModifiedDate"))
+                                    .Return(n, Timestamp().As("date")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)\r\n" +
+                "SET n.Date = timestamp()\r\n" +
+                "MERGE (m)\r\n" +
+                "\tON CREATE SET n.CreationDate = timestamp()\r\n" +
+                "\tON MATCH SET n.ModifiedDate = timestamp()\r\n" +
+                "RETURN n, timestamp() AS date", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN labels(n) / Timestamp_Test
+
         #region MATCH (n1)-[r]->(n2) ... / Functions_Test
 
         [Fact]

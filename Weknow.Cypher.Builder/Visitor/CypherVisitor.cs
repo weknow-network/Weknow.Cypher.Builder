@@ -73,6 +73,7 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
         private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
         private readonly ContextValue<bool> _noFormat = new ContextValue<bool>(false);
+        private readonly ContextValue<bool> _noSelfFormatting = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
@@ -225,6 +226,12 @@ namespace Weknow.Cypher.Builder
             using IDisposable noFormat = node.Method.Name switch
             {
                 nameof(Cypher.NoFormat) => _noFormat.Set(true),
+                _ => DisposeableAction.Empty
+            };
+
+            using IDisposable selfFormatting = node.Type.Name switch
+            {
+                nameof(ISelfFormat) => _noSelfFormatting.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -436,6 +443,17 @@ namespace Weknow.Cypher.Builder
                 Visit(p.expression);
                 return node;
             }
+            // TODO: [bnaya, 2020] review with Avi
+            //else if (node.Type != typeof(ExpressionPattern))
+            //{
+            //    using IDisposable patternScope = node.Type.Name switch
+            //    {
+            //        nameof(ISelfFormat) => _noSelfFormatting.Set(true),
+            //        _ => DisposeableAction.Empty
+            //    };
+            //    Visit(node.Expression);
+            //    return node;
+            //}
             else if (node.Expression != null &&
                      node.Type != typeof(IMap) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
@@ -577,6 +595,10 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append(node.Value);
                 HandleProperties(node.Value);
+            }
+            else if (_noSelfFormatting.Value)
+            {
+                Query.Append(node.Value);
             }
             else
             {

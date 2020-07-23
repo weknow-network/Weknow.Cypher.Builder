@@ -200,7 +200,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                         N(a) - R[LIKE, NoFormat(Id)] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
-            Assert.Equal("(a)-[r1:LIKE { Id: Id }]->(b)", pattern.ToString());
+            Assert.Equal("(a)-[:LIKE { Id: Id }]->(b)", pattern.ToString());
         }
 
         #endregion // (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
@@ -298,8 +298,8 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("UNWIND $items AS item\r\n" +
-                "MATCH(n: Person { Id: item.Id })\r\n" +
-                "MATCH(u: Maintainer { Id:  $maintainer_Id })\r\n" +
+                "MATCH (n:Person { Id: item.Id })\r\n" +
+                "MATCH (u:Maintainer { Id:  $maintainer_Id })\r\n" +
                 "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
                 "RETURN n", cypher);
         }

@@ -1056,10 +1056,23 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
-        /// RETURN count(n)
+        /// RETURN timestamp()
         /// </example>
         [Cypher("timestamp()")]
         public static IVar Timestamp() => throw new NotImplementedException();
+
+        /// <summary>
+        /// Milliseconds since midnight, January 1, 1970 UTC.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="prop">The property.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// SET n.Date = timestamp()
+        /// </example>
+        [Cypher("$0\\.$1 = timestamp()")]
+        public static ISelfFormat Timestamp(IVar var, object prop) => throw new NotImplementedException();
 
         #endregion // Timestamp / timestamp()
     }
