@@ -311,22 +311,20 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            throw new NotImplementedException("Should support syntax");
-            //IPattern user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
-            //IPattern by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
-            //CypherCommand cypher =
-            //    _<Foo>(n => items => u => maintainer_ =>
-            //                 Unwind(items, 
-            //                    Match(N(n, Person, P(n._.Id)), user)
-            //                    .Merge(by)
-            //                    .Return(n)));
+            INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
+            INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
+            CypherCommand cypher =
+                _<Foo>(n => items => u => maintainer_ =>
+                             Unwind(items,
+                                Match(N(n, Person, P(n._.Id)), user)
+                                .Merge(by)
+                                .Return(n)));
 
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal("UNWIND $items AS item\r\n" +
-            //    "MATCH(n: Person { Id: item.Id })\r\n" +
-            //    "MATCH(u: Maintainer { Id:  $maintainer_Id })\r\n" +
-            //    "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
-            //    "RETURN n", cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("UNWIND $items AS item\r\n" +
+                "MATCH (n:Person { Id: item.Id }), (u:Maintainer { Id: $maintainer_Id })\r\n" +
+                "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
+                "RETURN n", cypher);
         }
 
         #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
