@@ -119,24 +119,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / Reuse_Node_Test
 
-        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Reuse_Plural_UNWIND_Test
-
-        [Fact]
-        public void Reuse_Plural_UNWIND_Test()
-        {
-            CypherCommand cypher = _(n =>
-                          P(PropA, PropB).AsReuse()
-                         .By(p => items =>
-                            Unwind(items, Match(N(n, Person, p)))
-                         ));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Reuse_Plural_UNWIND_Test
-
         #region [:LIKE] / Reuse_Relation_Test
 
         [Fact]
@@ -197,10 +179,10 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         public void Reuse_N_R3_N_Test()
         {
             var pattern = Reuse(a => b => r2 =>
-                        N(a) - R[LIKE, NoFormat(Id)] > N(b));
+                        N(a) - R[LIKE, Id] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
-            Assert.Equal("(a)-[:LIKE { Id: Id }]->(b)", pattern.ToString());
+            Assert.Equal("(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
         }
 
         #endregion // (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
@@ -211,10 +193,10 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         public void Reuse_N_R1_N_Test()
         {
             var pattern = Reuse(a => r1 => b => r2 =>
-                        N(a) - R[r1, LIKE, NoFormat(Id)] > N(b));
+                        N(a) - R[r1, LIKE, Id] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
-            Assert.Equal("(a)-[r1:LIKE { Id: Id }]->(b)", pattern.ToString());
+            Assert.Equal("(a)-[r1:LIKE { Id: $Id }]->(b)", pattern.ToString());
         }
 
         #endregion // (a)-[r1: KIKE { Id: $Id}]->(b) / Reuse_N_R1_N_Test
@@ -289,9 +271,9 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
             INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
             CypherCommand cypher =
-                _<Foo>(n => items => u => maintainer_ =>
-                             Unwind(items, 
-                                Match(N(n, Person, P(n._.Id)))
+                _<Foo>(n => items => item => u => maintainer_ =>
+                             Unwind(items, item, 
+                                Match(N(n, Person, item._(n._.Id)))
                                 .Match(user)
                                 .Merge(by)
                                 .Return(n)));
@@ -314,9 +296,9 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
             INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
             CypherCommand cypher =
-                _<Foo>(n => items => u => maintainer_ =>
-                             Unwind(items,
-                                Match(N(n, Person, P(n._.Id)), user)
+                _<Foo>(n => items => item => u => maintainer_ =>
+                             Unwind(items, item,
+                                Match(N(n, Person, item._(n._.Id)), user)
                                 .Merge(by)
                                 .Return(n)));
 

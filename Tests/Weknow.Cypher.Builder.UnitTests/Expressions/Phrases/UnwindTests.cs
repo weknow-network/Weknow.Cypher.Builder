@@ -30,7 +30,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(PropA, PropB)))));
+                                    Match(N(n, Person, item._(PropA, PropB)))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -46,7 +46,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => x =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P_(PropA, x)))));
+                                    Match(N(n, Person, item._(P_(PropA, x))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -94,7 +94,7 @@ MATCH (n:Person { Id: $Id })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, NoFormat(P_(PropA, item))))));
+                                    Match(N(n, Person, P_(PropA, item)))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -110,7 +110,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => custom =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(P_(Id, custom))))));
+                                    Match(N(n, Person, item._(P_(Id, custom))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -126,7 +126,7 @@ MATCH (n:Person { Id: item.custom })", cypher.Query);
         {
             CypherCommand cypher = _<Foo>(n => items => item => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(P_(Id, n._.Name))))));
+                                    Match(N(n, Person, item._(P_(Id, n._.Name))))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -213,49 +213,6 @@ RETURN n", cypher.Query);
 
         #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n / Unwind_Create_Set_Map_Test
 
-        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_ShouldUseDefaultPlurality_Test
-
-        [Fact]
-        public void Unwind_ShouldUseDefaultPlurality_Test()
-        {
-            CypherCommand cypher = _(items => n =>
-                                    Unwind(items, 
-                                    Match(N(n, Person, P(PropA, PropB)))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_ShouldUseDefaultPlurality_Test
-
-        #region UNWIND $items AS unit MATCH (n:Person { PropA: unit.PropA, PropB: unit.PropB }) / Unwind_ShouldUseCustomPlurality_Test
-
-        [Fact]
-        public void Unwind_ShouldUseCustomPlurality_Test()
-        {
-            CypherCommand cypher = _(items => n =>
-                                    Unwind(items, 
-                                    Match(N(n, Person, P(PropA, PropB)))),
-                                    cfg => cfg.Naming.SetPluralization(
-                                                n => n switch
-                                                {
-                                                    "unit" => "items",
-                                                    _ => $"{n}s"
-                                                },
-                                                n => n switch
-                                                {
-                                                    "items" => "unit",
-                                                    _ => $"unitOf{n}"
-                                                }));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS unit
-MATCH (n:Person { PropA: unit.PropA, PropB: unit.PropB })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS unit MATCH (n:Person { PropA: unit.PropA, PropB: unit.PropB }) / Unwind_ShouldUseCustomPlurality_Test
-
         #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item / Unwind_Entities_Update_Test
 
         [Fact]
@@ -263,7 +220,7 @@ MATCH (n:Person { PropA: unit.PropA, PropB: unit.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, item._(Id)))
                                     .Set(+n, item)));
 
             _outputHelper.WriteLine(cypher);
@@ -281,7 +238,7 @@ SET n += item", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, item._(Id)))
                                     .Set(n, item))); // + should be unary operator of IVar
 
             _outputHelper.WriteLine(cypher);
@@ -299,7 +256,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, n.P(Id)))
+                                    Merge(N(n, Person, map._(Id)))
                                     .OnCreateSet(n, map.AsMap)
                                     .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -323,7 +280,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _(n => map => items =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, n.P(Id)))
+                                   Merge(N(n, Person, map._(Id)))
                                    .OnCreateSet(n, map.AsMap)
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -347,7 +304,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _<Foo>(n => map => items =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, n.P(n._.Id)))
+                                   Merge(N(n, Person, map._(n._.Id)))
                                    .OnCreateSet(n, map.AsMap)
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -371,7 +328,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _<Foo>(n => map => items =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, n.P(n._.Id, n._.Name)))
+                                   Merge(N(n, Person, map._(n._.Id, n._.Name)))
                                    .OnCreateSet(n, map.AsMap)
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -395,7 +352,7 @@ SET n = item", cypher.Query);
         {
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, n.P(Id)))),
+                                    Merge(N(n, Person, map._(Id)))),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher);
@@ -417,7 +374,7 @@ SET n = item", cypher.Query);
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, n.P(Id)) - maintainer)),
+                                    Merge(N(n, Person, map._(Id)) - maintainer)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher);
