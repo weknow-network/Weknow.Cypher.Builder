@@ -71,7 +71,6 @@ namespace Weknow.Cypher.Builder
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
-        private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
         private readonly ContextValue<bool> _noSelfFormatting = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
@@ -216,11 +215,6 @@ namespace Weknow.Cypher.Builder
             using IDisposable inScp = mtdName switch
             {
                 nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
-                _ => DisposeableAction.Empty
-            };
-            using IDisposable noLoop = node.Method.Name switch
-            {
-                nameof(Cypher.NoLoopFormat) => _noLoopFormat.Set(true),
                 _ => DisposeableAction.Empty
             };
 
@@ -470,15 +464,13 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool reduceFormatting =
-                                _noLoopFormat.Value;
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
                 nameof(CypherPhraseExtensions.Return) => true,
                 nameof(CypherPredicateExtensions.In) => true,
                 _ => false
             };
-            if ((_isProperties.Value || reduceFormatting) && !ignore)
+            if ((_isProperties.Value) && !ignore)
             {
                 HandleProperties(name);
             }

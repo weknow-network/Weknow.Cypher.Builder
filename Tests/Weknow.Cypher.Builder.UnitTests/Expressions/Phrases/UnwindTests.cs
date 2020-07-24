@@ -62,7 +62,7 @@ MATCH (n:Person { PropA: item.x })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => id =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, NoLoopFormat(P( P_(Id, id), PropB))))));
+                                    Match(N(n, Person, P( P_(Id, id), PropB)))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -78,7 +78,7 @@ MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, NoLoopFormat(P("Id"))))));
+                                    Match(N(n, Person, P("Id")))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -370,7 +370,7 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
-            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, NoLoopFormat(P(_P(maintainer_, Id), Date))));
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(_P(maintainer_, Id), Date)));
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,

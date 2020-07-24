@@ -268,8 +268,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
-            INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
+            INode user = Reuse(u => maintainer_ => N(u, Maintainer, _P(maintainer_, Id)));
+            INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =
                 _<Foo>(n => items => item => u => maintainer_ =>
                              Unwind(items, item, 
@@ -293,8 +293,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            INode user = Reuse(u => maintainer_ => N(u, Maintainer, NoLoopFormat(_P(maintainer_, Id))));
-            INode by = Reuse(u => n => N(u) - R[By, NoLoopFormat(Date)] > N(n));
+            INode user = Reuse(u => maintainer_ => N(u, Maintainer, _P(maintainer_, Id)));
+            INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =
                 _<Foo>(n => items => item => u => maintainer_ =>
                              Unwind(items, item,

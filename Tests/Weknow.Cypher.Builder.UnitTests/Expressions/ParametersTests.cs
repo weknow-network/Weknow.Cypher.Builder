@@ -48,7 +48,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => id =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, NoLoopFormat(P( P_(Id, id), PropB))))));
+                                    Match(N(n, Person, P( P_(Id, id), PropB)))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -67,7 +67,7 @@ MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, NoLoopFormat(P("Id"))))));
+                                    Match(N(n, Person, P("Id")))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item

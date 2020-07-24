@@ -385,51 +385,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IRelation R (Relation)
 
-        #region NoLoopFormat
-
-        /// <summary>
-        /// Avoid properties' loop formatting prefix except $
-        /// for example unwind's item.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static IProperty[] NoLoopFormat (params IProperty[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Ignores the context of unwind and alike so the properties 
-        /// won't be affected by the context formatting.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static IProperties NoLoopFormat(IProperties properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Avoid properties' loop formatting prefix except $
-        /// for example unwind's item.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static IPropertiesOfType NoLoopFormat(IPropertiesOfType properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Avoid properties' loop formatting prefix except $
-        /// for example unwind's item.
-        /// </summary>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static IPropertyOfType NoLoopFormat(IPropertyOfType property) => throw new NotImplementedException();
-        /// <summary>
-        /// Avoid properties' loop formatting prefix except $
-        /// for example unwind's item.
-        /// </summary>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static IPropertyConst NoLoopFormat(IPropertyConst property) => throw new NotImplementedException();
-
-        #endregion // NoLoopFormat
-
         [Cypher("+40$1")]
         public static IPropertiesOfType _(this IVar var, params object[] properties) => throw new NotImplementedException();
 
