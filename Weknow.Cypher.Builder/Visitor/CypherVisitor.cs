@@ -74,7 +74,6 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<bool> _noSelfFormatting = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
-        private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
         private readonly ContextValue<string?> _propPrefix = new ContextValue<string?>(null);
 
@@ -233,7 +232,6 @@ namespace Weknow.Cypher.Builder
                 // Looking for property options
                 var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
                 var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
-                IDisposable poptScp = DisposeableAction.Empty;
                 using IDisposable mapProps = node.Method.Name switch
                 {
                     nameof(Cypher.P) when firstArg.Type == typeof(IMap) &&
@@ -243,10 +241,7 @@ namespace Weknow.Cypher.Builder
                          _propPrefix.Set($"{mme.Name}."),
                     _ => DisposeableAction.Empty
                 };
-                using (poptScp)
-                {
-                    ApplyFormat(node, format);
-                }
+                ApplyFormat(node, format);
             }
             else if (mtdName == nameof(IReuse<Fluent, Fluent>.By))
             {
@@ -432,17 +427,6 @@ namespace Weknow.Cypher.Builder
                 Visit(p.expression);
                 return node;
             }
-            // TODO: [bnaya, 2020] review with Avi
-            //else if (node.Type != typeof(ExpressionPattern))
-            //{
-            //    using IDisposable patternScope = node.Type.Name switch
-            //    {
-            //        nameof(ISelfFormat) => _noSelfFormatting.Set(true),
-            //        _ => DisposeableAction.Empty
-            //    };
-            //    Visit(node.Expression);
-            //    return node;
-            //}
             else if (node.Expression != null &&
                      node.Type != typeof(IMap) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
@@ -662,8 +646,7 @@ namespace Weknow.Cypher.Builder
         private void ApplyFormat(MethodCallExpression node, string format)
         {
             IDisposable? disp = null;
-            var formatter = _formatter.Set(new FormatingState(format));
-            for (var i = _formatter.Value; !i.Ended; i++)
+            for (var i = 0; i < format.Length; i++)
             {
                 switch (format[i])
                 {
