@@ -407,7 +407,7 @@ namespace Weknow.Cypher.Builder
         public void Properties_Const_Test()
         {
             CypherCommand cypher =  _(items => item => n =>
-                                    Unwind(items,
+                                    Unwind(items, item,
                                     Merge(N(n, Person, P(Id, item)))
                                     .Return(n)));
 

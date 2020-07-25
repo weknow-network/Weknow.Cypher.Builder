@@ -51,7 +51,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _<Fellow>(n => items => item =>
                                     Unwind(items, item,
-                                        Merge(N(n, Person, P(n._.Id, n._.eTag)))
+                                        Merge(N(n, Person, item._(n._.Id, n._.eTag)))
                                         .Set(+n, item.AsMap)
                                         .Set(n.P(n.Inc.eTag))
                                         .Return(n._.eTag)));

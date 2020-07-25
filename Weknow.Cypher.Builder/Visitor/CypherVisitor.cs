@@ -71,12 +71,9 @@ namespace Weknow.Cypher.Builder
 
         private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
         private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
-        private readonly ContextValue<bool> _noLoopFormat = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> _noFormat = new ContextValue<bool>(false);
         private readonly ContextValue<bool> _noSelfFormatting = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
-        private readonly ContextValue<FormatingState> _formatter = new ContextValue<FormatingState>(FormatingState.Default);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
         private readonly ContextValue<string?> _propPrefix = new ContextValue<string?>(null);
 
@@ -86,6 +83,7 @@ namespace Weknow.Cypher.Builder
             [1] = new ContextValue<ContextExpression?>(null),
             [2] = new ContextValue<ContextExpression?>(null),
             [3] = new ContextValue<ContextExpression?>(null),
+            [4] = new ContextValue<ContextExpression?>(null),
         };
 
         private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
@@ -218,16 +216,6 @@ namespace Weknow.Cypher.Builder
                 nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
                 _ => DisposeableAction.Empty
             };
-            using IDisposable noLoop = node.Method.Name switch
-            {
-                nameof(Cypher.NoLoopFormat) => _noLoopFormat.Set(true),
-                _ => DisposeableAction.Empty
-            };
-            using IDisposable noFormat = node.Method.Name switch
-            {
-                nameof(Cypher.NoFormat) => _noFormat.Set(true),
-                _ => DisposeableAction.Empty
-            };
 
             using IDisposable selfFormatting = node.Type.Name switch
             {
@@ -244,7 +232,6 @@ namespace Weknow.Cypher.Builder
                 // Looking for property options
                 var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
                 var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
-                IDisposable poptScp = DisposeableAction.Empty;
                 using IDisposable mapProps = node.Method.Name switch
                 {
                     nameof(Cypher.P) when firstArg.Type == typeof(IMap) &&
@@ -254,10 +241,7 @@ namespace Weknow.Cypher.Builder
                          _propPrefix.Set($"{mme.Name}."),
                     _ => DisposeableAction.Empty
                 };
-                using (poptScp)
-                {
-                    ApplyFormat(node, format);
-                }
+                ApplyFormat(node, format);
             }
             else if (mtdName == nameof(IReuse<Fluent, Fluent>.By))
             {
@@ -443,17 +427,6 @@ namespace Weknow.Cypher.Builder
                 Visit(p.expression);
                 return node;
             }
-            // TODO: [bnaya, 2020] review with Avi
-            //else if (node.Type != typeof(ExpressionPattern))
-            //{
-            //    using IDisposable patternScope = node.Type.Name switch
-            //    {
-            //        nameof(ISelfFormat) => _noSelfFormatting.Set(true),
-            //        _ => DisposeableAction.Empty
-            //    };
-            //    Visit(node.Expression);
-            //    return node;
-            //}
             else if (node.Expression != null &&
                      node.Type != typeof(IMap) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
@@ -475,16 +448,13 @@ namespace Weknow.Cypher.Builder
 
             Query.Append(name);
 
-            bool reduceFormatting = // pi?.PropertyType == typeof(IProperty) &&
-                                _noLoopFormat.Value ||
-                                _noFormat.Value;
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
                 nameof(CypherPhraseExtensions.Return) => true,
                 nameof(CypherPredicateExtensions.In) => true,
                 _ => false
             };
-            if ((_isProperties.Value || reduceFormatting) && !ignore)
+            if ((_isProperties.Value) && !ignore)
             {
                 HandleProperties(name);
             }
@@ -676,8 +646,7 @@ namespace Weknow.Cypher.Builder
         private void ApplyFormat(MethodCallExpression node, string format)
         {
             IDisposable? disp = null;
-            var formatter = _formatter.Set(new FormatingState(format));
-            for (var i = _formatter.Value; !i.Ended; i++)
+            for (var i = 0; i < format.Length; i++)
             {
                 switch (format[i])
                 {
@@ -838,22 +807,22 @@ namespace Weknow.Cypher.Builder
         {
             string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
             AppendPropSeparator();
-            if (_noFormat.Value)
-            {  // avoid othe if's formatting
-            }
-            else if (_expression[0].Value != null)
+            if (_expression[0].Value != null)
             {
                 Query.Append("$");
                 var length = Query.Length;
                 Visit(_expression[0].Value);
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
-            else if (_expression[2].Value != null &&
-                    !_noLoopFormat.Value)
+            else if (_expression[2].Value != null && _expression[4].Value != null &&
+                _expression[2].Value.Expression == _expression[4].Value.Expression)
             {
-                // Adding Unwind variable as prefix
                 Visit(_expression[2].Value);
                 Query.Append(".");
+            }
+            else if (_expression[2].Value != null && _expression[2].Value.Expression is ParameterExpression pe && pe.Name == _isCustomProp.Value)
+            {
+
             }
             else
             {

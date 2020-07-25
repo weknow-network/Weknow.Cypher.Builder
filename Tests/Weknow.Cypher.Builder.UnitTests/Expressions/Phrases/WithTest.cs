@@ -76,11 +76,11 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(items => map => n => i =>
                         Unwind(items, map,
-                        Merge(N(n, Person, n.P(Id)))
+                        Merge(N(n, Person, map._(Id)))
                         .OnCreateSet(n, map.AsMap)
                         .OnMatchSet(+n, map.AsMap)
                         .With()
-                        .Match(N(i, Person, n.P(Id)))
+                        .Match(N(i, Person, map._(Id)))
                         .Return(n)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
@@ -105,11 +105,11 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(items => map => n => i =>
                         Unwind(items, map,
-                        Merge(N(n, Person, n.P(Id)))
+                        Merge(N(n, Person, map._(Id)))
                         .OnCreateSet(n, map.AsMap)
                         .OnMatchSet(+n, map.AsMap)
                         .With(n, map)
-                        .Match(N(i, Person, n.P(Id)))
+                        .Match(N(i, Person, map._(Id)))
                         .Return(i)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
