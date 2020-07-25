@@ -815,12 +815,12 @@ namespace Weknow.Cypher.Builder
                 parameterName = Query.ToString().Substring(length) + parameterName;
             }
             else if (_expression[2].Value != null && _expression[4].Value != null &&
-                _expression[2].Value.Expression == _expression[4].Value.Expression)
+                _expression[2].Value?.Expression == _expression[4].Value?.Expression)
             {
                 Visit(_expression[2].Value);
                 Query.Append(".");
             }
-            else if (_expression[2].Value != null && _expression[2].Value.Expression is ParameterExpression pe && pe.Name == _isCustomProp.Value)
+            else if (_expression[2]?.Value != null && _expression[2].Value?.Expression is ParameterExpression pe && pe.Name == _isCustomProp.Value)
             {
 
             }

@@ -11,7 +11,7 @@ namespace Weknow.Cypher.Builder
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.
-    /// For fluent cypher check <see cref="CypherPhraseExtensions"/>
+    /// For fluent cypher check <see cref="CypherPhraseExtensions" />
     /// </summary>
     public static class Cypher
     {
@@ -385,6 +385,17 @@ namespace Weknow.Cypher.Builder
 
         #endregion // IRelation R (Relation)
 
+        /// <summary>
+        /// Used to define properties' variables without the $ prefix.
+        /// Useful for cases like UNWIND
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $items AS item 
+        ///     MATCH(n:Person { PropA: item.x })
+        /// </example>
         [Cypher("+40$1")]
         public static IPropertiesOfType _(this IVar var, params object[] properties) => throw new NotImplementedException();
 
