@@ -213,6 +213,26 @@ WHERE $p_1 }", cypher.Query);
         }
 
         #endregion // Where_NOT_Test
+
+
+        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Where_Unwind_Test
+
+        [Fact]
+        public void Where_Unwind_Test()
+        {
+            CypherCommand cypher = _<Foo, Foo>(item => n => items =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, item._(Id)))
+                                    .Where(n._.Name != item._.Name)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("UNWIND $items AS item\r\n" +
+                            "MATCH (n:Person { Id: item.Id })\r\n" +
+                            "WHERE n.Name <> item.Name", cypher.Query);
+        }
+
+        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Where_Unwind_Test
+
     }
 }
 
