@@ -310,6 +310,26 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
+
+        #region UNWIND items AS item MATCH (p:Person { Id: item.Id }) RETURN p / LazyReuse_UNWIND_Test
+
+        [Fact]
+        public void LazyReuse_UNWIND_Test()
+        {
+            var person = Reuse(p => item => N(p, Person, item._(Id)));
+
+            CypherCommand cypher = _(p => items => item =>
+                          Unwind(items, item, 
+                            Match(person)
+                            .Return(p)));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal("UNWIND items AS item\r\n" +
+                             "MATCH (p:Person { Id: item.Id })\r\n" +
+                             "RETURN p", cypher.Query);
+        }
+
+        #endregion // UNWIND items AS item MATCH (p:Person { Id: item.Id }) RETURN p / LazyReuse_UNWIND_Test
     }
 }
 
