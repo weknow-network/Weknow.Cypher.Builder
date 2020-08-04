@@ -268,6 +268,42 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
+
+        #region CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_Test
+
+        [Fact]
+        public void Merge_Map_Test()
+        {
+            CypherCommand cypher =
+                _<Foo>(n => map =>
+                           Create(N(n, Person , map._(n._.Id)))
+                           .Set(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE(n:Person { Id: map.Id })\r\n" +
+                "Set n = map", cypher.Query);
+        }
+
+        #endregion // CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_Test
+
+        #region CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_OverloadProblem_Test
+
+        [Fact]
+        public void Merge_Map_OverloadProblem_Test()
+        {
+            CypherCommand cypher =
+                _<Foo>(map => n => 
+                           Create(N(n, Person , map._(map._.Id)))
+                           .Set(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE(n:Person { Id: map.Id })\r\n" +
+                "Set n = map", cypher.Query);
+        }
+
+        #endregion // CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_OverloadProblem_Test
     }
 }
 
