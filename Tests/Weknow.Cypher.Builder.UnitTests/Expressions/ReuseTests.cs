@@ -73,52 +73,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (n:Person { PropA: $nPropA }) ... / LazyReuse_Overloads_Test
 
-        #region MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureProperties_Test
-
-        [Fact]
-        public void CaptureProperties_Test()
-        {
-            CypherCommand cypher = _(_ => P(PropA, PropB).AsReuse()
-                                         .By(p => n => Match(N(n, Person, p))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureProperties_Test
-
-        #region MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureNodeAndProperties_Test
-
-        [Fact]
-        public void CaptureNodeAndProperties_Test()
-        {
-            CypherCommand cypher = _(n => P(PropA, PropB).AsReuse()
-                                          .By(p => N(n, Person, p).AsReuse()
-                                          .By(n => Match(n))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Person { PropA: $PropA, PropB: $PropB }) / CaptureNodeAndProperties_Test
-
-        #region MATCH (person:Person)-[r:LIKE]->(animal:Animal) / Reuse_Node_Test
-
-        [Fact]
-        public void Reuse_Node_Test()
-        {
-            CypherCommand cypher = _(person => animal => 
-                                     N(person, Person).AsReuse(
-                                     N(animal, Animal).AsReuse())
-                         .By(reusedPerson => reusedAnimal => r =>
-                          Match(reusedPerson - R[r, LIKE] > reusedAnimal)));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
-        }
-
-        #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / Reuse_Node_Test
-
         #region [:LIKE] / Reuse_Relation_Test
 
         [Fact]

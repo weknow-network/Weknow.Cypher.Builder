@@ -940,25 +940,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Reuse
 
-        #region AsReuse
-
-        /// <summary>
-        /// Use for encapsulation of reusable expression.
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static IReuse<T, Fluent> AsReuse<T>(this T v) => new Reuse<T, Fluent>(f => f(v));
-
-        /// <summary>
-        /// Use for encapsulation of reusable expression.
-        /// </summary>
-        /// <param name="r"></param>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
-
-        #endregion // AsReuse
-
         #region Timestamp / timestamp()
 
         /// <summary>

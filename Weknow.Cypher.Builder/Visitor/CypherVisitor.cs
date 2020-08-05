@@ -243,21 +243,6 @@ namespace Weknow.Cypher.Builder
                 };
                 ApplyFormat(node, format);
             }
-            else if (mtdName == nameof(IReuse<Fluent, Fluent>.By))
-            {
-                Visit(node.Object);
-                Visit(node.Arguments[0]);
-            }
-            else if (mtdName == nameof(Cypher.Reuse) || mtdName == nameof(Cypher.AsReuse))
-            {
-                if (node.Arguments.Count == 2)
-                {
-                    _reuseParameters.Add(node.Arguments[0]);
-                    Visit(node.Arguments[1]);
-                }
-                else
-                    _reuseParameters.Add(node.Arguments[0]);
-            }
             else if (mtdName == nameof(Range.EndAt))
             {
                 Query.Append("*..");

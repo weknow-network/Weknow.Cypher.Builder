@@ -689,21 +689,6 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.AsReuse``1(``0)">
-            <summary>
-            Use for encapsulation of reusable expression.
-            </summary>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.AsReuse``3(``0,Weknow.Cypher.Builder.IReuse{``1,``2})">
-            <summary>
-            Use for encapsulation of reusable expression.
-            </summary>
-            <param name="r"></param>
-            <param name="v"></param>
-            <returns></returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Timestamp">
             <summary>
             Milliseconds since midnight, January 1, 1970 UTC.
@@ -2452,41 +2437,6 @@
             Primitives don't have actual implementation, 
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IReuse`2">
-            <summary>
-            Reuse contract
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="U"></typeparam>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IReuse`2.By(System.Func{`0,`1})">
-            <summary>
-            Pipe the reuse content.
-            </summary>
-            <param name="a">a.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.Reuse`2">
-            <summary>
-            Reuse encapsulation
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="U"></typeparam>
-            <seealso cref="T:Weknow.Cypher.Builder.IReuse`2" />
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Reuse`2.#ctor(System.Func{System.Func{`0,`1},Weknow.Cypher.Builder.CypherDelegates.Fluent})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.Reuse`2"/> class.
-            </summary>
-            <param name="by">The by.</param>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Reuse`2.Weknow#Cypher#Builder#IReuse{T,U}#By(System.Func{`0,`1})">
-            <summary>
-            Reused by
-            </summary>
-            <param name="a">a.</param>
-            <returns></returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherQueryBuilder">
             <summary>
