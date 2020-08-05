@@ -2,6 +2,7 @@ using System;
 
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
@@ -281,8 +282,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE(n:Person { Id: map.Id })\r\n" +
-                "Set n = map", cypher.Query);
+                "CREATE(n:Person { Id: $map.Id })\r\n" +
+                "Set n = $map", cypher.Query);
         }
 
         #endregion // CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_Test
@@ -299,8 +300,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE(n:Person { Id: map.Id })\r\n" +
-                "Set n = map", cypher.Query);
+                "CREATE(n:Person { Id: $map.Id })\r\n" +
+                "Set n = $map", cypher.Query);
         }
 
         #endregion // CREATE(n:Person { Id: map.Id }) Set n = map / Merge_Map_OverloadProblem_Test

@@ -14,6 +14,7 @@ namespace Weknow.Cypher.Builder
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="U"></typeparam>
     /// <seealso cref="Weknow.Cypher.Builder.IReuse{T, U}" />
+    [Obsolete("No Magic", false)]
     internal class Reuse<T, U> : IReuse<T, U>
     {
         private Func<Func<T, U>, Fluent> _by;

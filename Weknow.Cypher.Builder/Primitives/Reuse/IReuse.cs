@@ -20,6 +20,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="a">a.</param>
         /// <returns></returns>
+        [Obsolete("No Magic", false)]
         Fluent By(Func<T, U> a);
     }
 }
