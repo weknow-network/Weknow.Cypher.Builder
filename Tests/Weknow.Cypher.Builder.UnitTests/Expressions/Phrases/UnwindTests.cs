@@ -39,38 +39,6 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
 
-        #region UNWIND $items AS item MATCH (n:Person { PropA: item.x }) / Unwind_PropConst_Test
-
-        [Fact]
-        public void Unwind_PropConst_Test()
-        {
-            CypherCommand cypher = _(items => item => n => x =>
-                                    Unwind(items, item,
-                                    Match(N(n, Person, item._(P_(PropA, x))))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { PropA: item.x })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.x }) / Unwind_PropConst_Test
-
-        #region UNWIND $items AS item MATCH (n:Person { Id: $id, PropB: $PropB }) / Unwind_NonWindProp_Test
-
-        [Fact]
-        public void Unwind_NonWindProp_Test()
-        {
-            CypherCommand cypher = _(items => item => n => id =>
-                                    Unwind(items, item,
-                                    Match(N(n, Person, P( P_(Id, id), PropB)))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: $id, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: $id, PropB: $PropB }) / Unwind_NonWindProp_Test
-
         #region UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Unwind_NonWindProp_T_Test
 
         [Fact]
@@ -94,7 +62,7 @@ MATCH (n:Person { Id: $Id })", cypher.Query);
         {
             CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P_(PropA, item)))));
+                                    Match(N(n, Person, new { PropA = item }))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -102,38 +70,6 @@ MATCH (n:Person { PropA: item })", cypher.Query);
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item }) / Unwind_PropConst_AsMap_Test
-
-        #region UNWIND $items AS item MATCH (n:Person { Id: item.custom }) / Unwind_NonWindProp_T_Test
-
-        [Fact]
-        public void Unwind_CustomProp_Test()
-        {
-            CypherCommand cypher = _(items => item => n => custom =>
-                                    Unwind(items, item,
-                                    Match(N(n, Person, item._(P_(Id, custom))))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: item.custom })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.custom }) / Unwind_NonWindProp_T_Test
-
-        #region UNWIND $items AS item MATCH (n:Person { Id: item.Name }) / Unwind_NonWindProp_T_Test
-
-        [Fact]
-        public void Unwind_CustomProp_T_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => items => item => 
-                                    Unwind(items, item,
-                                    Match(N(n, Person, item._(P_(Id, n._.Name))))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: item.Name })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Name }) / Unwind_NonWindProp_T_Test
 
         #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_WithPropConvention_Test
 
@@ -370,7 +306,8 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
-            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, P(_P(maintainer_, Id), Date)));
+            IParameter maintainer_Id = null, Date = null;
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,

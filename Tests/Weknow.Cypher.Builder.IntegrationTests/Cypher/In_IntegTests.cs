@@ -39,11 +39,12 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         /// </summary>
         public async Task InitDataAsync()
         {
+            IParameter p1Id = null, p2Id = null, t1Id = null, t2Id = null;
             CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
-                                    Create(N(p1, Person, _P(p1, P(Id))))
-                                    .Create(N(p2, Person, _P(p2, P(Id))))
-                                    .Create(N(t1, Tag, _P(t1, Id)))
-                                    .Create(N(t2, Tag, _P(t2, Id)))
+                                    Create(N(p1, Person, new { Id = p1Id }))
+                                    .Create(N(p2, Person, new { Id = p2Id }))
+                                    .Create(N(t1, Tag, new { Id = t1Id }))
+                                    .Create(N(t2, Tag, new { Id = t2Id }))
                                     .Merge(N(p1) - R[Affinity] > N(t1))
                                     .Merge(N(p1) - R[Affinity] > N(t2)),
                                     CONFIGURATION);

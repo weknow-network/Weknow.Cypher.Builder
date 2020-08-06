@@ -108,21 +108,5 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MWith_Needed_Test
-
-        #region MATCH (n) RETURN n.Id, n.PropA, n.PropB, n.pre_PropC / Return_Props_Lambda_Prefix_Test
-
-        [Fact]
-        public void Return_Props_Lambda_Prefix_Test()
-        {
-            CypherCommand cypher = _(n => pre_ =>
-                                    Match(N(n))
-                                    .Return(n.P(Id, P<Foo>(x => x.PropA, x => x.PropB), _P(pre_, PropC))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
-                           "RETURN n.Id, n.PropA, n.PropB, n.pre_PropC", cypher.Query);
-        }
-
-        #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB, n.pre_PropC / Return_Props_Lambda_Prefix_Test
     }
 }

@@ -125,7 +125,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static Fluent OnCreateSet(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -138,7 +138,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static Fluent OnCreateSet(this Fluent p, IPropertyOfType properties) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, IProperty properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -182,7 +182,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static Fluent OnMatchSet(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, IProperties properties) => throw new NotImplementedException();
         
         /// <summary>
         /// ON MATCH SET phrase.
@@ -195,7 +195,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static Fluent OnMatchSet(this Fluent p, IPropertyOfType properties) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, IProperty properties) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
@@ -254,7 +254,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE user.name = $name
         /// </example>
         [Cypher("$0\r\n&WHERE $1")]
-        public static Fluent Where(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent Where(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         #endregion // Where
 
@@ -282,7 +282,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN n.Id
         /// </example>
         [Cypher("$0\r\n&RETURN $1")]
-        public static Fluent Return(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent Return(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         #endregion // Return
 
@@ -310,7 +310,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN n.Id
         /// </example>
         [Cypher("$0\r\n&RETURN DISTINCT $1")]
-        public static Fluent ReturnDistinct(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent ReturnDistinct(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         #endregion // Return
 
@@ -424,6 +424,10 @@ namespace Weknow.Cypher.Builder
 
         #region Set
 
+        [Cypher("$0\r\n&SET $1 = &$1")]
+        public static Fluent Set(this Fluent p, object properties) => throw new NotImplementedException();
+
+
         /// <summary>
         /// SET label phrase.
         /// </summary>
@@ -499,7 +503,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent p, IPropertiesOfType properties) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -512,7 +516,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent p, IPropertyOfType property) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, IProperty property) => throw new NotImplementedException();
 
         #endregion // Set
 

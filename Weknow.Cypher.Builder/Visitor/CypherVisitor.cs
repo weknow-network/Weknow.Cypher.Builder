@@ -66,24 +66,17 @@ namespace Weknow.Cypher.Builder
         #endregion // Parameters
 
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> _isPluralize = new ContextValue<bool>(false);
-        private readonly ContextValue<bool> _isSingularize = new ContextValue<bool>(false);
-
-        private readonly ContextValue<string?> _isCustomProp = new ContextValue<string?>(null);
-        private readonly ContextValue<string?> _varExtension = new ContextValue<string?>(null);
-        private readonly ContextValue<bool> _noSelfFormatting = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
         private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
-        private readonly ContextValue<string?> _propPrefix = new ContextValue<string?>(null);
 
-        private readonly Dictionary<int, ContextValue<ContextExpression?>> _expression = new Dictionary<int, ContextValue<ContextExpression?>>()
+        private readonly Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
         {
-            [0] = new ContextValue<ContextExpression?>(null),
-            [1] = new ContextValue<ContextExpression?>(null),
-            [2] = new ContextValue<ContextExpression?>(null),
-            [3] = new ContextValue<ContextExpression?>(null),
-            [4] = new ContextValue<ContextExpression?>(null),
+            [0] = new ContextValue<Expression?>(null),
+            [1] = new ContextValue<Expression?>(null),
+            [2] = new ContextValue<Expression?>(null),
+            [3] = new ContextValue<Expression?>(null),
+            [4] = new ContextValue<Expression?>(null),
         };
 
         private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
@@ -193,7 +186,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // VisitUnary
 
-
         #region VisitMethodCall
 
         /// <summary>
@@ -217,30 +209,10 @@ namespace Weknow.Cypher.Builder
                 _ => DisposeableAction.Empty
             };
 
-            using IDisposable selfFormatting = node.Type.Name switch
-            {
-                nameof(ISelfFormat) => _noSelfFormatting.Set(true),
-                _ => DisposeableAction.Empty
-            };
-
             var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
             var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
             if (format != null)
             {
-                using IDisposable scp = IsCustomProp(node);
-
-                // Looking for property options
-                var argMtd = node.Arguments.LastOrDefault() as MethodCallExpression;
-                var opt = argMtd?.Arguments?.FirstOrDefault() as ConstantExpression;
-                using IDisposable mapProps = node.Method.Name switch
-                {
-                    nameof(Cypher.P) when firstArg.Type == typeof(IMap) &&
-                                          args.Count > 1 &&
-                                          firstArg is MemberExpression me &&
-                                          me.Expression is ParameterExpression mme =>
-                         _propPrefix.Set($"{mme.Name}."),
-                    _ => DisposeableAction.Empty
-                };
                 ApplyFormat(node, format);
             }
             else if (mtdName == nameof(Range.EndAt))
@@ -309,7 +281,7 @@ namespace Weknow.Cypher.Builder
                 }
                 else
                 {
-                    MethodCallExpression? methodExp = _expression[1].Value?.Expression as MethodCallExpression;
+                    MethodCallExpression? methodExp = _expression[1].Value as MethodCallExpression;
                     var properties = methodExp == null ?
                                     Array.Empty<PropertyInfo>() :
                                     methodExp.Method.GetGenericArguments()[0].GetProperties();
@@ -336,7 +308,7 @@ namespace Weknow.Cypher.Builder
                 var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
                 var arguments = node.Method.IsGenericMethod
                     ? node.Method.GetGenericArguments()
-                    : (_expression[1].Value?.Expression as MethodCallExpression)?.Method?.GetGenericArguments();
+                    : (_expression[1].Value as MethodCallExpression)?.Method?.GetGenericArguments();
                 Type? firstArgType = arguments?[0];
                 var properties = firstArgType?.GetProperties()?.Where(p => filter?.Invoke(p.Name) ?? true).ToArray();
                 foreach (var item in properties ?? Array.Empty<PropertyInfo>())
@@ -395,8 +367,6 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
 
-            AddGenPrefix();
-
             if (name == nameof(IVar.AsMap))
             {
                 if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
@@ -413,7 +383,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     node.Type != typeof(IMap) &&
+                     node.Type != typeof(IMap) && node.Type != typeof(IParameter) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
@@ -431,7 +401,16 @@ namespace Weknow.Cypher.Builder
             if (name == nameof(IVar.AsMap))
                 return node;
 
+            if (node.Type == typeof(IParameter))
+            {
+                Query.Append("$");
+                if (!Parameters.ContainsKey(name))
+                    Parameters.Add(name, null);
+            }
             Query.Append(name);
+
+            if (node.Type == typeof(IParameter))
+                return node;
 
             bool ignore = _methodExpr.Value?.Method.Name switch
             {
@@ -519,8 +498,11 @@ namespace Weknow.Cypher.Builder
             }
 
             using var _ = _isProperties.Set(true);
-            foreach (var expr in node.Arguments)
+            for (int i = 0; i < node.Arguments.Count; i++)
             {
+                Query.Append(node.Members[i].Name);
+                AppendPropSeparator();
+                Expression? expr = node.Arguments[i];
                 Visit(expr);
                 if (expr != node.Arguments.Last())
                     Query.Append(", ");
@@ -551,10 +533,6 @@ namespace Weknow.Cypher.Builder
                 Query.Append(node.Value);
                 HandleProperties(node.Value);
             }
-            else if (_noSelfFormatting.Value)
-            {
-                Query.Append(node.Value);
-            }
             else
             {
                 var parameterName = $"p_{Parameters.Count}";
@@ -582,44 +560,12 @@ namespace Weknow.Cypher.Builder
                 using var _ = _reusedParameterName.Set(node.Name);
                 Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);
             }
-            else if (_isSingularize)
-                Query.Append(_configuration.Naming.Pluralization.Singularize(node.Name));
-            else if (_isPluralize)
-                Query.Append(_configuration.Naming.Pluralization.Pluralize(node.Name));
             else
                 Query.Append(node.Name);
             return node;
         }
 
         #endregion // VisitParameter
-
-        #region Visit
-
-        /// <summary>
-        /// Visits the specified expression.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        private void Visit(ContextExpression? expression)
-        {
-            if (expression == null) return;
-
-            if (expression.IsPluralize)
-            {
-                using var _ = _isPluralize.Set(true);
-                Visit(expression.Expression);
-            }
-            else if (expression.IsSingularize)
-            {
-                using var _ = _isSingularize.Set(true);
-                Visit(expression.Expression);
-            }
-            else
-            {
-                Visit(expression.Expression);
-            }
-        }
-
-        #endregion // Visit
 
         #region ApplyFormat
 
@@ -640,28 +586,11 @@ namespace Weknow.Cypher.Builder
                             var ch = format[++i];
                             IDisposable scope = DisposeableAction.Empty;
                             int index = -1;
-                            if (ch == 'p')
-                            {
-                                scope = _isPluralize.Set(true);
-                                index = int.Parse(format[++i].ToString());
-                            }
-                            else if (ch == 's')
-                            {
-                                scope = _isSingularize.Set(true);
-                                index = int.Parse(format[++i].ToString());
-                            }
-                            else
-                            {
-                                index = int.Parse(ch.ToString());
-                            }
+                            index = int.Parse(ch.ToString());
                             using (scope)
                             {
                                 Expression expr = node.Arguments[index];
-                                IDisposable d = SetGenPropertiesContext(node, expr);
-                                using (d)
-                                {
-                                    Visit(expr);
-                                }
+                                Visit(expr);
                             }
                         }
                         break;
@@ -699,27 +628,16 @@ namespace Weknow.Cypher.Builder
                             int index1 = int.Parse(fmt1);
                             int index2 = int.Parse(fmt2);
                             Expression? expr = node.Arguments[index2];
-                            ContextValue<ContextExpression?>? ctx = _expression[index1];
-                            if (ch == 'p')
-                            {
-                                disp = ctx.Set(new ContextExpression(true, false, expr));
-                            }
-                            else if (ch == 's')
-                            {
-                                disp = ctx.Set(new ContextExpression(false, true, expr));
-                            }
-                            else
-                            {
-                                disp = ctx.Set(new ContextExpression(false, false, expr));
-                            }
+                            ContextValue<Expression?>? ctx = _expression[index1];
+                            disp = ctx.Set(expr);
                         }
                         break;
                     case '.':
                         {
                             string fmt = format[++i].ToString();
                             int index = int.Parse(fmt);
-                            ContextValue<ContextExpression?>? expr = _expression[index];
-                            disp = expr.Set(new ContextExpression(false, false, node));
+                            ContextValue<Expression?>? expr = _expression[index];
+                            disp = expr.Set(node);
                             break;
                         }
                     case '&':
@@ -792,29 +710,17 @@ namespace Weknow.Cypher.Builder
         {
             string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
             AppendPropSeparator();
-            if (_expression[0].Value != null)
-            {
-                Query.Append("$");
-                var length = Query.Length;
-                Visit(_expression[0].Value);
-                parameterName = Query.ToString().Substring(length) + parameterName;
-            }
-            else if (_expression[2].Value != null && _expression[4].Value != null &&
-                _expression[2].Value?.Expression == _expression[4].Value?.Expression)
+            if (_expression[2].Value != null && _expression[4].Value != null &&
+                _expression[2].Value == _expression[4].Value)
             {
                 Visit(_expression[2].Value);
                 Query.Append(".");
             }
-            else if (_expression[2]?.Value != null && _expression[2].Value?.Expression is ParameterExpression pe && pe.Name == _isCustomProp.Value)
-            {
-
-            }
             else
             {
-                string? prefix = _propPrefix.Value;
-                Query.Append(prefix ?? "$");
+                Query.Append("$");
             }
-            Query.Append(_isCustomProp.Value ?? name);
+            Query.Append(name);
             Parameters[parameterName] = null;
         }
 
@@ -838,122 +744,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // UseGenericsAsLabel
 
-        #region SetGenPropertiesContext
-
-        /// <summary>
-        /// Sets the gen properties context.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        /// <param name="expr">The expr.</param>
-        /// <returns></returns>
-        private IDisposable SetGenPropertiesContext(MethodCallExpression node, Expression expr)
-        {
-            IDisposable result = DisposeableAction.Empty;
-            string? eq = EqualPattern();
-            if (eq == null)
-                return result;
-
-            var args = node.Arguments;
-            Expression? arg0 = args.FirstOrDefault();
-            if (arg0?.Type != typeof(Fluent))
-                return result;
-
-            MethodCallExpression? propExpr = args.OfType<MethodCallExpression>()
-                                   .LastOrDefault(
-                                        m => m.Type == typeof(IProperties) ||
-                                        m.Type == typeof(IPropertyOfType) ||
-                                        m.Type == typeof(IPropertiesOfType));
-            if (propExpr == null)
-                return result;
-
-            var propArgs = propExpr.Arguments;
-            var varExpr = propArgs.FirstOrDefault() as ParameterExpression;
-            var lambdaEpr = propArgs.Skip(1).LastOrDefault();
-
-            if (varExpr == null || lambdaEpr == null)
-                return result;
-
-            var lambdaType = lambdaEpr.GetType();
-            if (!lambdaType.IsGenericType)
-                return result;
-
-            var lambdaArgs = lambdaType.GenericTypeArguments;
-            if (lambdaArgs.Length != 1)
-                return result;
-
-            var lambda = lambdaArgs[0];
-            var genArgs = lambda.GenericTypeArguments;
-            if (genArgs.Length == 2 &&
-                genArgs[1] == typeof(object))
-            {
-                result = _varExtension.Set(varExpr?.Name);
-            }
-
-            return result;
-        }
-
-        #endregion // SetGenPropertiesContext
-
-        #region AddGenPrefix
-
-        /// <summary>
-        /// Adds the gen prefix.
-        /// </summary>
-        private void AddGenPrefix()
-        {
-            var prefix = _varExtension.Value;
-            if (!string.IsNullOrEmpty(prefix))
-            {
-                bool shouldAppend = false;
-                string append = $"{prefix}.";
-                int qlen = Query.Length;
-                int start = qlen - append.Length;
-                if (start > 0)
-                {
-                    int j = 0;
-                    for (int i = start; i < Query.Length && !shouldAppend; i++)
-                    {
-                        if (Query[i] != append[j++])
-                            shouldAppend = true;
-                    }
-                }
-                if (shouldAppend)
-                    Query.Append(append);
-            }
-        }
-
-        #endregion // AddGenPrefix
-
-        #region IsCustomProp
-
-        /// <summary>
-        /// Determines whether [is custom property] [the specified node].
-        /// </summary>
-        /// <param name="node">The node.</param>
-        /// <returns></returns>
-        private IDisposable IsCustomProp(MethodCallExpression node)
-        {
-            if (node.Method?.Name != nameof(Cypher.P_))
-                return DisposeableAction.Empty;
-
-            var arg1 = node.Arguments[1];
-            switch (arg1)
-            {
-                case ParameterExpression e:
-                    return _isCustomProp.Set(e.Name);
-                case MemberExpression e:
-                    return _isCustomProp.Set(e.Member.Name);
-                case LambdaExpression e:
-                    if (e?.Body is MemberExpression e1)
-                        return _isCustomProp.Set(e1.Member.Name);
-                    break;
-
-            }
-            return DisposeableAction.Empty;
-        }
-
-        #endregion // IsCustomProp
-
         #region IsProperty
 
         /// <summary>
@@ -967,8 +757,6 @@ namespace Weknow.Cypher.Builder
             {
                 nameof(IProperty) => _isProperties.Set(true),
                 nameof(IProperties) => _isProperties.Set(true),
-                nameof(IPropertyOfType) => _isProperties.Set(true),
-                nameof(IPropertiesOfType) => _isProperties.Set(true),
                 _ => DisposeableAction.Empty
             };
             return result;

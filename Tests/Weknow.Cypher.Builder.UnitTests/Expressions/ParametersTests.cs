@@ -46,9 +46,10 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Parameters_Unwind_NonWindProp_Test()
         {
-            CypherCommand cypher = _(items => item => n => id =>
+            IParameter id = null;
+            CypherCommand cypher = _(items => item => n =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, P( P_(Id, id), PropB)))));
+                                    Match(N(n, Person, new { Id = id, PropB = PropB }))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item

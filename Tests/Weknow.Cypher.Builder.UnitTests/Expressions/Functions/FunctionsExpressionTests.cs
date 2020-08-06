@@ -63,10 +63,10 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n => m =>
                                     Match(N(n))
-                                    .Set(Timestamp(n, Date))
+                                    .Set(n.P(new { Date = Timestamp() }))
                                     .Merge(N(m))
-                                    .OnCreateSet(Timestamp(n, "CreationDate"))
-                                    .OnMatchSet(n.Timestamp("ModifiedDate"))
+                                    .OnCreateSet(n.P(new { CreationDate = Timestamp() }))
+                                    .OnMatchSet(n.P(new { ModifiedDate = Timestamp() }))
                                     .Return(n, Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);

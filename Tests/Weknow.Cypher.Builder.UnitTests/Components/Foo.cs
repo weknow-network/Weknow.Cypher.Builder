@@ -9,6 +9,8 @@ namespace Weknow.Cypher.Builder
         public string Name { get; set; } = string.Empty;
         public string PropA { get; set; } = string.Empty;
         public string PropB { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
     }
 
 }

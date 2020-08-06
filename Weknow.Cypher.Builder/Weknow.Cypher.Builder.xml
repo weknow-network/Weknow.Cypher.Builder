@@ -142,6 +142,15 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Object)">
+            <summary>
+            Specified node with variable, label and properties.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified node with variable, label and properties.
@@ -390,74 +399,6 @@
             <example>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Set property with variable (useful for unwind's variable).
-            <param name="var"></param>
-            </summary>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            UNWIND $items AS item
-            MERGE(n:Person { Id: item })
-            RETURN n
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Represent properties with prefix.
-            </summary>
-            <param name="prefix"></param>
-            <param name="properties"></param>
-            <returns></returns>
-            <example>
-            { Name: $pre_Name }
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Represent property with prefix.
-            </summary>
-            <param name="prefix"></param>
-            <param name="property"></param>
-            <returns></returns>
-            <example>
-            { Name: $pre_Name }
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P_(Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Represent property with prefix.
-            </summary>
-            <param name="property">The property.</param>
-            <param name="variableName">Name of the variable.</param>
-            <returns></returns>
-            <example>
-            { Id: $Key }
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P_(Weknow.Cypher.Builder.IProperty,System.Object)">
-            <summary>
-            Represent property with prefix.
-            </summary>
-            <param name="property">The property.</param>
-            <param name="variableName">Name of the variable.</param>
-            <returns></returns>
-            <example>
-            { Id: $Key }
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P_``1(Weknow.Cypher.Builder.IProperty,System.Func{``0,System.Object})">
-            <summary>
-            Represent property with prefix.
-            </summary>
-            <param name="property">The property.</param>
-            <param name="variableName">Name of the variable.</param>
-            <returns></returns>
-            <example>
-            { Id: $Key }
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Convention(System.Func{System.String,System.Boolean})">
             <summary>
             Gets properties by convention.
@@ -515,7 +456,7 @@
             WHERE n.name =~ 'Tim.*'
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(Weknow.Cypher.Builder.IProperties)">
             <summary>
             Use regular expression comparison under WHERE clause.
             </summary>
@@ -697,18 +638,6 @@
             <example>
             MATCH (n)
             RETURN timestamp()
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Timestamp(Weknow.Cypher.Builder.IVar,System.Object)">
-            <summary>
-            Milliseconds since midnight, January 1, 1970 UTC.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            SET n.Date = timestamp()
             </example>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherCommand">
@@ -979,18 +908,6 @@
             RETURN collect(DISTINCT n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Timestamp(Weknow.Cypher.Builder.IVar,System.Object)">
-            <summary>
-            Milliseconds since midnight, January 1, 1970 UTC.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            SET n.Date = timestamp()
-            </example>
-        </member>
         <member name="T:Weknow.Cypher.Builder.CypherGeneralExtensions">
             <summary>
             Cypher Extensions
@@ -1123,7 +1040,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1135,7 +1052,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertyOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperty)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1172,7 +1089,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1184,7 +1101,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertyOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperty)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1233,7 +1150,7 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             WHERE phrase.
             </summary>
@@ -1257,7 +1174,7 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             RETURN phrase.
             </summary>
@@ -1279,7 +1196,7 @@
             RETURN DISTINCT n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.ReturnDistinct(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.ReturnDistinct(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             RETURN phrase.
             </summary>
@@ -1430,7 +1347,7 @@
             n.property2 = $value2
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertiesOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
             <summary>
             SET phrase.
             </summary>
@@ -1442,7 +1359,7 @@
             n.property2 = $value2
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IPropertyOfType)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperty)">
             <summary>
             SET phrase.
             </summary>
@@ -2274,19 +2191,6 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="T:Weknow.Cypher.Builder.ISelfFormat">
-            <summary>
-            Variable primitive for the Cypher expression with self formatting.
-            </summary>
-            <example>
-            The n in the following expression will use the variable primitive. 
-            SET n.Date = timestamp()
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IType">
             <summary>
             Relation's Type primitive for the Cypher expression.
@@ -2386,19 +2290,6 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IPropertiesOfType">
-            <summary>
-            Properties primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name, age in the following expression will use the Properties primitive.
-            MATCH (n {name: 'Alice', age: 37})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IProperty">
             <summary>
             Property primitive for the Cypher expression.
@@ -2406,32 +2297,6 @@
             <example>
             The name in the following expression will use the Property primitive.
             MATCH (n {name: 'Alice'})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IPropertyConst">
-            <summary>
-            Properties primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name, age in the following expression will use the Properties primitive.
-            MATCH (n {name: 'Alice', age: 37})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IPropertyOfType">
-            <summary>
-            Properties primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name, age in the following expression will use the Properties primitive.
-            MATCH (n {name: 'Alice', age: 37})
             </example>
             <remarks>
             Primitives don't have actual implementation, 
@@ -2660,12 +2525,6 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.Visit(Weknow.Cypher.Builder.ContextExpression)">
-            <summary>
-            Visits the specified expression.
-            </summary>
-            <param name="expression">The expression.</param>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.ApplyFormat(System.Linq.Expressions.MethodCallExpression,System.String)">
             <summary>
             Applies the format.
@@ -2695,26 +2554,6 @@
             <param name="arg">The argument.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.SetGenPropertiesContext(System.Linq.Expressions.MethodCallExpression,System.Linq.Expressions.Expression)">
-            <summary>
-            Sets the gen properties context.
-            </summary>
-            <param name="node">The node.</param>
-            <param name="expr">The expr.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.AddGenPrefix">
-            <summary>
-            Adds the gen prefix.
-            </summary>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.IsCustomProp(System.Linq.Expressions.MethodCallExpression)">
-            <summary>
-            Determines whether [is custom property] [the specified node].
-            </summary>
-            <param name="node">The node.</param>
-            <returns></returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.IsProperty(System.Type)">
             <summary>
             Determines whether the specified type is property.
@@ -2726,43 +2565,6 @@
             <summary>
             Appends the property separator.
             </summary>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.ContextExpression">
-            <summary>
-            Context of the expression
-            </summary>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.ContextExpression.#ctor(System.Boolean,System.Boolean,System.Linq.Expressions.Expression)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.Cypher.Builder.ContextExpression"/> class.
-            </summary>
-            <param name="isPluralize">if set to <c>true</c> [is pluralize].</param>
-            <param name="isSingularize">if set to <c>true</c> [is singularize].</param>
-            <param name="expression">The expression.</param>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.ContextExpression.IsPluralize">
-            <summary>
-            Gets or sets a value indicating whether this instance is pluralize.
-            </summary>
-            <value>
-              <c>true</c> if this instance is pluralize; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.ContextExpression.IsSingularize">
-            <summary>
-            Gets or sets a value indicating whether this instance is singularize.
-            </summary>
-            <value>
-              <c>true</c> if this instance is singularize; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.ContextExpression.Expression">
-            <summary>
-            Gets or sets the expression.
-            </summary>
-            <value>
-            The expression.
-            </value>
         </member>
         <member name="T:Weknow.Cypher.Builder.ContextValue`1">
             <summary>

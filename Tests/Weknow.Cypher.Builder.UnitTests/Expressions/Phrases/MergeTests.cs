@@ -209,7 +209,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
                     "ON MATCH SET n = $n", cypher.Query);
         }
 
@@ -228,7 +228,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
+                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
                     "ON MATCH SET n += $n", cypher.Query);
         }
 
@@ -247,7 +247,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
             "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB\r\n\t" +
+                "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
                 "ON MATCH SET n = $map", cypher.Query);
         }
 
@@ -282,7 +282,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE(n:Person { Id: $map.Id })\r\n" +
+                "CREATE (n:Person { Id: $map.Id })\r\n" +
                 "Set n = $map", cypher.Query);
         }
 
@@ -295,12 +295,12 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher =
                 _<Foo>(map => n => 
-                           Create(N(n, Person , map._(map._.Id)))
+                           Create(N(n, Person , new { Id = map._.Id }))
                            .Set(n, map));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE(n:Person { Id: $map.Id })\r\n" +
+                "CREATE (n:Person { Id: $map.Id })\r\n" +
                 "Set n = $map", cypher.Query);
         }
 

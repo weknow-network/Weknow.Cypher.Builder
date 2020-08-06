@@ -15,4 +15,6 @@ namespace Weknow.Cypher.Builder
     /// </remarks>
     public interface IParameter { }
 
+    public interface IParameter<T> { T _ { get; } }
+
 }

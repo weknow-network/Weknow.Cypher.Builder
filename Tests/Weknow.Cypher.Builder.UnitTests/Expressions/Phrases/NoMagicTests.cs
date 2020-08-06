@@ -29,18 +29,16 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic1_Test()
         {
-            throw new NotImplementedException();
+            IParameter<Foo> map = null;
 
-            //IParameter<Foo> map = null;
+            CypherCommand cypher =
+                _<Foo>(n => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
+                           .Set(new { n = map }));
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName })))
-            //               .Set(new { n = map }));
-
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
-            //    "Set n = $map", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
+                "Set n = $map", cypher.Query);
         }
 
         #endregion // Merge_NoMagic1_Test

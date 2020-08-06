@@ -83,8 +83,9 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_Pre_Return_Test()
         {
+            IParameter n_Id = null;
             CypherCommand cypher = _(n => n_ =>
-                                    Match(N(n, Person, _P(n_, Id)))
+                                    Match(N(n, Person, new { Id = n_Id }))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -100,9 +101,10 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_Multi_Return_Test()
         {
+            IParameter nId = null, mId = null;
             CypherCommand cypher = _(n => m =>
-                                    Match(N(n, Person, _P(n, Id)))
-                                    .Match(N(m, Person, _P(m, Id)))
+                                    Match(N(n, Person, new { Id = nId }))
+                                    .Match(N(m, Person, new { Id = mId }))
                                     .Return(n, m));
 
             _outputHelper.WriteLine(cypher);
@@ -147,23 +149,6 @@ SET n = $n", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Replace_Test
-
-        #region Match_Set_WithPrefix_Test
-
-        [Fact]
-        public void Match_Set_WithPrefix_Test()
-        {
-            CypherCommand cypher = _(n => n_ =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Set(n.P(PropA, _P(n_, PropB))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
-        }
-
-        #endregion // Match_Set_WithPrefix_Test
 
         #region Match_Set_Test
 
@@ -228,7 +213,7 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
-SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
+SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName", cypher.Query);
         }
 
         #endregion // Match_Set_OfT_All_Test

@@ -1,3 +1,4 @@
+using System.Data;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -73,8 +74,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithPropConst_Test()
         {
-            CypherCommand cypher = _(a => r => b => prop =>
-             Match(N(a, Person) - R[r, KNOWS, P_(PropA, prop)] > N(b, Person)));
+            IParameter prop = null;
+            CypherCommand cypher = _(a => r => b =>
+             Match(N(a, Person) - R[r, KNOWS, new { PropA = prop }] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -153,7 +155,8 @@ RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c", cypher.Query);
         [Fact]
         public void Relation_WithReuse_Test()
         {
-            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, _P(maintainer_, Id)));
+            IParameter maintainer_Id = null;
+            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id }));
 
             CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
 

@@ -215,136 +215,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_Test
 
-        #region (n:Person { PropA: $nPropA }) / Properties_WithPrefix_Light_Test
-
-        [Fact]
-        public void Properties_WithPrefix_Light_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, _P(n, PropA)));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { PropA: $nPropA })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $nPropA }) / Properties_WithPrefix_Light_Test
-
-        #region (n:Person { PropA: $n_PropA }) / Properties_WithPrefixMulti_Light_Test
-
-        [Fact]
-        public void Properties_WithPrefixMulti_Light_Test()
-        {
-            IPattern? pattern = Reuse(n => n_ => N(n, Person, _P(n_, PropA)));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { PropA: $n_PropA })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $n_PropA }) / Properties_WithPrefixMulti_Light_Test
-
-        #region (n:Person { PropA: $n_PropA }) / Properties_WithPrefix_Test
-
-        [Fact]
-        public void Properties_WithPrefix_Test()
-        {
-            IPattern pattern = Reuse(n => n_ => N(n, Person, _P(n_, P(PropA))));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { PropA: $n_PropA })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $n_PropA }) / Properties_WithPrefix_Test
-
-        #region (n:Person { Id: $key }) / Properties_CustomVariable_Test
-
-        [Fact]
-        public void Properties_CustomVariable_Test()
-        {
-            IPattern pattern = Reuse(n => key => N(n, Person, P_(Id, key)));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { Id: $key })", cypher);
-        }
-
-        #endregion // (n:Person { Id: $key }) / Properties_CustomVariable_Test
-
-        #region MATCH (n:Person { Id: $Name }) / Properties_CustomVariable_Obj_Test
-
-        [Fact]
-        public void Properties_CustomVariable_Obj_Test()
-        {
-            var cypher = _<Foo>(n => Match(N(n, Person, P_(Id, n._.Name))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Person { Id: $Name })", cypher);
-        }
-
-        #endregion // MATCH (n:Person { Id: $Name }) / Properties_CustomVariable_Obj_Test
-
-        #region (n:Person { Id: $Name }) / Properties_CustomVariable_Lambda_Test
-
-        [Fact]
-        public void Properties_CustomVariable_Lambda_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, P_<Foo>(Id, x => x.Name)));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("(n:Person { Id: $Name })", cypher);
-        }
-
-        #endregion // (n:Person { Id: $key }) / Properties_CustomVariable_Test
-
-        #region (n:Person { Id: $key, PropA: $PropA }) / Properties_CustomVariable_Nested_Test
-
-        [Fact]
-        public void Properties_CustomVariable_Nested_Test()
-        {
-            IPattern pattern = Reuse(n => key => N(n, Person, P(P_(Id, key), PropA)));
-
-            string? cypher = pattern?.ToString();
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { Id: $key, PropA: $PropA })", cypher);
-        }
-
-        #endregion // (n:Person { Id: $key }) SET n.PropB = $b / Properties_CustomVariable_Nested_Test
-
-        #region MATCH (n:Person { Id: $key }) / Properties_Match_CustomVariable_Test
-
-        [Fact]
-        public void Properties_Match_CustomVariable_Test()
-        {
-            CypherCommand cypher = _(n => key => b =>
-                                    Match(N(n, Person, P_(Id, key)))
-                                    .Set(n.P(P_(PropB, b))));
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Person { Id: $key })\r\n" +
-                          "SET n.PropB = $b", cypher);
-        }
-
-        #endregion // MATCH (n:Person { Id: $key }) SET n.PropB = $b / Properties_Match_CustomVariable_Test
-
-        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-[n1:KNOWS]->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Properties_WithPrefix_Complex_Test
-
-        [Fact]
-        public void Properties_WithPrefix_Complex_Test()
-        {
-            CypherCommand cypher = _(n1 => n2 => n2_ =>
-                                    Match(N(n1, Person, P(PropA, PropB)) -
-                                          R[n1, KNOWS] >
-                                          N(n2, Person, _P(n2_, P(PropA, PropB)))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-" +
-                         "[n1:KNOWS]->" +
-                         "(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-[n1:KNOWS]->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Properties_WithPrefix_Complex_Test
-
         #region (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_Convention_WithDefaultLabel_Test
 
         [Fact]
@@ -368,7 +238,7 @@ namespace Weknow.Cypher.Builder
             string? cypher = pattern?.ToString();
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB })", cypher);
+			 Assert.Equal("(n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB, FirstName: $FirstName, LastName: $LastName })", cypher);
         }
 
         #endregion // (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB } / Properties_All_WithDefaultLabel_Test
@@ -382,7 +252,7 @@ namespace Weknow.Cypher.Builder
             string? cypher = pattern?.ToString();
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher);
+			 Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB, FirstName: $FirstName, LastName: $LastName })", cypher);
         }
 
         #endregion // (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_All_Except_WithDefaultLabel_Test
@@ -408,7 +278,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher =  _(items => item => n =>
                                     Unwind(items, item,
-                                    Merge(N(n, Person, P(Id, item)))
+                                    Merge(N(n, Person, new { Id = item }))
                                     .Return(n)));
 
             _outputHelper.WriteLine(cypher);

@@ -88,9 +88,10 @@ WHERE n.Name =~ $Name", cypher.Query);
         [Fact]
         public void Where_Parameter_Test()
         {
+            IParameter PropA = null, n_PropB = null;
             CypherCommand cypher = _(n => n_ =>
-                                    Match(N(n, Person, P(PropA)))
-                                    .Where(n.P(PropA, _P(n_, PropB))));
+                                    Match(N(n, Person, new { PropA = PropA }))
+                                    .Where(n.P(new { PropA, PropB = n_PropB })));
 
             _outputHelper.WriteLine(cypher.Dump());
 
@@ -109,13 +110,14 @@ WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         [Fact]
         public void Where_Parameter_Gen_Test()
         {
-            CypherCommand cypher = _<Foo>(n => n_ =>
-                                    Match(N(n, Person, P(PropA)))
-                                    .Where(n.P(n._.Name)));
+            IParameter Name = null, PropA = null;
+            CypherCommand cypher = _<Foo>(n =>
+                                    Match(N(n, Person, new { PropA }))
+                                    .Where(n.P(new { Name = Name })));
 
             _outputHelper.WriteLine(cypher.Dump());
 
-            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
+            Assert.Contains(cypher.Parameters, p => p.Key == "Name");
             Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE n.Name = $Name", cypher.Query);

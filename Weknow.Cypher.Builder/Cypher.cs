@@ -225,6 +225,16 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         [Cypher("($0$1 { $2 })")]
+        public static INode N(IVar var, ILabel label, object properties) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Specified node with variable, label and properties.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        [Cypher("($0$1 { $2 })")]
         public static INode N(IVar var, ILabel label, IProperties properties) => throw new NotImplementedException();
         /// <summary>
         /// Specified node with variable, label and properties.
@@ -397,7 +407,7 @@ namespace Weknow.Cypher.Builder
         ///     MATCH(n:Person { PropA: item.x })
         /// </example>
         [Cypher("+40$1")]
-        public static IPropertiesOfType _(this IVar var, params object[] properties) => throw new NotImplementedException();
+        public static IProperties _(this IVar var, params object[] properties) => throw new NotImplementedException();
 
         #region IProperties P (Properties)
 
@@ -420,7 +430,7 @@ namespace Weknow.Cypher.Builder
         /// {name: $name, value: $value}
         /// </example>
         [Cypher("$0")]
-        public static IPropertiesOfType P(params object[] properties) => throw new NotImplementedException();
+        public static IProperties P(params object[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// with assignment via the map.
@@ -432,7 +442,7 @@ namespace Weknow.Cypher.Builder
         /// {name: map.name, value: map.value}
         /// </example>
         [Cypher("$1")]
-        public static IPropertiesOfType P(IMap map, params object[] properties) => throw new NotImplementedException();
+        public static IProperties P(IMap map, params object[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
@@ -442,7 +452,7 @@ namespace Weknow.Cypher.Builder
         /// {name: $name, value: $value}
         /// </example>
         [Cypher("$0")]
-        public static IPropertiesOfType P<T>(params Func<T, object>[] properties) => throw new NotImplementedException();
+        public static IProperties P<T>(params Func<T, object>[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent  properties collection.
         /// </summary>
@@ -462,7 +472,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IPropertiesOfType P(this IVar var, params object[] properties) => throw new NotImplementedException();
+        public static IProperties P(this IVar var, params object[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent variable with properties collection.
         /// <param name="var"></param>
@@ -472,7 +482,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IPropertiesOfType P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
+        public static IProperties P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent variable with properties collection.
         /// <param name="var"></param>
@@ -482,89 +492,9 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// </example>
         [Cypher("+30$1")]
-        public static IPropertyOfType P<T>(this IVar var, Func<T, object> property) => throw new NotImplementedException();
-        /// <summary>
-        /// Set property with variable (useful for unwind's variable).
-        /// <param name="var"></param>
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// UNWIND $items AS item
-        /// MERGE(n:Person { Id: item })
-        /// RETURN n
-        /// </example>
-        [Cypher("$0: $1")]
-        public static IPropertyConst P(IProperty properties, IVar var) => throw new NotImplementedException();
+        public static IProperty P<T>(this IVar var, Func<T, object> property) => throw new NotImplementedException();
 
         #endregion // IProperties P (Properties)NoLoopFormat
-
-        #region IProperties _P (Properties with prefix)
-
-        /// <summary>
-        /// Represent properties with prefix.
-        /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="properties"></param>
-        /// <returns></returns>
-        /// <example>
-        /// { Name: $pre_Name }
-        /// </example>
-        [Cypher("+00$1")]
-        public static IPropertiesOfType _P(IVar prefix, IProperties properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent property with prefix.
-        /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        /// <example>
-        /// { Name: $pre_Name }
-        /// </example>
-        [Cypher("+00$1")]
-        public static IProperty _P(IVar prefix, IProperty property) => throw new NotImplementedException();
-
-        #endregion // IProperties _P (Properties with prefix)
-
-        #region IProperties _P (Properties with prefix)
-
-        /// <summary>
-        /// Represent property with prefix.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="variableName">Name of the variable.</param>
-        /// <returns></returns>
-        /// <example>
-        /// { Id: $Key }
-        /// </example>
-        [Cypher("$0")]
-        public static IProperty P_(IProperty property, IVar variableName) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Represent property with prefix.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="variableName">Name of the variable.</param>
-        /// <returns></returns>
-        /// <example>
-        /// { Id: $Key }
-        /// </example>
-        [Cypher("$0")]
-        public static IProperty P_(IProperty property, object variableName) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Represent property with prefix.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="variableName">Name of the variable.</param>
-        /// <returns></returns>
-        /// <example>
-        /// { Id: $Key }
-        /// </example>
-        [Cypher("$0")]
-        public static IProperty P_<T>(IProperty property, Func<T, object> variableName) => throw new NotImplementedException();
-
-        #endregion // IProperties _P (Properties with prefix)
 
         #region IProperties Convention (Properties by convention)
 
@@ -585,7 +515,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
         /// <example></example>
-        public static IPropertiesOfType Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
+        public static IProperties Convention<T>(this IVar var, Func<string, bool> filter) => throw new NotImplementedException();
         /// <summary>
         /// Gets properties by convention.
         /// </summary>
@@ -610,7 +540,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <returns></returns>
         
-        public static IPropertiesOfType All<T>(this IVar var) => throw new NotImplementedException();
+        public static IProperties All<T>(this IVar var) => throw new NotImplementedException();
 
         #endregion // IProperties All (All Properties)
 
@@ -647,7 +577,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE n.name =~ 'Tim.*'
         /// </example>
         [Cypher("&$0")]
-        public static IPropertiesOfType Rgx(IPropertiesOfType properties) => throw new NotImplementedException();
+        public static IProperties Rgx(IProperties properties) => throw new NotImplementedException();
 
         #endregion // Rgx
 
@@ -724,6 +654,8 @@ namespace Weknow.Cypher.Builder
         [Cypher("&UNWIND \\$$0 AS $1\r\n+21$2")]
         public static Fluent Unwind(IVar items, IVar item, Fluent p) => throw new NotImplementedException();
 
+        [Cypher("&UNWIND $0 AS $1\r\n+21$2")]
+        public static Fluent Unwind(IParameter items, IVar item, Fluent p) => throw new NotImplementedException();
         #endregion // Unwind
 
         #region Exists
@@ -952,19 +884,6 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("timestamp()")]
         public static IVar Timestamp() => throw new NotImplementedException();
-
-        /// <summary>
-        /// Milliseconds since midnight, January 1, 1970 UTC.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="prop">The property.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// SET n.Date = timestamp()
-        /// </example>
-        [Cypher("$0\\.$1 = timestamp()")]
-        public static ISelfFormat Timestamp(IVar var, object prop) => throw new NotImplementedException();
 
         #endregion // Timestamp / timestamp()
     }
