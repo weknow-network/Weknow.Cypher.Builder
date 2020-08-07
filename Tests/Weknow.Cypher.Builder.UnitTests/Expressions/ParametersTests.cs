@@ -27,16 +27,16 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Parameters_Unwind_NonWindProp_T_Test()
         {
-            CypherCommand cypher = _(items => item => n => 
+            IParameter items = null, Id = null;
+            CypherCommand cypher = _(item => n => 
                                     Unwind(items, item,
-                                    Match(N(n, Person, P("Id")))));
+                                    Match(N(n, Person, new { Id }))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
 MATCH (n:Person { Id: $Id })", cypher.Query);
             Assert.True(cypher.Parameters.ContainsKey("items"), "ContainsKey items");
             Assert.True(cypher.Parameters.ContainsKey(nameof(Id)), "ContainsKey Id");
-            Assert.True(cypher.Parameters.ContainsKey(nameof(PropB)), "ContainsKey PropB");
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Parameters_Unwind_NonWindProp_T_Test
