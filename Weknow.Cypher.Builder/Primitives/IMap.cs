@@ -26,8 +26,22 @@ namespace Weknow.Cypher.Builder
         public static IMap operator +(IMap map) => throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Mapping variable primitive for the Cypher expression.
+    /// </summary>
+    /// <example>
+    /// Used for queries like: 
+    /// CREATE (n $map)
+    /// </example>
+    /// <remarks>
+    /// Primitives don't have actual implementation, 
+    /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+    /// </remarks>
     public interface IMap<T> : IMap
     {
+        /// <summary>
+        /// Gets type representation of the variable.
+        /// </summary>
         T _ { get; }
     }
 }

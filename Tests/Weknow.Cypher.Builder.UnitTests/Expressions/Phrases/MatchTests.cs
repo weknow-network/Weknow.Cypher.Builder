@@ -83,7 +83,7 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_Pre_Return_Test()
         {
-            IParameter n_Id = null;
+            IParameter? n_Id = null;
             CypherCommand cypher = _(n => n_ =>
                                     Match(N(n, Person, new { Id = n_Id }))
                                     .Return(n));
@@ -101,7 +101,7 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_Multi_Return_Test()
         {
-            IParameter nId = null, mId = null;
+            IParameter? nId = null, mId = null;
             CypherCommand cypher = _(n => m =>
                                     Match(N(n, Person, new { Id = nId }))
                                     .Match(N(m, Person, new { Id = mId }))

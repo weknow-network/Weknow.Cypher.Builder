@@ -29,7 +29,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic1_Test()
         {
-            IParameter<Foo> map = null;
+            IParameter<Foo>? map = null;
 
             CypherCommand cypher =
                 _<Foo>(n => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))

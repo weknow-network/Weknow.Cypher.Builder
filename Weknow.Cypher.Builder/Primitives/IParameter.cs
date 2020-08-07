@@ -15,6 +15,23 @@ namespace Weknow.Cypher.Builder
     /// </remarks>
     public interface IParameter { }
 
-    public interface IParameter<T> : IParameter { T _ { get; } }
+    /// <summary>
+    /// Parameter primitive for the Cypher expression.
+    /// </summary>
+    /// <example>
+    /// The $value in the following expression will use the Parameter primitive.
+    /// CREATE (n:Person {name: $value})
+    /// </example>
+    /// <remarks>
+    /// Primitives don't have actual implementation, 
+    /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+    /// </remarks>
+    public interface IParameter<T> : IParameter
+    {
+        /// <summary>
+        /// Gets type representation of the variable.
+        /// </summary>
+        T _ { get; }
+    }
 
 }
