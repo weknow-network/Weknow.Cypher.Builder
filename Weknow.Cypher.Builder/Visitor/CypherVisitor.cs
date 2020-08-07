@@ -215,12 +215,6 @@ namespace Weknow.Cypher.Builder
             {
                 ApplyFormat(node, format);
             }
-            else if (mtdName == nameof(Range.EndAt))
-            {
-                Query.Append("*..");
-                var index = node.Arguments[0] as UnaryExpression;
-                Query.Append(index?.Operand);
-            }
             else if (type == nameof(Rng))
             {
                 if (mtdName == nameof(Rng.Scope))
@@ -249,14 +243,6 @@ namespace Weknow.Cypher.Builder
                 {
                     Query.Append("*");
                 }
-            }
-            else if (mtdName == "get_item")
-            {
-                Visit(node.Arguments[0]);
-            }
-            else if (mtdName == "get_" + nameof(Range.All))
-            {
-                Query.Append("*");
             }
             else if (mtdName == nameof(Cypher.All) ||
                     mtdName == nameof(Cypher.AllExcept))
@@ -485,18 +471,6 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitNew(NewExpression node)
         {
-            if (node.Type == typeof(Range))
-            {
-                Query.Append("*");
-                var index = node.Arguments[0] as UnaryExpression;
-                Query.Append(index?.Operand);
-                Query.Append("..");
-                index = node.Arguments[1] as UnaryExpression;
-                Query.Append(index?.Operand);
-
-                return node;
-            }
-
             using var _ = _isProperties.Set(true);
             for (int i = 0; i < node.Arguments.Count; i++)
             {
@@ -635,11 +609,7 @@ namespace Weknow.Cypher.Builder
                     case '+':
                         {
                             var ch = format[++i];
-                            string fmt1;
-                            if (ch == 'p' || ch == 's')
-                                fmt1 = format[++i].ToString();
-                            else
-                                fmt1 = ch.ToString();
+                            string fmt1 = ch.ToString();
 
                             string fmt2 = format[++i].ToString();
                             int index1 = int.Parse(fmt1);
