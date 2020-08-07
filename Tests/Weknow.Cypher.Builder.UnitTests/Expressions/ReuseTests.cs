@@ -204,20 +204,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
 
-        #region (n:Foo { PropA: $PropA, m: $m }) / Dash_Reuse_Test
-
-        [Fact]
-        public void Dash_Reuse_Test()
-        {
-            var pattern = Reuse(n => m =>
-                        N<Foo>(n, x => P(x.PropA, m)));
-
-            _outputHelper.WriteLine(pattern.ToString());
-            Assert.Equal("(n:Foo { PropA: $PropA, m: $m })", pattern.ToString());
-        }
-
-        #endregion // (n:Foo { PropA: $PropA, m: $m }) / Dash_Reuse_Test
-
         #region UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Test
 
         [Fact]
@@ -267,27 +253,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
-
-        #region UNWIND items AS item MATCH (p:Person { Id: item.Id }) RETURN p / LazyReuse_UNWIND_Test
-
-        [Fact]
-        public void LazyReuse_UNWIND_Test()
-        {
-            var person = Reuse(p => item => N(p, Person, new { Id = item._(Id) }));
-
-            IParameter items = null;
-            CypherCommand cypher = _(p => item =>
-                          Unwind(items, item, 
-                            Match(person)
-                            .Return(p)));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("UNWIND $items AS item\r\n" +
-                             "MATCH (p:Person { Id: item.Id })\r\n" +
-                             "RETURN p", cypher.Query);
-        }
-
-        #endregion // UNWIND items AS item MATCH (p:Person { Id: item.Id }) RETURN p / LazyReuse_UNWIND_Test
     }
 }
 

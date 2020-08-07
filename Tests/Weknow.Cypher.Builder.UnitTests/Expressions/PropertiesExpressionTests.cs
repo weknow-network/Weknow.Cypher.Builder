@@ -148,32 +148,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_AvoidDuplication_Test
 
-        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_NOfT_Test
-
-        [Fact]
-        public void Properties_NOfT_Test()
-        {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, x => P(x.PropA, x.PropB))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_NOfT_Test
-
-        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_NOfT_VarOfT_Test
-
-        [Fact]
-        public void Properties_NOfT_VarOfT_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => Match(N(n, x => P(x.PropA, x.PropB))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_NOfT_VarOfT_Test
-
         #region MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
 
         [Fact]

@@ -216,7 +216,6 @@ WHERE $p_1 }", cypher.Query);
 
         #endregion // Where_NOT_Test
 
-
         #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Where_Unwind_Test
 
         [Fact]
