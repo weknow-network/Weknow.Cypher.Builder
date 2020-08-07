@@ -424,7 +424,7 @@ namespace Weknow.Cypher.Builder
 
         #region Set
 
-        [Cypher("$0\r\n&SET $1 = &$1")]
+        [Cypher("$0\r\n&SET $1")]
         public static Fluent Set(this Fluent p, object properties) => throw new NotImplementedException();
 
 

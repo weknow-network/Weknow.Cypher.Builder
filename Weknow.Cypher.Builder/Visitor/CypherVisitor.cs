@@ -142,7 +142,7 @@ namespace Weknow.Cypher.Builder
                     Query.Append(" <> ");
                     break;
                 case ExpressionType.Add:
-                    Query.Append(" += ");
+                    Query.Append(" + ");
                     break;
                 case ExpressionType.Or:
                     Query.Append("|");
@@ -383,7 +383,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     node.Type != typeof(IMap) && node.Type != typeof(IParameter) &&
+                     node.Type != typeof(IMap) && !typeof(IParameter).IsAssignableFrom(node.Type) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
@@ -401,7 +401,7 @@ namespace Weknow.Cypher.Builder
             if (name == nameof(IVar.AsMap))
                 return node;
 
-            if (node.Type == typeof(IParameter))
+            if (typeof(IParameter).IsAssignableFrom(node.Type))
             {
                 Query.Append("$");
                 if (!Parameters.ContainsKey(name))
@@ -409,7 +409,7 @@ namespace Weknow.Cypher.Builder
             }
             Query.Append(name);
 
-            if (node.Type == typeof(IParameter))
+            if (typeof(IParameter).IsAssignableFrom(node.Type))
                 return node;
 
             bool ignore = _methodExpr.Value?.Method.Name switch
@@ -512,6 +512,23 @@ namespace Weknow.Cypher.Builder
 
         #endregion // VisitNew
 
+        protected override Expression VisitMemberInit(MemberInitExpression node)
+        {
+            foreach (var item in node.Bindings)
+            {
+                VisitMemberBinding(item);
+                if (item != node.Bindings.Last())
+                    Query.Append(", ");
+            }
+            return node;
+        }
+
+        protected override MemberBinding VisitMemberBinding(MemberBinding node)
+        {
+            Query.Append(node.Member.Name);
+            AppendPropSeparator();
+            return base.VisitMemberBinding(node);
+        }
         #region VisitConstant
 
         /// <summary>

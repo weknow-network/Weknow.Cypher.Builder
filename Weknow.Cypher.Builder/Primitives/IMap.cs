@@ -26,4 +26,8 @@ namespace Weknow.Cypher.Builder
         public static IMap operator +(IMap map) => throw new NotImplementedException();
     }
 
+    public interface IMap<T> : IMap
+    {
+        T _ { get; }
+    }
 }

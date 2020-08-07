@@ -268,8 +268,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Map_Properties_Test()
         {
-            CypherCommand cypher = _<Fellow>(n => map =>
-                                        Merge(N(n, Person, P(map.AsMap, n._.Id, n._.Name)))
+            IMap<Fellow> map = null;
+            CypherCommand cypher = _<Fellow>(n =>
+                                        Merge(N(n, Person, new { Id = map._.Id, Name = map._.Name }))
                                         .Return(n));
 
             _outputHelper.WriteLine(cypher);
