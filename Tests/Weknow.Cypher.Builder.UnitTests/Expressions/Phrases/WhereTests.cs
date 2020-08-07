@@ -109,13 +109,12 @@ WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         [Fact]
         public void Where_Parameter_Gen_Test()
         {
-            CypherCommand cypher = _<Foo>(n => n_ =>
+            CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, P(PropA)))
                                     .Where(n.P(n._.Name)));
 
             _outputHelper.WriteLine(cypher.Dump());
 
-            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
             Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE n.Name = $Name", cypher.Query);
@@ -213,7 +212,6 @@ WHERE $p_1 }", cypher.Query);
         }
 
         #endregion // Where_NOT_Test
-
 
         #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Where_Unwind_Test
 

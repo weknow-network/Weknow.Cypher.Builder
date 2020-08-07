@@ -262,27 +262,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0:!l0 $1)")]
         public static INode N<T>(IVar var, IMap map) => throw new NotImplementedException();
 
-
-        /// <summary>
-        /// Specified typed node with variable and properties.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="var">The variable.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher(".1($0:!l0 { $1 })")]
-        public static INode N<T>(IVar var, Func<T, IProperties> properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Specified typed node with typed variable and label.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="var">The variable.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher(".1($0:!l0 { $1 })")]
-        public static INode N<T>(IVar<T> var, Func<T, IProperties> properties) => throw new NotImplementedException();
-
         /// <summary>
         /// Specified typed node with variable and properties.
         /// </summary>
@@ -947,6 +926,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
+        [Obsolete("Should be deleted", true)]
         public static IReuse<T, Fluent> AsReuse<T>(this T v) => new Reuse<T, Fluent>(f => f(v));
 
         /// <summary>
@@ -955,6 +935,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="r"></param>
         /// <param name="v"></param>
         /// <returns></returns>
+        [Obsolete("Should be deleted", true)]
         public static IReuse<T, Func<U, R>> AsReuse<T, U, R>(this T r, IReuse<U, R> v) => new Reuse<T, Func<U, R>>(f => v.By(f(r)));
 
         #endregion // AsReuse

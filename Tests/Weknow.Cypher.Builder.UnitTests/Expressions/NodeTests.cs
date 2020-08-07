@@ -258,21 +258,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test
-
-        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB } / Nested_NodeToNode_ReusedProp_Test
-
-        [Fact]
-        public void Nested_NodeToNode_ReusedProp_Test()
-        {
-            CypherCommand cypher = _(_ => P(PropA, PropB).AsReuse()
-                                    .By(p => n1 => n2 => n2_ =>
-                                    Match(N(n1, Person, p) > N(n2, Person, _P(n2_, p)))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB } / Nested_NodeToNode_ReusedProp_Test
     }
 }
 
