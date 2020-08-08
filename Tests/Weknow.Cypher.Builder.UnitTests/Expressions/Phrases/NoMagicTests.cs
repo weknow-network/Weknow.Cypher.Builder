@@ -29,7 +29,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic1_Test()
         {
-            Parameter<Foo>? map = null;
+            ParameterDeclaration<Foo>? map = null;
 
             CypherCommand cypher =
                 _<Foo>(n => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
@@ -48,8 +48,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic2_Test()
         {
-            var map_Id = Parameter.Default;
-            IVar n = null;
+            var map_Id = CreateParameter();
+            VariableDeclaration n = null;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, new { Id = map_Id })));
@@ -66,8 +66,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic3_Test()
         {
-            var map = Parameter<Foo>.Default;
-            IVar n = null;
+            var map = CreateParameter<Foo>();
+            VariableDeclaration n = null;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, 
@@ -91,8 +91,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic4_Test()
         {
-            var map = Parameter<Someone>.Default;
-            IVar n = null;
+            var map = CreateParameter<Someone>();
+            VariableDeclaration n = null;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person,
@@ -116,9 +116,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Unwind_NoMagic5_Test()
         {
-            var items = Parameter.Default;
-            IVar<Foo> item = null;
-            IVar n = null;
+            var items = CreateParameter();
+            VariableDeclaration<Foo> item = null;
+            VariableDeclaration n = null;
 
             CypherCommand cypher =
                 _(() => Unwind(items, item,
@@ -140,8 +140,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_NoMagic6_SetProperties_OfT_Test()
         {
-            var a = Parameter<string>.Default;
-            var b = Parameter<string>.Default;
+            var a = CreateParameter<string>();
+            var b = CreateParameter<string>();
 
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, P(Id)))

@@ -15,16 +15,24 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IVar<T> : IVar
+    public class VariableDeclaration<T> : VariableDeclaration
     {
+        private VariableDeclaration() { }
+
+        /// <summary>
+        /// Default (and only) way to get cypher parameter.
+        /// It use under expression and don't need a real implementation;
+        /// </summary>
+        new internal static readonly VariableDeclaration<T> Default = new VariableDeclaration<T>();
+
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
-        T _ { get; }
+        public T _ { get; }
         /// <summary>
         /// Gets type representation of the variable which should be increment.
         /// </summary>
-        T Inc { get; }
+        public T Inc { get; }
     }
 
     /// <summary>
@@ -38,8 +46,17 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IVar
+    public class VariableDeclaration
     {
+        private protected VariableDeclaration() { }
+
+        /// <summary>
+        /// Default (and only) way to get cypher parameter.
+        /// It use under expression and don't need a real implementation;
+        /// </summary>
+        internal static readonly VariableDeclaration Default = new VariableDeclaration();
+
+
         /// <summary>
         /// Declaration for operator +.
         /// </summary>
@@ -48,7 +65,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static IVar operator +(IVar l, IVar r) => throw new NotImplementedException();
+        public static VariableDeclaration operator +(VariableDeclaration l, VariableDeclaration r) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for unary operator +.
@@ -57,13 +74,13 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static IVar operator +(IVar item) => throw new NotImplementedException();
+        public static VariableDeclaration operator +(VariableDeclaration item) => throw new NotImplementedException();
 
         /// <summary>
         /// Use mapping technique.
         /// For example: CREATE (n $map)
         /// </summary>
-        IMap AsMap { get; }
+        public IMap AsMap { get; }
     }
 
 }

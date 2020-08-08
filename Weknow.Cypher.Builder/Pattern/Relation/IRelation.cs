@@ -37,7 +37,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         /// <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
-        IRelation this[IVar var] { [Cypher("[$0]")] get; }
+        IRelation this[VariableDeclaration var] { [Cypher("[$0]")] get; }
 
         /// <summary>
         /// Represent relation with variable and type.
@@ -48,7 +48,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS]-(n)]]>
         /// </example>
-        IRelation this[IVar var, IType type] { [Cypher("[$0:$1]")] get; }
+        IRelation this[VariableDeclaration var, IType type] { [Cypher("[$0:$1]")] get; }
 
         /// <summary>
         /// Represent relation with variable, type and properties.
@@ -63,7 +63,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
-        IRelation this[IVar var, IType type, object properties] { [Cypher("[$0:$1 { $2 }]")] get; }
+        IRelation this[VariableDeclaration var, IType type, object properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
         /// Represent relation with variable, type and properties.
         /// </summary>
@@ -77,7 +77,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
-        IRelation this[IVar var, IType type, IProperties properties] { [Cypher("[$0:$1 { $2 }]")] get; }
+        IRelation this[VariableDeclaration var, IType type, IProperties properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
         /// Represent relation with variable, type and properties.
         /// </summary>
@@ -91,7 +91,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
-        IRelation this[IVar var, IType type, params IProperty[] properties] { [Cypher("[$0:$1 { $2 }]")] get; }
+        IRelation this[VariableDeclaration var, IType type, params IProperty[] properties] { [Cypher("[$0:$1 { $2 }]")] get; }
         /// <summary>
         /// Represent relation with variable, type and properties.
         /// </summary>
@@ -138,7 +138,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// (n)-[r:*1..5]->(m)
         /// </example>
-        IRelation this[IVar var, Range r] { [Cypher("[$0$1]")] get; }
+        IRelation this[VariableDeclaration var, Range r] { [Cypher("[$0$1]")] get; }
         /// <summary>
         /// Represent relation with variable, type and range.
         /// </summary>
@@ -153,7 +153,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[IVar var, IType type, IProperties properties, Range r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
+        IRelation this[VariableDeclaration var, IType type, IProperties properties, Range r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
         /// <summary>
         /// Represent relation with range.
         /// </summary>
@@ -178,7 +178,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// (n)-[r:*1..5]->(m)
         /// </example>
-        IRelation this[IVar var, Rng r] { [Cypher("[$0$1]")] get; }
+        IRelation this[VariableDeclaration var, Rng r] { [Cypher("[$0$1]")] get; }
         /// <summary>
         /// Represent relation with variable, type and range.
         /// </summary>
@@ -193,7 +193,7 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[IVar var, IType type, IProperties properties, Rng r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
+        IRelation this[VariableDeclaration var, IType type, IProperties properties, Rng r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
 
         #endregion // Indexers this [...]
 

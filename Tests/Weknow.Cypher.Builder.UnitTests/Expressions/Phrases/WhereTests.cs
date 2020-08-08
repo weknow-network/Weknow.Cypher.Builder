@@ -112,7 +112,7 @@ WHERE n.Name =~ $Name", cypher.Query);
         [Fact]
         public void Where_Parameter_Gen_Test()
         {
-            Parameter? Name = null, PropA = null;
+            ParameterDeclaration? Name = null, PropA = null;
             CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, new { PropA }))
                                     .Where(n.P(new { Name = Name })));

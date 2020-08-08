@@ -22,7 +22,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN type(r)
         /// </example>
         [Cypher("type($0)")]
-        public static IVar Type(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Type(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Type / type(r)
 
@@ -38,7 +38,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN startNode(r)
         /// </example>
         [Cypher("startNode($0)")]
-        public static IVar StartNode(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration StartNode(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // StartNode / startNode(r)
 
@@ -54,7 +54,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN endNode(r)
         /// </example>
         [Cypher("endNode($0)")]
-        public static IVar EndNode(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration EndNode(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // EndNode / endNode(r)
 
@@ -70,7 +70,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN id(n)
         /// </example>
         [Cypher("id($0)")]
-        public static IVar Id(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Id(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Id / id(n)
 
@@ -86,7 +86,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN labels(n)
         /// </example>
         [Cypher("labels($0)")]
-        public static IVar Labels(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Labels(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Labels / labels(n)
 
@@ -110,7 +110,7 @@ namespace Weknow.Cypher.Builder
         /// SET n:Spouse:Parent:Employee
         /// </example>
         [Cypher("$0:$1")]
-        public static IVar Label(this IVar variable, params ILabel[] labels) => throw new NotImplementedException();
+        public static VariableDeclaration Label(this VariableDeclaration variable, params ILabel[] labels) => throw new NotImplementedException();
 
         #endregion // Label / n:Spouse:Parent:Employee
 
@@ -126,7 +126,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN count(n)
         /// </example>
         [Cypher("count($0)")]
-        public static IVar Count(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Count(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Count / count(n)
 
@@ -143,7 +143,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN sum(n.PropA)
         /// </example>
         [Cypher("sum($0\\.$1)")]
-        public static IVar Sum(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Sum(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
 
         #endregion // Sum / sum(n.PropA))
 
@@ -160,7 +160,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN max(n.PropA)
         /// </example>
         [Cypher("max($0\\.$1)")]
-        public static IVar Max(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Max(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
 
         #endregion // Max / max(n.PropA))
 
@@ -177,7 +177,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN min(n.PropA)
         /// </example>
         [Cypher("min($0\\.$1)")]
-        public static IVar Min(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Min(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
 
         #endregion // Min / min(n.PropA))
 
@@ -194,7 +194,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN avg(n.PropA)
         /// </example>
         [Cypher("avg($0\\.$1)")]
-        public static IVar Avg(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Avg(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
 
         #endregion // Avg / avg(n.PropA))
 
@@ -210,7 +210,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN count(n)
         /// </example>
         [Cypher("count(DISTINCT $0)")]
-        public static IVar CountDistinct(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration CountDistinct(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // CountDistinct / count(DISTINCT n)
 
@@ -226,7 +226,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(n)
         /// </example>
         [Cypher("collect($0)")]
-        public static IVar Collect(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Collect(this VariableDeclaration variable) => throw new NotImplementedException();
 
         /// <summary>
         /// List from the values, ignores null.
@@ -239,7 +239,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(n.PropA)
         /// </example>
         [Cypher("collect($0\\.$1)")]
-        public static IVar Collect(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Collect(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
 
         #endregion // Collect / collect(n), collect(n.PropA)
 
@@ -255,7 +255,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(DISTINCT n)
         /// </example>
         [Cypher("collect(DISTINCT $0)")]
-        public static IVar CollectDistinct(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration CollectDistinct(this VariableDeclaration variable) => throw new NotImplementedException();
 
         /// <summary>
         /// List from the values, ignores null.
@@ -268,7 +268,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(DISTINCT n.PropA)
         /// </example>
         [Cypher("collect(DISTINCT $0\\.$1)")]
-        public static IVar CollectDistinct(this IVar variable, object prop) => throw new NotImplementedException();
+        public static VariableDeclaration CollectDistinct(this VariableDeclaration variable, object prop) => throw new NotImplementedException();
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 

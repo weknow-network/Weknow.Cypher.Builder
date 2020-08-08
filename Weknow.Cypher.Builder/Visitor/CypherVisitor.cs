@@ -342,7 +342,7 @@ namespace Weknow.Cypher.Builder
 
             var pi = node.Member as PropertyInfo;
 
-            if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(IVar<int>.Inc))
+            if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
                 Query.Append(name);
                 Query.Append(" = ");
@@ -353,7 +353,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
 
-            if (name == nameof(IVar.AsMap))
+            if (name == nameof(VariableDeclaration.AsMap))
             {
                 if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
                     Query.Append("$");
@@ -384,10 +384,10 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
 
-            if (name == nameof(IVar.AsMap))
+            if (name == nameof(VariableDeclaration.AsMap))
                 return node;
 
-            if (typeof(Parameter).IsAssignableFrom(node.Type))
+            if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
             {
                 Query.Append("$");
                 if (!Parameters.ContainsKey(name))
@@ -395,7 +395,7 @@ namespace Weknow.Cypher.Builder
             }
             Query.Append(name);
 
-            if (typeof(Parameter).IsAssignableFrom(node.Type))
+            if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
                 return node;
 
             bool ignore = _methodExpr.Value?.Method.Name switch
@@ -546,7 +546,7 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name) && node.Type != typeof(IVar))
+            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name) && node.Type != typeof(VariableDeclaration))
             {
                 using var _ = _reusedParameterName.Set(node.Name);
                 Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);

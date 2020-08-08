@@ -36,7 +36,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        IRelation IRelation.this[IVar var] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation" /> with the specified variable.
@@ -64,7 +64,7 @@ namespace Weknow.Cypher.Builder
 
         IRelation IRelation.this[IType type, params IProperty[] property] => throw new NotImplementedException();
 
-        IRelation IRelation.this[IVar var, IType type, object properties] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, object properties] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -77,7 +77,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
 
-        IRelation IRelation.this[IVar var, IType type, IProperties properties] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, IProperties properties] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -90,7 +90,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="property"></param>
         /// <returns></returns>
 
-        IRelation IRelation.this[IVar var, IType type, params IProperty[] property] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, params IProperty[] property] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -102,7 +102,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="r">The r.</param>
         /// <returns></returns>
         
-        IRelation IRelation.this[IVar var, Rng r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, Rng r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified r.
@@ -127,7 +127,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="r">The r.</param>
         /// <returns></returns>
         
-        IRelation IRelation.this[IVar var, IType type, IProperties properties, Rng r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, IProperties properties, Rng r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -141,7 +141,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="r">The r.</param>
         /// <returns></returns>
         
-        IRelation IRelation.this[IVar var, IType type, IProperties properties, Range r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, IProperties properties, Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -153,7 +153,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="r">The r.</param>
         /// <returns></returns>
         
-        IRelation IRelation.this[IVar var, Range r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified r.
@@ -176,7 +176,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="type">The type.</param>
         /// <returns></returns>
         
-        IRelation IRelation.this[IVar var, IType type] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified type.

@@ -74,7 +74,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithPropConst_Test()
         {
-            Parameter? prop = null;
+            ParameterDeclaration? prop = null;
             CypherCommand cypher = _(a => r => b =>
              Match(N(a, Person) - R[r, KNOWS, new { PropA = prop }] > N(b, Person)));
 
@@ -155,7 +155,7 @@ RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c", cypher.Query);
         [Fact]
         public void Relation_WithReuse_Test()
         {
-            Parameter? maintainer_Id = null;
+            ParameterDeclaration? maintainer_Id = null;
             var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id }));
 
             CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
