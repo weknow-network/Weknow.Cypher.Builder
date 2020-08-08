@@ -431,16 +431,6 @@ namespace Weknow.Cypher.Builder
         /// {name: $name, value: $value}
         /// </example>
         [Cypher("$0")]
-        public static IProperties P<T>(params Func<T, object>[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$0")]
         public static IProperties P(Expression<Func<IProperties>> properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent variable with properties collection.
@@ -462,16 +452,6 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("+30$1")]
         public static IProperties P(this IVar var, params IProperty[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent variable with properties collection.
-        /// <param name="var"></param>
-        /// </summary>
-        /// <param name="property">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// </example>
-        [Cypher("+30$1")]
-        public static IProperty P<T>(this IVar var, Func<T, object> property) => throw new NotImplementedException();
 
         #endregion // IProperties P (Properties)NoLoopFormat
 

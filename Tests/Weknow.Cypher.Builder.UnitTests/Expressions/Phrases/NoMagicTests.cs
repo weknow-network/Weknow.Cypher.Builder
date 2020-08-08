@@ -128,6 +128,26 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // Unwind_NoMagic5_Test
+
+        #region Merge_On_Match_NoMagic6_SetProperties_OfT_Test
+
+        [Fact]
+        public void Merge_On_Match_NoMagic6_SetProperties_OfT_Test()
+        {
+            IParameter<string> a = Parameter<string>.Default;
+            IParameter<string> b = Parameter<string>.Default;
+
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, P(Id)))
+                                    .OnMatchSet(n._(new Foo { PropA = a._, PropB = b._ })));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                "ON MATCH SET n.PropA = $a, n.PropB = $b", cypher.Query);
+        }
+
+        #endregion // Merge_On_Match_NoMagic6_SetProperties_OfT_Test
     }
 }
 

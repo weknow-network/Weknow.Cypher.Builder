@@ -331,16 +331,6 @@
             {name: map.name, value: map.value}
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P``1(System.Func{``0,System.Object}[])">
-            <summary>
-            Represent  properties collection.
-            </summary>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            {name: $name, value: $value}
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.P(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IProperties}})">
             <summary>
             Represent  properties collection.
@@ -367,16 +357,6 @@
             <param name="var"></param>
             </summary>
             <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P``1(Weknow.Cypher.Builder.IVar,System.Func{``0,System.Object})">
-            <summary>
-            Represent variable with properties collection.
-            <param name="var"></param>
-            </summary>
-            <param name="property">The properties.</param>
             <returns></returns>
             <example>
             </example>
@@ -878,7 +858,7 @@
             RETURN collect(DISTINCT n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.IVar,System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -2153,77 +2133,6 @@
             </returns>
             <example><![CDATA[(n:Person:Animal)]]></example>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IMap">
-            <summary>
-            Mapping variable primitive for the Cypher expression.
-            </summary>
-            <example>
-            Used for queries like: 
-            CREATE (n $map)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IMap.op_UnaryPlus(Weknow.Cypher.Builder.IMap)">
-            <summary>
-            Declaration for operator +.
-            </summary>
-            <param name="map">The map.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IMap`1">
-            <summary>
-            Mapping variable primitive for the Cypher expression.
-            </summary>
-            <example>
-            Used for queries like: 
-            CREATE (n $map)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IMap`1._">
-            <summary>
-            Gets type representation of the variable.
-            </summary>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IParameter">
-            <summary>
-            Parameter primitive for the Cypher expression.
-            </summary>
-            <example>
-            The $value in the following expression will use the Parameter primitive.
-            CREATE (n:Person {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IParameter`1">
-            <summary>
-            Parameter primitive for the Cypher expression.
-            </summary>
-            <example>
-            The $value in the following expression will use the Parameter primitive.
-            CREATE (n:Person {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IParameter`1._">
-            <summary>
-            Gets type representation of the variable.
-            </summary>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IType">
             <summary>
             Relation's Type primitive for the Cypher expression.
@@ -2308,6 +2217,101 @@
             <summary>
             Use mapping technique.
             For example: CREATE (n $map)
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IMap">
+            <summary>
+            Mapping variable primitive for the Cypher expression.
+            </summary>
+            <example>
+            Used for queries like: 
+            CREATE (n $map)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.IMap.op_UnaryPlus(Weknow.Cypher.Builder.IMap)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="map">The map.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IMap`1">
+            <summary>
+            Mapping variable primitive for the Cypher expression.
+            </summary>
+            <example>
+            Used for queries like: 
+            CREATE (n $map)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IMap`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IParameter">
+            <summary>
+            Parameter primitive for the Cypher expression.
+            </summary>
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.IParameter`1">
+            <summary>
+            Parameter primitive for the Cypher expression.
+            </summary>
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.IParameter`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.Parameter">
+            <summary>
+            Use for cypher query's parameters
+            </summary>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.Parameter.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.Parameter`1">
+            <summary>
+            Use for cypher query's parameters
+            </summary>
+            <typeparam name="T"></typeparam>
+            <seealso cref="T:Weknow.Cypher.Builder.IParameter" />
+        </member>
+        <member name="F:Weknow.Cypher.Builder.Parameter`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
             </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.IProperties">

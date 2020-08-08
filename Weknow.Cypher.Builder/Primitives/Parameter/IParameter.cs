@@ -33,5 +33,4 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         T _ { get; }
     }
-
 }

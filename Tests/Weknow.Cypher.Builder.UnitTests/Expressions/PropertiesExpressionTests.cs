@@ -42,7 +42,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Lambda_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => x.Id.Length )));
+            IParameter Length = Parameter.Default;
+
+            IPattern pattern = Reuse(n => N(n, Person, new { Length = Length }));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);
@@ -50,34 +52,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // (n:Person { Id: $Id }) / Properties_Lambda_Test
-
-        #region (n:Person { Length: $Length }) / Properties_Lambda_Nest_Test
-
-        [Fact]
-        public void Properties_Lambda_Nest_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => x.Id.Length )));
-
-            var cypher = pattern.ToString();
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("(n:Person { Length: $Length })", cypher);
-        }
-
-        #endregion // (n:Person { Length: $Length }) / Properties_Lambda_Nest_Test
-
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Lambda_Array_Test
-
-        [Fact]
-        public void Properties_Lambda_Array_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, P<Foo>(x => new { x.PropA, x.PropB })));
-
-            var cypher = pattern.ToString();
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Lambda_Array_Test
 
         #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
 
@@ -262,24 +236,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n / Properties_Const_Test
-
-        #region MERGE (n:Person { Id: map.Id, Name: map.Name }) RETURN n / Map_Properties_Test
-
-        [Fact]
-        public void Map_Properties_Test()
-        {
-            IMap<Fellow>? map = null;
-            CypherCommand cypher = _<Fellow>(n =>
-                                        Merge(N(n, Person, new { Id = map._.Id, Name = map._.Name }))
-                                        .Return(n));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                       "MERGE (n:Person { Id: map.Id, Name: map.Name })\r\n" +
-                       "RETURN n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: map.Id, Name: map.Name }) RETURN n / Map_Properties_Test
     }
 }
 

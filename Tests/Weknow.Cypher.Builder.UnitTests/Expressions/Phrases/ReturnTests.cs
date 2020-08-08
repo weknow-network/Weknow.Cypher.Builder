@@ -78,7 +78,7 @@ namespace Weknow.Cypher.Builder
         {
             CypherCommand cypher = _(n =>
                                     Match(N(n))
-                                    .Return(n.P(Id, P<Foo>(x => x.PropA, x => x.PropB))));
+                                    .Return(n.P(Id, n._(PropA, PropB))));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n)\r\n" +

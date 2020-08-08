@@ -14,6 +14,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
+    [Obsolete("We don't need it anymore", false)]
     public interface IMap
     {
         /// <summary>
@@ -37,6 +38,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
+    [Obsolete("We don't need it anymore", false)]
     public interface IMap<T> : IMap
     {
         /// <summary>

@@ -109,57 +109,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_Test
 
-        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Test
-
-        [Fact]
-        public void Merge_On_Match_SetProperties_OfT_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, P(Id)))
-                                    .OnMatchSet(n.P<Foo>(x => new { x.PropA, x.PropB })));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Test
-
-        [Fact]
-        public void Merge_On_Match_SetProperties_OfT__Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, n.P<Foo>(x => x.Id)))
-                                    .OnMatchSet(n.P<Foo>(x => new { x.PropA, x.PropB })));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Array_Test
-
-        [Fact]
-        public void Merge_On_Match_SetProperties_OfT_Array_Test()
-        {
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, P(Id)))
-                                    .OnMatchSet(n.P<Foo>(x => new []{ x.PropA, x.PropB })));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_OfT_Array_Test
-
         #region MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map / Merge_On_Match_SetProperties_Update_Test
 
         [Fact]

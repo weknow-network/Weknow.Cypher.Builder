@@ -89,9 +89,9 @@ WHERE n.Name =~ $Name", cypher.Query);
         public void Where_Parameter_Test()
         {
             IParameter? PropA = null, n_PropB = null;
-            CypherCommand cypher = _(n => n_ =>
+            CypherCommand cypher = _(n => 
                                     Match(N(n, Person, new { PropA = PropA }))
-                                    .Where(n.P(new { PropA, PropB = n_PropB })));
+                                    .Where(n._(new { PropA, PropB = n_PropB })));
 
             _outputHelper.WriteLine(cypher.Dump());
 

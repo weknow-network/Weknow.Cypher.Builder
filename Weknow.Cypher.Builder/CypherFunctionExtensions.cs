@@ -268,7 +268,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(DISTINCT n.PropA)
         /// </example>
         [Cypher("collect(DISTINCT $0\\.$1)")]
-        public static IVar CollectDistinct(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        public static IVar CollectDistinct(this IVar variable, object prop) => throw new NotImplementedException();
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
