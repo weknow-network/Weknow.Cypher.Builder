@@ -15,15 +15,15 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public class Parameter 
+    public class ParameterDeclaration 
     {
-        private protected Parameter() { }
+        private protected ParameterDeclaration() { }
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.
         /// It use under expression and don't need a real implementation;
         /// </summary>
-        public static readonly Parameter Default = new Parameter();
+        internal static readonly ParameterDeclaration Default = new ParameterDeclaration();
 
         /// <summary>
         /// Declaration for operator +.
@@ -32,7 +32,7 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static Parameter operator +(Parameter prm) => throw new NotImplementedException();
+        public static ParameterDeclaration operator +(ParameterDeclaration prm) => throw new NotImplementedException();
     }
 
     /// <summary>
@@ -46,15 +46,15 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public class Parameter<T> : Parameter
+    public class ParameterDeclaration<T> : ParameterDeclaration
     {
-        private Parameter() { }
+        private ParameterDeclaration() { }
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.
         /// It use under expression and don't need a real implementation;
         /// </summary>
-        public static readonly Parameter<T> Default = new Parameter<T>();
+        new internal static readonly ParameterDeclaration<T> Default = new ParameterDeclaration<T>();
         
         /// <summary>
         /// Gets type representation of the variable.
@@ -69,6 +69,6 @@ namespace Weknow.Cypher.Builder
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static implicit operator T(Parameter<T> instance) => throw new NotImplementedException();
+        public static implicit operator T(ParameterDeclaration<T> instance) => throw new NotImplementedException();
     }
 }

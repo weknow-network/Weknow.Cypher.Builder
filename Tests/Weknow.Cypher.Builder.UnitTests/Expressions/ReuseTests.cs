@@ -46,7 +46,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void LazyReuse_Overloads_Test()
         {
-            Parameter? nPropA = null, n_PropA = null, n1_PropA = null, n2_PropB = null, n1_Id = null, n2_PropA = null, n3_PropB = null, n4_PropC = null;
+            ParameterDeclaration? nPropA = null, n_PropA = null, n1_PropA = null, n2_PropB = null, n1_Id = null, n2_PropA = null, n3_PropB = null, n4_PropC = null;
             IPattern? pattern1 = Reuse(n => N(n, Person, new { PropA = nPropA }));
             IPattern? pattern2 = Reuse(n => N(n, Person, new { PropA = n_PropA }));
             IPattern? pattern3 = Reuse(n => N(n, Person, new { PropA = n1_PropA, PropB = n2_PropB }));
@@ -209,7 +209,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            Parameter? maintainer_Id = null;
+            ParameterDeclaration? maintainer_Id = null;
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
             INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =
@@ -235,7 +235,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            Parameter? maintainer_Id = null;
+            ParameterDeclaration? maintainer_Id = null;
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
             INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =

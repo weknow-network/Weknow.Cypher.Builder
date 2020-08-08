@@ -306,7 +306,7 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
-            Parameter? maintainer_Id = null, Date = null;
+            ParameterDeclaration? maintainer_Id = null, Date = null;
             var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
 
             CypherCommand cypher = _(items => map => n =>

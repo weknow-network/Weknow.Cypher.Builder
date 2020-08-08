@@ -14,7 +14,7 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
-        public delegate Fluent Fluent(IVar var);
+        public delegate Fluent Fluent(VariableDeclaration var);
         /// <summary>
         /// <![CDATA[Pattern delegate of T.
         /// Used for having IVar<T>]]>
@@ -23,7 +23,7 @@ namespace Weknow.Cypher.Builder
         /// <typeparam name="R"></typeparam>
         /// <param name="var">The variable.</param>
         /// <returns></returns>
-        public delegate R Project<T, R>(IVar<T> var);
+        public delegate R Project<T, R>(VariableDeclaration<T> var);
         /// <summary>
         /// Enable starting point which don't use any variable
         /// </summary>

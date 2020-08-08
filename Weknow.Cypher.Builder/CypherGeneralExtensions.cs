@@ -20,7 +20,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         [Cypher("$0")]
-        public static T OfType<T>(this IVar var) => throw new NotImplementedException();
+        public static T OfType<T>(this VariableDeclaration var) => throw new NotImplementedException();
 
         #endregion // OfType
 
@@ -33,7 +33,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="name">The name.</param>
         /// <returns></returns>
         [Cypher("$0 AS $1")]
-        public static IVar As(this IVar var, object name) => throw new NotImplementedException();
+        public static VariableDeclaration As(this VariableDeclaration var, object name) => throw new NotImplementedException();
 
         #endregion // As
     }

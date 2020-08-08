@@ -35,6 +35,26 @@
             <param name="expression">The expression.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CreateParameter">
+            <summary>
+            Get parameter declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CreateParameter``1">
+            <summary>
+            Get parameter declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CreateVariable">
+            <summary>
+            Get parameter declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CreateVariable``1">
+            <summary>
+            Get parameter declaration.
+            </summary>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher._(System.Linq.Expressions.Expression{Weknow.Cypher.Builder.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
@@ -127,14 +147,14 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Specified node with variable.
             </summary>
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel)">
             <summary>
             Specified node with variable and label.
             </summary>
@@ -142,7 +162,7 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Object)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,System.Object)">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -151,7 +171,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -160,7 +180,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperty[])">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -169,7 +189,7 @@
             <param name="properties"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
             <summary>
             Specified node with variable, label and map.
             </summary>
@@ -178,7 +198,7 @@
             <param name="map">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Specified typed node with label.
             </summary>
@@ -186,7 +206,7 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IMap)">
             <summary>
             Specified typed node with variable and properties map.
             </summary>
@@ -195,7 +215,7 @@
             <param name="map">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified typed node with variable and properties.
             </summary>
@@ -204,7 +224,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar{``0},Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration{``0},Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified typed node with typed variable and label.
             </summary>
@@ -213,7 +233,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Specified typed node with variable and properties.
             </summary>
@@ -222,7 +242,7 @@
             <param name="property">.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar{``0},Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration{``0},Weknow.Cypher.Builder.IProperty)">
             <summary>
             Specified typed node with typed variable and label.
             </summary>
@@ -231,7 +251,7 @@
             <param name="property"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel)">
             <summary>
             Specified typed node with variable and label.
             </summary>
@@ -240,7 +260,7 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -250,7 +270,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -260,7 +280,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
             <summary>
             Specified typed node with variable, label and properties.
             </summary>
@@ -271,7 +291,7 @@
             <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
             <summary>
             Specified node with variable, label and map.
             </summary>
@@ -286,7 +306,7 @@
             Gets the Cypher relation.
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._(Weknow.Cypher.Builder.IVar,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.Cypher._(Weknow.Cypher.Builder.VariableDeclaration,System.Object[])">
             <summary>
             Used to define properties' variables without the $ prefix.
             Useful for cases like UNWIND
@@ -341,7 +361,7 @@
             {name: $name, value: $value}
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IVar,System.Object[])">
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.VariableDeclaration,System.Object[])">
             <summary>
             Represent variable with properties collection.
             <param name="var"></param>
@@ -351,7 +371,7 @@
             <example>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty[])">
+        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Represent variable with properties collection.
             <param name="var"></param>
@@ -370,7 +390,7 @@
             <example>
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(Weknow.Cypher.Builder.IVar,System.Func{System.String,System.Boolean})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(Weknow.Cypher.Builder.VariableDeclaration,System.Func{System.String,System.Boolean})">
             <summary>
             Gets properties by convention with variable.
             </summary>
@@ -395,7 +415,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.All``1(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.All``1(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             All properties of the type.
             </summary>
@@ -464,7 +484,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
             </summary>
@@ -488,7 +508,7 @@
             exists(n.property)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelationNode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelationNode}},System.Action{Weknow.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -496,7 +516,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INodeRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INodeRelation}},System.Action{Weknow.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -504,7 +524,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INode}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -512,7 +532,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelation}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -520,7 +540,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INodeRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INodeRelation}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -528,7 +548,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INode}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -536,7 +556,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelation}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -544,7 +564,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INode}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -552,7 +572,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelation}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -560,7 +580,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INode}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -568,7 +588,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelation}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -576,7 +596,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.INode}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.INode}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -584,7 +604,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,System.Func{Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,System.Func{Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -680,7 +700,7 @@
             Cypher Function Extensions
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Type(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Type(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             String representation of the relationship type.
             </summary>
@@ -691,7 +711,7 @@
             RETURN type(r)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.StartNode(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.StartNode(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Start node of the relationship.
             </summary>
@@ -702,7 +722,7 @@
             RETURN startNode(r)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.EndNode(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.EndNode(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             End node of the relationship.
             </summary>
@@ -713,7 +733,7 @@
             RETURN endNode(r)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Id(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Id(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             The internal id of the relationship.
             </summary>
@@ -724,7 +744,7 @@
             RETURN id(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Labels(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Labels(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Labels of the node.
             </summary>
@@ -735,7 +755,7 @@
             RETURN labels(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Label(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel[])">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Label(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
             <summary>
             Specify label of node
             </summary>
@@ -754,7 +774,7 @@
             SET n:Spouse:Parent:Employee
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Count(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Count(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Count the results.
             </summary>
@@ -765,7 +785,7 @@
             RETURN count(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Sum(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Sum(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Sum numerical values. Similar functions are avg(), min(), max().
             </summary>
@@ -777,7 +797,7 @@
             RETURN sum(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Max(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Max(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Max numerical values. Similar functions are avg(), min(), sum().
             </summary>
@@ -789,7 +809,7 @@
             RETURN max(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Min(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Min(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Min numerical values. Similar functions are avg(), sum(), max().
             </summary>
@@ -801,7 +821,7 @@
             RETURN min(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Avg(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Avg(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             Avg numerical values. Similar functions are sum(), min(), max().
             </summary>
@@ -813,7 +833,7 @@
             RETURN avg(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CountDistinct(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CountDistinct(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Count the results.
             </summary>
@@ -824,7 +844,7 @@
             RETURN count(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -835,7 +855,7 @@
             RETURN collect(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -847,7 +867,7 @@
             RETURN collect(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -858,7 +878,7 @@
             RETURN collect(DISTINCT n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.IVar,System.Object)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.VariableDeclaration,System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -875,7 +895,7 @@
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.OfType``1(Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.OfType``1(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Define variable as type
             </summary>
@@ -883,7 +903,7 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.IVar,System.Object)">
+        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.VariableDeclaration,System.Object)">
             <summary>
             Define variable's alias
             </summary>
@@ -1026,7 +1046,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1075,7 +1095,7 @@
             ON CREATE SET p = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IMap)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1250,7 +1270,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.ILabel)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.ILabel)">
             <summary>
             SET label phrase.
             </summary>
@@ -1262,7 +1282,7 @@
             SSET n:Person
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1274,7 +1294,7 @@
             SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IMap)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IMap)">
             <summary>
             SET phrase.
             </summary>
@@ -1297,7 +1317,7 @@
             SET n = $n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1369,7 +1389,7 @@
             <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             IN phrase.
             </summary>
@@ -1381,7 +1401,7 @@
             n.property IN [$value1, $value2]
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
+        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             IN phrase.
             </summary>
@@ -1669,7 +1689,7 @@
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Represent relation with variable and type.
             </summary>
@@ -1680,7 +1700,7 @@
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType)">
             <summary>
             Represent relation with variable and type.
             </summary>
@@ -1691,7 +1711,7 @@
             <![CDATA[(m)<-[r:KNOWS]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,System.Object)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object)">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
@@ -1706,7 +1726,7 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
@@ -1721,7 +1741,7 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
@@ -1773,7 +1793,7 @@
             (n)-[*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,System.Range)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,System.Range)">
             <summary>
             Represent relation with variable and range.
             </summary>
@@ -1787,7 +1807,7 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -1816,7 +1836,7 @@
             (n)-[*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.Rng)">
             <summary>
             Represent relation with variable and range.
             </summary>
@@ -1830,7 +1850,7 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -1919,7 +1939,7 @@
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation" /> with the specified variable.
             </summary>
@@ -1954,7 +1974,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -1966,7 +1986,7 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -1978,7 +1998,7 @@
             <param name="property"></param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -1999,7 +2019,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -2012,7 +2032,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -2025,7 +2045,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,System.Range)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -2046,7 +2066,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IType)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.IType)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
             </summary>
@@ -2157,68 +2177,6 @@
             </returns>
             <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IVar`1">
-            <summary>
-            Variable primitive for the Cypher expression.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <example>
-            The n in the following expression will use the variable primitive. 
-            CREATE (n {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IVar`1._">
-            <summary>
-            Gets type representation of the variable.
-            </summary>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IVar`1.Inc">
-            <summary>
-            Gets type representation of the variable which should be increment.
-            </summary>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IVar">
-            <summary>
-            Variable primitive for the Cypher expression.
-            </summary>
-            <example>
-            The n in the following expression will use the variable primitive. 
-            CREATE (n {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IVar.op_Addition(Weknow.Cypher.Builder.IVar,Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Declaration for operator +.
-            </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IVar.op_UnaryPlus(Weknow.Cypher.Builder.IVar)">
-            <summary>
-            Declaration for unary operator +.
-            </summary>
-            <param name="item">The item.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IVar.AsMap">
-            <summary>
-            Use mapping technique.
-            For example: CREATE (n $map)
-            </summary>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IMap">
             <summary>
             Mapping variable primitive for the Cypher expression.
@@ -2259,7 +2217,7 @@
             Gets type representation of the variable.
             </summary>
         </member>
-        <member name="T:Weknow.Cypher.Builder.Parameter">
+        <member name="T:Weknow.Cypher.Builder.ParameterDeclaration">
             <summary>
             Parameter primitive for the Cypher expression.
             </summary>
@@ -2272,13 +2230,13 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.Cypher.Builder.Parameter.Default">
+        <member name="F:Weknow.Cypher.Builder.ParameterDeclaration.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Parameter.op_UnaryPlus(Weknow.Cypher.Builder.Parameter)">
+        <member name="M:Weknow.Cypher.Builder.ParameterDeclaration.op_UnaryPlus(Weknow.Cypher.Builder.ParameterDeclaration)">
             <summary>
             Declaration for operator +.
             </summary>
@@ -2287,7 +2245,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.Parameter`1">
+        <member name="T:Weknow.Cypher.Builder.ParameterDeclaration`1">
             <summary>
             Parameter primitive for the Cypher expression.
             </summary>
@@ -2300,18 +2258,18 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.Cypher.Builder.Parameter`1.Default">
+        <member name="F:Weknow.Cypher.Builder.ParameterDeclaration`1.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="P:Weknow.Cypher.Builder.Parameter`1._">
+        <member name="P:Weknow.Cypher.Builder.ParameterDeclaration`1._">
             <summary>
             Gets type representation of the variable.
             </summary>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Parameter`1.op_Implicit(Weknow.Cypher.Builder.Parameter{`0})~`0">
+        <member name="M:Weknow.Cypher.Builder.ParameterDeclaration`1.op_Implicit(Weknow.Cypher.Builder.ParameterDeclaration{`0})~`0">
             <summary>
             Casting overload.
             </summary>
@@ -2345,6 +2303,80 @@
             Primitives don't have actual implementation, 
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.VariableDeclaration`1">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.VariableDeclaration`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.VariableDeclaration`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.VariableDeclaration`1.Inc">
+            <summary>
+            Gets type representation of the variable which should be increment.
+            </summary>
+        </member>
+        <member name="T:Weknow.Cypher.Builder.VariableDeclaration">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.Cypher.Builder.VariableDeclaration.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.VariableDeclaration.op_Addition(Weknow.Cypher.Builder.VariableDeclaration,Weknow.Cypher.Builder.VariableDeclaration)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.VariableDeclaration.op_UnaryPlus(Weknow.Cypher.Builder.VariableDeclaration)">
+            <summary>
+            Declaration for unary operator +.
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.VariableDeclaration.AsMap">
+            <summary>
+            Use mapping technique.
+            For example: CREATE (n $map)
+            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherQueryBuilder">
             <summary>

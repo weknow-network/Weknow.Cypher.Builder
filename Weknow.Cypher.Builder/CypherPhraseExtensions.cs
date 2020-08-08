@@ -152,7 +152,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE SET $1 = &$2")]
-        public static Fluent OnCreateSet(this Fluent p, IVar var, IMap map) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, VariableDeclaration var, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// ON CREATE SET phrase.
@@ -209,7 +209,7 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH SET $1 = $2")]
-        public static Fluent OnMatchSet(this Fluent p, IVar var, IMap map) => throw new NotImplementedException();
+        public static Fluent OnMatchSet(this Fluent p, VariableDeclaration var, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// ON MATCH SET phrase.
@@ -440,7 +440,7 @@ namespace Weknow.Cypher.Builder
         /// SSET n:Person
         /// </example>
         [Cypher("$0\r\nSET $1$2")]
-        public static Fluent Set(this Fluent p, IVar node, ILabel label) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, VariableDeclaration node, ILabel label) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -453,7 +453,7 @@ namespace Weknow.Cypher.Builder
         /// SET n = $map
         /// </example>
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static Fluent Set(this Fluent p, IVar node, IVar map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, VariableDeclaration node, VariableDeclaration map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -466,7 +466,7 @@ namespace Weknow.Cypher.Builder
         /// SET n = $map
         /// </example>
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static Fluent Set(this Fluent p, IVar node, IMap map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, VariableDeclaration node, IMap map) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
@@ -491,7 +491,7 @@ namespace Weknow.Cypher.Builder
         /// n.property2 = $value2
         /// </example>
         [Cypher("$0\r\nSET $1")]
-        public static Fluent Set(this Fluent p, IVar node) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent p, VariableDeclaration node) => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
