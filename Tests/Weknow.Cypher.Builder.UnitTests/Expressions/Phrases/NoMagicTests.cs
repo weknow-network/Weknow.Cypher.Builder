@@ -48,10 +48,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic2_Test()
         {
-            //IParameter<Foo> map_Id = null;
+            throw new NotImplementedException();
+            //IParameter map_Id = null;
+            //IVar n = null;
 
             //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, new { Id = map_Id })));
+            //    _(() => Create(N(n, Person, new { Id = map_Id })));
 
             //_outputHelper.WriteLine(cypher);
             //Assert.Equal(
@@ -67,10 +69,11 @@ namespace Weknow.Cypher.Builder
         {
             throw new NotImplementedException();
 
-            //IParameter<Foo> map = null;
+            //IParameter<Someone> map = null;
+            //IVar n = null;
 
             //CypherCommand cypher =
-            //    _<Foo>(n => Create(N(n, Person, new { Id = map._.Id, Name = map._.FirstName + map._.LastName })))
+            //    _(() => Create(N(n, Person, new { Id = map._.Id, Name = map._.FirstName + map._.LastName })))
             //               .Set(new { n = +map }));
 
             //_outputHelper.WriteLine(cypher);
@@ -87,15 +90,16 @@ namespace Weknow.Cypher.Builder
         public void Merge_NoMagic4_Test()
         {
             throw new NotImplementedException();
-            //IParameter<Foo> map = null;
+            //IParameter<Someone> map = null;
+            //IVar n = null;
 
             //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, n.With(new { Id = map._.Id, Name = map._.FirstName + map._.LastName }))))
-            //               .Set(n.With( new { Address = map._.Address })));
+            //    _<Foo>(() => Create(N(n, Person, n._(new { Id = map._.Id, Name = map._.FirstName }))))
+            //               .Set(n._( new { Address = map._.Address })));
 
             //_outputHelper.WriteLine(cypher);
             //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
+            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName })\r\n" +
             //    "Set n.Address = $map.Adress", cypher.Query);
         }
 
@@ -109,17 +113,17 @@ namespace Weknow.Cypher.Builder
             throw new NotImplementedException();
 
             //IParameter items = null;
-            //Ivar<Foo> item = null;
+            //IVar<Foo> item = null;
 
             //CypherCommand cypher =
             //    _<Foo>(() => Unwind(items, item, 
-            //                Create(N(n, Person, new Foo { Id = item._.Id, Name = item._.FirstName + item._.LastName })))
+            //                Create(N(n, Person, new Foo { Id = item._.Id, Name = item._.Name })))
             //               .Set(new { n = item }));
 
             //_outputHelper.WriteLine(cypher);
             //Assert.Equal(
             //    "UNWIND items AS item\r\n"
-            //    "CREATE(n:Person { Id: item.Id, Name: item.FirstName + item.LastName })\r\n" +
+            //    "CREATE(n:Person { Id: item.Id, Name: item.Name })\r\n" +
             //    "Set n = item", cypher.Query);
         }
 
