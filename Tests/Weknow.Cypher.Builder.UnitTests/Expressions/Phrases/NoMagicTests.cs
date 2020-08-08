@@ -128,7 +128,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "UNWIND items AS item\r\n" +
+                "UNWIND $items AS item\r\n" +
                 "CREATE (n:Person { Id: item.Id, Name: item.Name })\r\n" +
                 "SET n = item", cypher.Query);
         }
