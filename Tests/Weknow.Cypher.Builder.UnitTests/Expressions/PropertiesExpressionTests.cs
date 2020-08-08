@@ -42,7 +42,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Lambda_Test()
         {
-            IParameter Length = Parameter.Default;
+            Parameter Length = Parameter.Default;
 
             IPattern pattern = Reuse(n => N(n, Person, new { Length = Length }));
 

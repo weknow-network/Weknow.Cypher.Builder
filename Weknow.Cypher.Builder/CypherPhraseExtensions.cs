@@ -254,6 +254,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE user.name = $name
         /// </example>
         [Cypher("$0\r\n&WHERE $1")]
+        [Obsolete("Wrong syntax")]
         public static Fluent Where(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         #endregion // Where

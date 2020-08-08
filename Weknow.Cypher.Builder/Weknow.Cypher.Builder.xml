@@ -2259,41 +2259,18 @@
             Gets type representation of the variable.
             </summary>
         </member>
-        <member name="T:Weknow.Cypher.Builder.IParameter">
-            <summary>
-            Parameter primitive for the Cypher expression.
-            </summary>
-            <example>
-            The $value in the following expression will use the Parameter primitive.
-            CREATE (n:Person {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IParameter`1">
-            <summary>
-            Parameter primitive for the Cypher expression.
-            </summary>
-            <example>
-            The $value in the following expression will use the Parameter primitive.
-            CREATE (n:Person {name: $value})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IParameter`1._">
-            <summary>
-            Gets type representation of the variable.
-            </summary>
-        </member>
         <member name="T:Weknow.Cypher.Builder.Parameter">
             <summary>
-            Use for cypher query's parameters
+            Parameter primitive for the Cypher expression.
             </summary>
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
         </member>
         <member name="F:Weknow.Cypher.Builder.Parameter.Default">
             <summary>
@@ -2301,18 +2278,47 @@
             It use under expression and don't need a real implementation;
             </summary>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Parameter.op_UnaryPlus(Weknow.Cypher.Builder.Parameter)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="map">The map.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.Parameter`1">
             <summary>
-            Use for cypher query's parameters
+            Parameter primitive for the Cypher expression.
             </summary>
-            <typeparam name="T"></typeparam>
-            <seealso cref="T:Weknow.Cypher.Builder.IParameter" />
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
         </member>
         <member name="F:Weknow.Cypher.Builder.Parameter`1.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.Parameter`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Parameter`1.op_Implicit(Weknow.Cypher.Builder.Parameter{`0})~`0">
+            <summary>
+            Casting overload.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
         </member>
         <member name="T:Weknow.Cypher.Builder.IProperties">
             <summary>

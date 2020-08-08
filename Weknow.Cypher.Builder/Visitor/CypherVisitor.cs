@@ -369,7 +369,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     node.Type != typeof(IMap) && !typeof(IParameter).IsAssignableFrom(node.Type) &&
+                     node.Type != typeof(IMap) && !typeof(Parameter).IsAssignableFrom(node.Type) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
@@ -387,7 +387,7 @@ namespace Weknow.Cypher.Builder
             if (name == nameof(IVar.AsMap))
                 return node;
 
-            if (typeof(IParameter).IsAssignableFrom(node.Type))
+            if (typeof(Parameter).IsAssignableFrom(node.Type))
             {
                 Query.Append("$");
                 if (!Parameters.ContainsKey(name))
@@ -395,7 +395,7 @@ namespace Weknow.Cypher.Builder
             }
             Query.Append(name);
 
-            if (typeof(IParameter).IsAssignableFrom(node.Type))
+            if (typeof(Parameter).IsAssignableFrom(node.Type))
                 return node;
 
             bool ignore = _methodExpr.Value?.Method.Name switch

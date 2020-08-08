@@ -39,7 +39,7 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         /// </summary>
         public async Task InitDataAsync()
         {
-            IParameter p1Id = null, p2Id = null, t1Id = null, t2Id = null;
+            Parameter p1Id = null, p2Id = null, t1Id = null, t2Id = null;
             CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
                                     Create(N(p1, Person, new { Id = p1Id }))
                                     .Create(N(p2, Person, new { Id = p2Id }))

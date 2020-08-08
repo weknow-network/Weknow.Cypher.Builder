@@ -88,19 +88,21 @@ WHERE n.Name =~ $Name", cypher.Query);
         [Fact]
         public void Where_Parameter_Test()
         {
-            IParameter? PropA = null, n_PropB = null;
-            CypherCommand cypher = _(n => 
-                                    Match(N(n, Person, new { PropA = PropA }))
-                                    .Where(n._(new { PropA, PropB = n_PropB })));
+            throw new NotImplementedException();
 
-            _outputHelper.WriteLine(cypher.Dump());
+//            Parameter? PropA = null, n_PropB = null;
+//            CypherCommand cypher = _(n => 
+//                                    Match(N(n, Person, new { PropA = PropA }))
+//                                    .Where()));
 
-            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
-            Assert.Equal(
-@"MATCH (n:Person { PropA: $PropA })
-WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
-            Assert.NotEmpty(cypher.Parameters);
-            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+//            _outputHelper.WriteLine(cypher.Dump());
+
+//            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
+//            Assert.Equal(
+//@"MATCH (n:Person { PropA: $PropA }), (m:Person)
+//WHERE n.PropA = $PropA AND n.PropB = $n_PropB", cypher.Query);
+//            Assert.NotEmpty(cypher.Parameters);
+//            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test
@@ -110,7 +112,7 @@ WHERE n.PropA = $PropA, n.PropB = $n_PropB", cypher.Query);
         [Fact]
         public void Where_Parameter_Gen_Test()
         {
-            IParameter? Name = null, PropA = null;
+            Parameter? Name = null, PropA = null;
             CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, new { PropA }))
                                     .Where(n.P(new { Name = Name })));

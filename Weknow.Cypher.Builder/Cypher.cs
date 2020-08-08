@@ -614,7 +614,7 @@ namespace Weknow.Cypher.Builder
         public static Fluent Unwind(IVar items, IVar item, Fluent p) => throw new NotImplementedException();
 
         [Cypher("&UNWIND $0 AS $1\r\n+21$2")]
-        public static Fluent Unwind(IParameter items, IVar item, Fluent p) => throw new NotImplementedException();
+        public static Fluent Unwind(Parameter items, IVar item, Fluent p) => throw new NotImplementedException();
         #endregion // Unwind
 
         #region Exists
