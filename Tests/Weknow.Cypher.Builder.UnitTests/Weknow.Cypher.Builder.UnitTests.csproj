@@ -26,7 +26,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Refactor\Refactor.Package\Refactor.Package.csproj"
+		<ProjectReference Include="..\..\Refactor\Refactor\Refactor.csproj"
+						  OutputItemType="Analyzer"
+						  ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\Refactor\Refactor.CodeFixes\Refactor.CodeFixes.csproj"
 						  OutputItemType="Analyzer"
 						  ReferenceOutputAssembly="false" />
 	</ItemGroup>

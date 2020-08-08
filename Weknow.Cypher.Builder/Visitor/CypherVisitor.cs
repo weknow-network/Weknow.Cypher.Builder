@@ -369,7 +369,7 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     node.Type != typeof(IMap) && !typeof(Parameter).IsAssignableFrom(node.Type) &&
+                     node.Type != typeof(IVar) && node.Type != typeof(IMap) && !typeof(Parameter).IsAssignableFrom(node.Type) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
