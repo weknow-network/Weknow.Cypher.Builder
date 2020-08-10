@@ -28,10 +28,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => i =>
-                        Merge(N(n, Person, n.P(Id)))
+                        Merge(N(n, Person, new { Id }))
                         .With()
-                        .Match(N(i, Person, n.P(Id)))
+                        .Match(N(i, Person, new { Id }))
                         .Return(i.OfType<Foo>().Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
@@ -51,10 +52,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Param_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => i =>
-                        Merge(N(n, Person, n.P(Id)))
+                        Merge(N(n, Person, new { Id }))
                         .With(n)
-                        .Match(N(i, Person, n.P(Id)))
+                        .Match(N(i, Person, new { Id }))
                         .Return(i.OfType<Foo>().Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;

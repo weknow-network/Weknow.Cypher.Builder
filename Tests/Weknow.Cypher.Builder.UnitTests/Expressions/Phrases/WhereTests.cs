@@ -8,7 +8,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-        [Trait("Group", "Phrases")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class WhereTests
     {
@@ -34,12 +34,12 @@ namespace Weknow.Cypher.Builder
                                     .Where(n.OfType<Foo>().Name == "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE n.Name = $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
-            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value,"my-name"));
+            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, "my-name"));
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.Name = $p_1 / Where_Test
@@ -55,12 +55,12 @@ WHERE n.Name = $p_1", cypher.Query);
                                     .Where(Rgx(n._.Name == "my-name.*")));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE n.Name =~ $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
-            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value,"my-name.*"));
+            Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, "my-name.*"));
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.Name =~ $p_1 / Where_Regex_Test
@@ -76,7 +76,7 @@ WHERE n.Name =~ $p_1", cypher.Query);
                                     .Where(Rgx(n.P(Name))));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE n.Name =~ $Name", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
@@ -93,19 +93,19 @@ WHERE n.Name =~ $Name", cypher.Query);
         {
             throw new NotImplementedException();
 
-//            Parameter? PropA = null, n_PropB = null;
-//            CypherCommand cypher = _(n => 
-//                                    Match(N(n, Person, new { PropA = PropA }))
-//                                    .Where()));
+            //            Parameter? PropA = null, n_PropB = null;
+            //            CypherCommand cypher = _(n => 
+            //                                    Match(N(n, Person, new { PropA = PropA }))
+            //                                    .Where()));
 
-//            _outputHelper.WriteLine(cypher.Dump());
+            //            _outputHelper.WriteLine(cypher.Dump());
 
-//            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
-//            Assert.Equal(
-//@"MATCH (n:Person { PropA: $PropA }), (m:Person)
-//WHERE n.PropA = $PropA AND n.PropB = $n_PropB", cypher.Query);
-//            Assert.NotEmpty(cypher.Parameters);
-//            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
+            //            Assert.Contains(cypher.Parameters, p => p.Key == "n_PropB");
+            //            Assert.Equal(
+            //@"MATCH (n:Person { PropA: $PropA }), (m:Person)
+            //WHERE n.PropA = $PropA AND n.PropB = $n_PropB", cypher.Query);
+            //            Assert.NotEmpty(cypher.Parameters);
+            //            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test
@@ -115,10 +115,11 @@ WHERE n.Name =~ $Name", cypher.Query);
         [Fact]
         public void Where_Parameter_Gen_Test()
         {
-            ParameterDeclaration? Name = null, PropA = null;
+            var Name = CreateParameter<string>();
+            var PropA = CreateParameter();
             CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, new { PropA }))
-                                    .Where(n.P(new { Name = Name })));
+                                    .Where(n._.Name == Name));
 
             _outputHelper.WriteLine(cypher.Dump());
 
@@ -145,7 +146,7 @@ WHERE n.Name = $Name", cypher.Query);
                                         .Where(n.OfType<Foo>().Name == m.OfType<Foo>().Name))));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m)
 WHERE n.Name = m.Name }", cypher.Query);
@@ -166,7 +167,7 @@ WHERE n.Name = m.Name }", cypher.Query);
                                         .Where(true))));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { PropA: $PropA })
 WHERE EXISTS { MATCH (n)-[r:KNOWS]->(m)
 WHERE $p_1 }", cypher.Query);
@@ -190,11 +191,11 @@ WHERE $p_1 }", cypher.Query);
                                            n._.PropB == "skip"));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                    "MATCH (n:Person { PropA: $PropA })\r\n" +
-                    "WHERE n.Name = $p_1 AND " +
-                            "n.PropA = $p_2 OR " +
-                            "n.PropB = $p_3", cypher.Query);
+            Assert.Equal(
+                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   "WHERE n.Name = $p_1 AND " +
+                           "n.PropA = $p_2 OR " +
+                           "n.PropB = $p_3", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
             Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, "my-name"));
@@ -215,9 +216,9 @@ WHERE $p_1 }", cypher.Query);
                                     .Where(n._.Name != "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                    "MATCH (n:Person { PropA: $PropA })\r\n" +
-                    "WHERE n.Name <> $p_1", cypher.Query);
+            Assert.Equal(
+                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   "WHERE n.Name <> $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
             Assert.Contains(cypher.Parameters, p => p.Key == "p_1" && Equals(p.Value, "my-name"));
