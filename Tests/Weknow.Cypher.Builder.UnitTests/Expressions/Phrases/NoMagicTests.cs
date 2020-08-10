@@ -142,9 +142,9 @@ namespace Weknow.Cypher.Builder
         {
             var a = CreateParameter<string>();
             var b = CreateParameter<string>();
-
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, P(Id)))
+                                    Merge(N(n, Person, new { Id }))
                                     .OnMatchSet(n._(new Foo { PropA = a, PropB = b })));
 
             _outputHelper.WriteLine(cypher);

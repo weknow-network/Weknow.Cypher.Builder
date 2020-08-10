@@ -58,7 +58,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_P_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P(PropA, PropB)));
+            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
+            IPattern pattern = Reuse(n => N(n, Person, new { PropA, PropB }));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);

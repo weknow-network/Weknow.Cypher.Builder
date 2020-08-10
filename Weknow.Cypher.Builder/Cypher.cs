@@ -300,6 +300,9 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0:!l0 $1)")]
         public static INode N<T>(VariableDeclaration var, IMap map) => throw new NotImplementedException();
 
+        [Cypher(".1($0:!l0 { $1 })")]
+        public static INode N<T>(VariableDeclaration var, object properties) => throw new NotImplementedException();
+
         /// <summary>
         /// Specified typed node with variable and properties.
         /// </summary>
@@ -348,6 +351,10 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         [Cypher("($0:!0$1)")]
         public static INode N<T>(VariableDeclaration var, ILabel label) => throw new NotImplementedException();
+
+        [Cypher("($0:!0$1 { $2 })")]
+        public static INode N<T>(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
+
         /// <summary>
         /// Specified typed node with variable, label and properties.
         /// </summary>
@@ -427,39 +434,7 @@ namespace Weknow.Cypher.Builder
         /// {name: $name, value: $value}
         /// </example>
         [Cypher("$0")]
-        public static IProperties P(params IProperty[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$0")]
         public static IProperties P(params object[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent  properties collection.
-        /// with assignment via the map.
-        /// </summary>
-        /// <param name="map">The map.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: map.name, value: map.value}
-        /// </example>
-        [Cypher("$1")]
-        public static IProperties P(IMap map, params object[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$0")]
-        public static IProperties P(Expression<Func<IProperties>> properties) => throw new NotImplementedException();
         /// <summary>
         /// Represent variable with properties collection.
         /// <param name="var"></param>

@@ -28,8 +28,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Match_Return_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -45,8 +46,9 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_2_Return_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => a =>
-                                    Match(N(n, Person, P(Id)),
+                                    Match(N(n, Person, new { Id }),
                                           N<Bar>(a, Animal, x => P(x.Name)))
                                     .Return(n));
 
@@ -64,8 +66,9 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_2_Return_NoGenLabel_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => a =>
-                                    Match(N(n, Person, P(Id)),
+                                    Match(N(n, Person, new { Id }),
                                           N<Bar>(a, Animal, x => P(x.Name), LabelFromGenerics.Ignore))
                                     .Return(n));
 
@@ -121,8 +124,9 @@ RETURN n, m", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(+n.AsMap));
 
             _outputHelper.WriteLine(cypher);
@@ -138,8 +142,9 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Replace_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n.AsMap));
 
             _outputHelper.WriteLine(cypher);
@@ -155,8 +160,9 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Match_Set_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n.P(PropA, PropB)));
 
             _outputHelper.WriteLine(cypher);
@@ -172,8 +178,9 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
 
             _outputHelper.WriteLine(cypher);
@@ -189,8 +196,9 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Convention_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
 
             _outputHelper.WriteLine(cypher);
@@ -206,8 +214,9 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_All_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n.All<Foo>()));
 
             _outputHelper.WriteLine(cypher);
@@ -223,8 +232,9 @@ SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName 
         [Fact]
         public void Match_Set_AddLabel_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N<Foo>(n, P(Id)))
+                                    Match(N<Foo>(n, new { Id }))
                                     .Set(n, Person));
 
             _outputHelper.WriteLine(cypher);

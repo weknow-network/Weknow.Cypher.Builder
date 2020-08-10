@@ -160,9 +160,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Range_Enum_WithVarAndProp_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
-                                    R[r, KNOWS, P(PropA), Rng.Scope(1, 5)] >
+                                    R[r, KNOWS, new { PropA }, Rng.Scope(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);

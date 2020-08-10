@@ -72,7 +72,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Property_Test()
         {
-            var pattern = Reuse(n => N(n, Person, P(Id)));
+            var Id = CreateParameter();
+            var pattern = Reuse(n => N(n, Person, new { Id }));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -162,7 +163,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_T_Variable_Label_Property_Test()
         {
-            var pattern = Reuse(n => N<Foo>(n, Person, P(Id)));
+            var Id = CreateParameter();
+            var pattern = Reuse(n => N<Foo>(n, Person, new { Id }));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -249,9 +251,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Nested_NodeToNode_WithProp_Test()
         {
-            ParameterDeclaration? n2_PropA = null, n2_PropB = null;
+            ParameterDeclaration? n2_PropA = CreateParameter(), n2_PropB = CreateParameter(), PropA = CreateParameter(), PropB = CreateParameter();
             CypherCommand cypher = _(n1 => n2 => n2_ =>
-                                    Match(N(n1, Person, P(PropA, PropB)) >
+                                    Match(N(n1, Person, new { PropA, PropB }) >
                                           N(n2, Person, new { PropA = n2_PropA, PropB = n2_PropB })));
 
             _outputHelper.WriteLine(cypher);

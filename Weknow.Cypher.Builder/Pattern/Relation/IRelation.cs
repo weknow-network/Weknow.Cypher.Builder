@@ -195,6 +195,8 @@ namespace Weknow.Cypher.Builder
         /// </example>
         IRelation this[VariableDeclaration var, IType type, IProperties properties, Rng r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
 
+        IRelation this[VariableDeclaration var, IType type, object properties, Rng r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
+
         #endregion // Indexers this [...]
 
         #region Operators

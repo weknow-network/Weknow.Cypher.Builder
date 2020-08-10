@@ -28,8 +28,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Create_Test()
         {
+            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
+
             CypherCommand cypher = _(n =>
-                                    Create(N(n, Person, P(PropA, PropB))));
+                                    Create(N(n, Person, new { PropA, PropB })));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -84,8 +86,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateRelation_WithParams_Test()
         {
+            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
             CypherCommand cypher = _(n => r => m =>
-                                    Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
+                                    Create(N(n) - R[r, KNOWS, new { PropA, PropB }] > N(m)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);

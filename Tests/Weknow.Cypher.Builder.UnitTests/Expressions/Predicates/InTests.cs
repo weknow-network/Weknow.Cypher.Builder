@@ -29,8 +29,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Where(n.In(items))
                                     .Return(n));
 
@@ -48,9 +49,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Prop_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Where(n.In(Id, items))
+                                    Match(N(n, Person, new { Id }))
+                                    .Where(n.In(Schema.Id, items))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -67,8 +69,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Complex_Test()
         {
+            var Id = CreateParameter();
             CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
+                                    Match(N(n, Person, new { Id }))
                                     .Where(n.In(PropA, items) && n.In(PropB, items))
                                     .Return(n));
 

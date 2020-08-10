@@ -59,8 +59,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithProp_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(a => r => b =>
-             Match(N(a, Person) - R[r, KNOWS, P(PropA)] > N(b, Person)));
+             Match(N(a, Person) - R[r, KNOWS, new { PropA }] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -135,8 +136,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithProp_2_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(a => r1 => b => r2 => c =>
-             Match(N(a, Person) - R[r1, KNOWS, P(PropA)] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
+             Match(N(a, Person) - R[r1, KNOWS, new { PropA }] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
              .Where(a.OfType<Foo>().Name == "Avi")
              .Return(a.OfType<Foo>().Name, r1, b.All<Bar>(), r2, c));
 

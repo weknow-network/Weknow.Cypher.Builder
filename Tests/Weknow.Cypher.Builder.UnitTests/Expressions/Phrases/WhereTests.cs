@@ -28,8 +28,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Where_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(n.OfType<Foo>().Name == "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());
@@ -48,8 +49,9 @@ WHERE n.Name = $p_1", cypher.Query);
         [Fact]
         public void Where_Regex_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _<Foo>(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(Rgx(n._.Name == "my-name.*")));
 
             _outputHelper.WriteLine(cypher.Dump());
@@ -68,8 +70,9 @@ WHERE n.Name =~ $p_1", cypher.Query);
         [Fact]
         public void Where_Regex_Prop_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(Rgx(n.P(Name))));
 
             _outputHelper.WriteLine(cypher.Dump());
@@ -134,8 +137,9 @@ WHERE n.Name = $Name", cypher.Query);
         [Fact]
         public void WhereExists_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(Exists(m => r =>
                                         Match(N(n) - R[r, KNOWS] > N(m))
                                         .Where(n.OfType<Foo>().Name == m.OfType<Foo>().Name))));
@@ -154,8 +158,9 @@ WHERE n.Name = m.Name }", cypher.Query);
         [Fact]
         public void WhereExists_Const_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(Exists(m => r =>
                                         Match(N(n) - R[r, KNOWS] > N(m))
                                         .Where(true))));
@@ -177,8 +182,9 @@ WHERE $p_1 }", cypher.Query);
         [Fact]
         public void Where_Multi_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _<Foo>(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(n._.Name == "my-name" &&
                                            n._.PropA == "done" ||
                                            n._.PropB == "skip"));
@@ -203,8 +209,9 @@ WHERE $p_1 }", cypher.Query);
         [Fact]
         public void Where_NOT_Test()
         {
+            var PropA = CreateParameter();
             CypherCommand cypher = _<Foo>(n =>
-                                    Match(N(n, Person, P(PropA)))
+                                    Match(N(n, Person, new { PropA }))
                                     .Where(n._.Name != "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());

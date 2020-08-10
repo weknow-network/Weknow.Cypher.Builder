@@ -10,6 +10,7 @@ namespace Weknow.Cypher.Builder
     /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
     public class RelationPattern : ExpressionPattern, IRelation
     {
+        public IRelation this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
         #region Ctor
 
         /// <summary>
