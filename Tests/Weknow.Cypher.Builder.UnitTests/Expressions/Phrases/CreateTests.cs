@@ -1,5 +1,7 @@
 using System;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -8,7 +10,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-        [Trait("Group", "Phrases")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class CreateTests
     {
@@ -28,7 +30,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Create_Test()
         {
-            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
+            ParameterDeclaration PropA = Parameters.Create(), PropB = Parameters.Create();
 
             CypherCommand cypher = _(n =>
                                     Create(N(n, Person, new { PropA, PropB })));
@@ -86,7 +88,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateRelation_WithParams_Test()
         {
-            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
+            ParameterDeclaration PropA = Parameters.Create(), PropB = Parameters.Create();
             CypherCommand cypher = _(n => r => m =>
                                     Create(N(n) - R[r, KNOWS, new { PropA, PropB }] > N(m)));
 

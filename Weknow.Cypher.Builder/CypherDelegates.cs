@@ -2,6 +2,8 @@
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
+using Weknow.Cypher.Builder.Declarations;
+
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
@@ -29,5 +31,13 @@ namespace Weknow.Cypher.Builder
         /// </summary>
         /// <returns></returns>
         public delegate Fluent NoVariable();
+        /// <summary>
+        /// <![CDATA[Pattern delegate of T.
+        /// Used for having IVar]]>
+        /// </summary>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        public delegate R Project<R>(VariableDeclaration var);
     }
 }

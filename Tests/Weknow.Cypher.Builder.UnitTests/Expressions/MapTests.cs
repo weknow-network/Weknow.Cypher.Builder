@@ -28,7 +28,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(+n.AsMap));
@@ -46,7 +46,7 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.AsMap));
@@ -152,7 +152,7 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Merge_SetAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .Set(n.AsMap));

@@ -1,7 +1,7 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.Cypher.Builder.Declarations
 {
     /// <summary>
     /// Variable primitive for the Cypher expression.
@@ -28,6 +28,7 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
+        [Obsolete("Use ParameterDeclaration", false)]
         public T _ { get; }
         /// <summary>
         /// Gets type representation of the variable which should be increment.
@@ -80,6 +81,7 @@ namespace Weknow.Cypher.Builder
         /// Use mapping technique.
         /// For example: CREATE (n $map)
         /// </summary>
+        [Obsolete("Use ParameterDeclaration", false)]
         public IMap AsMap { get; }
     }
 

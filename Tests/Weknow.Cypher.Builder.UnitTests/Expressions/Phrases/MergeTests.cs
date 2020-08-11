@@ -29,7 +29,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_SetAsMap_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .Set(+n.AsMap));
@@ -47,7 +47,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_SetAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .Set(n.AsMap));
@@ -65,7 +65,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Create_SetProperties_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n.P(PropA, PropB)));
@@ -83,7 +83,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Create_SetAsMap_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => map =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n, map.AsMap));
@@ -101,7 +101,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_SetProperties_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnMatchSet(n.P(PropA, PropB)));
@@ -119,7 +119,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_SetProperties_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => map =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnMatchSet(n, map.AsMap));
@@ -137,7 +137,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_SetAsMap_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n.Convention<Bar>(m => m != nameof(Foo.Id)))
@@ -157,7 +157,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_SetAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
@@ -177,7 +177,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_SetNamedAsMapDefault_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => 
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
@@ -197,7 +197,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_SetNamedAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => map =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
@@ -217,7 +217,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_AfterMatch_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => a =>
                                     Match(N(n,Person, new { Id }))
                                     .Merge(N(n)-R[KNOWS]>N(a, Animal, new { Id })));

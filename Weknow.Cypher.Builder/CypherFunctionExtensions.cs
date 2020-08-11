@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 
 namespace Weknow.Cypher.Builder

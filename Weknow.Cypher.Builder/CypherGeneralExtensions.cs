@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
@@ -11,19 +13,6 @@ namespace Weknow.Cypher.Builder
     /// </summary>
     public static class CypherGeneralExtensions
     {
-        #region OfType
-
-        /// <summary>
-        /// Define variable as type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="var">The variable.</param>
-        /// <returns></returns>
-        [Cypher("$0")]
-        public static T OfType<T>(this VariableDeclaration var) => throw new NotImplementedException();
-
-        #endregion // OfType
-
         #region As
 
         /// <summary>

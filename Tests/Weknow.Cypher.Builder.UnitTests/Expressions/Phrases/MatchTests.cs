@@ -1,5 +1,7 @@
 using System;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,7 +30,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Match_Return_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Return(n));
@@ -46,7 +48,7 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_2_Return_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => a =>
                                     Match(N(n, Person, new { Id }),
                                           N<Bar>(a, Animal, x => P(x.Name)))
@@ -66,7 +68,7 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_2_Return_NoGenLabel_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n => a =>
                                     Match(N(n, Person, new { Id }),
                                           N<Bar>(a, Animal, x => P(x.Name), LabelFromGenerics.Ignore))
@@ -124,7 +126,7 @@ RETURN n, m", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(+n.AsMap));
@@ -142,7 +144,7 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Replace_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.AsMap));
@@ -160,7 +162,7 @@ SET n = $n", cypher.Query);
         [Fact]
         public void Match_Set_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.P(PropA, PropB)));
@@ -178,10 +180,10 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Test()
         {
-            var Id = CreateParameter();
-            CypherCommand cypher = _(n =>
+            var Id = Parameters.Create();
+            CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
+                                    .Set(P(n._.PropA, n._.PropB)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -196,7 +198,7 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_Convention_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.Convention<Foo>(name => name.StartsWith("Prop"))));
@@ -214,7 +216,7 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         [Fact]
         public void Match_Set_OfT_All_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.All<Foo>()));
@@ -232,7 +234,7 @@ SET n.Id = $Id, n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName 
         [Fact]
         public void Match_Set_AddLabel_Test()
         {
-            var Id = CreateParameter();
+            var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Match(N<Foo>(n, new { Id }))
                                     .Set(n, Person));

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.Cypher.Builder.Declarations
 {
     /// <summary>
     /// Parameter primitive for the Cypher expression.
@@ -15,7 +15,7 @@ namespace Weknow.Cypher.Builder
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public class ParameterDeclaration 
+    public class ParameterDeclaration
     {
         private protected ParameterDeclaration() { }
 
@@ -33,6 +33,12 @@ namespace Weknow.Cypher.Builder
         /// The result of the operator.
         /// </returns>
         public static ParameterDeclaration operator +(ParameterDeclaration prm) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Use mapping technique which don't use '{}' for the parameter.
+        /// For example: CREATE (n $map)
+        /// </summary>
+        public IMap AsMap { get; }
     }
 
     /// <summary>

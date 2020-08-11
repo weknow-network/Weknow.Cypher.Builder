@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
@@ -13,7 +15,7 @@ namespace Weknow.Cypher.Builder
     /// Entry point for constructing root level Cypher.
     /// For fluent cypher check <see cref="CypherPhraseExtensions" />
     /// </summary>
-    public static class Cypher
+    public static partial class Cypher
     {
         #region Init
 
@@ -38,35 +40,24 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Init
 
-        #region Parameter
-
-        /// <summary>
-        /// Get parameter declaration.
-        /// </summary>
-        public static ParameterDeclaration CreateParameter() => ParameterDeclaration.Default;
-
-        /// <summary>
-        /// Get parameter declaration.
-        /// </summary>
-        public static ParameterDeclaration<T> CreateParameter<T>() => ParameterDeclaration<T>.Default;
-
-        #endregion // Parameter
-
-        #region Variable
-
-        /// <summary>
-        /// Get parameter declaration.
-        /// </summary>
-        public static VariableDeclaration CreateVariable() => VariableDeclaration.Default;
-
-        /// <summary>
-        /// Get parameter declaration.
-        /// </summary>
-        public static VariableDeclaration<T> CreateVariable<T>() => VariableDeclaration<T>.Default;
-
-        #endregion // Variable
-
         #region dash '_'
+
+        /// <summary>
+        /// Build cypher expression
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static CypherCommand _(
+                            Expression<NoVariable> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            CypherCommand result = Init(cfg, expression);
+            return result;
+        }
+
 
         /// <summary>
         /// Build cypher expression
@@ -91,6 +82,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T>(
                             Expression<Project<T, Fluent>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -109,6 +101,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T1, T2>(
                             Expression<Project<T1, Project<T2, Fluent>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -129,6 +122,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T1, T2, T3>(
                             Expression<Project<T1, Project<T2, Project<T3, Fluent>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -150,6 +144,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T1, T2, T3, T4>(
                             Expression<Project<T1, Project<T2, Project<T3, Project<T4, Fluent>>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -171,6 +166,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T1, T2, T3, T4, T5>(
                             Expression<Project<T1, Project<T2, Project<T3, Project<T4, Project<T5, Fluent>>>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -193,24 +189,9 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use generics variable and parameters which declare outside", false)]
         public static CypherCommand _<T1, T2, T3, T4, T5, T6>(
                             Expression<Project<T1, Project<T2, Project<T3, Project<T4, Project<T5, Project<T6, Fluent>>>>>>> expression,
-                            Action<CypherConfig>? configuration = null)
-        {
-            var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
-            CypherCommand result = Init(cfg, expression);
-            return result;
-        }
-
-        /// <summary>
-        /// Build cypher expression
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <param name="configuration">The configuration.</param>
-        /// <returns></returns>
-        public static CypherCommand _(
-                            Expression<NoVariable> expression,
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
@@ -414,6 +395,20 @@ namespace Weknow.Cypher.Builder
         /// Useful for cases like UNWIND
         /// </summary>
         /// <param name="var">The variable.</param>
+        /// <param name="exp">Any generics expression</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $items AS item 
+        ///     MATCH(n:Person { PropA: item.x })
+        /// </example>
+        [Cypher("+40$1")]
+        public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Used to define properties' variables without the $ prefix.
+        /// Useful for cases like UNWIND
+        /// </summary>
+        /// <param name="var">The variable.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>
@@ -421,7 +416,8 @@ namespace Weknow.Cypher.Builder
         ///     MATCH(n:Person { PropA: item.x })
         /// </example>
         [Cypher("+40$1")]
-        public static IProperties _(this VariableDeclaration var, params object[] properties) => throw new NotImplementedException();
+        [Obsolete("Use _", false)]
+        public static IProperties _deprecate(this VariableDeclaration var, params object[] properties) => throw new NotImplementedException();
 
         #region IProperties P (Properties)
 
@@ -632,6 +628,16 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("EXISTS { $0 }")]
         public static bool Exists(Fluent p) => throw new NotImplementedException();
+        /// <summary>
+        /// EXISTS phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <returns></returns>
+        /// <example>
+        /// exists(n.property)
+        /// </example>
+        [Cypher("EXISTS { $0 }")]
+        public static bool Exists(NoVariable p) => throw new NotImplementedException();
 
         #endregion // Exists
 
@@ -643,6 +649,205 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        public static IRelationNode Reuse(
+                            Expression<Func<IRelationNode>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationNodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Reuses the specified expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INodeRelation Reuse(
+                            Expression<Func<INodeRelation>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodeRelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<INode>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<IRelation>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INodeRelation Reuse(
+                            Expression<Func<Func<VariableDeclaration, INodeRelation>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodeRelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<Func<VariableDeclaration, INode>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<Func<VariableDeclaration, IRelation>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, INode>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, INode>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static INode Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, INode>>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new NodePattern(expression.Body, cfg);
+        }
+
+        /// <summary>
+        /// Use for encapsulation of reusable expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static IRelation Reuse(
+                            Expression<Func<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>>>> expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            configuration?.Invoke(cfg);
+            return new RelationPattern(expression.Body, cfg);
+        }
+
+
+        // --------  deprecate ----------------
+
+        /// <summary>
+        /// Reuses the specified expression.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelationNode Reuse(
                             Expression<Func<VariableDeclaration, IRelationNode>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -658,6 +863,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INodeRelation Reuse(
                             Expression<Func<VariableDeclaration, INodeRelation>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -673,6 +879,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INode Reuse(
                             Expression<Func<VariableDeclaration, INode>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -688,6 +895,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelation Reuse(
                             Expression<Func<VariableDeclaration, IRelation>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -703,6 +911,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INodeRelation Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, INodeRelation>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -718,6 +927,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INode Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, INode>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -733,6 +943,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelation Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -748,6 +959,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INode Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, INode>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -763,6 +975,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelation Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -778,6 +991,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INode Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, INode>>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -793,6 +1007,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelation Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -808,6 +1023,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static INode Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, INode>>>>>> expression,
                             Action<CypherConfig>? configuration = null)
@@ -823,6 +1039,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
+        [Obsolete("Use the overload which don't get variable")]
         public static IRelation Reuse(
                             Expression<Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, Func<VariableDeclaration, IRelation>>>>>> expression,
                             Action<CypherConfig>? configuration = null)

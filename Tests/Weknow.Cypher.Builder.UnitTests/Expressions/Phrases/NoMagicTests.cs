@@ -29,10 +29,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic1_Test()
         {
-            ParameterDeclaration<Foo>? map = null;
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create();
 
             CypherCommand cypher =
-                _<Foo>(n => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
+                _(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
                            .Set(new { n = map }));
 
             _outputHelper.WriteLine(cypher);
@@ -48,8 +49,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic2_Test()
         {
-            var map_Id = CreateParameter();
-            VariableDeclaration n = null;
+            var map_Id = Parameters.Create();
+            var n = Variables.Create(); ;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, new { Id = map_Id })));
@@ -66,8 +67,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic3_Test()
         {
-            var map = CreateParameter<Foo>();
-            VariableDeclaration n = null;
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create(); ;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, 
@@ -91,8 +92,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic4_Test()
         {
-            var map = CreateParameter<Someone>();
-            VariableDeclaration n = null;
+            var map = Parameters.Create<Someone>();
+            var n = Variables.Create(); ;
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person,
@@ -101,7 +102,7 @@ namespace Weknow.Cypher.Builder
                                     Id = map._.Id, 
                                     Name = map._.FirstName 
                                 }))
-                           .Set(n._(new { Address = map._.Address })));
+                           .Set(n._deprecate(new { Address = map._.Address })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -116,9 +117,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Unwind_NoMagic5_Test()
         {
-            var items = CreateParameter();
-            VariableDeclaration<Foo> item = null;
-            VariableDeclaration n = null;
+            var items = Parameters.Create();
+            var item = Variables.Create<Foo>();
+            var n = Variables.Create(); ;
 
             CypherCommand cypher =
                 _(() => Unwind(items, item,
@@ -140,12 +141,13 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_NoMagic6_SetProperties_OfT_Test()
         {
-            var a = CreateParameter<string>();
-            var b = CreateParameter<string>();
-            var Id = CreateParameter();
-            CypherCommand cypher = _(n =>
+            var (a, b) = Parameters.CreateMulti<string, string>();
+            var Id = Parameters.Create();
+            var n = Variables.Create(); ;
+
+            CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n._(new Foo { PropA = a, PropB = b })));
+                                    .OnMatchSet(n._deprecate(new Foo { PropA = a, PropB = b })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

@@ -46,12 +46,14 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void LazyReuse_Overloads_Test()
         {
-            ParameterDeclaration? nPropA = null, n_PropA = null, n1_PropA = null, n2_PropB = null, n1_Id = null, n2_PropA = null, n3_PropB = null, n4_PropC = null;
-            IPattern? pattern1 = Reuse(n => N(n, Person, new { PropA = nPropA }));
-            IPattern? pattern2 = Reuse(n => N(n, Person, new { PropA = n_PropA }));
-            IPattern? pattern3 = Reuse(n => N(n, Person, new { PropA = n1_PropA, PropB = n2_PropB }));
-            IPattern? pattern4 = Reuse(n => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB }));
-            IPattern? pattern5 = Reuse(n => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB, PropC = n4_PropC }));
+            var (nPropA, n_PropA, n1_PropA, n2_PropB, n1_Id, n2_PropA, n3_PropB, n4_PropC) = Parameters.CreateMulti();
+            var n = Variables.Create();
+
+            IPattern? pattern1 = Reuse(() => N(n, Person, new { PropA = nPropA }));
+            IPattern? pattern2 = Reuse(() => N(n, Person, new { PropA = n_PropA }));
+            IPattern? pattern3 = Reuse(() => N(n, Person, new { PropA = n1_PropA, PropB = n2_PropB }));
+            IPattern? pattern4 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB }));
+            IPattern? pattern5 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB, PropC = n4_PropC }));
 
             string? cypher1 = pattern1?.ToString();
             string? cypher2 = pattern2?.ToString();
@@ -209,13 +211,13 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            ParameterDeclaration? maintainer_Id = null;
+            var maintainer_Id = Parameters.Create();
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
             INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =
                 _<Foo>(n => items => item => u => maintainer_ =>
                              Unwind(items, item, 
-                                Match(N(n, Person, item._(n._.Id)))
+                                Match(N(n, Person, item._deprecate(n._.Id)))
                                 .Match(user)
                                 .Merge(by)
                                 .Return(n)));
@@ -235,13 +237,16 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            ParameterDeclaration? maintainer_Id = null;
-            INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
+            var maintainer_Id = Parameters.Create();
+            var (u, maintainer_, n, items) = Variables.CreateMulti();
+            var item = Variables.Create<Foo>();
+
+            INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
+            INode by = Reuse(() => N(u) - R[By, Date] > N(n));
             CypherCommand cypher =
-                _<Foo>(n => items => item => u => maintainer_ =>
+                _(() =>
                              Unwind(items, item,
-                                Match(N(n, Person, item._(n._.Id)), user)
+                                Match(N(n, Person, new { item._.Id }), user)
                                 .Merge(by)
                                 .Return(n)));
 

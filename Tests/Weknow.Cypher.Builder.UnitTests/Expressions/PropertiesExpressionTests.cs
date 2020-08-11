@@ -28,7 +28,14 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, PropA, PropB));
+            var p1 = Parameters.Create<Foo>();
+            IPattern pattern = Reuse(n => 
+                        N(n, Person, 
+                                new
+                                {
+                                    p1._.PropA,
+                                    p1._.PropB
+                                }));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);
@@ -42,7 +49,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Lambda_Test()
         {
-            var Length = CreateParameter();
+            var Length = Parameters.Create();
 
             IPattern pattern = Reuse(n => N(n, Person, new { Length = Length }));
 
@@ -58,36 +65,25 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_P_Test()
         {
-            ParameterDeclaration PropA = CreateParameter(), PropB = CreateParameter();
-            IPattern pattern = Reuse(n => N(n, Person, new { PropA, PropB }));
+            var (PropA, Prop_B) = Parameters.CreateMulti();
+            var n = Variables.Create();
+
+            IPattern pattern = Reuse(() => N(n, Person, new { PropA, PropB = Prop_B }));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
+            Assert.Equal("(n:Person { PropA: $PropA, PropB: $Prop_B })", cypher);
         }
 
         #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
-
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_P_nameof_Test
-
-        [Fact]
-        public void Properties_P_nameof_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, P(PropA, nameof(PropB))));
-
-            var cypher = pattern.ToString();
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_P_nameof_Test
 
         #region MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA / Properties_Match_Set_nameof_Test_Test
 
         [Fact]
         public void Properties_Match_Set_nameof_Test_Test()
         {
-            CypherCommand cypher = _(n => Match(N(n, Person, P(nameof(Id))))
+            var p = Parameters.Create<Foo>();
+            CypherCommand cypher = _(n => Match(N(n, Person, new { p._.Id }))
                                             .Set(n.P(PropA)));
 
             _outputHelper.WriteLine(cypher);
@@ -102,7 +98,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
         {
-            CypherCommand cypher = _(n => Match(N<Foo>(n, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB))));
+            var n = Variables.Create();
+            var p = Parameters.Create<Foo>();
+
+            CypherCommand cypher = _(n => Match(N<Foo>(n, 
+                                                new { p._.PropA, p._.PropB })));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -136,26 +136,16 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
 
-        #region (n:Foo:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultAndAdditionLabel_Test
-
-        [Fact]
-        public void Properties_OfT_DefaultAndAdditionLabel_Test()
-        {
-            IPattern pattern = Reuse(n => N<Foo>(n, Person, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
-            var cypher = pattern.ToString();
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo:Person { PropA: $PropA, PropB: $PropB })", cypher);
-        }
-
-        #endregion // (n:Foo:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultAndAdditionLabel_Test
-
         #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_Test
 
         [Fact]
         public void Properties_OfT_Test()
         {
-            IPattern pattern = Reuse(n => N(n, Person, P(n.OfType<Foo>().PropA, n.OfType<Foo>().PropB)));
+            var n = Variables.Create<Foo>(); 
+            var p = Parameters.Create<Foo>(); 
+
+            var pattern = Reuse(() => N(n, Person, 
+                                            new { p._.PropA, p._.PropB }));
             var cypher = pattern.ToString();
 
             _outputHelper.WriteLine(cypher);
@@ -191,20 +181,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB } / Properties_All_WithDefaultLabel_Test
-
-        #region (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_All_Except_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_All_Except_WithDefaultLabel_Test()
-        {
-            IPattern pattern = Reuse(n => N<Foo>(n, AllExcept(n.OfType<Foo>().Id, n.OfType<Foo>().Name)));
-            string? cypher = pattern?.ToString();
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB, FirstName: $FirstName, LastName: $LastName })", cypher);
-        }
-
-        #endregion // (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_All_Except_WithDefaultLabel_Test
 
         #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Convention_Test
 

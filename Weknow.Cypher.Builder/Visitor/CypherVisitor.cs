@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 
 #pragma warning disable CA1063 // Implement IDisposable Correctly
@@ -394,20 +396,6 @@ namespace Weknow.Cypher.Builder
                     Parameters.Add(name, null);
             }
             Query.Append(name);
-
-            if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
-                return node;
-
-            bool ignore = _methodExpr.Value?.Method.Name switch
-            {
-                nameof(CypherPhraseExtensions.Return) => true,
-                nameof(CypherPredicateExtensions.In) => true,
-                _ => false
-            };
-            if ((_isProperties.Value) && !ignore)
-            {
-                HandleProperties(name);
-            }
 
             return node;
         }

@@ -59,7 +59,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithProp_Test()
         {
-            var PropA = CreateParameter();
+            var PropA = Parameters.Create();
             CypherCommand cypher = _(a => r => b =>
              Match(N(a, Person) - R[r, KNOWS, new { PropA }] > N(b, Person)));
 
@@ -75,8 +75,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithPropConst_Test()
         {
-            ParameterDeclaration? prop = null;
-            CypherCommand cypher = _(a => r => b =>
+            var prop = Parameters.Create();
+            var (a, r, b) = Variables.CreateMulti();
+
+            CypherCommand cypher = _(() =>
              Match(N(a, Person) - R[r, KNOWS, new { PropA = prop }] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -131,34 +133,15 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Relation_WithVar_2_Test
 
-        #region Relation_WithProp_2_Test
-
-        [Fact]
-        public void Relation_WithProp_2_Test()
-        {
-            var PropA = CreateParameter();
-            CypherCommand cypher = _(a => r1 => b => r2 => c =>
-             Match(N(a, Person) - R[r1, KNOWS, new { PropA }] > N(b, Person) < R[r2, KNOWS] - N(c, Person))
-             .Where(a.OfType<Foo>().Name == "Avi")
-             .Return(a.OfType<Foo>().Name, r1, b.All<Bar>(), r2, c));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-@"MATCH (a:Person)-[r1:KNOWS { PropA: $PropA }]->(b:Person)<-[r2:KNOWS]-(c:Person)
-WHERE a.Name = $p_1
-RETURN a.Name, r1, b.Id, b.Name, b.Date, r2, c", cypher.Query);
-
-        }
-
-        #endregion // Relation_WithProp_2_Test
-
         #region Relation_WithReuse_Test
 
         [Fact]
         public void Relation_WithReuse_Test()
         {
-            ParameterDeclaration? maintainer_Id = null;
-            var maintainer = Reuse(maintainer_ => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id }));
+            var maintainer_Id = Parameters.Create();
+            var maintainer_ = Variables.Create();
+
+            var maintainer = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id }));
 
             CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
 

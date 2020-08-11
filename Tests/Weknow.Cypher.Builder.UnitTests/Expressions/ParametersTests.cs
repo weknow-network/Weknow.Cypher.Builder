@@ -27,7 +27,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Parameters_Unwind_NonWindProp_T_Test()
         {
-            ParameterDeclaration? items = null, Id = null;
+            var (items, Id) = Parameters.CreateMulti();
             CypherCommand cypher = _(item => n => 
                                     Unwind(items, item,
                                     Match(N(n, Person, new { Id }))));
