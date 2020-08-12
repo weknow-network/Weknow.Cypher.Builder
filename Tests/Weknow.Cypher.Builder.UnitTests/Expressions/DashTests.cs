@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Weknow.Cypher.Builder
 {
-        [Trait("Segment", "Expression")]
+    [Trait("Segment", "Expression")]
     public class DashTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -26,86 +26,27 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / T_Test
-
-        [Fact]
-        public void T_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n._.PropA, n._.PropB))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / T_Test
-
-        #region MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count }) / TTT_Test
-
-        [Fact]
-        public void TTT_Test()
-        {
-            CypherCommand cypher = _<Foo, Bar, List<int>>(n => m => l => Match(N(n, P(n._.PropA, m._.Date, l._.Count))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count }) / TTT_Test
-
-        #region MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length }) / TTTT_Test
-
-        [Fact]
-        public void TTTT_Test()
-        {
-            CypherCommand cypher = _<Foo, Bar, List<int>, string>(n => m => l => s =>
-                                        Match(N(n, P(n._.PropA, m._.Date, l._.Count, s._.Length))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length }) / TTTT_Test
-
-        #region MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length, Position: $Position }) / TTTTT_Test
-
-        [Fact]
-        public void TTTTT_Test()
-        {
-            CypherCommand cypher = _<Foo, Bar, List<int>, string, Stream>(n => m => l => s => srm =>
-                                        Match(N(n, P(
-                                                    n._.PropA,
-                                                    m._.Date,
-                                                    l._.Count, 
-                                                    s._.Length,
-                                                    srm._.Position))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n:Foo { " +
-                                    "PropA: $PropA, " +
-                                    "Date: $Date, " +
-                                    "Count: $Count, " +
-                                    "Length: $Length, " +
-                                    "Position: $Position })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length, Position: $Position }) / TTTTT_Test
-
         #region MATCH (n:Foo { PropA: $PropA, Date: $Date, Count: $Count, Length: $Length, Position: $Position }) / TTTTTT_Test
 
         [Fact]
         public void TTTTTT_Test()
         {
-            CypherCommand cypher = _<Foo, Bar, List<int>, string, Stream, StringBuilder>(n => m => l => s => srm => sb =>
-                                        Match(N(n, P(
-                                                    n._.PropA,
-                                                    m._.Date,
-                                                    l._.Count, 
-                                                    s._.Length,
-                                                    srm._.Position,
-                                                    sb._.Capacity))));
+            var (m, l, s, srm, sb) = Parameters.CreateMulti<Bar, List<int>, string, Stream, StringBuilder>();
+            var n = Variables.Create<Foo>();
+           
+            CypherCommand cypher = _(() =>
+                                        Match(N(n, Person,new
+                                        {
+                                            n.AsParameter()._.PropA,
+                                            m._.Date,
+                                            l._.Count,
+                                            s._.Length,
+                                            srm._.Position,
+                                            sb._.Capacity
+                                        }.AsProperty())));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n:Foo { " +
+            Assert.Equal("MATCH (n:Person { " +
                                     "PropA: $PropA, " +
                                     "Date: $Date, " +
                                     "Count: $Count, " +

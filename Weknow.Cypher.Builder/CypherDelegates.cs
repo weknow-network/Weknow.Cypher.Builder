@@ -17,6 +17,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         public delegate Fluent Fluent(VariableDeclaration var);
+
         /// <summary>
         /// <![CDATA[Pattern delegate of T.
         /// Used for having IVar<T>]]>

@@ -427,99 +427,34 @@ namespace Weknow.Cypher.Builder
 
         #region Set
 
-        [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent p, object properties) => throw new NotImplementedException();
-
-
         /// <summary>
-        /// SET label phrase.
+        /// SET  phrase.
         /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="label"></param>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// SSET n:Person
         /// </example>
-        [Cypher("$0\r\nSET $1$2")]
-        public static Fluent Set(this Fluent p, VariableDeclaration node, ILabel label) => throw new NotImplementedException();
-
-        /// <summary>
-        /// SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        /// <example>
-        /// SET n = $map
-        /// </example>
         [Cypher("$0\r\n&SET $1 = $2")]
-        public static Fluent Set(this Fluent p, VariableDeclaration node, VariableDeclaration map) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent fluent, object left, object right)
+            => throw new NotImplementedException();
 
         /// <summary>
-        /// SET phrase.
+        /// SET  phrase.
         /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="node"></param>
-        /// <param name="map"></param>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="complex">The complex.</param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
-        /// SET n = $map
-        /// </example>
-        [Cypher("$0\r\n&SET $1 = $2")]
-        public static Fluent Set(this Fluent p, VariableDeclaration node, IMap map) => throw new NotImplementedException();
-
-        /// <summary>
-        /// SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="map">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// SET n = $n
-        /// </example>
-        [Cypher("$0\r\n&SET $1 = &$1")]
-        public static Fluent Set(this Fluent p, IMap map) => throw new NotImplementedException();
-
-        /// <summary>
-        /// SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="node">The node.</param>
-        /// <returns></returns>
-        /// <example>
-        /// SET n.property1 = $value1,
-        /// n.property2 = $value2
-        /// </example>
-        [Cypher("$0\r\nSET $1")]
-        public static Fluent Set(this Fluent p, VariableDeclaration node) => throw new NotImplementedException();
-
-        /// <summary>
-        /// SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// SET n.property1 = $value1,
-        /// n.property2 = $value2
+        /// SSET n:Person
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent p, IProperties properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="property">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// SET n.property1 = $value1,
-        /// n.property2 = $value2
-        /// </example>
-        [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent p, IProperty property) => throw new NotImplementedException();
+        public static Fluent Set(this Fluent fluent, object complex)
+            => throw new NotImplementedException();
 
         #endregion // Set
 

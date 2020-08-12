@@ -255,6 +255,14 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0$1 { $2 })")]
         public static INode N(VariableDeclaration var, ILabel label, params IProperty[] properties) => throw new NotImplementedException();
         /// <summary>
+        /// Specified node with variable, label and properties.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        [Cypher("($0 { $1 })")]
+        public static INode N(VariableDeclaration var, params IProperty[] properties) => throw new NotImplementedException();
+        /// <summary>
         /// Specified node with variable, label and map.
         /// </summary>
         /// <param name="var">The variable.</param>

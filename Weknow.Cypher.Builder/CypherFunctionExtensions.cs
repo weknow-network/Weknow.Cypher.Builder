@@ -234,14 +234,14 @@ namespace Weknow.Cypher.Builder
         /// List from the values, ignores null.
         /// </summary>
         /// <param name="variable">The variable.</param>
-        /// <param name="prop">The property.</param>
+        /// <param name="item"></param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN collect(n.PropA)
         /// </example>
         [Cypher("collect($0\\.$1)")]
-        public static VariableDeclaration Collect(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
+        public static VariableDeclaration Collect(this VariableDeclaration variable, object item) => throw new NotImplementedException();
 
         #endregion // Collect / collect(n), collect(n.PropA)
 
