@@ -30,9 +30,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Match_Return_Test()
         {
+            var n = Variables.Create();
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, new { Id }))
+            CypherCommand cypher = _(() => Match(N(n, Person, new { Id }))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -48,11 +48,15 @@ RETURN n", cypher.Query);
         [Fact]
         public void Match_2_Return_Test()
         {
+            var (n, a) = Variables.CreateMulti();
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n => a =>
-                                    Match(N(n, Person, new { Id }),
-                                          N<Bar>(a, Animal, x => P(x.Name)))
-                                    .Return(n));
+            var p = Parameters.Create<Bar>();
+
+            CypherCommand cypher = _(() =>
+                            Match(
+                                N(n, Person, new { Id }),
+                                N(a, Animal, p._.Name))
+                            .Return(n));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -69,9 +73,11 @@ RETURN n", cypher.Query);
         public void Match_2_Return_NoGenLabel_Test()
         {
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n => a =>
+            var p = Parameters.Create<Bar>();
+            var (n, a) = Variables.CreateMulti();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }),
-                                          N<Bar>(a, Animal, x => P(x.Name), LabelFromGenerics.Ignore))
+                                          N(a, Animal, p._.Name))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -89,7 +95,8 @@ RETURN n", cypher.Query);
         public void Match_Pre_Return_Test()
         {
             ParameterDeclaration? n_Id = null;
-            CypherCommand cypher = _(n => n_ =>
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id = n_Id }))
                                     .Return(n));
 
@@ -107,7 +114,9 @@ RETURN n", cypher.Query);
         public void Match_Multi_Return_Test()
         {
             ParameterDeclaration? nId = null, mId = null;
-            CypherCommand cypher = _(n => m =>
+            var (n, m) = Variables.CreateMulti();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id = nId }))
                                     .Match(N(m, Person, new { Id = mId }))
                                     .Return(n, m));
@@ -127,9 +136,11 @@ RETURN n, m", cypher.Query);
         public void Match_SetAsMap_Update_Test()
         {
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            var map = Parameters.Create();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(+n.AsMap));
+                                    .Set(+n, map.AsMap));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -144,8 +155,9 @@ SET n += $n", cypher.Query);
         [Fact]
         public void Match_SetAsMap_Replace_Test()
         {
+            var n = Variables.Create();
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n.AsMap));
 
@@ -157,15 +169,18 @@ SET n = $n", cypher.Query);
 
         #endregion // Match_SetAsMap_Replace_Test
 
+        // TODO: [bnaya, 2020_08] disuss API with Avi
         #region Match_Set_Test
 
         [Fact]
         public void Match_Set_Test()
         {
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n.P(PropA, PropB)));
+                                    .Set(n, PropA)
+                                    .Set(n, PropB)); // ???
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -175,15 +190,19 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
 
         #endregion // Match_Set_Test
 
+        // TODO: [bnaya, 2020_08] disuss API with Avi
         #region Match_Set_OfT_Test
 
         [Fact]
         public void Match_Set_OfT_Test()
         {
             var Id = Parameters.Create();
+            var n = Variables.Create();
+            var p = Variables.Create<Foo>();
+
             CypherCommand cypher = _<Foo>(n =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(P(n._.PropA, n._.PropB)));
+                                    .Set(n._(new { p._.PropA, p._.PropB })));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(

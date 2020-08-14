@@ -7,6 +7,7 @@ namespace Weknow.Cypher.Builder
     /// <summary>
     /// Indicate whether to use the generics argument as label
     /// </summary>
+    [Obsolete("Deprecate", false)]
     public enum LabelFromGenerics 
     {
         /// <summary>

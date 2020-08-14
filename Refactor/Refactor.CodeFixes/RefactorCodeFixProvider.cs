@@ -60,16 +60,18 @@ namespace Refactor
             }
             lambdas.Add(lam);
             var newLambda = SyntaxFactory.ParenthesizedLambdaExpression(lam.Body);
+            //var vars = string.Join(", ",
+            //                    lambdas.Select(l => l.Parameter.Identifier));
+            //var statement = SyntaxFactory.ParseExpression($"var ({vars}) = Variables.Create()");
             var varDec = SyntaxFactory.LocalDeclarationStatement(
                 SyntaxFactory.VariableDeclaration(
                     SyntaxFactory.NullableType(
-                    SyntaxFactory.IdentifierName("IVar")),
+                    SyntaxFactory.IdentifierName($"var")),
                     SyntaxFactory.SeparatedList(
                         lambdas.Select(l => SyntaxFactory.VariableDeclarator(
                             l.Parameter.Identifier).WithInitializer(
                             SyntaxFactory.EqualsValueClause(
-                                SyntaxFactory.LiteralExpression(
-                                    SyntaxKind.NullLiteralExpression)))).ToArray())));
+                                SyntaxFactory.ParseExpression("Variables.Create()")))).ToArray())));
             SyntaxNode parent = lambda;
             while (!(parent is BlockSyntax))
             {

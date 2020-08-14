@@ -29,8 +29,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Label_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .Set(n.Label(Person, Animal)));
 
             _outputHelper.WriteLine(cypher);
@@ -45,8 +45,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Labels_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .Return(n.Labels()));
 
             _outputHelper.WriteLine(cypher);
@@ -61,8 +61,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Timestamp_Test()
         {
-            CypherCommand cypher = _(n => m =>
-                                    Match(N(n))
+            var (n, m) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .Set(n.P(new { Date = Timestamp() }))
                                     .Merge(N(m))
                                     .OnCreateSet(n.P(new { CreationDate = Timestamp() }))
@@ -85,8 +85,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Functions_Test()
         {
-            CypherCommand cypher = _(n1 => r => n2 =>
-                                    Match(N(n1)-R[r]>N(n2))
+            var (n1, r, n2) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Match(N(n1)-R[r]>N(n2))
                                     .Return(Timestamp().As("time"),
                                             n1.Labels().As("label"),
                                             n1.Id(), 

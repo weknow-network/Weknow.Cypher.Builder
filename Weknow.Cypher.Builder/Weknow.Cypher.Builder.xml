@@ -1263,12 +1263,12 @@
             RETURN collect(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
             <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
+            <param name="item"></param>
             <returns></returns>
             <example>
             MATCH (n)
