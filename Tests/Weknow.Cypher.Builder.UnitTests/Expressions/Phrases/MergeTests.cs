@@ -24,42 +24,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Ctor
 
-        #region MERGE (n:Person { Id: $Id }) SET n += $n / Merge_SetAsMap_Update_Test
-
-        [Fact]
-        public void Merge_SetAsMap_Update_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .Set(+n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n" +
-                "SET n += $n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) SET n += $n / Merge_SetAsMap_Update_Test
-
-        #region MERGE (n:Person { Id: $Id }) SET n = $n / Merge_SetAsMap_Replace_Test
-
-        [Fact]
-        public void Merge_SetAsMap_Replace_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .Set(n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n" +
-                "SET n = $n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) SET n = $n / Merge_SetAsMap_Replace_Test
-
         #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Create_SetProperties_Test
 
         [Fact]
@@ -68,7 +32,7 @@ namespace Weknow.Cypher.Builder
             var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.P(PropA, PropB)));
+                                    .OnCreateSet(n.eq(new { PropA, PropB })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -83,10 +47,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Create_SetAsMap_Update_Test()
         {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n => map =>
+            var (Id, map) = Parameters.CreateMulti();
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n, map.AsMap));
+                                    .OnCreateSet(n.eq(map)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -104,7 +70,7 @@ namespace Weknow.Cypher.Builder
             var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n.P(PropA, PropB)));
+                                    .OnMatchSet(n.eq(new { PropA, PropB })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -119,10 +85,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_SetProperties_Update_Test()
         {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n => map =>
+            var (Id, map) = Parameters.CreateMulti();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n, map.AsMap));
+                                    .OnMatchSet(n.eq(map)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -131,86 +98,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map / Merge_On_Match_SetProperties_Update_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.Date = $Date ON MATCH SET n += $n / Merge_On_SetAsMap_Update_Test
-
-        [Fact]
-        public void Merge_On_SetAsMap_Update_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.Convention<Bar>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(+n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.Date = $Date\r\n\t" +
-                    "ON MATCH SET n += $n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.Date = $Date ON MATCH SET n += $n / Merge_On_SetAsMap_Update_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.Date = $Date ON MATCH SET n = $n / Merge_On_SetAsMap_Replace_Test
-
-        [Fact]
-        public void Merge_On_SetAsMap_Replace_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(n, n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
-                    "ON MATCH SET n = $n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.Date = $Date ON MATCH SET n = $n / Merge_On_SetAsMap_Replace_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB ON MATCH SET n += $n / Merge_On_SetNamedAsMapDefault_Update_Test
-
-        [Fact]
-        public void Merge_On_SetNamedAsMapDefault_Update_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n => 
-                                    Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(+n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
-                    "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
-                    "ON MATCH SET n += $n", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB ON MATCH SET n += $n / Merge_On_SetNamedAsMapDefault_Update_Test
-
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB ON MATCH SET n = $map / Merge_On_SetNamedAsMap_Replace_Test
-
-        [Fact]
-        public void Merge_On_SetNamedAsMap_Replace_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n => map =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.Convention<Foo>(m => m != nameof(Foo.Id)))
-                                    .OnMatchSet(n, map.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(
-            "MERGE (n:Person { Id: $Id })\r\n\t" +
-                "ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB, n.FirstName = $FirstName, n.LastName = $LastName\r\n\t" +
-                "ON MATCH SET n = $map", cypher.Query);
-        }
-
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.Name = $Name, n.PropA = $PropA, n.PropB = $PropB ON MATCH SET n = $map / Merge_On_SetNamedAsMap_Replace_Test
 
         #region MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
 

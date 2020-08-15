@@ -92,10 +92,11 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Create_Map_Test()
         {
-            CypherCommand cypher = _(items => map => n =>
-                                        Unwind(items, map,
+            var items = Parameters.Create();
+            var (map, n) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Unwind(items, map,
                                             Create(N(n, Person))
-                                            .Set(n, map)));
+                                            .Set(n.eq(map))));
 
             _outputHelper.WriteLine(cypher);
 
@@ -113,10 +114,12 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Create_AsMap_Test()
         {
-            CypherCommand cypher = _(items => map => n =>
-                                        Unwind(items, map,
+            var items = Parameters.Create();
+            var (map, n) = Variables.CreateMulti();
+
+            CypherCommand cypher = _(() => Unwind(items, map,
                                             Create(N(n, Person))
-                                            .Set(n, map.AsMap)));
+                                            .Set(n.eq(map.AsMap))));
 
             _outputHelper.WriteLine(cypher);
 
@@ -134,10 +137,11 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         [Fact]
         public void Unwind_Create_Set_Map_Test()
         {
-            CypherCommand cypher = _(items => map => n =>
-                                    Unwind(items, map,
+            var items = Parameters.Create();
+            var (n, map) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Unwind(items, map,
                                         Create(N(n, Person))
-                                        .Set(n, map)
+                                        .Set(n.eq(map))
                                         .Return(n)));
 
             _outputHelper.WriteLine(cypher);
@@ -154,10 +158,14 @@ RETURN n", cypher.Query);
         [Fact]
         public void Unwind_Entities_Update_Test()
         {
-            CypherCommand cypher = _(items => item => n =>
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var item = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, item._deprecate(Id)))
-                                    .Set(+n, item)));
+                                    Match(N(n, Person, new {item._.Id}))
+                                    .Set(n.peq(item))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -167,33 +175,19 @@ SET n += item", cypher.Query);
 
         #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item / Unwind_Entities_Update_Test
 
-        #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n = item / Unwind_Entities_Replace_Test
-
-        [Fact]
-        public void Unwind_Entities_Replace_Test()
-        {
-            CypherCommand cypher = _(items => item => n =>
-                                    Unwind(items, item,
-                                    Match(N(n, Person, item._deprecate(Id)))
-                                    .Set(n, item))); // + should be unary operator of IVar
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: item.Id })
-SET n = item", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n = item / Unwind_Entities_Replace_Test
-
         #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Map_Test
 
         [Fact]
         public void Unwind_Create_OnCreateSet_Map_Test()
         {
-            CypherCommand cypher = _(items => map => n =>
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var map = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, map._deprecate(Id)))
-                                    .OnCreateSet(n, map.AsMap)
+                                    Merge(N(n, Person, map._(new { map._.Id})))
+                                    .OnCreateSet(n.eq(map))
                                     .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
@@ -214,10 +208,14 @@ SET n = item", cypher.Query);
         [Fact]
         public void Unwind_Create_OnCreateSet_Mix_Map_Test()
         {
-            CypherCommand cypher = _(n => map => items =>
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var map = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, map._deprecate(Id)))
-                                   .OnCreateSet(n, map.AsMap)
+                                   Merge(N(n, Person, map._(new { map._.Id })))
+                                   .OnCreateSet(n.eq(map))
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
@@ -233,39 +231,19 @@ SET n = item", cypher.Query);
 
         #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Mix_Map_Test
 
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_Test
-
-        [Fact]
-        public void Unwind_Create_OnCreateSet_Gen_Map_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => map => items =>
-                                   Unwind(items, map,
-                                   Merge(N(n, Person, map._deprecate(n._.Id)))
-                                   .OnCreateSet(n, map.AsMap)
-                                   .Return(n)),
-                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
-
-            _outputHelper.WriteLine(cypher);
-
-            // Require remodel of the cypher generator,
-            // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })\r\n\t" +
-                "ON CREATE SET n = map\r\n" +
-                "RETURN n", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_Test
-
         #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id, Name: map.Name }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test
 
         [Fact]
         public void Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test()
         {
-            CypherCommand cypher = _<Foo>(n => map => items =>
+            var items = Parameters.Create();
+            var n = Variables.Create<Foo>();
+            var map = Variables.Create();
+
+            CypherCommand cypher = _(() =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, map._deprecate(n._.Id, n._.Name)))
-                                   .OnCreateSet(n, map.AsMap)
+                                   Merge(N(n, Person, map._(new { n._.Id, n._.Name })))
+                                   .OnCreateSet(n.eq(map))
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
@@ -280,26 +258,6 @@ SET n = item", cypher.Query);
         }
 
         #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id, Name: map.Name }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test
-
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) / Unwind_Create_Param_Test
-
-        [Fact]
-        public void Unwind_Create_Param_Test()
-        {
-            CypherCommand cypher = _(items => map => n =>
-                                    Unwind(items, map,
-                                    Merge(N(n, Person, map._deprecate(Id)))),
-                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
-
-            _outputHelper.WriteLine(cypher);
-
-            // Require remodel of the cypher generator,
-            // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) / Unwind_Create_Param_Test
 
         #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date }) / Unwind_Param_WithoutMap_Test
 

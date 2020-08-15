@@ -120,54 +120,14 @@ namespace Weknow.Cypher.Builder
         /// ON CREATE SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static Fluent OnCreateSet(this Fluent p, IProperties properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// ON CREATE SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON CREATE &SET $1")]
-        public static Fluent OnCreateSet(this Fluent p, IProperty properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// ON CREATE SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="var">The variable.</param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON CREATE SET $1 = &$2")]
-        public static Fluent OnCreateSet(this Fluent p, VariableDeclaration var, IMap map) => throw new NotImplementedException();
-
-        /// <summary>
-        /// ON CREATE SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="map"></param>
+        /// <param name="exp">The exp.</param>
         /// <returns></returns>
         /// <example>
         /// MERGE (n:Person {id: $value})
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON CREATE &SET $1 = &$1")]
-        public static Fluent OnCreateSet(this Fluent p, IMap map) => throw new NotImplementedException();
+        public static Fluent OnCreateSet(this Fluent p, ISetExpression exp) => throw new NotImplementedException();
 
         #endregion // OnCreateSet
 
@@ -177,55 +137,14 @@ namespace Weknow.Cypher.Builder
         /// ON MATCH SET phrase.
         /// </summary>
         /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
+        /// <param name="exp">The exp.</param>
         /// <returns></returns>
         /// <example>
         /// MERGE (n:Person {id: $value})
         /// ON CREATE SET p = $map
         /// </example>
         [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static Fluent OnMatchSet(this Fluent p, IProperties properties) => throw new NotImplementedException();
-        
-        /// <summary>
-        /// ON MATCH SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static Fluent OnMatchSet(this Fluent p, IProperty properties) => throw new NotImplementedException();
-
-        /// <summary>
-        /// ON MATCH SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="var">The variable.</param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON MATCH SET $1 = $2")]
-        public static Fluent OnMatchSet(this Fluent p, VariableDeclaration var, IMap map) => throw new NotImplementedException();
-
-        /// <summary>
-        /// ON MATCH SET phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
-        /// </example>
-        [Cypher("$0\r\n\tON MATCH &SET $1 = &$1")]
-        public static Fluent OnMatchSet(this Fluent p, IMap map) => throw new NotImplementedException();
-
+        public static Fluent OnMatchSet(this Fluent p, ISetExpression exp) => throw new NotImplementedException();
 
         #endregion // OnMatchSet
 
@@ -428,19 +347,19 @@ namespace Weknow.Cypher.Builder
         #region Set
 
         /// <summary>
-        /// SET  phrase.
+        /// SET label.
         /// </summary>
         /// <param name="fluent">The fluent.</param>
-        /// <param name="left">The left.</param>
-        /// <param name="right">The right.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="label">The label.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// SSET n:Person
         /// </example>
-        [Cypher("$0\r\n&SET $1 = $2")]
-        public static Fluent Set(this Fluent fluent, object left, object right)
-            => throw new NotImplementedException();
+        [Cypher("$0\r\n&SET $1:$2")]
+        public static Fluent Set(this Fluent fluent, VariableDeclaration var, params ILabel[] label)
+            => throw new NotImplementedException() ;
 
         /// <summary>
         /// SET  phrase.
@@ -453,7 +372,7 @@ namespace Weknow.Cypher.Builder
         /// SSET n:Person
         /// </example>
         [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent fluent, object complex)
+        public static Fluent Set(this Fluent fluent, ISetExpression complex)
             => throw new NotImplementedException();
 
         #endregion // Set

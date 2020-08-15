@@ -1691,13 +1691,13 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object,System.Object)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
             <summary>
-            SET  phrase.
+            SET label.
             </summary>
             <param name="fluent">The fluent.</param>
-            <param name="left">The left.</param>
-            <param name="right">The right.</param>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
             <example>

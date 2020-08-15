@@ -417,6 +417,34 @@ namespace Weknow.Cypher.Builder
         /// Useful for cases like UNWIND
         /// </summary>
         /// <param name="var">The variable.</param>
+        /// <param name="exp">Any generics expression</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $items AS item 
+        ///     Set n = item
+        /// </example>
+        [Cypher("+40$1")]
+        public static ISetExpression eq(this VariableDeclaration var, object exp) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Used to define properties' variables without the $ prefix.
+        /// Useful for cases like UNWIND
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <param name="exp">Any generics expression</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $items AS item 
+        ///     Set n += item
+        /// </example>
+        [Cypher("+40$1")]
+        public static ISetExpression peq<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Used to define properties' variables without the $ prefix.
+        /// Useful for cases like UNWIND
+        /// </summary>
+        /// <param name="var">The variable.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
         /// <example>

@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
-                           .Set(new { n = map }));
+                           .Set(n.eq( map )));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -77,7 +77,7 @@ namespace Weknow.Cypher.Builder
                                             Id = map._.Id, 
                                             Name = map._.Name
                                         }))
-                           .Set(new { n = +map }));
+                           .Set(n.peq(map)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -87,6 +87,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Merge_NoMagic3_Test
 
+        // TODO: [bnaya, 2020-08] discuss with Avi map prefix not clear (.Set(n.eq(new { Address = map.pre.Address })));
         #region Merge_NoMagic4_Test
 
         [Fact]
@@ -102,7 +103,7 @@ namespace Weknow.Cypher.Builder
                                     Id = map._.Id, 
                                     Name = map._.FirstName 
                                 }))
-                           .Set(n._deprecate(new { Address = map._.Address })));
+                           .Set(n.eq(new { Address = map._.Address })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -125,7 +126,7 @@ namespace Weknow.Cypher.Builder
                 _(() => Unwind(items, item,
                             Create(N(n, Person, 
                                     new Foo { Id = item._.Id, Name = item._.Name })))
-                           .Set(new { n = item }));
+                           .Set(n.eq(item )));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -147,7 +148,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n._deprecate(new Foo { PropA = a, PropB = b })));
+                                    .OnMatchSet(n.eq(new Foo { PropA = a, PropB = b })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

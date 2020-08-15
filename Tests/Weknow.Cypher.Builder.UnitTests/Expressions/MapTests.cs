@@ -28,36 +28,18 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            var Id = Parameters.Create();
+            var (Id, p) = Parameters.CreateMulti();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(+n.AsMap));
+                                    .Set(n.peq(p)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
-SET n += $n", cypher.Query);
+SET n += $p", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Update_Test
-
-        #region Match_SetAsMap_Replace_Test
-
-        [Fact]
-        public void Match_SetAsMap_Replace_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, new { Id }))
-                                    .Set(n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n = $n", cypher.Query);
-        }
-
-        #endregion // Match_SetAsMap_Replace_Test
 
         #region CreateAsMap_Test
 
@@ -146,28 +128,6 @@ SET n = $n", cypher.Query);
         }
 
         #endregion // Node_T_Variable_Label_MapAsVar_Test
-
-        #region Merge_SetAsMap_Replace_Test
-
-        [Fact]
-        public void Merge_SetAsMap_Replace_Test()
-        {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
-                                    Merge(N(n, Person, new { Id }))
-                                    .Set(n.AsMap));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-@"MERGE (n:Person { Id: $Id })
-SET n = $n", cypher.Query);
-        }
-
-        #endregion // Merge_SetAsMap_Replace_Test
-
-
-        // MERGE(p:Person { name: $map.name})
-        //            ON CREATE SET p = $map
     }
 }
 

@@ -82,11 +82,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Complex_Test()
         {
-            CypherCommand cypher = _(items => map => n => i =>
+            var items = Parameters.Create();
+            var (n, i) = Variables.CreateMulti();
+            var map = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                         Unwind(items, map,
                         Merge(N(n, Person, map._deprecate(Id)))
-                        .OnCreateSet(n, map.AsMap)
-                        .OnMatchSet(+n, map.AsMap)
+                        .OnCreateSet(n.eq(map))
+                        .OnMatchSet(n.peq(map))
                         .With()
                         .Match(N(i, Person, map._deprecate(Id)))
                         .Return(n)),
@@ -111,11 +115,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Params_Complex_Test()
         {
+            var items = Parameters.Create();
+            var (n, i) = Variables.CreateMulti();
+            var map = Variables.Create<Foo>();
+
             CypherCommand cypher = _(items => map => n => i =>
                         Unwind(items, map,
                         Merge(N(n, Person, map._deprecate(Id)))
-                        .OnCreateSet(n, map.AsMap)
-                        .OnMatchSet(+n, map.AsMap)
+                        .OnCreateSet(n.eq(map))
+                        .OnMatchSet(n.peq(map))
                         .With(n, map)
                         .Match(N(i, Person, map._deprecate(Id)))
                         .Return(i)),

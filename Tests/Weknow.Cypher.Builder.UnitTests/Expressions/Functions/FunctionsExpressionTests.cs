@@ -56,6 +56,7 @@ namespace Weknow.Cypher.Builder
 
         #endregion // MATCH (n) RETURN labels(n) / Labels_Test
 
+        // TODO: [bnaya, 2020-08] discuss with Avi
         #region MATCH (n) RETURN labels(n) / Timestamp_Test
 
         [Fact]
@@ -63,10 +64,10 @@ namespace Weknow.Cypher.Builder
         {
             var (n, m) = Variables.CreateMulti();
             CypherCommand cypher = _(() => Match(N(n))
-                                    .Set(n.P(new { Date = Timestamp() }))
+                                    .Set(n.eq(new { Date = Timestamp() }))
                                     .Merge(N(m))
-                                    .OnCreateSet(n.P(new { CreationDate = Timestamp() }))
-                                    .OnMatchSet(n.P(new { ModifiedDate = Timestamp() }))
+                                    .OnCreateSet(n.eq(new { CreationDate = Timestamp() }))
+                                    .OnMatchSet(n.eq(new { ModifiedDate = Timestamp() }))
                                     .Return(n, Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);

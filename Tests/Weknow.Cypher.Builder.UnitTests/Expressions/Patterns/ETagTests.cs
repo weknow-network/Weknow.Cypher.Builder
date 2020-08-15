@@ -34,8 +34,8 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                         Merge(N(n, Person, new { p._.Id, p._.eTag }))
-                                        .Set(+n, map)
-                                        .Set(n.Inc.eTag)
+                                        .Set(n.peq(map))
+                                        .Set(n.eq(n.Inc.eTag))
                                         .Return(n._.eTag));
 
             _outputHelper.WriteLine(cypher);
