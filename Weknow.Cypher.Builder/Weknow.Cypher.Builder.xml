@@ -2279,6 +2279,15 @@
             Gets type representation of the variable which should be increment.
             </summary>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Declarations.VariableDeclaration`1.op_OnesComplement(Weknow.Cypher.Builder.Declarations.VariableDeclaration{`0})">
+            <summary>
+            Use the parameter as prefix
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
         <member name="T:Weknow.Cypher.Builder.Declarations.VariableDeclaration">
             <summary>
             Variable primitive for the Cypher expression.

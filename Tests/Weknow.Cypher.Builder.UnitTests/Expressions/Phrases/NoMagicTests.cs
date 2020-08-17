@@ -124,8 +124,8 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher =
                 _(() => Unwind(items, item,
                             Create(N(n, Person, 
-                                    new Foo { Id = item._.Id, Name = item._.Name })))
-                           .Set(n._(item )));
+                                    new Foo { Id = (~item)._.Id, Name = (~item)._.Name })))
+                           .Set(n, item));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

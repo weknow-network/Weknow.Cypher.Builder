@@ -342,6 +342,16 @@ namespace Weknow.Cypher.Builder
                 if (!Parameters.ContainsKey(name))
                     Parameters.Add(name, null);
             }
+            else if (node.Expression is MemberExpression vme && vme.Member.Name == nameof(VariableDeclaration<int>._)
+                && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))
+            {
+                if (vme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
+                    ue.Operand is MemberExpression ime)
+                {
+                    Query.Append(ime.Member.Name);
+                    Query.Append(".");
+                }
+            }
             Query.Append(name);
 
             return node;

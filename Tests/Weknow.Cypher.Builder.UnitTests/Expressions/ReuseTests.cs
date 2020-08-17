@@ -250,7 +250,7 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher =
                 _(() =>
                              Unwind(items, item,
-                                Match(N(n, Person, new { item._.Id }), user)
+                                Match(N(n, Person, new { (~item)._.Id }), user)
                                 .Merge(by)
                                 .Return(n)));
 

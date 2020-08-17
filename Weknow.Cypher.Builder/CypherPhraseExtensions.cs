@@ -260,7 +260,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// ON MATCH SET n += map
         /// </example>
-        [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+        [Cypher("$0\r\n\tON MATCH &SET $1 \\+= $2")]
         public static Fluent OnMatchSetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// SET n += map
         /// </example>
-        [Cypher("$0\r\n&SET $1 = $2")]
+        [Cypher("$0\r\n&SET $1 \\+= $2")]
         public static Fluent SetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment)
             => throw new NotImplementedException();
 

@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _( () =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, new { item._.PropA, item._.PropB }))));
+                                    Match(N(n, Person, new { (~item)._.PropA, (~item)._.PropB }))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"UNWIND $items AS item
@@ -154,7 +154,7 @@ RETURN n", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, new {item._.Id}))
+                                    Match(N(n, Person, new { (~item)._.Id}))
                                     .SetPlus(n, item)));
 
             _outputHelper.WriteLine(cypher);
@@ -176,7 +176,7 @@ SET n += item", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, map._(new { map._.Id})))
+                                    Merge(N(n, Person, new { (~map)._.Id}))
                                     .OnCreateSet(n, map)
                                     .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -204,7 +204,7 @@ SET n += item", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, map._(new { map._.Id })))
+                                   Merge(N(n, Person, new { (~map)._.Id }))
                                    .OnCreateSet(n, map)
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);

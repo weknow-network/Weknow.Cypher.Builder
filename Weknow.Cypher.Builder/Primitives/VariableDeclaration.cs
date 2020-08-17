@@ -33,6 +33,15 @@ namespace Weknow.Cypher.Builder.Declarations
         /// Gets type representation of the variable which should be increment.
         /// </summary>
         public T Inc { get; }
+
+        /// <summary>
+        /// Use the parameter as prefix
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static VariableDeclaration<T> operator ~(VariableDeclaration<T> instance) => throw new NotImplementedException();
     }
 
     /// <summary>
