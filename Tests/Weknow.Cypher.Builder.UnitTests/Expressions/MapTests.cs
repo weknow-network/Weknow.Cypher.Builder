@@ -48,7 +48,7 @@ SET n += $p", cypher.Query);
         {
             var n = Variables.Create();
 
-            CypherCommand cypher = _(n =>
+            CypherCommand cypher = _(() =>
                                     Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);

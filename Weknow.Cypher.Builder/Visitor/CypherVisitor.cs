@@ -143,6 +143,9 @@ namespace Weknow.Cypher.Builder
                 case ExpressionType.NotEqual:
                     Query.Append(" <> ");
                     break;
+                case ExpressionType.GreaterThanOrEqual:
+                    Query.Append(" >= ");
+                    break;
                 case ExpressionType.Add:
                     Query.Append(" + ");
                     break;
@@ -372,8 +375,8 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     !typeof(VariableDeclaration).IsAssignableFrom(node.Type) && 
-                     /* node.Type != typeof(IMap) && */ 
+                     !typeof(VariableDeclaration).IsAssignableFrom(node.Type) &&
+                     /* node.Type != typeof(IMap) && */
                      !typeof(ParameterDeclaration).IsAssignableFrom(node.Type) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
@@ -393,6 +396,15 @@ namespace Weknow.Cypher.Builder
             //    return node;
 
             if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
+            {
+                Query.Append("$");
+                if (node.Member.Name == nameof(VariableDeclaration.AsParameter))
+                    name = (node.Expression as MemberExpression).Member.Name;
+                if (!Parameters.ContainsKey(name))
+                    Parameters.Add(name, null);
+            }
+            else if (node.Expression is MemberExpression me && me.Member.Name == nameof(ParameterDeclaration<int>._)
+                && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
             {
                 Query.Append("$");
                 if (!Parameters.ContainsKey(name))
@@ -463,6 +475,7 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitNew(NewExpression node)
         {
             using var _ = _isProperties.Set(true);
+            Query.Append("{ ");
             for (int i = 0; i < node.Arguments.Count; i++)
             {
                 Query.Append(node.Members[i].Name);
@@ -472,6 +485,7 @@ namespace Weknow.Cypher.Builder
                 if (expr != node.Arguments.Last())
                     Query.Append(", ");
             }
+            Query.Append(" }");
             return node;
         }
 

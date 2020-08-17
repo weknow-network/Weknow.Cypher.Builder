@@ -233,7 +233,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="label">The label.</param>
         /// <param name="properties">The properties.</param>
         /// <returns></returns>
-        [Cypher("($0$1 { $2 })")]
+        [Cypher("($0$1 $2)")]
         public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
 
         /// <summary>

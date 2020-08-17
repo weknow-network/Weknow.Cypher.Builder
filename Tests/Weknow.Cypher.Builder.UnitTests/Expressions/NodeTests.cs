@@ -90,7 +90,7 @@ namespace Weknow.Cypher.Builder
         {
             var n = Variables.Create();
 
-            var pattern = Reuse(() => N(n, Person, n));
+            var pattern = Reuse(() => N(n, Person, n.AsParameter));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -123,7 +123,7 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create();
             var map = Parameters.Create();
 
-            var pattern = _(n => map => Create(N(n, Person, map)));
+            var pattern = _(() => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(pattern.ToString());
 

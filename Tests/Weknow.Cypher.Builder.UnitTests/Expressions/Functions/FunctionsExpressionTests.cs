@@ -170,7 +170,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
-                         "WITH n.Id AS Id" +
+                         "WITH n.Id AS Id\r\n" +
                          "RETURN collect(Id)", cypher.Query);
         }
 

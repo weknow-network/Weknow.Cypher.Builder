@@ -374,7 +374,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// SET n += $map
         /// </example>
-        [Cypher("$0\r\n&SET $1 = $2")]
+        [Cypher("$0\r\n&SET $1 \\+= $2")]
         public static Fluent SetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment)
             => throw new NotImplementedException();
 
