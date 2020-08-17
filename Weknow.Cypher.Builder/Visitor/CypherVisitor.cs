@@ -349,8 +349,6 @@ namespace Weknow.Cypher.Builder
 
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
-                Query.Append(name);
-                Query.Append(" = ");
                 Visit(mme.Expression);
                 Query.Append(".");
                 Query.Append(name);
@@ -475,9 +473,15 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitNew(NewExpression node)
         {
             using var _ = _isProperties.Set(true);
-            Query.Append("{ ");
+            if (_expression[1].Value == null)
+                Query.Append("{ ");
             for (int i = 0; i < node.Arguments.Count; i++)
             {
+                if (_expression[1].Value != null)
+                {
+                    Visit(_expression[1].Value);
+                    Query.Append('.');
+                }
                 Query.Append(node.Members[i].Name);
                 AppendPropSeparator();
                 Expression? expr = node.Arguments[i];
@@ -485,7 +489,8 @@ namespace Weknow.Cypher.Builder
                 if (expr != node.Arguments.Last())
                     Query.Append(", ");
             }
-            Query.Append(" }");
+            if (_expression[1].Value == null)
+                Query.Append(" }");
             return node;
         }
 

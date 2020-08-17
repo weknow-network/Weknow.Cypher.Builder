@@ -170,8 +170,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
-                         "WITH n.Id AS Id\r\n" +
-                         "RETURN collect(Id)", cypher.Query);
+                         "WITH n.Id AS id\r\n" +
+                         "RETURN collect(id)", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_Prop_Test
@@ -203,7 +203,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
-                         "RETURN collect(n.PropA)", cypher.Query);
+                         "RETURN collect(n.Id)", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_PropT_Test

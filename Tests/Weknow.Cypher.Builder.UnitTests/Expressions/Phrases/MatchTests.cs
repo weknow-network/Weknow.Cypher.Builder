@@ -55,13 +55,13 @@ RETURN n", cypher.Query);
             CypherCommand cypher = _(() =>
                             Match(
                                 N(n, Person, new { Id }),
-                                N(a, Animal, p._.Name))
+                                N(a, Animal, new { p._.Name }))
                             .Return(n));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
                         "MATCH (n:Person { Id: $Id }), " +
-                        "(a:Bar:Animal { Name: $Name })\r\n" +
+                        "(a:Animal { Name: $Name })\r\n" +
                         "RETURN n", cypher.Query);
         }
 
@@ -77,7 +77,7 @@ RETURN n", cypher.Query);
             var (n, a) = Variables.CreateMulti();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }),
-                                          N(a, Animal, p._.Name))
+                                          N(a, Animal, new { p._.Name }))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -183,8 +183,9 @@ SET n = $map", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n = $item", cypher.Query);
+@"UNWIND $items AS item
+MATCH (n:Person { Id: $Id })
+SET n = item", cypher.Query);
         }
 
         #region Match_Set_Test

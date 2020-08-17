@@ -242,7 +242,7 @@ namespace Weknow.Cypher.Builder
         /// result in
         /// collect(n.Id)
         /// </example>
-        [Cypher("collect($0\\.$1)")]
+        [Cypher("collect($0)")]
         public static VariableDeclaration Collect(object property) => throw new NotImplementedException();
 
         #endregion // Collect / collect(n), collect(n.PropA)

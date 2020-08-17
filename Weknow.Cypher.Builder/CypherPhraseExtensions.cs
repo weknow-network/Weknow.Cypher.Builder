@@ -294,7 +294,7 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0\r\n&SET $1$2")]
         public static Fluent Set(this Fluent fluent, VariableDeclaration var, params ILabel[] label)
-            => throw new NotImplementedException() ;
+            => throw new NotImplementedException();
 
         /// <summary>
         /// SET phrase.
