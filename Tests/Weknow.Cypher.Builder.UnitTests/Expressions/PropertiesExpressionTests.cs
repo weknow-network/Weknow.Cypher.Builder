@@ -83,8 +83,10 @@ namespace Weknow.Cypher.Builder
         public void Properties_Match_Set_nameof_Test_Test()
         {
             var p = Parameters.Create<Foo>();
-            CypherCommand cypher = _(n => Match(N(n, Person, new { p._.Id }))
-                                            .Set(n.P(PropA)));
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() => Match(N(n, Person, new { p._.Id }))
+                                            .Set(n, p._.PropA));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Person { Id: $Id })\r\n" +
@@ -101,37 +103,27 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create();
             var p = Parameters.Create<Foo>();
 
-            CypherCommand cypher = _(n => Match(N<Foo>(n, 
+            CypherCommand cypher = _(() => Match(N(n, Person,
                                                 new { p._.PropA, p._.PropB })));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_Test
-
-        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_AvoidDuplication_Test
-
-        [Fact]
-        public void Properties_OfT_DefaultLabel_AvoidDuplication_Test()
-        {
-            CypherCommand cypher = _<Foo>(n => Match(N(n, P(n._.PropA, n._.PropB))));
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, PropB: $PropB })", cypher.Query);
-        }
-
-        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_AvoidDuplication_Test
 
         #region MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
 
         [Fact]
         public void Properties_OfTT_DefaultLabel_AvoidDuplication_Test()
         {
-            CypherCommand cypher = _<Foo, Bar>(n => m => Match(N(n, P(n._.PropA, m._.Date))));
+            var (f, b) = Parameters.CreateMulti<Foo, Bar>();
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() => Match(N(n, Person, new { f._.PropA, b._.Date })));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Foo { PropA: $PropA, Date: $Date })", cypher.Query);
+			 Assert.Equal("MATCH (n:Person { PropA: $PropA, Date: $Date })", cypher.Query);
         }
 
         #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
@@ -153,48 +145,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_Test
-
-        #region (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_Convention_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_Convention_WithDefaultLabel_Test()
-        {
-            IPattern pattern = Reuse(n => N<Foo>(n, Convention(name => name.StartsWith("Prop"))));
-            string? cypher = pattern?.ToString();
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo { PropA: $PropA, PropB: $PropB })", cypher);
-        }
-
-        #endregion // (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_Convention_WithDefaultLabel_Test
-
-        #region (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB } / Properties_All_WithDefaultLabel_Test
-
-        [Fact]
-        public void Properties_All_WithDefaultLabel_Test()
-        {
-            IPattern pattern = Reuse(n => N<Foo>(n, All()));
-            string? cypher = pattern?.ToString();
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB, FirstName: $FirstName, LastName: $LastName })", cypher);
-        }
-
-        #endregion // (n:Foo { Id: $Id, Name: $Name, PropA: $PropA, PropB: $PropB } / Properties_All_WithDefaultLabel_Test
-
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Convention_Test
-
-        [Fact]
-        public void Properties_Convention_Test()
-        {
-            IPattern pattern = Reuse(n => N(n, Person, Convention<Foo>(name => name.StartsWith("Prop"))));
-            string? cypher = pattern?.ToString();
-
-            _outputHelper.WriteLine(cypher);
-			 Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
-        }
-
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Convention_Test
 
         #region UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n / Properties_Const_Test
 

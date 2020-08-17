@@ -31,7 +31,7 @@ namespace Weknow.Cypher.Builder
             var (Id, p) = Parameters.CreateMulti();
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n.peq(p)));
+                                    .SetPlus(n, p));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -46,8 +46,10 @@ SET n += $p", cypher.Query);
         [Fact]
         public void CreateAsMap_Test()
         {
+            var n = Variables.Create();
+
             CypherCommand cypher = _(n =>
-                                    Create(N(n, Person, n.AsMap)));
+                                    Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
@@ -60,8 +62,11 @@ SET n += $p", cypher.Query);
         [Fact]
         public void CreateAsMap_WithParamName_Test()
         {
-            CypherCommand cypher = _(n => map =>
-                                    Create(N(n, Person, map.AsMap)));
+            var n = Variables.Create();
+            var map = Parameters.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
@@ -74,7 +79,9 @@ SET n += $p", cypher.Query);
         [Fact]
         public void Node_Variable_Label_Test()
         {
-            var pattern = Reuse(n => N(n, Person, n.AsMap));
+            var n = Variables.Create();
+
+            var pattern = Reuse(() => N(n, Person, n.AsParameter));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -89,7 +96,10 @@ SET n += $p", cypher.Query);
         [Fact]
         public void Node_Variable_Label_MapAsVar_Test()
         {
-            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
+            var n = Variables.Create();
+            var map = Parameters.Create();
+
+            var pattern = _(() => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -98,36 +108,6 @@ SET n += $p", cypher.Query);
         }
 
         #endregion // Node_Variable_Label_MapAsVar_Test
-
-        #region Node_T_Variable_Label_Map_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_Map_Test()
-        {
-            var pattern = Reuse(n => N<Foo>(n, Person, n.AsMap));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person $n)", pattern.ToString());
-        }
-
-        #endregion // Node_T_Variable_Label_Map_Test
-
-        #region Node_T_Variable_Label_MapAsVar_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_MapAsVar_Test()
-        {
-            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
-        }
-
-        #endregion // Node_T_Variable_Label_MapAsVar_Test
     }
 }
 

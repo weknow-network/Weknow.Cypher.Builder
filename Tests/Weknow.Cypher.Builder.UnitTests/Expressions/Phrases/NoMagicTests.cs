@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
-                           .Set(n.eq( map )));
+                           .Set(n, map));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -74,10 +74,10 @@ namespace Weknow.Cypher.Builder
                 _(() => Create(N(n, Person, 
                                         new 
                                         { 
-                                            Id = map._.Id, 
-                                            Name = map._.Name
+                                            map._.Id, 
+                                            map._.Name
                                         }))
-                           .Set(n.peq(map)));
+                           .SetPlus(n, map));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -87,7 +87,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // Merge_NoMagic3_Test
 
-        // TODO: [bnaya, 2020-08] discuss with Avi map prefix not clear (.Set(n.eq(new { Address = map.pre.Address })));
         #region Merge_NoMagic4_Test
 
         [Fact]
@@ -99,11 +98,11 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher =
                 _(() => Create(N(n, Person,
                                 new 
-                                { 
-                                    Id = map._.Id, 
-                                    Name = map._.FirstName 
+                                {
+                                    (~map)._.Id, 
+                                    Name = (~map)._.FirstName 
                                 }))
-                           .Set(n.eq(new { Address = map._.Address })));
+                           .Set(n, new { (~map)._.Address }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -126,7 +125,7 @@ namespace Weknow.Cypher.Builder
                 _(() => Unwind(items, item,
                             Create(N(n, Person, 
                                     new Foo { Id = item._.Id, Name = item._.Name })))
-                           .Set(n.eq(item )));
+                           .Set(n._(item )));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -148,7 +147,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n.eq(new Foo { PropA = a, PropB = b })));
+                                    .OnMatchSet(n, new Foo { PropA = a, PropB = b }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

@@ -30,9 +30,11 @@ namespace Weknow.Cypher.Builder
         public void Merge_On_Create_SetProperties_Test()
         {
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.eq(new { PropA, PropB })));
+                                    .OnCreateSet(n, new { n._.PropA, n._.PropB }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -52,7 +54,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n.eq(map)));
+                                    .OnCreateSet(n, map));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -67,10 +69,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_On_Match_SetProperties_Test()
         {
-            var Id = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            var (Id, PropA, PropB) = Parameters.CreateMulti();
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n.eq(new { PropA, PropB })));
+                                    .OnMatchSet(n, new { PropA, PropB }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -89,7 +93,7 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnMatchSet(n.eq(map)));
+                                    .OnMatchSet(n, map));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

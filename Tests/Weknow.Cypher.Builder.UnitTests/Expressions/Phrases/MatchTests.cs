@@ -140,7 +140,7 @@ RETURN n, m", cypher.Query);
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n.peq(map)));
+                                    .SetPlus(n, map));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -159,7 +159,7 @@ SET n += $map", cypher.Query);
             var (Id, map) = Parameters.CreateMulti();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n.eq(map.AsMap)));
+                                    .Set(n, map));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -169,7 +169,24 @@ SET n = $map", cypher.Query);
 
         #endregion // Match_SetAsMap_Replace_Test
 
-        // TODO: [bnaya, 2020_08] disuss API with Avi
+        [Fact]
+        public void Match_Set1_Test()
+        {
+            var Id = Parameters.Create();
+            var items = Parameters.Create();
+            var item = Variables.Create<Foo>();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Unwind(items, item, 
+                                    Match(N(n, Person, new { Id }))
+                                    .Set(n, item))); 
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n = $item", cypher.Query);
+        }
+
         #region Match_Set_Test
 
         [Fact]
@@ -180,7 +197,7 @@ SET n = $map", cypher.Query);
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n.eq(new { p._.PropA, p._.PropB }))); 
+                                    .Set(n, new { p._.PropA, p._.PropB })); 
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
@@ -197,12 +214,12 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         {
             var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
-                                    Match(N<Foo>(n, new { Id }))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n, Person));
             
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Foo { Id: $Id })
+@"MATCH (n:Person { Id: $Id })
 SET n:Person", cypher.Query);
         }
 
@@ -215,12 +232,12 @@ SET n:Person", cypher.Query);
         {
             var Id = Parameters.Create();
             CypherCommand cypher = _(n =>
-                                    Match(N<Foo>(n, new { Id }))
+                                    Match(N(n, Person, new { Id }))
                                     .Set(n, Person, Manager));
             
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Foo { Id: $Id })
+@"MATCH (n:Person { Id: $Id })
 SET n:Person:Manager", cypher.Query);
         }
 

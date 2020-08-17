@@ -73,9 +73,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Label_Convention_Test()
         {
+            var f = Variables.Create();
+
             CypherCommand cypher =
-                        _(f =>
-                         Create(N<Foo>(f, f.AsMap))
+                        _(() =>
+                         Create(N(f, Person, f.AsParameter))
                          .Return(f)
                         , cfg =>
                         {
@@ -85,7 +87,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(@"CREATE (f:FOO:GIT_HUB $f)
+			 Assert.Equal(@"CREATE (f:PERSON:GIT_HUB $f)
 RETURN f"
                             , cypher.Query);
         }

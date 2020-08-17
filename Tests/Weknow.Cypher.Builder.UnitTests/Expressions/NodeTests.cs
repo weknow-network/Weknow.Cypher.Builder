@@ -88,7 +88,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Map_Test()
         {
-            var pattern = Reuse(n => N(n, Person, n.AsMap));
+            var n = Variables.Create();
+
+            var pattern = Reuse(() => N(n, Person, n));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -118,7 +120,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_MapAsVar_Test()
         {
-            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
+            var n = Variables.Create();
+            var map = Parameters.Create();
+
+            var pattern = _(n => map => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -127,82 +132,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
-
-        #region (n:Foo) / Node_T_Variable_Test
-
-        [Fact]
-        public void Node_T_Variable_Test()
-        {
-            var pattern = Reuse(n => N<Foo>(n));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo)", pattern.ToString());
-        }
-
-        #endregion // (n:Foo) / Node_T_Variable_Test
-
-        #region (n:Foo:Person) / Node_T_Variable_Label_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_Test()
-        {
-            var pattern = Reuse(n => N<Foo>(n, Person));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person)", pattern.ToString());
-        }
-
-        #endregion // (n:Foo:Person) / Node_T_Variable_Label_Test
-
-        #region (n:Foo:Person { Id: $Id }) / Node_T_Variable_Label_Property_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_Property_Test()
-        {
-            var Id = Parameters.Create();
-            var pattern = Reuse(n => N<Foo>(n, Person, new { Id }));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person { Id: $Id })", pattern.ToString());
-        }
-
-        #endregion // (n:Foo:Person { Id: $Id }) / Node_T_Variable_Label_Property_Test
-
-        #region (n:Foo:Person $n) / Node_T_Variable_Label_Map_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_Map_Test()
-        {
-            var pattern = Reuse(n => N<Foo>(n, Person, n.AsMap));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Foo:Person $n)", pattern.ToString());
-        }
-
-        #endregion //(n:Foo:Person $n) /  Node_T_Variable_Label_Map_Test
-
-        #region CREATE (n:Person $map / Node_T_Variable_Label_MapAsVar_Test
-
-        [Fact]
-        public void Node_T_Variable_Label_MapAsVar_Test()
-        {
-            var pattern = _(n => map => Create(N(n, Person, map.AsMap)));
-
-            _outputHelper.WriteLine(pattern.ToString());
-
-            _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
-        }
-
-        #endregion // CREATE (n:Person $map / Node_T_Variable_Label_MapAsVar_Test
 
         #region MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
 

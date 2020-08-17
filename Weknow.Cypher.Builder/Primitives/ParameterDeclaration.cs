@@ -33,12 +33,6 @@ namespace Weknow.Cypher.Builder.Declarations
         /// The result of the operator.
         /// </returns>
         public static ParameterDeclaration operator +(ParameterDeclaration prm) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Use mapping technique which don't use '{}' for the parameter.
-        /// For example: CREATE (n $map)
-        /// </summary>
-        public IMap AsMap { get; }
     }
 
     /// <summary>
@@ -76,5 +70,14 @@ namespace Weknow.Cypher.Builder.Declarations
         /// The result of the conversion.
         /// </returns>
         public static implicit operator T(ParameterDeclaration<T> instance) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Use the parameter as prefix
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static ParameterDeclaration<T> operator ~(ParameterDeclaration<T> instance) => throw new NotImplementedException();
     }
 }

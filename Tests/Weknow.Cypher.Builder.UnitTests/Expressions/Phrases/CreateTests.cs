@@ -31,7 +31,7 @@ namespace Weknow.Cypher.Builder
         public void Create_Test()
         {
             var n = Variables.Create();
-            ParameterDeclaration PropA = Parameters.Create(), PropB = Parameters.Create();
+            var (PropA, PropB) = Parameters.CreateMulti();
 
             CypherCommand cypher = _(() => Create(N(n, Person, new { PropA, PropB })));
 
@@ -47,7 +47,7 @@ namespace Weknow.Cypher.Builder
         public void CreateAsMap_Test()
         {
             var n = Variables.Create();
-            CypherCommand cypher = _(() => Create(N(n, Person, n.AsParameter().AsMap)));
+            CypherCommand cypher = _(() => Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
@@ -62,7 +62,7 @@ namespace Weknow.Cypher.Builder
         {
             var n = Variables.Create();
             var map = Parameters.Create();
-            CypherCommand cypher = _(() => Create(N(n, Person, map.AsMap)));
+            CypherCommand cypher = _(() => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);

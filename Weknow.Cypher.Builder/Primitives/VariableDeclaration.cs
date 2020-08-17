@@ -28,7 +28,6 @@ namespace Weknow.Cypher.Builder.Declarations
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
-        [Obsolete("Use ParameterDeclaration", false)]
         public T _ { get; }
         /// <summary>
         /// Gets type representation of the variable which should be increment.
@@ -77,12 +76,7 @@ namespace Weknow.Cypher.Builder.Declarations
         /// </returns>
         public static VariableDeclaration operator +(VariableDeclaration item) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Use mapping technique.
-        /// For example: CREATE (n $map)
-        /// </summary>
-        [Obsolete("Use ParameterDeclaration", false)]
-        public IMap AsMap { get; }
+        public ParameterDeclaration AsParameter { get; }
     }
 
 }

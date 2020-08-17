@@ -119,34 +119,266 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// ON CREATE SET phrase.
         /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="exp">The exp.</param>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
         /// <returns></returns>
         /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
+        /// .OnCreateSet(n, map)
+        /// result in:
+        /// ON CREATE SET n = map
         /// </example>
-        [Cypher("$0\r\n\tON CREATE &SET $1 = &$1")]
-        public static Fluent OnCreateSet(this Fluent p, ISetExpression exp) => throw new NotImplementedException();
+        [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+        public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnCreateSet(n, map)
+        /// result in:
+        /// ON CREATE SET n = $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+        public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnCreateSet(n, new {prm._.Name, var._.Code})
+        /// result in:
+        /// ON CREATE SET n.Name = $Name, n.Code = prm.Code
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET +11$2")]
+        public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
 
         #endregion // OnCreateSet
+
+        #region OnCreateSetPlus
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnCreateSetPlus(n, map)
+        /// result in:
+        /// ON CREATE SET n += map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+        public static Fluent OnCreateSetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON CREATE SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnCreateSetPlus(n, map)
+        /// result in:
+        /// ON CREATE SET n += $map
+        /// </example>
+        [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+        public static Fluent OnCreateSetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
+
+        #endregion // OnCreateSetPlus
 
         #region OnMatchSet
 
         /// <summary>
         /// ON MATCH SET phrase.
         /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="exp">The exp.</param>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
         /// <returns></returns>
         /// <example>
-        /// MERGE (n:Person {id: $value})
-        /// ON CREATE SET p = $map
+        /// .OnMatchSet(n, map)
+        /// result in:
+        /// ON MATCH SET n = map
         /// </example>
-        [Cypher("$0\r\n\tON MATCH &SET $1")]
-        public static Fluent OnMatchSet(this Fluent p, ISetExpression exp) => throw new NotImplementedException();
+        [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+        public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnMatchSet(n, map)
+        /// result in:
+        /// ON MATCH SET n = $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+        public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnMatchSet(n, new {prm._.Name, var._.Code})
+        /// result in:
+        /// ON MATCH SET n.Name = $Name, n.Code = prm.Code
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET +11$2")]
+        public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
 
         #endregion // OnMatchSet
+
+        #region OnMatchSetPlus
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnMatchSetPlus(n, map)
+        /// result in:
+        /// ON MATCH SET n += map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+        public static Fluent OnMatchSetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
+
+        /// <summary>
+        /// ON MATCH SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .OnMatchSetPlus(n, map)
+        /// result in:
+        /// ON MATCH SET n += $map
+        /// </example>
+        [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+        public static Fluent OnMatchSetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
+
+        #endregion // OnMatchSetPlus
+
+        #region Set
+
+        /// <summary>
+        /// SET label.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="label">The label.</param>
+        /// <returns></returns>
+        /// <example>
+        /// SET n:Person:Manager
+        /// </example>
+        [Cypher("$0\r\n&SET $1$2")]
+        public static Fluent Set(this Fluent fluent, VariableDeclaration var, params ILabel[] label)
+            => throw new NotImplementedException() ;
+
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="assignment">The complex.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .Set(n, map)
+        /// result in:
+        /// SET n = map
+        /// </example>
+        [Cypher("$0\r\n&SET $1 = $2")]
+        public static Fluent Set(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .Set(n, map)
+        /// result in:
+        /// SET n = $map
+        /// </example>
+        [Cypher("$0\r\n&SET $1 = $2")]
+        public static Fluent Set(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// SET  phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="assignment">The complex.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .Set(n, new {prm._.Name, var._.Code})
+        /// result in:
+        /// SET n.Name = $Name, n.Code = prm.Code
+        /// </example>
+        [Cypher("$0\r\n&SET +11$2")]
+        public static Fluent Set(this Fluent fluent, VariableDeclaration var, object assignment)
+            => throw new NotImplementedException();
+
+        #endregion // Set
+
+        #region SetPlus
+
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="assignment">The assignment.</param>
+        /// <returns></returns>
+        /// <example>
+        /// .SetPlus(n, map)
+        /// result in:
+        /// SET n += map
+        /// </example>
+        [Cypher("$0\r\n&SET $1 = $2")]
+        public static Fluent SetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// SET phrase.
+        /// </summary>
+        /// <param name="fluent"></param>
+        /// <param name="assignment"></param>
+        /// <returns></returns>
+        /// <example>
+        /// .SetPlus(n, map)
+        /// result in:
+        /// SET n += $map
+        /// </example>
+        [Cypher("$0\r\n&SET $1 = $2")]
+        public static Fluent SetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment)
+            => throw new NotImplementedException();
+
+        #endregion // SetPlus
 
         #region Where
 
@@ -343,39 +575,6 @@ namespace Weknow.Cypher.Builder
         public static Fluent Limit(this Fluent p, int count) => throw new NotImplementedException();
 
         #endregion // Limit
-
-        #region Set
-
-        /// <summary>
-        /// SET label.
-        /// </summary>
-        /// <param name="fluent">The fluent.</param>
-        /// <param name="var">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        /// <example>
-        /// SSET n:Person
-        /// </example>
-        [Cypher("$0\r\n&SET $1:$2")]
-        public static Fluent Set(this Fluent fluent, VariableDeclaration var, params ILabel[] label)
-            => throw new NotImplementedException() ;
-
-        /// <summary>
-        /// SET  phrase.
-        /// </summary>
-        /// <param name="fluent">The fluent.</param>
-        /// <param name="complex">The complex.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        /// <example>
-        /// SSET n:Person
-        /// </example>
-        [Cypher("$0\r\n&SET $1")]
-        public static Fluent Set(this Fluent fluent, ISetExpression complex)
-            => throw new NotImplementedException();
-
-        #endregion // Set
 
         #region Delete / Detach
 

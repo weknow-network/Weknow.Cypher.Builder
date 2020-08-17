@@ -88,11 +88,11 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._deprecate(Id)))
-                        .OnCreateSet(n.eq(map))
-                        .OnMatchSet(n.peq(map))
+                        Merge(N(n, Person, map._.Id))
+                        .OnCreateSet(n, map)
+                        .OnMatchSetPlus(n, map)
                         .With()
-                        .Match(N(i, Person, map._deprecate(Id)))
+                        .Match(N(i, Person, map._.Id))
                         .Return(n)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
@@ -119,16 +119,15 @@ namespace Weknow.Cypher.Builder
             var (n, i) = Variables.CreateMulti();
             var map = Variables.Create<Foo>();
 
-            CypherCommand cypher = _(items => map => n => i =>
+            CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._deprecate(Id)))
-                        .OnCreateSet(n.eq(map))
-                        .OnMatchSet(n.peq(map))
+                        Merge(N(n, Person, map._.Id))
+                        .OnCreateSet(n, map)
+                        .OnMatchSetPlus(n, map)
                         .With(n, map)
-                        .Match(N(i, Person, map._deprecate(Id)))
+                        .Match(N(i, Person, map._.Id))
                         .Return(i)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
-            ;
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(

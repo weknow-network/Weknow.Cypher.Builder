@@ -10,8 +10,33 @@ namespace Weknow.Cypher.Builder
     /// <summary>
     /// Cypher Function Extensions
     /// </summary>
-    public static class CypherFunctionExtensions
+    partial class Cypher
     {
+        #region Label / n:Spouse:Parent:Employee
+
+        /// <summary>
+        /// Specify label of node
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <param name="labels"></param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// WHERE (n:Person)
+        /// RETURN n
+        /// ----------------
+        /// MATCH (n)
+        /// REMOVE n:Person
+        /// ----------------
+        /// MATCH (n)
+        /// SET n:Spouse:Parent:Employee
+        /// </example>
+        [Cypher("$0:$1")]
+        [Obsolete("Deprecated", true)]
+        public static VariableDeclaration Label(this VariableDeclaration variable, params ILabel[] labels) => throw new NotImplementedException();
+
+        #endregion // Label / n:Spouse:Parent:Employee
+
         #region Type / type(r)
 
         /// <summary>
@@ -91,30 +116,6 @@ namespace Weknow.Cypher.Builder
         public static VariableDeclaration Labels(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Labels / labels(n)
-
-        #region Label / n:Spouse:Parent:Employee
-
-        /// <summary>
-        /// Specify label of node
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="labels"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// WHERE (n:Person)
-        /// RETURN n
-        /// ----------------
-        /// MATCH (n)
-        /// REMOVE n:Person
-        /// ----------------
-        /// MATCH (n)
-        /// SET n:Spouse:Parent:Employee
-        /// </example>
-        [Cypher("$0:$1")]
-        public static VariableDeclaration Label(this VariableDeclaration variable, params ILabel[] labels) => throw new NotImplementedException();
-
-        #endregion // Label / n:Spouse:Parent:Employee
 
         #region Count / count(n)
 
@@ -224,8 +225,9 @@ namespace Weknow.Cypher.Builder
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
         /// <example>
-        /// MATCH (n)
-        /// RETURN collect(n)
+        /// n.Collect() or Collect(n)
+        /// result in:
+        /// collect(n)
         /// </example>
         [Cypher("collect($0)")]
         public static VariableDeclaration Collect(this VariableDeclaration variable) => throw new NotImplementedException();
@@ -233,15 +235,15 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// List from the values, ignores null.
         /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="item"></param>
+        /// <param name="property">The property.</param>
         /// <returns></returns>
         /// <example>
-        /// MATCH (n)
-        /// RETURN collect(n.PropA)
+        /// Collect(n._.Id)
+        /// result in
+        /// collect(n.Id)
         /// </example>
         [Cypher("collect($0\\.$1)")]
-        public static VariableDeclaration Collect(this VariableDeclaration variable, object item) => throw new NotImplementedException();
+        public static VariableDeclaration Collect(object property) => throw new NotImplementedException();
 
         #endregion // Collect / collect(n), collect(n.PropA)
 
