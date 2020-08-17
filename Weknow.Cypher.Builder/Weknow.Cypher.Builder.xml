@@ -34,6 +34,9 @@
             Entry point for constructing root level Cypher.
             For fluent cypher check <see cref="T:Weknow.Cypher.Builder.CypherPhraseExtensions" />
             </summary>
+            <summary>
+            Cypher Function Extensions
+            </summary>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
             <summary>
@@ -185,118 +188,6 @@
             <param name="properties"></param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
-            <summary>
-            Specified node with variable, label and map.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="map">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            Specified typed node with label.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IMap)">
-            <summary>
-            Specified typed node with variable and properties map.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="map">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Specified typed node with variable and properties.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration{``0},Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Specified typed node with typed variable and label.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Specified typed node with variable and properties.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="property">.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration{``0},Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Specified typed node with typed variable and label.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="property"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel)">
-            <summary>
-            Specified typed node with variable and label.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Specified typed node with variable, label and properties.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties})">
-            <summary>
-            Specified typed node with variable, label and properties.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,System.Func{``0,Weknow.Cypher.Builder.IProperties},Weknow.Cypher.Builder.LabelFromGenerics)">
-            <summary>
-            Specified typed node with variable, label and properties.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <param name="genericAslabel">Indicate whether to use the generics argument as label.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IMap)">
-            <summary>
-            Specified node with variable, label and map.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="map">The properties.</param>
-            <returns></returns>
-        </member>
         <member name="P:Weknow.Cypher.Builder.Cypher.R">
             <summary>
             Gets the Cypher relation.
@@ -313,32 +204,6 @@
             <example>
             UNWIND $items AS item 
                 MATCH(n:Person { PropA: item.x })
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.eq(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            Used to define properties' variables without the $ prefix.
-            Useful for cases like UNWIND
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="exp">Any generics expression</param>
-            <returns></returns>
-            <example>
-            UNWIND $items AS item 
-                Set n = item
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.peq``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,``0)">
-            <summary>
-            Used to define properties' variables without the $ prefix.
-            Useful for cases like UNWIND
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="exp">Any generics expression</param>
-            <returns></returns>
-            <example>
-            UNWIND $items AS item 
-                Set n += item
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher._deprecate(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object[])">
@@ -383,53 +248,6 @@
             <returns></returns>
             <example>
             </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention(System.Func{System.String,System.Boolean})">
-            <summary>
-            Gets properties by convention.
-            </summary>
-            <param name="filter"></param>
-            <returns></returns>
-            <example>
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Func{System.String,System.Boolean})">
-            <summary>
-            Gets properties by convention with variable.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="var">The variable.</param>
-            <param name="filter">The filter.</param>
-            <returns></returns>
-            <example></example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Convention``1(System.Func{System.String,System.Boolean})">
-            <summary>
-            Gets properties by convention.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="filter">The filter.</param>
-            <returns></returns>
-            <example></example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.All">
-            <summary>
-            All properties of the type.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.All``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            All properties of the type.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.AllExcept(System.Object[])">
-            <summary>
-            All properties of the type except the ones specify in the parameters.
-            </summary>
-            <param name="except">The except.</param>
-            <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(System.Boolean)">
             <summary>
@@ -1047,6 +865,197 @@
             <param name="v9">The v9.</param>
             <param name="v10">The P10.</param>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Label(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
+            <summary>
+            Specify label of node
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="labels"></param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            WHERE (n:Person)
+            RETURN n
+            ----------------
+            MATCH (n)
+            REMOVE n:Person
+            ----------------
+            MATCH (n)
+            SET n:Spouse:Parent:Employee
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Type(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            String representation of the relationship type.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN type(r)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.StartNode(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            Start node of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN startNode(r)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.EndNode(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            End node of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN endNode(r)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Id(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            The internal id of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN id(n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Labels(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            Labels of the node.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n:PERSON:ADMIN)
+            RETURN labels(n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Count(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Sum(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+            <summary>
+            Sum numerical values. Similar functions are avg(), min(), max().
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN sum(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Max(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+            <summary>
+            Max numerical values. Similar functions are avg(), min(), sum().
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN max(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Min(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+            <summary>
+            Min numerical values. Similar functions are avg(), sum(), max().
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN min(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Avg(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+            <summary>
+            Avg numerical values. Similar functions are sum(), min(), max().
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN avg(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CountDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Collect(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            n.Collect() or Collect(n)
+            result in:
+            collect(n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Collect(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="property">The property.</param>
+            <returns></returns>
+            <example>
+            Collect(n._.Id)
+            result in
+            collect(n.Id)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CollectDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(DISTINCT n)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.CollectDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(DISTINCT n.PropA)
+            </example>
+        </member>
         <member name="T:Weknow.Cypher.Builder.CypherCommand">
             <summary>
             <![CDATA[Representation of Cypher Query & Parameters]]>
@@ -1129,201 +1138,6 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherFunctionExtensions">
-            <summary>
-            Cypher Function Extensions
-            </summary>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Type(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            String representation of the relationship type.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)-[r:LOVE]->(m)
-            RETURN type(r)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.StartNode(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            Start node of the relationship.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)-[r:LOVE]->(m)
-            RETURN startNode(r)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.EndNode(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            End node of the relationship.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)-[r:LOVE]->(m)
-            RETURN endNode(r)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Id(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            The internal id of the relationship.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN id(n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Labels(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            Labels of the node.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n:PERSON:ADMIN)
-            RETURN labels(n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Label(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
-            <summary>
-            Specify label of node
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="labels"></param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            WHERE (n:Person)
-            RETURN n
-            ----------------
-            MATCH (n)
-            REMOVE n:Person
-            ----------------
-            MATCH (n)
-            SET n:Spouse:Parent:Employee
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Count(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            Count the results.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN count(n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Sum(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Sum numerical values. Similar functions are avg(), min(), max().
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN sum(n.PropA)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Max(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Max numerical values. Similar functions are avg(), min(), sum().
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN max(n.PropA)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Min(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Min numerical values. Similar functions are avg(), sum(), max().
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN min(n.PropA)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Avg(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
-            <summary>
-            Avg numerical values. Similar functions are sum(), min(), max().
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN avg(n.PropA)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CountDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            Count the results.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN count(n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            List from the values, ignores null.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN collect(n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.Collect(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            List from the values, ignores null.
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="item"></param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN collect(n.PropA)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            List from the values, ignores null.
-            </summary>
-            <param name="variable">The variable.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN collect(DISTINCT n)
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherFunctionExtensions.CollectDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            List from the values, ignores null.
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="prop">The property.</param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN collect(DISTINCT n.PropA)
-            </example>
-        </member>
         <member name="T:Weknow.Cypher.Builder.CypherGeneralExtensions">
             <summary>
             Cypher Extensions
@@ -1334,8 +1148,17 @@
             Define variable's alias
             </summary>
             <param name="var">The variable.</param>
-            <param name="name">The name.</param>
+            <param name="alias">The name.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.As(System.Object,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.AsProperty(System.Object)">
             <summary>
@@ -1462,28 +1285,224 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.ISetExpression)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
             <summary>
             ON CREATE SET phrase.
             </summary>
-            <param name="p">The p.</param>
-            <param name="exp">The exp.</param>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
             <returns></returns>
             <example>
-            MERGE (n:Person {id: $value})
-            ON CREATE SET p = $map
+            .OnCreateSet(n, map)
+            result in:
+            ON CREATE SET n = map
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.ISetExpression)">
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, map)
+            result in:
+            ON CREATE SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, new {prm._.Name, var._.Code})
+            result in:
+            ON CREATE SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSetPlus(n, map)
+            result in:
+            ON CREATE SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnCreateSetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSetPlus(n, map)
+            result in:
+            ON CREATE SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
-            <param name="p">The p.</param>
-            <param name="exp">The exp.</param>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
             <returns></returns>
             <example>
-            MERGE (n:Person {id: $value})
-            ON CREATE SET p = $map
+            .OnMatchSet(n, map)
+            result in:
+            ON MATCH SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, map)
+            result in:
+            ON MATCH SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSet(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, new {prm._.Name, var._.Code})
+            result in:
+            ON MATCH SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSetPlus(n, map)
+            result in:
+            ON MATCH SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSetPlus(n, map)
+            result in:
+            ON MATCH SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
+            <summary>
+            SET label.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <returns></returns>
+            <example>
+            SET n:Person:Manager
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            SET  phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <example>
+            .Set(n, new {prm._.Name, var._.Code})
+            result in:
+            SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.SetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.SetPlus(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Boolean)">
@@ -1634,31 +1653,6 @@
             MATCH (user)-[:FRIEND]-(friend)
             SKIP 10
             LIMIT 5
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
-            <summary>
-            SET label.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            SSET n:Person
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Set(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.ISetExpression)">
-            <summary>
-            SET  phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="complex">The complex.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            SSET n:Person
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Delete(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
@@ -2461,19 +2455,6 @@
             </returns>
             <example><![CDATA[(n:Person:Animal)]]></example>
         </member>
-        <member name="T:Weknow.Cypher.Builder.ISetExpression">
-            <summary>
-            Represent SET's clause expression.
-            </summary>
-            <example>
-            The KNOWS in the following expression will use the Type primitive.
-            MATCH (n:Person)-[:KNOWS]->(m:Person)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
         <member name="T:Weknow.Cypher.Builder.IType">
             <summary>
             Relation's Type primitive for the Cypher expression.
@@ -2497,46 +2478,6 @@
             The result of the operator.
             </returns>
             <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IMap">
-            <summary>
-            Mapping variable primitive for the Cypher expression.
-            </summary>
-            <example>
-            Used for queries like: 
-            CREATE (n $map)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.IMap.op_UnaryPlus(Weknow.Cypher.Builder.IMap)">
-            <summary>
-            Declaration for operator +.
-            </summary>
-            <param name="map">The map.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IMap`1">
-            <summary>
-            Mapping variable primitive for the Cypher expression.
-            </summary>
-            <example>
-            Used for queries like: 
-            CREATE (n $map)
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IMap`1._">
-            <summary>
-            Gets type representation of the variable.
-            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.Declarations.ParameterDeclaration">
             <summary>
@@ -2566,12 +2507,6 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="P:Weknow.Cypher.Builder.Declarations.ParameterDeclaration.AsMap">
-            <summary>
-            Use mapping technique which don't use '{}' for the parameter.
-            For example: CREATE (n $map)
-            </summary>
-        </member>
         <member name="T:Weknow.Cypher.Builder.Declarations.ParameterDeclaration`1">
             <summary>
             Parameter primitive for the Cypher expression.
@@ -2599,6 +2534,15 @@
         <member name="M:Weknow.Cypher.Builder.Declarations.ParameterDeclaration`1.op_Implicit(Weknow.Cypher.Builder.Declarations.ParameterDeclaration{`0})~`0">
             <summary>
             Casting overload.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Declarations.ParameterDeclaration`1.op_OnesComplement(Weknow.Cypher.Builder.Declarations.ParameterDeclaration{`0})">
+            <summary>
+            Use the parameter as prefix
             </summary>
             <param name="instance">The instance.</param>
             <returns>
@@ -2672,12 +2616,6 @@
             <returns>
             The result of the operator.
             </returns>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.Declarations.VariableDeclaration.AsMap">
-            <summary>
-            Use mapping technique.
-            For example: CREATE (n $map)
-            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.IProperties">
             <summary>

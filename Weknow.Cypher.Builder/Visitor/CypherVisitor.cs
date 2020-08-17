@@ -372,7 +372,9 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
             else if (node.Expression != null &&
-                     !typeof(VariableDeclaration).IsAssignableFrom(node.Type) && node.Type != typeof(IMap) && !typeof(ParameterDeclaration).IsAssignableFrom(node.Type) &&
+                     !typeof(VariableDeclaration).IsAssignableFrom(node.Type) && 
+                     /* node.Type != typeof(IMap) && */ 
+                     !typeof(ParameterDeclaration).IsAssignableFrom(node.Type) &&
                      (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
             {
                 Visit(node.Expression);
