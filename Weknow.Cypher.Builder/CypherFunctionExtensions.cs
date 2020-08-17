@@ -12,31 +12,6 @@ namespace Weknow.Cypher.Builder
     /// </summary>
     partial class Cypher
     {
-        #region Label / n:Spouse:Parent:Employee
-
-        /// <summary>
-        /// Specify label of node
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="labels"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// WHERE (n:Person)
-        /// RETURN n
-        /// ----------------
-        /// MATCH (n)
-        /// REMOVE n:Person
-        /// ----------------
-        /// MATCH (n)
-        /// SET n:Spouse:Parent:Employee
-        /// </example>
-        [Cypher("$0:$1")]
-        [Obsolete("Deprecated", true)]
-        public static VariableDeclaration Label(this VariableDeclaration variable, params ILabel[] labels) => throw new NotImplementedException();
-
-        #endregion // Label / n:Spouse:Parent:Employee
-
         #region Type / type(r)
 
         /// <summary>

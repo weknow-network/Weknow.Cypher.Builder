@@ -623,25 +623,6 @@
             <param name="v9">The v9.</param>
             <param name="v10">The P10.</param>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Label(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel[])">
-            <summary>
-            Specify label of node
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="labels"></param>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            WHERE (n:Person)
-            RETURN n
-            ----------------
-            MATCH (n)
-            REMOVE n:Person
-            ----------------
-            MATCH (n)
-            SET n:Spouse:Parent:Employee
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Type(Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
             <summary>
             String representation of the relationship type.
@@ -1429,21 +1410,6 @@
             <example>
             n.property IN [$value1, $value2]
             </example>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.LabelFromGenerics">
-            <summary>
-            Indicate whether to use the generics argument as label
-            </summary>
-        </member>
-        <member name="F:Weknow.Cypher.Builder.LabelFromGenerics.Use">
-            <summary>
-            The use
-            </summary>
-        </member>
-        <member name="F:Weknow.Cypher.Builder.LabelFromGenerics.Ignore">
-            <summary>
-            The ignore
-            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.PropertyContextBehaviors">
             <summary>
@@ -2478,13 +2444,6 @@
             </summary>
             <param name="name">The name.</param>
             <exception cref="T:System.ArgumentNullException">name</exception>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.UseGenericsAsLabel(System.Linq.Expressions.Expression)">
-            <summary>
-            Uses the generics as label.
-            </summary>
-            <param name="arg">The argument.</param>
-            <returns></returns>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.IsProperty(System.Type)">
             <summary>

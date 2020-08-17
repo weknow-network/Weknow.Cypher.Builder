@@ -254,7 +254,7 @@ namespace Weknow.Cypher.Builder
                     Query.Append("*");
                 }
             }
-            
+
             return node;
         }
 
@@ -333,7 +333,7 @@ namespace Weknow.Cypher.Builder
                 && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
             {
                 Query.Append("$");
-                if(me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
+                if (me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
                     Query.Append(ime.Member.Name);
@@ -552,21 +552,18 @@ namespace Weknow.Cypher.Builder
                     case '!':
                         {
                             var ch = format[++i];
-                            if (node.Arguments.All(UseGenericsAsLabel))
+                            if (ch == 'l')
                             {
-                                if (ch == 'l')
-                                {
-                                    int index = int.Parse(format[++i].ToString());
-                                    Type[] tps = node.Method.GetGenericArguments();
-                                    string name = tps[index].Name;
-                                    Query.Append(_configuration.AmbientLabels.Combine(name));
+                                int index = int.Parse(format[++i].ToString());
+                                Type[] tps = node.Method.GetGenericArguments();
+                                string name = tps[index].Name;
+                                Query.Append(_configuration.AmbientLabels.Combine(name));
 
-                                }
-                                else
-                                {
-                                    int index = int.Parse(ch.ToString());
-                                    Query.Append(node.Method.GetGenericArguments()[index].Name);
-                                }
+                            }
+                            else
+                            {
+                                int index = int.Parse(ch.ToString());
+                                Query.Append(node.Method.GetGenericArguments()[index].Name);
                             }
                         }
                         break;
@@ -676,24 +673,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // HandleProperties
-
-        #region UseGenericsAsLabel
-
-        /// <summary>
-        /// Uses the generics as label.
-        /// </summary>
-        /// <param name="arg">The argument.</param>
-        /// <returns></returns>
-        private bool UseGenericsAsLabel(Expression arg)
-        {
-            if (!(arg is ConstantExpression c))
-                return true;
-            var result = !(c.Type == typeof(LabelFromGenerics) &&
-                                        Equals(c.Value, LabelFromGenerics.Ignore));
-            return result;
-        }
-
-        #endregion // UseGenericsAsLabel
 
         #region IsProperty
 
