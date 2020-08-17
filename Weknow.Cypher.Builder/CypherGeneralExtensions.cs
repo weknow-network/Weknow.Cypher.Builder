@@ -36,17 +36,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // As
 
-        #region AsProperty
-
-        /// <summary>
-        /// Make it have property representation (in order to use it as cypher properties).
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <returns></returns>
-        public static IProperty AsProperty(this object instance) => throw new NotImplementedException();
-
-        #endregion // AsProperty
-
         #region AsParameter
 
         /// <summary>

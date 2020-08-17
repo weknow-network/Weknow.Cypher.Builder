@@ -214,9 +214,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            var maintainer_Id = Parameters.Create();
+            var (maintainer_Id, Date) = Parameters.CreateMulti();
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
+            INode by = Reuse(u => n => N(u) - R[By, new { Date }] > N(n));
             var n = Variables.Create<Foo>();
             CypherCommand cypher =
                 _(items => item => u => maintainer_ =>
@@ -241,12 +241,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            var maintainer_Id = Parameters.Create();
+            var (maintainer_Id, Date) = Parameters.CreateMulti();
             var (u, maintainer_, n, items) = Variables.CreateMulti();
             var item = Variables.Create<Foo>();
 
             INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(() => N(u) - R[By, Date] > N(n));
+            INode by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
             CypherCommand cypher =
                 _(() =>
                              Unwind(items, item,
