@@ -29,8 +29,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void LazyReuse_Node_Test()
         {
-            var reusedPerson = Reuse(person => N(person, Person));
-            var reusedAnimal = Reuse(animal => N(animal, Animal));
+            var (person, animal) = Variables.CreateMulti();
+            var reusedPerson = Reuse(() => N(person, Person));
+            var reusedAnimal = Reuse(() => N(animal, Animal));
 
             CypherCommand cypher = _( r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal));
@@ -81,7 +82,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Relation_Test()
         {
-            var pattern = Reuse(n => R[LIKE]);
+            var pattern = Reuse(() => R[LIKE]);
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"[:LIKE]", pattern.ToString());
@@ -94,7 +95,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Node_And_Relation_Test()
         {
-            var pattern = Reuse(n => N(n, Person & Animal) - R[LIKE] );
+            var n = Variables.Create();
+            var pattern = Reuse(() => N(n, Person & Animal) - R[LIKE] );
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(n:Person:Animal)-[:LIKE]", pattern.ToString());
@@ -107,7 +109,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R_N_Test()
         {
-            var pattern = Reuse(a => r1 => b => r2 =>
+            var (a, r1, b) = Variables.CreateMulti();
+            var pattern = Reuse(() =>
                         N(a) - R[r1] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -121,8 +124,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R2_N_Test()
         {
+            var (a, b) = Variables.CreateMulti();
             var Id = Parameters.Create();
-            var pattern = Reuse(a => b => r2 =>
+            var pattern = Reuse(() =>
                         N(a) - R[LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -136,8 +140,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R3_N_Test()
         {
+            var (a, b) = Variables.CreateMulti();
             var Id = Parameters.Create();
-            var pattern = Reuse(a => b => r2 =>
+            var pattern = Reuse(() =>
                         N(a) - R[LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -151,8 +156,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R1_N_Test()
         {
+            var (a, r1, b) = Variables.CreateMulti();
             var Id = Parameters.Create();
-            var pattern = Reuse(a => r1 => b => r2 =>
+            var pattern = Reuse(() =>
                         N(a) - R[r1, LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -166,7 +172,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Complex4_Test()
         {
-            var pattern = Reuse(a => r1 => b => r2 =>
+            var (a, r1, b, r2) = Variables.CreateMulti();
+            var pattern = Reuse(() =>
                         N(a) - R[r1] > N(b) < R[r2]);
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -180,7 +187,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Complex5_Test()
         {
-            var pattern = Reuse(a => r1 => b => r2 => c =>
+            var (a, r1, b, r2, c) = Variables.CreateMulti();
+            var pattern = Reuse(() =>
                         N(a) - R[r1] > N(b) < R[r2] - N(c));
 
             _outputHelper.WriteLine(pattern.ToString());
@@ -194,14 +202,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Complex5_Broken_Test()
         {
-            var start = Reuse(a => r1  =>
+            var (a, r1, b, r2, c) = Variables.CreateMulti();
+            var start = Reuse(()  =>
                         N(a) - R[r1]);
 
-            var b = Reuse(b  => N(b));
-            var r2 = Reuse(r2  => R[r2]);
+            var bp = Reuse(()  => N(b));
+            var r2p = Reuse(()  => R[r2]);
 
-            var pattern = Reuse(c =>
-                        start > b < r2 - N(c));
+            var pattern = Reuse(() =>
+                        start > bp < r2p - N(c));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(a)-[r1]->(b)<-[r2]-(c)", pattern.ToString());
@@ -214,10 +223,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Test()
         {
-            var (maintainer_Id, Date) = Parameters.CreateMulti();
-            INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(u => n => N(u) - R[By, new { Date }] > N(n));
             var n = Variables.Create<Foo>();
+            var (u, maintainer_) = Variables.CreateMulti();
+            var (maintainer_Id, Date) = Parameters.CreateMulti();
+            INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
+            INode by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
             CypherCommand cypher =
                 _(items => item => u => maintainer_ =>
                              Unwind(items, item, 

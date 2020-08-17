@@ -28,8 +28,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Test()
         {
+            var n = Variables.Create();
             var p1 = Parameters.Create<Foo>();
-            IPattern pattern = Reuse(n => 
+            IPattern pattern = Reuse(() => 
                         N(n, Person, 
                                 new
                                 {
@@ -49,9 +50,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Properties_Lambda_Test()
         {
+            var n = Variables.Create();
             var Length = Parameters.Create();
 
-            IPattern pattern = Reuse(n => N(n, Person, new { Length = Length }));
+            IPattern pattern = Reuse(() => N(n, Person, new { Length = Length }));
 
             var cypher = pattern.ToString();
             _outputHelper.WriteLine(cypher);

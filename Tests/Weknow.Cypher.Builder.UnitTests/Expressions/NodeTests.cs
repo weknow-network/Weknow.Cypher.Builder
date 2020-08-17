@@ -27,7 +27,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Test()
         {
-            var pattern = Reuse(n => N(n));
+            var n = Variables.Create();
+            var pattern = Reuse(() => N(n));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -42,7 +43,7 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Label_Test()
         {
-            var pattern = Reuse(n => N(Person));
+            var pattern = Reuse(() => N(Person));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -57,7 +58,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Test()
         {
-            var pattern = Reuse(n => N(n, Person));
+            var n = Variables.Create();
+            var pattern = Reuse(() => N(n, Person));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -72,8 +74,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_Variable_Label_Property_Test()
         {
+            var n = Variables.Create();
             var Id = Parameters.Create();
-            var pattern = Reuse(n => N(n, Person, new { Id }));
+            var pattern = Reuse(() => N(n, Person, new { Id }));
 
             _outputHelper.WriteLine(pattern.ToString());
 
@@ -105,7 +108,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Node_MultiLabel_Test()
         {
-            var pattern = Reuse(n => N(n, Person & Animal));
+            var n = Variables.Create();
+            var pattern = Reuse(() => N(n, Person & Animal));
 
             _outputHelper.WriteLine(pattern.ToString());
 
