@@ -249,84 +249,7 @@ namespace Weknow.Cypher.Builder
                     Query.Append("*");
                 }
             }
-            //else if (mtdName == nameof(Cypher.All) ||
-            //        mtdName == nameof(Cypher.AllExcept))
-            //{
-            //    bool isExcept = mtdName == nameof(Cypher.AllExcept);
-            //    if (node.Method.IsGenericMethod)
-            //    {
-            //        var properties = node.Method.GetGenericArguments()[0].GetProperties();
-            //        foreach (var item in properties)
-            //        {
-            //            Visit(node.Arguments[0]);
-            //            Query.Append(".");
-            //            Query.Append(item.Name);
-            //            if (_methodExpr.Value?.Method.Name == "Set")
-            //            {
-            //                Query.Append(" = $");
-            //                Query.Append(item.Name);
-            //            }
-            //            if (item != properties.Last())
-            //                Query.Append(", ");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        MethodCallExpression? methodExp = _expression[1].Value as MethodCallExpression;
-            //        var properties = methodExp == null ?
-            //                        Array.Empty<PropertyInfo>() :
-            //                        methodExp.Method.GetGenericArguments()[0].GetProperties();
-
-            //        NewArrayExpression? arrayExp = node.Arguments.Count > 0 ? node.Arguments[0] as NewArrayExpression : null;
-            //        string[] exclude = !isExcept || arrayExp == null ?
-            //            Array.Empty<string>() :
-            //            arrayExp.Expressions.OfType<MemberExpression>().Select(x => x.Member.Name).ToArray();
-            //        foreach (var item in properties)
-            //        {
-            //            if (exclude.Contains(item.Name))
-            //                continue;
-
-            //            Query.Append(item.Name);
-            //            Query.Append(": $");
-            //            Query.Append(item.Name);
-            //            if (item != properties.Last())
-            //                Query.Append(", ");
-            //        }
-            //    }
-            //}
-            //else if (mtdName == nameof(Cypher.Convention))
-            //{
-            //    var filter = (node.Arguments[node.Arguments.Count == 1 ? 0 : 1] as Expression<Func<string, bool>>)?.Compile();
-            //    var arguments = node.Method.IsGenericMethod
-            //        ? node.Method.GetGenericArguments()
-            //        : (_expression[1].Value as MethodCallExpression)?.Method?.GetGenericArguments();
-            //    Type? firstArgType = arguments?[0];
-            //    var properties = firstArgType?.GetProperties()?.Where(p => filter?.Invoke(p.Name) ?? true).ToArray();
-            //    foreach (var item in properties ?? Array.Empty<PropertyInfo>())
-            //    {
-            //        if (node.Arguments.Count == 2)
-            //        {
-            //            Visit(node.Arguments[0]);
-            //            Query.Append(".");
-            //        }
-            //        Query.Append(item.Name);
-            //        if (node.Arguments.Count == 1)
-            //            Query.Append(": ");
-            //        else
-            //            Query.Append(" = ");
-            //        if (_expression[2].Value != null)
-            //        {
-            //            Visit(_expression[2].Value);
-            //            Query.Append(".");
-            //        }
-            //        else
-            //            Query.Append("$");
-            //        Query.Append(item.Name);
-            //        Parameters[item.Name] = null;
-            //        if (item != properties.Last())
-            //            Query.Append(", ");
-            //    }
-            //}
+            
             return node;
         }
 
@@ -356,14 +279,6 @@ namespace Weknow.Cypher.Builder
                 return node;
             }
 
-            //if (name == nameof(VariableDeclaration.AsMap))
-            //{
-            //    if (_expression[2].Value == null && _methodExpr.Value?.Method.Name != "Set" && _methodExpr.Value?.Method.Name != "OnMatchSet")
-            //        Query.Append("$");
-
-            //    Visit(node.Expression);
-            //}
-            //else 
             if ((node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode)) &&
                     node.Expression is ConstantExpression c &&
                     node.Member is FieldInfo fi &&
@@ -376,7 +291,7 @@ namespace Weknow.Cypher.Builder
                      !typeof(VariableDeclaration).IsAssignableFrom(node.Type) &&
                      /* node.Type != typeof(IMap) && */
                      !typeof(ParameterDeclaration).IsAssignableFrom(node.Type) &&
-                     (!_isProperties.Value || _methodExpr.Value?.Method.Name == "Set"))
+                     !_isProperties.Value)
             {
                 Visit(node.Expression);
                 Query.Append(".");
@@ -498,6 +413,7 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
+            using var _ = _isProperties.Set(true);
             if (_expression[1].Value == null)
                 Query.Append("{ ");
             foreach (var item in node.Bindings)

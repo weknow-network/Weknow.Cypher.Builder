@@ -43,7 +43,7 @@ namespace Weknow.Cypher.Builder
                                             s._.Length,
                                             srm._.Position,
                                             sb._.Capacity
-                                        }.AsProperty())));
+                                        })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n:Person { " +
