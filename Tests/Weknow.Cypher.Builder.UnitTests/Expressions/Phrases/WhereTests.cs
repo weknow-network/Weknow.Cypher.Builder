@@ -121,7 +121,8 @@ WHERE n.Name =~ $Name", cypher.Query);
         {
             var Name = Parameters.Create<string>();
             var PropA = Parameters.Create();
-            CypherCommand cypher = _<Foo>(n =>
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { PropA }))
                                     .Where(n._.Name == Name));
 

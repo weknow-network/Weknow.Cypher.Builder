@@ -132,7 +132,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void ReturnDistinct_Obj_Test()
         {
-            CypherCommand cypher = _<Foo>(n =>
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .ReturnDistinct(n._.Name));
 

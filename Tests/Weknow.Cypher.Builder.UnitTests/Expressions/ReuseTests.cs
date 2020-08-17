@@ -214,8 +214,9 @@ namespace Weknow.Cypher.Builder
             var maintainer_Id = Parameters.Create();
             INode user = Reuse(u => maintainer_ => N(u, Maintainer, new { Id = maintainer_Id }));
             INode by = Reuse(u => n => N(u) - R[By, Date] > N(n));
+            var n = Variables.Create<Foo>();
             CypherCommand cypher =
-                _<Foo>(n => items => item => u => maintainer_ =>
+                _(items => item => u => maintainer_ =>
                              Unwind(items, item, 
                                 Match(N(n, Person, item._deprecate(n._.Id)))
                                 .Match(user)
