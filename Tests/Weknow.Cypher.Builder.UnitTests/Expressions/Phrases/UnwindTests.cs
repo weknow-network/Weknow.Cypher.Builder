@@ -259,7 +259,7 @@ SET n += item", cypher.Query);
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, map._deprecate(Id)) - maintainer)),
+                                    Merge(N(n, Person, map._(Id)) - maintainer)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher);

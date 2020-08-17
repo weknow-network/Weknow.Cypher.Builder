@@ -111,19 +111,6 @@
                 MATCH(n:Person { PropA: item.x })
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher._deprecate(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object[])">
-            <summary>
-            Used to define properties' variables without the $ prefix.
-            Useful for cases like UNWIND
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            UNWIND $items AS item 
-                MATCH(n:Person { PropA: item.x })
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(System.Boolean)">
             <summary>
             Use regular expression comparison under WHERE clause.
@@ -1392,19 +1379,6 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Where(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            WHERE phrase.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            MATCH (user)-[:FRIEND]-(friend)
-            WHERE user.name = $name
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             RETURN phrase.
@@ -1416,17 +1390,6 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.Return(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            RETURN phrase.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            RETURN n.Id
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.ReturnDistinct(Weknow.Cypher.Builder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             RETURN DISTINCT phrase.
@@ -1436,17 +1399,6 @@
             <returns></returns>
             <example>
             RETURN DISTINCT n
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.ReturnDistinct(Weknow.Cypher.Builder.CypherDelegates.Fluent,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            RETURN phrase.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            RETURN n.Id
             </example>
         </member>
         <member name="M:Weknow.Cypher.Builder.CypherPhraseExtensions.With(Weknow.Cypher.Builder.CypherDelegates.Fluent)">
@@ -2371,19 +2323,6 @@
             <returns>
             The result of the operator.
             </returns>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IProperties">
-            <summary>
-            Properties primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name, age in the following expression will use the Properties primitive.
-            MATCH (n {name: 'Alice', age: 37})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
         <member name="T:Weknow.Cypher.Builder.IProperty">
             <summary>

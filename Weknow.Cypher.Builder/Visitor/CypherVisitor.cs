@@ -678,7 +678,6 @@ namespace Weknow.Cypher.Builder
             var result = type.Name switch
             {
                 nameof(IProperty) => _isProperties.Set(true),
-                nameof(IProperties) => _isProperties.Set(true),
                 _ => DisposeableAction.Empty
             };
             return result;

@@ -221,7 +221,7 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher =
                 _(items => item => u => maintainer_ =>
                              Unwind(items, item, 
-                                Match(N(n, Person, item._deprecate(n._.Id)))
+                                Match(N(n, Person, item._(n._.Id)))
                                 .Match(user)
                                 .Merge(by)
                                 .Return(n)));

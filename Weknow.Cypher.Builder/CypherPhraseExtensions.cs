@@ -395,21 +395,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\n&WHERE $1")]
         public static Fluent Where(this Fluent p, bool condition) => throw new NotImplementedException();
 
-        /// <summary>
-        /// WHERE phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        /// <example>
-        /// MATCH (user)-[:FRIEND]-(friend)
-        /// WHERE user.name = $name
-        /// </example>
-        [Cypher("$0\r\n&WHERE $1")]
-        [Obsolete("Wrong syntax")]
-        public static Fluent Where(this Fluent p, IProperties properties) => throw new NotImplementedException();
-
         #endregion // Where
 
         #region Return
@@ -426,18 +411,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("$0\r\n&RETURN $1")]
         public static Fluent Return(this Fluent p, params object[] vars) => throw new NotImplementedException();
 
-        /// <summary>
-        /// RETURN phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// RETURN n.Id
-        /// </example>
-        [Cypher("$0\r\n&RETURN $1")]
-        public static Fluent Return(this Fluent p, IProperties properties) => throw new NotImplementedException();
-
         #endregion // Return
 
         #region ReturnDistinct
@@ -453,18 +426,6 @@ namespace Weknow.Cypher.Builder
         /// </example>
         [Cypher("$0\r\n&RETURN DISTINCT $1")]
         public static Fluent ReturnDistinct(this Fluent p, params object[] vars) => throw new NotImplementedException();
-
-        /// <summary>
-        /// RETURN phrase.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// RETURN n.Id
-        /// </example>
-        [Cypher("$0\r\n&RETURN DISTINCT $1")]
-        public static Fluent ReturnDistinct(this Fluent p, IProperties properties) => throw new NotImplementedException();
 
         #endregion // Return
 

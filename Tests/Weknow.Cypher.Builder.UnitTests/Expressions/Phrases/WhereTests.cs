@@ -295,7 +295,7 @@ WHERE $p_1 }", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, item._deprecate(Id)))
+                                    Match(N(n, Person, item._(Id)))
                                     .Where(n._.Name != item._.Name)));
 
             _outputHelper.WriteLine(cypher);

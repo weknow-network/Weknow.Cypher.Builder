@@ -136,21 +136,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("+40$1")]
         public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Used to define properties' variables without the $ prefix.
-        /// Useful for cases like UNWIND
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// UNWIND $items AS item 
-        ///     MATCH(n:Person { PropA: item.x })
-        /// </example>
-        [Cypher("+40$1")]
-        [Obsolete("Use _", false)]
-        public static IProperties _deprecate(this VariableDeclaration var, params object[] properties) => throw new NotImplementedException();
-
         #region Rgx
 
         /// <summary>
