@@ -303,41 +303,6 @@ namespace Weknow.Cypher.Builder
         [Obsolete("Use _", false)]
         public static IProperties _deprecate(this VariableDeclaration var, params object[] properties) => throw new NotImplementedException();
 
-        #region IProperties P (Properties)
-
-        /// <summary>
-        /// Represent  properties collection.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// {name: $name, value: $value}
-        /// </example>
-        [Cypher("$0")]
-        public static IProperties P(params object[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent variable with properties collection.
-        /// <param name="var"></param>
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// </example>
-        [Cypher("+30$1")]
-        public static IProperties P(this VariableDeclaration var, params object[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Represent variable with properties collection.
-        /// <param name="var"></param>
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// </example>
-        [Cypher("+30$1")]
-        public static IProperties P(this VariableDeclaration var, params IProperty[] properties) => throw new NotImplementedException();
-
-        #endregion // IProperties P (Properties)NoLoopFormat
-
         #region Rgx
 
         /// <summary>
@@ -359,7 +324,7 @@ namespace Weknow.Cypher.Builder
         /// WHERE n.name =~ 'Tim.*'
         /// </example>
         [Cypher("&$0")]
-        public static IProperties Rgx(IProperties properties) => throw new NotImplementedException();
+        public static bool Rgx(object properties) => throw new NotImplementedException();
 
         #endregion // Rgx
 

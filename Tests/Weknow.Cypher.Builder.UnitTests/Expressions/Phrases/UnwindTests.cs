@@ -42,22 +42,6 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
-
-        #region UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Unwind_NonWindProp_T_Test
-
-        [Fact]
-        public void Unwind_NonWindProp_T_Test()
-        {
-            CypherCommand cypher = _(items => item => n => 
-                                    Unwind(items, item,
-                                    Match(N(n, Person, P("Id")))));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"UNWIND $items AS item
-MATCH (n:Person { Id: $Id })", cypher.Query);
-        }
-
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Unwind_NonWindProp_T_Test
        
         #region UNWIND $items AS item MATCH (n:Person { PropA: item }) / Unwind_PropConst_AsMap_Test
 

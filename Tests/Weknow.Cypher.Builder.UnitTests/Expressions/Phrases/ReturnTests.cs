@@ -1,5 +1,7 @@
 using System;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -44,9 +46,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Return_Prop_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.P(Id)));
+                                    .Return(n._.Id));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n)\r\n" +
@@ -60,9 +64,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Return_Props_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.P(Id, PropA)));
+                                    .Return(n._.Id, n._.PropA));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n)\r\n" +
@@ -76,9 +82,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Return_Props_Lambda_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.P(Id, n._deprecate(PropA, PropB))));
+                                    .Return(n._.Id, n._.PropA, n._.PropB));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n)\r\n" +

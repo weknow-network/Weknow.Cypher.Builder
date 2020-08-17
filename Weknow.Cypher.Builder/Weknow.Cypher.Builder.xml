@@ -219,36 +219,6 @@
                 MATCH(n:Person { PropA: item.x })
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(System.Object[])">
-            <summary>
-            Represent  properties collection.
-            </summary>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            {name: $name, value: $value}
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object[])">
-            <summary>
-            Represent variable with properties collection.
-            <param name="var"></param>
-            </summary>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.P(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Represent variable with properties collection.
-            <param name="var"></param>
-            </summary>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            </example>
-        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(System.Boolean)">
             <summary>
             Use regular expression comparison under WHERE clause.
@@ -259,7 +229,7 @@
             WHERE n.name =~ 'Tim.*'
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(Weknow.Cypher.Builder.IProperties)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Rgx(System.Object)">
             <summary>
             Use regular expression comparison under WHERE clause.
             </summary>

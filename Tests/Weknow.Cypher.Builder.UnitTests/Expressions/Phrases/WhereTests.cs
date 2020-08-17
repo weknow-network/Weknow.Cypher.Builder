@@ -72,9 +72,12 @@ WHERE n.Name =~ $p_1", cypher.Query);
         public void Where_Regex_Prop_Test()
         {
             var PropA = Parameters.Create();
-            CypherCommand cypher = _(n =>
+            var p = Parameters.Create<Foo>();
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { PropA }))
-                                    .Where(Rgx(n.P(Name))));
+                                    .Where(Rgx(n._(p._.Name))));
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(

@@ -138,12 +138,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Relation_WithReuse_Test()
         {
-            var maintainer_Id = Parameters.Create();
-            var maintainer_ = Variables.Create();
+            var (maintainer_Id, Id) = Parameters.CreateMulti();
+            var (maintainer_, n) = Variables.CreateMulti();
 
             var maintainer = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id }));
 
-            CypherCommand cypher = _(n => Merge(N(n, Person, n.P(Id)) - maintainer));
+            CypherCommand cypher = _(() => Merge(N(n, Person, new { Id }) - maintainer));
 
             _outputHelper.WriteLine(cypher);
 
