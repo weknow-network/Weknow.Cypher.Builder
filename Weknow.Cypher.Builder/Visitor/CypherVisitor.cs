@@ -333,6 +333,12 @@ namespace Weknow.Cypher.Builder
                 && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
             {
                 Query.Append("$");
+                if(me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
+                    ue.Operand is MemberExpression ime)
+                {
+                    Query.Append(ime.Member.Name);
+                    Query.Append(".");
+                }
                 if (!Parameters.ContainsKey(name))
                     Parameters.Add(name, null);
             }

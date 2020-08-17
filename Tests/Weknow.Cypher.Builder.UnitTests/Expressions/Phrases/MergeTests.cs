@@ -34,7 +34,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n, new { n._.PropA, n._.PropB }));
+                                    .OnCreateSet(n, new { n.AsParameter()._.PropA, n.AsParameter()._.PropB }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

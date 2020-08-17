@@ -131,7 +131,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
             var (n, map) = Variables.CreateMulti();
             CypherCommand cypher = _(() => Unwind(items, map,
                                         Create(N(n, Person))
-                                        .Set(n._(map))
+                                        .Set(n, map)
                                         .Return(n)));
 
             _outputHelper.WriteLine(cypher);
@@ -259,7 +259,7 @@ SET n += item", cypher.Query);
 
             CypherCommand cypher = _(items => map => n =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, map._(Id)) - maintainer)),
+                                    Merge(N(n, Person, new { Id = map._(Id) }) - maintainer)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher);

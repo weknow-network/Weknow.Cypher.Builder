@@ -33,7 +33,7 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create();
 
             CypherCommand cypher =
-                _(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName }))
+                _(() => Create(N(n, Person, new Foo { Id = (~map)._.Id, Name = (~map)._.FirstName + (~map)._.LastName }))
                            .Set(n, map));
 
             _outputHelper.WriteLine(cypher);
@@ -74,8 +74,8 @@ namespace Weknow.Cypher.Builder
                 _(() => Create(N(n, Person, 
                                         new 
                                         { 
-                                            map._.Id, 
-                                            map._.Name
+                                            (~map)._.Id,
+                                            (~map)._.Name
                                         }))
                            .SetPlus(n, map));
 
@@ -107,7 +107,7 @@ namespace Weknow.Cypher.Builder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName })\r\n" +
-                "SET n.Address = $map.Adress", cypher.Query);
+                "SET n.Address = $map.Address", cypher.Query);
         }
 
         #endregion // Merge_NoMagic4_Test
