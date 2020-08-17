@@ -111,33 +111,6 @@ namespace Weknow.Cypher.Builder
         [Cypher("($0$1 $2)")]
         public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Specified node with variable, label and properties.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        [Cypher("($0$1 { $2 })")]
-        public static INode N(VariableDeclaration var, ILabel label, IProperties properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Specified node with variable, label and properties.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="label">The label.</param>
-        /// <param name="properties"></param>
-        /// <returns></returns>
-        [Cypher("($0$1 { $2 })")]
-        public static INode N(VariableDeclaration var, ILabel label, params IProperty[] properties) => throw new NotImplementedException();
-        /// <summary>
-        /// Specified node with variable, label and properties.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="properties"></param>
-        /// <returns></returns>
-        [Cypher("($0 { $1 })")]
-        public static INode N(VariableDeclaration var, params IProperty[] properties) => throw new NotImplementedException();
-
         #endregion // IPattern N (Node)
 
         #region IRelation R (Relation)

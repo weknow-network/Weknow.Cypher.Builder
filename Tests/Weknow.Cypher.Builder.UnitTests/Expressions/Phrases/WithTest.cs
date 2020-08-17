@@ -88,7 +88,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._.Id))
+                        Merge(N(n, Person, new { map._.Id }))
                         .OnCreateSet(n, map)
                         .OnMatchSetPlus(n, map)
                         .With()
@@ -121,7 +121,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._.Id))
+                        Merge(N(n, Person, new { map._.Id }))
                         .OnCreateSet(n, map)
                         .OnMatchSetPlus(n, map)
                         .With(n, map)

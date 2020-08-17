@@ -121,8 +121,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R2_N_Test()
         {
+            var Id = Parameters.Create();
             var pattern = Reuse(a => b => r2 =>
-                        N(a) - R[LIKE, Id] > N(b));
+                        N(a) - R[LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -135,8 +136,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R3_N_Test()
         {
+            var Id = Parameters.Create();
             var pattern = Reuse(a => b => r2 =>
-                        N(a) - R[LIKE, Id] > N(b));
+                        N(a) - R[LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal("(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -149,8 +151,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R1_N_Test()
         {
+            var Id = Parameters.Create();
             var pattern = Reuse(a => r1 => b => r2 =>
-                        N(a) - R[r1, LIKE, Id] > N(b));
+                        N(a) - R[r1, LIKE, new { Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal("(a)-[r1:LIKE { Id: $Id }]->(b)", pattern.ToString());

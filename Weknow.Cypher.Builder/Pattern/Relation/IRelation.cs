@@ -66,56 +66,9 @@ namespace Weknow.Cypher.Builder
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
         IRelation this[VariableDeclaration var, IType type, object properties] { [Cypher("[$0:$1 $2]")] get; }
-        /// <summary>
-        /// Represent relation with variable, type and properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="var">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example>
-        /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
-        /// </example>
-        IRelation this[VariableDeclaration var, IType type, IProperties properties] { [Cypher("[$0:$1 { $2 }]")] get; }
-        /// <summary>
-        /// Represent relation with variable, type and properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="var">The variable.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="properties"></param>
-        /// <returns></returns>
-        /// <example>
-        /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
-        /// </example>
-        IRelation this[VariableDeclaration var, IType type, params IProperty[] properties] { [Cypher("[$0:$1 { $2 }]")] get; }
-        /// <summary>
-        /// Represent relation with variable, type and properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation" />.
-        /// </value>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
-        IRelation this[IType type, IProperties properties] { [Cypher("[:$0 { $1 }]")] get; }
-        /// <summary>
-        /// Represent relation with variable, type and properties.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation" />.
-        /// </value>
-        /// <param name="type">The type.</param>
-        /// <param name="properties">The properties.</param>
-        /// <returns></returns>
-        /// <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
-        IRelation this[IType type, params IProperty[] properties] { [Cypher("[:$0 { $1 }]")] get; }
+
+        IRelation this[IType type, object properties] { [Cypher("[:$0 $1]")] get; }
+
         /// <summary>
         /// Represent relation with range.
         /// </summary>
@@ -141,21 +94,6 @@ namespace Weknow.Cypher.Builder
         /// (n)-[r:*1..5]->(m)
         /// </example>
         IRelation this[VariableDeclaration var, Range r] { [Cypher("[$0$1]")] get; }
-        /// <summary>
-        /// Represent relation with variable, type and range.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="var">Variable</param>
-        /// <param name="type"></param>
-        /// <param name="properties"></param>
-        /// <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
-        /// <returns></returns>
-        /// <example>
-        /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
-        /// </example>
-        IRelation this[VariableDeclaration var, IType type, IProperties properties, Range r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
         /// <summary>
         /// Represent relation with range.
         /// </summary>
@@ -195,8 +133,6 @@ namespace Weknow.Cypher.Builder
         /// <example>
         /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[VariableDeclaration var, IType type, IProperties properties, Rng r] { [Cypher("[$0:$1 { $2 } $3]")] get; }
-
         IRelation this[VariableDeclaration var, IType type, object properties, Rng r] { [Cypher("[$0:$1 $2 $3]")] get; }
 
         #endregion // Indexers this [...]

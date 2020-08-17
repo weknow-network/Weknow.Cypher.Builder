@@ -93,32 +93,6 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Specified node with variable, label and properties.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.ILabel,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Specified node with variable, label and properties.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="label">The label.</param>
-            <param name="properties"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.N(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Specified node with variable, label and properties.
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="properties"></param>
-            <returns></returns>
-        </member>
         <member name="P:Weknow.Cypher.Builder.Cypher.R">
             <summary>
             Gets the Cypher relation.
@@ -1929,60 +1903,6 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Represent relation with variable, type and properties.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example>
-            <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
-            </example>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Represent relation with variable, type and properties.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties"></param>
-            <returns></returns>
-            <example>
-            <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
-            </example>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Represent relation with variable, type and properties.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation" />.
-            </value>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Represent relation with variable, type and properties.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation" />.
-            </value>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-            <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
-        </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(System.Range)">
             <summary>
             Represent relation with range.
@@ -2008,22 +1928,6 @@
             <returns></returns>
             <example>
             (n)-[r:*1..5]->(m)
-            </example>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
-            <summary>
-            Represent relation with variable, type and range.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">Variable</param>
-            <param name="type"></param>
-            <param name="properties"></param>
-            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
-            <returns></returns>
-            <example>
-            (n)-[r:KNOW*1..5 {level: 2}]->(m)
             </example>
         </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Rng)">
@@ -2053,7 +1957,7 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object,Weknow.Cypher.Builder.Rng)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -2153,7 +2057,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IType,System.Object)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation" /> with the specified variable.
             </summary>
@@ -2165,7 +2069,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation" /> with the specified variable.
             </summary>
@@ -2176,30 +2080,6 @@
             <param name="property">The property.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties)">
-            <summary>
-            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperty[])">
-            <summary>
-            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="property"></param>
-            <returns></returns>
         </member>
         <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Rng)">
             <summary>
@@ -2219,32 +2099,6 @@
             <value>
             The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
             </value>
-            <param name="r">The r.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,Weknow.Cypher.Builder.Rng)">
-            <summary>
-            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <param name="r">The r.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,Weknow.Cypher.Builder.IProperties,System.Range)">
-            <summary>
-            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
