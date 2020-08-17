@@ -1022,13 +1022,6 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.AsProperty(System.Object)">
-            <summary>
-            Make it have property representation (in order to use it as cypher properties).
-            </summary>
-            <param name="instance">The instance.</param>
-            <returns></returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherGeneralExtensions.AsParameter``1(Weknow.Cypher.Builder.Declarations.VariableDeclaration{``0})">
             <summary>
             Project the variable as parameter.

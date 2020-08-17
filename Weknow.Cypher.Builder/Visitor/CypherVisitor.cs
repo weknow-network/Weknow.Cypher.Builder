@@ -122,9 +122,14 @@ namespace Weknow.Cypher.Builder
             switch (node.NodeType)
             {
                 case ExpressionType.GreaterThan:
-                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
-                        Query.Append("-");
-                    Query.Append("->");
+                    if (node.Method.ReturnType == typeof(bool))
+                        Query.Append(" > ");
+                    else
+                    {
+                        if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
+                            Query.Append("-");
+                        Query.Append("->");
+                    }
                     break;
                 case ExpressionType.LessThan:
                     Query.Append("<-");
@@ -269,6 +274,14 @@ namespace Weknow.Cypher.Builder
             string name = node.Member.Name;
 
             var pi = node.Member as PropertyInfo;
+
+            if (node.Member.Name == nameof(DateTime.Now) && node.Member.DeclaringType == typeof(DateTime))
+            {
+                var parameterName = $"p_{Parameters.Count}";
+                Query.Append($"${parameterName}");
+                Parameters[parameterName] = DateTime.Now;
+                return node;
+            }
 
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {

@@ -28,10 +28,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Where_Test()
         {
-            var PropA = Parameters.Create<Foo>();
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { PropA }))
-                                    .Where(PropA._.Name == "my-name"));
+                                    .Where(n._.Name == "my-name"));
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
@@ -255,7 +256,7 @@ WHERE $p_1 }", cypher.Query);
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
                    "MATCH (n:Person { PropA: $PropA })\r\n" +
-                   "WHERE n.Name > $p_1", cypher.Query);
+                   "WHERE n.Date > $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
             Assert.Contains(cypher.Parameters, p => p.Key == "p_1");
@@ -277,7 +278,7 @@ WHERE $p_1 }", cypher.Query);
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
                    "MATCH (n:Person { PropA: $PropA })\r\n" +
-                   "WHERE n.Name >= $p_1", cypher.Query);
+                   "WHERE n.Date >= $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
             Assert.Contains(cypher.Parameters, p => p.Key == "p_1");
