@@ -86,7 +86,7 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create();
 
             CypherCommand cypher = _(() => Match(N(n, Person, new { p._.Id }))
-                                            .Set(n, p._.PropA));
+                                            .Set(n, new { p._.PropA }));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("MATCH (n:Person { Id: $Id })\r\n" +

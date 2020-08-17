@@ -498,12 +498,21 @@ namespace Weknow.Cypher.Builder
 
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
+            if (_expression[1].Value == null)
+                Query.Append("{ ");
             foreach (var item in node.Bindings)
             {
+                if (_expression[1].Value != null)
+                {
+                    Visit(_expression[1].Value);
+                    Query.Append('.');
+                }
                 VisitMemberBinding(item);
                 if (item != node.Bindings.Last())
                     Query.Append(", ");
             }
+            if (_expression[1].Value == null)
+                Query.Append(" }");
             return node;
         }
 
