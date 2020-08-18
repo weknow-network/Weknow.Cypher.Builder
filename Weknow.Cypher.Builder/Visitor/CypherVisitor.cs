@@ -177,14 +177,7 @@ namespace Weknow.Cypher.Builder
             ReadOnlyCollection<Expression> args = node.Arguments;
             Expression? firstArg = args.FirstOrDefault();
 
-            using IDisposable inScp = mtdName switch
-            {
-                nameof(Cypher.In) => _methodExpr.Set(node),
-                _ => DisposeableAction.Empty
-            };
-
-            var attributes = node.Method.GetCustomAttributes(typeof(CypherAttribute), false);
-            var format = attributes.Length > 0 ? (attributes[0] as CypherAttribute)?.Format : null;
+            var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
             if (format != null)
             {
                 ApplyFormat(node, format);
@@ -194,23 +187,23 @@ namespace Weknow.Cypher.Builder
                 if (mtdName == nameof(Rng.Scope))
                 {
                     Query.Append("*");
-                    var index0 = node.Arguments[0] as ConstantExpression;
-                    Query.Append(index0?.Value);
+                    var index0 = (ConstantExpression)node.Arguments[0];
+                    Query.Append(index0.Value);
                     Query.Append("..");
-                    var index1 = node.Arguments[1] as ConstantExpression;
-                    Query.Append(index1?.Value);
+                    var index1 = (ConstantExpression)node.Arguments[1];
+                    Query.Append(index1.Value);
                 }
                 else if (mtdName == nameof(Rng.AtMost))
                 {
                     Query.Append("*..");
-                    var index = node.Arguments[0] as ConstantExpression;
-                    Query.Append(index?.Value);
+                    var index = (ConstantExpression)node.Arguments[0];
+                    Query.Append(index.Value);
                 }
                 else if (mtdName == nameof(Rng.AtLeast))
                 {
                     Query.Append("*");
-                    var index = node.Arguments[0] as ConstantExpression;
-                    Query.Append(index?.Value);
+                    var index = (ConstantExpression)node.Arguments[0];
+                    Query.Append(index.Value);
                     Query.Append("..");
                 }
                 else if (mtdName == nameof(Rng.Any))
@@ -461,7 +454,7 @@ namespace Weknow.Cypher.Builder
         /// <param name="format">The format.</param>
         private void ApplyFormat(MethodCallExpression node, string format)
         {
-            IDisposable? disp = null;
+            var disp = new List<IDisposable>();
             for (var i = 0; i < format.Length; i++)
             {
                 switch (format[i])
@@ -489,14 +482,11 @@ namespace Weknow.Cypher.Builder
                             int index2 = int.Parse(fmt2);
                             Expression? expr = node.Arguments[index2];
                             ContextValue<Expression?>? ctx = _expression[index1];
-                            disp = ctx.Set(expr);
+                            disp.Add(ctx.Set(expr));
                         }
                         break;
                     case '&':
-                        if (disp == null)
-                            disp = _methodExpr.Set(node);
-                        else
-                            disp.Dispose();
+                        disp.Add(_methodExpr.Set(node));
                         break;
                     case '\\':
                         {
@@ -512,7 +502,10 @@ namespace Weknow.Cypher.Builder
                         }
                 }
             }
-            disp?.Dispose();
+            foreach (var d in disp)
+            {
+                d.Dispose();
+            }
         }
 
         #endregion // ApplyFormat
