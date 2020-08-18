@@ -296,7 +296,7 @@ WHERE $p_1 }", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, new { Id = item._(Id) }))
+                                    Match(N(n, Person, new { item._.Id }))
                                     .Where(n._.Name != item._.Name)));
 
             _outputHelper.WriteLine(cypher);

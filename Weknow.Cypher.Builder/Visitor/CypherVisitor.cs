@@ -215,7 +215,7 @@ namespace Weknow.Cypher.Builder
             using var _ = IsProperty(node.Method.ReturnType);
             using IDisposable inScp = mtdName switch
             {
-                nameof(CypherPredicateExtensions.In) => _methodExpr.Set(node),
+                nameof(Cypher.In) => _methodExpr.Set(node),
                 _ => DisposeableAction.Empty
             };
 
@@ -392,7 +392,7 @@ namespace Weknow.Cypher.Builder
                         }
                     }
                 }
-                if (_methodExpr.Value?.Method.Name == nameof(CypherPredicateExtensions.In))
+                if (_methodExpr.Value?.Method.Name == nameof(Cypher.In))
                     Query.Append("$");
                 using IDisposable _ = IsProperty(expr.Type);
                 Visit(expr);
@@ -683,12 +683,14 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         private IDisposable IsProperty(Type type)
         {
-            var result = type.Name switch
-            {
-                nameof(IProperty) => _isProperties.Set(true),
-                _ => DisposeableAction.Empty
-            };
-            return result;
+            //throw new NotImplementedException();
+
+            //var result = type.Name switch
+            //{
+            //    nameof(IProperty) => _isProperties.Set(true),
+            //    _ => DisposeableAction.Empty
+            //};
+            //return result;
         }
 
         #endregion // IsProperty

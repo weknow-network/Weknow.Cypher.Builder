@@ -37,6 +37,9 @@
             <summary>
             Cypher Function Extensions
             </summary>
+            <summary>
+            Cypher Extensions
+            </summary>
         </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
             <summary>
@@ -689,11 +692,10 @@
             RETURN count(n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Sum(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Sum(System.Object)">
             <summary>
             Sum numerical values. Similar functions are avg(), min(), max().
             </summary>
-            <param name="variable">The variable.</param>
             <param name="prop">The property.</param>
             <returns></returns>
             <example>
@@ -701,11 +703,10 @@
             RETURN sum(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Max(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Max(System.Object)">
             <summary>
             Max numerical values. Similar functions are avg(), min(), sum().
             </summary>
-            <param name="variable">The variable.</param>
             <param name="prop">The property.</param>
             <returns></returns>
             <example>
@@ -713,11 +714,10 @@
             RETURN max(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Min(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Min(System.Object)">
             <summary>
             Min numerical values. Similar functions are avg(), sum(), max().
             </summary>
-            <param name="variable">The variable.</param>
             <param name="prop">The property.</param>
             <returns></returns>
             <example>
@@ -725,11 +725,10 @@
             RETURN min(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.Avg(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.Avg(System.Object)">
             <summary>
             Avg numerical values. Similar functions are sum(), min(), max().
             </summary>
-            <param name="variable">The variable.</param>
             <param name="prop">The property.</param>
             <returns></returns>
             <example>
@@ -783,16 +782,64 @@
             RETURN collect(DISTINCT n)
             </example>
         </member>
-        <member name="M:Weknow.Cypher.Builder.Cypher.CollectDistinct(Weknow.Cypher.Builder.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.Cypher.Builder.Cypher.CollectDistinct(System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
-            <param name="variable">The variable.</param>
             <param name="prop">The property.</param>
             <returns></returns>
             <example>
             MATCH (n)
             RETURN collect(DISTINCT n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
+            <summary>
+            Compares the specified with.
+            </summary>
+            <param name="compare">The compare.</param>
+            <param name="with">The with.</param>
+            <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.In(System.Object,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            In(n._.property, items)
+            result in:
+            n.property IN [items]
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.In(System.Object,Weknow.Cypher.Builder.Declarations.ParameterDeclaration)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            In(n._.property, items)
+            result in:
+            n.property IN [$items]
+            </example>
+        </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.In(System.Object,System.Object)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            var item = VariablesCreateMulti();
+            In(n._.property, item.List)
+            result in:
+            n.property IN [item.List]
             </example>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherCommand">
@@ -1374,43 +1421,6 @@
             DETACH DELETE n
             </example>
         </member>
-        <member name="T:Weknow.Cypher.Builder.CypherPredicateExtensions">
-            <summary>
-            Cypher Extensions
-            </summary>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
-            <summary>
-            Compares the specified with.
-            </summary>
-            <param name="compare">The compare.</param>
-            <param name="with">The with.</param>
-            <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IProperty,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            IN phrase.
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="property">The property.</param>
-            <param name="compareWith">The compare with.</param>
-            <returns></returns>
-            <example>
-            n.property IN [$value1, $value2]
-            </example>
-        </member>
-        <member name="M:Weknow.Cypher.Builder.CypherPredicateExtensions.In(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration)">
-            <summary>
-            IN phrase.
-            </summary>
-            <param name="variable">The variable.</param>
-            <param name="compareWith">The compare with.</param>
-            <returns></returns>
-            <example>
-            n.property IN [$value1, $value2]
-            </example>
-        </member>
         <member name="T:Weknow.Cypher.Builder.PropertyContextBehaviors">
             <summary>
             Behaviors of Ignore Context.
@@ -1710,6 +1720,18 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
+        <member name="P:Weknow.Cypher.Builder.IRelation.Item(Weknow.Cypher.Builder.IType,System.Object)">
+            <summary>
+            Represent relation with variable, type and properties.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation" />.
+            </value>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
+        </member>
         <member name="P:Weknow.Cypher.Builder.IRelation.Item(System.Range)">
             <summary>
             Represent relation with range.
@@ -1876,18 +1898,6 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object)">
-            <summary>
-            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation" /> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.Cypher.Builder.IRelation" />.
-            </value>
-            <param name="type">The type.</param>
-            <param name="property">The property.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
         <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
@@ -1906,6 +1916,19 @@
             <value>
             The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
             </value>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object,Weknow.Cypher.Builder.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
@@ -2187,19 +2210,6 @@
             <returns>
             The result of the operator.
             </returns>
-        </member>
-        <member name="T:Weknow.Cypher.Builder.IProperty">
-            <summary>
-            Property primitive for the Cypher expression.
-            </summary>
-            <example>
-            The name in the following expression will use the Property primitive.
-            MATCH (n {name: 'Alice'})
-            </example>
-            <remarks>
-            Primitives don't have actual implementation, 
-            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
-            </remarks>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherQueryBuilder">
             <summary>

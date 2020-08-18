@@ -121,10 +121,10 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        n.Sum(PropA).As("sum"), 
-                                        n.Min(PropA).As("min"),
-                                        n.Max(PropA).As("max"),
-                                        n.Avg(PropA).As("avg")));
+                                        Sum(n._.PropA).As("sum"), 
+                                        Min(n._.PropA).As("min"),
+                                        Max(n._.PropA).As("max"),
+                                        Avg(n._.PropA).As("avg")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
@@ -231,11 +231,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CollectDistinct_Prop_Test()
         {
-            var n = Variables.Create();
+            var n = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.CollectDistinct(n._(PropA))));
+                                    .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
@@ -253,7 +253,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.CollectDistinct(n._.PropA)));
+                                    .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +

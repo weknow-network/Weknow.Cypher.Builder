@@ -68,11 +68,14 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         [Fact]
         public async Task In_Test()
         {
+            var items = Parameters.Create();
+            var (n, t) = Variables.CreateMulti<Foo, Foo>();
+
             await InitDataAsync();
 
-            CypherCommand cypher = _(n => t => items =>
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person) - R[Affinity] > N(t, Tag))
-                                    .Where(t.In(Id, items))
+                                    .Where(In(t._.Id, items))
                                     .Return(n),
                                     CONFIGURATION);
 

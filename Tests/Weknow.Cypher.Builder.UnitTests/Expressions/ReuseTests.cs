@@ -96,7 +96,7 @@ namespace Weknow.Cypher.Builder
         public void Reuse_Node_And_Relation_Test()
         {
             var n = Variables.Create();
-            var pattern = Reuse(() => N(n, Person & Animal) - R[LIKE] );
+            var pattern = Reuse(() => N(n, Person & Animal) - R[LIKE]);
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(n:Person:Animal)-[:LIKE]", pattern.ToString());
@@ -124,10 +124,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R2_N_Test()
         {
+            var p = Parameters.Create<Foo>();
             var (a, b) = Variables.CreateMulti();
-            var Id = Parameters.Create();
+
             var pattern = Reuse(() =>
-                        N(a) - R[LIKE, new { Id }] > N(b));
+                        N(a) - R[LIKE, p._.Id] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -156,10 +157,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_N_R1_N_Test()
         {
+            var p = Parameters.Create<Foo>();
             var (a, r1, b) = Variables.CreateMulti();
-            var Id = Parameters.Create();
+
             var pattern = Reuse(() =>
-                        N(a) - R[r1, LIKE, new { Id }] > N(b));
+                        N(a) - R[r1, LIKE, p._.Id] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal("(a)-[r1:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -203,11 +205,11 @@ namespace Weknow.Cypher.Builder
         public void Reuse_Complex5_Broken_Test()
         {
             var (a, r1, b, r2, c) = Variables.CreateMulti();
-            var start = Reuse(()  =>
+            var start = Reuse(() =>
                         N(a) - R[r1]);
 
-            var bp = Reuse(()  => N(b));
-            var r2p = Reuse(()  => R[r2]);
+            var bp = Reuse(() => N(b));
+            var r2p = Reuse(() => R[r2]);
 
             var pattern = Reuse(() =>
                         start > bp < r2p - N(c));
@@ -230,7 +232,7 @@ namespace Weknow.Cypher.Builder
             INode by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
             CypherCommand cypher =
                 _(items => item => u => maintainer_ =>
-                             Unwind(items, item, 
+                             Unwind(items, item,
                                 Match(N(n, Person, item._(n._.Id)))
                                 .Match(user)
                                 .Merge(by)
@@ -251,16 +253,17 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Reuse_Unwind_Arr_Test()
         {
-            var (maintainer_Id, Date) = Parameters.CreateMulti();
+            var p = Parameters.Create<Bar>();
+            var maintainer_Id = Parameters.Create();
             var (u, maintainer_, n, items) = Variables.CreateMulti();
             var item = Variables.Create<Foo>();
 
             INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
+            INode by = Reuse(() => N(u) - R[By, p._.Date] > N(n));
             CypherCommand cypher =
                 _(() =>
                              Unwind(items, item,
-                                Match(N(n, Person, new { (~item)._.Id }), user)
+                                Match(N(n, Person, new { item._.Id }), user)
                                 .Merge(by)
                                 .Return(n)));
 

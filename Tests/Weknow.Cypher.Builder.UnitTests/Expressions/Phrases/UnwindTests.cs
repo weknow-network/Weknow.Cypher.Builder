@@ -254,13 +254,17 @@ SET n += item", cypher.Query);
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
         {
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var map = Variables.Create<Foo>();
+
             var maintainer_ = Variables.Create();
             var (maintainer_Id, Date) = Parameters.CreateMulti();
             var maintainer = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
 
-            CypherCommand cypher = _(items => map => n =>
+            CypherCommand cypher = _(() =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, new { Id = map._(Id) }) - maintainer)),
+                                    Merge(N(n, Person, new { Id = map._.Id }) - maintainer)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher);

@@ -113,15 +113,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Sum numerical values. Similar functions are avg(), min(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN sum(n.PropA)
         /// </example>
-        [Cypher("sum($0\\.$1)")]
-        public static VariableDeclaration Sum(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("sum($0)")]
+        public static VariableDeclaration Sum(object prop) => throw new NotImplementedException();
 
         #endregion // Sum / sum(n.PropA))
 
@@ -130,15 +129,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Max numerical values. Similar functions are avg(), min(), sum().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN max(n.PropA)
         /// </example>
-        [Cypher("max($0\\.$1)")]
-        public static VariableDeclaration Max(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("max($0)")]
+        public static VariableDeclaration Max(object prop) => throw new NotImplementedException();
 
         #endregion // Max / max(n.PropA))
 
@@ -147,15 +145,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Min numerical values. Similar functions are avg(), sum(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN min(n.PropA)
         /// </example>
-        [Cypher("min($0\\.$1)")]
-        public static VariableDeclaration Min(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("min($0)")]
+        public static VariableDeclaration Min(object prop) => throw new NotImplementedException();
 
         #endregion // Min / min(n.PropA))
 
@@ -164,15 +161,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Avg numerical values. Similar functions are sum(), min(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN avg(n.PropA)
         /// </example>
-        [Cypher("avg($0\\.$1)")]
-        public static VariableDeclaration Avg(this VariableDeclaration variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("avg($0)")]
+        public static VariableDeclaration Avg(object prop) => throw new NotImplementedException();
 
         #endregion // Avg / avg(n.PropA))
 
@@ -239,15 +235,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// List from the values, ignores null.
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN collect(DISTINCT n.PropA)
         /// </example>
-        [Cypher("collect(DISTINCT $0\\.$1)")]
-        public static VariableDeclaration CollectDistinct(this VariableDeclaration variable, object prop) => throw new NotImplementedException();
+        [Cypher("collect(DISTINCT $0)")]
+        public static VariableDeclaration CollectDistinct(object prop) => throw new NotImplementedException();
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
