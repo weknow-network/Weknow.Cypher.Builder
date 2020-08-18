@@ -70,7 +70,6 @@ namespace Weknow.Cypher.Builder
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
 
         private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
-        private readonly ContextValue<string> _reusedParameterName = new ContextValue<string>(string.Empty);
 
         private readonly Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
         {
@@ -84,7 +83,6 @@ namespace Weknow.Cypher.Builder
         private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
 
         private readonly List<Expression> _reuseParameters = new List<Expression>();
-        private readonly List<string> _reuseParameterNames = new List<string>();
 
         #region VisitLambda
 
@@ -98,9 +96,6 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
-            if (_reuseParameterNames.Count < _reuseParameters.Count)
-                _reuseParameterNames.Add(node.Parameters[0].Name);
-
             Visit(node.Body);
             return node;
         }
@@ -169,32 +164,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // VisitBinaryVisitUnary
-
-        #region VisitUnary
-
-        /// <summary>
-        /// Visits the children of the <see cref="T:System.Linq.Expressions.UnaryExpression" />.
-        /// </summary>
-        /// <param name="node">The expression to visit.</param>
-        /// <returns>
-        /// The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
-        /// </returns>
-        protected override Expression VisitUnary(UnaryExpression node)
-        {
-            Visit(node.Operand);
-            if (node.NodeType == ExpressionType.UnaryPlus)
-            {
-                if (!_duplication.Contains(node))
-                {
-                    Query.Append(" +");
-                    _duplication.Add(node);
-                }
-            }
-
-            return node;
-        }
-
-        #endregion // VisitUnary
 
         #region VisitMethodCall
 
@@ -481,13 +450,7 @@ namespace Weknow.Cypher.Builder
         /// </returns>
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (_reusedParameterName != node.Name && _reuseParameterNames.Contains(node.Name) && node.Type != typeof(VariableDeclaration))
-            {
-                using var _ = _reusedParameterName.Set(node.Name);
-                Visit(_reuseParameters[_reuseParameterNames.IndexOf(node.Name)]);
-            }
-            else
-                Query.Append(node.Name);
+            Query.Append(node.Name);
             return node;
         }
 

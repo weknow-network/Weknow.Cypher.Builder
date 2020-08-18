@@ -2370,15 +2370,6 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.VisitUnary(System.Linq.Expressions.UnaryExpression)">
-            <summary>
-            Visits the children of the <see cref="T:System.Linq.Expressions.UnaryExpression" />.
-            </summary>
-            <param name="node">The expression to visit.</param>
-            <returns>
-            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
-            </returns>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.MethodCallExpression" />.
