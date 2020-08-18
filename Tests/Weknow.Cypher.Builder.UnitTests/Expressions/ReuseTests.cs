@@ -128,7 +128,7 @@ namespace Weknow.Cypher.Builder
             var (a, b) = Variables.CreateMulti();
 
             var pattern = Reuse(() =>
-                        N(a) - R[LIKE, p._.Id] > N(b));
+                        N(a) - R[LIKE, new { p._.Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal(@"(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -161,7 +161,7 @@ namespace Weknow.Cypher.Builder
             var (a, r1, b) = Variables.CreateMulti();
 
             var pattern = Reuse(() =>
-                        N(a) - R[r1, LIKE, p._.Id] > N(b));
+                        N(a) - R[r1, LIKE, new { p._.Id }] > N(b));
 
             _outputHelper.WriteLine(pattern.ToString());
             Assert.Equal("(a)-[r1:LIKE { Id: $Id }]->(b)", pattern.ToString());
@@ -259,11 +259,11 @@ namespace Weknow.Cypher.Builder
             var item = Variables.Create<Foo>();
 
             INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(() => N(u) - R[By, p._.Date] > N(n));
+            INode by = Reuse(() => N(u) - R[By, new { p._.Date }] > N(n));
             CypherCommand cypher =
                 _(() =>
                              Unwind(items, item,
-                                Match(N(n, Person, new { item._.Id }), user)
+                                Match(N(n, Person, new { (~item)._.Id }), user)
                                 .Merge(by)
                                 .Return(n)));
 

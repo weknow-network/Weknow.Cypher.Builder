@@ -60,7 +60,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// n.property IN [items]
         /// </example>
-        [Cypher("$0\\.$1 IN \\$$2")]
+        [Cypher("$0 IN $1")]
         public static bool In(object property, VariableDeclaration compareWith) => throw new NotImplementedException();
         
         /// <summary>
@@ -74,7 +74,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// n.property IN [$items]
         /// </example>
-        [Cypher("$0\\.$1 IN \\$$2")]
+        [Cypher("$0 IN $1")]
         public static bool In(object property, ParameterDeclaration compareWith) => throw new NotImplementedException();
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// n.property IN [item.List]
         /// </example>
-        [Cypher("$0\\.$1 IN \\$$2")]
+        [Cypher("$0 IN $1")]
         public static bool In(object property, object compareWith) => throw new NotImplementedException();
 
         #endregion // In

@@ -212,7 +212,6 @@ namespace Weknow.Cypher.Builder
             ReadOnlyCollection<Expression> args = node.Arguments;
             Expression? firstArg = args.FirstOrDefault();
 
-            using var _ = IsProperty(node.Method.ReturnType);
             using IDisposable inScp = mtdName switch
             {
                 nameof(Cypher.In) => _methodExpr.Set(node),
@@ -394,7 +393,6 @@ namespace Weknow.Cypher.Builder
                 }
                 if (_methodExpr.Value?.Method.Name == nameof(Cypher.In))
                     Query.Append("$");
-                using IDisposable _ = IsProperty(expr.Type);
                 Visit(expr);
                 bool isLabels = node.Type == typeof(ILabel[]);
                 if (expr != node.Expressions.Last() && !isLabels)
@@ -673,27 +671,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // HandleProperties
-
-        #region IsProperty
-
-        /// <summary>
-        /// Determines whether the specified type is property.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns></returns>
-        private IDisposable IsProperty(Type type)
-        {
-            //throw new NotImplementedException();
-
-            //var result = type.Name switch
-            //{
-            //    nameof(IProperty) => _isProperties.Set(true),
-            //    _ => DisposeableAction.Empty
-            //};
-            //return result;
-        }
-
-        #endregion // IsProperty
 
         #region AppendPropSeparator
 
