@@ -231,10 +231,10 @@ namespace Weknow.Cypher.Builder
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
-        [Cypher("&UNWIND \\$$0 AS $1\r\n+21$2")]
+        [Cypher("&UNWIND \\$$0 AS $1\r\n$2")]
         public static Fluent Unwind(VariableDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
-        [Cypher("&UNWIND $0 AS $1\r\n+21$2")]
+        [Cypher("&UNWIND $0 AS $1\r\n$2")]
         public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
         #endregion // Unwind
 

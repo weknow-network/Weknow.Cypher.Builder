@@ -158,7 +158,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// ON CREATE SET n.Name = $Name, n.Code = prm.Code
         /// </example>
-        [Cypher("$0\r\n\tON CREATE &SET +11$2")]
+        [Cypher("$0\r\n\tON CREATE &SET +01$2")]
         public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
 
         #endregion // OnCreateSet
@@ -241,7 +241,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// ON MATCH SET n.Name = $Name, n.Code = prm.Code
         /// </example>
-        [Cypher("$0\r\n\tON MATCH &SET +11$2")]
+        [Cypher("$0\r\n\tON MATCH &SET +01$2")]
         public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
 
         #endregion // OnMatchSet
@@ -339,7 +339,7 @@ namespace Weknow.Cypher.Builder
         /// result in:
         /// SET n.Name = $Name, n.Code = prm.Code
         /// </example>
-        [Cypher("$0\r\n&SET +11$2")]
+        [Cypher("$0\r\n&SET +01$2")]
         public static Fluent Set(this Fluent fluent, VariableDeclaration var, object assignment)
             => throw new NotImplementedException();
 

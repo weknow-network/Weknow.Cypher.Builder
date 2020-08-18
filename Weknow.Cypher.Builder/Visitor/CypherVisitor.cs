@@ -74,10 +74,6 @@ namespace Weknow.Cypher.Builder
         private readonly Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
         {
             [0] = new ContextValue<Expression?>(null),
-            [1] = new ContextValue<Expression?>(null),
-            [2] = new ContextValue<Expression?>(null),
-            [3] = new ContextValue<Expression?>(null),
-            [4] = new ContextValue<Expression?>(null),
         };
 
         private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
@@ -362,13 +358,13 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitNew(NewExpression node)
         {
             using var _ = _isProperties.Set(true);
-            if (_expression[1].Value == null)
+            if (_expression[0].Value == null)
                 Query.Append("{ ");
             for (int i = 0; i < node.Arguments.Count; i++)
             {
-                if (_expression[1].Value != null)
+                if (_expression[0].Value != null)
                 {
-                    Visit(_expression[1].Value);
+                    Visit(_expression[0].Value);
                     Query.Append('.');
                 }
                 Query.Append(node.Members[i].Name);
@@ -378,7 +374,7 @@ namespace Weknow.Cypher.Builder
                 if (expr != node.Arguments.Last())
                     Query.Append(", ");
             }
-            if (_expression[1].Value == null)
+            if (_expression[0].Value == null)
                 Query.Append(" }");
             return node;
         }
@@ -388,20 +384,20 @@ namespace Weknow.Cypher.Builder
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
             using var _ = _isProperties.Set(true);
-            if (_expression[1].Value == null)
+            if (_expression[0].Value == null)
                 Query.Append("{ ");
             foreach (var item in node.Bindings)
             {
-                if (_expression[1].Value != null)
+                if (_expression[0].Value != null)
                 {
-                    Visit(_expression[1].Value);
+                    Visit(_expression[0].Value);
                     Query.Append('.');
                 }
                 VisitMemberBinding(item);
                 if (item != node.Bindings.Last())
                     Query.Append(", ");
             }
-            if (_expression[1].Value == null)
+            if (_expression[0].Value == null)
                 Query.Append(" }");
             return node;
         }
