@@ -371,28 +371,6 @@ namespace Weknow.Cypher.Builder
         {
             foreach (var expr in node.Expressions)
             {
-                if (_expression[3].Value != null) // generics properties, example: n.P(ID)
-                {
-                    string? equalPattern = EqualPattern();
-                    bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
-                    if (!_isProperties.Value || equalPattern != null || isReturn)
-                    {
-                        // use for tracing duplication
-                        int idx = Query.Length;
-                        Visit(_expression[3].Value);
-                        Query.Append(".");
-                        var range = Range.StartAt(idx);
-                        var addition = Query[range];
-                        int len = addition.Length;
-                        var prev = Query[idx - len, len];
-                        if (addition.Compare(prev))
-                        {
-                            Query.Remove(idx, len);
-                        }
-                    }
-                }
-                if (_methodExpr.Value?.Method.Name == nameof(Cypher.In))
-                    Query.Append("$");
                 Visit(expr);
                 bool isLabels = node.Type == typeof(ILabel[]);
                 if (expr != node.Expressions.Last() && !isLabels)
@@ -481,11 +459,6 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append(node.Value);
             }
-            else if (_isProperties.Value)
-            {
-                Query.Append(node.Value);
-                HandleProperties(node.Value);
-            }
             else
             {
                 var parameterName = $"p_{Parameters.Count}";
@@ -547,24 +520,6 @@ namespace Weknow.Cypher.Builder
                             }
                         }
                         break;
-                    case '!':
-                        {
-                            var ch = format[++i];
-                            if (ch == 'l')
-                            {
-                                int index = int.Parse(format[++i].ToString());
-                                Type[] tps = node.Method.GetGenericArguments();
-                                string name = tps[index].Name;
-                                Query.Append(_configuration.AmbientLabels.Combine(name));
-
-                            }
-                            else
-                            {
-                                int index = int.Parse(ch.ToString());
-                                Query.Append(node.Method.GetGenericArguments()[index].Name);
-                            }
-                        }
-                        break;
                     case '+':
                         {
                             var ch = format[++i];
@@ -578,14 +533,6 @@ namespace Weknow.Cypher.Builder
                             disp = ctx.Set(expr);
                         }
                         break;
-                    case '.':
-                        {
-                            string fmt = format[++i].ToString();
-                            int index = int.Parse(fmt);
-                            ContextValue<Expression?>? expr = _expression[index];
-                            disp = expr.Set(node);
-                            break;
-                        }
                     case '&':
                         if (disp == null)
                             disp = _methodExpr.Set(node);
@@ -595,17 +542,6 @@ namespace Weknow.Cypher.Builder
                     case '\\':
                         {
                             char f = format[++i];
-                            Query.Append(f);
-                            break;
-                        }
-                    case '=':
-                        {
-                            char last2 = Query[^2];
-                            char last1 = Query[^1];
-                            if (last2 == '+' && last1 == ' ')
-                                Query.Remove(Query.Length - 1, 1);
-
-                            char f = format[i];
                             Query.Append(f);
                             break;
                         }
@@ -644,33 +580,6 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // EqualPattern
-
-        #region HandleProperties
-
-        /// <summary>
-        /// Handles the properties.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <exception cref="ArgumentNullException">name</exception>
-        private void HandleProperties(object? name)
-        {
-            string parameterName = name?.ToString() ?? throw new ArgumentNullException(nameof(name));
-            AppendPropSeparator();
-            if (_expression[2].Value != null && _expression[4].Value != null &&
-                _expression[2].Value == _expression[4].Value)
-            {
-                Visit(_expression[2].Value);
-                Query.Append(".");
-            }
-            else
-            {
-                Query.Append("$");
-            }
-            Query.Append(name);
-            Parameters[parameterName] = null;
-        }
-
-        #endregion // HandleProperties
 
         #region AppendPropSeparator
 

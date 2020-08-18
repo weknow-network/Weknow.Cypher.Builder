@@ -2448,13 +2448,6 @@
               <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="M:Weknow.Cypher.Builder.CypherVisitor.HandleProperties(System.Object)">
-            <summary>
-            Handles the properties.
-            </summary>
-            <param name="name">The name.</param>
-            <exception cref="T:System.ArgumentNullException">name</exception>
-        </member>
         <member name="M:Weknow.Cypher.Builder.CypherVisitor.AppendPropSeparator">
             <summary>
             Appends the property separator.
