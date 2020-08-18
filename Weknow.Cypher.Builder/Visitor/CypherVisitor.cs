@@ -458,14 +458,9 @@ namespace Weknow.Cypher.Builder
                     case '$':
                         {
                             var ch = format[++i];
-                            IDisposable scope = DisposeableAction.Empty;
-                            int index = -1;
-                            index = int.Parse(ch.ToString());
-                            using (scope)
-                            {
-                                Expression expr = node.Arguments[index];
-                                Visit(expr);
-                            }
+                            int index = int.Parse(ch.ToString());
+                            Expression expr = node.Arguments[index];
+                            Visit(expr);
                         }
                         break;
                     case '+':
