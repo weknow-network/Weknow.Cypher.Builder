@@ -76,10 +76,6 @@ namespace Weknow.Cypher.Builder
             [0] = new ContextValue<Expression?>(null),
         };
 
-        private readonly HashSet<Expression> _duplication = new HashSet<Expression>();
-
-        private readonly List<Expression> _reuseParameters = new List<Expression>();
-
         #region VisitLambda
 
         /// <summary>
