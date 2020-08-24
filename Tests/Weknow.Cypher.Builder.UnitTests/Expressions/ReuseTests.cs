@@ -226,12 +226,14 @@ namespace Weknow.Cypher.Builder
         public void Reuse_Unwind_Test()
         {
             var n = Variables.Create<Foo>();
-            var (u, maintainer_) = Variables.CreateMulti();
-            var (maintainer_Id, Date) = Parameters.CreateMulti();
-            INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
-            INode by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
+            var (u, maintainer_, item) = Variables.CreateMulti();
+            var (maintainer_Id, Date, items) = Parameters.CreateMulti();
+
+            var user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
+            var by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
+
             CypherCommand cypher =
-                _(items => item => u => maintainer_ =>
+                _(() =>
                              Unwind(items, item,
                                 Match(N(n, Person, item._(n._.Id)))
                                 .Match(user)
