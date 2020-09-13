@@ -115,8 +115,6 @@ WHERE n.Name =~ $Name", cypher.Query);
             Assert.Equal(
 @"MATCH (n:Person { Id: $Id }), (m:Person)
             WHERE n.Date < $Date AND n.Name = $x_name", cypher.Query);
-            Assert.NotEmpty(cypher.Parameters);
-            Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test

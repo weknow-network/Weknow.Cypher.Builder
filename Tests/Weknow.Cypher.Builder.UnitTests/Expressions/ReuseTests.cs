@@ -220,36 +220,6 @@ namespace Weknow.Cypher.Builder
 
         #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
 
-        #region UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Test
-
-        [Fact]
-        public void Reuse_Unwind_Test()
-        {
-            var n = Variables.Create<Foo>();
-            var (u, maintainer_, item) = Variables.CreateMulti();
-            var (maintainer_Id, Date, items) = Parameters.CreateMulti();
-
-            var user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
-            var by = Reuse(() => N(u) - R[By, new { Date }] > N(n));
-
-            CypherCommand cypher =
-                _(() =>
-                             Unwind(items, item,
-                                Match(N(n, Person, item._(n._.Id)))
-                                .Match(user)
-                                .Merge(by)
-                                .Return(n)));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("UNWIND $items AS item\r\n" +
-                "MATCH (n:Person { Id: item.Id })\r\n" +
-                "MATCH (u:Maintainer { Id: $maintainer_Id })\r\n" +
-                "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
-                "RETURN n", cypher);
-        }
-
-        #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Test
-
         #region UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
 
         [Fact]
@@ -265,6 +235,7 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher =
                 _(() =>
                              Unwind(items, item,
+                                //                       Id = item.Id
                                 Match(N(n, Person, new { (~item)._.Id }), user)
                                 .Merge(by)
                                 .Return(n)));

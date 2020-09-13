@@ -227,12 +227,12 @@ SET n += item", cypher.Query);
         public void Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test()
         {
             var items = Parameters.Create();
-            var n = Variables.Create<Foo>();
-            var map = Variables.Create();
+            var n = Variables.Create();
+            var map = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
                                    Unwind(items, map,
-                                   Merge(N(n, Person, map._(new { n._.Id, n._.Name })))
+                                   Merge(N(n, Person, new { (~map)._.Id, (~map)._.Name }))
                                    .OnCreateSet(n, map)
                                    .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
