@@ -133,7 +133,7 @@ namespace Weknow.Cypher.Builder
         /// UNWIND $items AS item 
         ///     MATCH(n:Person { PropA: item.x })
         /// </example>
-        [Cypher("+40$1")]
+        [Cypher("$0\\.$1")]
         public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
 
         #region Rgx

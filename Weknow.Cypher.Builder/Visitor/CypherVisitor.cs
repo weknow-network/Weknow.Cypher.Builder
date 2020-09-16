@@ -119,9 +119,14 @@ namespace Weknow.Cypher.Builder
                     }
                     break;
                 case ExpressionType.LessThan:
-                    Query.Append("<-");
-                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
-                        Query.Append("-");
+                    if (node.Method.ReturnType == typeof(bool))
+                        Query.Append(" < ");
+                    else
+                    {
+                        Query.Append("<-");
+                        if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
+                            Query.Append("-");
+                    }
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
@@ -253,13 +258,11 @@ namespace Weknow.Cypher.Builder
                 Visit(p.expression);
                 return node;
             }
-            else if (node.Expression != null &&
-                     !typeof(VariableDeclaration).IsAssignableFrom(node.Type) &&
-                     /* node.Type != typeof(IMap) && */
-                     !typeof(ParameterDeclaration).IsAssignableFrom(node.Type) &&
+            else if (node.Expression is MemberExpression me &&
+                     typeof(VariableDeclaration).IsAssignableFrom(me.Member.DeclaringType) &&
                      !_isProperties.Value)
             {
-                Visit(node.Expression);
+                Visit(me.Expression);
                 Query.Append(".");
             }
             if (node.Type == typeof(ILabel))
@@ -270,9 +273,6 @@ namespace Weknow.Cypher.Builder
                 Query.Append(_configuration.AmbientLabels.Combine(name));
                 return node;
             }
-
-            //if (name == nameof(VariableDeclaration.AsMap))
-            //    return node;
 
             if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
             {

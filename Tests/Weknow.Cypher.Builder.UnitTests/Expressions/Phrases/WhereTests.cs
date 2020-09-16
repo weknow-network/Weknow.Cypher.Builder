@@ -97,13 +97,13 @@ WHERE n.Name =~ $Name", cypher.Query);
         [Fact]
         public void Where_Parameter_Test()
         {
-            var x_name = Parameters.Create();
+            var x_name = Parameters.Create<string>();
             var p = Parameters.Create<Bar>();
             var n = Variables.Create<Bar>();
 
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { p._.Id }))
-                                    .Where(n._.Date < p._.Date && Equals(n._.Name, x_name)));
+                                    .Where(n._.Date < p._.Date && n._.Name == x_name));
 
             _outputHelper.WriteLine(cypher.Dump());
 
@@ -111,10 +111,10 @@ WHERE n.Name =~ $Name", cypher.Query);
             string dateStr = nameof(p._.Date);
             Assert.Contains(cypher.Parameters, p => p.Key == isStr);
             Assert.Contains(cypher.Parameters, p => p.Key == nameof(x_name));
-            Assert.Contains(cypher.Parameters, p => p.Key == nameof(dateStr));
+            Assert.Contains(cypher.Parameters, p => p.Key == dateStr);
             Assert.Equal(
-@"MATCH (n:Person { Id: $Id }), (m:Person)
-            WHERE n.Date < $Date AND n.Name = $x_name", cypher.Query);
+@"MATCH (n:Person { Id: $Id })
+WHERE n.Date < $Date AND n.Name = $x_name", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { PropA: $PropA }) WHERE n.PropA = $PropA, n.PropB = $n_PropB / Where_Parameter_Test
