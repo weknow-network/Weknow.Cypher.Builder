@@ -27,7 +27,7 @@ namespace Weknow.Cypher.Builder
 
         #region Config_Test
 
-        [Fact]
+        [Fact(Skip ="Not implemented")]
         public void Config_Test()
         {
             throw new NotImplementedException();
