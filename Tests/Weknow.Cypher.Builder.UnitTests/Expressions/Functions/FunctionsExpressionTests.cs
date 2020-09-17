@@ -29,9 +29,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Label_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
-                                    .Set(n.Label(Person, Animal)));
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
+                                    .Set(n, Person & Animal));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
@@ -45,8 +45,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Labels_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .Return(n.Labels()));
 
             _outputHelper.WriteLine(cypher);
@@ -61,12 +61,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Timestamp_Test()
         {
-            CypherCommand cypher = _(n => m =>
-                                    Match(N(n))
-                                    .Set(Timestamp(n, Date))
+            var (n, m) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Match(N(n))
+                                    .Set(n, new { Date = Timestamp() })
                                     .Merge(N(m))
-                                    .OnCreateSet(Timestamp(n, "CreationDate"))
-                                    .OnMatchSet(n.Timestamp("ModifiedDate"))
+                                    .OnCreateSet(n, new { CreationDate = Timestamp() })
+                                    .OnMatchSet(n, new { ModifiedDate = Timestamp() })
                                     .Return(n, Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);
@@ -85,8 +85,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Functions_Test()
         {
-            CypherCommand cypher = _(n1 => r => n2 =>
-                                    Match(N(n1)-R[r]>N(n2))
+            var (n1, r, n2) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Match(N(n1)-R[r]>N(n2))
                                     .Return(Timestamp().As("time"),
                                             n1.Labels().As("label"),
                                             n1.Id(), 
@@ -116,13 +116,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Aggregation_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        n.Sum(PropA).As("sum"), 
-                                        n.Min(n.P<Foo>(x => x.PropA)).As("min"),
-                                        n.Max(PropA).As("max"),
-                                        n.Avg(PropA).As("avg")));
+                                        Sum(n._.PropA).As("sum"), 
+                                        Min(n._.PropA).As("min"),
+                                        Max(n._.PropA).As("max"),
+                                        Avg(n._.PropA).As("avg")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
@@ -140,7 +142,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Collect_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+            
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(n.Collect()));
 
@@ -156,29 +160,50 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Collect_Prop_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+            var id = Variables.Create();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.Collect(PropA)));
+                                    .With(n._.Id.As(id))
+                                    .Return(id.Collect()));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)\r\n" +
+                         "WITH n.Id AS id\r\n" +
+                         "RETURN collect(id)", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_Prop_Test
+
+        [Fact]
+        public void Collect_Var_Prop_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(Collect(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
                          "RETURN collect(n.PropA)", cypher.Query);
         }
 
-        #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_Prop_Test
-
         #region MATCH (n) RETURN collect(n.PropA) / Collect_PropT_Test
 
         [Fact]
         public void Collect_PropT_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.Collect(n.P<Foo>(x => x.PropA))));
+                                    .Return(Collect(n._.Id)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
-                         "RETURN collect(n.PropA)", cypher.Query);
+                         "RETURN collect(n.Id)", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_PropT_Test
@@ -188,6 +213,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CollectDistinct_Test()
         {
+            var n = Variables.Create();
+
             CypherCommand cypher = _(n =>
                                     Match(N(n))
                                     .Return(n.CollectDistinct()));
@@ -204,9 +231,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CollectDistinct_Prop_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.CollectDistinct(PropA)));
+                                    .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +
@@ -220,9 +249,11 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CollectDistinct_PropT_Test()
         {
-            CypherCommand cypher = _(n =>
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                                     Match(N(n))
-                                    .Return(n.CollectDistinct(n.P<Foo>(x => x.PropA))));
+                                    .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)\r\n" +

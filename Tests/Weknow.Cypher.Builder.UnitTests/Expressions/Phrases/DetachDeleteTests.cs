@@ -28,8 +28,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Delete_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .Delete(n));
 
             _outputHelper.WriteLine(cypher);
@@ -44,8 +44,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Detach_Delete_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Match(N(n))
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Match(N(n))
                                     .DetachDelete(n));
 
             _outputHelper.WriteLine(cypher);

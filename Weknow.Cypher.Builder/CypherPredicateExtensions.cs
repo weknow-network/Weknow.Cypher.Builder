@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
@@ -9,7 +11,7 @@ namespace Weknow.Cypher.Builder
     /// <summary>
     /// Cypher Extensions
     /// </summary>
-    public static class CypherPredicateExtensions
+    partial class Cypher
     {
         #region Compare
 
@@ -50,27 +52,45 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// IN phrase.
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="property">The property.</param>
         /// <param name="compareWith">The compare with.</param>
         /// <returns></returns>
         /// <example>
-        /// n.property IN [$value1, $value2]
+        /// In(n._.property, items)
+        /// result in:
+        /// n.property IN [items]
         /// </example>
-        [Cypher("$0\\.$1 IN \\$$2")]
-        public static bool In(this IVar variable, IProperty property, IVar compareWith) => throw new NotImplementedException();
+        [Cypher("$0 IN $1")]
+        public static bool In(object property, VariableDeclaration compareWith) => throw new NotImplementedException();
+        
+        /// <summary>
+        /// IN phrase.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <param name="compareWith">The compare with.</param>
+        /// <returns></returns>
+        /// <example>
+        /// In(n._.property, items)
+        /// result in:
+        /// n.property IN [$items]
+        /// </example>
+        [Cypher("$0 IN $1")]
+        public static bool In(object property, ParameterDeclaration compareWith) => throw new NotImplementedException();
 
         /// <summary>
         /// IN phrase.
         /// </summary>
-        /// <param name="variable">The variable.</param>
+        /// <param name="property">The property.</param>
         /// <param name="compareWith">The compare with.</param>
         /// <returns></returns>
         /// <example>
-        /// n.property IN [$value1, $value2]
+        /// var item = VariablesCreateMulti();
+        /// In(n._.property, item.List)
+        /// result in:
+        /// n.property IN [item.List]
         /// </example>
-        [Cypher("$0 IN \\$$1")]
-        public static bool In(this IVar variable, IVar compareWith) => throw new NotImplementedException();
+        [Cypher("$0 IN $1")]
+        public static bool In(object property, object compareWith) => throw new NotImplementedException();
 
         #endregion // In
     }

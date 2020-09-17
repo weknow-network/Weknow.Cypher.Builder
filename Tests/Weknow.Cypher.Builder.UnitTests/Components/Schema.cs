@@ -8,17 +8,10 @@ namespace Weknow.Cypher.Builder
     {
         public static ILabel Person => throw new NotImplementedException();
         public static ILabel Animal => throw new NotImplementedException();
+        public static ILabel Manager => throw new NotImplementedException();
         public static ILabel Maintainer => throw new NotImplementedException();
         public static IType KNOWS => throw new NotImplementedException();
         public static IType LIKE => throw new NotImplementedException();
         public static IType By => throw new NotImplementedException();
-        public static IProperty Id => throw new NotImplementedException();
-        public static IProperty Date => throw new NotImplementedException();
-        public static IProperty Name => throw new NotImplementedException();
-        public static IProperty PropA => throw new NotImplementedException();
-        public static IProperty PropB => throw new NotImplementedException();
-        public static IProperty PropC => throw new NotImplementedException();
-        // public static IETagProperty Concurrency => throw new NotImplementedException();
     }
-
 }

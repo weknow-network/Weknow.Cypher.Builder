@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using static Weknow.Cypher.Builder.CypherDelegates;
 
 namespace Weknow.Cypher.Builder
@@ -8,7 +10,7 @@ namespace Weknow.Cypher.Builder
     /// <summary>
     /// Cypher Function Extensions
     /// </summary>
-    public static class CypherFunctionExtensions
+    partial class Cypher
     {
         #region Type / type(r)
 
@@ -22,7 +24,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN type(r)
         /// </example>
         [Cypher("type($0)")]
-        public static IVar Type(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Type(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Type / type(r)
 
@@ -38,7 +40,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN startNode(r)
         /// </example>
         [Cypher("startNode($0)")]
-        public static IVar StartNode(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration StartNode(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // StartNode / startNode(r)
 
@@ -54,7 +56,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN endNode(r)
         /// </example>
         [Cypher("endNode($0)")]
-        public static IVar EndNode(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration EndNode(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // EndNode / endNode(r)
 
@@ -70,7 +72,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN id(n)
         /// </example>
         [Cypher("id($0)")]
-        public static IVar Id(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Id(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Id / id(n)
 
@@ -86,33 +88,9 @@ namespace Weknow.Cypher.Builder
         /// RETURN labels(n)
         /// </example>
         [Cypher("labels($0)")]
-        public static IVar Labels(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Labels(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Labels / labels(n)
-
-        #region Label / n:Spouse:Parent:Employee
-
-        /// <summary>
-        /// Specify label of node
-        /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="labels"></param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// WHERE (n:Person)
-        /// RETURN n
-        /// ----------------
-        /// MATCH (n)
-        /// REMOVE n:Person
-        /// ----------------
-        /// MATCH (n)
-        /// SET n:Spouse:Parent:Employee
-        /// </example>
-        [Cypher("$0:$1")]
-        public static IVar Label(this IVar variable, params ILabel[] labels) => throw new NotImplementedException();
-
-        #endregion // Label / n:Spouse:Parent:Employee
 
         #region Count / count(n)
 
@@ -126,7 +104,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN count(n)
         /// </example>
         [Cypher("count($0)")]
-        public static IVar Count(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Count(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // Count / count(n)
 
@@ -135,15 +113,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Sum numerical values. Similar functions are avg(), min(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN sum(n.PropA)
         /// </example>
-        [Cypher("sum($0\\.$1)")]
-        public static IVar Sum(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("sum($0)")]
+        public static VariableDeclaration Sum(object prop) => throw new NotImplementedException();
 
         #endregion // Sum / sum(n.PropA))
 
@@ -152,15 +129,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Max numerical values. Similar functions are avg(), min(), sum().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN max(n.PropA)
         /// </example>
-        [Cypher("max($0\\.$1)")]
-        public static IVar Max(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("max($0)")]
+        public static VariableDeclaration Max(object prop) => throw new NotImplementedException();
 
         #endregion // Max / max(n.PropA))
 
@@ -169,15 +145,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Min numerical values. Similar functions are avg(), sum(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN min(n.PropA)
         /// </example>
-        [Cypher("min($0\\.$1)")]
-        public static IVar Min(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("min($0)")]
+        public static VariableDeclaration Min(object prop) => throw new NotImplementedException();
 
         #endregion // Min / min(n.PropA))
 
@@ -186,15 +161,14 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// Avg numerical values. Similar functions are sum(), min(), max().
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN avg(n.PropA)
         /// </example>
-        [Cypher("avg($0\\.$1)")]
-        public static IVar Avg(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("avg($0)")]
+        public static VariableDeclaration Avg(object prop) => throw new NotImplementedException();
 
         #endregion // Avg / avg(n.PropA))
 
@@ -210,7 +184,7 @@ namespace Weknow.Cypher.Builder
         /// RETURN count(n)
         /// </example>
         [Cypher("count(DISTINCT $0)")]
-        public static IVar CountDistinct(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration CountDistinct(this VariableDeclaration variable) => throw new NotImplementedException();
 
         #endregion // CountDistinct / count(DISTINCT n)
 
@@ -222,24 +196,25 @@ namespace Weknow.Cypher.Builder
         /// <param name="variable">The variable.</param>
         /// <returns></returns>
         /// <example>
-        /// MATCH (n)
-        /// RETURN collect(n)
+        /// n.Collect() or Collect(n)
+        /// result in:
+        /// collect(n)
         /// </example>
         [Cypher("collect($0)")]
-        public static IVar Collect(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration Collect(this VariableDeclaration variable) => throw new NotImplementedException();
 
         /// <summary>
         /// List from the values, ignores null.
         /// </summary>
-        /// <param name="variable">The variable.</param>
-        /// <param name="prop">The property.</param>
+        /// <param name="property">The property.</param>
         /// <returns></returns>
         /// <example>
-        /// MATCH (n)
-        /// RETURN collect(n.PropA)
+        /// Collect(n._.Id)
+        /// result in
+        /// collect(n.Id)
         /// </example>
-        [Cypher("collect($0\\.$1)")]
-        public static IVar Collect(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("collect($0)")]
+        public static VariableDeclaration Collect(object property) => throw new NotImplementedException();
 
         #endregion // Collect / collect(n), collect(n.PropA)
 
@@ -255,39 +230,21 @@ namespace Weknow.Cypher.Builder
         /// RETURN collect(DISTINCT n)
         /// </example>
         [Cypher("collect(DISTINCT $0)")]
-        public static IVar CollectDistinct(this IVar variable) => throw new NotImplementedException();
+        public static VariableDeclaration CollectDistinct(this VariableDeclaration variable) => throw new NotImplementedException();
 
         /// <summary>
         /// List from the values, ignores null.
         /// </summary>
-        /// <param name="variable">The variable.</param>
         /// <param name="prop">The property.</param>
         /// <returns></returns>
         /// <example>
         /// MATCH (n)
         /// RETURN collect(DISTINCT n.PropA)
         /// </example>
-        [Cypher("collect(DISTINCT $0\\.$1)")]
-        public static IVar CollectDistinct(this IVar variable, IProperty prop) => throw new NotImplementedException();
+        [Cypher("collect(DISTINCT $0)")]
+        public static VariableDeclaration CollectDistinct(object prop) => throw new NotImplementedException();
 
         #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
-
-        #region Timestamp
-
-        /// <summary>
-        /// Milliseconds since midnight, January 1, 1970 UTC.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="prop">The property.</param>
-        /// <returns></returns>
-        /// <example>
-        /// MATCH (n)
-        /// SET n.Date = timestamp()
-        /// </example>
-        [Cypher("$0\\.$1 = timestamp()")]
-        public static ISelfFormat Timestamp(this IVar var, object prop) => throw new NotImplementedException();
-
-        #endregion // Timestamp
 
         #region // Coalesce / coalesce(n)
 

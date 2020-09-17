@@ -29,9 +29,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Test()
         {
-            CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Where(n.In(items))
+            var (items, Id) = Parameters.CreateMulti();
+            var n = Variables.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person, new { Id }))
+                                    .Where(In(n, items))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -48,9 +51,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Prop_Test()
         {
-            CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Where(n.In(Id, items))
+            var (items, Id) = Parameters.CreateMulti();
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person, new { Id }))
+                                    .Where(In(n._.Id, items))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -67,9 +73,12 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void In_Complex_Test()
         {
-            CypherCommand cypher = _(n => items =>
-                                    Match(N(n, Person, P(Id)))
-                                    .Where(n.In(PropA, items) && n.In(PropB, items))
+            var (items, Id) = Parameters.CreateMulti();
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person, new { Id }))
+                                    .Where(In(n._.PropA, items) && In(n._.PropB, items))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
@@ -80,6 +89,26 @@ namespace Weknow.Cypher.Builder
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n.PropA IN $items AND n.PropB IN $items RETURN n / In_Complex_Test
+        
+        [Fact]
+        public void In_Var_Test()
+        {
+            var Id = Parameters.Create();
+            var n = Variables.Create<Foo>();
+            var item = Variables.Create<Cmlx>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person, new { Id }))
+                                    .Where(In(n._.Id, item._.Names))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+			 Assert.Equal(
+                    "MATCH (n:Person { Id: $Id })\r\n" +
+                    "WHERE n.Id IN item.Names\r\n" +
+                    "RETURN n", cypher.Query);
+        }
+
     }
 }
 

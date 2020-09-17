@@ -29,18 +29,17 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic1_Test()
         {
-            throw new NotImplementedException();
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create();
 
-            //IParameter<Foo> map = null;
+            CypherCommand cypher =
+                _(() => Create(N(n, Person, new Foo { Id = (~map)._.Id, Name = (~map)._.FirstName + (~map)._.LastName }))
+                           .Set(n, map));
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, new Foo { Id = map._.Id, Name = map._.FirstName + map._.LastName })))
-            //               .Set(new { n = map }));
-
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
-            //    "Set n = $map", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
+                "SET n = $map", cypher.Query);
         }
 
         #endregion // Merge_NoMagic1_Test
@@ -50,14 +49,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic2_Test()
         {
-            //IParameter<Foo> map_Id = null;
+            var map_Id = Parameters.Create();
+            var n = Variables.Create(); ;
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, new { Id = map_Id })));
+            CypherCommand cypher =
+                _(() => Create(N(n, Person, new { Id = map_Id })));
 
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map_Id })", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (n:Person { Id: $map_Id })", cypher.Query);
         }
 
         #endregion // Merge_NoMagic2_Test
@@ -67,17 +67,22 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic3_Test()
         {
-            throw new NotImplementedException();
-            //IParameter<Foo> map = null;
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create(); ;
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, new { Id = map._.Id, Name = map._.FirstName + map._.LastName })))
-            //               .Set(new { n = +map }));
+            CypherCommand cypher =
+                _(() => Create(N(n, Person, 
+                                        new 
+                                        { 
+                                            (~map)._.Id,
+                                            (~map)._.Name
+                                        }))
+                           .SetPlus(n, map));
 
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
-            //    "Set n += $map", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (n:Person { Id: $map.Id, Name: $map.Name })\r\n" +
+                "SET n += $map", cypher.Query);
         }
 
         #endregion // Merge_NoMagic3_Test
@@ -87,17 +92,22 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Merge_NoMagic4_Test()
         {
-            throw new NotImplementedException();
-            //IParameter<Foo> map = null;
+            var map = Parameters.Create<Someone>();
+            var n = Variables.Create(); ;
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Create(N(n, Person, n.With(new { Id = map._.Id, Name = map._.FirstName + map._.LastName }))))
-            //               .Set(n.With( new { Address = map._.Address })));
+            CypherCommand cypher =
+                _(() => Create(N(n, Person,
+                                new 
+                                {
+                                    (~map)._.Id, 
+                                    Name = (~map)._.FirstName 
+                                }))
+                           .Set(n, new { (~map)._.Address }));
 
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "CREATE(n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
-            //    "Set n.Address = $map.Adress", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName })\r\n" +
+                "SET n.Address = $map.Address", cypher.Query);
         }
 
         #endregion // Merge_NoMagic4_Test
@@ -107,24 +117,45 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Unwind_NoMagic5_Test()
         {
-            throw new NotImplementedException();
+            var items = Parameters.Create();
+            var item = Variables.Create<Foo>();
+            var n = Variables.Create(); ;
 
-            //IParameter items = null;
-            //Ivar<Foo> item = null;
+            CypherCommand cypher =
+                _(() => Unwind(items, item,
+                            Create(N(n, Person, 
+                                    new Foo { Id = (~item)._.Id, Name = (~item)._.Name })))
+                           .Set(n, item));
 
-            //CypherCommand cypher =
-            //    _<Foo>(() => Unwind(items, item, 
-            //                Create(N(n, Person, new Foo { Id = item._.Id, Name = item._.FirstName + item._.LastName })))
-            //               .Set(new { n = item }));
-
-            //_outputHelper.WriteLine(cypher);
-            //Assert.Equal(
-            //    "UNWIND items AS item\r\n"
-            //    "CREATE(n:Person { Id: item.Id, Name: item.FirstName + item.LastName })\r\n" +
-            //    "Set n = item", cypher.Query);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "UNWIND $items AS item\r\n" +
+                "CREATE (n:Person { Id: item.Id, Name: item.Name })\r\n" +
+                "SET n = item", cypher.Query);
         }
 
         #endregion // Unwind_NoMagic5_Test
+
+        #region Merge_On_Match_NoMagic6_SetProperties_OfT_Test
+
+        [Fact]
+        public void Merge_On_Match_NoMagic6_SetProperties_OfT_Test()
+        {
+            var (a, b) = Parameters.CreateMulti<string, string>();
+            var Id = Parameters.Create();
+            var n = Variables.Create(); ;
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { Id }))
+                                    .OnMatchSet(n, new Foo { PropA = a, PropB = b }));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                "ON MATCH SET n.PropA = $a, n.PropB = $b", cypher.Query);
+        }
+
+        #endregion // Merge_On_Match_NoMagic6_SetProperties_OfT_Test
     }
 }
 

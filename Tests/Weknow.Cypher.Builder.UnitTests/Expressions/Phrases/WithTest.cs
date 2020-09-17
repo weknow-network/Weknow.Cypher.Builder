@@ -28,11 +28,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Test()
         {
-            CypherCommand cypher = _(n => i =>
-                        Merge(N(n, Person, n.P(Id)))
+            var Id = Parameters.Create();
+            var n = Variables.Create();
+            var i = Variables.Create<Foo>(); ;
+
+            CypherCommand cypher = _(() =>
+                        Merge(N(n, Person, new { Id }))
                         .With()
-                        .Match(N(i, Person, n.P(Id)))
-                        .Return(i.OfType<Foo>().Name),
+                        .Match(N(i, Person, new { Id }))
+                        .Return(i._.Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
 
@@ -51,11 +55,15 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Param_Test()
         {
-            CypherCommand cypher = _(n => i =>
-                        Merge(N(n, Person, n.P(Id)))
+            var n = Variables.Create();
+            var i = Variables.Create<Foo>(); 
+            var Id = Parameters.Create();
+
+            CypherCommand cypher = _(() =>
+                        Merge(N(n, Person, new { Id }))
                         .With(n)
-                        .Match(N(i, Person, n.P(Id)))
-                        .Return(i.OfType<Foo>().Name),
+                        .Match(N(i, Person, new { Id }))
+                        .Return(i._.Name),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
 
@@ -74,13 +82,17 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Complex_Test()
         {
-            CypherCommand cypher = _(items => map => n => i =>
+            var items = Parameters.Create();
+            var (n, i) = Variables.CreateMulti();
+            var map = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._(Id)))
-                        .OnCreateSet(n, map.AsMap)
-                        .OnMatchSet(+n, map.AsMap)
+                        Merge(N(n, Person, new { (~map)._.Id }))
+                        .OnCreateSet(n, map)
+                        .OnMatchSetPlus(n, map)
                         .With()
-                        .Match(N(i, Person, map._(Id)))
+                        .Match(N(i, Person, new { (~map)._.Id }))
                         .Return(n)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
             ;
@@ -103,16 +115,19 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void With_Params_Complex_Test()
         {
-            CypherCommand cypher = _(items => map => n => i =>
+            var items = Parameters.Create();
+            var (n, i) = Variables.CreateMulti();
+            var map = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
                         Unwind(items, map,
-                        Merge(N(n, Person, map._(Id)))
-                        .OnCreateSet(n, map.AsMap)
-                        .OnMatchSet(+n, map.AsMap)
+                        Merge(N(n, Person, new { (~map)._.Id }))
+                        .OnCreateSet(n, map)
+                        .OnMatchSetPlus(n, map)
                         .With(n, map)
-                        .Match(N(i, Person, map._(Id)))
+                        .Match(N(i, Person, new { (~map)._.Id }))
                         .Return(i)),
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
-            ;
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(

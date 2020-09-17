@@ -39,11 +39,12 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         /// </summary>
         public async Task InitDataAsync()
         {
+            var ( p1Id, p2Id, t1Id, t2Id, Id) =  Parameters.CreateMulti();
             CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
-                                    Create(N(p1, Person, _P(p1, P(Id))))
-                                    .Create(N(p2, Person, _P(p2, P(Id))))
-                                    .Create(N(t1, Tag, _P(t1, Id)))
-                                    .Create(N(t2, Tag, _P(t2, Id)))
+                                    Create(N(p1, Person, new { Id = p1Id }))
+                                    .Create(N(p2, Person, new { Id = p2Id }))
+                                    .Create(N(t1, Tag, new { Id = t1Id }))
+                                    .Create(N(t2, Tag, new { Id = t2Id }))
                                     .Merge(N(p1) - R[Affinity] > N(t1))
                                     .Merge(N(p1) - R[Affinity] > N(t2)),
                                     CONFIGURATION);
@@ -67,11 +68,14 @@ namespace Weknow.Cypher.Builder.IntegrationTests
         [Fact]
         public async Task In_Test()
         {
+            var items = Parameters.Create();
+            var (n, t) = Variables.CreateMulti<Foo, Foo>();
+
             await InitDataAsync();
 
-            CypherCommand cypher = _(n => t => items =>
+            CypherCommand cypher = _(() =>
                                     Match(N(n, Person) - R[Affinity] > N(t, Tag))
-                                    .Where(t.In(Id, items))
+                                    .Where(In(t._.Id, items))
                                     .Return(n),
                                     CONFIGURATION);
 

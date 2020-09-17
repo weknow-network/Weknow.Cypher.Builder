@@ -1,5 +1,7 @@
 using System;
 
+using Weknow.Cypher.Builder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -8,7 +10,7 @@ using static Weknow.Cypher.Builder.Schema;
 
 namespace Weknow.Cypher.Builder
 {
-        [Trait("Group", "Phrases")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class CreateTests
     {
@@ -28,8 +30,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void Create_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Create(N(n, Person, P(PropA, PropB))));
+            var n = Variables.Create();
+            var (PropA, PropB) = Parameters.CreateMulti();
+
+            CypherCommand cypher = _(() => Create(N(n, Person, new { PropA, PropB })));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
@@ -42,8 +46,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateAsMap_Test()
         {
-            CypherCommand cypher = _(n =>
-                                    Create(N(n, Person, n.AsMap)));
+            var n = Variables.Create();
+            CypherCommand cypher = _(() => Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
@@ -56,8 +60,9 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateAsMap_WithParamName_Test()
         {
-            CypherCommand cypher = _(n => map =>
-                                    Create(N(n, Person, map.AsMap)));
+            var n = Variables.Create();
+            var map = Parameters.Create();
+            CypherCommand cypher = _(() => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
@@ -70,8 +75,8 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateRelation_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
-                                    Create(N(n) - R[r, KNOWS] > N(m)));
+            var (n, r, m) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => Create(N(n) - R[r, KNOWS] > N(m)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
@@ -84,8 +89,10 @@ namespace Weknow.Cypher.Builder
         [Fact]
         public void CreateRelation_WithParams_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
-                                    Create(N(n) - R[r, KNOWS, P(PropA, PropB)] > N(m)));
+            var (n, r, m) = Variables.CreateMulti();
+            ParameterDeclaration PropA = Parameters.Create(), PropB = Parameters.Create();
+            CypherCommand cypher = _(() =>
+                                    Create(N(n) - R[r, KNOWS, new { PropA, PropB }] > N(m)));
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
