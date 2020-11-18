@@ -28,9 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="5.0.0-preview.7.20365.19" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.10" />
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-preview.7.20364.11" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
     <PackageReference Include="Weknow-BasicExtensions" Version="1.0.17" />
   </ItemGroup>
 

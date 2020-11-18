@@ -3,16 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Materializer", "Materializer", "{D76BCBDB-E632-4BCB-9AE4-4F642C63936C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Neo4JMaterializer.Contratcs", "Materializer\Weknow.Neo4JMaterializer.Contratcs\Weknow.Neo4JMaterializer.Contratcs.csproj", "{C1F18C0D-DE96-4597-AAD2-347D23591490}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Neo4JMaterializer", "Materializer\Weknow.Neo4JMaterializer\Weknow.Neo4JMaterializer.csproj", "{A5A84BEF-AA1C-4BE1-B561-318E16B47109}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Serializers", "Serializers", "{040470D8-B550-41DC-9BF4-B6E95CEE893A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Neo4JMaterializer.Neo4jMapper", "Materializer\Serializers\Weknow.Neo4JMaterializer.Neo4jMapper\Weknow.Neo4JMaterializer.Neo4jMapper.csproj", "{B705C27A-DF40-4BFE-B51B-562DE6A2D167}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj", "{3A06C4F6-FFB3-40A4-A600-D779659C5D53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}"
@@ -23,15 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Integ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{2D203485-13B9-40DF-8BDE-6ED858C6308D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refactor", "Refactor\Refactor\Refactor.csproj", "{04D9B7CA-0529-4A59-8330-B466E854A425}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor", "Refactor\Refactor\Refactor.csproj", "{04D9B7CA-0529-4A59-8330-B466E854A425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refactor.CodeFixes", "Refactor\Refactor.CodeFixes\Refactor.CodeFixes.csproj", "{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.CodeFixes", "Refactor\Refactor.CodeFixes\Refactor.CodeFixes.csproj", "{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refactor.Package", "Refactor\Refactor.Package\Refactor.Package.csproj", "{7EC6107F-E615-4865-A3CB-B4C637B3C184}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Package", "Refactor\Refactor.Package\Refactor.Package.csproj", "{7EC6107F-E615-4865-A3CB-B4C637B3C184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refactor.Test", "Refactor\Refactor.Test\Refactor.Test.csproj", "{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Test", "Refactor\Refactor.Test\Refactor.Test.csproj", "{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refactor.Vsix", "Refactor\Refactor.Vsix\Refactor.Vsix.csproj", "{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Vsix", "Refactor\Refactor.Vsix\Refactor.Vsix.csproj", "{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,18 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1F18C0D-DE96-4597-AAD2-347D23591490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1F18C0D-DE96-4597-AAD2-347D23591490}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1F18C0D-DE96-4597-AAD2-347D23591490}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1F18C0D-DE96-4597-AAD2-347D23591490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5A84BEF-AA1C-4BE1-B561-318E16B47109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5A84BEF-AA1C-4BE1-B561-318E16B47109}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5A84BEF-AA1C-4BE1-B561-318E16B47109}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5A84BEF-AA1C-4BE1-B561-318E16B47109}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B705C27A-DF40-4BFE-B51B-562DE6A2D167}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A06C4F6-FFB3-40A4-A600-D779659C5D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -88,10 +66,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C1F18C0D-DE96-4597-AAD2-347D23591490} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
-		{A5A84BEF-AA1C-4BE1-B561-318E16B47109} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
-		{040470D8-B550-41DC-9BF4-B6E95CEE893A} = {D76BCBDB-E632-4BCB-9AE4-4F642C63936C}
-		{B705C27A-DF40-4BFE-B51B-562DE6A2D167} = {040470D8-B550-41DC-9BF4-B6E95CEE893A}
 		{1F2B3CCE-AB81-4024-9C6C-1B1354070246} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
 		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
 		{04D9B7CA-0529-4A59-8330-B466E854A425} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
