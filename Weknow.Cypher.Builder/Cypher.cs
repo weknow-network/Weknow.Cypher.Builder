@@ -234,6 +234,14 @@ namespace Weknow.Cypher.Builder
         [Cypher("&UNWIND \\$$0 AS $1\r\n$2")]
         public static Fluent Unwind(VariableDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Unwinds the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="p">The p.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         [Cypher("&UNWIND $0 AS $1\r\n$2")]
         public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
         #endregion // Unwind

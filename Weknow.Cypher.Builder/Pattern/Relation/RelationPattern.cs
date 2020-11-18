@@ -11,8 +11,7 @@ namespace Weknow.Cypher.Builder
     /// </summary>
     /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
     public class RelationPattern : ExpressionPattern, IRelation
-    {
-        public IRelation this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
+    {        
         #region Ctor
 
         /// <summary>
@@ -140,5 +139,23 @@ namespace Weknow.Cypher.Builder
         IRelation IRelation.this[IType type] => throw new NotImplementedException();
 
         #endregion // Indexer
+
+        #region IRelation this[VariableDeclaration var, IType type, object properties, Rng r]
+
+        /// <summary>
+        /// Gets the <see cref="IRelation"/> with the specified variable.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IRelation"/>.
+        /// </value>
+        /// <param name="var">The variable.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="properties">The properties.</param>
+        /// <param name="r">The r.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public IRelation this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
+
+        #endregion // IRelation this[VariableDeclaration var, IType type, object properties, Rng r]
     }
 }

@@ -17,7 +17,9 @@ namespace Weknow.Cypher.Builder.Declarations
     /// </remarks>
     public class VariableDeclaration<T> : VariableDeclaration
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private VariableDeclaration() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.
@@ -28,7 +30,7 @@ namespace Weknow.Cypher.Builder.Declarations
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
-        public T _ { get; }
+        public T _ { get; } 
         /// <summary>
         /// Gets type representation of the variable which should be increment.
         /// </summary>
@@ -57,7 +59,9 @@ namespace Weknow.Cypher.Builder.Declarations
     /// </remarks>
     public class VariableDeclaration
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private protected VariableDeclaration() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.
@@ -85,6 +89,9 @@ namespace Weknow.Cypher.Builder.Declarations
         /// </returns>
         public static VariableDeclaration operator +(VariableDeclaration item) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Cast to parameter type.
+        /// </summary>
         public ParameterDeclaration AsParameter { get; }
     }
 

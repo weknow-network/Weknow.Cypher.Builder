@@ -28,10 +28,11 @@ namespace Weknow.Cypher.Builder.Declarations
         /// <summary>
         /// Declaration for operator +.
         /// </summary>
-        /// <param name="map">The map.</param>
+        /// <param name="prm">The PRM.</param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ParameterDeclaration operator +(ParameterDeclaration prm) => throw new NotImplementedException();
     }
 
@@ -48,7 +49,9 @@ namespace Weknow.Cypher.Builder.Declarations
     /// </remarks>
     public class ParameterDeclaration<T> : ParameterDeclaration
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private ParameterDeclaration() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.

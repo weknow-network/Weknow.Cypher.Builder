@@ -184,6 +184,16 @@
             RETURN avg(n.age)
             </example>
         </member>
+        <member name="M:Weknow.Cypher.Builder.Cypher.Unwind(Weknow.Cypher.Builder.Declarations.ParameterDeclaration,Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.CypherDelegates.Fluent)">
+            <summary>
+            Unwinds the specified items.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:Weknow.Cypher.Builder.Cypher.Exists(Weknow.Cypher.Builder.CypherDelegates.Fluent)">
             <summary>
             EXISTS phrase.
@@ -1249,8 +1259,10 @@
             SET  phrase.
             </summary>
             <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
             <param name="assignment">The complex.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             .Set(n, new {prm._.Name, var._.Code})
             result in:
@@ -1275,9 +1287,11 @@
             <summary>
             SET phrase.
             </summary>
-            <param name="fluent"></param>
-            <param name="assignment"></param>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             .SetPlus(n, map)
             result in:
@@ -1974,6 +1988,20 @@
             <param name="type">The type.</param>
             <returns></returns>
         </member>
+        <member name="P:Weknow.Cypher.Builder.RelationPattern.Item(Weknow.Cypher.Builder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.IType,System.Object,Weknow.Cypher.Builder.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.Cypher.Builder.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.Cypher.Builder.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="T:Weknow.Cypher.Builder.Rng">
             <summary>
             Represent alternative to range syntax (currently the range syntax is not supported as expression)
@@ -2087,10 +2115,11 @@
             <summary>
             Declaration for operator +.
             </summary>
-            <param name="map">The map.</param>
+            <param name="prm">The PRM.</param>
             <returns>
             The result of the operator.
             </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Weknow.Cypher.Builder.Declarations.ParameterDeclaration`1">
             <summary>
@@ -2210,6 +2239,11 @@
             <returns>
             The result of the operator.
             </returns>
+        </member>
+        <member name="P:Weknow.Cypher.Builder.Declarations.VariableDeclaration.AsParameter">
+            <summary>
+            Cast to parameter type.
+            </summary>
         </member>
         <member name="T:Weknow.Cypher.Builder.CypherQueryBuilder">
             <summary>

@@ -332,8 +332,10 @@ namespace Weknow.Cypher.Builder
         /// SET  phrase.
         /// </summary>
         /// <param name="fluent">The fluent.</param>
+        /// <param name="var">The variable.</param>
         /// <param name="assignment">The complex.</param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// .Set(n, new {prm._.Name, var._.Code})
         /// result in:
@@ -366,9 +368,11 @@ namespace Weknow.Cypher.Builder
         /// <summary>
         /// SET phrase.
         /// </summary>
-        /// <param name="fluent"></param>
-        /// <param name="assignment"></param>
+        /// <param name="fluent">The fluent.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="assignment">The assignment.</param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         /// <example>
         /// .SetPlus(n, map)
         /// result in:

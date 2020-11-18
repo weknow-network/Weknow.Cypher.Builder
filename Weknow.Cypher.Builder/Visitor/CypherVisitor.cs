@@ -278,7 +278,7 @@ namespace Weknow.Cypher.Builder
             {
                 Query.Append("$");
                 if (node.Member.Name == nameof(VariableDeclaration.AsParameter))
-                    name = (node.Expression as MemberExpression).Member.Name;
+                    name = ((MemberExpression)node.Expression).Member.Name;
                 if (!Parameters.ContainsKey(name))
                     Parameters.Add(name, null);
             }
