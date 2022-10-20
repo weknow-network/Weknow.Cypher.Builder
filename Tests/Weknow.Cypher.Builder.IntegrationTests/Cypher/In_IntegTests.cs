@@ -77,10 +77,10 @@ namespace Weknow.Cypher.Builder.IntegrationTests
             IResultCursor result = await _session.RunAsync(cypher, prms);
 
             // https://github.com/DotNet4Neo4j/Neo4j.Driver.Extensions
-            var foos = await result.ToListAsync(r => r.ToObject<Foo>());
+            var foos = await result.ToListAsync(r => r.ToObject<Foo>("n"));
             _outputHelper.WriteLine(cypher);
 
-             Assert.Single(foos);
+            Assert.Single(foos);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Test
