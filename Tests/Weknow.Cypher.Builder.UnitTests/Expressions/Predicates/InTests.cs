@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
-
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -39,8 +39,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-                    "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n IN $items\r\n" +
+                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                    $"WHERE n IN $items{NewLine}" +
                     "RETURN n", cypher.Query);
         }
 
@@ -61,8 +61,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-                    "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n.Id IN $items\r\n" +
+                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                    $"WHERE n.Id IN $items{NewLine}" +
                     "RETURN n", cypher.Query);
         }
 
@@ -83,8 +83,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-                    "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n.PropA IN $items AND n.PropB IN $items\r\n" +
+                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                    $"WHERE n.PropA IN $items AND n.PropB IN $items{NewLine}" +
                     "RETURN n", cypher.Query);
         }
 
@@ -104,8 +104,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-                    "MATCH (n:Person { Id: $Id })\r\n" +
-                    "WHERE n.Id IN item.Names\r\n" +
+                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                    $"WHERE n.Id IN item.Names{NewLine}" +
                     "RETURN n", cypher.Query);
         }
 

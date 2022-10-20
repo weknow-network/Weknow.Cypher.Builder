@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
 
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -241,9 +242,9 @@ namespace Weknow.Cypher.Builder
                                 .Return(n)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("UNWIND $items AS item\r\n" +
-                "MATCH (n:Person { Id: item.Id }), (u:Maintainer { Id: $maintainer_Id })\r\n" +
-                "MERGE (u)-[:By { Date: $Date }]->(n)\r\n" +
+            Assert.Equal($"UNWIND $items AS item{NewLine}" +
+                $"MATCH (n:Person {{ Id: item.Id }}), (u:Maintainer {{ Id: $maintainer_Id }}){NewLine}" +
+                $"MERGE (u)-[:By {{ Date: $Date }}]->(n){NewLine}" +
                 "RETURN n", cypher);
         }
 

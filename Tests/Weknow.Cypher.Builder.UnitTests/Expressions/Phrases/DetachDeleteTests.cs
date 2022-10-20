@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -33,7 +34,7 @@ namespace Weknow.Cypher.Builder
                                     .Delete(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "DELETE n", cypher.Query);
         }
 
@@ -49,7 +50,7 @@ namespace Weknow.Cypher.Builder
                                     .DetachDelete(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "DETACH DELETE n", cypher.Query);
         }
 

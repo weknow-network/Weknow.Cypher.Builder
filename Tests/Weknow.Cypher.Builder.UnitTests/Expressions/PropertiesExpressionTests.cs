@@ -91,7 +91,7 @@ namespace Weknow.Cypher.Builder
                                             .Set(n, new { p._.PropA }));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n:Person { Id: $Id })\r\n" +
+			 Assert.Equal($"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                             "SET n.PropA = $PropA", cypher.Query);
         }
 

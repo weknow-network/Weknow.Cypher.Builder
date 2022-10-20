@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -42,9 +43,9 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
-                "MERGE (n:PERSON { Id: $Id })\r\n" +
-                "WITH *\r\n" +
-                "MATCH (i:PERSON { Id: $Id })\r\n" +
+                $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
+                $"WITH *{NewLine}" +
+                $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
                 "RETURN i.Name", cypher.Query);
         }
 
@@ -69,9 +70,9 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
-                "MERGE (n:PERSON { Id: $Id })\r\n" +
-                "WITH n\r\n" +
-                "MATCH (i:PERSON { Id: $Id })\r\n" +
+                $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
+                $"WITH n{NewLine}" +
+                $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
                 "RETURN i.Name", cypher.Query);
         }
 
@@ -99,12 +100,12 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
-                "UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })\r\n\t" +
-                    "ON CREATE SET n = map\r\n\t" +
-                    "ON MATCH SET n += map\r\n" +
-                "WITH *\r\n" +
-                "MATCH (i:PERSON { Id: map.Id })\r\n" +
+                $"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                    $"ON CREATE SET n = map{NewLine}\t" +
+                    $"ON MATCH SET n += map{NewLine}" +
+                $"WITH *{NewLine}" +
+                $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
                 "RETURN n", cypher.Query);
         }
 
@@ -131,12 +132,12 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher.Dump());
 			 Assert.Equal(
-                "UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })\r\n\t" +
-                    "ON CREATE SET n = map\r\n\t" +
-                    "ON MATCH SET n += map\r\n" +
-                "WITH n, map\r\n" +
-                "MATCH (i:PERSON { Id: map.Id })\r\n" +
+                $"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                    $"ON CREATE SET n = map{NewLine}\t" +
+                    $"ON MATCH SET n += map{NewLine}" +
+                $"WITH n, map{NewLine}" +
+                $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
                 "RETURN i", cypher.Query);
         }
 

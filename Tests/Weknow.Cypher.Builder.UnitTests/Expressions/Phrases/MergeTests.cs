@@ -6,6 +6,7 @@ using Xunit.Sdk;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -38,7 +39,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
                 "ON CREATE SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
@@ -58,7 +59,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
                 "ON CREATE SET n = $map", cypher.Query);
         }
 
@@ -78,7 +79,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
                 "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
@@ -97,7 +98,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
                 "ON MATCH SET n = $map", cypher.Query);
         }
 
@@ -115,7 +116,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MATCH (n:Person { Id: $Id })\r\n" +
+                $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                 "MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id })", cypher.Query);
         }
 

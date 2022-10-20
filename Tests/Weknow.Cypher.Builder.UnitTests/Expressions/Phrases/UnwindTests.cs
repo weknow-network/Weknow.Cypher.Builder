@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -74,8 +75,8 @@ MATCH (n:Person { PropA: item })", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                 "CREATE (n:Person)\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                 $"CREATE (n:Person){NewLine}" +
                  "SET n = map", cypher.Query);
         }
 
@@ -95,7 +96,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
                  "CREATE (n:Person map)", cypher.Query);
         }
 
@@ -115,8 +116,8 @@ MATCH (n:Person { PropA: item })", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                 "CREATE (n:Person)\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                 $"CREATE (n:Person){NewLine}" +
                  "SET n = map", cypher.Query);
         }
 
@@ -185,9 +186,9 @@ SET n += item", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })\r\n\t" +
-                "ON CREATE SET n = map\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                $"ON CREATE SET n = map{NewLine}" +
                 "RETURN n", cypher.Query);
         }
 
@@ -213,9 +214,9 @@ SET n += item", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })\r\n\t" +
-                "ON CREATE SET n = map\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                $"ON CREATE SET n = map{NewLine}" +
                 "RETURN n", cypher.Query);
         }
 
@@ -241,9 +242,9 @@ SET n += item", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id, Name: map.Name })\r\n\t" +
-                "ON CREATE SET n = map\r\n" +
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id, Name: map.Name }}){NewLine}\t" +
+                $"ON CREATE SET n = map{NewLine}" +
                 "RETURN n", cypher.Query);
         }
 
@@ -271,8 +272,8 @@ SET n += item", cypher.Query);
 
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
-            Assert.Equal("UNWIND $items AS map\r\n" +
-                "MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date })", cypher.Query);
+            Assert.Equal($"UNWIND $items AS map{NewLine}" +
+                $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(maintainer_:MAINTAINER {{ Id: $maintainer_Id, Date: $Date }})", cypher.Query);
         }
 
         #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date }) / Unwind_Param_WithoutMap_Test

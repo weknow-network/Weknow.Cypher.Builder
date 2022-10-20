@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -40,9 +41,9 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-                        "MERGE (n:Person { Id: $Id, eTag: $eTag })\r\n" +
-                        "SET n += $map\r\n" +
-                        "SET n.eTag = n.eTag + 1\r\n" +
+                        $"MERGE (n:Person {{ Id: $Id, eTag: $eTag }}){NewLine}" +
+                        $"SET n += $map{NewLine}" +
+                        $"SET n.eTag = n.eTag + 1{NewLine}" +
                         "RETURN n.eTag", cypher.Query);
         }
 

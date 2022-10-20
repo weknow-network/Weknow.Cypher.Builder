@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -38,7 +39,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName + $map.LastName })\r\n" +
+                $"CREATE (n:Person {{ Id: $map.Id, Name: $map.FirstName + $map.LastName }}){NewLine}" +
                 "SET n = $map", cypher.Query);
         }
 
@@ -81,7 +82,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE (n:Person { Id: $map.Id, Name: $map.Name })\r\n" +
+                $"CREATE (n:Person {{ Id: $map.Id, Name: $map.Name }}){NewLine}" +
                 "SET n += $map", cypher.Query);
         }
 
@@ -106,7 +107,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "CREATE (n:Person { Id: $map.Id, Name: $map.FirstName })\r\n" +
+                $"CREATE (n:Person {{ Id: $map.Id, Name: $map.FirstName }}){NewLine}" +
                 "SET n.Address = $map.Address", cypher.Query);
         }
 
@@ -129,8 +130,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "UNWIND $items AS item\r\n" +
-                "CREATE (n:Person { Id: item.Id, Name: item.Name })\r\n" +
+                $"UNWIND $items AS item{NewLine}" +
+                $"CREATE (n:Person {{ Id: item.Id, Name: item.Name }}){NewLine}" +
                 "SET n = item", cypher.Query);
         }
 
@@ -151,7 +152,7 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Id: $Id })\r\n\t" +
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
                 "ON MATCH SET n.PropA = $a, n.PropB = $b", cypher.Query);
         }
 

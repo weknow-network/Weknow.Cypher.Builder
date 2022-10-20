@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 
 namespace Weknow.Cypher.Builder
@@ -34,7 +35,7 @@ namespace Weknow.Cypher.Builder
                                     .Set(n, Person & Animal));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                 "SET n:Person:Animal", cypher.Query);
         }
 
@@ -50,7 +51,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n.Labels()));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                 "RETURN labels(n)", cypher.Query);
         }
 
@@ -70,11 +71,11 @@ namespace Weknow.Cypher.Builder
                                     .Return(n, Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
-                "SET n.Date = timestamp()\r\n" +
-                "MERGE (m)\r\n" +
-                "\tON CREATE SET n.CreationDate = timestamp()\r\n" +
-                "\tON MATCH SET n.ModifiedDate = timestamp()\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
+                $"SET n.Date = timestamp(){NewLine}" +
+                $"MERGE (m){NewLine}" +
+                $"\tON CREATE SET n.CreationDate = timestamp(){NewLine}" +
+                $"\tON MATCH SET n.ModifiedDate = timestamp(){NewLine}" +
                 "RETURN n, timestamp() AS date", cypher.Query);
         }
 
@@ -97,7 +98,7 @@ namespace Weknow.Cypher.Builder
                                             n1.CountDistinct().As("distCount")));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n1)-[r]->(n2)\r\n" +
+            Assert.Equal($"MATCH (n1)-[r]->(n2){NewLine}" +
                          "RETURN " +
                                 "timestamp() AS time, " +
                                 "labels(n1) AS label, " +
@@ -127,7 +128,7 @@ namespace Weknow.Cypher.Builder
                                         Avg(n._.PropA).As("avg")));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN " +
                                 "sum(n.PropA) AS sum, " +
                                 "min(n.PropA) AS min, " +
@@ -149,7 +150,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n.Collect()));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(n)", cypher.Query);
         }
 
@@ -169,8 +170,8 @@ namespace Weknow.Cypher.Builder
                                     .Return(id.Collect()));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
-                         "WITH n.Id AS id\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         $"WITH n.Id AS id{NewLine}" +
                          "RETURN collect(id)", cypher.Query);
         }
 
@@ -186,7 +187,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(Collect(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(n.PropA)", cypher.Query);
         }
 
@@ -202,7 +203,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(Collect(n._.Id)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(n.Id)", cypher.Query);
         }
 
@@ -220,7 +221,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n.CollectDistinct()));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(DISTINCT n)", cypher.Query);
         }
 
@@ -238,7 +239,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(DISTINCT n.PropA)", cypher.Query);
         }
 
@@ -256,7 +257,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(CollectDistinct(n._.PropA)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("MATCH (n)\r\n" +
+            Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(DISTINCT n.PropA)", cypher.Query);
         }
 

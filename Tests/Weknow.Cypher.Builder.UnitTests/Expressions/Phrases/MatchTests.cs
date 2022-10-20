@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -61,7 +62,7 @@ RETURN n", cypher.Query);
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
                         "MATCH (n:Person { Id: $Id }), " +
-                        "(a:Animal { Name: $Name })\r\n" +
+                        $"(a:Animal {{ Name: $Name }}){NewLine}" +
                         "RETURN n", cypher.Query);
         }
 
@@ -83,7 +84,7 @@ RETURN n", cypher.Query);
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
                         "MATCH (n:Person { Id: $Id }), " +
-                        "(a:Animal { Name: $Name })\r\n" +
+                        $"(a:Animal {{ Name: $Name }}){NewLine}" +
                         "RETURN n", cypher.Query);
         }
 

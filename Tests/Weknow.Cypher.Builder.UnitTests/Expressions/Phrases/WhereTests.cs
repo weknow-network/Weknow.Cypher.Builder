@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -211,7 +212,7 @@ WHERE $p_1 }", cypher.Query);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
-                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   $"MATCH (n:Person {{ PropA: $PropA }}){NewLine}" +
                    "WHERE n.Name = $p_1 AND " +
                            "n.PropA = $p_2 OR " +
                            "n.PropB = $p_3", cypher.Query);
@@ -237,7 +238,7 @@ WHERE $p_1 }", cypher.Query);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
-                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   $"MATCH (n:Person {{ PropA: $PropA }}){NewLine}" +
                    "WHERE n.Name <> $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
@@ -259,7 +260,7 @@ WHERE $p_1 }", cypher.Query);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
-                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   $"MATCH (n:Person {{ PropA: $PropA }}){NewLine}" +
                    "WHERE n.Date > $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
@@ -281,7 +282,7 @@ WHERE $p_1 }", cypher.Query);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
-                   "MATCH (n:Person { PropA: $PropA })\r\n" +
+                   $"MATCH (n:Person {{ PropA: $PropA }}){NewLine}" +
                    "WHERE n.Date >= $p_1", cypher.Query);
             Assert.NotEmpty(cypher.Parameters);
             Assert.Contains(cypher.Parameters, p => p.Key == "PropA");
@@ -304,8 +305,8 @@ WHERE $p_1 }", cypher.Query);
                                     .Where(n._.Name != item._.Name)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal("UNWIND $items AS item\r\n" +
-                            "MATCH (n:Person { Id: item.Id })\r\n" +
+            Assert.Equal($"UNWIND $items AS item{NewLine}" +
+                            $"MATCH (n:Person {{ Id: item.Id }}){NewLine}" +
                             "WHERE n.Name <> item.Name", cypher.Query);
         }
 

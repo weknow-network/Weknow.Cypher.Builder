@@ -7,6 +7,7 @@ using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -35,7 +36,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN n", cypher.Query);
         }
 
@@ -53,7 +54,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN n.Id", cypher.Query);
         }
 
@@ -71,7 +72,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id, n._.PropA));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN n.Id, n.PropA", cypher.Query);
         }
 
@@ -89,7 +90,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id, n._.PropA, n._.PropB));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
         }
 
@@ -105,7 +106,7 @@ namespace Weknow.Cypher.Builder
                                     .Return("n.Id", "n.PropA", "n.PropB"));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
         }
 
@@ -121,7 +122,7 @@ namespace Weknow.Cypher.Builder
                                     .ReturnDistinct(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN DISTINCT n", cypher.Query);
         }
 
@@ -138,7 +139,7 @@ namespace Weknow.Cypher.Builder
                                     .ReturnDistinct(n._.Name));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)\r\n" +
+			 Assert.Equal($"MATCH (n){NewLine}" +
                             "RETURN DISTINCT n.Name", cypher.Query);
         }
 
