@@ -76,7 +76,8 @@ namespace Weknow.Cypher.Builder.IntegrationTests
             prms["items"] = new[] { "Manager", "Tester" };
             IResultCursor result = await _session.RunAsync(cypher, prms);
 
-            var foos = await result.ToListAsync<Foo>(r => r.ToObject<Foo>());
+            // https://github.com/DotNet4Neo4j/Neo4j.Driver.Extensions
+            var foos = await result.ToListAsync(r => r.ToObject<Foo>());
             _outputHelper.WriteLine(cypher);
 
              Assert.Single(foos);
