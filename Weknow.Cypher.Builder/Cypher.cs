@@ -9,6 +9,7 @@ using static Weknow.Cypher.Builder.CypherDelegates;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
+// TODO: [bnaya 2022-10-20] source code generator of the cypher
 namespace Weknow.Cypher.Builder
 {
     /// <summary>
