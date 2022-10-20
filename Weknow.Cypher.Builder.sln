@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder", "Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj", "{3A06C4F6-FFB3-40A4-A600-D779659C5D53}"
 EndProject
@@ -11,17 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.UnitT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.IntegrationTests", "Tests\Weknow.Cypher.Builder.IntegrationTests\Weknow.Cypher.Builder.IntegrationTests.csproj", "{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{2D203485-13B9-40DF-8BDE-6ED858C6308D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor", "Refactor\Refactor\Refactor.csproj", "{04D9B7CA-0529-4A59-8330-B466E854A425}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.CodeFixes", "Refactor\Refactor.CodeFixes\Refactor.CodeFixes.csproj", "{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Package", "Refactor\Refactor.Package\Refactor.Package.csproj", "{7EC6107F-E615-4865-A3CB-B4C637B3C184}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Test", "Refactor\Refactor.Test\Refactor.Test.csproj", "{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactor.Vsix", "Refactor\Refactor.Vsix\Refactor.Vsix.csproj", "{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9A66CE0-FFD9-4FED-87C5-1A37D78AC8FE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,26 +35,6 @@ Global
 		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04D9B7CA-0529-4A59-8330-B466E854A425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04D9B7CA-0529-4A59-8330-B466E854A425}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04D9B7CA-0529-4A59-8330-B466E854A425}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04D9B7CA-0529-4A59-8330-B466E854A425}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EC6107F-E615-4865-A3CB-B4C637B3C184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EC6107F-E615-4865-A3CB-B4C637B3C184}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EC6107F-E615-4865-A3CB-B4C637B3C184}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EC6107F-E615-4865-A3CB-B4C637B3C184}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,11 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1F2B3CCE-AB81-4024-9C6C-1B1354070246} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
 		{342C4D5E-873A-488B-BB5A-44BAAB8CEE7D} = {70D6F4D2-BE7E-4574-B4C7-E402D59AE5FA}
-		{04D9B7CA-0529-4A59-8330-B466E854A425} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
-		{42AD9F63-7F11-4F0B-9BA6-57773CD91E0B} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
-		{7EC6107F-E615-4865-A3CB-B4C637B3C184} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
-		{34F74076-CBD9-4C6F-A3FA-DEFD2CF13710} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
-		{19D6C6F7-3E9F-4F9F-9B02-1D9D3A50A0E7} = {2D203485-13B9-40DF-8BDE-6ED858C6308D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5165861-FF25-467F-9B2D-E9626AF32A1A}
