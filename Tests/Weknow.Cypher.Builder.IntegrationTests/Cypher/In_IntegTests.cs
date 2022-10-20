@@ -1,6 +1,8 @@
 using System.Data;
+using System.Xml.Linq;
 
 using Neo4j.Driver;
+using Neo4j.Driver.Extensions;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -74,12 +76,10 @@ namespace Weknow.Cypher.Builder.IntegrationTests
             prms["items"] = new[] { "Manager", "Tester" };
             IResultCursor result = await _session.RunAsync(cypher, prms);
 
-            // TODO: MappingType;
-            //List<Foo> foos = await result.MapAsync<Foo>();
+            var foos = await result.ToListAsync<Foo>(r => r.ToObject<Foo>());
             _outputHelper.WriteLine(cypher);
 
-
-            // Assert.Single(foos);
+             Assert.Single(foos);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Test
