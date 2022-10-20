@@ -32,4 +32,5 @@ jobs:
       build-config: Release
       dotnet-version: 6.0.x
       include-prerelease: false
+      test-project: Tests/Weknow.Cypher.Builder.UnitTests/Weknow.Cypher.Builder.UnitTests
  
