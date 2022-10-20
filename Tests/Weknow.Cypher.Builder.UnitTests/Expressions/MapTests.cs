@@ -1,10 +1,12 @@
 using System;
+using System.Xml;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.Cypher.Builder.Cypher;
 using static Weknow.Cypher.Builder.Schema;
+using static System.Environment;
 
 namespace Weknow.Cypher.Builder
 {
@@ -35,8 +37,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n += $p", cypher.Query);
+$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+"SET n += $p", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Update_Test

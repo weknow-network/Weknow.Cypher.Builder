@@ -30,7 +30,7 @@ namespace Weknow.Cypher.Builder
             using var visitor = new CypherVisitor(cfg);
 
             visitor.Visit(expression);
-            string cypher = visitor.Query.ToString();
+            string cypher = visitor.Query.ToString().Replace("\r\n", Environment.NewLine);
             CypherParameters parameters = visitor.Parameters;
 
             return new CypherCommand(

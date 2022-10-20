@@ -38,8 +38,8 @@ namespace Weknow.Cypher.Builder
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-RETURN n", cypher.Query);
+$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+"RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
@@ -145,8 +145,8 @@ RETURN n, m", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n += $map", cypher.Query);
+$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+"SET n += $map", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Update_Test
@@ -164,8 +164,8 @@ SET n += $map", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"MATCH (n:Person { Id: $Id })
-SET n = $map", cypher.Query);
+$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+"SET n = $map", cypher.Query);
         }
 
         #endregion // Match_SetAsMap_Replace_Test
@@ -184,9 +184,9 @@ SET n = $map", cypher.Query);
 
             _outputHelper.WriteLine(cypher);
 			 Assert.Equal(
-@"UNWIND $items AS item
-MATCH (n:Person { Id: $Id })
-SET n = item", cypher.Query);
+$"UNWIND $items AS item{NewLine}" +
+$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+"SET n = item", cypher.Query);
         }
 
         #region Match_Set_Test
