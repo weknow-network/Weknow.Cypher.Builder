@@ -1,35 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Weknow.Cypher.Builder</PackageId>
-    <Product>Weknow Cypher builder</Product>
+    <PackageId>Weknow.GraphDbClient.Redis</PackageId>
+    <Product>Weknow GraphDb Client for Redis Graph</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DocumentationFile>Weknow.Cypher.Builder.xml</DocumentationFile>
+    <DocumentationFile>Weknow.GraphDbClient.Redis.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ICypherFluent.tmp.cs" />
+    <None Remove="Weknow.GraphDbClient.Redis.xml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.10" />
-    <PackageReference Include="Pluralize.NET" Version="1.0.2" />
-    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
-    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.36" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Weknow.GraphDbClient.Abstraction\Weknow.GraphDbClient.Abstraction.csproj" />
   </ItemGroup>
 
   <ItemGroup>

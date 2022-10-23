@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Weknow.Cypher.Builder\Weknow.Cypher.Builder.csproj" />
+    <ProjectReference Include="..\..\GraphDb.Client\Neo4j\Weknow.GraphDbClient.Neo4j\Weknow.GraphDbClient.Neo4j.csproj" />
+    <ProjectReference Include="..\Weknow.GraphDbClient.IntegrationTests.Abstract\Weknow.GraphDbClient.IntegrationTests.Abstract.csproj" />
   </ItemGroup>
 
   <ItemGroup>
