@@ -481,6 +481,7 @@ namespace Weknow.GraphDbCommands
         protected override Expression VisitParameter(ParameterExpression node)
         {
             Query.Append(node.Name);
+            HandleAmbientLabels();
             return node;
         }
 

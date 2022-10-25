@@ -240,6 +240,31 @@ RETURN f"
         }
 
         #endregion // Label_Convention_Test
+
+        #region Label_Convention_Delete_Test
+
+        [Fact]
+        public void Label_Convention_Match_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(n =>
+                                Match(N(n))
+                                //.DetachDelete(n)
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"MATCH (n:GIT_HUB)"
+                           , cypher.Query);
+        }
+
+        #endregion // Label_Convention_Delete_Test
     }
 }
 
