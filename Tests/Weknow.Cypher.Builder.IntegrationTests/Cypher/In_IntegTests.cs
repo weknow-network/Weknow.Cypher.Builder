@@ -12,8 +12,7 @@ using static Weknow.GraphDbCommands.Schema;
 
 namespace Weknow.GraphDbCommands.IntegrationTests
 {
-    //    //[Trait("Group", "Predicates")]
-    //[Trait("Segment", "Expression")]
+    [Trait("TestType", "Integration")]
     [Trait("Integration", "neo4j")]
     public class In_IntegTests : BaseIntegrationTests
     {

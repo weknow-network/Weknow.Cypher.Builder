@@ -18,7 +18,7 @@ using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.Neo4jProvider.IntegrationTests;
 
-//[Trait("TestType", "Integration")]
+[Trait("TestType", "Integration")]
 [Trait("Integration", "neo4j")]
 public class SmellTests : BaseSmellTests
 {

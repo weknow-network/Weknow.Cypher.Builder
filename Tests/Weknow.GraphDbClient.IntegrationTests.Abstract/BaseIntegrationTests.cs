@@ -10,7 +10,6 @@ using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-[Trait("TestType", "Integration")]
 public class BaseIntegrationTests : IDisposable
 {
     protected readonly IGraphDB _graphDB;
