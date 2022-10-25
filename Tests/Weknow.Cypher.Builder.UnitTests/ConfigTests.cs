@@ -142,7 +142,7 @@ RETURN f"
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:PERSON:GIT_HUB $f)
+            Assert.Equal(@"CREATE (f:GIT_HUB:PERSON $f)
 RETURN f"
                            , cypher.Query);
         }
@@ -175,7 +175,7 @@ RETURN f"
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:PERSON:GIT_HUB:MICROSOFT:GOOGLE $f)
+            Assert.Equal(@"CREATE (f:GIT_HUB:MICROSOFT:GOOGLE:PERSON $f)
 RETURN f"
                            , cypher.Query);
         }
@@ -208,7 +208,7 @@ RETURN f"
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:person:gitHub:microsoft:google $f)
+            Assert.Equal(@"CREATE (f:gitHub:microsoft:google:person $f)
 RETURN f"
                            , cypher.Query);
         }
@@ -234,7 +234,7 @@ RETURN f"
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:PERSON:GIT_HUB $f)
+            Assert.Equal(@"CREATE (f:GIT_HUB:PERSON $f)
 RETURN f"
                            , cypher.Query);
         }

@@ -21,7 +21,7 @@ namespace Weknow.GraphDbCommands
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private readonly CypherConfig _configuration;
-        private static readonly AsyncLocal<bool> _ambientHandeled = new AsyncLocal<bool>();
+        private bool _shouldHandleAmbient = false;
 
         #region Ctor
 
@@ -84,16 +84,20 @@ namespace Weknow.GraphDbCommands
             if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
                 return;
 
-            if (_ambientHandeled.Value)
+            if (!_shouldHandleAmbient)
             {
+                if (labels == null || labels.Length == 0)
+                    return;
+
                 HandleStartChar();
 
                 IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
-                var addition = string.Join(":", formatted); ;
+                var addition = string.Join(":", formatted); 
                 Query.Append(addition);
                 return;
             }
-            _ambientHandeled.Value = true;
+
+            _shouldHandleAmbient = false;
                 
             HandleStartChar();
 
@@ -214,7 +218,14 @@ namespace Weknow.GraphDbCommands
             var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
             if (format != null)
             {
+                bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
+                if(ambScope)
+                    _shouldHandleAmbient = true;
+
                 ApplyFormat(node, format);
+
+                if(ambScope)
+                    _shouldHandleAmbient = false;
             }
             else if (type == nameof(Rng))
             {
@@ -288,9 +299,8 @@ namespace Weknow.GraphDbCommands
                     node.Member is FieldInfo fi &&
                     fi.GetValue(c.Value) is ExpressionPattern p)
             {
-                _ambientHandeled.Value = false;
                 Visit(p.expression);
-                _shouldHandleAmbient = false;
+                return node;
             }
             else if (node.Expression is MemberExpression me &&
                      typeof(VariableDeclaration).IsAssignableFrom(me.Member.DeclaringType) &&
@@ -337,6 +347,10 @@ namespace Weknow.GraphDbCommands
                 }
             }
             Query.Append(name);
+            if (node.Type == typeof(VariableDeclaration))
+            {
+                HandleAmbientLabels();
+            }
 
             return node;
         }

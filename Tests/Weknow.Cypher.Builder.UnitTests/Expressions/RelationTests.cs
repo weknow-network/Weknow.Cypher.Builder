@@ -151,6 +151,7 @@ namespace Weknow.GraphDbCommands
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
             Assert.Equal("MERGE (n:Person { Id: $Id })-[:By]->(maintainer_:Maintainer { Id: $maintainer_Id })", cypher.Query);
+            // MERGE (n:Person { Id: $Id })-[:By]->(maintainer_:Maintainer { Id: $maintainer_Id })maintainer
         }
 
         #endregion // Relation_WithReuse_Test
