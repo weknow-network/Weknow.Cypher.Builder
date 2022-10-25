@@ -3,7 +3,7 @@
 using Neo4j.Driver.Extensions;
 using System.Xml.Linq;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     public class Foo

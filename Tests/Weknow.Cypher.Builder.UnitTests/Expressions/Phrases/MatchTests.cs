@@ -1,17 +1,18 @@
 using System;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Group", "Phrases")]
+    [Trait("TestType", "Unit")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class MatchTests
     {
@@ -37,7 +38,7 @@ namespace Weknow.Cypher.Builder
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "RETURN n", cypher.Query);
         }
@@ -60,10 +61,10 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                             .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                        "MATCH (n:Person { Id: $Id }), " +
-                        $"(a:Animal {{ Name: $Name }}){NewLine}" +
-                        "RETURN n", cypher.Query);
+            Assert.Equal(
+                       "MATCH (n:Person { Id: $Id }), " +
+                       $"(a:Animal {{ Name: $Name }}){NewLine}" +
+                       "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n / Match_2_Return_Test
@@ -82,10 +83,10 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                        "MATCH (n:Person { Id: $Id }), " +
-                        $"(a:Animal {{ Name: $Name }}){NewLine}" +
-                        "RETURN n", cypher.Query);
+            Assert.Equal(
+                       "MATCH (n:Person { Id: $Id }), " +
+                       $"(a:Animal {{ Name: $Name }}){NewLine}" +
+                       "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n / Match_2_Return_NoGenLabel_Test
@@ -144,7 +145,7 @@ RETURN n, m", cypher.Query);
                                     .SetPlus(n, map));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n += $map", cypher.Query);
         }
@@ -163,7 +164,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                                     .Set(n, map));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n = $map", cypher.Query);
         }
@@ -178,12 +179,12 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             var item = Variables.Create<Foo>();
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
-                                    Unwind(items, item, 
+                                    Unwind(items, item,
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n, item))); 
+                                    .Set(n, item)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 $"UNWIND $items AS item{NewLine}" +
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n = item", cypher.Query);
@@ -199,10 +200,10 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { Id }))
-                                    .Set(n, new { p._.PropA, p._.PropB })); 
+                                    .Set(n, new { p._.PropA, p._.PropB }));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
@@ -218,9 +219,9 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n, Person));
-            
+
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n:Person", cypher.Query);
         }
@@ -236,9 +237,9 @@ SET n:Person", cypher.Query);
             CypherCommand cypher = _(n =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n, Person, Manager));
-            
+
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
 SET n:Person:Manager", cypher.Query);
         }

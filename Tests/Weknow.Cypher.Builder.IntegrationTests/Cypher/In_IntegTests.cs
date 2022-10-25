@@ -7,13 +7,13 @@ using Neo4j.Driver.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 
-namespace Weknow.Cypher.Builder.IntegrationTests
+namespace Weknow.GraphDbCommands.IntegrationTests
 {
-    //    //[Trait("Group", "Predicates")]
-    //[Trait("Segment", "Expression")]
+    [Trait("TestType", "Integration")]
+    [Trait("Integration", "neo4j")]
     public class In_IntegTests : BaseIntegrationTests
     {
         #region Ctor

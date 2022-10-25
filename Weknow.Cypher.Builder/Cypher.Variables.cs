@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
-using static Weknow.Cypher.Builder.CypherDelegates;
+using static Weknow.GraphDbCommands.CypherDelegates;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.

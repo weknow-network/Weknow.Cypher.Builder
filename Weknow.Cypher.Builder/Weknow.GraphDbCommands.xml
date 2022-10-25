@@ -1,0 +1,2820 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Weknow.Cypher.Builder</name>
+    </assembly>
+    <members>
+        <member name="T:Weknow.GraphDbCommands.CypherAttribute">
+            <summary>
+            Cypher Attribute used to specify formatting pattern
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherAttribute"/> class.
+            </summary>
+            <param name="format">The format.</param>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherAttribute.Format">
+            <summary>
+            Gets the format.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher">
+            <summary>
+            Entry point for constructing root level Cypher.
+            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            </summary>
+            <summary>
+            Entry point for constructing root level Cypher.
+            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            </summary>
+            <summary>
+            Entry point for constructing root level Cypher.
+            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            </summary>
+            <summary>
+            Cypher Function Extensions
+            </summary>
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.HandleConfigInjection(System.Action{Weknow.CypherConfig},Weknow.CypherConfig)">
+            <summary>
+            Handles the configuration injection.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <param name="cfg">The CFG.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
+            <summary>
+            Initializes a builder.
+            </summary>
+            <param name="cfg">The CFG.</param>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher._(System.Linq.Expressions.Expression{Weknow.GraphDbCommands.CypherDelegates.NoVariable},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Build cypher expression
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher._(System.Linq.Expressions.Expression{Weknow.GraphDbCommands.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Build cypher expression
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.ILabel)">
+            <summary>
+            Specified node with label.
+            </summary>
+            <param name="label">The label.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Specified node with variable.
+            </summary>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel)">
+            <summary>
+            Specified node with variable and label.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel,System.Object)">
+            <summary>
+            Specified node with variable, label and properties.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Cypher.R">
+            <summary>
+            Gets the Cypher relation.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher._``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration,``0)">
+            <summary>
+            Used to define properties' variables without the $ prefix.
+            Useful for cases like UNWIND
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="exp">Any generics expression</param>
+            <returns></returns>
+            <example>
+            UNWIND $items AS item 
+                MATCH(n:Person { PropA: item.x })
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Rgx(System.Boolean)">
+            <summary>
+            Use regular expression comparison under WHERE clause.
+            </summary>
+            <param name="condition"></param>
+            <returns></returns>
+            <example>
+            WHERE n.name =~ 'Tim.*'
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Rgx(System.Object)">
+            <summary>
+            Use regular expression comparison under WHERE clause.
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            WHERE n.name =~ 'Tim.*'
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Profile">
+            <summary>
+            Profile execution.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Match(Weknow.GraphDbCommands.INode[])">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Create(Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            Create phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Merge(Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            MERGE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MERGE (n:Person {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Unwind(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Unwind(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            Unwinds the specified items.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Exists(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            EXISTS phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            exists(n.property)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Exists(Weknow.GraphDbCommands.CypherDelegates.NoVariable)">
+            <summary>
+            EXISTS phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            exists(n.property)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.IRelationNode}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Reuses the specified expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.INodeRelation}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Reuses the specified expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.INode}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.IRelation}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INodeRelation}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
+            <summary>
+            Use for encapsulation of reusable expression.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Timestamp">
+            <summary>
+            Milliseconds since midnight, January 1, 1970 UTC.
+            </summary>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN timestamp()
+            </example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Parameters">
+            <summary>
+            Parameters factories
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Create">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Create``1">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``2">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``3">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``4">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``5">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``6">
+            <summary>
+            Get parameters declaration.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Default">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+            <param name="p6">The p6.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+            <param name="p6">The p6.</param>
+            <param name="p7">The p7.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+            <param name="p6">The p6.</param>
+            <param name="p7">The p7.</param>
+            <param name="p8">The p8.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+            <param name="p6">The p6.</param>
+            <param name="p7">The p7.</param>
+            <param name="p8">The p8.</param>
+            <param name="p9">The p9.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+            <summary>
+            Parameters Deconstruction.
+            </summary>
+            <param name="p1">The p1.</param>
+            <param name="p2">The p2.</param>
+            <param name="p3">The p3.</param>
+            <param name="p4">The p4.</param>
+            <param name="p5">The p5.</param>
+            <param name="p6">The p6.</param>
+            <param name="p7">The p7.</param>
+            <param name="p8">The p8.</param>
+            <param name="p9">The p9.</param>
+            <param name="p10">The P10.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Variables">
+            <summary>
+            Variables factories
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Create">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Create``1">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``2">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``3">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``4">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``5">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``6">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Default">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+            <param name="v10">The P10.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Type(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            String representation of the relationship type.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN type(r)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.StartNode(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Start node of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN startNode(r)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.EndNode(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            End node of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)-[r:LOVE]->(m)
+            RETURN endNode(r)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Id(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            The internal id of the relationship.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN id(n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Labels(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Labels of the node.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n:PERSON:ADMIN)
+            RETURN labels(n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Count(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Sum(System.Object)">
+            <summary>
+            Sum numerical values. Similar functions are avg(), min(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN sum(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Max(System.Object)">
+            <summary>
+            Max numerical values. Similar functions are avg(), min(), sum().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN max(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Min(System.Object)">
+            <summary>
+            Min numerical values. Similar functions are avg(), sum(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN min(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Avg(System.Object)">
+            <summary>
+            Avg numerical values. Similar functions are sum(), min(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN avg(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.CountDistinct(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Collect(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            n.Collect() or Collect(n)
+            result in:
+            collect(n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Collect(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="property">The property.</param>
+            <returns></returns>
+            <example>
+            Collect(n._.Id)
+            result in
+            collect(n.Id)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.CollectDistinct(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(DISTINCT n)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.CollectDistinct(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(DISTINCT n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
+            <summary>
+            Compares the specified with.
+            </summary>
+            <param name="compare">The compare.</param>
+            <param name="with">The with.</param>
+            <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            In(n._.property, items)
+            result in:
+            n.property IN [items]
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            In(n._.property, items)
+            result in:
+            n.property IN [$items]
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,System.Object)">
+            <summary>
+            IN phrase.
+            </summary>
+            <param name="property">The property.</param>
+            <param name="compareWith">The compare with.</param>
+            <returns></returns>
+            <example>
+            var item = VariablesCreateMulti();
+            In(n._.property, item.List)
+            result in:
+            n.property IN [item.List]
+            </example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherCommand">
+            <summary>
+            <![CDATA[Representation of Cypher Query & Parameters]]>
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherCommand.#ctor(System.String,Weknow.GraphDbCommands.CypherParameters)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherCommand"/> class.
+            </summary>
+            <param name="query">The query.</param>
+            <param name="parameters">The parameters.</param>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherCommand.Query">
+            <summary>
+            Representation of Cypher Query.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherCommand.Parameters">
+            <summary>
+            Gets the parameters.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherCommand.op_Implicit(Weknow.GraphDbCommands.CypherCommand)~System.String">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.GraphDbCommands.CypherCommand"/> to <see cref="T:System.String"/>.
+            </summary>
+            <param name="command">The command.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherCommand.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherCommand.Dump">
+            <summary>
+            <![CDATA[Dumps the Cypher Query & parameter into text format.]]>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherDelegates">
+            <summary>
+            Common delegate of the Cypher builder
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Fluent">
+            <summary>
+            Fluent delegate is the underline used to glue the Cypher expression.
+            </summary>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Project`2">
+            <summary>
+            <![CDATA[Pattern delegate of T.
+            Used for having IVar<T>]]>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="R"></typeparam>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherDelegates.NoVariable">
+            <summary>
+            Enable starting point which don't use any variable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Project`1">
+            <summary>
+            <![CDATA[Pattern delegate of T.
+            Used for having IVar]]>
+            </summary>
+            <typeparam name="R"></typeparam>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherGeneralExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.AsParameter``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration{``0})">
+            <summary>
+            Project the variable as parameter.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherParameters">
+            <summary>
+            Cypher Parameters representation
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            </summary>
+            <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            </summary>
+            <param name="capacity">The initial number of elements that the <see cref="T:System.Collections.Generic.Dictionary`2" /> can contain.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            </summary>
+            <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+            <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherPhraseExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Match(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pp"></param>
+            <returns></returns>
+            <example>
+            <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Match(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OptionalMatch(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            Optional Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pp"></param>
+            <returns></returns>
+            <example>
+            OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Create(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            Create phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pp"></param>
+            <returns></returns>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Create(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            Create phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern"></param>
+            <returns></returns>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Merge(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            MERGE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pp"></param>
+            <returns></returns>
+            <example>
+            MERGE (n:Person {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Merge(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            MERGE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+            <example>
+            MERGE (n:Person {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, map)
+            result in:
+            ON CREATE SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, map)
+            result in:
+            ON CREATE SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, new {prm._.Name, var._.Code})
+            result in:
+            ON CREATE SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSetPlus(n, map)
+            result in:
+            ON CREATE SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnCreateSetPlus(n, map)
+            result in:
+            ON CREATE SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, map)
+            result in:
+            ON MATCH SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, map)
+            result in:
+            ON MATCH SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, new {prm._.Name, var._.Code})
+            result in:
+            ON MATCH SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSetPlus(n, map)
+            result in:
+            ON MATCH SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSetPlus(n, map)
+            result in:
+            ON MATCH SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel[])">
+            <summary>
+            SET label.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <returns></returns>
+            <example>
+            SET n:Person:Manager
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            SET  phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .Set(n, new {prm._.Name, var._.Code})
+            result in:
+            SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.SetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.SetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Where(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Boolean)">
+            <summary>
+            WHERE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="condition"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Return(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            RETURN n
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.ReturnDistinct(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            RETURN DISTINCT phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            RETURN DISTINCT n
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            WITH phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            WITH user, count(friend) AS friends
+            WHERE friends > 10
+            RETURN user
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            WITH phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            WITH user, count(friend) AS friends
+            WHERE friends > 10
+            RETURN user
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderBy(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            ORDER BY phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WITH user, count(friend) AS friends
+            ORDER BY friends
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderByDesc(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            ORDER BY DESC phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WITH user, count(friend) AS friends
+            ORDER BY friends DESC
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Skip(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Int32)">
+            <summary>
+            SKIP phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="count"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            SKIP 10
+            LIMIT 5
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Limit(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Int32)">
+            <summary>
+            LIMIT phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="count"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            SKIP 10
+            LIMIT 5
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Delete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            DELETE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            DELETE n
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.DetachDelete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+            <summary>
+            DETACH DELETE phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="vars"></param>
+            <returns></returns>
+            <example>
+            DETACH DELETE n
+            </example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.PropertyContextBehaviors">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.None">
+            <summary>
+            Avoid this setting
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.Plan">
+            <summary>
+            No formatting
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.Dolar">
+            <summary>
+            No formatting except the $ sign.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.ExpressionPattern">
+            <summary>
+            Represent predefine pattern
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.ExpressionPattern"/> class.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.op_Implicit(Weknow.GraphDbCommands.ExpressionPattern)~System.String">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Weknow.GraphDbCommands.ExpressionPattern"/> to <see cref="T:System.String"/>.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.INode">
+            <summary>
+            Pattern primitive for the Cypher expression.
+            </summary>
+            <example>
+            The line and arrows in the following expression are patterns operations. 
+            MATCH (n)-[r]->(m)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.INodeRelation">
+            <summary>
+            Represent node to relation
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INodeRelation.op_GreaterThan(Weknow.GraphDbCommands.INodeRelation,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Implements the operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.INodeRelation.op_LessThan(Weknow.GraphDbCommands.INodeRelation,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Implements the operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.IPattern">
+            <summary>
+            Pattern primitive for the Cypher expression.
+            </summary>
+            <example>
+            The line and arrows in the following expression are patterns operations. 
+            MATCH (n)-[r]->(m)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.IRelationNode">
+            <summary>
+            Represent relation to node
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelationNode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+            <summary>
+            Implements the operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelationNode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+            <summary>
+            Implements the operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.NodePattern">
+            <summary>
+            Represent predefine pattern
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.NodeRelationPattern">
+            <summary>
+            Represent node to relation
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.ExpressionPattern" />
+            <seealso cref="T:Weknow.GraphDbCommands.INodeRelation" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.RelationNodePattern">
+            <summary>
+            Represent relation to node
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.ExpressionPattern" />
+            <seealso cref="T:Weknow.GraphDbCommands.IRelationNode" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.IRelation">
+            <summary>
+            Relation primitive for the Cypher expression.
+            </summary>
+            <example>
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.IType)">
+            <summary>
+            Represent relation with variable and type.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="type">The type.</param>
+            <returns></returns>
+            <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Represent relation with variable and type.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            </value>
+            <param name="var">The variable.</param>
+            <returns></returns>
+            <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
+            <summary>
+            Represent relation with variable and type.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[(m)<-[r:KNOWS]-(n)]]>
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object)">
+            <summary>
+            Represent relation with variable, type and properties.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.IType,System.Object)">
+            <summary>
+            Represent relation with variable, type and properties.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            </value>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(System.Range)">
+            <summary>
+            Represent relation with range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
+            <summary>
+            Represent relation with variable and range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">Variable</param>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[r:*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Represent relation with range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Represent relation with variable and range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">Variable</param>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[r:*1..5]->(m)
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Represent relation with variable, type and range.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">Variable</param>
+            <param name="type"></param>
+            <param name="properties"></param>
+            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+            <returns></returns>
+            <example>
+            (n)-[r:KNOW*1..5 {level: 2}]->(m)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_Subtraction(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_Subtraction(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_GreaterThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_GreaterThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator &gt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_LessThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+            <summary>
+            Declaration for operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IRelation.op_LessThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+            <summary>
+            Declaration for operator &lt;.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.RelationPattern">
+            <summary>
+            Represent predefine pattern
+            </summary>
+            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.RelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            </value>
+            <param name="var">The variable.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.IType,System.Object)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            </value>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(System.Range)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.IType)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified type.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+            <summary>
+            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Rng">
+            <summary>
+            Represent alternative to range syntax (currently the range syntax is not supported as expression)
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Rng.Any">
+            <summary>
+            Any length
+            </summary>
+            <example>
+            (a)-[*]->(b)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Rng.AtLeast(System.Int32)">
+            <summary>
+            At least
+            </summary>
+            <param name="i">The i.</param>
+            <example>
+            (a)-[*3..]->(b)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Rng.AtMost(System.Int32)">
+            <summary>
+            At most
+            </summary>
+            <param name="i">The i.</param>
+            <example>
+            (a)-[*..5]->(b)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Rng.Scope(System.Int32,System.Int32)">
+            <summary>
+            From start index to end index.
+            </summary>
+            <param name="start">The start.</param>
+            <param name="end">The end.</param>
+            <returns></returns>
+            <example>
+            (a)-[*3..5]->(b)
+            </example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.ILabel">
+            <summary>
+            Label primitive for the Cypher expression.
+            </summary>
+            <example>
+            The Person in the following expression will use the Label primitive.
+            MATCH (n:Person)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ILabel.op_BitwiseAnd(Weknow.GraphDbCommands.ILabel,Weknow.GraphDbCommands.ILabel)">
+            <summary>
+            Implements the operator &amp;.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example><![CDATA[(n:Person:Animal)]]></example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.IType">
+            <summary>
+            Relation's Type primitive for the Cypher expression.
+            </summary>
+            <example>
+            The KNOWS in the following expression will use the Type primitive.
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.IType.op_BitwiseOr(Weknow.GraphDbCommands.IType,Weknow.GraphDbCommands.IType)">
+            <summary>
+            Implements the operator |.
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Declarations.ParameterDeclaration">
+            <summary>
+            Parameter primitive for the Cypher expression.
+            </summary>
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_UnaryPlus(Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="prm">The PRM.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1">
+            <summary>
+            Parameter primitive for the Cypher expression.
+            </summary>
+            <example>
+            The $value in the following expression will use the Parameter primitive.
+            CREATE (n:Person {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.op_Implicit(Weknow.GraphDbCommands.Declarations.ParameterDeclaration{`0})~`0">
+            <summary>
+            Casting overload.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.op_OnesComplement(Weknow.GraphDbCommands.Declarations.ParameterDeclaration{`0})">
+            <summary>
+            Use the parameter as prefix
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1._">
+            <summary>
+            Gets type representation of the variable.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.Inc">
+            <summary>
+            Gets type representation of the variable which should be increment.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.op_OnesComplement(Weknow.GraphDbCommands.Declarations.VariableDeclaration{`0})">
+            <summary>
+            Use the parameter as prefix
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.Declarations.VariableDeclaration">
+            <summary>
+            Variable primitive for the Cypher expression.
+            </summary>
+            <example>
+            The n in the following expression will use the variable primitive. 
+            CREATE (n {name: $value})
+            </example>
+            <remarks>
+            Primitives don't have actual implementation, 
+            it's a declarative unit which will be evaluate at parsing time (by the visitor). 
+            </remarks>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.Declarations.VariableDeclaration.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Addition(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Declaration for operator +.
+            </summary>
+            <param name="l">The l.</param>
+            <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_UnaryPlus(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Declaration for unary operator +.
+            </summary>
+            <param name="item">The item.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration.AsParameter">
+            <summary>
+            Cast to parameter type.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherQueryBuilder">
+            <summary>
+            Responsible for abstracting the logic of the actual 
+            Cypher text building.
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:System.Char"/> at the specified index.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Int32,System.Int32)">
+            <summary>
+            <![CDATA[Gets the <see cref="ReadOnlySpan{System.Char}" /> with the specified start index.]]>
+            </summary>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Range)">
+            <summary>
+            Gets the <see cref="T:System.String"/> with the specified range.
+            </summary>
+            <param name="range">The range.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Append``1(``0)">
+            <summary>
+            Appends text.
+            </summary>
+            <param name="text">The text.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Remove(System.Int32,System.Int32)">
+            <summary>
+            Removes the specified start index.
+            </summary>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Remove(System.Range)">
+            <summary>
+            Removes the specified range.
+            </summary>
+            <param name="range">The range.</param>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Length">
+            <summary>
+            Gets the length.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.ToString(System.Range)">
+            <summary>
+            Converts to string.
+            </summary>
+            <param name="range">The range.</param>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.GetRange(System.Int32,System.Int32)">
+            <summary>
+            Gets the range.
+            </summary>
+            <param name="startIndex">The start index.</param>
+            <param name="length">The length.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Deconstruct(System.Range,System.Int32@,System.Int32@)">
+            <summary>
+            Deconstruct the range.
+            </summary>
+            <param name="range">The range.</param>
+            <param name="from">From.</param>
+            <param name="to">To.</param>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.CypherVisitor">
+            <summary>
+            The cypher visitor is the heart of the ORM implementation
+            </summary>
+            <seealso cref="T:System.Linq.Expressions.ExpressionVisitor" />
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.#ctor(Weknow.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherVisitor"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherVisitor.Query">
+            <summary>
+            Mutable state of the cypher query.
+            Query build during the visitor traverse.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.CypherVisitor.Parameters">
+            <summary>
+            Mutable state of the parameters.
+            Parameters build during the visitor traverse.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitLambda``1(System.Linq.Expressions.Expression{``0})">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.Expression`1" />.
+            </summary>
+            <typeparam name="T">The type of the delegate.</typeparam>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.BinaryExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.MethodCallExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitMember(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.MemberExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.NewArrayExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitNew(System.Linq.Expressions.NewExpression)">
+            <summary>
+            Visits the children of the <see cref="T:System.Linq.Expressions.NewExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ConstantExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Visits the <see cref="T:System.Linq.Expressions.ParameterExpression" />.
+            </summary>
+            <param name="node">The expression to visit.</param>
+            <returns>
+            The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.ApplyFormat(System.Linq.Expressions.MethodCallExpression,System.String)">
+            <summary>
+            Applies the format.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="format">The format.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.EqualPattern">
+            <summary>
+            Determines whether [is equal pattern].
+            </summary>
+            <returns>
+              <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherVisitor.AppendPropSeparator">
+            <summary>
+            Appends the property separator.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.ContextValue`1">
+            <summary>
+            Context container
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.ContextValue`1"/> class.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.ContextValue`1.Value">
+            <summary>
+            Gets the value.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.ContextValue`1.Values">
+            <summary>
+            Gets all values.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.Set(`0)">
+            <summary>
+            Sets the specified value.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.Set(`0,System.Boolean)">
+            <summary>
+            Sets the specified value.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="condition">if set to <c>true</c> [condition].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.ContextValue`1.op_Implicit(Weknow.GraphDbCommands.ContextValue{`0})~`0">
+            <summary>
+            Performs an implicit conversion.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.DisposeableAction">
+            <summary>
+            Dispose-able action
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:Weknow.GraphDbCommands.DisposeableAction.Empty">
+            <summary>
+            Empty
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.DisposeableAction.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.DisposeableAction"/> class.
+            </summary>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.DisposeableAction.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherAmbientLabelConfig">
+            <summary>
+            Label configuration
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
+            </summary>
+            <param name="naming">The naming.</param>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="additionalLabels">The additional labels.</param>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String[])">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.AmbientFormat(System.String)">
+            <summary>
+            Ambients the format.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
+            <summary>
+            Formats the specified text.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="text">The text.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:Weknow.CypherConfig">
+            <summary>
+            The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherConfig.Scope">
+            <summary>
+            Using asyn configuration scope
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.AmbientLabels">
+            <summary>
+            Ambient Label configuration
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherConfig.Naming">
+            <summary>
+            Gets the naming convention.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherNamingConfig">
+            <summary>
+            Naming convention
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.Convention">
+            <summary>
+            Gets or sets the convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.ConventionAffects">
+            <summary>
+            Gets or sets the convention affects.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.Pluralization">
+            <summary>
+            Gets or sets the pluralization service.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.SetPluralization(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Sets the pluralization service.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
+            <summary>
+            Formats by convention.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherFormat">
+            <summary>
+            Cypher formatting options
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherFormat.SingleLine">
+            <summary>
+            A single line of cypher query
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherFormat.MultiLine">
+            <summary>
+            Multi line of cypher query
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherFormat.MultiLineDense">
+            <summary>
+            Multi line of cypher query with some density on where and set properties
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherNamingConvention">
+            <summary>
+            Formatting options
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherNamingConvention.Default">
+            <summary>
+            The default
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherNamingConvention.SCREAMING_CASE">
+            <summary>
+            The screaming case
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherNamingConvention.camelCase">
+            <summary>
+            The camel case
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherNamingConvention.PacalCase">
+            <summary>
+            The pacal case
+            </summary>
+        </member>
+        <member name="T:Weknow.NamingConventionAffects">
+            <summary>
+            What get affected by the naming convention
+            </summary>
+        </member>
+        <member name="F:Weknow.NamingConventionAffects.None">
+            <summary>
+            disable
+            </summary>
+        </member>
+        <member name="F:Weknow.NamingConventionAffects.Label">
+            <summary>
+            Node
+            </summary>
+        </member>
+        <member name="F:Weknow.NamingConventionAffects.Type">
+            <summary>
+            Relations
+            </summary>
+        </member>
+        <member name="F:Weknow.NamingConventionAffects.All">
+            <summary>
+            All
+            </summary>
+        </member>
+        <member name="T:Weknow.IPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.IPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.IPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
+        <member name="T:Weknow.LambdaPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.LambdaPluralization"/> class.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.LambdaPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
+    </members>
+</doc>

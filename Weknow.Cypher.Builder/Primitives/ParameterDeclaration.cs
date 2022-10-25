@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Weknow.Cypher.Builder.Declarations
+namespace Weknow.GraphDbCommands.Declarations
 {
     /// <summary>
     /// Parameter primitive for the Cypher expression.

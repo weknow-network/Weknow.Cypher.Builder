@@ -1,14 +1,14 @@
 ﻿using System.Linq.Expressions;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     /// <summary>
     /// Represent relation to node
     /// </summary>
-    /// <seealso cref="Weknow.Cypher.Builder.ExpressionPattern" />
-    /// <seealso cref="Weknow.Cypher.Builder.IRelationNode" />
+    /// <seealso cref="Weknow.GraphDbCommands.ExpressionPattern" />
+    /// <seealso cref="Weknow.GraphDbCommands.IRelationNode" />
     public class RelationNodePattern : ExpressionPattern, IRelationNode
     {
         #region Ctor

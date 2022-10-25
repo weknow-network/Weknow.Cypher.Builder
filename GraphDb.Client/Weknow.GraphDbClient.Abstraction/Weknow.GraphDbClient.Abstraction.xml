@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Weknow.GraphDbClient.Abstraction</name>
+    </assembly>
+    <members>
+        <member name="T:Weknow.GraphDbClient.Abstraction.IGraphDB">
+            <summary>
+            GraphDB abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDB.RunAsync(Weknow.GraphDbCommands.CypherCommand,Weknow.GraphDbCommands.CypherParameters)">
+            <summary>
+            Executes Cypher
+            </summary>
+            <param name="cypherCommand">The cypher command.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>Response factory</returns>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Abstraction.IGraphDBResponse">
+            <summary>
+            Graph Database response abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetAsync``1">
+            <summary>
+            Gets the first result set as T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>the first result</returns>
+            <example>
+            <![CDATA[
+            MATCH (p:Person) RETURN p
+            
+            var person = results.Get<Person>();
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``1">
+            <summary>
+            Gets the first result set
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>the first result</returns>
+            <example>
+            <![CDATA[
+            MATCH (p:Person) RETURN p
+            
+            var person = results.Get<Person>();
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetAsync``1(System.String,System.String)">
+            <summary>
+            Cast result set as T by a key.
+            </summary>
+            <typeparam name="T">The type of the first result.</typeparam>
+            <param name="key">The first result's key.</param>
+            <param name="mappingKey">The mapping key use to project part of the result set as the result.</param>
+            <returns>
+            Results by keys
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person)-[:AT]->(c:Company) RETURN p
+            var person = results.Get<Person>("p");
+            var company = results.Get<Company>("c");    
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``1(System.String,System.String)">
+            <summary>
+            Gets result set by a key.
+            </summary>
+            <typeparam name="T">The type of the first result.</typeparam>
+            <param name="key">The first result's key.</param>
+            <param name="mappingKey">The mapping key use to project part of the result set as the result.</param>
+            <returns>Results by keys</returns>
+            <example>
+            <![CDATA[
+            MATCH (p:Person)-[:AT]->(c:Company) RETURN p, c
+            
+            var person = results.Get<Person>("p");
+            var company = results.Get<Company>("c");
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``2(System.String,System.String)">
+            <summary>
+            Gets result set by a key.
+            </summary>
+            <typeparam name="T1">The type of the 1.</typeparam>
+            <typeparam name="T2">The type of the 2.</typeparam>
+            <param name="key1">The first result's key.</param>
+            <param name="key2">The second result's key.</param>
+            <returns>Results by keys</returns>
+            <example><![CDATA[
+            MATCH (p:Person)-[:AT]->(c:Company) RETURN p, c
+            var (person, company) = results.Get<Person>("p", "c");
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``3(System.String,System.String,System.String)">
+            <summary>
+            Gets result set by a key.
+            </summary>
+            <typeparam name="T1">The type of the first result.</typeparam>
+            <typeparam name="T2">The type of the second result.</typeparam>
+            <typeparam name="T3">The type of the third result.</typeparam>
+            <param name="key1">The first result's key.</param>
+            <param name="key2">The second result's key.</param>
+            <param name="key3">The third result's key.</param>
+            <returns>Results by keys</returns>
+            <example><![CDATA[
+            MATCH (p:Person)-[r:AT]->(c:Company) RETURN p, c, r
+            var (person, company, at) = results.Get<Person>("p", "c", "r");
+            ]]></example>
+        </member>
+    </members>
+</doc>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Context container

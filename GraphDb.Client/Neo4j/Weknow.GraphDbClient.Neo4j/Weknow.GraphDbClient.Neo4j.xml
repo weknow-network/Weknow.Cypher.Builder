@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Weknow.GraphDbClient.Neo4j</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider">
+            <summary>
+            Neo4j scoped DI 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String)">
+            <summary>
+            Registers module's dependencies.
+            </summary>
+            <param name="services">The services.</param>
+            <param name="healthBuilder">The health builder.</param>
+            <param name="authToken">The authentication token.</param>
+            <param name="envVarPrefix">The environment variable prefix.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.N4jHealth">
+            <summary>
+            REDIS health check
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.N4jHealth.#ctor(Neo4j.Driver.IDriver,Microsoft.Extensions.Logging.ILogger{Microsoft.Extensions.DependencyInjection.N4jHealth})">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="driver">The driver.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.N4jHealth.Microsoft#Extensions#Diagnostics#HealthChecks#IHealthCheck#CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Runs the health check, returning the status of the component being checked.
+            </summary>
+            <param name="context">A context object associated with the current execution.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that can be used to cancel the health check.</param>
+            <returns>
+            A <see cref="T:System.Threading.Tasks.Task`1" /> that completes when the health check has finished, yielding the status of the component being checked.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB">
+            <summary>
+            Neo4j graphDb abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.#ctor(Neo4j.Driver.IAsyncSession)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
+            </summary>
+            <param name="session">The session.</param>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#RunAsync(Weknow.GraphDbCommands.CypherCommand,Weknow.GraphDbCommands.CypherParameters)">
+            <summary>
+            Executes Cypher
+            </summary>
+            <param name="cypherCommand">The cypher command.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>
+            Response factory
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse">
+            <summary>
+            GraphDB response abstraction
+            </summary>
+            <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBResponse" />
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.#ctor(Neo4j.Driver.IResultCursor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse"/> class.
+            </summary>
+            <param name="result">The result.</param>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions">
+            <summary>
+            Neo4j graphDb abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions.TryGetValue``1(Neo4j.Driver.IRecord,System.String,``0@)">
+            <summary>
+            Tries to get value.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <param name="identifier">The identifier.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions.TryGetValue``1(Neo4j.Driver.IRecord,``0@)">
+            <summary>
+            Tries to get the first record set's value.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jProvider">
+            <summary>
+            Neo4j provider abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jProvider.CreateDriver(Neo4j.Driver.IAuthToken,System.String)">
+            <summary>
+            Creates the driver.
+            </summary>
+            <param name="authToken">The authentication token.</param>
+            <param name="envVarPrefix">The environment variable prefix.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jSession">
+            <summary>
+            Neo4j graphDb abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jSession.#ctor(Neo4j.Driver.IDriver)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jSession"/> class.
+            </summary>
+            <param name="driver">The driver.</param>
+        </member>
+        <member name="P:Weknow.GraphDbClient.Neo4jProvider.N4jSession.Session">
+            <summary>
+            Gets the session.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jSession.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jSession"/> class.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jSession.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jSession.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+    </members>
+</doc>

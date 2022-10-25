@@ -4,12 +4,13 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
+    [Trait("TestType", "Unit")]
     [Trait("Group", "NoMagic")]
     [Trait("Segment", "Expression")]
     public class NoMagicTests
@@ -72,9 +73,9 @@ namespace Weknow.Cypher.Builder
             var n = Variables.Create(); ;
 
             CypherCommand cypher =
-                _(() => Create(N(n, Person, 
-                                        new 
-                                        { 
+                _(() => Create(N(n, Person,
+                                        new
+                                        {
                                             (~map)._.Id,
                                             (~map)._.Name
                                         }))
@@ -98,10 +99,10 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher =
                 _(() => Create(N(n, Person,
-                                new 
+                                new
                                 {
-                                    (~map)._.Id, 
-                                    Name = (~map)._.FirstName 
+                                    (~map)._.Id,
+                                    Name = (~map)._.FirstName
                                 }))
                            .Set(n, new { (~map)._.Address }));
 
@@ -124,7 +125,7 @@ namespace Weknow.Cypher.Builder
 
             CypherCommand cypher =
                 _(() => Unwind(items, item,
-                            Create(N(n, Person, 
+                            Create(N(n, Person,
                                     new Foo { Id = (~item)._.Id, Name = (~item)._.Name })))
                            .Set(n, item));
 

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
+using static Weknow.GraphDbCommands.Cypher;
 using Neo4j.Driver;
 using System.Diagnostics;
 
-namespace Weknow.Cypher.Builder.IntegrationTests
+namespace Weknow.GraphDbCommands.IntegrationTests
 {
     [Trait("TestType", "Integration")]
     public class BaseIntegrationTests: IDisposable

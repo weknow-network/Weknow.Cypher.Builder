@@ -2,12 +2,13 @@ using System.Data;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        public class RelationTests
+    [Trait("TestType", "Unit")]
+    public class RelationTests
     {
         protected readonly ITestOutputHelper _outputHelper;
 
@@ -150,6 +151,7 @@ namespace Weknow.Cypher.Builder
             // Require remodel of the cypher generator,
             // On the remodeling it would be nice to add built-in indentation
             Assert.Equal("MERGE (n:Person { Id: $Id })-[:By]->(maintainer_:Maintainer { Id: $maintainer_Id })", cypher.Query);
+            // MERGE (n:Person { Id: $Id })-[:By]->(maintainer_:Maintainer { Id: $maintainer_Id })maintainer
         }
 
         #endregion // Relation_WithReuse_Test

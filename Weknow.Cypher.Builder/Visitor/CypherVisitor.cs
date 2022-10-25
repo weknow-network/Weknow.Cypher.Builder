@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
-using static Weknow.Cypher.Builder.CypherDelegates;
+using static Weknow.GraphDbCommands.CypherDelegates;
 
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// The cypher visitor is the heart of the ORM implementation
@@ -21,6 +21,7 @@ namespace Weknow.Cypher.Builder
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private readonly CypherConfig _configuration;
+        private bool _shouldHandleAmbient = false;
 
         #region Ctor
 
@@ -75,6 +76,42 @@ namespace Weknow.Cypher.Builder
         {
             [0] = new ContextValue<Expression?>(null),
         };
+
+        #region HandleAmbientLabels
+
+        private void HandleAmbientLabels(params string[] labels)
+        {
+            if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
+                return;
+
+            if (!_shouldHandleAmbient)
+            {
+                if (labels == null || labels.Length == 0)
+                    return;
+
+                HandleStartChar();
+
+                IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
+                var addition = string.Join(":", formatted); 
+                Query.Append(addition);
+                return;
+            }
+
+            _shouldHandleAmbient = false;
+                
+            HandleStartChar();
+
+            Query.Append(_configuration.AmbientLabels.Combine(labels));
+
+            void HandleStartChar()
+            {
+                char lastChar = Query[^1];
+                if (lastChar != ':')
+                    Query.Append(":");
+            }
+        }
+
+        #endregion // HandleAmbientLabels
 
         #region VisitLambda
 
@@ -181,7 +218,14 @@ namespace Weknow.Cypher.Builder
             var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
             if (format != null)
             {
+                bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
+                if(ambScope)
+                    _shouldHandleAmbient = true;
+
                 ApplyFormat(node, format);
+
+                if(ambScope)
+                    _shouldHandleAmbient = false;
             }
             else if (type == nameof(Rng))
             {
@@ -267,10 +311,7 @@ namespace Weknow.Cypher.Builder
             }
             if (node.Type == typeof(ILabel))
             {
-                char lastChar = Query[^1];
-                if (lastChar != ':')
-                    Query.Append(":");
-                Query.Append(_configuration.AmbientLabels.Combine(name));
+                HandleAmbientLabels(name);
                 return node;
             }
 
@@ -306,6 +347,10 @@ namespace Weknow.Cypher.Builder
                 }
             }
             Query.Append(name);
+            if (node.Type == typeof(VariableDeclaration))
+            {
+                HandleAmbientLabels();
+            }
 
             return node;
         }

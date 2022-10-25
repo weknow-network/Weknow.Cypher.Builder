@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
-using static Weknow.Cypher.Builder.CypherDelegates;
+using static Weknow.GraphDbCommands.CypherDelegates;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Cypher Function Extensions
