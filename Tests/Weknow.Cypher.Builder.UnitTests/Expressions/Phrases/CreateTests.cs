@@ -1,15 +1,16 @@
 using System;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
+    [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class CreateTests

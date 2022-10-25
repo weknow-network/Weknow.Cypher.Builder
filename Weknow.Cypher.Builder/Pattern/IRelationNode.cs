@@ -1,13 +1,13 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     /// <summary>
     /// Represent relation to node
     /// </summary>
-    /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
+    /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
     public interface IRelationNode : IPattern
     {
         /// <summary>

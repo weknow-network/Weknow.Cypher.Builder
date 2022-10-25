@@ -4,8 +4,8 @@
     <PackageId>Weknow.GraphDbClient.Redis</PackageId>
     <Product>Weknow GraphDb Client for Redis Graph</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <DocumentationFile>Weknow.GraphDbClient.Redis.xml</DocumentationFile>

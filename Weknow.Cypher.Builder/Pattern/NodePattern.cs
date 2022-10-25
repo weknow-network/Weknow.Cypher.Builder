@@ -1,12 +1,12 @@
 ﻿using System.Linq.Expressions;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Represent predefine pattern
     /// </summary>
-    /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
+    /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
     public class NodePattern : ExpressionPattern, INode
     {
         #region Ctor

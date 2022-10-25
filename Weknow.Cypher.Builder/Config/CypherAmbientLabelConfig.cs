@@ -55,7 +55,7 @@ namespace Weknow
         /// <param name="additionalLabels">The additional labels.</param>
         public void Add(params string[] additionalLabels)
         {
-            Values = Values.AddRange(additionalLabels);
+            Values = Values.AddRange(additionalLabels.Except(Values));
         }
 
         #endregion // Add

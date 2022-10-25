@@ -4,8 +4,9 @@ using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Weknow.Cypher.Builder.UnitTests
+namespace Weknow.GraphDbCommands.UnitTests
 {
+    [Trait("TestType", "Unit")]
     public class CypherQueryBuilderTests
     {
         private readonly ITestOutputHelper _outputHelper;

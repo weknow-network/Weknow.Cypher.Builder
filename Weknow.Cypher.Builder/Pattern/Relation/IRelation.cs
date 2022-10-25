@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     /// <summary>

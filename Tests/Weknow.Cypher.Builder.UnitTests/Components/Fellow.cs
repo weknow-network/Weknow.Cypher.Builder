@@ -1,6 +1,6 @@
 ﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     public class Fellow

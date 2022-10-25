@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
-using static Weknow.Cypher.Builder.CypherDelegates;
+using static Weknow.GraphDbCommands.CypherDelegates;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 // TODO: [bnaya 2022-10-20] source code generator of the cypher
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.
@@ -18,6 +18,22 @@ namespace Weknow.Cypher.Builder
     /// </summary>
     public static partial class Cypher
     {
+        #region HandleConfigInjection
+
+        /// <summary>
+        /// Handles the configuration injection.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="cfg">The CFG.</param>
+        private static void HandleConfigInjection(
+            Action<CypherConfig>? configuration, CypherConfig cfg)
+        {
+            CypherConfig.Scope.Value?.Invoke(cfg);
+            configuration?.Invoke(cfg);
+        }
+
+        #endregion // HandleConfigInjection
+
         #region Init
 
         /// <summary>
@@ -54,7 +70,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             CypherCommand result = Init(cfg, expression);
             return result;
         }
@@ -71,7 +87,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             CypherCommand result = Init(cfg, expression);
             return result;
         }
@@ -111,6 +127,8 @@ namespace Weknow.Cypher.Builder
         /// <returns></returns>
         [Cypher("($0$1 $2)")]
         public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
+        [Cypher("($0 $1)")]
+        public static INode N(VariableDeclaration var, object properties) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
 
@@ -285,7 +303,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new RelationNodePattern(expression.Body, cfg);
         }
 
@@ -300,7 +318,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new NodeRelationPattern(expression.Body, cfg);
         }
 
@@ -315,6 +333,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
+            CypherConfig.Scope.Value?.Invoke(cfg);
             configuration?.Invoke(cfg);
             return new NodePattern(expression.Body, cfg);
         }
@@ -330,7 +349,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new RelationPattern(expression.Body, cfg);
         }
 
@@ -345,6 +364,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
+            CypherConfig.Scope.Value?.Invoke(cfg);
             configuration?.Invoke(cfg);
             return new NodeRelationPattern(expression.Body, cfg);
         }
@@ -360,7 +380,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new NodePattern(expression.Body, cfg);
         }
 
@@ -375,6 +395,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
+            CypherConfig.Scope.Value?.Invoke(cfg);
             configuration?.Invoke(cfg);
             return new RelationPattern(expression.Body, cfg);
         }
@@ -390,7 +411,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new NodePattern(expression.Body, cfg);
         }
 
@@ -405,6 +426,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
+            CypherConfig.Scope.Value?.Invoke(cfg);
             configuration?.Invoke(cfg);
             return new RelationPattern(expression.Body, cfg);
         }
@@ -420,7 +442,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new NodePattern(expression.Body, cfg);
         }
 
@@ -435,6 +457,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
+            CypherConfig.Scope.Value?.Invoke(cfg);
             configuration?.Invoke(cfg);
             return new RelationPattern(expression.Body, cfg);
         }
@@ -450,7 +473,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new NodePattern(expression.Body, cfg);
         }
 
@@ -465,7 +488,7 @@ namespace Weknow.Cypher.Builder
                             Action<CypherConfig>? configuration = null)
         {
             var cfg = new CypherConfig();
-            configuration?.Invoke(cfg);
+            HandleConfigInjection(configuration, cfg);
             return new RelationPattern(expression.Body, cfg);
         }
 

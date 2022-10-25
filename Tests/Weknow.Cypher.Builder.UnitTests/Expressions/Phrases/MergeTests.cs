@@ -4,13 +4,14 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Group", "Phrases")]
+    [Trait("TestType", "Unit")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class MergeTests
     {
@@ -111,8 +112,8 @@ namespace Weknow.Cypher.Builder
         {
             var Id = Parameters.Create();
             CypherCommand cypher = _(n => a =>
-                                    Match(N(n,Person, new { Id }))
-                                    .Merge(N(n)-R[KNOWS]>N(a, Animal, new { Id })));
+                                    Match(N(n, Person, new { Id }))
+                                    .Merge(N(n) - R[KNOWS] > N(a, Animal, new { Id })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

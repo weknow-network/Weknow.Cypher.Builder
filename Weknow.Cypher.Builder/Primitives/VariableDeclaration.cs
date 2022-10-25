@@ -1,7 +1,7 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder.Declarations
+namespace Weknow.GraphDbCommands.Declarations
 {
     /// <summary>
     /// Variable primitive for the Cypher expression.

@@ -1,7 +1,7 @@
 ﻿using System;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Represent alternative to range syntax (currently the range syntax is not supported as expression)

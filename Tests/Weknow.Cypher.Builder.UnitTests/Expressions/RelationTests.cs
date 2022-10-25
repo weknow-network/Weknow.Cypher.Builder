@@ -2,12 +2,13 @@ using System.Data;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        public class RelationTests
+    [Trait("TestType", "Unit")]
+    public class RelationTests
     {
         protected readonly ITestOutputHelper _outputHelper;
 

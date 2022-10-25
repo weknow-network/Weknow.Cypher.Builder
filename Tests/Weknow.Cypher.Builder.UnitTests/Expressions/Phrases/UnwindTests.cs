@@ -3,13 +3,14 @@ using System;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Group", "Phrases")]
+    [Trait("TestType", "Unit")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class UnwindTests
     {
@@ -33,7 +34,7 @@ namespace Weknow.Cypher.Builder
             var item = Variables.Create<Foo>();
             var n = Variables.Create();
 
-            CypherCommand cypher = _( () =>
+            CypherCommand cypher = _(() =>
                                     Unwind(items, item,
                                     Match(N(n, Person, new { (~item)._.PropA, (~item)._.PropB }))));
 
@@ -43,7 +44,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
         #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
-       
+
         #region UNWIND $items AS item MATCH (n:Person { PropA: item }) / Unwind_PropConst_AsMap_Test
 
         [Fact]
@@ -155,7 +156,7 @@ RETURN n", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, new { (~item)._.Id}))
+                                    Match(N(n, Person, new { (~item)._.Id }))
                                     .SetPlus(n, item)));
 
             _outputHelper.WriteLine(cypher);
@@ -177,7 +178,7 @@ SET n += item", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, map,
-                                    Merge(N(n, Person, new { (~map)._.Id}))
+                                    Merge(N(n, Person, new { (~map)._.Id }))
                                     .OnCreateSet(n, map)
                                     .Return(n)),
                                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);

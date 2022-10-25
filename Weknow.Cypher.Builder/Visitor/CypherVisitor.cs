@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
-using static Weknow.Cypher.Builder.CypherDelegates;
+using static Weknow.GraphDbCommands.CypherDelegates;
 
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// The cypher visitor is the heart of the ORM implementation

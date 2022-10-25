@@ -4,13 +4,14 @@ using System.Xml;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Group", "Phrases")]
+    [Trait("TestType", "Unit")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class MapTests
     {
@@ -36,7 +37,7 @@ namespace Weknow.Cypher.Builder
                                     .SetPlus(n, p));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
+            Assert.Equal(
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n += $p", cypher.Query);
         }
@@ -54,7 +55,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                                     Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
+            Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -71,7 +72,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                                     Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
+            Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test
@@ -88,7 +89,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person $n)", pattern.ToString());
+            Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_Map_Test
@@ -106,7 +107,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
+            Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // Node_Variable_Label_MapAsVar_Test

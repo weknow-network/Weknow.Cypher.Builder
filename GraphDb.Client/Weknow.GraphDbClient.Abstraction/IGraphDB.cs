@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Weknow.Cypher.Builder;
+using Weknow.GraphDbCommands;
 
 
 namespace Weknow.GraphDbClient.Abstraction;

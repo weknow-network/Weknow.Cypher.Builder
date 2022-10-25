@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Weknow.GraphDbCommands</name>
+        <name>Weknow.Cypher.Builder</name>
     </assembly>
     <members>
         <member name="T:Weknow.GraphDbCommands.CypherAttribute">
@@ -40,6 +40,13 @@
             <summary>
             Cypher Extensions
             </summary>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.HandleConfigInjection(System.Action{Weknow.CypherConfig},Weknow.CypherConfig)">
+            <summary>
+            Handles the configuration injection.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <param name="cfg">The CFG.</param>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
             <summary>
@@ -1889,7 +1896,7 @@
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
             </summary>
@@ -1900,7 +1907,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.IType,System.Object)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.IType,System.Object)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
             </summary>
@@ -1912,7 +1919,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
             </summary>
@@ -1923,7 +1930,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
             </summary>
@@ -1933,7 +1940,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
             </summary>
@@ -1946,7 +1953,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
             </summary>
@@ -1957,7 +1964,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(System.Range)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
             </summary>
@@ -1967,7 +1974,7 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
             </summary>
@@ -1978,7 +1985,7 @@
             <param name="type">The type.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#GraphDbCommands#IRelation#Item(Weknow.GraphDbCommands.IType)">
             <summary>
             Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified type.
             </summary>
@@ -2632,6 +2639,11 @@
         <member name="T:Weknow.CypherConfig">
             <summary>
             The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherConfig.Scope">
+            <summary>
+            Using asyn configuration scope
             </summary>
         </member>
         <member name="M:Weknow.CypherConfig.#ctor">

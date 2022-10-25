@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Represent predefine pattern
     /// </summary>
-    /// <seealso cref="Weknow.Cypher.Builder.IPattern" />
+    /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
     public class RelationPattern : ExpressionPattern, IRelation
     {        
         #region Ctor

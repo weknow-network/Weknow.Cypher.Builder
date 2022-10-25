@@ -3,12 +3,13 @@ using System;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Segment", "Expression")]
+    [Trait("TestType", "Unit")]
+    [Trait("Segment", "Expression")]
     public class WhereXTests
     {
         private readonly ITestOutputHelper _outputHelper;

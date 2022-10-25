@@ -3,15 +3,16 @@ using System;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
+    [Trait("TestType", "Unit")]
     [Trait("Segment", "Expression")]
     public class DashTests
     {

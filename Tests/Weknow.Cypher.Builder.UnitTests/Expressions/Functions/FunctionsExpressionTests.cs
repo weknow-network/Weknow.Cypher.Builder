@@ -4,14 +4,15 @@ using System.Security.Cryptography;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Segment", "Expression")]
+    [Trait("TestType", "Unit")]
+    [Trait("Segment", "Expression")]
     public class FunctionsExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -87,12 +88,12 @@ namespace Weknow.Cypher.Builder
         public void Functions_Test()
         {
             var (n1, r, n2) = Variables.CreateMulti();
-            CypherCommand cypher = _(() => Match(N(n1)-R[r]>N(n2))
+            CypherCommand cypher = _(() => Match(N(n1) - R[r] > N(n2))
                                     .Return(Timestamp().As("time"),
                                             n1.Labels().As("label"),
-                                            n1.Id(), 
-                                            r.Type(), 
-                                            r.StartNode(), 
+                                            n1.Id(),
+                                            r.Type(),
+                                            r.StartNode(),
                                             r.EndNode(),
                                             n2.Count(),
                                             n1.CountDistinct().As("distCount")));
@@ -122,7 +123,7 @@ namespace Weknow.Cypher.Builder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        Sum(n._.PropA).As("sum"), 
+                                        Sum(n._.PropA).As("sum"),
                                         Min(n._.PropA).As("min"),
                                         Max(n._.PropA).As("max"),
                                         Avg(n._.PropA).As("avg")));
@@ -144,7 +145,7 @@ namespace Weknow.Cypher.Builder
         public void Collect_Test()
         {
             var n = Variables.Create<Foo>();
-            
+
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(n.Collect()));

@@ -1,12 +1,12 @@
 using Neo4j.Driver;
 
-using Weknow.Cypher.Builder;
+using Weknow.GraphDbCommands;
 using Weknow.GraphDbClient.Abstraction;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
+using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
@@ -37,13 +37,6 @@ public class BaseIntegrationTests : IDisposable
     {
         _graphDB = graphDB;
         _outputHelper = outputHelper;
-
-        string connectionString = Environment.GetEnvironmentVariable("TEST_N4J_URL") ?? "bolt://localhost";
-        string userName = Environment.GetEnvironmentVariable("TEST_N4J_USER") ?? "neo4j";
-        string password = Environment.GetEnvironmentVariable("TEST_N4J_PASS") ?? "123456";
-
-        IDriver driver = GraphDatabase.Driver(connectionString, AuthTokens.Basic(userName, password));
-        _session = driver.AsyncSession(o => o.WithDatabase("neo4j"));
     }
 
     #endregion // Ctor

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
 
     /// <summary>

@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GraphDb.Client\Redis\Weknow.GraphDbClient.Redis\Weknow.GraphDbClient.Redis.csproj" />
     <ProjectReference Include="..\Weknow.GraphDbClient.IntegrationTests.Abstract\Weknow.GraphDbClient.IntegrationTests.Abstract.csproj" />
   </ItemGroup>
 

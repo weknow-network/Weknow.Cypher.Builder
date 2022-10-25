@@ -1,17 +1,18 @@
 using System;
 
-using Weknow.Cypher.Builder.Declarations;
+using Weknow.GraphDbCommands.Declarations;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.Cypher.Builder.Cypher;
-using static Weknow.Cypher.Builder.Schema;
+using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
 
-namespace Weknow.Cypher.Builder
+namespace Weknow.GraphDbCommands
 {
-        [Trait("Group", "Phrases")]
+    [Trait("TestType", "Unit")]
+    [Trait("Group", "Phrases")]
     [Trait("Segment", "Expression")]
     public class ReturnTests
     {
@@ -36,8 +37,8 @@ namespace Weknow.Cypher.Builder
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN n", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN n / Return_Test
@@ -54,8 +55,8 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN n.Id", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN n.Id", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN n.Id / Return_Prop_Test
@@ -72,8 +73,8 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id, n._.PropA));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN n.Id, n.PropA", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN n.Id, n.PropA", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN n.Id, n.PropA / Return_Prop_Test
@@ -90,8 +91,8 @@ namespace Weknow.Cypher.Builder
                                     .Return(n._.Id, n._.PropA, n._.PropB));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Props_Lambda_Test
@@ -106,8 +107,8 @@ namespace Weknow.Cypher.Builder
                                     .Return("n.Id", "n.PropA", "n.PropB"));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN n.Id, n.PropA, n.PropB", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN n.Id, n.PropA, n.PropB / Return_Objects_Test
@@ -122,8 +123,8 @@ namespace Weknow.Cypher.Builder
                                     .ReturnDistinct(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN DISTINCT n", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN DISTINCT n", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN DISTINCT n / ReturnDistinct_Test
@@ -139,8 +140,8 @@ namespace Weknow.Cypher.Builder
                                     .ReturnDistinct(n._.Name));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal($"MATCH (n){NewLine}" +
-                            "RETURN DISTINCT n.Name", cypher.Query);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN DISTINCT n.Name", cypher.Query);
         }
 
         #endregion // MATCH (n) RETURN DISTINCT n.Name / ReturnDistinct_Obj_Test

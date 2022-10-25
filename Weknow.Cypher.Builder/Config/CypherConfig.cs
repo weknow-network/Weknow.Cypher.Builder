@@ -6,6 +6,11 @@
     public class CypherConfig
     {
         /// <summary>
+        /// Using asyn configuration scope
+        /// </summary>
+        public static AsyncLocal<Action<CypherConfig>?> Scope = new AsyncLocal<Action<CypherConfig>?>();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CypherConfig"/> class.
         /// </summary>
         public CypherConfig()

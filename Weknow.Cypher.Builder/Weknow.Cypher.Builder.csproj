@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Weknow.Cypher.Builder</PackageId>
+    <PackageId>Weknow.GraphDbCommands</PackageId>
     <Product>Weknow Cypher builder</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>Weknow.Cypher.Builder.xml</DocumentationFile>
+    <DocumentationFile>Weknow.GraphDbCommands.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
