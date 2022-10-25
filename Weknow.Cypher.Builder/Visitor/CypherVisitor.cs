@@ -21,6 +21,7 @@ namespace Weknow.GraphDbCommands
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private readonly CypherConfig _configuration;
+        private static readonly AsyncLocal<bool> _ambientHandeled = new AsyncLocal<bool>();
 
         #region Ctor
 
@@ -75,6 +76,38 @@ namespace Weknow.GraphDbCommands
         {
             [0] = new ContextValue<Expression?>(null),
         };
+
+        #region HandleAmbientLabels
+
+        private void HandleAmbientLabels(params string[] labels)
+        {
+            if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
+                return;
+
+            if (_ambientHandeled.Value)
+            {
+                HandleStartChar();
+
+                IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
+                var addition = string.Join(":", formatted); ;
+                Query.Append(addition);
+                return;
+            }
+            _ambientHandeled.Value = true;
+                
+            HandleStartChar();
+
+            Query.Append(_configuration.AmbientLabels.Combine(labels));
+
+            void HandleStartChar()
+            {
+                char lastChar = Query[^1];
+                if (lastChar != ':')
+                    Query.Append(":");
+            }
+        }
+
+        #endregion // HandleAmbientLabels
 
         #region VisitLambda
 
@@ -255,6 +288,7 @@ namespace Weknow.GraphDbCommands
                     node.Member is FieldInfo fi &&
                     fi.GetValue(c.Value) is ExpressionPattern p)
             {
+                _ambientHandeled.Value = false;
                 Visit(p.expression);
                 return node;
             }
@@ -267,10 +301,7 @@ namespace Weknow.GraphDbCommands
             }
             if (node.Type == typeof(ILabel))
             {
-                char lastChar = Query[^1];
-                if (lastChar != ':')
-                    Query.Append(":");
-                Query.Append(_configuration.AmbientLabels.Combine(name));
+                HandleAmbientLabels(name);
                 return node;
             }
 

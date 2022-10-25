@@ -69,6 +69,7 @@ namespace Weknow
         /// <returns></returns>
         internal string Combine(params string[] additionalLabels)
         {
+            if (additionalLabels == null) return string.Empty;
             return Combine((IEnumerable<string>)additionalLabels);
         }
 
@@ -79,6 +80,7 @@ namespace Weknow
         /// <returns></returns>
         internal string Combine(IEnumerable<string> additionalLabels)
         {
+            if (additionalLabels == null) return string.Empty;
             IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
             var values = Values.Select(m => AmbientFormat(m));
             formatted = formatted.Concat(values);
@@ -115,7 +117,7 @@ namespace Weknow
         /// <param name="text">The text.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">text</exception>
-        private protected string FormatByConvention<T>(T text)
+        internal protected string FormatByConvention<T>(T text)
         {
             bool formatLabel = (_naming.ConventionAffects & Label) != None;
             CypherNamingConvention convention = formatLabel ? _naming.Convention : CypherNamingConvention.Default;
