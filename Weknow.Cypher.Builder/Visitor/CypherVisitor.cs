@@ -290,7 +290,7 @@ namespace Weknow.GraphDbCommands
             {
                 _ambientHandeled.Value = false;
                 Visit(p.expression);
-                return node;
+                _shouldHandleAmbient = false;
             }
             else if (node.Expression is MemberExpression me &&
                      typeof(VariableDeclaration).IsAssignableFrom(me.Member.DeclaringType) &&
