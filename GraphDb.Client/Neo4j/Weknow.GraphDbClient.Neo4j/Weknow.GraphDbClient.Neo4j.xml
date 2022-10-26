@@ -76,6 +76,126 @@
             </summary>
             <param name="result">The result.</param>
         </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GetOrFetchAsync(System.Int32)">
+            <summary>
+            Get from cache or Fetch.
+            </summary>
+            <param name="index">The index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1">
+            <summary>
+            Gets the first result set as T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>
+            the first result
+            </returns>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.String,System.String)">
+            <summary>
+            Cast result set as T by a key.
+            </summary>
+            <typeparam name="T">The type of the first result.</typeparam>
+            <param name="key">The first result's key.</param>
+            <param name="property">The property.</param>
+            <returns>
+            Results by keys
+            </returns>
+            <exception cref="T:System.IndexOutOfRangeException"></exception>
+            <example><![CDATA[
+            MATCH (p:Person)-[:AT]->(c:Company) RETURN p
+            var person = results.Get<Person>("p");
+            var company = results.Get<Company>("c");
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1">
+            <summary>
+            Gets the first result set
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>
+            the first result
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.String,System.String)">
+            <summary>
+            Gets result set by a key.
+            </summary>
+            <typeparam name="T">The type of the first result.</typeparam>
+            <param name="key">The first result's key.</param>
+            <param name="property">The property.</param>
+            <returns>
+            Results by keys
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person)-[:AT]->(c:Company) RETURN p, c
+            var person = results.Get<Person>("p");
+            var company = results.Get<Company>("c");
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord)">
+            <summary>
+            Mappers a record.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord,System.String)">
+            <summary>
+            Mappers a record segment (key).
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GetFullName(System.String,System.String)">
+            <summary>
+            Gets the full name.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="property">The property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,System.String)">
+            <summary>
+            Mappers by key and property.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <param name="key">The key.</param>
+            <param name="property">The property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String)">
+            <summary>
+            Mappers by key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record">The record.</param>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(System.Object)">
+            <summary>
+            Converts to.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="entity">The entity.</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidCastException"></exception>
+        </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions">
             <summary>
             Neo4j graphDb abstraction

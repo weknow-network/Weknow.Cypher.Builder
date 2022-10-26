@@ -63,7 +63,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
-        response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>().ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
@@ -88,7 +87,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
-        response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>(nameof(p)).ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
@@ -112,7 +110,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         Name1 entity = await response.GetAsync<Name1>();
-        response = await _graphDB.RunAsync(cypher, prms);
         Name1[] entities = await response.GetRangeAsync<Name1>().ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
@@ -136,7 +133,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         Name2 entity = await response.GetAsync<Name2>();
-        response = await _graphDB.RunAsync(cypher, prms);
         Name2[] entities = await response.GetRangeAsync<Name2>().ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
@@ -160,7 +156,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         string name = await response.GetAsync<string>(nameof(p), nameof(NameDictionaryable.Name));
-        response = await _graphDB.RunAsync(cypher, prms);
         string[] names = await response.GetRangeAsync<string>(nameof(p), nameof(NameDictionaryable.Name)).ToArrayAsync();
 
         Assert.Equal(EXPECTED, name);
@@ -168,4 +163,51 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         Assert.Equal(EXPECTED, names.Single());
 
     }
+
+    [Fact]
+    public virtual async Task Create_Match_Multi_StepByStep_Test()
+    {
+        const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create();
+
+        var (p1, p2) = Variables.CreateMulti<NameDictionaryable, NameDictionaryable>();
+        CypherCommand cypher = _(() =>
+                                Create(N(p1, Person, new { Name = pName }))
+                                .Create(N(p2, Person, new { Name = pName }))
+                                .Return(p1, p2));
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(pName)] = EXPECTED;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r1 = await response.GetAsync<NameDictionaryable>(nameof(p1));
+        Assert.Equal(EXPECTED, r1.Name);
+
+        var r2 = await response.GetAsync<NameDictionaryable>(nameof(p2));
+        Assert.Equal(EXPECTED, r2.Name);
+    }
+
+    //[Fact]
+    //public virtual async Task Create_Match_Multi_Test()
+    //{
+    //    const string EXPECTED = "Ben";
+    //    CypherConfig.Scope.Value = CONFIGURATION;
+    //    var pName = Parameters.Create();
+
+    //    var (p1, p2) = Variables.CreateMulti<NameDictionaryable, NameDictionaryable>();
+    //    CypherCommand cypher = _(() =>
+    //                            Create(N(p1, Person, new { Name = pName }))
+    //                            .Create(N(p2, Person, new { Name = pName }))
+    //                            .Return(p1, p2));
+    //    CypherParameters prms = cypher.Parameters;
+    //    prms[nameof(pName)] = EXPECTED;
+
+    //    IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+    //    var(r1, r2) = response.GetRangeAsync<NameDictionaryable, NameDictionaryable>(nameof(p1), nameof(p2));
+    //    var e1 = await r1.ToArrayAsync();
+    //    Assert.Equal(EXPECTED, e1.Single().Name);
+    //    var e2 = await r1.ToArrayAsync();
+    //    Assert.Equal(EXPECTED, e2.Single().Name);
+
+    //}
 }
