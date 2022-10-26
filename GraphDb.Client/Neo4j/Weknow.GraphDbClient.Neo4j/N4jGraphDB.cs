@@ -73,55 +73,83 @@ internal class N4jGraphDB : IGraphDB
             _cursor = result;
         }
 
+        private static string GetFullName(string key, string? property)
+        {
+            string fullKey = key;
+            if (property != null)
+                fullKey = $"{key}.{property}";
+            return fullKey;
+        }
+
         #endregion // Ctor
+        private T ConvertTo<T>(object entity)
+        {
+            T result;
+            if (entity is Neo4j.Driver.INode node && IDictionaryableType.IsAssignableFrom(typeof(T)))
+            {
+                var props = (Dictionary<string, object?>)node.Properties;
+                result = (T)(props as dynamic); // TODO: static interface factory
+                return result;
+            }
+            if (entity.TryAs(out result))
+                return result;
+            //result = node.ToObject<T>();
+            throw new InvalidCastException();
+        }
 
         async ValueTask<T> IGraphDBResponse.GetAsync<T>()
         {
             if (IDictionaryableType.IsAssignableFrom(typeof(T)))
             {
-                await _cursor.FetchAsync();
+                if (!await _cursor.FetchAsync())
+                    throw new IndexOutOfRangeException();
                 IRecord record = _cursor.Current;
                 var node = (Neo4j.Driver.INode)record.Values.First().Value;
-                if (node.TryAs(out T r)) return r;
-                var props = (Dictionary<string, object?>)node.Properties;
-                T result = (T)(props as dynamic);
+                T result = ConvertTo<T>(node);
                 return result;
             }
+
             return await _cursor.SingleAsync(Mapper<T>);
         }
 
-        async ValueTask<T> IGraphDBResponse.GetAsync<T>(string key, string? mappingKey)
+        async ValueTask<T> IGraphDBResponse.GetAsync<T>(string key, string? property)
         {
-            var results = _cursor.GetContent<T>(key);
-            await foreach (var item in results)
+            string fullKey = GetFullName(key, property);
+            if (!await _cursor.FetchAsync())
+                throw new IndexOutOfRangeException();
+            T result = _cursor.GetValue<T>(fullKey);
+            return result;
+        }
+
+        async IAsyncEnumerable<T> IGraphDBResponse.GetRangeAsync<T>()
+        {
+            while (await _cursor.FetchAsync())
             {
-
+                IRecord record = _cursor.Current;
+                var node = (Neo4j.Driver.INode)record.Values.First().Value;
+                T result = ConvertTo<T>(node);
+                yield return result;
             }
-            //record.GetValueStrict
-            throw new NotImplementedException();
+            //var results = await _cursor.ToListAsync(Mapper<T>);
+            //return results.ToArray();
         }
 
-        async ValueTask<T[]> IGraphDBResponse.GetRangeAsync<T>()
+        async IAsyncEnumerable<T> IGraphDBResponse.GetRangeAsync<T>(string key, string? property)
         {
-            var results = await _cursor.ToListAsync(Mapper<T>);
-            return results.ToArray();
+            string fullKey = GetFullName(key, property);
+            while (await _cursor.FetchAsync())
+            {
+                IRecord record = _cursor.Current;
+                object entity = record[fullKey];
+                T result = ConvertTo<T>(entity);
+                yield return result;
+            }
         }
 
-        async ValueTask<T[]> IGraphDBResponse.GetRangeAsync<T>(string key, string? mappingKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        async ValueTask<(T1[], T2[])> IGraphDBResponse.GetRangeAsync<T1, T2>(string key1, string key2)
-        {
-            throw new NotImplementedException();
-        }
-
-        async ValueTask<(T1[], T2[], T3[])> IGraphDBResponse.GetRangeAsync<T1, T2, T3>(string key1, string key2, string key3)
+        (IAsyncEnumerable<T1>, IAsyncEnumerable<T2>) IGraphDBResponse.GetRangeAsync<T1, T2>(string key1, string key2)
         {
             throw new NotImplementedException();
         }
-
 
         private static T Mapper<T>(IRecord record)
         {

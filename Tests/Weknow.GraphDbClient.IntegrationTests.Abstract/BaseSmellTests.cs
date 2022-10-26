@@ -13,13 +13,20 @@ using Xunit.Abstractions;
 using static Weknow.GraphDbCommands.Cypher;
 using Xunit.Sdk;
 using Weknow.Mapping;
+using Weknow.GraphDbCommands.Declarations;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 [Dictionaryable]
-internal partial record NameEntity(string Name);
+internal partial record NameDictionaryable(string Name);
+
+internal record Name1(string Name);
+internal record Name2
+{
+    public string Name { get; init; }
+}
 
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
@@ -40,8 +47,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     ILabel Person => throw new NotImplementedException();
 
 
-    #region Create_Match_Test
-
     [Fact]
     public virtual async Task Create_Match_Test()
     {
@@ -57,11 +62,86 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         prms[nameof(pName)] = EXPECTED;
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        NameEntity entity = await response.GetAsync<NameEntity>();
-        NameEntity[] entities = await response.GetRangeAsync<NameEntity>();
+        NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
+        response = await _graphDB.RunAsync(cypher, prms);
+        NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>().ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
+    }
 
+    [Fact]
+    public virtual async Task Create_Match_MapResult_Test()
+    {
+        const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create();
+
+        var p = Variables.Create();
+        CypherCommand cypher = _(() =>
+                                Create(N(p, Person, new { Name = pName }))
+                                .Return(p));
+
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(pName)] = EXPECTED;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
+        response = await _graphDB.RunAsync(cypher, prms);
+        NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>(nameof(p)).ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity.Name);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
+    }
+
+    [Fact]
+    public virtual async Task Create_Match1_Test()
+    {
+        const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create();
+
+        CypherCommand cypher = _(p =>
+                                Create(N(p, Person, new { Name = pName }))
+                                .Return(p));
+
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(pName)] = EXPECTED;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        Name1 entity = await response.GetAsync<Name1>();
+        response = await _graphDB.RunAsync(cypher, prms);
+        Name1[] entities = await response.GetRangeAsync<Name1>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity.Name);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
+    }
+
+    [Fact]
+    public virtual async Task Create_Match2_Test()
+    {
+        const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create();
+
+        CypherCommand cypher = _(p =>
+                                Create(N(p, Person, new { Name = pName }))
+                                .Return(p));
+
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(pName)] = EXPECTED;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        Name2 entity = await response.GetAsync<Name2>();
+        response = await _graphDB.RunAsync(cypher, prms);
+        Name2[] entities = await response.GetRangeAsync<Name2>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity.Name);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
     }
 
     [Fact]
@@ -71,19 +151,21 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherConfig.Scope.Value = CONFIGURATION;
         var pName = Parameters.Create();
 
-        CypherCommand cypher = _(p =>
+        var p = Variables.Create<NameDictionaryable>();
+        CypherCommand cypher = _(() =>
                                 Create(N(p, Person, new { Name = pName }))
-                                .Return(p.As<NameEntity>().Name));
+                                .Return(p._.Name));
         CypherParameters prms = cypher.Parameters;
         prms[nameof(pName)] = EXPECTED;
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        string name = await response.GetAsync<string>("name");
-        string[] names = await response.GetRangeAsync<string>("name");
+        string name = await response.GetAsync<string>(nameof(p), nameof(NameDictionaryable.Name));
+        response = await _graphDB.RunAsync(cypher, prms);
+        string[] names = await response.GetRangeAsync<string>(nameof(p), nameof(NameDictionaryable.Name)).ToArrayAsync();
 
         Assert.Equal(EXPECTED, name);
+        Assert.Single(names);
+        Assert.Equal(EXPECTED, names.Single());
 
     }
-
-    #endregion // Create_Match_Test
 }

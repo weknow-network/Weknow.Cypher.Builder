@@ -58,6 +58,24 @@ public class SmellTests : BaseSmellTests
     }
 
     [Fact]
+    public override Task Create_Match_MapResult_Test()
+    {
+        return base.Create_Match_MapResult_Test();
+    }
+
+    [Fact]
+    public override Task Create_Match1_Test()
+    {
+        return base.Create_Match1_Test();
+    }
+
+    [Fact]
+    public override Task Create_Match2_Test()
+    {
+        return base.Create_Match2_Test();
+    }
+
+    [Fact]
     public override Task Create_Match_Property_Test()
     {
         return base.Create_Match_Property_Test();
