@@ -14,7 +14,6 @@ public class BaseIntegrationTests : IDisposable
 {
     protected readonly IGraphDB _graphDB;
     protected readonly ITestOutputHelper _outputHelper;
-    protected readonly IAsyncSession _session;
     private const string TEST_LABEL = nameof(_Test_);
     private ILabel _Test_ => throw new NotImplementedException();
 
@@ -63,7 +62,6 @@ public class BaseIntegrationTests : IDisposable
     {
         Dispose(true);
         CleanAsync().Wait();
-        _session.CloseAsync().Wait();
         GC.SuppressFinalize(this);
     }
 #pragma warning restore CA1063 // Implement IDisposable Correctly

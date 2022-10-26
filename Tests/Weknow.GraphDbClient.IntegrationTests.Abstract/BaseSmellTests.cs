@@ -78,7 +78,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         prms[nameof(pName)] = EXPECTED;
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        string name = await response.GetAsync<string>();
+        string name = await response.GetAsync<string>("name");
         string[] names = await response.GetRangeAsync<string>("name");
 
         Assert.Equal(EXPECTED, name);
