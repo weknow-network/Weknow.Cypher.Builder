@@ -71,6 +71,8 @@ public interface IGraphDBResponse
     /// ]]></example>
     IAsyncEnumerable<T> GetRangeAsync<T>(string key, string? property = null);
 
+    //IAsyncEnumerable<T> GetRangeAsync<T>(string key, string? property = null);
+
     ///// <summary>
     ///// Gets result set by a key.
     ///// </summary>
@@ -85,3 +87,5 @@ public interface IGraphDBResponse
     ///// ]]></example>
     //(IAsyncEnumerable<T1>, IAsyncEnumerable<T2>)  GetRangeAsync<T1, T2>(string key1, string key2);     
 }
+
+//public interface IR

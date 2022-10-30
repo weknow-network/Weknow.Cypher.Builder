@@ -206,7 +206,9 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var managers = await response.GetRangeAsync<Someone>(nameof(m1)).ToArrayAsync();
         var persons = await response.GetRangeAsync<Someone>(nameof(m2)).ToArrayAsync();
-        //Assert.Equal(someone, r);
+        Assert.True(managers.Length == 3);
+        Assert.True(persons.Length == 3);
+        //response.GetMapRangeAsync<Someone, Someone, string>(nameof(m1), nameof(m2), (m1, m2) => string.Empty);
     }
 
     [Fact]
@@ -236,7 +238,27 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     public virtual async Task Create_Match_Multi_Unwind_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
-        var pName = Parameters.Create();
+        var items = Parameters.Create();
+        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var p = Variables.Create<NameDictionaryable>();
+        CypherCommand cypher = _(() =>
+                                Unwind(items, map,
+                                     Create(N(x, Person))
+                                       .Set(x, map))
+                                .Return(x));
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(items)] = Enumerable.Range(0, 10)
+                                .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
+                                .ToArray();
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
+        Assert.NotEmpty(r3);
+    }
+
+    [Fact(Skip = "Unwind BAD SYNTAX, use Create_Match_Multi_Unwind_Test")]
+    public virtual async Task BAD_SYNTAX_Create_Match_Multi_Unwind_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
         var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
         var p = Variables.Create<NameDictionaryable>();
@@ -245,12 +267,12 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                      Create(N(x, Person, map.AsParameter)))
                                 .Return(x));
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(x)] = Enumerable.Range(0,10)
+        prms[nameof(items)] = Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
                                 .ToArray();
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
-        Assert.NotEmpty(r3);
+        Assert.Empty(r3);
     }
 
     //[Fact]
