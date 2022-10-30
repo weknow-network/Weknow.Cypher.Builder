@@ -999,6 +999,87 @@
             <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
             <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddString(System.String,System.String)">
+            <summary>
+            Add string.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddValue``1(System.String,``0)">
+            <summary>
+            Add simple value.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.Add``1(System.String,``0)">
+            <summary>
+            Adds IDictionaryable parameter.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddStringRange(System.String,System.String[])">
+            <summary>
+            Adds parameter of a range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddStringRange(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Adds parameter of a range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddValueRange``1(System.String,``0[])">
+            <summary>
+            Adds parameter of a range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddValueRange``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds parameter of a range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRange``1(System.String,``0[])">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRange``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.GraphDbCommands.CypherPhraseExtensions">
             <summary>
             Cypher Extensions

@@ -214,6 +214,32 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
     [Fact]
+    public virtual async Task Create_Match_Multi_Unwind_Param_Add_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
+        var items = Parameters.Create();
+        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var p = Variables.Create<NameDictionaryable>();
+        CypherCommand cypher = _(() =>
+                                Unwind(items, map,
+                                     Create(N(x, Person))
+                                       .Set(x, map))
+                                .Return(x));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+                                .Select(m => new Someone(m, $"Number {n}", m % 10 + 5)));
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
+        Assert.NotEmpty(r3);
+    }
+
+    #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
+
+    #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
+
+    [Fact]
     public virtual async Task Create_Match_Multi_Unwind_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;

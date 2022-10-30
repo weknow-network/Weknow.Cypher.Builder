@@ -58,30 +58,144 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Casting Overloads
 
+        #region AddString
 
-        CypherParameters AddValue<T>(string key, T value) where T : struct
+        /// <summary>
+        /// Add string.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public CypherParameters AddString(string key, string value) 
         {
             this[key] = value;
             return this;
         }
 
-        CypherParameters Add<T>(string key, T value) where T: IDictionaryable
+        #endregion // AddString
+
+        #region AddValue
+
+        /// <summary>
+        /// Add simple value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public CypherParameters AddValue<T>(string key, T value) where T : struct
+        {
+            this[key] = value;
+            return this;
+        }
+
+        #endregion // AddValue
+
+        #region Add
+
+        /// <summary>
+        /// Adds IDictionaryable parameter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public new CypherParameters Add<T>(string key, T value) where T: IDictionaryable
         {
             this[key] = value.ToDictionary();
             return this;
         }
 
-        CypherParameters AddValueRange<T>(string key, params T[] values) where T : struct
+        #endregion // Add
+
+        #region AddStringRange
+
+        /// <summary>
+        /// Adds parameter of a range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddStringRange(string key, params string[] values)
+        {
+            return AddStringRange(key, (IEnumerable<string>)values);
+        }
+
+        /// <summary>
+        /// Adds parameter of a range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddStringRange(string key, IEnumerable<string> values) 
         {
             this[key] = values;
             return this;
         }
 
-        CypherParameters AddRange<T>(string key, params T[] value) where T: IDictionaryable
+        #endregion // AddStringRange
+
+        #region AddValueRange
+
+        /// <summary>
+        /// Adds parameter of a range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddValueRange<T>(string key, params T[] values) where T : struct
         {
-            this[key] = value.Select(m => m.ToDictionary()).ToArray();
+            return AddValueRange(key, (IEnumerable<T>)values);
+        }
+
+
+        /// <summary>
+        /// Adds parameter of a range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddValueRange<T>(string key, IEnumerable<T> values) where T : struct
+        {
+            this[key] = values;
             return this;
         }
+
+        #endregion // AddValueRange
+
+        #region AddRange
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddRange<T>(string key, params T[] values) where T: IDictionaryable
+        {
+            return AddRange(key, (IEnumerable<T>)values);
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) where T: IDictionaryable
+        {
+            this[key] = values.Select(m => m.ToDictionary()).ToArray();
+            return this;
+        }
+
+        #endregion // AddRange
     }
 
 }

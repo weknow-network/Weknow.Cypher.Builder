@@ -98,7 +98,6 @@ public class SmellTests : BaseSmellTests
     }
 
     #endregion // CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
-
     #region Create_Map_Match_Test
 
     [Fact]
@@ -108,6 +107,16 @@ public class SmellTests : BaseSmellTests
     }
 
     #endregion // Create_Map_Match_Test
+
+    #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
+
+    [Fact]
+    public override Task Create_Match_Multi_Unwind_Param_Add_Test()
+    {
+        return base.Create_Match_Multi_Unwind_Param_Add_Test();
+    }
+
+    #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
     #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
