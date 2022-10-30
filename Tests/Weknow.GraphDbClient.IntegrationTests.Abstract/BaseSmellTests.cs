@@ -48,6 +48,8 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     #endregion // Ctor
 
     ILabel Person => throw new NotImplementedException();
+    ILabel Manager => throw new NotImplementedException();
+    IType WorkFor => throw new NotImplementedException();
 
 
     [Fact]
@@ -171,20 +173,40 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     public virtual async Task Create_Map_Match_Test()
     {
         var i = new Someone((Int32)(DateTime.Now.Ticks % 10L), "Name", (Int32)51L);
-        CypherConfig.Scope.Value = CONFIGURATION;
-        var p = Parameters.Create<Someone>();
-        var someone = new Someone(1, "Daby", 51);
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
+        var (p1, p2, p3, p4, p5) = Parameters.CreateMulti<Someone, Someone, Someone, Someone, Someone>();
+        var someone1 = new Someone(1, "Deby", 51);
+        var someone2 = new Someone(1, "Ruth", 28);
+        var someone3 = new Someone(1, "Maygen", 30);
+        var someone4 = new Someone(1, "Derk", 30);
+        var someone5 = new Someone(1, "Maya", 30);
 
-        var m = Variables.Create();
+        var (c1, c2, c3, c4, c5, m1, m2)  = Variables.CreateMulti();
         CypherCommand cypher = _(() =>
-                                Create(N(m, Person, p))
-                                .Return(m));
+                                Create(N(c1, Manager & _Test_, p1))
+                                .Create(N(c5, Manager & _Test_, p5))
+                                .Create(N(c2,Person & _Test_, p2) - R[WorkFor] > N(c1))
+                                .Create(N(c3,Person & _Test_, p3) - R[WorkFor] > N(c1))
+                                .Create(N(c4,Person & _Test_, p4) - R[WorkFor] > N(c5))
+                                .With()
+                                .Match(N(m1, Person) - R[WorkFor] > N(m2, Manager))
+                                .Return(m1, m2));
+
+        #region CypherParameters prms = ...
+
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(p)] = someone.ToDictionary();
+        prms[nameof(p1)] = someone1.ToDictionary();
+        prms[nameof(p2)] = someone2.ToDictionary();
+        prms[nameof(p3)] = someone3.ToDictionary();
+        prms[nameof(p4)] = someone4.ToDictionary();
+        prms[nameof(p5)] = someone5.ToDictionary();
+
+        #endregion // CypherParameters prms = ...
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        var r = await response.GetAsync<Someone>(nameof(m));
-        Assert.Equal(someone, r);
+        var managers = await response.GetRangeAsync<Someone>(nameof(m1)).ToArrayAsync();
+        var persons = await response.GetRangeAsync<Someone>(nameof(m2)).ToArrayAsync();
+        //Assert.Equal(someone, r);
     }
 
     [Fact]

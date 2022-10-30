@@ -18,8 +18,8 @@ public class BaseIntegrationTests : IDisposable
 {
     protected readonly IGraphDB _graphDB;
     protected readonly ITestOutputHelper _outputHelper;
-    private const string TEST_LABEL = nameof(_Test_);
-    private ILabel _Test_ => throw new NotImplementedException();
+    protected const string TEST_LABEL = nameof(_Test_);
+    protected ILabel _Test_ => throw new NotImplementedException();
     private readonly IServiceProvider _serviceProvider;
 
     private Microsoft.Extensions.Logging.ILogger _logger = A.Fake<Microsoft.Extensions.Logging.ILogger>();
