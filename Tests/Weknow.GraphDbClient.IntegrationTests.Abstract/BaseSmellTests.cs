@@ -213,8 +213,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     [Fact]
     public virtual async Task Create_Match_Multi_Unwind_Test()
     {
-        //const string EXPECTED = "Ben";
-        CypherConfig.Scope.Value = CONFIGURATION;
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var pName = Parameters.Create();
         var items = Parameters.Create();
         var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
@@ -223,25 +222,13 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                 Unwind(items, map,
                                      Create(N(x, Person, map.AsParameter)))
                                 .Return(x));
-                                //.With()
-                                //.Match(N(n, Person))
-                                //.Where(n._.Age < 10)
-                                //.With()
-                                //.Create(N(p, Person, new { Name = pName }))
-                                //.Return(p, n, x)); 
         CypherParameters prms = cypher.Parameters;
         prms[nameof(x)] = Enumerable.Range(0,10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
                                 .ToArray();
-        //prms[nameof(pName)] = EXPECTED;
-
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        //var r1 = await response.GetAsync<NameDictionaryable>(nameof(p));
-        //Assert.Equal(EXPECTED, r1.Name);
-
-        //var r2 = await response.GetRangeAsync<Someone>(nameof(n)).ToArrayAsync();
-        //var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
-        var r3 = await response.GetRangeAsync<Someone>().ToArrayAsync();
+        var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
+        Assert.NotEmpty(r3);
     }
 
     //[Fact]

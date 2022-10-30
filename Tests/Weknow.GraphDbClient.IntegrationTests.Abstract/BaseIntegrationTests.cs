@@ -9,6 +9,8 @@ using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
 using System;
+using FakeItEasy;
+using Microsoft.Extensions.Logging;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
@@ -20,6 +22,8 @@ public class BaseIntegrationTests : IDisposable
     private ILabel _Test_ => throw new NotImplementedException();
     private readonly IServiceProvider _serviceProvider;
 
+    private Microsoft.Extensions.Logging.ILogger _logger = A.Fake<Microsoft.Extensions.Logging.ILogger>();
+
     #region Action<CypherConfig> CONFIGURATION = ...
 
     protected Action<CypherConfig> CONFIGURATION = cfg =>
@@ -29,6 +33,15 @@ public class BaseIntegrationTests : IDisposable
     };
 
     #endregion // Action<CypherConfig> CONFIGURATION = ...
+
+    #region Action<CypherConfig> CONFIGURATION_NO_AMBIENT
+
+    protected Action<CypherConfig> CONFIGURATION_NO_AMBIENT = cfg =>
+    {
+        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+    };
+
+    #endregion // Action<CypherConfig> CONFIGURATION_NO_AMBIENT
 
     #region Ctor
 

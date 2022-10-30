@@ -143,6 +143,7 @@ namespace Weknow.GraphDbCommands
         protected override Expression VisitBinary(BinaryExpression node)
         {
             Visit(node.Left);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             switch (node.NodeType)
             {
                 case ExpressionType.GreaterThan:
@@ -193,6 +194,7 @@ namespace Weknow.GraphDbCommands
                     Query.Append(" OR ");
                     break;
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             Visit(node.Right);
             return node;
         }

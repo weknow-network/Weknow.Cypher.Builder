@@ -1,8 +1,11 @@
 using System.Data;
 using System.Xml.Linq;
 
-using Microsoft.Extensions.DependencyInjection;
+using FakeItEasy;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Neo4j.Driver;
 using Neo4j.Driver.Extensions;
 
@@ -40,10 +43,12 @@ public class SmellTests : BaseSmellTests
     /// <summary>
     /// Registers the graph database.
     /// </summary>
+    /// <param name="logger">The logger.</param>
     /// <returns></returns>
     private static IServiceProvider RegisterGraphDB()
     {
-        var services = new ServiceCollection();
+        IServiceCollection services = new ServiceCollection();
+        services.AddLogging(configure => configure.AddConsole());
         services.RegisterNeo4j(envVarPrefix: ENV_VAR_PREFIX);
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         return serviceProvider;

@@ -9,7 +9,7 @@
             Neo4j scoped DI 
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Registers module's dependencies.
             </summary>
@@ -17,6 +17,8 @@
             <param name="healthBuilder">The health builder.</param>
             <param name="authToken">The authentication token.</param>
             <param name="envVarPrefix">The environment variable prefix.</param>
+            <param name="">The .</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.N4jHealth">
@@ -225,13 +227,18 @@
             Neo4j provider abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jProvider.CreateDriver(Neo4j.Driver.IAuthToken,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jProvider.CreateDriver(System.IServiceProvider,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Creates the driver.
             </summary>
+            <param name="serviceProvider">The service provider.</param>
             <param name="authToken">The authentication token.</param>
             <param name="envVarPrefix">The environment variable prefix.</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
+            <exception cref="T:System.ArgumentNullException">NEO4J_URL
+            or
+            NEO4J_PASS</exception>
         </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jSession">
             <summary>

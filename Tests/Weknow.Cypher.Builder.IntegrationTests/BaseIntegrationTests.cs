@@ -31,12 +31,16 @@ namespace Weknow.GraphDbCommands.IntegrationTests
             cfg.AmbientLabels.Add(TEST_LABEL);
         };
 
+        #endregion // Action<CypherConfig> CONFIGURATION = ...
+
+        #region Action<CypherConfig> CONFIGURATION_NO_AMBIENT
+
         protected Action<CypherConfig> CONFIGURATION_NO_AMBIENT = cfg =>
         {
             cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
         };
 
-        #endregion // Action<CypherConfig> CONFIGURATION = ...
+        #endregion // Action<CypherConfig> CONFIGURATION_NO_AMBIENT
 
         #region Ctor
 

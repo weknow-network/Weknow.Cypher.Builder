@@ -1,3 +1,5 @@
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+
 using System;
 using System.Security.Cryptography;
 
@@ -53,7 +55,7 @@ namespace Weknow.GraphDbCommands
             var n = Variables.Create();
 
             IPattern? pattern1 = Reuse(() => N(n, Person, new { PropA = nPropA }));
-            IPattern? pattern2 = Reuse(() => N(n, Person, new { PropA = n_PropA }));
+          IPattern? pattern2 = Reuse(() => N(n, Person, new { PropA = n_PropA }));
             IPattern? pattern3 = Reuse(() => N(n, Person, new { PropA = n1_PropA, PropB = n2_PropB }));
             IPattern? pattern4 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB }));
             IPattern? pattern5 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB, PropC = n4_PropC }));
