@@ -141,18 +141,31 @@ namespace Weknow.GraphDbCommands
 
         #endregion // IRelation R (Relation)
 
-        /// <summary>
-        /// Used to define properties' variables without the $ prefix.
-        /// Useful for cases like UNWIND
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <param name="exp">Any generics expression</param>
-        /// <returns></returns>
-        /// <example>
-        /// UNWIND $items AS item 
-        ///     MATCH(n:Person { PropA: item.x })
-        /// </example>
-        [Cypher("$0\\.$1")]
+        ///// <summary>
+        ///// Used to define properties' variables without the $ prefix.
+        ///// Useful for cases like UNWIND
+        ///// </summary>
+        ///// <param name="var">The variable.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UNWIND $items AS item 
+        /////     MATCH(n:Person { PropA: item.x })
+        ///// </example>
+        //[Cypher("$0\\.$1")]
+        //public static T _<T>(this VariableDeclaration var) => throw new NotImplementedException();
+
+        ///// <summary>
+        ///// Used to define properties' variables without the $ prefix.
+        ///// Useful for cases like UNWIND
+        ///// </summary>
+        ///// <param name="var">The variable.</param>
+        ///// <param name="exp">Any generics expression</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UNWIND $items AS item 
+        /////     MATCH(n:Person { PropA: item.x })
+        ///// </example>
+        //[Cypher("$0\\.$1")]
         public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
 
         #region Rgx

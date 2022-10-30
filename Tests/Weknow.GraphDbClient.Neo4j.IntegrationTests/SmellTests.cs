@@ -46,7 +46,6 @@ public class SmellTests : BaseSmellTests
     /// <summary>
     /// Registers the graph database.
     /// </summary>
-    /// <param name="logger">The logger.</param>
     /// <returns></returns>
     private static IServiceProvider RegisterGraphDB()
     {
@@ -129,25 +128,5 @@ public class SmellTests : BaseSmellTests
     #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
 
-    //[Fact]
-    //public override Task Create_Match_Multi_Test()
-    //{
-    //    return base.Create_Match_Multi_Test();
-    //}
-
-    // TODO: test with multi result singular + collection (UNWIND, WITH)
-
-
-    [Fact(Skip = "not support yet")]
-    public override Task Create_Match1_Test()
-    {
-        return base.Create_Match1_Test();
-    }
-
-    [Fact(Skip = "not support yet")]
-    public override Task Create_Match2_Test()
-    {
-        return base.Create_Match2_Test();
-    }
 
 }

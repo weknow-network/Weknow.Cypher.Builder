@@ -108,19 +108,6 @@
             Gets the Cypher relation.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher._``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration,``0)">
-            <summary>
-            Used to define properties' variables without the $ prefix.
-            Useful for cases like UNWIND
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="exp">Any generics expression</param>
-            <returns></returns>
-            <example>
-            UNWIND $items AS item 
-                MATCH(n:Person { PropA: item.x })
-            </example>
-        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Rgx(System.Boolean)">
             <summary>
             Use regular expression comparison under WHERE clause.
