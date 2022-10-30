@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+
+using Weknow.Mapping;
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.GraphDbCommands
@@ -7,7 +9,7 @@ namespace Weknow.GraphDbCommands
     /// <summary>
     /// Cypher Parameters representation
     /// </summary>
-    public class CypherParameters : Dictionary<string, object?>  
+    public class CypherParameters : Dictionary<string, object?>
     {
         #region Ctor
 
@@ -49,13 +51,37 @@ namespace Weknow.GraphDbCommands
 
         #region // Casting Overloads
 
-        //public static implicit operator CypherParameters(IDictionary<string, object?> parameters)
+        //public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
         //{
-        //    var result = new CypherParameters(parameters);
-        //    return result;
+        //    return parameters;
         //}
 
         #endregion // Casting Overloads
+
+
+        CypherParameters AddValue<T>(string key, T value) where T : struct
+        {
+            this[key] = value;
+            return this;
+        }
+
+        CypherParameters Add<T>(string key, T value) where T: IDictionaryable
+        {
+            this[key] = value.ToDictionary();
+            return this;
+        }
+
+        CypherParameters AddValueRange<T>(string key, params T[] values) where T : struct
+        {
+            this[key] = values;
+            return this;
+        }
+
+        CypherParameters AddRange<T>(string key, params T[] value) where T: IDictionaryable
+        {
+            this[key] = value.Select(m => m.ToDictionary()).ToArray();
+            return this;
+        }
     }
 
 }
