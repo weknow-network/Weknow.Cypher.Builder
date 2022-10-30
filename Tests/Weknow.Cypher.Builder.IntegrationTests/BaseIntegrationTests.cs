@@ -19,8 +19,9 @@ namespace Weknow.GraphDbCommands.IntegrationTests
     {
         protected readonly ITestOutputHelper _outputHelper;
         protected readonly IAsyncSession _session;
-        private const string TEST_LABEL = nameof(_Test_);
-        private ILabel _Test_ => throw new NotImplementedException();
+        protected const string TEST_LABEL = nameof(_Test_);
+
+        protected ILabel _Test_ => throw new NotImplementedException();
 
         #region Action<CypherConfig> CONFIGURATION = ...
 
@@ -28,6 +29,11 @@ namespace Weknow.GraphDbCommands.IntegrationTests
         {
             cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             cfg.AmbientLabels.Add(TEST_LABEL);
+        };
+
+        protected Action<CypherConfig> CONFIGURATION_NO_AMBIENT = cfg =>
+        {
+            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
         };
 
         #endregion // Action<CypherConfig> CONFIGURATION = ...

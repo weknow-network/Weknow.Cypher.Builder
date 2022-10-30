@@ -12,7 +12,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 /// </summary>
 internal partial class N4jGraphDB : IGraphDB
 {
-    private readonly IAsyncSession _session;
+    private readonly N4jSession _session;
 
     #region Ctor
 
@@ -20,7 +20,7 @@ internal partial class N4jGraphDB : IGraphDB
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
     /// <param name="session">The session.</param>
-    public N4jGraphDB(IAsyncSession session)
+    public N4jGraphDB(N4jSession session)
     {
         _session = session;
     }
@@ -40,7 +40,7 @@ internal partial class N4jGraphDB : IGraphDB
     /// <exception cref="System.NotImplementedException"></exception>
     async ValueTask<IGraphDBResponse> IGraphDB.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
-        IResultCursor cursor = await _session.RunAsync(cypherCommand, parameters);
+        IResultCursor cursor = await _session.Session.RunAsync(cypherCommand, parameters);
         return new GraphDBResponse(cursor);
     }
 

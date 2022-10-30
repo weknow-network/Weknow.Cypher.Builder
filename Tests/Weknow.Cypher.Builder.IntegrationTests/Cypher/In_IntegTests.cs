@@ -33,14 +33,20 @@ namespace Weknow.GraphDbCommands.IntegrationTests
         public async Task InitDataAsync()
         {
             var (p1Id, p2Id, t1Id, t2Id, Id) = Parameters.CreateMulti();
+            //CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
+            //                        Create(N(p1, Person , new { Id = p1Id }))
+            //                        .Create(N(p2, Person , new { Id = p2Id }))
+            //                        .Create(N(t1, Tag , new { Id = t1Id }))
+            //                        .Create(N(t2, Tag , new { Id = t2Id }))
+            //                        .Merge(N(p1) - R[Affinity] > N(t1))
+            //                        .Merge(N(p1) - R[Affinity] > N(t2)), CONFIGURATION);
             CypherCommand cypher = _(p1 => p2 => t1 => t2 =>
-                                    Create(N(p1, Person, new { Id = p1Id }))
-                                    .Create(N(p2, Person, new { Id = p2Id }))
-                                    .Create(N(t1, Tag, new { Id = t1Id }))
-                                    .Create(N(t2, Tag, new { Id = t2Id }))
+                                    Create(N(p1, Person & _Test_, new { Id = p1Id }))
+                                    .Create(N(p2, Person & _Test_, new { Id = p2Id }))
+                                    .Create(N(t1, Tag & _Test_, new { Id = t1Id }))
+                                    .Create(N(t2, Tag & _Test_, new { Id = t2Id }))
                                     .Merge(N(p1) - R[Affinity] > N(t1))
-                                    .Merge(N(p1) - R[Affinity] > N(t2)),
-                                    CONFIGURATION);
+                                    .Merge(N(p1) - R[Affinity] > N(t2)), CONFIGURATION_NO_AMBIENT);
 
             CypherParameters prms = cypher.Parameters;
             string id = nameof(Id);
@@ -73,7 +79,7 @@ namespace Weknow.GraphDbCommands.IntegrationTests
                                     CONFIGURATION);
 
             CypherParameters prms = cypher.Parameters;
-            prms["items"] = new[] { "Manager", "Tester" };
+            prms["items"] = new[] { "Manager", "NOT_EXISTS" };
             IResultCursor result = await _session.RunAsync(cypher, prms);
 
             // https://github.com/DotNet4Neo4j/Neo4j.Driver.Extensions

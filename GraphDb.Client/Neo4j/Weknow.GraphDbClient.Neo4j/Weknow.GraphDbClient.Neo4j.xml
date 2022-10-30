@@ -47,7 +47,7 @@
             Neo4j graphDb abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.#ctor(Neo4j.Driver.IAsyncSession)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.#ctor(Weknow.GraphDbClient.Neo4jProvider.N4jSession)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>

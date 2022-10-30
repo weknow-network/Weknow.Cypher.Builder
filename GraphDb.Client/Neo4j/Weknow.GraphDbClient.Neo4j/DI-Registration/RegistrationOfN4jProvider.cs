@@ -38,11 +38,11 @@ public static class RegistrationOfN4jProvider
         services.AddSingleton(N4jProvider.CreateDriver(authToken, envVarPrefix));
         services.AddScoped<IGraphDB, N4jGraphDB>();
         services.AddScoped<N4jSession>();
-        services.AddScoped<IAsyncSession>((sp) =>
-        {
-            var n4jSession = sp.GetService<N4jSession>() ?? throw new ArgumentNullException("N4jSession injection");
-            return n4jSession.Session;
-        });
+        //services.AddScoped<IAsyncSession>((sp) =>
+        //{
+        //    var n4jSession = sp.GetService<N4jSession>() ?? throw new ArgumentNullException("N4jSession injection");
+        //    return n4jSession.Session;
+        //});
 
         //healthBuilder = healthBuilder ?? services.AddHealthChecks();
         healthBuilder?.AddTypeActivatedCheck<N4jHealth>(

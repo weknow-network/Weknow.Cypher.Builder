@@ -283,7 +283,7 @@ partial class N4jGraphDB
             else
             {
                 string fullKey = GetFullName(key, property);
-                result = _cursor.GetValue<T>(fullKey);
+                result = record.GetValue<T>(fullKey);
             }
             return result;
         }

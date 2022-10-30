@@ -2,11 +2,13 @@ using Neo4j.Driver;
 
 using Weknow.GraphDbCommands;
 using Weknow.GraphDbClient.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
+using System;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
@@ -16,6 +18,7 @@ public class BaseIntegrationTests : IDisposable
     protected readonly ITestOutputHelper _outputHelper;
     private const string TEST_LABEL = nameof(_Test_);
     private ILabel _Test_ => throw new NotImplementedException();
+    private readonly IServiceProvider _serviceProvider;
 
     #region Action<CypherConfig> CONFIGURATION = ...
 
@@ -30,9 +33,12 @@ public class BaseIntegrationTests : IDisposable
     #region Ctor
 
     public BaseIntegrationTests(
-        IGraphDB graphDB,
+        IServiceProvider serviceProvider,
         ITestOutputHelper outputHelper)
     {
+        _serviceProvider = serviceProvider;
+        IGraphDB graphDB = serviceProvider.GetRequiredService<IGraphDB>();
+
         _graphDB = graphDB;
         _outputHelper = outputHelper;
     }

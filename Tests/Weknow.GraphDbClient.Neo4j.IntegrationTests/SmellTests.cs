@@ -23,6 +23,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider.IntegrationTests;
 public class SmellTests : BaseSmellTests
 {
     private const string ENV_VAR_PREFIX = "TEST_N4J_";
+    private IServiceProvider _serviceProvider; // avoid GC collection
 
     #region Ctor
 
@@ -40,13 +41,12 @@ public class SmellTests : BaseSmellTests
     /// Registers the graph database.
     /// </summary>
     /// <returns></returns>
-    private static IGraphDB RegisterGraphDB()
+    private static IServiceProvider RegisterGraphDB()
     {
         var services = new ServiceCollection();
         services.RegisterNeo4j(envVarPrefix: ENV_VAR_PREFIX);
         IServiceProvider serviceProvider = services.BuildServiceProvider();
-        IGraphDB client = serviceProvider.GetRequiredService<IGraphDB>();
-        return client;
+        return serviceProvider;
     }
 
     #endregion // RegisterGraphDB
@@ -86,6 +86,19 @@ public class SmellTests : BaseSmellTests
     {
         return base.Create_Match_Multi_StepByStep_Test();
     }
+
+    [Fact]
+    public override Task Create_Map_Match_Test()
+    {
+        return base.Create_Map_Match_Test();
+    }
+
+    [Fact]
+    public override Task Create_Match_Multi_Unwind_Test()
+    {
+        return base.Create_Match_Multi_Unwind_Test();
+    }
+
 
     //[Fact]
     //public override Task Create_Match_Multi_Test()

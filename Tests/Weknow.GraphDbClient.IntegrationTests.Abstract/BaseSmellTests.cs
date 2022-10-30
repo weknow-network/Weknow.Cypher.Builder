@@ -28,6 +28,9 @@ internal record Name2
     public string Name { get; init; }
 }
 
+[Dictionaryable]
+internal partial record Someone (int Id, string Name, int Age);
+
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
 //[Trait("TestType", "Integration")]
@@ -36,9 +39,9 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     #region Ctor
 
     public BaseSmellTests(
-        IGraphDB graphDB,
+        IServiceProvider serviceProvider,
         ITestOutputHelper outputHelper)
-        : base(graphDB, outputHelper)
+        : base(serviceProvider, outputHelper)
     {
     }
 
@@ -165,6 +168,26 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     }
 
     [Fact]
+    public virtual async Task Create_Map_Match_Test()
+    {
+        var i = new Someone((Int32)(DateTime.Now.Ticks % 10L), "Name", (Int32)51L);
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var p = Parameters.Create<Someone>();
+        var someone = new Someone(1, "Daby", 51);
+
+        var m = Variables.Create();
+        CypherCommand cypher = _(() =>
+                                Create(N(m, Person, p))
+                                .Return(m));
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(p)] = someone.ToDictionary();
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r = await response.GetAsync<Someone>(nameof(m));
+        Assert.Equal(someone, r);
+    }
+
+    [Fact]
     public virtual async Task Create_Match_Multi_StepByStep_Test()
     {
         const string EXPECTED = "Ben";
@@ -185,6 +208,40 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         var r2 = await response.GetAsync<NameDictionaryable>(nameof(p2));
         Assert.Equal(EXPECTED, r2.Name);
+    }
+
+    [Fact]
+    public virtual async Task Create_Match_Multi_Unwind_Test()
+    {
+        //const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create();
+        var items = Parameters.Create();
+        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var p = Variables.Create<NameDictionaryable>();
+        CypherCommand cypher = _(() =>
+                                Unwind(items, map,
+                                     Create(N(x, Person, map.AsParameter)))
+                                .Return(x));
+                                //.With()
+                                //.Match(N(n, Person))
+                                //.Where(n._.Age < 10)
+                                //.With()
+                                //.Create(N(p, Person, new { Name = pName }))
+                                //.Return(p, n, x)); 
+        CypherParameters prms = cypher.Parameters;
+        prms[nameof(x)] = Enumerable.Range(0,10)
+                                .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
+                                .ToArray();
+        //prms[nameof(pName)] = EXPECTED;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        //var r1 = await response.GetAsync<NameDictionaryable>(nameof(p));
+        //Assert.Equal(EXPECTED, r1.Name);
+
+        //var r2 = await response.GetRangeAsync<Someone>(nameof(n)).ToArrayAsync();
+        //var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
+        var r3 = await response.GetRangeAsync<Someone>().ToArrayAsync();
     }
 
     //[Fact]

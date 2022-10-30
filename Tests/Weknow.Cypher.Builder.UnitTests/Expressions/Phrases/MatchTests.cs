@@ -27,6 +27,24 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
+        #region MATCH (n:Person:Manager  { Id: $Id }) RETURN n / Match_Return_Test
+
+        [Fact]
+        public void Match_Return_Multi_Label_Test()
+        {
+            var n = Variables.Create();
+            var Id = Parameters.Create();
+            CypherCommand cypher = _(() => Match(N(n, Person & Manager , new { Id }))
+                                    .Return(n));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n:Person:Manager {{ Id: $Id }}){NewLine}" +
+"RETURN n", cypher.Query);
+        }
+
+        #endregion // MATCH (n:Person:Manager { Id: $Id }) RETURN n / Match_Return_Test
+
         #region MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
 
         [Fact]
