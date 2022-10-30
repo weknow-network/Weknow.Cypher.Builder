@@ -323,7 +323,7 @@ namespace Weknow.GraphDbCommands
                 if (node.Member.Name == nameof(VariableDeclaration.AsParameter))
                     name = ((MemberExpression)node.Expression).Member.Name;
                 if (!Parameters.ContainsKey(name))
-                    Parameters.Add(name, null);
+                    Parameters.AddNull(name);
             }
             else if (node.Expression is MemberExpression me && me.Member.Name == nameof(ParameterDeclaration<int>._)
                 && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
@@ -336,7 +336,7 @@ namespace Weknow.GraphDbCommands
                     Query.Append(".");
                 }
                 if (!Parameters.ContainsKey(name))
-                    Parameters.Add(name, null);
+                    Parameters.AddNull(name);
             }
             else if (node.Expression is MemberExpression vme && vme.Member.Name == nameof(VariableDeclaration<int>._)
                 && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))

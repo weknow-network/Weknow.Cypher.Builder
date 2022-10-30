@@ -986,19 +986,6 @@
             </summary>
             <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
-            </summary>
-            <param name="capacity">The initial number of elements that the <see cref="T:System.Collections.Generic.Dictionary`2" /> can contain.</param>
-        </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
-            </summary>
-            <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-            <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        </member>
         <member name="M:Weknow.GraphDbCommands.CypherParameters.AddString(System.String,System.String)">
             <summary>
             Add string.
@@ -1079,6 +1066,38 @@
             <param name="key">The key.</param>
             <param name="values">The values.</param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.ContainsKey(System.String)">
+            <summary>
+            Determines whether the specified key contains key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>
+              <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
         </member>
         <member name="T:Weknow.GraphDbCommands.CypherPhraseExtensions">
             <summary>

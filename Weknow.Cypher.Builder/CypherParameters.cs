@@ -9,8 +9,10 @@ namespace Weknow.GraphDbCommands
     /// <summary>
     /// Cypher Parameters representation
     /// </summary>
-    public class CypherParameters : Dictionary<string, object?>
+    public class CypherParameters : IEnumerable<KeyValuePair<string, object?>>
     {
+        private readonly Dictionary<string, object?> _parameters = new Dictionary<string, object?>();
+
         #region Ctor
 
         /// <summary>
@@ -24,37 +26,19 @@ namespace Weknow.GraphDbCommands
         /// Initializes a new instance of the <see cref="CypherParameters"/> class.
         /// </summary>
         /// <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        public CypherParameters(IDictionary<string, object?> dictionary) : base(dictionary)
+        public CypherParameters(IDictionary<string, object?> dictionary)
         {
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherParameters"/> class.
-        /// </summary>
-        /// <param name="capacity">The initial number of elements that the <see cref="T:System.Collections.Generic.Dictionary`2" /> can contain.</param>
-        public CypherParameters(int capacity) : base(capacity)
-        {
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherParameters"/> class.
-        /// </summary>
-        /// <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        /// <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        protected CypherParameters(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+            _parameters = new Dictionary<string, object?>(dictionary);
         }
 
         #endregion // Ctor
 
-        #region // Casting Overloads
+        #region  Casting Overloads
 
-        //public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
-        //{
-        //    return parameters;
-        //}
+        public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
+        {
+            return parameters._parameters;
+        }
 
         #endregion // Casting Overloads
 
@@ -67,9 +51,9 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public CypherParameters AddString(string key, string value) 
+        public CypherParameters AddString(string key, string value)
         {
-            this[key] = value;
+            _parameters[key] = value;
             return this;
         }
 
@@ -86,7 +70,7 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         public CypherParameters AddValue<T>(string key, T value) where T : struct
         {
-            this[key] = value;
+            _parameters[key] = value;
             return this;
         }
 
@@ -101,9 +85,9 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public new CypherParameters Add<T>(string key, T value) where T: IDictionaryable
+        public new CypherParameters Add<T>(string key, T value) where T : IDictionaryable
         {
-            this[key] = value.ToDictionary();
+            _parameters[key] = value.ToDictionary();
             return this;
         }
 
@@ -130,9 +114,9 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddStringRange(string key, IEnumerable<string> values) 
+        public CypherParameters AddStringRange(string key, IEnumerable<string> values)
         {
-            this[key] = values;
+            _parameters[key] = values;
             return this;
         }
 
@@ -162,7 +146,7 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         public CypherParameters AddValueRange<T>(string key, IEnumerable<T> values) where T : struct
         {
-            this[key] = values;
+            _parameters[key] = values;
             return this;
         }
 
@@ -177,7 +161,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, params T[] values) where T: IDictionaryable
+        public CypherParameters AddRange<T>(string key, params T[] values) where T : IDictionaryable
         {
             return AddRange(key, (IEnumerable<T>)values);
         }
@@ -189,13 +173,85 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) where T: IDictionaryable
+        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) where T : IDictionaryable
         {
-            this[key] = values.Select(m => m.ToDictionary()).ToArray();
+            _parameters[key] = values.Select(m => m.ToDictionary());
             return this;
         }
 
         #endregion // AddRange
+
+        #region AddNull
+
+        /// <summary>
+        /// Adds a null.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public CypherParameters AddNull(string key)
+        {
+            _parameters[key] = null;
+            return this;
+        }
+
+        #endregion // AddNull
+
+        #region ContainsKey
+
+        /// <summary>
+        /// Determines whether the specified key contains key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsKey(string key) => _parameters.ContainsKey(key);
+
+        #endregion // ContainsKey
+
+        #region IEnumerable Members
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() => _parameters.GetEnumerator();
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        #endregion // IEnumerable Members
+
+        #region object? this[string key]
+
+        public object? this[string key]
+        {
+            get => _parameters[key];
+            set
+            {
+                if (value is IDictionaryable d)
+                    _parameters[key] = d.ToDictionary();
+                else if (value is IEnumerable<IDictionaryable> ds)
+                    _parameters[key] = ds.Select(m => m.ToDictionary());
+                else
+                    _parameters[key] = value;
+            }
+        }
+
+        #endregion // object? this[string key]
+
+        #region Count
+
+        public int Count => _parameters.Count;
+
+        #endregion // Count
     }
 
 }
