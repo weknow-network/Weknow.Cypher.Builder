@@ -17,11 +17,10 @@ namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 partial class BaseCypherCardsTests 
 {
-
-    #region UNWIND .. ORDER BY n.age
+    #region ORDER BY n.age
 
     [Fact]
-    public virtual async Task Unwind_Orderby_Age_Test()
+    public virtual async Task Orderby_Age_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
         var items = Parameters.Create();
@@ -68,12 +67,12 @@ partial class BaseCypherCardsTests
             ;
     }
 
-    #endregion // UNWIND .. ORDER BY n.age
+    #endregion // ORDER BY n.age
 
-    #region UNWIND .. ORDER BY n.age
+    #region ORDER BY n.age DESC
 
     [Fact]
-    public virtual async Task Unwind_Orderby_Desc_Age_Test()
+    public virtual async Task Orderby_Desc_Age_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
         var items = Parameters.Create();
@@ -120,6 +119,6 @@ partial class BaseCypherCardsTests
             ;
     }
 
-    #endregion // UNWIND .. ORDER BY n.age
+    #endregion // ORDER BY n.age DESC
 
 }
