@@ -144,6 +144,16 @@
             MATCH (n:Person)-[:KNOWS]->(m:Person)
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.OptionalMatch(Weknow.GraphDbCommands.INode[])">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Create(Weknow.GraphDbCommands.IPattern)">
             <summary>
             Create phrase.
@@ -674,6 +684,17 @@
             RETURN id(n)
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.type(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Labels of the node.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n:PERSON:ADMIN)
+            RETURN labels(n)
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Labels(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
             <summary>
             Labels of the node.
@@ -1122,6 +1143,17 @@
             <returns></returns>
             <example>
             OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OptionalMatch(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
             </example>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Create(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">

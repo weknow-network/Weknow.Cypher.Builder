@@ -129,6 +129,8 @@ namespace Weknow.GraphDbCommands
         public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
         [Cypher("($0 $1)")]
         public static INode N(VariableDeclaration var, object properties) => throw new NotImplementedException();
+        [Cypher("($0 $1)")]
+        public static INode N(ILabel label, object properties) => throw new NotImplementedException();
 
         #endregion // IPattern N (Node)
 
@@ -216,6 +218,17 @@ namespace Weknow.GraphDbCommands
         /// </example>
         [Cypher("MATCH $0")]
         public static Fluent Match(params INode[] p) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Matches phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n:Person)-[:KNOWS]->(m:Person)
+        /// </example>
+        [Cypher("OPTIONAL MATCH $0")]
+        public static Fluent OptionalMatch(params INode[] p) => throw new NotImplementedException();
 
         #endregion // Match
 

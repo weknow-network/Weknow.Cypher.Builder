@@ -76,6 +76,22 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Id / id(n)
 
+        #region type / type(n)
+
+        /// <summary>
+        /// Labels of the node.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n:PERSON:ADMIN)
+        /// RETURN labels(n)
+        /// </example>
+        [Cypher("type($0)")]
+        public static VariableDeclaration type(this VariableDeclaration variable) => throw new NotImplementedException();
+
+        #endregion // type / type(n)
+
         #region Labels / labels(n)
 
         /// <summary>

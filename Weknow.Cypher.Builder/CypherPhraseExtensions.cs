@@ -55,6 +55,18 @@ namespace Weknow.GraphDbCommands
         [Cypher("$0\r\nOPTIONAL MATCH $1")]
         public static Fluent OptionalMatch(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Matches phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns></returns>
+        /// <example>
+        /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
+        /// </example>
+        [Cypher("$0\r\nOPTIONAL MATCH $1")]
+        public static Fluent OptionalMatch(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+
         #endregion // OptionalMatch
 
         #region Create

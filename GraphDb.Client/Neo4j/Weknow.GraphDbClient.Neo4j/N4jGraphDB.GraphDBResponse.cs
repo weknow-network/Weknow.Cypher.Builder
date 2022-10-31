@@ -329,7 +329,7 @@ partial class N4jGraphDB
             if (entity.TryAs(out result))
                 return result;
             //result = node.ToObject<T>();
-            throw new InvalidCastException();
+            throw new InvalidCastException(typeof(T).Name);
         }
 
         #endregion // T ConvertTo<T>(object entity)

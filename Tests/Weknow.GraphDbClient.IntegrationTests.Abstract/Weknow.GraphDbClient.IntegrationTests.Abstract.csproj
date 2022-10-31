@@ -18,7 +18,7 @@
 	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
 	  <PackageReference Include="Neo4j.Driver.Extensions" Version="1.0.14" />
 	  <PackageReference Include="Neo4j.Driver.Signed" Version="5.2.0" />
-	  <PackageReference Include="Weknow.Mapping.Generation.SrcGen" Version="1.0.10" />
+	  <PackageReference Include="Weknow.Mapping.Generation.SrcGen" Version="1.0.11" />
 	  <PackageReference Include="xunit" Version="2.4.2" />
 	  <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
 		  <PrivateAssets>all</PrivateAssets>
