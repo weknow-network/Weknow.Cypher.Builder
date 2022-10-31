@@ -367,18 +367,18 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
     #endregion // WHERE EXISTS { MATCH(n)-->(m) WHERE n.age = m.age }
 
-    #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN *
+    #region UNWIND .. RETURN *
 
     [Fact]
     public virtual async Task Return_Star_Unwind_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
-        var (n, map, x) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
         CypherCommand cypher = _(() =>
                                 Unwind(items, map,
-                                     Create(N(x, Person))
-                                       .Set(x, map))
+                                     Create(N(n, Person))
+                                       .Set(n, map))
                                 .Return("*"));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
@@ -386,7 +386,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
         prms.AddRange(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        var r3 = await response.GetRangeAsync<PersonEntity>(nameof(x)).ToArrayAsync();
+        var r3 = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
         Assert.True(r3.Length == 10);
         for (int i = 0; i < 10; i++)
         {
@@ -397,5 +397,37 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
         PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i % 10 + 5);
     }
 
-    #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN *
+    #endregion // UNWIND .. RETURN *
+
+    #region UNWIND .. RETURN n AS x
+
+    [Fact]
+    public virtual async Task Return_Alias_Unwind_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
+        var items = Parameters.Create();
+        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        CypherCommand cypher = _(() =>
+                                Unwind(items, map,
+                                     Create(N(n, Person))
+                                       .Set(n, map))
+                                .Return(n.As("x")));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+                                .Select(Factory));
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r3 = await response.GetRangeAsync<PersonEntity>("x").ToArrayAsync();
+        Assert.True(r3.Length == 10);
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.Equal(Factory(i) , r3[i]);
+
+        }
+
+        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i % 10 + 5);
+    }
+
+    #endregion // UNWIND .. RETURN n AS x
 }
