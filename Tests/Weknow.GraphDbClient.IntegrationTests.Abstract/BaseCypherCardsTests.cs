@@ -366,4 +366,36 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
     }
 
     #endregion // WHERE EXISTS { MATCH(n)-->(m) WHERE n.age = m.age }
+
+    #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN *
+
+    [Fact]
+    public virtual async Task Return_Star_Unwind_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
+        var items = Parameters.Create();
+        var (n, map, x) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        CypherCommand cypher = _(() =>
+                                Unwind(items, map,
+                                     Create(N(x, Person))
+                                       .Set(x, map))
+                                .Return("*"));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+                                .Select(Factory));
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var r3 = await response.GetRangeAsync<PersonEntity>(nameof(x)).ToArrayAsync();
+        Assert.True(r3.Length == 10);
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.Equal(Factory(i) , r3[i]);
+
+        }
+
+        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i % 10 + 5);
+    }
+
+    #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN *
 }

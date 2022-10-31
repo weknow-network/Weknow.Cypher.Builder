@@ -27,6 +27,22 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
+        #region MATCH (n) RETURN * / Return_Star_Test
+
+        [Fact]
+        public void Return_Star_Test()
+        {
+            CypherCommand cypher = _(n =>
+                                    Match(N(n))
+                                    .Return("*"));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                           "RETURN *", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN * / Return_Star_Test
+
         #region MATCH (n) RETURN n / Return_Test
 
         [Fact]

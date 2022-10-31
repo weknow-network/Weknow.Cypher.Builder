@@ -507,7 +507,20 @@ namespace Weknow.GraphDbCommands
                         {
                             var ch = format[++i];
                             int index = int.Parse(ch.ToString());
-                            Expression expr = node.Arguments[index];
+                            var args = node.Arguments;
+                            Expression expr = args[index];
+                            int count = args.Count;
+                            // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
+                            if (count > 1 && expr is NewArrayExpression naExp && expr.NodeType == ExpressionType.NewArrayInit)
+                            {
+                                var prv = args[count - 2];
+                                if (prv.NodeType == ExpressionType.Convert &&
+                                    prv.Type.Name == "ParamsFirst`1" &&
+                                    naExp.Expressions.Count != 0)
+                                {
+                                    Query.Append(", ");
+                                }
+                            }
                             Visit(expr);
                         }
                         break;

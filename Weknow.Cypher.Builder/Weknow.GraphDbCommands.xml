@@ -1436,23 +1436,26 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Return(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Return(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.ReturnDistinct(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.ReturnDistinct(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN DISTINCT phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables.</param>
             <returns></returns>
             <example>
             RETURN DISTINCT n
@@ -1472,12 +1475,13 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             WITH phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
             <returns></returns>
             <example>
             MATCH (user)-[:FRIEND]-(friend)
@@ -1487,12 +1491,13 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderBy(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderBy(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             ORDER BY phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
             <returns></returns>
             <example>
             MATCH (user)-[:FRIEND]-(friend)
@@ -1500,12 +1505,13 @@
             ORDER BY friends
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderByDesc(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderByDesc(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             ORDER BY DESC phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
             <returns></returns>
             <example>
             MATCH (user)-[:FRIEND]-(friend)
@@ -1539,23 +1545,25 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Delete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Delete(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             DELETE phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
             <returns></returns>
             <example>
             DELETE n
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.DetachDelete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.DetachDelete(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             DETACH DELETE phrase.
             </summary>
             <param name="p">The p.</param>
-            <param name="vars"></param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
             <returns></returns>
             <example>
             DETACH DELETE n
@@ -1579,6 +1587,11 @@
         <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.Dolar">
             <summary>
             No formatting except the $ sign.
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.ParamsFirst`1">
+            <summary>
+            Use to avoid empty params array
             </summary>
         </member>
         <member name="T:Weknow.GraphDbCommands.ExpressionPattern">
