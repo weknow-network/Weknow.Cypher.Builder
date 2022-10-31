@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
@@ -13,26 +15,8 @@ using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
-{
-    #region Ctor
-
-    public BaseCypherCardsTests(
-        IServiceProvider serviceProvider,
-        ITestOutputHelper outputHelper)
-        : base(serviceProvider, outputHelper)
-    {
-    }
-
-    #endregion // Ctor
-
-    private ILabel Person => throw new NotImplementedException();
-
-    private IType Knows => throw new NotImplementedException();
-
-    [Dictionaryable]
-    private partial record PersonEntity(string name, int age);
-
+partial class BaseCypherCardsTests 
+{   
     #region MATCH (n:PERSON)-[:KNOWS]->(m:PERSON) WHERE n.name = 'Alice'
 
     [Fact]
@@ -275,159 +259,4 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
     }
 
     #endregion // OPTIONAL MATCH (n)-[r]->(m)
-
-    #region WHERE n.property <> $value
-
-    [Fact]
-    public virtual async Task Where_Prop_NotEq_Test()
-    {
-        CypherConfig.Scope.Value = CONFIGURATION;
-
-        #region Prepare
-
-        var (n_name, m_name, k_name) = Parameters.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
-        CypherCommand cypherPrapare = _(() =>
-                                Create(N(Person, new { name = "Dana", age = 10 }))
-                                .Create(N(Person, new { name = "Groum", age = 20 }))
-                                .Create(N(Person, new { name = "Borka", age = 25 })));
-        CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
-
-        #endregion // Prepare
-
-        var value = Parameters.Create<int>();
-        var n = Variables.Create<PersonEntity>();
-        CypherCommand cypher = _(() =>
-                                Match(N(n, Person))
-                                .Where(n._.age != value)
-                                .Return(n._.name));
-
-
-        CypherParameters prms = cypher.Parameters;
-        prms.AddValue(nameof(value), 25);
-
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-
-        var people = await response.GetRangeAsync<string>(nameof(n), nameof(n._.name)).ToArrayAsync();
-
-        Assert.Equal(2, people.Length);
-        Assert.Contains("Dana", people);
-        Assert.Contains("Groum", people);
-
-        _outputHelper.WriteLine($"CYPHER: {cypher}");
-    }
-
-    #endregion // WHERE n.property <> $value
-
-    #region WHERE EXISTS { MATCH(n)-->(m) WHERE n.age = m.age }
-
-    [Fact]
-    public virtual async Task Where_Exists_Test()
-    {
-        CypherConfig.Scope.Value = CONFIGURATION;
-
-        string ALICE = "Alice";
-        string MIKE = "Mike";
-        string BOB = "Bob";
-
-        var (n, m, k) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
-        var r = Variables.Create();
-
-        #region Prepare
-
-        var (n_name, m_name, k_name) = Parameters.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
-        CypherCommand cypherPrapare = _(() =>
-                                Create(N(n, Person, new { name = n_name, age = 25 }))
-                                .Create(N(Person, new { name = "Borka" }))
-                                .Create(N(k, Person, new { name = k_name, age = 30 }) - R[Knows] > N(n))
-                                .Create(N(m, Person, new { name = m_name, age = 25 }) - R[Knows] > N(n)), CONFIGURATION);
-        CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), MIKE);
-        prmsPrepare.AddString(nameof(m_name), ALICE);
-        prmsPrepare.AddString(nameof(k_name), BOB);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
-
-        #endregion // Prepare
-
-        CypherCommand cypher = _(() =>
-                                Match(N(n, Person))
-                                .Where(Exists(() => Match(N(n) > N(m))
-                                                    .Where(n._.age == m._.age)))
-                                .Return(n));
-
-        CypherParameters prms = cypher.Parameters;
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-
-        var people = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
-
-        Assert.Single(people);
-        Assert.Equal(ALICE, people[0].name);
-        _outputHelper.WriteLine($"CYPHER: {cypher}");
-    }
-
-    #endregion // WHERE EXISTS { MATCH(n)-->(m) WHERE n.age = m.age }
-
-    #region UNWIND .. RETURN *
-
-    [Fact]
-    public virtual async Task Return_Star_Unwind_Test()
-    {
-        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
-        CypherCommand cypher = _(() =>
-                                Unwind(items, map,
-                                     Create(N(n, Person))
-                                       .Set(n, map))
-                                .Return("*"));
-        _outputHelper.WriteLine($"CYPHER: {cypher}");
-
-        CypherParameters prms = cypher.Parameters;
-        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
-                                .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        var r3 = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
-        Assert.True(r3.Length == 10);
-        for (int i = 0; i < 10; i++)
-        {
-            Assert.Equal(Factory(i) , r3[i]);
-
-        }
-
-        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i % 10 + 5);
-    }
-
-    #endregion // UNWIND .. RETURN *
-
-    #region UNWIND .. RETURN n AS x
-
-    [Fact]
-    public virtual async Task Return_Alias_Unwind_Test()
-    {
-        CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
-        CypherCommand cypher = _(() =>
-                                Unwind(items, map,
-                                     Create(N(n, Person))
-                                       .Set(n, map))
-                                .Return(n.As("x")));
-        _outputHelper.WriteLine($"CYPHER: {cypher}");
-
-        CypherParameters prms = cypher.Parameters;
-        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
-                                .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-        var r3 = await response.GetRangeAsync<PersonEntity>("x").ToArrayAsync();
-        Assert.True(r3.Length == 10);
-        for (int i = 0; i < 10; i++)
-        {
-            Assert.Equal(Factory(i) , r3[i]);
-
-        }
-
-        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i % 10 + 5);
-    }
-
-    #endregion // UNWIND .. RETURN n AS x
 }
