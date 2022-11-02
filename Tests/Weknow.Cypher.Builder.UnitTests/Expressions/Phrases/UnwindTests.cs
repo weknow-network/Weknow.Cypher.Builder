@@ -257,7 +257,7 @@ SET n += item", cypher.Query);
 
         #region UNWIND [1,2,3] as num UNWIND['a', 'b'] as txt RETURN num, txt
 
-        [Fact]
+        [Fact(Skip = "Not implemented")]
         public void Unwind_Unwind_Test()
         {
             var items = Parameters.Create();
