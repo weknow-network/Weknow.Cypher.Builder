@@ -94,6 +94,37 @@ namespace Weknow.GraphDbCommands
 
         #endregion // dash '_'
 
+        #region dash '_<T>'
+
+        ///// <summary>
+        ///// Used to define properties' variables without the $ prefix.
+        ///// Useful for cases like UNWIND
+        ///// </summary>
+        ///// <param name="var">The variable.</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UNWIND $items AS item 
+        /////     MATCH(n:Person { PropA: item.x })
+        ///// </example>
+        //[Cypher("$0\\.$1")]
+        //public static T _<T>(this VariableDeclaration var) => throw new NotImplementedException();
+
+        ///// <summary>
+        ///// Used to define properties' variables without the $ prefix.
+        ///// Useful for cases like UNWIND
+        ///// </summary>
+        ///// <param name="var">The variable.</param>
+        ///// <param name="exp">Any generics expression</param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// UNWIND $items AS item 
+        /////     MATCH(n:Person { PropA: item.x })
+        ///// </example>
+        //[Cypher("$0\\.$1")]
+        public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
+
+        #endregion // dash '_<T>'
+
         #region IPattern N (Node)
 
         /// <summary>
@@ -143,33 +174,6 @@ namespace Weknow.GraphDbCommands
 
         #endregion // IRelation R (Relation)
 
-        ///// <summary>
-        ///// Used to define properties' variables without the $ prefix.
-        ///// Useful for cases like UNWIND
-        ///// </summary>
-        ///// <param name="var">The variable.</param>
-        ///// <returns></returns>
-        ///// <example>
-        ///// UNWIND $items AS item 
-        /////     MATCH(n:Person { PropA: item.x })
-        ///// </example>
-        //[Cypher("$0\\.$1")]
-        //public static T _<T>(this VariableDeclaration var) => throw new NotImplementedException();
-
-        ///// <summary>
-        ///// Used to define properties' variables without the $ prefix.
-        ///// Useful for cases like UNWIND
-        ///// </summary>
-        ///// <param name="var">The variable.</param>
-        ///// <param name="exp">Any generics expression</param>
-        ///// <returns></returns>
-        ///// <example>
-        ///// UNWIND $items AS item 
-        /////     MATCH(n:Person { PropA: item.x })
-        ///// </example>
-        //[Cypher("$0\\.$1")]
-        public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
-
         #region Rgx
 
         /// <summary>
@@ -205,6 +209,24 @@ namespace Weknow.GraphDbCommands
         public static Fluent Profile() => throw new NotImplementedException();
 
         #endregion // Profile
+
+        #region Return
+
+        /// <summary>
+        /// RETURN phrase.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The first variable.</param>
+        /// <param name="vars">Rest of the variables.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        /// <example>
+        /// RETURN n
+        /// </example>
+        [Cypher("RETURN $0$1")]
+        public static Fluent Return(ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+        #endregion // Return
 
         #region Match
 
@@ -276,6 +298,22 @@ namespace Weknow.GraphDbCommands
         /// MATCH(n { name: name})
         /// RETURN avg(n.age)
         /// </example>
+        [Cypher("&UNWIND \\$$[]0 AS $1\r\n$2")]
+        public static Fluent Unwind<T>(IEnumerable<T> items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+
+
+        /// <summary>
+        /// UNWIND phrase.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="p">The p.</param>
+        /// <returns></returns>
+        /// <example>
+        /// UNWIND $names AS name
+        /// MATCH(n { name: name})
+        /// RETURN avg(n.age)
+        /// </example>
         [Cypher("&UNWIND \\$$0 AS $1\r\n$2")]
         public static Fluent Unwind(VariableDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
@@ -289,6 +327,7 @@ namespace Weknow.GraphDbCommands
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("&UNWIND $0 AS $1\r\n$2")]
         public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+
         #endregion // Unwind
 
         #region Exists

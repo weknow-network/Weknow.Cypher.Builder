@@ -17,15 +17,15 @@ namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 partial class BaseCypherCardsTests 
 {
-
-    #region SKIP $skipNumber
+    #region RETURN count(*)
 
     [Fact]
-    public virtual async Task Sip_Test()
+    public virtual async Task Count_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
         var items = Parameters.Create();
         var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
         #region Prepare
 
@@ -45,27 +45,18 @@ partial class BaseCypherCardsTests
 
         CypherCommand query = _(() =>
                                 Match(N(n, Person))
-                                .Return(n)
-                                .OrderBy(n._.age)
-                                .Skip(2));
+                                .Return(n.Count()));
         _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
+        prms.AddValue(nameof(skipNumber), 2);
+        prms.AddValue(nameof(limitNumber), 6);
         IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
-        var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
+        var r = await response1.GetAsync<int>("count(n)");
 
-        #region Validation
-
-        Assert.True(r3.Length == 8);
-        for (int i = 0; i < 8; i++)
-        {
-            var res = r3[i];
-            Assert.Equal(i + 2, res.age);
-        }
-
-        #endregion // Validation
+        Assert.Equal(10, r);
 
         PersonEntity Factory(int i) =>  new PersonEntity($"Person {i}", i) ;
     }
 
-    #endregion // SKIP $skipNumber
+    #endregion // RETURN count(*)
 }

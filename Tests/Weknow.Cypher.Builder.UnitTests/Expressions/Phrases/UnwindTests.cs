@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
 using static System.Environment;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Weknow.GraphDbCommands
 {
@@ -25,7 +26,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
+        #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
 
         [Fact]
         public void Unwind_Test()
@@ -43,9 +44,9 @@ namespace Weknow.GraphDbCommands
 MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, PropB: item.PropB }) / Unwind_Test
+        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
 
-        #region UNWIND $items AS item MATCH (n:Person { PropA: item }) / Unwind_PropConst_AsMap_Test
+        #region UNWIND $items AS item MATCH (n:Person { PropA: item })
 
         [Fact]
         public void Unwind_PropConst_AsMap_Test()
@@ -59,9 +60,9 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
 MATCH (n:Person { PropA: item })", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item }) / Unwind_PropConst_AsMap_Test
+        #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item })
 
-        #region UNWIND $items AS map CREATE (n:Person) SET n = map / Unwind_Create_Map_Test
+        #region UNWIND $items AS map CREATE (n:Person) SET n = map
 
         [Fact]
         public void Unwind_Create_Map_Test()
@@ -81,8 +82,9 @@ MATCH (n:Person { PropA: item })", cypher.Query);
                  "SET n = map", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map / Unwind_Create_Map_Test
+        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map
 
+        #region UNWIND $items AS map CREATE (n:Person map
 
         [Fact]
         public void Unwind_Create_AsMap_Test()
@@ -101,7 +103,9 @@ MATCH (n:Person { PropA: item })", cypher.Query);
                  "CREATE (n:Person map)", cypher.Query);
         }
 
-        #region UNWIND $items AS map CREATE (n:Person) SET n = map / Unwind_Create_AsMap_Test
+        #endregion // UNWIND $items AS map CREATE (n:Person map
+
+        #region UNWIND $items AS map CREATE (n:Person) SET n = map
 
         [Fact]
         public void Unwind_Create_SET_AsMap_Test()
@@ -122,9 +126,9 @@ MATCH (n:Person { PropA: item })", cypher.Query);
                  "SET n = map", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map / Unwind_Create_AsMap_Test
+        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map
 
-        #region UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n / Unwind_Create_Set_Map_Test
+        #region UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n
 
         [Fact]
         public void Unwind_Create_Set_Map_Test()
@@ -143,9 +147,9 @@ SET n = map
 RETURN n", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n / Unwind_Create_Set_Map_Test
+        #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n
 
-        #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item / Unwind_Entities_Update_Test
+        #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item
 
         [Fact]
         public void Unwind_Entities_Update_Test()
@@ -165,9 +169,9 @@ MATCH (n:Person { Id: item.Id })
 SET n += item", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item / Unwind_Entities_Update_Test
+        #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item 
 
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Map_Test
+        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map ..
 
         [Fact]
         public void Unwind_Create_OnCreateSet_Map_Test()
@@ -193,9 +197,9 @@ SET n += item", cypher.Query);
                 "RETURN n", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Map_Test
+        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map .. 
 
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Mix_Map_Test
+        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map ..
 
         [Fact]
         public void Unwind_Create_OnCreateSet_Mix_Map_Test()
@@ -221,9 +225,9 @@ SET n += item", cypher.Query);
                 "RETURN n", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Mix_Map_Test
+        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id }) ON CREATE SET n = map ..
 
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id, Name: map.Name }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test
+        #region UNWIND $items AS map MERGE (n:PERSON {..}) ON CREATE SET n = map ..t
 
         [Fact]
         public void Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test()
@@ -249,9 +253,39 @@ SET n += item", cypher.Query);
                 "RETURN n", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id, Name: map.Name }) ON CREATE SET n = map RETURN n / Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test
+        #endregion // UNWIND $items AS map MERGE (n:PERSON {.. }) ON CREATE SET n = map ..
 
-        #region UNWIND $items AS map MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date }) / Unwind_Param_WithoutMap_Test
+        #region UNWIND [1,2,3] as num UNWIND['a', 'b'] as txt RETURN num, txt
+
+        [Fact]
+        public void Unwind_Unwind_Test()
+        {
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var (num, txt) = Variables.CreateMulti();
+
+            var maintainer_ = Variables.Create();
+            var (maintainer_Id, Date) = Parameters.CreateMulti();
+            var maintainer = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
+
+            CypherCommand cypher = _(() =>
+                                    Unwind(new[] { 1, 2, 3 }, num,
+                                    Unwind(new[] { "a", "b" }, txt,
+                                    Return(num, txt))),
+                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+
+            _outputHelper.WriteLine(cypher);
+
+            Assert.Equal($"UNWIND $p_0 AS num{NewLine}" +
+                $"UNWIND $p_1 AS txt{NewLine}" +
+                $"RETURN num, txt", cypher.Query);
+            Assert.True(new[] { 1, 2, 3 }.SequenceEqual(cypher.Parameters.Get<IEnumerable<int>>("p_0")));
+            Assert.True(new[] { "a", "b" }.SequenceEqual(cypher.Parameters.Get<IEnumerable<string>>("p_1")));
+        }
+
+        #endregion // UNWIND [1,2,3] as num UNWIND['a', 'b'] as txt RETURN num, txt
+
+        #region UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})
 
         [Fact]
         public void Unwind_Param_WithoutMap_Test()
@@ -277,7 +311,7 @@ SET n += item", cypher.Query);
                 $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(maintainer_:MAINTAINER {{ Id: $maintainer_Id, Date: $Date }})", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS map MERGE (n:PERSON { Id: map.Id })-[:By]->(maintainer_:MAINTAINER { Id: $maintainer_Id, Date: $Date }) / Unwind_Param_WithoutMap_Test
+        #endregion // UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})
     }
 }
 

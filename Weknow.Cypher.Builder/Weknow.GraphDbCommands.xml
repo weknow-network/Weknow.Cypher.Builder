@@ -134,6 +134,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Return(Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            RETURN n
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Match(Weknow.GraphDbCommands.INode[])">
             <summary>
             Matches phrase.
@@ -172,6 +185,20 @@
             <returns></returns>
             <example>
             MERGE (n:Person {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.Unwind``1(System.Collections.Generic.IEnumerable{``0},Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
             </example>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.Unwind(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
@@ -1107,6 +1134,14 @@
             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
             </returns>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.Get``1(System.String)">
+            <summary>
+            Gets the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.GraphDbCommands.CypherPhraseExtensions">
             <summary>
             Cypher Extensions
@@ -1532,7 +1567,33 @@
             LIMIT 5
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Skip(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            SKIP phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="count"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            SKIP 10
+            LIMIT 5
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Limit(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Int32)">
+            <summary>
+            LIMIT phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="count"></param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            SKIP 10
+            LIMIT 5
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Limit(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
             <summary>
             LIMIT phrase.
             </summary>

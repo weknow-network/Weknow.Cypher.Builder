@@ -92,13 +92,13 @@ namespace Weknow.GraphDbCommands
                 HandleStartChar();
 
                 IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
-                var addition = string.Join(":", formatted); 
+                var addition = string.Join(":", formatted);
                 Query.Append(addition);
                 return;
             }
 
             _shouldHandleAmbient = false;
-                
+
             HandleStartChar();
 
             Query.Append(_configuration.AmbientLabels.Combine(labels));
@@ -221,12 +221,12 @@ namespace Weknow.GraphDbCommands
             if (format != null)
             {
                 bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
-                if(ambScope)
+                if (ambScope)
                     _shouldHandleAmbient = true;
 
                 ApplyFormat(node, format);
 
-                if(ambScope)
+                if (ambScope)
                     _shouldHandleAmbient = false;
             }
             else if (type == nameof(Rng))
@@ -505,21 +505,38 @@ namespace Weknow.GraphDbCommands
                 {
                     case '$':
                         {
-                            var ch = format[++i];
+                            i++;
+                            var isArray = format.Length > i + 1 &&
+                                          format[(i)..(i + 2)] == "[]";
+                            if (isArray)
+                                i += 2;
+                            var ch = format[i];
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
                             int count = args.Count;
                             // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
-                            if (count > 1 && expr is NewArrayExpression naExp && expr.NodeType == ExpressionType.NewArrayInit)
+                            if (expr is NewArrayExpression naExp && expr.NodeType == ExpressionType.NewArrayInit)
                             {
-                                var prv = args[count - 2];
-                                if (prv.NodeType == ExpressionType.Convert &&
-                                    prv.Type.Name == "ParamsFirst`1" &&
-                                    naExp.Expressions.Count != 0)
+                                if (isArray)
                                 {
-                                    Query.Append(", ");
+                                    var parameterName = $"p_{Parameters.Count}";
+                                    Query.Append(parameterName);
+                                    // TODO: Assing the value of the array
+                                    Parameters[parameterName] = null; // naExp.Value;
+                                    continue;
                                 }
+                                else if (count > 1)
+                                {
+                                    var prv = args[count - 2];
+                                    if (prv.NodeType == ExpressionType.Convert &&
+                                        prv.Type.Name == "ParamsFirst`1" &&
+                                        naExp.Expressions.Count != 0)
+                                    {
+                                        Query.Append(", ");
+                                    }
+                                }
+
                             }
                             Visit(expr);
                         }

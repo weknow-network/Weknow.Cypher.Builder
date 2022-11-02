@@ -539,6 +539,20 @@ public static class CypherPhraseExtensions
     [Cypher("$0\r\nSKIP $1")]
     public static Fluent Skip(this Fluent p, int count) => throw new NotImplementedException();
 
+    /// <summary>
+    /// SKIP phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (user)-[:FRIEND]-(friend)
+    /// SKIP 10
+    /// LIMIT 5
+    /// </example>
+    [Cypher("$0\r\nSKIP $1")]
+    public static Fluent Skip(this Fluent p, ParameterDeclaration count) => throw new NotImplementedException();
+
     #endregion // Skip
 
     #region Limit
@@ -556,6 +570,20 @@ public static class CypherPhraseExtensions
     /// </example>
     [Cypher("$0\r\nLIMIT $1")]
     public static Fluent Limit(this Fluent p, int count) => throw new NotImplementedException();
+
+    /// <summary>
+    /// LIMIT phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (user)-[:FRIEND]-(friend)
+    /// SKIP 10
+    /// LIMIT 5
+    /// </example>
+    [Cypher("$0\r\nLIMIT $1")]
+    public static Fluent Limit(this Fluent p, ParameterDeclaration count) => throw new NotImplementedException();
 
     #endregion // Limit
 

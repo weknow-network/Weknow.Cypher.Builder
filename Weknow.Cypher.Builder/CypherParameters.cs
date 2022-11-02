@@ -229,6 +229,18 @@ namespace Weknow.GraphDbCommands
 
         #endregion // IEnumerable Members
 
+        #region Get
+
+        /// <summary>
+        /// Gets the specified key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public T Get<T>(string key) => (T)_parameters[key];
+
+        #endregion // Get
+
         #region object? this[string key]
 
         public object? this[string key]
