@@ -17,6 +17,16 @@
             <param name="parameters">The parameters.</param>
             <returns>Response factory</returns>
         </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBRecord.Get``1(System.String,System.String)">
+            <summary>
+            Cast result as T by a key.
+            </summary>
+            <typeparam name="T">The type of the first result.</typeparam>
+            <param name="key">The first result's key.</param>
+            <param name="property">The property.</param>
+            <returns>
+            </returns>
+        </member>
         <member name="T:Weknow.GraphDbClient.Abstraction.IGraphDBResponse">
             <summary>
             Graph Database response abstraction
@@ -36,6 +46,20 @@
             ]]>
             </example>
         </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+            <summary>
+            Gets the first result set as T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="factory">The factory.</param>
+            <returns>
+            the first result
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
+        </member>
         <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``1">
             <summary>
             Gets the first result set
@@ -49,6 +73,20 @@
             var person = results.Get<Person>();
             ]]>
             </example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetRangeAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+            <summary>
+            Gets the first result set
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="factory">The factory.</param>
+            <returns>
+            the first result
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
         </member>
         <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDBResponse.GetAsync``1(System.String,System.String)">
             <summary>

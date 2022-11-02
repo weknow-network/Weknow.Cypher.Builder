@@ -25,6 +25,20 @@ public interface IGraphDBResponse
     ValueTask<T> GetAsync<T>();
 
     /// <summary>
+    /// Gets the first result set as T
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="factory">The factory.</param>
+    /// <returns>
+    /// the first result
+    /// </returns>
+    /// <example><![CDATA[
+    /// MATCH (p:Person) RETURN p
+    /// var person = results.Get<Person>();
+    /// ]]></example>
+    ValueTask<T> GetAsync<T>(Func<IGraphDBRecord, T> factory);
+
+    /// <summary>
     /// Gets the first result set
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -37,6 +51,20 @@ public interface IGraphDBResponse
     /// ]]>
     /// </example>
     IAsyncEnumerable<T> GetRangeAsync<T>();
+
+    /// <summary>
+    /// Gets the first result set
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="factory">The factory.</param>
+    /// <returns>
+    /// the first result
+    /// </returns>
+    /// <example><![CDATA[
+    /// MATCH (p:Person) RETURN p
+    /// var person = results.Get<Person>();
+    /// ]]></example>
+    IAsyncEnumerable<T> GetRangeAsync<T>(Func<IGraphDBRecord, T> factory);
 
 
     /// <summary>
@@ -87,5 +115,3 @@ public interface IGraphDBResponse
     ///// ]]></example>
     //(IAsyncEnumerable<T1>, IAsyncEnumerable<T2>)  GetRangeAsync<T1, T2>(string key1, string key2);     
 }
-
-//public interface IR

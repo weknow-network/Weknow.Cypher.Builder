@@ -163,6 +163,63 @@ partial class N4jGraphDB
 
         #endregion // GetRangeAsync<T>()
 
+        #region GetAsync<T>(Func<IGraphDBRecord, T> factory)
+
+        /// <summary>
+        /// Gets the first result
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="factory">The factory.</param>
+        /// <returns>
+        /// the first result
+        /// </returns>
+        /// <example><![CDATA[
+        /// MATCH (p:Person) RETURN p
+        /// var person = results.Get<Person>();
+        /// ]]></example>
+        async ValueTask<T> IGraphDBResponse.GetAsync<T>(Func<IGraphDBRecord, T> factory)
+        {
+            IGraphDBResponse self = this;
+            var range = self.GetRangeAsync(factory);
+            await foreach (var item in range)
+            {
+                return item;
+            }
+            throw new IndexOutOfRangeException();
+        }
+
+        #endregion // GetAsync<T>(Func<IGraphDBRecord, T> factory)
+
+        #region GetRangeAsync<T>(Func<IGraphDBRecord, T> factory)
+
+        /// <summary>
+        /// Gets the first result set
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="factory">The factory.</param>
+        /// <returns>
+        /// the first result
+        /// </returns>
+        /// <example><![CDATA[
+        /// MATCH (p:Person) RETURN p
+        /// var person = results.Get<Person>();
+        /// ]]></example>
+        async IAsyncEnumerable<T> IGraphDBResponse.GetRangeAsync<T>(Func<IGraphDBRecord, T> factory)
+        {
+            int index = 0;
+            while (true)
+            {
+                IRecord? record = await GetOrFetchAsync(index++);
+                if (record == null)
+                    yield break;
+                var mapper = new GraphDbRecord(record);
+                T result = factory(mapper);
+                yield return result;
+            }
+        }
+
+        #endregion // GetRangeAsync<T>(Func<IGraphDBRecord, T> factory)
+
         #region GetRangeAsync<T>(string key, string? property)
 
         /// <summary>
@@ -273,7 +330,7 @@ partial class N4jGraphDB
         /// <param name="key">The key.</param>
         /// <param name="property">The property.</param>
         /// <returns></returns>
-        private T ConvertTo<T>(IRecord record, string key, string? property)
+        private static T ConvertTo<T>(IRecord record, string key, string? property)
         {
             T result;
             if (property == null)
@@ -299,7 +356,7 @@ partial class N4jGraphDB
         /// <param name="record">The record.</param>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        private T ConvertTo<T>(IRecord record, string key)
+        private static T ConvertTo<T>(IRecord record, string key)
         {
             object entity = record[key];
             T r = ConvertTo<T>(entity);
@@ -317,29 +374,45 @@ partial class N4jGraphDB
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
         /// <exception cref="System.InvalidCastException"></exception>
-        private T ConvertTo<T>(object entity)
+        private static T ConvertTo<T>(object entity)
         {
             T result;
             if (entity is Neo4j.Driver.INode node && IDictionaryableType.IsAssignableFrom(typeof(T)))
             {
                 var props = (Dictionary<string, object?>)node.Properties;
-                result = (T)(props as dynamic); // TODO: static interface factory
+                result = (T)(props as dynamic); // TODO: [bnaya 2022-11-01] static interface factory
                 return result;
             }
             if (entity.TryAs(out result))
                 return result;
 
-            //var type = typeof(T);
-            //if (type.IsArray)
-            //{
-            //    // TODO: [bnaya 2022-11-02] think of a better way 
-            //    result = ((dynamic)entity).ToArray();
-            //    return result;
-            //}
-            //result = node.ToObject<T>();
             throw new InvalidCastException(typeof(T).Name);
         }
 
         #endregion // T ConvertTo<T>(object entity)
+
+        #region class GraphDbRecord: IGraphDBRecord
+
+        /// <summary>
+        /// Handle a single record mapping
+        /// </summary>
+        /// <seealso cref="Weknow.GraphDbClient.Abstraction.IGraphDBRecord" />
+        private class GraphDbRecord : IGraphDBRecord
+        {
+            private readonly IRecord _record;
+
+            public GraphDbRecord(IRecord record)
+            {
+                _record = record;
+            }
+
+            T IGraphDBRecord.Get<T>(string key, string? property)
+            {
+                T result = result = ConvertTo<T>(_record, key, property);
+                return result;
+            }
+        }
+
+        #endregion // class GraphDbRecord: IGraphDBRecord
     }
 }

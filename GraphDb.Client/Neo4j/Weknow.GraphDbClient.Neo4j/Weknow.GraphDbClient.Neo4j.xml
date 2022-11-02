@@ -129,6 +129,34 @@
             var person = results.Get<Person>();
             ]]></example>
         </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+            <summary>
+            Gets the first result
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="factory">The factory.</param>
+            <returns>
+            the first result
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+            <summary>
+            Gets the first result set
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="factory">The factory.</param>
+            <returns>
+            the first result
+            </returns>
+            <example><![CDATA[
+            MATCH (p:Person) RETURN p
+            var person = results.Get<Person>();
+            ]]></example>
+        </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.String,System.String)">
             <summary>
             Gets result set by a key.
@@ -197,6 +225,12 @@
             <param name="entity">The entity.</param>
             <returns></returns>
             <exception cref="T:System.InvalidCastException"></exception>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GraphDbRecord">
+            <summary>
+            Handle a single record mapping
+            </summary>
+            <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBRecord" />
         </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions">
             <summary>

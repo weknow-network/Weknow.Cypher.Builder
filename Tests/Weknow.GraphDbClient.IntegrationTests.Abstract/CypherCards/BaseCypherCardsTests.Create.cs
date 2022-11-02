@@ -122,7 +122,13 @@ partial class BaseCypherCardsTests
         var m = await response.GetAsync<IEnumerable<string>>("labels(m)");
         var r = await response.GetAsync<string>("type(r)");
 
-        //Assert.Equal();
+        Assert.Equal(nameof(Knows), r);
+        Assert.Equal(2, n.Count);
+        Assert.Contains(nameof(_Test_).ToUpper(), n);
+        Assert.Contains(nameof(Person).ToUpper(), n);
+        Assert.Equal(2, m.Count());
+        Assert.Contains(nameof(_Test_).ToUpper(), m);
+        Assert.Contains(nameof(Friend).ToUpper(), m);
 
         #endregion // Validation
     }
