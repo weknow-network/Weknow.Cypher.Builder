@@ -20,6 +20,8 @@ using System;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
+[Dictionaryable]
+public partial record Idable(int id);
 
 //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
@@ -29,6 +31,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
     private ILabel Person => throw new NotImplementedException();
     private ILabel Friend => throw new NotImplementedException();
     private IType Knows => throw new NotImplementedException();
+
 
     #region Ctor
 
@@ -79,6 +82,50 @@ public abstract class BaseApiTests : BaseIntegrationTests
 
     #endregion // GetAsync
 
+    #region GetRangeAsync(factory)
+
+    [Fact]
+    public virtual async Task GetRangeAsync_Factory_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION;
+
+        CypherCommand cypher = _(n => m => item =>
+                                Unwind(new[] { 1, 2, 3 }, item,
+                                Create(N(n, Person, new { id = item }) - R[Knows] > N(m, Friend))));
+
+
+        CypherParameters prms = cypher.Parameters;
+        prms.AddValueRange("p_0", 1, 2, 3); // should be removed when it will be part of the parameters generation
+        await _graphDB.RunAsync(cypher, prms);
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherCommand query = _(n => m => r =>
+                                Match(N(n, Person) - R[r, Knows] > N(m, Friend))
+                                .Return(n, r.type(), m.Labels()));
+        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        int i = 1;
+        await foreach (var (n, m, r) in response.GetRangeAsync<(Idable, IList<string>, string)>(m =>
+                    (
+                        m.Get<Idable>("n"),
+                        m.Get<IList<string>>("labels(m)"),
+                        m.Get<string>("type(r)")
+                        )))
+        {
+            Assert.Equal(nameof(Knows), r);
+            Assert.Equal(i++, n.id);
+            Assert.Equal(2, m.Count());
+            Assert.Contains(nameof(_Test_).ToUpper(), m);
+            Assert.Contains(nameof(Friend).ToUpper(), m);
+        }
+
+        #region Validation
+
+
+        #endregion // Validation
+    }
+
+    #endregion // GetRangeAsync(factory)
+
     #region GetAsync(factory)
 
     [Fact]
@@ -98,11 +145,11 @@ public abstract class BaseApiTests : BaseIntegrationTests
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
-        var (n, m, r) = await response.GetAsync<(IList<string>, IList<string>, string)>(m => 
+        var (n, m, r) = await response.GetAsync<(IList<string>, IList<string>, string)>(m =>
                     (
-                        m.Get<IList<string>>("labels(n)"), 
-                        m.Get<IList<string>>("labels(m)"), 
-                        m.Get<string>("type(r)") 
+                        m.Get<IList<string>>("labels(n)"),
+                        m.Get<IList<string>>("labels(m)"),
+                        m.Get<string>("type(r)")
                         ));
 
         #region Validation
