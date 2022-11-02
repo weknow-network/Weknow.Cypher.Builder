@@ -1496,6 +1496,40 @@
             RETURN DISTINCT n
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Union(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNION phrase.
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
+            <example>
+            MATCH (a)-[:KNOWS]->(b)
+            RETURN b.name
+            UNION
+            MATCH (a)-[:LOVES]->(b)
+            RETURN b.name
+            
+            Returns the distinct union of all query results. 
+            Result column types and names have to match.
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.UnionAll(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNION ALL phrase.
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
+            <example>
+            MATCH (a)-[:KNOWS]->(b)
+            RETURN b.name
+            UNION ALL
+            MATCH (a)-[:LOVES]->(b)
+            RETURN b.name
+            
+            Returns the distinct union of all query results. 
+            Result column types and names have to match.
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
             <summary>
             WITH phrase.

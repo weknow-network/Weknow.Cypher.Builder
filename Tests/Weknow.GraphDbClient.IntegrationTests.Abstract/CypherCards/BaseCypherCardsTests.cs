@@ -32,6 +32,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
     private ILabel Friend => throw new NotImplementedException();
 
     private IType Knows => throw new NotImplementedException();
+    private IType Follow => throw new NotImplementedException();
 
     #region partial record PersonEntity
 

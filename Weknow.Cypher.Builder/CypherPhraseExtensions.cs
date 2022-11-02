@@ -448,6 +448,50 @@ public static class CypherPhraseExtensions
 
     #endregion // Return
 
+    #region Union
+
+    /// <summary>
+    /// UNION phrase.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (a)-[:KNOWS]->(b)
+    /// RETURN b.name
+    /// UNION
+    /// MATCH (a)-[:LOVES]->(b)
+    /// RETURN b.name
+    /// 
+    /// Returns the distinct union of all query results. 
+    /// Result column types and names have to match.
+    /// </example>
+    [Cypher("$0\r\nUNION")]
+    public static Fluent Union(this Fluent p) => throw new NotImplementedException();
+
+    #endregion // Union
+
+    #region Union All
+
+    /// <summary>
+    /// UNION ALL phrase.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (a)-[:KNOWS]->(b)
+    /// RETURN b.name
+    /// UNION ALL
+    /// MATCH (a)-[:LOVES]->(b)
+    /// RETURN b.name
+    /// 
+    /// Returns the distinct union of all query results. 
+    /// Result column types and names have to match.
+    /// </example>
+    [Cypher("$0\r\nUNION ALL")]
+    public static Fluent UnionAll(this Fluent p) => throw new NotImplementedException();
+
+    #endregion // Union All
+
     #region With
 
     /// <summary>
