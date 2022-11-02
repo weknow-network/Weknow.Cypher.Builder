@@ -25,6 +25,8 @@ namespace Weknow.GraphDbCommands.Declarations
         /// </summary>
         internal static readonly ParameterDeclaration Default = new ParameterDeclaration();
 
+        #region +
+
         /// <summary>
         /// Declaration for operator +.
         /// </summary>
@@ -34,6 +36,97 @@ namespace Weknow.GraphDbCommands.Declarations
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
         public static ParameterDeclaration operator +(ParameterDeclaration prm) => throw new NotImplementedException();
+
+        #endregion // +
+
+
+        #region == / !=
+
+        /// <summary>
+        /// Declaration for operator ==.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(object a, ParameterDeclaration b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator !=.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(object a, ParameterDeclaration b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator ==.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(ParameterDeclaration a, object b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator !=.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(ParameterDeclaration a, object b) => throw new NotImplementedException();
+
+        #endregion // == / !=
+
+        #region <>
+
+        /// <summary>
+        /// Declaration for operator >.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >(ParameterDeclaration a, object b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator <.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <(ParameterDeclaration a, object b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator >.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >(object a, ParameterDeclaration b) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Declaration for operator <.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <(object a, ParameterDeclaration b) => throw new NotImplementedException();
+
+        #endregion // <>
     }
 
     /// <summary>

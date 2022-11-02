@@ -312,6 +312,17 @@ SET n += item", cypher.Query);
         }
 
         #endregion // UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})
+
+        // TODO: [bnaya 2022-11-02] The following (With_Test)
+        // CypherCommand cypherOfFriends = _(() =>
+        //                  Match(N(user, Person))
+        //                  .Where(user._.key == u.key)
+        //                  .With(user)
+        //                  .Unwind(friends.AsParameter, map,
+        //                       .Create(N(friend, Friend, new { key = (~map)._.key }))
+        //                       .Merge(N(user) - R[Knows] > N(friend))
+        //                         .Set(friend, map)));
+
     }
 }
 

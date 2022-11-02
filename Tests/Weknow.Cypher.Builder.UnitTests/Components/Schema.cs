@@ -7,6 +7,7 @@ namespace Weknow.GraphDbCommands
     static class Schema
     {
         public static ILabel Person => throw new NotImplementedException();
+        public static ILabel Friend => throw new NotImplementedException();
         public static ILabel Animal => throw new NotImplementedException();
         public static ILabel Manager => throw new NotImplementedException();
         public static ILabel Maintainer => throw new NotImplementedException();

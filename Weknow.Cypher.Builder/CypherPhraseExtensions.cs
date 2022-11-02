@@ -484,6 +484,68 @@ public static class CypherPhraseExtensions
 
     #endregion // With
 
+    #region Unwind
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="next">The next statement.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND \\$$[]1 AS $2\r\n$3")]
+    public static Fluent Unwind<T>(this Fluent p, 
+                                    IEnumerable<T> items, 
+                                    VariableDeclaration item, 
+                                    Fluent next) => throw new NotImplementedException();
+
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="next">The next statement.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND \\$$1 AS $2\r\n$3")]
+    public static Fluent Unwind(this Fluent p, 
+                                VariableDeclaration items, 
+                                VariableDeclaration item, 
+                                Fluent next) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Unwinds the specified items.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="next">The next statement.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <exception cref="NotImplementedException"></exception>
+    [Cypher("$0\r\n&UNWIND $1 AS $2\r\n$3")]
+    public static Fluent Unwind(this Fluent p, 
+                                    ParameterDeclaration items,
+                                    VariableDeclaration item, 
+                                    Fluent next) => throw new NotImplementedException();
+
+    #endregion // Unwind
+
     #region OrderBy
 
 

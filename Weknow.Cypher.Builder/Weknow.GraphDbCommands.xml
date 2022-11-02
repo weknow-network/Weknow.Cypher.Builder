@@ -981,7 +981,7 @@
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.String)">
             <summary>
             Define variable's alias
             </summary>
@@ -1525,6 +1525,51 @@
             WHERE friends > 10
             RETURN user
             </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Unwind``1(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Collections.Generic.IEnumerable{``0},Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="next">The next statement.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Unwind(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="next">The next statement.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Unwind(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.ParameterDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+            <summary>
+            Unwinds the specified items.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="next">The next statement.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderBy(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
@@ -2321,6 +2366,68 @@
             </returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_Equality(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            Declaration for operator ==.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_Inequality(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            Declaration for operator !=.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_Equality(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,System.Object)">
+            <summary>
+            Declaration for operator ==.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_Inequality(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,System.Object)">
+            <summary>
+            Declaration for operator !=.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_GreaterThan(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,System.Object)">
+            <summary>
+            Declaration for operator >.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_LessThan(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,System.Object)" -->
+        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_GreaterThan(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+            <summary>
+            Declaration for operator >.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_LessThan(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)" -->
         <member name="T:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1">
             <summary>
             Parameter primitive for the Cypher expression.
@@ -2421,6 +2528,68 @@
             It use under expression and don't need a real implementation;
             </summary>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Equality(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            Declaration for operator ==.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Inequality(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            Declaration for operator !=.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Equality(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Declaration for operator ==.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Inequality(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Declaration for operator !=.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_GreaterThan(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            Declaration for operator >.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_LessThan(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)" -->
+        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_GreaterThan(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+            <summary>
+            Declaration for operator >.
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_LessThan(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)" -->
         <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Addition(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
             <summary>
             Declaration for operator +.

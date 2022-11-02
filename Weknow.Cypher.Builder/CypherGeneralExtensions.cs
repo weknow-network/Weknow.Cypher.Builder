@@ -22,7 +22,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="alias">The name.</param>
         /// <returns></returns>
         [Cypher("$0 AS $1")]
-        public static VariableDeclaration As(this VariableDeclaration var, object alias) => throw new NotImplementedException();
+        public static VariableDeclaration As(this VariableDeclaration var, string alias) => throw new NotImplementedException();
 
         /// <summary>
         /// Define variable's alias
