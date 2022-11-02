@@ -328,6 +328,14 @@ partial class N4jGraphDB
             }
             if (entity.TryAs(out result))
                 return result;
+
+            //var type = typeof(T);
+            //if (type.IsArray)
+            //{
+            //    // TODO: [bnaya 2022-11-02] think of a better way 
+            //    result = ((dynamic)entity).ToArray();
+            //    return result;
+            //}
             //result = node.ToObject<T>();
             throw new InvalidCastException(typeof(T).Name);
         }

@@ -21,6 +21,7 @@ namespace Weknow.GraphDbCommands
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private readonly CypherConfig _configuration;
+        private readonly HashSet<string> _ambientOnce = new();
         private bool _shouldHandleAmbient = false;
 
         #region Ctor
@@ -220,7 +221,8 @@ namespace Weknow.GraphDbCommands
             var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
             if (format != null)
             {
-                bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
+                //bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
+                bool ambScope = node.Type == typeof(INode) ;
                 if (ambScope)
                     _shouldHandleAmbient = true;
 
@@ -482,8 +484,13 @@ namespace Weknow.GraphDbCommands
         /// </returns>
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            Query.Append(node.Name);
-            HandleAmbientLabels();
+            string name = node.Name;
+            Query.Append(name);
+            if (!_ambientOnce.Contains(name))
+            {
+                HandleAmbientLabels();
+                _ambientOnce.Add(name);
+            }
             return node;
         }
 

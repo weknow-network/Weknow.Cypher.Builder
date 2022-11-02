@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
+using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -13,6 +14,8 @@ namespace Weknow.GraphDbCommands
     public class ConfigTests
     {
         protected readonly ITestOutputHelper _outputHelper;
+        private ILabel Person => throw new NotImplementedException();
+        private IType Like => throw new NotImplementedException();
 
         #region Ctor
 
@@ -246,8 +249,6 @@ RETURN f"
         [Fact]
         public void Label_Convention_Match_Test()
         {
-            var f = Variables.Create();
-
             CypherCommand cypher =
                         _(n =>
                                 Match(N(n))
@@ -265,6 +266,84 @@ RETURN f"
         }
 
         #endregion // Label_Convention_Delete_Test
+
+        #region Type_Avoid_Convention_Test
+
+        [Fact]
+        public void Type_Avoid_Convention_Test()
+        {
+            CypherCommand cypher =
+                        _(n =>
+                                Match(N(n, Person) - R[Like] > N(Person))
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"MATCH (n:GIT_HUB:PERSON)-[:Like]->(:PERSON:GIT_HUB)"
+                           , cypher.Query);
+        }
+
+        #endregion // Type_Avoid_Convention_Test
+
+        #region Avoid_Multi_Ambient_Assignment_Test
+
+        [Fact]
+        public void Avoid_Multi_Ambient_Assignment_Test()
+        {
+            var (n, m) = Variables.CreateMulti<Foo, Foo>();
+
+            CypherCommand cypher =
+                        _(() =>
+                                Match(N(n, Person))
+                                .Where(n._.FirstName == "Bob")
+                                .Match(N(m, Person))
+                                .Where(m._.FirstName == "Dian")
+                                .Create(N(n) - R[KNOWS] > N(m))
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n:PERSON:GIT_HUB){NewLine}" +
+                         $"WHERE n.FirstName = $p_0{NewLine}" +
+                         $"MATCH (m:PERSON:GIT_HUB){NewLine}" +
+                         $"WHERE m.FirstName = $p_1{NewLine}" +
+                         $"CREATE (n)-[:KNOWS]->(m)"
+                           , cypher.Query);
+        }
+
+        #endregion // Avoid_Multi_Ambient_Assignment_Test
+
+        #region Type_Variable_Avoid_Convention_Test
+
+        [Fact]
+        public void Type_Variable_Avoid_Convention_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(n => r =>
+                                Match(N(n, Person) - R[r,Like] > N(Person))
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"MATCH (n:GIT_HUB:PERSON)-[r:Like]->(:PERSON:GIT_HUB)"
+                           , cypher.Query);
+        }
+
+        #endregion // Type_Variable_Avoid_Convention_Test
     }
 }
 
