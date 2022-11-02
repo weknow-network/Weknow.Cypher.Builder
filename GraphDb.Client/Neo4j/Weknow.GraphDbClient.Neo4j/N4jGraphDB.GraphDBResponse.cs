@@ -1,6 +1,5 @@
 ﻿using Neo4j.Driver;
 using Weknow.GraphDbClient.Abstraction;
-using Neo4j.Driver.Extensions;
 using Weknow.Mapping;
 using System;
 
@@ -120,15 +119,7 @@ partial class N4jGraphDB
             IRecord? record = await GetOrFetchAsync(0);
             if (record == null)
                 throw new IndexOutOfRangeException();
-            T result;
-            if (property == null)
-            {
-                result = ConvertTo<T>(record, key);
-            }
-            else
-            {
-                result = record.GetValue<T>(fullKey);
-            }
+            T result = ConvertTo<T>(record, fullKey);
             return result;
         }
 
@@ -246,7 +237,7 @@ partial class N4jGraphDB
                 if (record == null)
                     yield break;
 
-                T result = result = ConvertTo<T>( record, key, property);
+                T result = result = ConvertTo<T>(record, key, property);
                 yield return result;
             }
         }
@@ -263,18 +254,12 @@ partial class N4jGraphDB
         /// <returns></returns>
         private static T Mapper<T>(IRecord record)
         {
-            if (record.TryAs<T>(out T result))
-            {
-                return result;
-            }
             if (IDictionaryableType.IsAssignableFrom(typeof(T)))
             {
                 T dictionaryable = (T)record.Values;
                 return dictionaryable;
             }
-
-            throw new NotImplementedException();
-            //return (T)record.Values.First().Value;
+            return record.As<T>();
         }
 
         #endregion // T Mapper<T>(IRecord record)
@@ -296,8 +281,8 @@ partial class N4jGraphDB
                 return result;
             }
 
-            //record.GetValueStrict
-            return record.GetValue<T>(key);
+            T res = ConvertTo<T>(record, key);
+            return res;
         }
 
         #endregion // T Mapper<T>(IRecord record, string key)
@@ -332,16 +317,8 @@ partial class N4jGraphDB
         /// <returns></returns>
         private static T ConvertTo<T>(IRecord record, string key, string? property)
         {
-            T result;
-            if (property == null)
-            {
-                result = ConvertTo<T>(record, key);
-            }
-            else
-            {
-                string fullKey = GetFullName(key, property);
-                result = record.GetValue<T>(fullKey);
-            }
+            string fullKey = GetFullName(key, property);
+            T result = ConvertTo<T>(record, fullKey);
             return result;
         }
 
@@ -383,10 +360,9 @@ partial class N4jGraphDB
                 result = (T)(props as dynamic); // TODO: [bnaya 2022-11-01] static interface factory
                 return result;
             }
-            if (entity.TryAs(out result))
-                return result;
+            result = entity.As<T>();
+            return result;
 
-            throw new InvalidCastException(typeof(T).Name);
         }
 
         #endregion // T ConvertTo<T>(object entity)

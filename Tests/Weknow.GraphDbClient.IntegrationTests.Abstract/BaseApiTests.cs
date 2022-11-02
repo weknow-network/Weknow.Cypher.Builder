@@ -111,17 +111,17 @@ public abstract class BaseApiTests : BaseIntegrationTests
                         m.Get<string>("type(r)")
                         )))
         {
+            #region Validation
+
             Assert.Equal(nameof(Knows), r);
             Assert.Equal(i++, n.id);
             Assert.Equal(2, m.Count());
             Assert.Contains(nameof(_Test_).ToUpper(), m);
             Assert.Contains(nameof(Friend).ToUpper(), m);
+
+            #endregion // Validation
         }
 
-        #region Validation
-
-
-        #endregion // Validation
     }
 
     #endregion // GetRangeAsync(factory)

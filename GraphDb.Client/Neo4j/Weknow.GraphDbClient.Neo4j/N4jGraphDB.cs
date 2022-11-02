@@ -1,9 +1,7 @@
 ﻿using Neo4j.Driver;
 
-using Weknow.GraphDbCommands;
 using Weknow.GraphDbClient.Abstraction;
-using System.Reflection;
-using EnsureThat;
+using Weknow.GraphDbCommands;
 
 namespace Weknow.GraphDbClient.Neo4jProvider;
 

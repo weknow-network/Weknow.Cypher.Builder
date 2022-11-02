@@ -98,20 +98,4 @@ public interface IGraphDBResponse
     /// var company = results.Get<Company>("c");
     /// ]]></example>
     IAsyncEnumerable<T> GetRangeAsync<T>(string key, string? property = null);
-
-    //IAsyncEnumerable<T> GetRangeAsync<T>(string key, string? property = null);
-
-    ///// <summary>
-    ///// Gets result set by a key.
-    ///// </summary>
-    ///// <typeparam name="T1">The type of the 1.</typeparam>
-    ///// <typeparam name="T2">The type of the 2.</typeparam>
-    ///// <param name="key1">The first result's key.</param>
-    ///// <param name="key2">The second result's key.</param>
-    ///// <returns>Results by keys</returns>
-    ///// <example><![CDATA[
-    ///// MATCH (p:Person)-[:AT]->(c:Company) RETURN p, c
-    ///// var (person, company) = results.Get<Person>("p", "c");
-    ///// ]]></example>
-    //(IAsyncEnumerable<T1>, IAsyncEnumerable<T2>)  GetRangeAsync<T1, T2>(string key1, string key2);     
 }
