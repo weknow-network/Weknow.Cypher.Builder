@@ -18,6 +18,8 @@ namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 partial class BaseCypherCardsTests
 {
+    private record Fellow(string name);
+
     #region MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
 
     [Fact]
@@ -56,7 +58,7 @@ partial class BaseCypherCardsTests
 
     #endregion // MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
 
-    #region MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
+    #region MERGE (n:..) ON CREATE SET n = $p ON MATCH SET n.version = coalesce(n.version, 0) + 1
 
     [Fact]
     public virtual async Task Merge_ON_Test()
@@ -100,6 +102,47 @@ partial class BaseCypherCardsTests
 
         #endregion // Validation
 
+
+        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) { key = i };
+    }
+
+    #endregion // MERGE (n:..) ON CREATE SET n = $p ON MATCH SET n.version = coalesce(n.version, 0) + 1
+
+    #region MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
+
+    [Fact]
+    public virtual async Task Merge_Relations_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION;
+
+        var (n, m) = Variables.CreateMulti<Fellow, Fellow>();
+
+        CypherCommand cypher = _(() =>
+                                Create(N(n, Person, new { name = "Lucy" }))
+                                .Create(N(m, Person, new { name = "Pola" }))
+                                .Merge(N(n) - R[Knows] > N(m)));
+
+
+        CypherParameters prms = cypher.Parameters;
+        await _graphDB.RunAsync(cypher, prms);
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        #region Validation
+
+        CypherCommand query = _(() =>
+                                Match(N(n, Person) - R[Knows] > N(m))
+                                .Return(n._.name, m._.name));
+        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        var (a, b) = await response.GetAsync<(string a, string b)>(r => 
+                        (
+                            r.Get<string>(nameof(n), nameof(n._.name)), 
+                            r.Get<string>(nameof(m), nameof(m._.name))
+                        ));
+
+        Assert.Equal("Lucy", a);
+        Assert.Equal("Pola", b);
+
+        #endregion // Validation
 
         PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) { key = i };
     }
