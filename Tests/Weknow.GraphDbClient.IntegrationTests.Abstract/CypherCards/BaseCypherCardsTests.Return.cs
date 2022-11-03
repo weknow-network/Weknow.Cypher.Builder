@@ -93,8 +93,8 @@ partial class BaseCypherCardsTests
         #region Prepare
 
         CypherCommand cypher = _(
-            () => Create(N(Person, new { key = 1, name = "adam", age = 20 }) - R[Knows] > N(n, Person, new { key = 2, name = "Ariana", age = 28 }))
-            .Create(N(Person, new { key = 1, name = "Mor", age = 23 }) - R[Knows] > N(n)));
+            () => Create(N(Person, new { key = 1, name = "adam", age = 20, version = 1 }) - R[Knows] > N(n, Person, new { key = 2, name = "Ariana", age = 28 }))
+            .Create(N(Person, new { key = 1, name = "Mor", age = 23, version = 1 }) - R[Knows] > N(n)));
 
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 

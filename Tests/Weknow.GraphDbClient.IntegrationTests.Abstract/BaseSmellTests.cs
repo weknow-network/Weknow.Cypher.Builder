@@ -1,25 +1,19 @@
 using System.Data;
-using System.Xml.Linq;
 
-using Neo4j.Driver;
-using Neo4j.Driver.Extensions;
-
-using Weknow.GraphDbCommands;
 using Weknow.GraphDbClient.Abstraction;
+using Weknow.GraphDbCommands;
+using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using Xunit.Sdk;
-using Weknow.Mapping;
-using Weknow.GraphDbCommands.Declarations;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-[Dictionaryable]
+[Dictionaryable(Flavor = Flavor.Neo4j)]
 internal partial record NameDictionaryable(string Name);
 
 internal record Name1(string Name);
@@ -28,8 +22,8 @@ internal record Name2
     public string Name { get; init; }
 }
 
-[Dictionaryable]
-internal partial record Someone (int Id, string Name, int Age);
+[Dictionaryable(Flavor = Flavor.Neo4j)]
+internal partial record Someone(int Id, string Name, int Age);
 
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
@@ -47,9 +41,11 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
     #endregion // Ctor
 
-    ILabel Person => throw new NotImplementedException();
-    ILabel Manager => throw new NotImplementedException();
-    IType WorkFor => throw new NotImplementedException();
+    private ILabel Person => throw new NotImplementedException();
+
+    private ILabel Manager => throw new NotImplementedException();
+
+    private IType WorkFor => throw new NotImplementedException();
 
 
     #region CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
@@ -152,13 +148,13 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         var someone4 = new Someone(1, "Derk", 30);
         var someone5 = new Someone(1, "Maya", 30);
 
-        var (c1, c2, c3, c4, c5, m1, m2)  = Variables.CreateMulti();
+        var (c1, c2, c3, c4, c5, m1, m2) = Variables.CreateMulti();
         CypherCommand cypher = _(() =>
                                 Create(N(c1, Manager & _Test_, p1))
                                 .Create(N(c5, Manager & _Test_, p5))
-                                .Create(N(c2,Person & _Test_, p2) - R[WorkFor] > N(c1))
-                                .Create(N(c3,Person & _Test_, p3) - R[WorkFor] > N(c1))
-                                .Create(N(c4,Person & _Test_, p4) - R[WorkFor] > N(c5))
+                                .Create(N(c2, Person & _Test_, p2) - R[WorkFor] > N(c1))
+                                .Create(N(c3, Person & _Test_, p3) - R[WorkFor] > N(c1))
+                                .Create(N(c4, Person & _Test_, p4) - R[WorkFor] > N(c5))
                                 .With()
                                 .Match(N(m1, Person) - R[WorkFor] > N(m2, Manager))
                                 .Return(m1, m2));
@@ -184,7 +180,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     }
 
     #endregion // Create_Map_Match_Test
-  #region CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
+    #region CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
 
     [Fact]
     public virtual async Task Create_Match_Multi_StepByStep_Test()

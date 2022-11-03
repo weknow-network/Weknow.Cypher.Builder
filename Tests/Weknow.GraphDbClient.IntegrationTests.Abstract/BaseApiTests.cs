@@ -1,26 +1,17 @@
-using System.Data;
-using System.Xml.Linq;
-
-using Neo4j.Driver;
-using Neo4j.Driver.Extensions;
-
-using Weknow.GraphDbCommands;
 using Weknow.GraphDbClient.Abstraction;
+using Weknow.GraphDbCommands;
+using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using Xunit.Sdk;
-using Weknow.Mapping;
-using Weknow.GraphDbCommands.Declarations;
-using System;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-[Dictionaryable]
+[Dictionaryable(Flavor = Flavor.Neo4j)]
 public partial record Idable(int id);
 
 //[Trait("Group", "Predicates")]

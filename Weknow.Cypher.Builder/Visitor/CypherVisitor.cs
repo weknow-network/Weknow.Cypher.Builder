@@ -222,7 +222,7 @@ namespace Weknow.GraphDbCommands
             if (format != null)
             {
                 //bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
-                bool ambScope = node.Type == typeof(INode) ;
+                bool ambScope = node.Type == typeof(INode);
                 if (ambScope)
                     _shouldHandleAmbient = true;
 
@@ -289,6 +289,7 @@ namespace Weknow.GraphDbCommands
                 return node;
             }
 
+
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
                 Visit(mme.Expression);
@@ -313,6 +314,28 @@ namespace Weknow.GraphDbCommands
                 Visit(me.Expression);
                 Query.Append(".");
             }
+
+            //if (node.Member is FieldInfo fld)
+            //{
+            //    Type type = fld.FieldType;
+            //    if (!type.IsValueType && type != typeof(string))
+            //    {
+            //        Query.Append("{ ");
+            //        var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //        int i = 0;
+            //        int count = Parameters.Count;
+            //        foreach (var prp in props)
+            //        {
+            //            if (i++ != 0) Query.Append(", ");
+            //            string pname = prp.Name;
+            //            var parameterName = count == 0 ? pname : $"{pname}_{count}";
+            //            Query.Append($"{pname} = ${parameterName}");
+            //        }
+            //        Query.Append(" }");
+            //        return node;
+            //    }
+            //}
+
             if (node.Type == typeof(ILabel))
             {
                 HandleAmbientLabels(name);

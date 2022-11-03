@@ -36,11 +36,13 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
     #region partial record PersonEntity
 
-    [Dictionaryable]
+    [Dictionaryable(Flavor=Flavor.Neo4j)]
     private partial record PersonEntity(string name, int age)
     {
         public int? key { get; init; }
         public string? desc { get; init; } = null;
+        public int? version { get; init; } = 0;
+        public DateTime? updatedOn { get; init; }
     }
 
     #endregion // partial record PersonEntity
