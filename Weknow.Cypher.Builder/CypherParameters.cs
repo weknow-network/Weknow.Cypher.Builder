@@ -42,40 +42,6 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Casting Overloads
 
-        #region AddString
-
-        /// <summary>
-        /// Add string.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public CypherParameters AddString(string key, string value)
-        {
-            _parameters[key] = value;
-            return this;
-        }
-
-        #endregion // AddString
-
-        #region AddValue
-
-        /// <summary>
-        /// Add simple value.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public CypherParameters AddValue<T>(string key, T value) where T : struct
-        {
-            _parameters[key] = value;
-            return this;
-        }
-
-        #endregion // AddValue
-
         #region Add
 
         /// <summary>
@@ -85,72 +51,18 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public new CypherParameters Add<T>(string key, T value) where T : IDictionaryable
+        public new CypherParameters Add<T>(string key, T value) // where T : IDictionaryable
         {
-            _parameters[key] = value.ToDictionary();
+            if (value is IDictionaryable da)
+                _parameters[key] = da.ToDictionary();
+            //else if (value is ValueType vt)
+            //    _parameters[key] = vt;
+            else
+                _parameters[key] = value;
             return this;
         }
 
         #endregion // Add
-
-        #region AddStringRange
-
-        /// <summary>
-        /// Adds parameter of a range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddStringRange(string key, params string[] values)
-        {
-            return AddStringRange(key, (IEnumerable<string>)values);
-        }
-
-        /// <summary>
-        /// Adds parameter of a range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddStringRange(string key, IEnumerable<string> values)
-        {
-            _parameters[key] = values;
-            return this;
-        }
-
-        #endregion // AddStringRange
-
-        #region AddValueRange
-
-        /// <summary>
-        /// Adds parameter of a range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddValueRange<T>(string key, params T[] values) where T : struct
-        {
-            return AddValueRange(key, (IEnumerable<T>)values);
-        }
-
-
-        /// <summary>
-        /// Adds parameter of a range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddValueRange<T>(string key, IEnumerable<T> values) where T : struct
-        {
-            _parameters[key] = values;
-            return this;
-        }
-
-        #endregion // AddValueRange
 
         #region AddRange
 
@@ -161,7 +73,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, params T[] values) where T : IDictionaryable
+        public CypherParameters AddRange<T>(string key, params T[] values) // where T : IDictionaryable
         {
             return AddRange(key, (IEnumerable<T>)values);
         }
@@ -173,9 +85,17 @@ namespace Weknow.GraphDbCommands
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) where T : IDictionaryable
+        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
         {
-            _parameters[key] = values.Select(m => m.ToDictionary());
+            _parameters[key] = values.Select(m =>
+            {
+                var result = m switch
+                {
+                    IDictionaryable da => (object)da.ToDictionary(),
+                    _ => m
+                };
+                return result;
+            });
             return this;
         }
 

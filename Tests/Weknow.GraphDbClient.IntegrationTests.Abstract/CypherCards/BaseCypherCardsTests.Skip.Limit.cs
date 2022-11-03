@@ -51,8 +51,8 @@ partial class BaseCypherCardsTests
                                 .Limit(limitNumber));
         _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
-        prms.AddValue(nameof(skipNumber), 2);
-        prms.AddValue(nameof(limitNumber), 6);
+        prms.Add(nameof(skipNumber), 2);
+        prms.Add(nameof(limitNumber), 6);
         IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 

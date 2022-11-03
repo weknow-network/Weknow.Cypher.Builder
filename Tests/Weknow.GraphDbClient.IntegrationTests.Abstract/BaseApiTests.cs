@@ -86,7 +86,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddValueRange("p_0", 1, 2, 3); // should be removed when it will be part of the parameters generation
+        prms.AddRange("p_0", 1, 2, 3); // should be removed when it will be part of the parameters generation
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 

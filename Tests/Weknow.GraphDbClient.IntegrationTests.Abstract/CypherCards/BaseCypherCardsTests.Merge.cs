@@ -58,6 +58,44 @@ partial class BaseCypherCardsTests
 
     #endregion // MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
 
+    //#region MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
+
+    //[Fact]
+    //public virtual async Task Merge_Set_Plus_Test()
+    //{
+    //    CypherConfig.Scope.Value = CONFIGURATION;
+
+    //    PersonEntity expected = UserFactory(10);
+
+    //    var p = Parameters.Create();
+    //    CypherCommand cypher = _(n =>
+    //                            Create(N(Person, new { key = 10, age = 11 }))
+    //                            .Merge(N(n, Person, new { key = 10 }))
+    //                            .Set(n, +p));
+
+
+    //    CypherParameters prms = cypher.Parameters;
+    //    prms.Add(nameof(p), new { name = "Bnaya"});
+    //    await _graphDB.RunAsync(cypher, prms);
+    //    _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+    //    #region Validation
+
+    //    CypherCommand query = _((n) =>
+    //                            Match(N(n, Person, new { key = 10 }))
+    //                            .Return(n));
+    //    IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+    //    var result = await response.GetAsync<PersonEntity>("n");
+
+    //    Assert.Equal(expected, result);
+
+    //    #endregion // Validation
+
+    //    PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) { key = i };
+    //}
+
+    //#endregion // MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
+
     #region MERGE (n:..) ON CREATE SET n = $p ON MATCH SET n.version = coalesce(n.version, 0) + 1
 
     [Fact]

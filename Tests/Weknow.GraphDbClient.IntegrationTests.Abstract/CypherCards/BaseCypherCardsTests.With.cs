@@ -60,7 +60,7 @@ partial class BaseCypherCardsTests
                                     .Select(m => FriendFactory(u, m))
                                     .ToArray();
             prms.AddRange(nameof(friends), friendsPrm);
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 
@@ -135,7 +135,7 @@ partial class BaseCypherCardsTests
                                     .Select(m => FriendFactory(u, m))
                                     .ToArray();
             prms.AddRange(nameof(friends), friendsPrm);
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 

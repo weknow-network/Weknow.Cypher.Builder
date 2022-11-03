@@ -56,7 +56,7 @@ partial class BaseCypherCardsTests
 
             prms = cypherOfFriends.Parameters;
             prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
@@ -72,7 +72,7 @@ partial class BaseCypherCardsTests
 
             prms = cypherOfFriends.Parameters;
             prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 
@@ -145,7 +145,7 @@ partial class BaseCypherCardsTests
 
             prms = cypherOfFriends.Parameters;
             prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
@@ -161,7 +161,7 @@ partial class BaseCypherCardsTests
 
             prms = cypherOfFriends.Parameters;
             prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
-            prms.AddValue(nameof(id), u.key ?? 0);
+            prms.Add(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 

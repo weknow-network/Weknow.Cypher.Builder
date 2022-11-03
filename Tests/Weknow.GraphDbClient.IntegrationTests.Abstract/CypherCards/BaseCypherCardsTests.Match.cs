@@ -37,7 +37,7 @@ partial class BaseCypherCardsTests
                                 Create(N(m, Person, new { name = n_name }))
                                 .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), ALICE);
+        prmsPrepare.Add(nameof(n_name), ALICE);
         prmsPrepare[nameof(m_name)] = MIKE;
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
@@ -51,7 +51,7 @@ partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddString(nameof(name), ALICE);
+        prms.Add(nameof(name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
@@ -85,7 +85,7 @@ partial class BaseCypherCardsTests
                                 Create(N(m, Person, new { name = n_name }))
                                 .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), ALICE);
+        prmsPrepare.Add(nameof(n_name), ALICE);
         prmsPrepare[nameof(m_name)] = MIKE;
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
@@ -132,7 +132,7 @@ partial class BaseCypherCardsTests
                                 Create(N(m, Person, new { name = n_name }))
                                 .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), ALICE);
+        prmsPrepare.Add(nameof(n_name), ALICE);
         prmsPrepare[nameof(m_name)] = MIKE;
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
@@ -177,8 +177,8 @@ partial class BaseCypherCardsTests
                                 Create(N(m, Person, new { name = n_name }))
                                 .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), MIKE);
-        prmsPrepare.AddString(nameof(m_name), ALICE);
+        prmsPrepare.Add(nameof(n_name), MIKE);
+        prmsPrepare.Add(nameof(m_name), ALICE);
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
@@ -190,7 +190,7 @@ partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddString(nameof(name), ALICE);
+        prms.Add(nameof(name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
@@ -226,9 +226,9 @@ partial class BaseCypherCardsTests
                                 .Create(N(k, Person, new { name = k_name }) - R[Knows] > N(n))
                                 .Create(N(m, Person, new { name = m_name }) - R[Knows] > N(n)), CONFIGURATION);
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare.AddString(nameof(n_name), MIKE);
-        prmsPrepare.AddString(nameof(m_name), ALICE);
-        prmsPrepare.AddString(nameof(k_name), BOB);
+        prmsPrepare.Add(nameof(n_name), MIKE);
+        prmsPrepare.Add(nameof(m_name), ALICE);
+        prmsPrepare.Add(nameof(k_name), BOB);
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
@@ -240,7 +240,7 @@ partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddString(nameof(name), ALICE);
+        prms.Add(nameof(name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
