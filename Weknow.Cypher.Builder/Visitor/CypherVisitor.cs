@@ -217,6 +217,13 @@ namespace Weknow.GraphDbCommands
             string type = node.Type.Name;
             ReadOnlyCollection<Expression> args = node.Arguments;
             Expression? firstArg = args.FirstOrDefault();
+            if (type == nameof(IAsCypher) && firstArg != null)
+            {
+                string cypher = firstArg.ToString();
+                cypher = cypher.Substring(1, cypher.Length - 2);
+                Query.Append(cypher);
+                return node;
+            }
 
             var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
             if (format != null)

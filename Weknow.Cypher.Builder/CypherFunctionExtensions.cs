@@ -276,11 +276,26 @@ namespace Weknow.GraphDbCommands
         ///// RETURN coalesce(n.Prop, 'x')
         ///// </example>
         //[Cypher("coalesce($0)")]
-        //public static IVar Coalesce(
-        //                    this IVar variable, 
-        //                    IParameter prop, 
+        //public static VariableDeclaration Coalesce(
+        //                    this VariableDeclaration variable,
+        //                    IParameter prop,
         //                    object defaultValue) => throw new NotImplementedException();
 
+        ///// <summary>
+        ///// Count the results.
+        ///// </summary>
+        ///// <param name="variable">The variable.</param>
+        ///// <param name="defaultValue">The default value.</param>
+        ///// <returns></returns>
+        ///// <exception cref="System.NotImplementedException"></exception>
+        ///// <example>
+        ///// MATCH (n)
+        ///// RETURN coalesce(n.Prop, 'x')
+        ///// </example>
+        //[Cypher("coalesce($0, $1)")]
+        //public static VariableDeclaration Coalesce(
+        //                    this VariableDeclaration variable, 
+        //                    IPattern defaultValue) => throw new NotImplementedException();
         ///// <summary>
         ///// Count the results.
         ///// </summary>
@@ -293,9 +308,8 @@ namespace Weknow.GraphDbCommands
         ///// RETURN coalesce(n.Prop, 'x')
         ///// </example>
         //[Cypher("coalesce($0)")]
-        //public static IVar Coalesce(
-        //                    this IVar variable, 
-        //                    IParameter prop, 
+        //public static VariableDeclaration Coalesce(
+        //                    this VariableDeclaration variable,
         //                    IPattern defaultValue) => throw new NotImplementedException();
 
         #endregion // Coalesce / coalesce(n)

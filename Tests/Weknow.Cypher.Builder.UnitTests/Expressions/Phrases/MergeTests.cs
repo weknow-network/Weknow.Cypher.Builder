@@ -4,8 +4,10 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+using Weknow.GraphDbCommands;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
+using static Weknow.GraphDbCommands.CypherPhraseExtensions;
 using static System.Environment;
 
 namespace Weknow.GraphDbCommands
@@ -26,7 +28,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Create_SetProperties_Test
+        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB
 
         [Fact]
         public void Merge_On_Create_SetProperties_Test()
@@ -44,9 +46,9 @@ namespace Weknow.GraphDbCommands
                 "ON CREATE SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Create_SetProperties_Test
+        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB
 
-        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n = $map / Merge_On_Create_SetProperties_Update_Test
+        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n = $map 
 
         [Fact]
         public void Merge_On_Create_SetAsMap_Update_Test()
@@ -64,9 +66,9 @@ namespace Weknow.GraphDbCommands
                 "ON CREATE SET n = $map", cypher.Query);
         }
 
-        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n = $map / Merge_On_Create_SetAsMap_Update_Test
+        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n = $map 
 
-        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_Test
+        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB 
 
         [Fact]
         public void Merge_On_Match_SetProperties_Test()
@@ -84,7 +86,7 @@ namespace Weknow.GraphDbCommands
                 "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
-        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB / Merge_On_Match_SetProperties_Test
+        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB 
 
         #region MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map / Merge_On_Match_SetProperties_Update_Test
 
@@ -122,6 +124,41 @@ namespace Weknow.GraphDbCommands
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
+
+        #region 
+
+        [Fact]
+        public void Merge_On_Test()
+        {
+            var Id = Parameters.Create();
+            var map = Parameters.Create<Foo>();
+
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { Id }))
+                                    .OnCreateSet(n, map)
+                                    .OnMatchSet(AsCypher("n.Version = coalesce(n.Version, 0) + 1"))
+                                    );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(cypher.Query, 
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}" +
+                $"\tON CREATE SET n = $map{NewLine}" +
+                $"\tON MATCH SET n.Version = coalesce(n.Version, 0) + 1"
+                );
+        }
+
+        #endregion // 
+
+        // TODO: 
+        /*
+         MERGE (n:Person {name: $value})
+              ON CREATE SET n.created = timestamp()
+              ON MATCH SET
+                n.counter = coalesce(n.counter, 0) + 1,
+                n.accessTime = timestamp()
+         */
     }
 }
 

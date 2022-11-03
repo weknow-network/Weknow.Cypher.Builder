@@ -132,6 +132,24 @@ public static class CypherPhraseExtensions
     /// ON CREATE SET phrase.
     /// </summary>
     /// <param name="fluent">The fluent.</param>
+    /// <param name="cypher">
+    /// Pure cypher injection.
+    /// Should used for non-supported cypher extensions
+    /// </param>
+    /// <returns></returns>
+    /// <example>
+    /// .OnCreateSet(n, map)
+    /// result in:
+    /// ON CREATE SET n = map
+    /// </example>
+    [Obsolete("Should used for non-supported cypher extensions")]
+    [Cypher("$0\r\n\tON CREATE &SET $1")]
+    public static Fluent OnCreateSet(this Fluent fluent, IAsCypher cypher) => throw new NotImplementedException();
+
+    /// <summary>
+    /// ON CREATE SET phrase.
+    /// </summary>
+    /// <param name="fluent">The fluent.</param>
     /// <param name="var"></param>
     /// <param name="assignment"></param>
     /// <returns></returns>
@@ -210,6 +228,24 @@ public static class CypherPhraseExtensions
     #endregion // OnCreateSetPlus
 
     #region OnMatchSet
+
+    /// <summary>
+    /// ON MATCH SET phrase.
+    /// </summary>
+    /// <param name="fluent">The fluent.</param>
+    /// <param name="cypher">
+    /// Pure cypher injection.
+    /// Should used for non-supported cypher extensions
+    /// </param>
+    /// <returns></returns>
+    /// <example>
+    /// .OnMatchSet(n, map)
+    /// result in:
+    /// ON MATCH SET n = map
+    /// </example>
+    [Obsolete("Should used for non-supported cypher extensions")]
+    [Cypher("$0\r\n\tON MATCH &SET $1")]
+    public static Fluent OnMatchSet(this Fluent fluent, IAsCypher cypher) => throw new NotImplementedException();
 
     /// <summary>
     /// ON MATCH SET phrase.
@@ -722,4 +758,24 @@ public static class CypherPhraseExtensions
     public static Fluent DetachDelete(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
 
     #endregion // Delete / Detach
+
+    //#region Coalesce / coalesce(n)
+
+    ///// <summary>
+    ///// Count the results.
+    ///// </summary>
+    ///// <param name="variable">The variable.</param>
+    ///// <param name="defaultValue">The default value.</param>
+    ///// <returns></returns>
+    ///// <exception cref="System.NotImplementedException"></exception>
+    ///// <example>
+    ///// MATCH (n)
+    ///// RETURN coalesce(n.Prop, 'x')
+    ///// </example>
+    //[Cypher("coalesce($0, $1)")]
+    //public static VariableDeclaration Coalesce(
+    //                    object variable, 
+    //                    object defaultValue) => throw new NotImplementedException();
+
+    //#endregion // Coalesce / coalesce(n)
 }

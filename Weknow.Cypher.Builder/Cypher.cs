@@ -573,5 +573,17 @@ namespace Weknow.GraphDbCommands
         public static VariableDeclaration Timestamp() => throw new NotImplementedException();
 
         #endregion // Timestamp / timestamp()
+
+        #region AsCypher
+
+        /// <summary>
+        /// Pure cypher injection.
+        /// Should used for non-supported cypher extensions
+        /// </summary>
+        /// <param name="cypher">The cypher.</param>
+        /// <returns></returns>
+        public static IAsCypher AsCypher(string cypher) => throw new NotImplementedException();
+
+        #endregion // AsCypher
     }
 }

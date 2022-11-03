@@ -359,6 +359,14 @@
             RETURN timestamp()
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.AsCypher(System.String)">
+            <summary>
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.GraphDbCommands.Cypher.Parameters">
             <summary>
             Parameters factories
@@ -1235,6 +1243,22 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IAsCypher)">
+            <summary>
+            ON CREATE SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="cypher">
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </param>
+            <returns></returns>
+            <example>
+            .OnCreateSet(n, map)
+            result in:
+            ON CREATE SET n = map
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
             <summary>
             ON CREATE SET phrase.
@@ -1303,6 +1327,22 @@
             .OnCreateSetPlus(n, map)
             result in:
             ON CREATE SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IAsCypher)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="cypher">
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </param>
+            <returns></returns>
+            <example>
+            .OnMatchSet(n, map)
+            result in:
+            ON MATCH SET n = map
             </example>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
@@ -1763,6 +1803,12 @@
             <returns>
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.IAsCypher">
+            <summary>
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </summary>
         </member>
         <member name="T:Weknow.GraphDbCommands.INode">
             <summary>

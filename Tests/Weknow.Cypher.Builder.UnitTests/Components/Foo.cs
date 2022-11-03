@@ -11,6 +11,7 @@ namespace Weknow.GraphDbCommands
         public string PropB { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public int Version { get; set; } = 0;
     }
 
 }
