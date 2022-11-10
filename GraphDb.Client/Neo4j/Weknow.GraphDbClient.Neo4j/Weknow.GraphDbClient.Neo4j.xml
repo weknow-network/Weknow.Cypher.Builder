@@ -9,9 +9,22 @@
             Neo4j scoped DI 
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterScopedNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Registers module's dependencies.
+            Scoped registration for module's dependencies.
+            Fit for Web-API
+            </summary>
+            <param name="services">The services.</param>
+            <param name="healthBuilder">The health builder.</param>
+            <param name="authToken">The authentication token.</param>
+            <param name="envVarPrefix">The environment variable prefix.</param>
+            <param name="logger">The logger.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterSingletonNeo4j(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Singleton registration for module's dependencies.
+            Fit for Jobs
             </summary>
             <param name="services">The services.</param>
             <param name="healthBuilder">The health builder.</param>
@@ -20,6 +33,22 @@
             <param name="">The .</param>
             <param name="logger">The logger.</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.CreateDriver(System.IServiceProvider,Neo4j.Driver.IAuthToken,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Creates the driver.
+            </summary>
+            <param name="sp">The sp.</param>
+            <param name="authToken">The authentication token.</param>
+            <param name="envVarPrefix">The environment variable prefix.</param>
+            <param name="logger">The logger.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RegistrationOfN4jProvider.RegisterHealthCheck(Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder)">
+            <summary>
+            Register Health the check.
+            </summary>
+            <param name="healthBuilder">The health builder.</param>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.N4jHealth">
             <summary>

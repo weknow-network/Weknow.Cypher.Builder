@@ -37,7 +37,7 @@ public class SmellTests : BaseSmellTests
     {
         IServiceCollection services = new ServiceCollection();
         services.AddLogging(configure => configure.AddConsole());
-        services.RegisterNeo4j(envVarPrefix: ENV_VAR_PREFIX);
+        services.RegisterScopedNeo4j(envVarPrefix: ENV_VAR_PREFIX);
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         return serviceProvider;
     }

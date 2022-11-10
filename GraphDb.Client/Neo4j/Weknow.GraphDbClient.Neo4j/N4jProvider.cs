@@ -34,11 +34,11 @@ internal static class N4jProvider
         string envVarPrefix = DEFAULT_ENV_VAR_PREFIX,
         Microsoft.Extensions.Logging.ILogger? logger = null)
     {
-        string connectionString = Environment.GetEnvironmentVariable($"{envVarPrefix}URL") ?? throw new ArgumentNullException("NEO4J_URL");
+        string connectionString = Environment.GetEnvironmentVariable($"{envVarPrefix}URL") ?? throw new ArgumentNullException($"{envVarPrefix}URL");
         if (authToken == null)
         {
             string userName = Environment.GetEnvironmentVariable($"{envVarPrefix}USER") ?? "neo4j";
-            string password = Environment.GetEnvironmentVariable($"{envVarPrefix}PASS") ?? throw new ArgumentNullException("NEO4J_PASS");
+            string password = Environment.GetEnvironmentVariable($"{envVarPrefix}PASS") ?? throw new ArgumentNullException($"{envVarPrefix}PASS");
 
             authToken = AuthTokens.Basic(userName, password);
         }

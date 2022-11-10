@@ -38,10 +38,16 @@ public class CypherCardsTests : BaseCypherCardsTests
     {
         IServiceCollection services = new ServiceCollection();
         services.AddLogging(configure => configure.AddConsole());
-        services.RegisterNeo4j(envVarPrefix: ENV_VAR_PREFIX);
+        services.RegisterSingletonNeo4j(envVarPrefix: ENV_VAR_PREFIX);
         IServiceProvider serviceProvider = services.BuildServiceProvider();
         return serviceProvider;
     }
 
     #endregion // RegisterGraphDB
+
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+    }
 }

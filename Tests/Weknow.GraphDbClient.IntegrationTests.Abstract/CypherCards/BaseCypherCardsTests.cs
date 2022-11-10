@@ -10,6 +10,12 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
+using Neo4j.Driver;
+using System.IO;
+using FakeItEasy;
+using static System.Collections.Specialized.BitVector32;
+using System.Runtime.Intrinsics.X86;
+using System.ComponentModel;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -98,4 +104,24 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
     }
 
     #endregion // UNWIND $items AS map MERGE(n:PERSON { key: map.key }) SET n = map
+
+    // TODO:
+    //  (n)-[*1..5]->(m) Variable length path of between 1 and 5 relationships from n to m
+    //  (n)-[*]->(m)     Variable length path of any number of relationships from n to m. (See Performance section.)
+    // shortestPath((n1:Person)-[*..6]-(n2:Person))         Find a single shortest path.
+    // allShortestPaths((n1:Person)-[*..6]->(n2:Person))    Find all shortest paths.
+    // size((n)-->()-->())    Count the paths matching the pattern.
+    // NOT (n)-[:KNOWS]->(m)  Exclude matches to (n)-[:KNOWS]->(m) from the result.
+    // n.property IN [$value1, $value2] Check if an element exists in a list.
+
+    // String matching.
+    // n.property STARTS WITH 'Tim' OR
+    // n.property ENDS WITH 'n' OR
+    // n.property CONTAINS 'goodie'
+
+    // {name: 'Alice', age: 38, address: {city: 'London', residential: true}}
+    // WITH {person: {name: 'Anne', age: 25}} AS p  RETURN p.person.name    Access the property of a nested map.
+
+    // CASE https://neo4j.com/docs/cypher-manual/4.4/syntax/expressions/
+
 }
