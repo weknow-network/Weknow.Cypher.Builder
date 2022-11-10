@@ -606,6 +606,26 @@ namespace Weknow.GraphDbCommands
             IPattern p, 
             ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Create a constraint phrase.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="p">The p.</param>
+        /// <param name="vars">The vars.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        /// <example>
+        /// CREATE (n {name: $value})
+        /// </example>
+        [Cypher("CREATE CONSTRAINT $0\r\n\tFOR $1\r\n\tREQUIRE ($2) $3")]
+        public static Fluent CreateConstraint(
+            string name,
+            IPattern p, 
+            IEnumerable<object> vars,
+            ConstraintType type) => throw new NotImplementedException();
+
         #endregion // CreateConstraint
 
         #region TryCreateConstraint
@@ -627,6 +647,25 @@ namespace Weknow.GraphDbCommands
             string name,
             IPattern p, 
             ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Create a constraint phrase.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="p">The p.</param>
+        /// <param name="vars">The vars.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        /// <example>
+        /// CREATE (n {name: $value})
+        /// </example>
+        [Cypher("CREATE CONSTRAINT $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tREQUIRE ($2) $3")]
+        public static Fluent TryCreateConstraint(
+            string name,
+            IPattern p,
+            IEnumerable<object> vars,
+            ConstraintType type) => throw new NotImplementedException();
 
         #endregion // TryCreateConstraint
     }

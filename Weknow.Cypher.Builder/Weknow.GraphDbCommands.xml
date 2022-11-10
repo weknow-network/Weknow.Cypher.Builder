@@ -21,6 +21,39 @@
             Gets the format.
             </summary>
         </member>
+        <member name="T:Weknow.GraphDbCommands.ConstraintOptions">
+            <summary>
+            Constraint options
+            </summary>
+            <example>
+            <![CDATA[
+            CREATE FULLTEXT INDEX index_name
+            FOR()-[r: KNOWS]-() ON EACH[r.info, r.note]
+            OPTIONS
+            {
+                indexConfig: {
+                    `fulltext.analyzer`: 'english',
+                },
+            }
+            
+            CREATE FULLTEXT INDEX index_name
+            FOR()-[r: KNOWS]-() ON EACH[r.info, r.note]
+            OPTIONS
+            {
+                indexConfig: {
+                    `spatial.wgs-84.min`: [-100.0, -100.0],
+                    `spatial.wgs-84.max`: [100.0, 100.0]    /// 
+                },
+                indexProvider: 'native-btree-1.0'
+            }
+            ]]>
+            </example>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.ConstraintOptions.FulltextAnalyzer">
+            <summary>
+            Full-text analyzer.
+            </summary>
+        </member>
         <member name="T:Weknow.GraphDbCommands.Cypher">
             <summary>
             Entry point for constructing root level Cypher.
@@ -381,6 +414,21 @@
             CREATE (n {name: $value})
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.CreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+            <summary>
+            Create a constraint phrase.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="p">The p.</param>
+            <param name="vars">The vars.</param>
+            <param name="type">The type.</param>
+            <param name="options">The options.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a constraint phrase.
@@ -389,6 +437,20 @@
             <param name="p">The p.</param>
             <param name="var">The variable.</param>
             <param name="vars">The vars.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+            <summary>
+            Create a constraint phrase.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="p">The p.</param>
+            <param name="vars">The vars.</param>
+            <param name="type">The type.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
             <example>
@@ -1722,6 +1784,31 @@
             <example>
             DETACH DELETE n
             </example>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.ConstraintType">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.ConstraintType.IsUnique">
+            <summary>
+            IS UNIQUE
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.ConstraintType.IsNotNull">
+            <summary>
+            IS NOT NULL
+            </summary>
+        </member>
+        <member name="F:Weknow.GraphDbCommands.ConstraintType.IsNodeKey">
+            <summary>
+            IS NODE KEY
+            </summary>
+        </member>
+        <member name="T:Weknow.GraphDbCommands.FullTextLanguage">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
         </member>
         <member name="T:Weknow.GraphDbCommands.PropertyContextBehaviors">
             <summary>

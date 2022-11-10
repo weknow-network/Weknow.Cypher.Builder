@@ -492,6 +492,10 @@ namespace Weknow.GraphDbCommands
             {
                 Query.Append(node.Value);
             }
+            if (node.Type.FullName == typeof(ConstraintType).FullName)
+            {
+                Query.Append(node.Value?.ToString().ToSCREAMING(' '));
+            }
             else
             {
                 var parameterName = $"p_{Parameters.Count}";
