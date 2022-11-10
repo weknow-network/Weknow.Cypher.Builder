@@ -43,13 +43,6 @@ public static class RegistrationOfN4jProvider
         services.AddSingleton(m => m.CreateDriver(authToken, envVarPrefix, logger));
         services.AddScoped<N4jSession>();
         services.AddScoped<IGraphDB, N4jGraphDB>();
-        //services.AddScoped<IAsyncSession>((sp) =>
-        //{
-        //    var n4jSession = sp.GetService<N4jSession>() ?? throw new ArgumentNullException("N4jSession injection");
-        //    return n4jSession.Session;
-        //});
-
-        //healthBuilder = healthBuilder ?? services.AddHealthChecks();
         healthBuilder.RegisterHealthCheck();
 
         return services;
@@ -76,11 +69,6 @@ public static class RegistrationOfN4jProvider
         services.AddSingleton(m => m.CreateDriver(authToken, envVarPrefix, logger));
         services.AddSingleton<N4jSession>();
         services.AddSingleton<IGraphDB, N4jGraphDB>();
-        //services.AddScoped<IAsyncSession>((sp) =>
-        //{
-        //    var n4jSession = sp.GetService<N4jSession>() ?? throw new ArgumentNullException("N4jSession injection");
-        //    return n4jSession.Session;
-        //});
 
         healthBuilder.RegisterHealthCheck();
 

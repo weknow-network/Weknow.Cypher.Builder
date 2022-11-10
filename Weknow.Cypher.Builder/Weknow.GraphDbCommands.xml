@@ -367,6 +367,34 @@
             <param name="cypher">The cypher.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.CreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
+            <summary>
+            Create a constraint phrase.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
+            <summary>
+            Create a constraint phrase.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CREATE (n {name: $value})
+            </example>
+        </member>
         <member name="T:Weknow.GraphDbCommands.Cypher.Parameters">
             <summary>
             Parameters factories

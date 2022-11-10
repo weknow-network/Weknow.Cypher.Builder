@@ -53,6 +53,9 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         public new CypherParameters Add<T>(string key, T value) // where T : IDictionaryable
         {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
             if (value is IDictionaryable da)
                 _parameters[key] = da.ToDictionary();
             //else if (value is ValueType vt)
@@ -87,6 +90,8 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         public CypherParameters AddRange<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
         {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
             _parameters[key] = values.Select(m =>
             {
                 var result = m switch
@@ -157,7 +162,7 @@ namespace Weknow.GraphDbCommands
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public T Get<T>(string key) => (T)_parameters[key];
+        public T Get<T>(string key) => (T)this[key];
 
         #endregion // Get
 
@@ -165,9 +170,18 @@ namespace Weknow.GraphDbCommands
 
         public object? this[string key]
         {
-            get => _parameters[key];
+            get
+            {
+                if(_parameters.ContainsKey(key))
+                  return _parameters[key];
+                if(key.StartsWith("$"))
+                    return _parameters[key.Substring(1)];
+                throw new KeyNotFoundException(key);
+            }
             set
             {
+                if(key.StartsWith("$"))
+                    key = key.Substring(1);
                 if (value is IDictionaryable d)
                     _parameters[key] = d.ToDictionary();
                 else if (value is IEnumerable<IDictionaryable> ds)
