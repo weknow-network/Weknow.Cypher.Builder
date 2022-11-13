@@ -125,10 +125,11 @@ namespace Weknow.GraphDbCommands
 
         #endregion // MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
 
-        #region 
+        #region MERGE (..) ON CREATE SET n = $map ON MATCH SET n.Version = coalesce(n.Version, 0) + 1
 
         [Fact]
-        public void Merge_On_Test()
+#pragma warning disable CS0618 // Type or member is obsolete
+        public void Merge_On_AsCypher_Test()
         {
             var Id = Parameters.Create();
             var map = Parameters.Create<Foo>();
@@ -138,7 +139,7 @@ namespace Weknow.GraphDbCommands
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
                                     .OnCreateSet(n, map)
-                                    .OnMatchSet(AsCypher("n.Version = coalesce(n.Version, 0) + 1"))
+                                    .OnMatchSet(FromRawCypher("n.Version = coalesce(n.Version, 0) + 1"))
                                     );
 
             _outputHelper.WriteLine(cypher);
@@ -149,7 +150,8 @@ namespace Weknow.GraphDbCommands
                 );
         }
 
-        #endregion // 
+#pragma warning restore CS0618 // Type or member is obsolete
+        #endregion // MERGE (..) ON CREATE SET n = $map ON MATCH SET n.Version = coalesce(n.Version, 0) + 1
 
         // TODO: 
         /*

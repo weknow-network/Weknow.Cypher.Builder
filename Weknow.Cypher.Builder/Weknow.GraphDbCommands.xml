@@ -105,6 +105,13 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.N">
+            <summary>
+            Specified node with label.
+            </summary>
+            <param name="label">The label.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.ILabel)">
             <summary>
             Specified node with label.
@@ -392,7 +399,15 @@
             RETURN timestamp()
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.AsCypher(System.String)">
+        <member name="M:Weknow.GraphDbCommands.Cypher.FromRawCypher(Weknow.GraphDbCommands.RawCypher)">
+            <summary>
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.Cypher.RawCypher(Weknow.GraphDbCommands.RawCypher)">
             <summary>
             Pure cypher injection.
             Should used for non-supported cypher extensions
@@ -1279,7 +1294,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IAsCypher)">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IRawCypher)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1365,7 +1380,7 @@
             ON CREATE SET n += $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IAsCypher)">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IRawCypher)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1785,6 +1800,14 @@
             DETACH DELETE n
             </example>
         </member>
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.WithRawCypher(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.RawCypher)">
+            <summary>
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.GraphDbCommands.ConstraintType">
             <summary>
             Behaviors of Ignore Context.
@@ -1864,12 +1887,6 @@
             <returns>
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
-        </member>
-        <member name="T:Weknow.GraphDbCommands.IAsCypher">
-            <summary>
-            Pure cypher injection.
-            Should used for non-supported cypher extensions
-            </summary>
         </member>
         <member name="T:Weknow.GraphDbCommands.INode">
             <summary>
@@ -1993,6 +2010,12 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="T:Weknow.GraphDbCommands.IRawCypher">
+            <summary>
+            Pure cypher injection.
+            Should used for non-supported cypher extensions
+            </summary>
+        </member>
         <member name="T:Weknow.GraphDbCommands.IRelationNode">
             <summary>
             Represent relation to node
@@ -2045,6 +2068,29 @@
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.RawCypher.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.RawCypher"/> class.
+            </summary>
+            <param name="cypher">The cypher.</param>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.RawCypher.op_Implicit(System.String)~Weknow.GraphDbCommands.RawCypher">
+            <summary>
+            Performs an implicit conversion from <see cref="T:System.String"/> to <see cref="T:Weknow.GraphDbCommands.RawCypher"/>.
+            </summary>
+            <param name="cypher">The cypher.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.RawCypher.ToString">
+            <summary>
+            Converts to string.
+            </summary>
+            <returns>
+            A <see cref="T:System.String" /> that represents this instance.
+            </returns>
         </member>
         <member name="T:Weknow.GraphDbCommands.RelationNodePattern">
             <summary>

@@ -102,6 +102,32 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Constraint_IsNodeKey_Test
 
+        #region TryConstraint_IsUnique_Test
+
+        [Fact]
+        public void TryConstraint_IsUnique_Test()
+        {
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
+                                                N(n, Person), 
+                                                new[] { n._.Id, n._.Name },
+                                                ConstraintType.IsUnique), cfg =>
+            {
+                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tREQUIRE (n.Id, n.Name) IS UNIQUE"
+                , cypher.Query);
+            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+        }
+
+        #endregion // TryConstraint_IsUnique_Test
+
         #region TryConstraint_IsNodeKey_Test
 
         [Fact]
@@ -127,6 +153,74 @@ namespace Weknow.GraphDbCommands
         }
 
         #endregion // TryConstraint_IsNodeKey_Test
+
+        #region TryConstraint_IsNotNull_Test
+
+        [Fact]
+        public void TryConstraint_IsNotNull_Test()
+        {
+            var (n, r) = Variables.CreateMulti<Foo, Foo>();
+            CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
+                                                N(n, Person) - R[r, KNOWS] > N(), 
+                                                new[] { n._.Id, r._.Name },
+                                                ConstraintType.IsNotNull), cfg =>
+            {
+                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"\tFOR (n:PERSON)-[r:KNOWS]->(){NewLine}" +
+                $"\tREQUIRE (n.Id, r.Name) IS NOT NULL"
+                , cypher.Query);
+            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+        }
+
+        #endregion // TryConstraint_IsNotNull_Test
+
+        #region TryConstraint_IsNodeKey_Options_Test
+
+        [Fact]
+        public void TryConstraint_IsNodeKey_Options_Test()
+        {
+            var n = Variables.Create<Foo>();
+#pragma warning disable CS0618 // Type or member is obsolete
+            CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
+                                                N(n, Person), 
+                                                new[] { n._.Id, n._.Name },
+                                                ConstraintType.IsNodeKey)
+                                           .WithRawCypher(@"
+OPTIONS {
+  indexConfig: {
+    `spatial.wgs-84.min`: [-100.0, -100.0],
+    `spatial.wgs-84.max`: [100.0, 100.0]
+  }
+}"), cfg =>
+            {
+                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            });
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tREQUIRE (n.Id, n.Name) IS NODE KEY{NewLine}" +
+                @"
+OPTIONS {
+  indexConfig: {
+    `spatial.wgs-84.min`: [-100.0, -100.0],
+    `spatial.wgs-84.max`: [100.0, 100.0]
+  }
+}"
+                , cypher.Query);
+            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+        }
+
+        #endregion // TryConstraint_IsNodeKey_Options_Test
     }
 }
 

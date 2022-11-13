@@ -132,6 +132,13 @@ namespace Weknow.GraphDbCommands
         /// </summary>
         /// <param name="label">The label.</param>
         /// <returns></returns>
+        [Cypher("()")]
+        public static INode N() => throw new NotImplementedException();
+        /// <summary>
+        /// Specified node with label.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <returns></returns>
         [Cypher("(:$0)")]
         public static INode N(ILabel label) => throw new NotImplementedException();
         /// <summary>
@@ -574,7 +581,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Timestamp / timestamp()
 
-        #region AsCypher
+        #region FromRawCypher
 
         /// <summary>
         /// Pure cypher injection.
@@ -582,9 +589,25 @@ namespace Weknow.GraphDbCommands
         /// </summary>
         /// <param name="cypher">The cypher.</param>
         /// <returns></returns>
-        public static IAsCypher AsCypher(string cypher) => throw new NotImplementedException();
+        [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
+        [Cypher("$0")]
+        public static IRawCypher FromRawCypher(RawCypher cypher) => throw new NotImplementedException();
 
-        #endregion // AsCypher
+        #endregion // FromRawCypher
+
+        #region RawCypher
+
+        /// <summary>
+        /// Pure cypher injection.
+        /// Should used for non-supported cypher extensions
+        /// </summary>
+        /// <param name="cypher">The cypher.</param>
+        /// <returns></returns>
+        [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
+        [Cypher("$0")]
+        public static Fluent RawCypher(RawCypher cypher) => throw new NotImplementedException();
+
+        #endregion // RawCypher
 
         #region CreateConstraint
 

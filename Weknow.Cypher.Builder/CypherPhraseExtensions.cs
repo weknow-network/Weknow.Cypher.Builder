@@ -144,7 +144,7 @@ public static class CypherPhraseExtensions
     /// </example>
     [Obsolete("Should used for non-supported cypher extensions")]
     [Cypher("$0\r\n\tON CREATE &SET $1")]
-    public static Fluent OnCreateSet(this Fluent fluent, IAsCypher cypher) => throw new NotImplementedException();
+    public static Fluent OnCreateSet(this Fluent fluent, IRawCypher cypher) => throw new NotImplementedException();
 
     /// <summary>
     /// ON CREATE SET phrase.
@@ -245,7 +245,7 @@ public static class CypherPhraseExtensions
     /// </example>
     [Obsolete("Should used for non-supported cypher extensions")]
     [Cypher("$0\r\n\tON MATCH &SET $1")]
-    public static Fluent OnMatchSet(this Fluent fluent, IAsCypher cypher) => throw new NotImplementedException();
+    public static Fluent OnMatchSet(this Fluent fluent, IRawCypher cypher) => throw new NotImplementedException();
 
     /// <summary>
     /// ON MATCH SET phrase.
@@ -758,6 +758,21 @@ public static class CypherPhraseExtensions
     public static Fluent DetachDelete(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
 
     #endregion // Delete / Detach
+
+    #region WithRawCypher
+
+    /// <summary>
+    /// Pure cypher injection.
+    /// Should used for non-supported cypher extensions
+    /// </summary>
+    /// <param name="cypher">The cypher.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\n$1")]
+    [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
+    public static Fluent WithRawCypher(this Fluent p, RawCypher cypher) => throw new NotImplementedException();
+
+    #endregion // WithRawCypher
+
 
     //#region Coalesce / coalesce(n)
 

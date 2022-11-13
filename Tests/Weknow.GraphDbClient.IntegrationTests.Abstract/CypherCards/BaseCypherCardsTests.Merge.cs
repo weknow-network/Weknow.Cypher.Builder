@@ -109,7 +109,7 @@ partial class BaseCypherCardsTests
         CypherCommand cypher = _(n =>
                                 Merge(N(n, Person, new { key = 10 }))
                                 .OnCreateSetPlus(n, p)
-                                .OnMatchSet(AsCypher("n.version = coalesce(n.version, 0) + 1")));
+                                .OnMatchSet(FromRawCypher("n.version = coalesce(n.version, 0) + 1")));
 
 
         CypherParameters prms = cypher.Parameters;
