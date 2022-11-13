@@ -220,35 +220,35 @@ namespace Weknow.GraphDbCommands
 
             var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
 
-//            Expression? firstArg = args.FirstOrDefault();
-//#pragma warning disable CS0618
-//            if (type == nameof(IRawCypher) && firstArg != null)
-//            {
-//                string cypher = firstArg.ToString();
-//                cypher = cypher.Substring(1, cypher.Length - 2);
-//                Query.Append(cypher);
-//                return node;
-//            }
-//            else if (mtdName == nameof(CypherPhraseExtensions.WithRawCypher))
-//            {
-//                string? cypher = args.LastOrDefault()?.ToString();
-//                if (string.IsNullOrEmpty(cypher))
-//                    return node;
-//                cypher = cypher.Substring(1, cypher.Length - 2);
-//                Visit(firstArg);
-//                Query.Append(cypher);
-//                return node;
-//            }
-//            else if (mtdName == nameof(Cypher.RawCypher))
-//            {
-//                string cypher = firstArg.ToString();
-//                cypher = cypher.Substring(1, cypher.Length - 2);
-//                if (string.IsNullOrEmpty(cypher))
-//                    return node;
-//                Query.Append(cypher);
-//                return node;
-//            }
-//#pragma warning restore CS0618
+            //            Expression? firstArg = args.FirstOrDefault();
+            //#pragma warning disable CS0618
+            //            if (type == nameof(IRawCypher) && firstArg != null)
+            //            {
+            //                string cypher = firstArg.ToString();
+            //                cypher = cypher.Substring(1, cypher.Length - 2);
+            //                Query.Append(cypher);
+            //                return node;
+            //            }
+            //            else if (mtdName == nameof(CypherPhraseExtensions.WithRawCypher))
+            //            {
+            //                string? cypher = args.LastOrDefault()?.ToString();
+            //                if (string.IsNullOrEmpty(cypher))
+            //                    return node;
+            //                cypher = cypher.Substring(1, cypher.Length - 2);
+            //                Visit(firstArg);
+            //                Query.Append(cypher);
+            //                return node;
+            //            }
+            //            else if (mtdName == nameof(Cypher.RawCypher))
+            //            {
+            //                string cypher = firstArg.ToString();
+            //                cypher = cypher.Substring(1, cypher.Length - 2);
+            //                if (string.IsNullOrEmpty(cypher))
+            //                    return node;
+            //                Query.Append(cypher);
+            //                return node;
+            //            }
+            //#pragma warning restore CS0618
             if (format != null)
             {
                 //bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
@@ -511,17 +511,14 @@ namespace Weknow.GraphDbCommands
         protected override Expression VisitConstant(ConstantExpression node)
         {
             bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
-            if (isReturn)
+            bool isAnalyzer = node.Type.Name == "FullTextAnalyzer";
+            if (isReturn || isAnalyzer || _isRawChypher)
             {
                 Query.Append(node.Value);
             }
             else if (node.Type.FullName == typeof(ConstraintType).FullName)
             {
                 Query.Append(node.Value?.ToString().ToSCREAMING(' '));
-            }
-            else if (_isRawChypher)
-            { 
-                Query.Append(node.Value);
             }
             else
             {

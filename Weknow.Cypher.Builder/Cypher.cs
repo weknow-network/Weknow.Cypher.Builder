@@ -817,7 +817,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="var">The variable.</param>
         /// <param name="vars">The vars.</param>
         /// <returns></returns>
-        [Cypher("CREATE FULLTEXT INDEX $0\r\n\tFOR $1\r\n\tON EACH ($2$3)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$4'\r\n\t\t  }\r\n\t}")]
+        [Cypher("CREATE FULLTEXT INDEX $0\r\n\tFOR $1\r\n\tON EACH ($3$4)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
         public static Fluent CreateFullTextIndex(
             string name,
             IPattern p,
@@ -897,7 +897,7 @@ namespace Weknow.GraphDbCommands
         /// <example>
         /// CREATE (n {name: $value})
         /// </example>
-        [Cypher("CREATE FULLTEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON EACH ($2$3)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$4'\r\n\t\t  }\r\n\t}")]
+        [Cypher("CREATE FULLTEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON EACH ($3$4)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
         public static Fluent TryCreateFullTextIndex(
             string name,
             IPattern p,

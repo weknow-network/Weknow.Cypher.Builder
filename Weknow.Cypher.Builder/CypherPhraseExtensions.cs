@@ -970,6 +970,7 @@ public static class CypherPhraseExtensions
     /// TEXT index is utilized to check the IN list checks,
     /// when all elements in the list are strings.
     /// </summary>
+    /// <param name="p">The p.</param>
     /// <param name="name">The name.</param>
     /// <param name="pattern">The pattern.</param>
     /// <param name="var">The variable.</param>
@@ -981,6 +982,7 @@ public static class CypherPhraseExtensions
     /// </example>
     [Cypher("$0\r\nCREATE TEXT INDEX $1\r\n\tFOR $2\r\n\tON ($3$4)")]
     public static Fluent CreateTextIndex(
+        this Fluent p,
         string name,
         IPattern pattern,
         ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
@@ -997,7 +999,7 @@ public static class CypherPhraseExtensions
     /// <param name="var">The variable.</param>
     /// <param name="vars">The vars.</param>
     /// <returns></returns>
-    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1\r\n\tFOR $2\r\n\tON EACH ($3$4)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$5'\r\n\t\t  }\r\n\t}")]
+    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1\r\n\tFOR $2\r\n\tON EACH ($4$5)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$3'\r\n\t\t  }\r\n\t}")]
     public static Fluent CreateFullTextIndex(
         this Fluent p,
         string name,
@@ -1070,7 +1072,7 @@ public static class CypherPhraseExtensions
     /// <example>
     /// CREATE (n {name: $value})
     /// </example>
-    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON EACH ($3$4)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$5'\r\n\t\t  }\r\n\t}")]
+    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON EACH ($4$5)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$3'\r\n\t\t  }\r\n\t}")]
     public static Fluent TryCreateFullTextIndex(
         this Fluent p,
         string name,
