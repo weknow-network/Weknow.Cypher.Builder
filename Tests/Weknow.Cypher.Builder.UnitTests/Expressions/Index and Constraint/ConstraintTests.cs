@@ -16,7 +16,7 @@ using static System.Environment;
 namespace Weknow.GraphDbCommands
 {
     [Trait("TestType", "Unit")]
-    [Trait("Group", "Index")]
+    [Trait("Group", "Constraint")]
     public class ConstraintTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -29,6 +29,47 @@ namespace Weknow.GraphDbCommands
         }
 
         #endregion // Ctor
+
+        #region DropConstraint_Test
+
+        [Fact]
+        public void DropConstraint_Test()
+        {
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => DropConstraint("test-constraint"), cfg =>
+            {
+                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"DROP CONSTRAINT $p_0"
+                , cypher.Query);
+            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+        }
+
+        #endregion // DropConstraint_Test
+
+        #region TryDropConstraint_Test
+
+        [Fact]
+        public void TryDropConstraint_Test()
+        {
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => TryDropConstraint("test-constraint"), cfg =>
+            {
+                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+            });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "DROP CONSTRAINT $p_0 IF NOT EXISTS"
+                , cypher.Query);
+            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+        }
+
+        #endregion // TryDropConstraint_Test
 
         #region Constraint_Test
 
@@ -193,7 +234,7 @@ namespace Weknow.GraphDbCommands
                                                 ConstraintType.IsNodeKey)
                                            .WithRawCypher(@"
 OPTIONS {
-  indexConfig: {
+  constraintConfig: {
     `spatial.wgs-84.min`: [-100.0, -100.0],
     `spatial.wgs-84.max`: [100.0, 100.0]
   }
@@ -210,7 +251,7 @@ OPTIONS {
                 $"\tREQUIRE (n.Id, n.Name) IS NODE KEY{NewLine}" +
                 @"
 OPTIONS {
-  indexConfig: {
+  constraintConfig: {
     `spatial.wgs-84.min`: [-100.0, -100.0],
     `spatial.wgs-84.max`: [100.0, 100.0]
   }

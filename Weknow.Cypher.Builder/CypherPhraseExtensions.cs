@@ -37,7 +37,7 @@ public static class CypherPhraseExtensions
     /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
     /// </example>
     [Cypher("$0\r\nMATCH $1")]
-    public static Fluent Match(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+    public static Fluent Match(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
 
     #endregion // Match
 
@@ -65,7 +65,7 @@ public static class CypherPhraseExtensions
     /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
     /// </example>
     [Cypher("$0\r\nOPTIONAL MATCH $1")]
-    public static Fluent OptionalMatch(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+    public static Fluent OptionalMatch(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
 
     #endregion // OptionalMatch
 
@@ -95,7 +95,7 @@ public static class CypherPhraseExtensions
     /// </example>
     [Cypher("$0\r\n" +
         "CREATE $1")]
-    public static Fluent Create(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+    public static Fluent Create(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
 
     #endregion // Create
 
@@ -122,7 +122,7 @@ public static class CypherPhraseExtensions
     /// MERGE (n:Person {name: $value})
     /// </example>
     [Cypher("$0\r\nMERGE $1")]
-    public static Fluent Merge(this Fluent p, IPattern pattern) => throw new NotImplementedException();
+    public static Fluent Merge(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
 
     #endregion // Merge
 
@@ -773,6 +773,341 @@ public static class CypherPhraseExtensions
 
     #endregion // WithRawCypher
 
+    #region DropConstraint
+
+    /// <summary>
+    /// Drop a constraint.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nDROP CONSTRAINT $1")]
+    public static Fluent DropConstraint(
+        this Fluent p,
+        string name) => throw new NotImplementedException();
+
+    #endregion // DropConstraint
+
+    #region TryDropConstraint
+
+    /// <summary>
+    /// Drop a constraint phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nDROP CONSTRAINT $1 IF NOT EXISTS")]
+    public static Fluent TryDropConstraint(
+        this Fluent p,
+        string name) => throw new NotImplementedException();
+
+
+    #endregion // TryDropConstraint
+
+    #region CreateConstraint
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE CONSTRAINT $1\r\n\tFOR $2\r\n\tREQUIRE ($3$4)")]
+    public static Fluent CreateConstraint(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="vars">The vars.</param>
+    /// <param name="type">The type.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE CONSTRAINT $1\r\n\tFOR $2\r\n\tREQUIRE ($3) $4")]
+    public static Fluent CreateConstraint(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        IEnumerable<object> vars,
+        ConstraintType type) => throw new NotImplementedException();
+
+    #endregion // CreateConstraint
+
+    #region TryCreateConstraint
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE CONSTRAINT $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tREQUIRE ($3$4)")]
+    public static Fluent TryCreateConstraint(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="vars">The vars.</param>
+    /// <param name="type">The type.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE CONSTRAINT $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tREQUIRE ($3) $4")]
+    public static Fluent TryCreateConstraint(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        IEnumerable<object> vars,
+        ConstraintType type) => throw new NotImplementedException();
+
+    #endregion // TryCreateConstraint
+
+    #region DropIndex
+
+    /// <summary>
+    /// Drop a index.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nDROP CONSTRAINT $1")]
+    public static Fluent DropIndex(
+        this Fluent p,
+        string name) => throw new NotImplementedException();
+
+    #endregion // DropIndex
+
+    #region TryDropIndex
+
+    /// <summary>
+    /// Drop a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nDROP CONSTRAINT $1 IF NOT EXISTS")]
+    public static Fluent TryDropIndex(
+        this Fluent p,
+        string name) => throw new NotImplementedException();
+
+
+    #endregion // TryDropIndex
+
+    #region Create..Index
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE INDEX $1\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent CreateIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a BTREE index on nodes with label and property
+    /// with an index provider.
+    /// The other index settings will have their default values.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    /// <remarks>
+    /// Options are not included, make sure to add the proper ones, for example:
+    /// OPTIONS {
+    /// indexProvider: 'native-btree-1.0',
+    /// indexConfig: {
+    /// `spatial.cartesian.min`: [-100.0, -100.0],
+    /// `spatial.cartesian.max`: [100.0, 100.0]
+    /// }
+    /// }
+    /// </remarks>
+    [Cypher("$0\r\nCREATE BTREE INDEX $1\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent CreateBTreeIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a TEXT index on nodes with label Person and property name.
+    /// The property value type should be a string for the TEXT index.
+    /// Other value types are ignored by the TEXT index.
+    /// TEXT index is utilized if the predicate compares the property with a string.
+    /// Note that for example:
+    /// toLower(n.name) = 'Example String'
+    /// does not use an index.
+    /// TEXT index is utilized to check the IN list checks,
+    /// when all elements in the list are strings.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// CREATE (n {name: $value})
+    /// </example>
+    [Cypher("$0\r\nCREATE TEXT INDEX $1\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent CreateTextIndex(
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a full-text index on relationships with the name index_name and analyzer.
+    /// Full-text indexes on relationships can only be used by from
+    /// the procedure db.index.fulltext.queryRelationships.
+    /// The other index settings will have their default values.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="p">The p.</param>
+    /// <param name="analyzer">The analyzer.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1\r\n\tFOR $2\r\n\tON EACH ($3$4)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$5'\r\n\t\t  }\r\n\t}")]
+    public static Fluent CreateFullTextIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        FullTextAnalyzer analyzer,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    #endregion // Create..Index
+
+    #region TryCreate..Index
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\nCREATE INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent TryCreateIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <remarks>
+    /// Options are not included, make sure to add the proper ones, for example:
+    /// OPTIONS {
+    /// indexProvider: 'native-btree-1.0',
+    /// indexConfig: {
+    /// `spatial.cartesian.min`: [-100.0, -100.0],
+    /// `spatial.cartesian.max`: [100.0, 100.0]
+    /// }
+    /// }
+    /// </remarks>
+    /// <example>
+    /// CREATE (n {name: $value})
+    /// </example>
+    [Cypher("$0\r\nCREATE BTREE INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent TryCreateBTreeIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Create a index phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="">The .</param>
+    /// <param name="analyzer">The analyzer.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// CREATE (n {name: $value})
+    /// </example>
+    [Cypher("$0\r\nCREATE FULLTEXT INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON EACH ($3$4)\r\n\t OPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$5'\r\n\t\t  }\r\n\t}")]
+    public static Fluent TryCreateFullTextIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        FullTextAnalyzer analyzer,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+
+    /// <summary>
+    /// Create a TEXT index on nodes with label Person and property name.
+    /// The property value type should be a string for the TEXT index.
+    /// Other value types are ignored by the TEXT index.
+    /// TEXT index is utilized if the predicate compares the property with a string.
+    /// Note that for example:
+    /// toLower(n.name) = 'Example String'
+    /// does not use an index.
+    /// TEXT index is utilized to check the IN list checks,
+    /// when all elements in the list are strings.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// CREATE (n {name: $value})
+    /// </example>
+    [Cypher("$0\r\nCREATE TEXT INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON ($3$4)")]
+    public static Fluent TryCreateTextIndex(
+        this Fluent p,
+        string name,
+        IPattern pattern,
+        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+
+    #endregion // TryCreate..Index
 
     //#region Coalesce / coalesce(n)
 
