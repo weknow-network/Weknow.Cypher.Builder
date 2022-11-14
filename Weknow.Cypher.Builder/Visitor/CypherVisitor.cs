@@ -512,13 +512,13 @@ namespace Weknow.GraphDbCommands
         {
             bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
             bool isAnalyzer = node.Type.Name == "FullTextAnalyzer";
-            if (isReturn || isAnalyzer || _isRawChypher)
+            if (node.Type.FullName == typeof(ConstraintType).FullName)
+            {
+                Query.Append(node.Value?.ToString()?.ToSCREAMING(' '));
+            }
+            else if (isReturn || isAnalyzer || _isRawChypher)
             {
                 Query.Append(node.Value);
-            }
-            else if (node.Type.FullName == typeof(ConstraintType).FullName)
-            {
-                Query.Append(node.Value?.ToString().ToSCREAMING(' '));
             }
             else
             {
@@ -579,6 +579,7 @@ namespace Weknow.GraphDbCommands
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
+
                             int count = args.Count;
                             // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
                             if (expr is NewArrayExpression naExp && expr.NodeType == ExpressionType.NewArrayInit)
@@ -603,7 +604,23 @@ namespace Weknow.GraphDbCommands
                                 }
 
                             }
-                            _isRawChypher = expr.Type.Name == nameof(RawCypher);
+                            _isRawChypher = expr.Type.Name == nameof(RawCypher) || 
+                                            node is MethodCallExpression mc && mc.Method.Name switch
+                                            {
+                                                nameof(Cypher.CreateConstraint) => true,
+                                                nameof(Cypher.TryCreateConstraint) => true,
+                                                nameof(Cypher.CreateIndex) => true,
+                                                nameof(Cypher.TryCreateIndex) => true,
+                                                nameof(Cypher.TryDropConstraint) => true,
+                                                nameof(Cypher.DropConstraint) => true,
+                                                nameof(Cypher.TryDropIndex) => true,
+                                                nameof(Cypher.DropIndex) => true,
+                                                nameof(Cypher.CreateTextIndex) => true,
+                                                nameof(Cypher.TryCreateFullTextIndex) => true,
+                                                nameof(Cypher.CreateFullTextIndex) => true,
+                                                nameof(Cypher.TryCreateTextIndex) => true,
+                                                _ => false
+                                            };
                             Visit(expr);
                             _isRawChypher = false;
                         }

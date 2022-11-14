@@ -463,7 +463,7 @@ public static class CypherPhraseExtensions
     /// RETURN n
     /// </example>
     [Cypher("$0\r\n&RETURN $1$2")]
-    public static Fluent Return(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent Return(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Return
 
@@ -480,7 +480,7 @@ public static class CypherPhraseExtensions
     /// RETURN DISTINCT n
     /// </example>
     [Cypher("$0\r\n&RETURN DISTINCT $1$2")]
-    public static Fluent ReturnDistinct(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent ReturnDistinct(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Return
 
@@ -560,7 +560,7 @@ public static class CypherPhraseExtensions
     /// RETURN user
     /// </example>
     [Cypher("$0\r\nWITH $1$2")]
-    public static Fluent With(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent With(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // With
 
@@ -642,7 +642,7 @@ public static class CypherPhraseExtensions
     /// ORDER BY friends
     /// </example>
     [Cypher("$0\r\nORDER BY $1$2")]
-    public static Fluent OrderBy(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent OrderBy(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // OrderBy
 
@@ -661,7 +661,7 @@ public static class CypherPhraseExtensions
     /// ORDER BY friends DESC
     /// </example>
     [Cypher("$0\r\nORDER BY $1$2 DESC")]
-    public static Fluent OrderByDesc(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent OrderByDesc(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // OrderByDesc
 
@@ -742,7 +742,7 @@ public static class CypherPhraseExtensions
     /// DELETE n
     /// </example>
     [Cypher("$0\r\nDELETE $1$2")]
-    public static Fluent Delete(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent Delete(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// DETACH DELETE phrase.
@@ -755,7 +755,7 @@ public static class CypherPhraseExtensions
     /// DETACH DELETE n
     /// </example>
     [Cypher("$0\r\nDETACH DELETE $1$2")]
-    public static Fluent DetachDelete(this Fluent p, ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+    public static Fluent DetachDelete(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Delete / Detach
 
@@ -822,24 +822,25 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
     /// </summary>
     /// <param name="p">The p.</param>
     /// <param name="name">The name.</param>
-    /// <param name="pattern">The pattern.</param>
-    /// <param name="vars">The vars.</param>
     /// <param name="type">The type.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
     /// <returns></returns>
-    [Cypher("$0\r\nCREATE CONSTRAINT $1\r\n\tFOR $2\r\n\tREQUIRE ($3) $4")]
+    [Cypher("$0\r\nCREATE CONSTRAINT $1\r\n\tFOR $3\r\n\tREQUIRE ($4$5) $2")]
     public static Fluent CreateConstraint(
         this Fluent p,
         string name,
+        ConstraintType type,
         IPattern pattern,
-        IEnumerable<object> vars,
-        ConstraintType type) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // CreateConstraint
 
@@ -859,24 +860,25 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
     /// </summary>
     /// <param name="p">The p.</param>
     /// <param name="name">The name.</param>
-    /// <param name="pattern">The pattern.</param>
-    /// <param name="vars">The vars.</param>
     /// <param name="type">The type.</param>
+    /// <param name="pattern">The pattern.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="vars">The vars.</param>
     /// <returns></returns>
-    [Cypher("$0\r\nCREATE CONSTRAINT $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tREQUIRE ($3) $4")]
+    [Cypher("$0\r\nCREATE CONSTRAINT $1 IF NOT EXISTS\r\n\tFOR $3\r\n\tREQUIRE ($4$5) $2")]
     public static Fluent TryCreateConstraint(
         this Fluent p,
         string name,
+        ConstraintType type,
         IPattern pattern,
-        IEnumerable<object> vars,
-        ConstraintType type) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreateConstraint
 
@@ -929,35 +931,7 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
-
-    /// <summary>
-    /// Create a BTREE index on nodes with label and property
-    /// with an index provider.
-    /// The other index settings will have their default values.
-    /// </summary>
-    /// <param name="p">The p.</param>
-    /// <param name="name">The name.</param>
-    /// <param name="pattern">The pattern.</param>
-    /// <param name="var">The variable.</param>
-    /// <param name="vars">The vars.</param>
-    /// <returns></returns>
-    /// <remarks>
-    /// Options are not included, make sure to add the proper ones, for example:
-    /// OPTIONS {
-    /// indexProvider: 'native-btree-1.0',
-    /// indexConfig: {
-    /// `spatial.cartesian.min`: [-100.0, -100.0],
-    /// `spatial.cartesian.max`: [100.0, 100.0]
-    /// }
-    /// }
-    /// </remarks>
-    [Cypher("$0\r\nCREATE BTREE INDEX $1\r\n\tFOR $2\r\n\tON ($3$4)")]
-    public static Fluent CreateBTreeIndex(
-        this Fluent p,
-        string name,
-        IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a TEXT index on nodes with label Person and property name.
@@ -985,7 +959,7 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a full-text index on relationships with the name index_name and analyzer.
@@ -1005,7 +979,7 @@ public static class CypherPhraseExtensions
         string name,
         IPattern pattern,
         FullTextAnalyzer analyzer,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Create..Index
 
@@ -1025,37 +999,7 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
-
-    /// <summary>
-    /// Create a index phrase.
-    /// </summary>
-    /// <param name="p">The p.</param>
-    /// <param name="name">The name.</param>
-    /// <param name="pattern">The pattern.</param>
-    /// <param name="var">The variable.</param>
-    /// <param name="vars">The vars.</param>
-    /// <returns></returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    /// <remarks>
-    /// Options are not included, make sure to add the proper ones, for example:
-    /// OPTIONS {
-    /// indexProvider: 'native-btree-1.0',
-    /// indexConfig: {
-    /// `spatial.cartesian.min`: [-100.0, -100.0],
-    /// `spatial.cartesian.max`: [100.0, 100.0]
-    /// }
-    /// }
-    /// </remarks>
-    /// <example>
-    /// CREATE (n {name: $value})
-    /// </example>
-    [Cypher("$0\r\nCREATE BTREE INDEX $1 IF NOT EXISTS\r\n\tFOR $2\r\n\tON ($3$4)")]
-    public static Fluent TryCreateBTreeIndex(
-        this Fluent p,
-        string name,
-        IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
@@ -1078,7 +1022,7 @@ public static class CypherPhraseExtensions
         string name,
         IPattern pattern,
         FullTextAnalyzer analyzer,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
 
     /// <summary>
@@ -1107,7 +1051,7 @@ public static class CypherPhraseExtensions
         this Fluent p,
         string name,
         IPattern pattern,
-        ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreate..Index
 

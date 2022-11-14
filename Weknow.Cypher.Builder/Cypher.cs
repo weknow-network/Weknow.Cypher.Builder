@@ -236,7 +236,7 @@ namespace Weknow.GraphDbCommands
         /// RETURN n
         /// </example>
         [Cypher("RETURN $0$1")]
-        public static Fluent Return(ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        public static Fluent Return(ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         #endregion // Return
 
@@ -636,7 +636,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="name">The name.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        [Cypher("DROP CONSTRAINT $0 IF NOT EXISTS")]
+        [Cypher("DROP CONSTRAINT $0 IF EXISTS")]
         public static Fluent TryDropConstraint(
             string name) => throw new NotImplementedException();
 
@@ -656,23 +656,24 @@ namespace Weknow.GraphDbCommands
         public static Fluent CreateConstraint(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// Create a index phrase.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="p">The p.</param>
-        /// <param name="vars">The vars.</param>
         /// <param name="type">The type.</param>
-        /// <param name="options">The options.</param>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="vars">The vars.</param>
         /// <returns></returns>
-        [Cypher("CREATE CONSTRAINT $0\r\n\tFOR $1\r\n\tREQUIRE ($2) $3")]
+        /// <exception cref="System.NotImplementedException"></exception>
+        [Cypher("CREATE CONSTRAINT $0\r\n\tFOR $2\r\n\tREQUIRE ($3$4) $1")]
         public static Fluent CreateConstraint(
             string name,
+            ConstraintType type,
             IPattern p,
-            IEnumerable<object> vars,
-            ConstraintType type) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         #endregion // CreateConstraint
 
@@ -690,22 +691,24 @@ namespace Weknow.GraphDbCommands
         public static Fluent TryCreateConstraint(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// Create a index phrase.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="p">The p.</param>
-        /// <param name="vars">The vars.</param>
         /// <param name="type">The type.</param>
+        /// <param name="p">The p.</param>
+        /// <param name="var">The variable.</param>
+        /// <param name="vars">The vars.</param>
         /// <returns></returns>
-        [Cypher("CREATE CONSTRAINT $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tREQUIRE ($2) $3")]
+        /// <exception cref="System.NotImplementedException"></exception>
+        [Cypher("CREATE CONSTRAINT $0 IF NOT EXISTS\r\n\tFOR $2\r\n\tREQUIRE ($3$4) $1")]
         public static Fluent TryCreateConstraint(
             string name,
+            ConstraintType type,
             IPattern p,
-            IEnumerable<object> vars,
-            ConstraintType type) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         #endregion // TryCreateConstraint
 
@@ -731,7 +734,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="name">The name.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        [Cypher("DROP INDEX $0 IF NOT EXISTS")]
+        [Cypher("DROP INDEX $0 IF EXISTS")]
         public static Fluent TryDropIndex(
             string name) => throw new NotImplementedException();
 
@@ -751,33 +754,7 @@ namespace Weknow.GraphDbCommands
         public static Fluent CreateIndex(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Create a BTREE index on nodes with label and property
-        /// with an index provider. 
-        /// The other index settings will have their default values.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="p">The p.</param>
-        /// <param name="var">The variable.</param>
-        /// <param name="vars">The vars.</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// Options are not included, make sure to add the proper ones, for example:
-        /// OPTIONS {
-        ///         indexProvider: 'native-btree-1.0',
-        ///   indexConfig: {
-        ///     `spatial.cartesian.min`: [-100.0, -100.0],
-        ///     `spatial.cartesian.max`: [100.0, 100.0]
-        ///     }
-        /// }
-        /// </remarks>
-        [Cypher("CREATE BTREE INDEX $0\r\n\tFOR $1\r\n\tON ($2$3)")]
-        public static Fluent CreateBTreeIndex(
-            string name,
-            IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// Create a TEXT index on nodes with label Person and property name. 
@@ -803,7 +780,7 @@ namespace Weknow.GraphDbCommands
         public static Fluent CreateTextIndex(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// Create a full-text index on relationships with the name index_name and analyzer.
@@ -822,7 +799,7 @@ namespace Weknow.GraphDbCommands
             string name,
             IPattern p,
             FullTextAnalyzer analyzer,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         ///// <summary>
         ///// Create a index phrase.
@@ -837,7 +814,7 @@ namespace Weknow.GraphDbCommands
         //public static Fluent CreateLookupIndex(
         //    string name,
         //    IPattern p, 
-        //    ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+        //    ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         #endregion // Create..Index
 
@@ -855,35 +832,7 @@ namespace Weknow.GraphDbCommands
         public static Fluent TryCreateIndex(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
-
-        /// <summary>
-        /// Create a index phrase.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="p">The p.</param>
-        /// <param name="var">The variable.</param>
-        /// <param name="vars">The vars.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        /// <example>
-        /// CREATE (n {name: $value})
-        /// </example>
-        /// <remarks>
-        /// Options are not included, make sure to add the proper ones, for example:
-        /// OPTIONS {
-        ///         indexProvider: 'native-btree-1.0',
-        ///   indexConfig: {
-        ///     `spatial.cartesian.min`: [-100.0, -100.0],
-        ///     `spatial.cartesian.max`: [100.0, 100.0]
-        ///     }
-        /// }
-        /// </remarks>
-        [Cypher("CREATE BTREE INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON ($2$3)")]
-        public static Fluent TryCreateBTreeIndex(
-            string name,
-            IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         /// <summary>
         /// Create a index phrase.
@@ -902,7 +851,7 @@ namespace Weknow.GraphDbCommands
             string name,
             IPattern p,
             FullTextAnalyzer analyzer,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
 
         /// <summary>
@@ -929,7 +878,7 @@ namespace Weknow.GraphDbCommands
         public static Fluent TryCreateTextIndex(
             string name,
             IPattern p,
-            ParamsFirst<object> var, params object[] vars) => throw new NotImplementedException();
+            ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
         #endregion // TryCreate..Index
     }

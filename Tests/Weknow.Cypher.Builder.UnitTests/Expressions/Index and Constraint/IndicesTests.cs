@@ -43,10 +43,9 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"DROP INDEX $p_0"
+                $"DROP INDEX test-index"
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // DropIndex_Test
@@ -64,9 +63,9 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "DROP INDEX $p_0 IF NOT EXISTS"
+                "DROP INDEX test-index IF EXISTS"
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // TryDropIndex_Test
@@ -84,12 +83,11 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE INDEX $p_0{NewLine}" +
+                $"CREATE INDEX test-index{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name)"
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // Index_Test
@@ -106,8 +104,8 @@ namespace Weknow.GraphDbCommands
                 .TryCreateIndex("test-index2", N(n, Person), n._.Id, n._.Name)
                 .CreateTextIndex("test-index3", N(n, Person), n._.Id, n._.Name)
                 .TryCreateTextIndex("test-index4", N(n, Person), n._.Id, n._.Name)
-                .CreateBTreeIndex("test-index5", N(n, Person), n._.Id, n._.Name)
-                .TryCreateBTreeIndex("test-index6", N(n, Person), n._.Id, n._.Name)
+                .CreateIndex("test-index5", N(n, Person), n._.Id, n._.Name)
+                .TryCreateIndex("test-index6", N(n, Person), n._.Id, n._.Name)
                 .CreateFullTextIndex("test-index7", N(n, Person), FullTextAnalyzer.english, n._.Id, n._.Name)
                 .TryCreateFullTextIndex("test-index8", N(n, Person), FullTextAnalyzer.english, n._.Id, n._.Name)
                 , 
@@ -118,53 +116,46 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE INDEX $p_0{NewLine}" +
+                $"CREATE INDEX test-index{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE INDEX $p_1{NewLine}" +
+                $"CREATE INDEX test-index1{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE INDEX $p_2 IF NOT EXISTS{NewLine}" +
+                $"CREATE INDEX test-index2 IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE TEXT INDEX $p_3{NewLine}" +
+                $"CREATE TEXT INDEX test-index3{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE TEXT INDEX $p_4 IF NOT EXISTS{NewLine}" +
+                $"CREATE TEXT INDEX test-index4 IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE BTREE INDEX $p_5{NewLine}" +
+                $"CREATE INDEX test-index5{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE BTREE INDEX $p_6 IF NOT EXISTS{NewLine}" +
+                $"CREATE INDEX test-index6 IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
 
-                $"CREATE FULLTEXT INDEX $p_7{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index7{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}{NewLine}" +
 
-                $"CREATE FULLTEXT INDEX $p_8 IF NOT EXISTS{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index8 IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}" 
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index1", cypher.Parameters["p_1"]);
-            Assert.Equal("test-index2", cypher.Parameters["p_2"]);
-            Assert.Equal("test-index3", cypher.Parameters["p_3"]);
-            Assert.Equal("test-index4", cypher.Parameters["p_4"]);
-            Assert.Equal("test-index5", cypher.Parameters["p_5"]);
-            Assert.Equal("test-index6", cypher.Parameters["p_6"]);
-            Assert.Equal("test-index7", cypher.Parameters["p_7"]);
-            Assert.Equal("test-index8", cypher.Parameters["p_8"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // Index_Multi_Test
@@ -186,18 +177,17 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE FULLTEXT INDEX $p_0{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}{NewLine}" +
 
-                $"CREATE FULLTEXT INDEX $p_1 IF NOT EXISTS{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index1 IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}" 
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index1", cypher.Parameters["p_1"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // Index_FullText1_Test
@@ -219,21 +209,80 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE FULLTEXT INDEX $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}{NewLine}" +
 
-                $"CREATE FULLTEXT INDEX $p_1{NewLine}" +
+                $"CREATE FULLTEXT INDEX test-index1{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON EACH (n.Id, n.Name){NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}" 
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index1", cypher.Parameters["p_1"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // Index_FullText2_Test
+
+        #region Index_Text1_Test
+
+        [Fact]
+        public void Index_Text1_Test()
+        {
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => 
+               CreateTextIndex("test-index", N(n, Person),  n._.Id, n._.Name)
+                .TryCreateTextIndex("test-index1", N(n, Person),  n._.Id, n._.Name)
+                , 
+                cfg =>
+                    {
+                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                    });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"CREATE TEXT INDEX test-index{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tON (n.Id, n.Name){NewLine}" +
+
+                $"CREATE TEXT INDEX test-index1 IF NOT EXISTS{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tON (n.Id, n.Name)"
+                , cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // Index_Text1_Test
+
+        #region Index_Text2_Test
+
+        [Fact]
+        public void Index_Text2_Test()
+        {
+            var n = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => 
+               TryCreateTextIndex("test-index", N(n, Person), n._.Id, n._.Name)
+                .CreateTextIndex("test-index1", N(n, Person), n._.Id, n._.Name)
+                , 
+                cfg =>
+                    {
+                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                    });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"CREATE TEXT INDEX test-index IF NOT EXISTS{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tON (n.Id, n.Name){NewLine}" +
+
+                $"CREATE TEXT INDEX test-index1{NewLine}" +
+                $"\tFOR (n:PERSON){NewLine}" +
+                $"\tON (n.Id, n.Name)" 
+                , cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // Index_Text2_Test
 
         #region TryIndex_Test
 
@@ -248,12 +297,11 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE INDEX $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE INDEX test-index IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name)"
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // TryIndex_Test
@@ -282,7 +330,7 @@ OPTIONS {
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE INDEX $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE INDEX test-index IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tON (n.Id, n.Name){NewLine}" +
                 @"
@@ -293,8 +341,7 @@ OPTIONS {
   }
 }"
                 , cypher.Query);
-            Assert.Equal("test-index", cypher.Parameters["p_0"]);
-            Assert.Equal("test-index", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // TryIndex_Options_Test

@@ -15,7 +15,7 @@ using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests 
+partial class BaseCypherCardsTests
 {
 
     /*
@@ -38,7 +38,7 @@ OPTIONS {
 }
      */
 
-    #region RETURN count(*)
+    #region 
 
     [Fact]
     public virtual async Task Constraint_Test()
@@ -48,36 +48,60 @@ OPTIONS {
         var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
         var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
-        #region Prepare
 
-        CypherCommand cypher = _(() =>
-                                Unwind(items, map,
-                                     Create(N(n, Person))
-                                       .Set(n, map)));
+        CypherCommand cypherDrop = _(() =>
+                                TryDropIndex(
+                                     "TEST_INDEX")
+                                .TryDropConstraint(
+                                     "TEST_CONSTRAINT")
+                                .TryDropConstraint(
+                                     "TEST_CONSTRAINT1"));
 
-        _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");
+        try
+        {
 
-        CypherParameters prmsPrepare = cypher.Parameters;
-        prmsPrepare.AddRange(nameof(items), Enumerable.Range(0, 10)
-                                .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
+            IGraphDBResponse constraintDrop = await _graphDB.RunAsync(cypherDrop);
 
-        #endregion // Prepare
+            CypherCommand cypher = _(() =>
+                                    TryCreateConstraint(
+                                         "TEST_CONSTRAINT",
+                                         ConstraintType.IsNodeKey,
+                                         N(n, Person), n._.key, n._.name ));
 
-        CypherCommand query = _(() =>
-                                Match(N(n, Person))
-                                .Return(n.Count()));
-        _outputHelper.WriteLine($"CYPHER: {query}");
-        CypherParameters prms = query.Parameters;
-        prms.Add(nameof(skipNumber), 2);
-        prms.Add(nameof(limitNumber), 6);
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
-        var r = await response1.GetAsync<int>("count(n)");
+            IGraphDBResponse constraintResponse = await _graphDB.RunAsync(cypher);
 
-        Assert.Equal(10, r);
+            CypherCommand cypherAddition = _(() =>
+                                    TryCreateConstraint(
+                                         "TEST_CONSTRAINT1",
+                                         ConstraintType.IsNotNull,
+                                         N(n, Person), n._.age)
+                                    .TryCreateTextIndex("TEST_INDEX", N(n, Person), n._.desc));
 
-        PersonEntity Factory(int i) =>  new PersonEntity($"Person {i}", i) ;
+            constraintResponse = await _graphDB.RunAsync(cypherAddition);
+
+            CypherCommand testCypher = _(() =>
+                                    Unwind(items, map,
+                                         Create(N(n, Person))
+                                           .Set(n, map)));
+
+            _outputHelper.WriteLine($"First Create: {testCypher}");
+
+            CypherParameters prmsPrepare = testCypher.Parameters;
+            prmsPrepare.AddRange(nameof(items), Enumerable.Range(0, 10)
+                                    .Select(Factory));
+            IGraphDBResponse response = await _graphDB.RunAsync(testCypher);
+            Assert.ThrowsAsync<Exception>(async () =>
+                await _graphDB.RunAsync(testCypher));
+
+
+        }
+        finally
+        {
+            await _graphDB.RunAsync(cypherDrop);
+        }
+
+        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i);
     }
 
-    #endregion // RETURN count(*)
+    #endregion // 
 }

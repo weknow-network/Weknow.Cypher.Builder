@@ -441,16 +441,17 @@
             <param name="vars">The vars.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.CreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+        <member name="M:Weknow.GraphDbCommands.Cypher.CreateConstraint(System.String,Weknow.GraphDbCommands.ConstraintType,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a index phrase.
             </summary>
             <param name="name">The name.</param>
-            <param name="p">The p.</param>
-            <param name="vars">The vars.</param>
             <param name="type">The type.</param>
-            <param name="options">The options.</param>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
@@ -462,15 +463,17 @@
             <param name="vars">The vars.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+        <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateConstraint(System.String,Weknow.GraphDbCommands.ConstraintType,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a index phrase.
             </summary>
             <param name="name">The name.</param>
-            <param name="p">The p.</param>
-            <param name="vars">The vars.</param>
             <param name="type">The type.</param>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.DropIndex(System.String)">
             <summary>
@@ -497,28 +500,6 @@
             <param name="var">The variable.</param>
             <param name="vars">The vars.</param>
             <returns></returns>
-        </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.CreateBTreeIndex(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
-            <summary>
-            Create a BTREE index on nodes with label and property
-            with an index provider. 
-            The other index settings will have their default values.
-            </summary>
-            <param name="name">The name.</param>
-            <param name="p">The p.</param>
-            <param name="var">The variable.</param>
-            <param name="vars">The vars.</param>
-            <returns></returns>
-            <remarks>
-            Options are not included, make sure to add the proper ones, for example:
-            OPTIONS {
-                    indexProvider: 'native-btree-1.0',
-              indexConfig: {
-                `spatial.cartesian.min`: [-100.0, -100.0],
-                `spatial.cartesian.max`: [100.0, 100.0]
-                }
-            }
-            </remarks>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.CreateTextIndex(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
@@ -565,30 +546,6 @@
             <param name="var">The variable.</param>
             <param name="vars">The vars.</param>
             <returns></returns>
-        </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateBTreeIndex(System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
-            <summary>
-            Create a index phrase.
-            </summary>
-            <param name="name">The name.</param>
-            <param name="p">The p.</param>
-            <param name="var">The variable.</param>
-            <param name="vars">The vars.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            CREATE (n {name: $value})
-            </example>
-            <remarks>
-            Options are not included, make sure to add the proper ones, for example:
-            OPTIONS {
-                    indexProvider: 'native-btree-1.0',
-              indexConfig: {
-                `spatial.cartesian.min`: [-100.0, -100.0],
-                `spatial.cartesian.max`: [100.0, 100.0]
-                }
-            }
-            </remarks>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.TryCreateFullTextIndex(System.String,Weknow.GraphDbCommands.IPattern,Weknow.FullTextAnalyzer,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
@@ -1991,15 +1948,16 @@
             <param name="vars">The vars.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.CreateConstraint(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.CreateConstraint(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.ConstraintType,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a index phrase.
             </summary>
             <param name="p">The p.</param>
             <param name="name">The name.</param>
-            <param name="pattern">The pattern.</param>
-            <param name="vars">The vars.</param>
             <param name="type">The type.</param>
+            <param name="pattern">The pattern.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.TryCreateConstraint(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
@@ -2013,15 +1971,16 @@
             <param name="vars">The vars.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.TryCreateConstraint(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,System.Collections.Generic.IEnumerable{System.Object},Weknow.GraphDbCommands.ConstraintType)">
+        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.TryCreateConstraint(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.ConstraintType,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a index phrase.
             </summary>
             <param name="p">The p.</param>
             <param name="name">The name.</param>
-            <param name="pattern">The pattern.</param>
-            <param name="vars">The vars.</param>
             <param name="type">The type.</param>
+            <param name="pattern">The pattern.</param>
+            <param name="var">The variable.</param>
+            <param name="vars">The vars.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.DropIndex(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String)">
@@ -2052,29 +2011,6 @@
             <param name="var">The variable.</param>
             <param name="vars">The vars.</param>
             <returns></returns>
-        </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.CreateBTreeIndex(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
-            <summary>
-            Create a BTREE index on nodes with label and property
-            with an index provider.
-            The other index settings will have their default values.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="name">The name.</param>
-            <param name="pattern">The pattern.</param>
-            <param name="var">The variable.</param>
-            <param name="vars">The vars.</param>
-            <returns></returns>
-            <remarks>
-            Options are not included, make sure to add the proper ones, for example:
-            OPTIONS {
-            indexProvider: 'native-btree-1.0',
-            indexConfig: {
-            `spatial.cartesian.min`: [-100.0, -100.0],
-            `spatial.cartesian.max`: [100.0, 100.0]
-            }
-            }
-            </remarks>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.CreateTextIndex(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>
@@ -2123,31 +2059,6 @@
             <param name="var">The variable.</param>
             <param name="vars">The vars.</param>
             <returns></returns>
-        </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.TryCreateBTreeIndex(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
-            <summary>
-            Create a index phrase.
-            </summary>
-            <param name="p">The p.</param>
-            <param name="name">The name.</param>
-            <param name="pattern">The pattern.</param>
-            <param name="var">The variable.</param>
-            <param name="vars">The vars.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <remarks>
-            Options are not included, make sure to add the proper ones, for example:
-            OPTIONS {
-            indexProvider: 'native-btree-1.0',
-            indexConfig: {
-            `spatial.cartesian.min`: [-100.0, -100.0],
-            `spatial.cartesian.max`: [100.0, 100.0]
-            }
-            }
-            </remarks>
-            <example>
-            CREATE (n {name: $value})
-            </example>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.TryCreateFullTextIndex(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.String,Weknow.GraphDbCommands.IPattern,Weknow.FullTextAnalyzer,Weknow.GraphDbCommands.ParamsFirst{System.Object},System.Object[])">
             <summary>

@@ -43,10 +43,10 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"DROP CONSTRAINT $p_0"
+                $"DROP CONSTRAINT test-constraint"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // DropConstraint_Test
@@ -64,9 +64,9 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "DROP CONSTRAINT $p_0 IF NOT EXISTS"
+                "DROP CONSTRAINT test-constraint IF EXISTS"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // TryDropConstraint_Test
@@ -84,12 +84,12 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name)"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // Constraint_Test
@@ -107,12 +107,11 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name)"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // TryConstraint_Test
@@ -123,22 +122,21 @@ namespace Weknow.GraphDbCommands
         public void Constraint_IsNodeKey_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _(() => CreateConstraint("test-constraint", 
-                                                N(n, Person), 
-                                                new[] { n._.Id, n._.Name },
-                                                ConstraintType.IsNodeKey), cfg =>
+            CypherCommand cypher = _(() => CreateConstraint("test-constraint",
+                                                ConstraintType.IsNodeKey,
+                                                N(n, Person),
+                                                n._.Id, n._.Name), cfg =>
             {
                 cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name) IS NODE KEY"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
         }
 
         #endregion // Constraint_IsNodeKey_Test
@@ -149,22 +147,23 @@ namespace Weknow.GraphDbCommands
         public void TryConstraint_IsUnique_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
-                                                N(n, Person), 
-                                                new[] { n._.Id, n._.Name },
-                                                ConstraintType.IsUnique), cfg =>
+            CypherCommand cypher = _(() => TryCreateConstraint(
+                                                "test-constraint",
+                                                ConstraintType.IsUnique,
+                                                N(n, Person),
+                                                n._.Id, n._.Name), cfg =>
             {
                 cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name) IS UNIQUE"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // TryConstraint_IsUnique_Test
@@ -175,22 +174,23 @@ namespace Weknow.GraphDbCommands
         public void TryConstraint_IsNodeKey_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
-                                                N(n, Person), 
-                                                new[] { n._.Id, n._.Name },
-                                                ConstraintType.IsNodeKey), cfg =>
+            CypherCommand cypher = _(() => TryCreateConstraint(
+                                                "test-constraint",
+                                                ConstraintType.IsNodeKey,
+                                                N(n, Person),
+                                                 n._.Id, n._.Name), cfg =>
             {
                 cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name) IS NODE KEY"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // TryConstraint_IsNodeKey_Test
@@ -202,21 +202,21 @@ namespace Weknow.GraphDbCommands
         {
             var (n, r) = Variables.CreateMulti<Foo, Foo>();
             CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
-                                                N(n, Person) - R[r, KNOWS] > N(), 
-                                                new[] { n._.Id, r._.Name },
-                                                ConstraintType.IsNotNull), cfg =>
+                                                ConstraintType.IsNotNull,
+                                                N(n, Person) - R[r, KNOWS] > N(),
+                                                n._.Id, r._.Name ), cfg =>
             {
                 cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON)-[r:KNOWS]->(){NewLine}" +
                 $"\tREQUIRE (n.Id, r.Name) IS NOT NULL"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // TryConstraint_IsNotNull_Test
@@ -229,9 +229,9 @@ namespace Weknow.GraphDbCommands
             var n = Variables.Create<Foo>();
 #pragma warning disable CS0618 // Type or member is obsolete
             CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
-                                                N(n, Person), 
-                                                new[] { n._.Id, n._.Name },
-                                                ConstraintType.IsNodeKey)
+                                                ConstraintType.IsNodeKey,
+                                                N(n, Person),
+                                                n._.Id, n._.Name)
                                            .WithRawCypher(@"
 OPTIONS {
   constraintConfig: {
@@ -246,7 +246,7 @@ OPTIONS {
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"CREATE CONSTRAINT $p_0 IF NOT EXISTS{NewLine}" +
+                $"CREATE CONSTRAINT test-constraint IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
                 $"\tREQUIRE (n.Id, n.Name) IS NODE KEY{NewLine}" +
                 @"
@@ -257,8 +257,8 @@ OPTIONS {
   }
 }"
                 , cypher.Query);
-            Assert.Equal("test-constraint", cypher.Parameters["p_0"]);
-            Assert.Equal("test-constraint", cypher.Parameters["$p_0"]);
+            Assert.Empty(cypher.Parameters);
+
         }
 
         #endregion // TryConstraint_IsNodeKey_Options_Test
