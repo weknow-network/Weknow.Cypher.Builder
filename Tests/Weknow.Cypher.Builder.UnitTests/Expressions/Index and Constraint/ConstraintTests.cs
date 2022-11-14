@@ -102,6 +102,7 @@ namespace Weknow.GraphDbCommands
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => TryCreateConstraint("test-constraint", N(n, Person), n._.Id, n._.Name), cfg =>
             {
+                cfg.AmbientLabels.Add("AmbientLabel"); // index should ignore it
                 cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
             });
 

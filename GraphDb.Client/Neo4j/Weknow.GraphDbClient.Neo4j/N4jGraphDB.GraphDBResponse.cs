@@ -32,6 +32,21 @@ partial class N4jGraphDB
 
         #endregion // Ctor
 
+        #region GetInfoAsync
+
+        /// <summary>
+        /// Gets the information asynchronous.
+        /// </summary>
+        /// <returns></returns>
+        async ValueTask<IGraphExecutionSummary> IGraphDBResponse.GetInfoAsync()
+        {
+            IResultSummary summary = await _cursor.ConsumeAsync();
+            IGraphExecutionSummary res = new GraphExecutionSummary(summary);
+            return res;
+        }
+
+        #endregion // GetInfoAsync
+
         #region GetOrFetchAsync
 
         /// <summary>
@@ -390,5 +405,40 @@ partial class N4jGraphDB
         }
 
         #endregion // class GraphDbRecord: IGraphDBRecord
+
+        #region class GraphExecutionSummary : IGraphExecutionSummary
+
+        /// <summary>
+        /// The result summary of running a query. The result summary interface can be used 
+        /// to investigate details about the result, like the type of query run, how many
+        /// and which kinds of updates have been executed, and query plan and profiling information
+        //  if available. The result summary is only available after all result records have
+        //  been consumed. Keeping the result summary around does not influence the lifecycle
+        //  of any associated session and/or transaction.
+        /// </summary>
+        private class GraphExecutionSummary : IGraphExecutionSummary
+        {
+            private readonly TimeSpan _resultAvailableAfter;
+            private readonly string _query;
+            private readonly IResultSummary _summary;
+
+            public GraphExecutionSummary(IResultSummary summary)
+            {
+                _query = summary.Query.ToString();
+                _resultAvailableAfter = summary.ResultAvailableAfter;
+                _summary = summary;
+            }
+
+            string IGraphExecutionSummary.Query => _query;
+
+            TimeSpan IGraphExecutionSummary.ResultAvailableAfter => _resultAvailableAfter;
+
+            public override string ToString()
+            {
+                return _summary.ToString();
+            }
+        }
+
+        #endregion // class GraphExecutionSummary : IGraphExecutionSummary
     }
 }

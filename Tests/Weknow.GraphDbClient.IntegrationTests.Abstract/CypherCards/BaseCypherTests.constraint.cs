@@ -48,59 +48,64 @@ OPTIONS {
         var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
         var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
-
-        CypherCommand cypherDrop = _(() =>
-                                TryDropIndex(
-                                     "TEST_INDEX")
-                                .TryDropConstraint(
-                                     "TEST_CONSTRAINT")
-                                .TryDropConstraint(
-                                     "TEST_CONSTRAINT1"));
-
         try
         {
-
-            IGraphDBResponse constraintDrop = await _graphDB.RunAsync(cypherDrop);
-
             CypherCommand cypher = _(() =>
-                                    TryCreateConstraint(
-                                         "TEST_CONSTRAINT",
-                                         ConstraintType.IsNodeKey,
-                                         N(n, Person), n._.key, n._.name ));
-
-            IGraphDBResponse constraintResponse = await _graphDB.RunAsync(cypher);
-
-            CypherCommand cypherAddition = _(() =>
                                     TryCreateConstraint(
                                          "TEST_CONSTRAINT1",
                                          ConstraintType.IsNotNull,
-                                         N(n, Person), n._.age)
-                                    .TryCreateTextIndex("TEST_INDEX", N(n, Person), n._.desc));
+                                         N(n, Product), n._.age));
 
-            constraintResponse = await _graphDB.RunAsync(cypherAddition);
+            IGraphDBResponse constraintResponse = await _graphDB.RunAsync(cypher);
+            var info = await constraintResponse.GetInfoAsync();
+
+            cypher = _(() => TryCreateTextIndex("TEST_INDEX", N(n, Product), n._.desc));
+            constraintResponse = await _graphDB.RunAsync(cypher);
+            info = await constraintResponse.GetInfoAsync();
+
+            cypher = _(() => TryCreateConstraint(
+                                         "TEST_CONSTRAINT",
+                                         ConstraintType.IsNodeKey,
+                                         N(n, Product), n._.key, n._.name));
+            constraintResponse = await _graphDB.RunAsync(cypher);
+            info = await constraintResponse.GetInfoAsync();
 
             CypherCommand testCypher = _(() =>
                                     Unwind(items, map,
-                                         Create(N(n, Person))
+                                         Create(N(n, Product))
                                            .Set(n, map)));
-
             _outputHelper.WriteLine($"First Create: {testCypher}");
 
             CypherParameters prmsPrepare = testCypher.Parameters;
             prmsPrepare.AddRange(nameof(items), Enumerable.Range(0, 10)
                                     .Select(Factory));
             IGraphDBResponse response = await _graphDB.RunAsync(testCypher);
-            Assert.ThrowsAsync<Exception>(async () =>
-                await _graphDB.RunAsync(testCypher));
-
+            await Assert.ThrowsAsync<Neo4j.Driver.ClientException>(async () =>
+            {
+                response = await _graphDB.RunAsync(testCypher);
+                var i = await response.GetInfoAsync();
+            });
 
         }
         finally
         {
-            await _graphDB.RunAsync(cypherDrop);
+            CypherCommand cypherDrop = _(() => TryDropConstraint("TEST_CONSTRAINT"));
+            IGraphDBResponse dropResponse = await _graphDB.RunAsync(cypherDrop);
+            var dropInfo = await dropResponse.GetInfoAsync();
+
+            cypherDrop = _(() => TryDropConstraint("TEST_CONSTRAINT1"));
+            dropResponse = await _graphDB.RunAsync(cypherDrop);
+            dropInfo = await dropResponse.GetInfoAsync();
+
+            cypherDrop = _(() => TryDropIndex("TEST_INDEX"));
+            dropResponse = await _graphDB.RunAsync(cypherDrop);
+            dropInfo = await dropResponse.GetInfoAsync();
+
+
+            await Task.Delay(300); // no way to wait until delete completed
         }
 
-        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i);
+        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i) { key = i, desc = $"Something to say on {i}" };
     }
 
     #endregion // 

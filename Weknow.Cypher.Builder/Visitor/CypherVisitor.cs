@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
+using Weknow.Disposables;
+
 using Weknow.GraphDbCommands.Declarations;
 
 using static Weknow.GraphDbCommands.CypherDelegates;
@@ -22,7 +24,7 @@ namespace Weknow.GraphDbCommands
     {
         private readonly CypherConfig _configuration;
         private readonly HashSet<string> _ambientOnce = new();
-        private bool _shouldHandleAmbient = false;
+        private AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
 
         #region Ctor
@@ -86,7 +88,7 @@ namespace Weknow.GraphDbCommands
             if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
                 return;
 
-            if (!_shouldHandleAmbient)
+            if (!_shouldHandleAmbient.Value)
             {
                 if (labels == null || labels.Length == 0)
                     return;
@@ -99,7 +101,7 @@ namespace Weknow.GraphDbCommands
                 return;
             }
 
-            _shouldHandleAmbient = false;
+            _shouldHandleAmbient.Deactivate();
 
             HandleStartChar();
 
@@ -253,13 +255,10 @@ namespace Weknow.GraphDbCommands
             {
                 //bool ambScope = (node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode));
                 bool ambScope = node.Type == typeof(INode);
-                if (ambScope)
-                    _shouldHandleAmbient = true;
-
-                ApplyFormat(node, format);
-
-                if (ambScope)
-                    _shouldHandleAmbient = false;
+                using (ambScope ? _shouldHandleAmbient.Activate() : Disposable.Empty)
+                {
+                    ApplyFormat(node, format);
+                }
             }
             else if (type == nameof(Rng))
             {
@@ -604,24 +603,29 @@ namespace Weknow.GraphDbCommands
                                 }
 
                             }
-                            _isRawChypher = expr.Type.Name == nameof(RawCypher) || 
-                                            node is MethodCallExpression mc && mc.Method.Name switch
-                                            {
-                                                nameof(Cypher.CreateConstraint) => true,
-                                                nameof(Cypher.TryCreateConstraint) => true,
-                                                nameof(Cypher.CreateIndex) => true,
-                                                nameof(Cypher.TryCreateIndex) => true,
-                                                nameof(Cypher.TryDropConstraint) => true,
-                                                nameof(Cypher.DropConstraint) => true,
-                                                nameof(Cypher.TryDropIndex) => true,
-                                                nameof(Cypher.DropIndex) => true,
-                                                nameof(Cypher.CreateTextIndex) => true,
-                                                nameof(Cypher.TryCreateFullTextIndex) => true,
-                                                nameof(Cypher.CreateFullTextIndex) => true,
-                                                nameof(Cypher.TryCreateTextIndex) => true,
-                                                _ => false
-                                            };
-                            Visit(expr);
+
+                            bool isIndexConstraint = node is MethodCallExpression mc && mc.Method.Name switch
+                            {
+                                nameof(Cypher.CreateConstraint) => true,
+                                nameof(Cypher.TryCreateConstraint) => true,
+                                nameof(Cypher.CreateIndex) => true,
+                                nameof(Cypher.TryCreateIndex) => true,
+                                nameof(Cypher.TryDropConstraint) => true,
+                                nameof(Cypher.DropConstraint) => true,
+                                nameof(Cypher.TryDropIndex) => true,
+                                nameof(Cypher.DropIndex) => true,
+                                nameof(Cypher.CreateTextIndex) => true,
+                                nameof(Cypher.TryCreateFullTextIndex) => true,
+                                nameof(Cypher.CreateFullTextIndex) => true,
+                                nameof(Cypher.TryCreateTextIndex) => true,
+                                _ => false
+                            };
+
+                            _isRawChypher = expr.Type.Name == nameof(RawCypher) || isIndexConstraint;
+                            using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
+                            {
+                                Visit(expr);
+                            }
                             _isRawChypher = false;
                         }
                         break;
@@ -701,5 +705,52 @@ namespace Weknow.GraphDbCommands
         }
 
         #endregion // AppendPropSeparator
+
+
+        #region AmbientContextStack
+
+        private enum AmbientContextState
+        {
+            None,
+            Active,
+            Deny,
+        }
+
+        /// <summary>
+        /// Should handle ambient stack
+        /// </summary>
+        /// <seealso cref="System.IDisposable" />
+        private class AmbientContextStack
+        {
+            private AmbientContextState _value;
+            public bool Value => _value == AmbientContextState.Active;
+
+            public IDisposable Activate()
+            {
+                if (_value != AmbientContextState.Deny)
+                    _value = AmbientContextState.Active;
+                return Disposable.Create(Deactivate);
+            }
+
+            public void Deactivate()
+            {
+                if (_value == AmbientContextState.Active)
+                    _value = AmbientContextState.None;
+            }
+
+            public IDisposable Deny()
+            {
+                _value = AmbientContextState.Deny;
+                return Disposable.Create(Undeny);
+            }
+
+            public void Undeny()
+            {
+                if (_value == AmbientContextState.Deny)
+                    _value = AmbientContextState.None;
+            }
+        }
+
+        #endregion // AmbientContextStack
     }
 }

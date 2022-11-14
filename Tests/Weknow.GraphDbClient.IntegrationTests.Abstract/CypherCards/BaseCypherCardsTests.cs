@@ -34,6 +34,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
     #endregion // Ctor
 
+    private ILabel Product => throw new NotImplementedException();
     private ILabel Person => throw new NotImplementedException();
     private ILabel Friend => throw new NotImplementedException();
 

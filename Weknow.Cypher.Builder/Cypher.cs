@@ -97,6 +97,23 @@ namespace Weknow.GraphDbCommands
             return result;
         }
 
+
+        /// <summary>
+        /// Build cypher expression
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <returns></returns>
+        public static CypherCommand _(
+                            Expression expression,
+                            Action<CypherConfig>? configuration = null)
+        {
+            var cfg = new CypherConfig();
+            HandleConfigInjection(configuration, cfg);
+            CypherCommand result = Init(cfg, expression);
+            return result;
+        }
+
         #endregion // dash '_'
 
         #region dash '_<T>'
@@ -623,7 +640,7 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         [Cypher("DROP CONSTRAINT $0")]
-        public static Fluent DropConstraint(
+        public static Expression DropConstraint(
             string name) => throw new NotImplementedException();
 
         #endregion // DropConstraint

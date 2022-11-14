@@ -120,5 +120,12 @@
             var company = results.Get<Company>("c");
             ]]></example>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary" -->
+        <member name="P:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary.ResultAvailableAfter">
+            <summary>
+            The time it took the server to make the result available for consumption.
+            Default to -00:00:00.001 if the server version does not support this field in summary.
+            </summary>
+        </member>
     </members>
 </doc>

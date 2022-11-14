@@ -66,7 +66,8 @@ public class BaseIntegrationTests : IDisposable
                                 Match(N(n))
                                 .DetachDelete(n),
                                 CONFIGURATION);
-        await _graphDB.RunAsync(cypher);
+        var res = await _graphDB.RunAsync(cypher);
+        await res.GetInfoAsync();
     }
 
     #endregion // CleanAsync

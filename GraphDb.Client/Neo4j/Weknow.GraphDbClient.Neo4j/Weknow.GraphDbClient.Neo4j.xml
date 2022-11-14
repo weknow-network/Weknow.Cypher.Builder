@@ -107,6 +107,12 @@
             </summary>
             <param name="result">The result.</param>
         </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetInfoAsync">
+            <summary>
+            Gets the information asynchronous.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GetOrFetchAsync(System.Int32)">
             <summary>
             Get from cache or Fetch.
@@ -261,6 +267,7 @@
             </summary>
             <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBRecord" />
         </member>
+        <!-- Badly formed XML comment ignored for member "T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GraphExecutionSummary" -->
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBExtensions">
             <summary>
             Neo4j graphDb abstraction
