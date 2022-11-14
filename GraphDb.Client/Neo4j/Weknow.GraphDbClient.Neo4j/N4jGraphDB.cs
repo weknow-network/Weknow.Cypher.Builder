@@ -39,7 +39,7 @@ internal partial class N4jGraphDB : IGraphDB
     async ValueTask<IGraphDBResponse> IGraphDB.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
         IResultCursor cursor = await _session.Session.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
-        return new GraphDBResponse(cursor);
+        return await GraphDBResponse.Create(cursor);
     }
 
     #endregion // RunAsync

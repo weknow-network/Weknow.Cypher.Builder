@@ -19,13 +19,20 @@ partial class N4jGraphDB
         private ImmutableList<IRecord> _records = ImmutableList<IRecord>.Empty;
         private readonly AsyncLock _lock = new AsyncLock(Debugger.IsAttached ? TimeSpan.FromMinutes(5) : TimeSpan.FromSeconds(10));
 
+        public static async ValueTask<IGraphDBResponse> Create(IResultCursor result)
+        {
+            var res = new GraphDBResponse(result);
+            res._completed = !await result.FetchAsync();
+            return res;
+        }
+
         #region Ctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphDBResponse"/> class.
         /// </summary>
         /// <param name="result">The result.</param>
-        public GraphDBResponse(IResultCursor result)
+        private GraphDBResponse(IResultCursor result)
         {
             _cursor = result;
         }
@@ -65,11 +72,8 @@ partial class N4jGraphDB
                 {
                     if (!_completed)
                     {
-                        bool completed = !await _cursor.FetchAsync();
-                        if (completed)
-                            _completed = completed;
-                        else
-                            _records = _records.Add(_cursor.Current);
+                        _records = _records.Add(_cursor.Current);
+                        _completed = !await _cursor.FetchAsync();
                     }
                 }
             }
