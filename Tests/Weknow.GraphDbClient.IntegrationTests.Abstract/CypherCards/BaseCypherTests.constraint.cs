@@ -80,6 +80,7 @@ OPTIONS {
             prmsPrepare.AddRange(nameof(items), Enumerable.Range(0, 10)
                                     .Select(Factory));
             IGraphDBResponse response = await _graphDB.RunAsync(testCypher);
+            info = await response.GetInfoAsync();
             await Assert.ThrowsAsync<Neo4j.Driver.ClientException>(async () =>
             {
                 response = await _graphDB.RunAsync(testCypher);
