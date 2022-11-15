@@ -30,7 +30,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region DropConstraint_Test
+        #region DROP CONSTRAINT test
 
         [Fact]
         public void DropConstraint_Test()
@@ -49,9 +49,9 @@ namespace Weknow.GraphDbCommands
 
         }
 
-        #endregion // DropConstraint_Test
+        #endregion // DROP CONSTRAINT test
 
-        #region TryDropConstraint_Test
+        #region DROP CONSTRAINT test IF EXISTS
 
         [Fact]
         public void TryDropConstraint_Test()
@@ -69,9 +69,9 @@ namespace Weknow.GraphDbCommands
             Assert.Empty(cypher.Parameters);
         }
 
-        #endregion // TryDropConstraint_Test
+        #endregion // DROP CONSTRAINT test IF EXISTS
 
-        #region Constraint_Test
+        #region CREATE CONSTRAINT test FOR (n:PERSON) REQUIRE (n.Id, n.Name)
 
         [Fact]
         public void Constraint_Test()
@@ -92,9 +92,9 @@ namespace Weknow.GraphDbCommands
 
         }
 
-        #endregion // Constraint_Test
+        #endregion // CREATE CONSTRAINT test FOR (n:PERSON) REQUIRE (n.Id, n.Name)
 
-        #region TryConstraint_Test
+        #region CREATE CONSTRAINT test IF NOT EXISTS FOR (n:PERSON) REQUIRE (n.Id, n.Name)
 
         [Fact]
         public void TryConstraint_Test()
@@ -115,9 +115,9 @@ namespace Weknow.GraphDbCommands
             Assert.Empty(cypher.Parameters);
         }
 
-        #endregion // TryConstraint_Test
+        #endregion // CREATE CONSTRAINT test IF NOT EXISTS FOR (n:PERSON) REQUIRE (n.Id, n.Name)
 
-        #region Constraint_IsNodeKey_Test
+        #region CREATE CONSTRAINT test FOR (n:PERSON) REQUIRE (n.Id, n.Name) IS NODE KEY
 
         [Fact]
         public void Constraint_IsNodeKey_Test()
@@ -140,9 +140,9 @@ namespace Weknow.GraphDbCommands
             Assert.Empty(cypher.Parameters);
         }
 
-        #endregion // Constraint_IsNodeKey_Test
+        #endregion // CREATE CONSTRAINT test FOR (n:PERSON) REQUIRE (n.Id, n.Name) IS NODE KEY
 
-        #region TryConstraint_IsUnique_Test
+        #region CREATE CONSTRAINT .. FOR (n:PERSON) REQUIRE (..) IS UNIQUE 
 
         [Fact]
         public void TryConstraint_IsUnique_Test()
@@ -167,9 +167,9 @@ namespace Weknow.GraphDbCommands
 
         }
 
-        #endregion // TryConstraint_IsUnique_Test
+        #endregion // CREATE CONSTRAINT .. FOR (n:PERSON) REQUIRE (..) IS UNIQUE  
 
-        #region TryConstraint_IsNodeKey_Test
+        #region CREATE CONSTRAINT .. FOR (n:PERSON) REQUIRE (..) IS NODE KEY 
 
         [Fact]
         public void TryConstraint_IsNodeKey_Test()
@@ -194,9 +194,9 @@ namespace Weknow.GraphDbCommands
 
         }
 
-        #endregion // TryConstraint_IsNodeKey_Test
+        #endregion // CREATE CONSTRAINT .. FOR (n:PERSON) REQUIRE (..) IS NODE KEY 
 
-        #region TryConstraint_IsNotNull_Test
+        #region CREATE CONSTRAINT .. FOR (n:PERSON)-[r:KNOWS]->() REQUIRE .. IS NOT NULL
 
         [Fact]
         public void TryConstraint_IsNotNull_Test()
@@ -220,9 +220,9 @@ namespace Weknow.GraphDbCommands
 
         }
 
-        #endregion // TryConstraint_IsNotNull_Test
+        #endregion // CREATE CONSTRAINT .. FOR (n:PERSON)-[r:KNOWS]->() REQUIRE .. IS NOT NULL
 
-        #region TryConstraint_IsNodeKey_Options_Test
+        #region CREATE CONSTRAINT .. REQUIRE (n.Id, n.Name) IS NODE KEY OPTIONS {..}
 
         [Fact]
         public void TryConstraint_IsNodeKey_Options_Test()
@@ -262,7 +262,7 @@ OPTIONS {
 
         }
 
-        #endregion // TryConstraint_IsNodeKey_Options_Test
+        #endregion // CREATE CONSTRAINT .. REQUIRE (n.Id, n.Name) IS NODE KEY OPTIONS {..}
     }
 }
 
