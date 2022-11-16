@@ -1,6 +1,4 @@
-﻿using System;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands.Declarations
 {
     /// <summary>
@@ -30,7 +28,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>
-        public T _ { get; } 
+        public T _ { get; }
         /// <summary>
         /// Gets type representation of the variable which should be increment.
         /// </summary>
@@ -79,7 +77,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator == (VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator ==(VariableDeclaration a, object b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator !=.
@@ -89,7 +87,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator != (VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator !=(VariableDeclaration a, object b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator ==.
@@ -99,7 +97,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator == (object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator ==(object a, VariableDeclaration b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator !=.
@@ -109,7 +107,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator != (object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator !=(object a, VariableDeclaration b) => throw new NotImplementedException();
 
         #endregion // == / !=
 
@@ -123,7 +121,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator > (VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator >(VariableDeclaration a, object b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator <.
@@ -133,7 +131,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator < (VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator <(VariableDeclaration a, object b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator >.
@@ -143,7 +141,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator > (object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator >(object a, VariableDeclaration b) => throw new NotImplementedException();
 
         /// <summary>
         /// Declaration for operator <.
@@ -153,7 +151,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator < (object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator <(object a, VariableDeclaration b) => throw new NotImplementedException();
 
         #endregion // <>
 

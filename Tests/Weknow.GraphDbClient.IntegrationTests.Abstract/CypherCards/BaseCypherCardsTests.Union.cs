@@ -1,22 +1,17 @@
-using System.Collections.Generic;
-using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbCommands;
-using Weknow.Mapping;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using System.Xml.Linq;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests
+public partial class BaseCypherCardsTests
 {
     #region MATCH .. RETURN m.name UNION MATCH .. RETURN m.name
 

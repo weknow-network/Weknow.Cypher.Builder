@@ -1,5 +1,3 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,7 +32,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n)", pattern.ToString());
+            Assert.Equal(@"(n)", pattern.ToString());
         }
 
         #endregion // (n) / Node_Variable_Test
@@ -49,7 +47,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(:Person)", pattern.ToString());
+            Assert.Equal(@"(:Person)", pattern.ToString());
         }
 
         #endregion // (:Person) / Node_Label_Test
@@ -65,7 +63,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person)", pattern.ToString());
+            Assert.Equal(@"(n:Person)", pattern.ToString());
         }
 
         #endregion // (n:Person) / Node_Variable_Label_Test
@@ -82,7 +80,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
+            Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
         }
 
         #endregion // (n:Person { Id: $Id }) / Node_Variable_Label_Property_Test
@@ -99,7 +97,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person $n)", pattern.ToString());
+            Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
         #endregion // (n:Person $n) / Node_Variable_Label_Map_Test
@@ -115,7 +113,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"(n:Person:Animal)", pattern.ToString());
+            Assert.Equal(@"(n:Person:Animal)", pattern.ToString());
         }
 
         #endregion // (n:Person $n) / Node_MultiLabel_Test
@@ -133,7 +131,7 @@ namespace Weknow.GraphDbCommands
             _outputHelper.WriteLine(pattern.ToString());
 
             _outputHelper.WriteLine(pattern.ToString());
-			 Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
+            Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
         #endregion // CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
@@ -147,7 +145,7 @@ namespace Weknow.GraphDbCommands
                                     Match(N(n1, Person) - N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
+            Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
         }
 
         #endregion // MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
@@ -161,7 +159,7 @@ namespace Weknow.GraphDbCommands
                                     Match(N(n1, Person) > N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
+            Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
         }
 
         #endregion // MATCH (n1:Person)-->(n2:Person) / NodeToNode_Forward_Test
@@ -175,7 +173,7 @@ namespace Weknow.GraphDbCommands
                                     Match(N(n1, Person) < N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
+            Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
         }
 
         #endregion // MATCH (n1:Person)<--(n2:Person) / NodeToNodNodeToNode_Backward_Teste_Forward_Test
@@ -193,7 +191,7 @@ namespace Weknow.GraphDbCommands
                                           N(n2, Person, new { PropA = n2_PropA, PropB = n2_PropB })));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
+            Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
         #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test

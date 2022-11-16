@@ -1,5 +1,3 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -33,7 +31,7 @@ namespace Weknow.GraphDbCommands
 
             _outputHelper.WriteLine(cypher1);
             _outputHelper.WriteLine(cypher2);
-			 Assert.Equal(cypher1, cypher2);
+            Assert.Equal(cypher1, cypher2);
         }
 
         #endregion // Empty_vs_variable_Test

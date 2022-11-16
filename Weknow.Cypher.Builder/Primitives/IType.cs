@@ -1,8 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
-
-using System;
-
-namespace Weknow.GraphDbCommands
+﻿namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Relation's Type primitive for the Cypher expression.
@@ -15,7 +11,7 @@ namespace Weknow.GraphDbCommands
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IType 
+    public interface IType
     {
         /// <summary>
         /// Implements the operator |.

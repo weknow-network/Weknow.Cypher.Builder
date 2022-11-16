@@ -1,16 +1,11 @@
-﻿using System;
-using System.Text;
-
-using Weknow.GraphDbCommands.Declarations;
-
-using static Weknow.GraphDbCommands.CypherDelegates;
+﻿using Weknow.GraphDbCommands.Declarations;
 
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Cypher Function Extensions
     /// </summary>
-    partial class Cypher
+    public partial class Cypher
     {
         #region Type / type(r)
 

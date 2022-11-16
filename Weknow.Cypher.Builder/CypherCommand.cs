@@ -1,6 +1,4 @@
-﻿using System;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
@@ -17,7 +15,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="parameters">The parameters.</param>
         public CypherCommand(
             string query,
-            CypherParameters parameters) 
+            CypherParameters parameters)
         {
             Query = query;
             Parameters = parameters;
@@ -46,7 +44,7 @@ namespace Weknow.GraphDbCommands
         #region Casting Overloads
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="CypherCommand"/> to <see cref="System.String"/>.
+        /// Performs an implicit conversion from <see cref="CypherCommand"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <returns>
@@ -62,7 +60,7 @@ namespace Weknow.GraphDbCommands
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString() => Query;
 

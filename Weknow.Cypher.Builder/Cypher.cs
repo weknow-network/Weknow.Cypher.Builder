@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.Intrinsics.X86;
-
-using Microsoft.VisualBasic;
+﻿using System.Linq.Expressions;
 
 using Weknow.GraphDbCommands.Declarations;
 
-using static System.Net.Mime.MediaTypeNames;
 using static Weknow.GraphDbCommands.CypherDelegates;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 // https://neo4j.com/docs/cypher-refcard/current/
 

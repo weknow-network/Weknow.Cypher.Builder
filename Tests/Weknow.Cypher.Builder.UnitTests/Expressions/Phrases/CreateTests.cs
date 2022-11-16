@@ -1,5 +1,3 @@
-using System;
-
 using Weknow.GraphDbCommands.Declarations;
 
 using Xunit;
@@ -37,7 +35,7 @@ namespace Weknow.GraphDbCommands
             CypherCommand cypher = _(() => Create(N(n, Person, new { PropA, PropB })));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+            Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
         #endregion // Create_Test
@@ -51,7 +49,7 @@ namespace Weknow.GraphDbCommands
             CypherCommand cypher = _(() => Create(N(n, Person, n.AsParameter)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person $n)", cypher.Query);
+            Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
         #endregion // CreateAsMap_Test
@@ -66,7 +64,7 @@ namespace Weknow.GraphDbCommands
             CypherCommand cypher = _(() => Create(N(n, Person, map)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n:Person $map)", cypher.Query);
+            Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
         #endregion // CreateAsMap_WithParamName_Test
@@ -80,7 +78,7 @@ namespace Weknow.GraphDbCommands
             CypherCommand cypher = _(() => Create(N(n) - R[r, KNOWS] > N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
+            Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_Test
@@ -96,7 +94,7 @@ namespace Weknow.GraphDbCommands
                                     Create(N(n) - R[r, KNOWS, new { PropA, PropB }] > N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
+            Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
         }
 
         #endregion // CreateRelation_WithParams_Test

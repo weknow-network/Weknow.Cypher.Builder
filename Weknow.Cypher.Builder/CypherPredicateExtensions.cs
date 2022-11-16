@@ -1,17 +1,11 @@
-﻿using System;
-using System.Text;
-
-using Weknow.GraphDbCommands.Declarations;
-
-using static Weknow.GraphDbCommands.CypherDelegates;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿using Weknow.GraphDbCommands.Declarations;
 
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Cypher Extensions
     /// </summary>
-    partial class Cypher
+    public partial class Cypher
     {
         #region Compare
 
@@ -33,7 +27,7 @@ namespace Weknow.GraphDbCommands
             {
                 if (ignoreCase)
                 {
-                    if (Char.ToLower(compare[i]) != Char.ToLower(with[i]))
+                    if (char.ToLower(compare[i]) != char.ToLower(with[i]))
                         return false;
                 }
                 else
@@ -62,7 +56,7 @@ namespace Weknow.GraphDbCommands
         /// </example>
         [Cypher("$0 IN $1")]
         public static bool In(object property, VariableDeclaration compareWith) => throw new NotImplementedException();
-        
+
         /// <summary>
         /// IN phrase.
         /// </summary>

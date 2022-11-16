@@ -1,8 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
-
-using System;
-
-namespace Weknow.GraphDbCommands.Declarations
+﻿namespace Weknow.GraphDbCommands.Declarations
 {
     /// <summary>
     /// Parameter primitive for the Cypher expression.
@@ -151,7 +147,7 @@ namespace Weknow.GraphDbCommands.Declarations
         /// It use under expression and don't need a real implementation;
         /// </summary>
         new internal static readonly ParameterDeclaration<T> Default = new ParameterDeclaration<T>();
-        
+
         /// <summary>
         /// Gets type representation of the variable.
         /// </summary>

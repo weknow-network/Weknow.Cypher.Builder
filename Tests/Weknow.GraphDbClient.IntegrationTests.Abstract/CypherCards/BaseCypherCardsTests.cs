@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
@@ -10,12 +8,6 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using Neo4j.Driver;
-using System.IO;
-using FakeItEasy;
-using static System.Collections.Specialized.BitVector32;
-using System.Runtime.Intrinsics.X86;
-using System.ComponentModel;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -43,7 +35,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
     #region partial record PersonEntity
 
-    [Dictionaryable(Flavor=Flavor.Neo4j)]
+    [Dictionaryable(Flavor = Flavor.Neo4j)]
     private partial record PersonEntity(string name, int age)
     {
         public int? key { get; init; }

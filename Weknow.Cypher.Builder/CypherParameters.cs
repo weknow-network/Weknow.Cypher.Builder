@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-using Weknow.Mapping;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿using Weknow.Mapping;
 
 namespace Weknow.GraphDbCommands
 {
@@ -172,15 +168,15 @@ namespace Weknow.GraphDbCommands
         {
             get
             {
-                if(_parameters.ContainsKey(key))
-                  return _parameters[key];
-                if(key.StartsWith("$"))
+                if (_parameters.ContainsKey(key))
+                    return _parameters[key];
+                if (key.StartsWith("$"))
                     return _parameters[key.Substring(1)];
                 throw new KeyNotFoundException(key);
             }
             set
             {
-                if(key.StartsWith("$"))
+                if (key.StartsWith("$"))
                     key = key.Substring(1);
                 if (value is IDictionaryable d)
                     _parameters[key] = d.ToDictionary();

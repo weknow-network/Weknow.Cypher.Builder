@@ -1,8 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
-
-using System;
-
-namespace Weknow.GraphDbCommands
+﻿namespace Weknow.GraphDbCommands
 {
 
     /// <summary>
@@ -16,7 +12,7 @@ namespace Weknow.GraphDbCommands
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface ILabel 
+    public interface ILabel
     {
         /// <summary>
         /// Implements the operator &amp;.
@@ -27,7 +23,7 @@ namespace Weknow.GraphDbCommands
         /// The result of the operator.
         /// </returns>
         /// <example><![CDATA[(n:Person:Animal)]]></example>
-        public static ILabel operator & (ILabel a, ILabel b) => throw new NotImplementedException();
+        public static ILabel operator &(ILabel a, ILabel b) => throw new NotImplementedException();
     }
 
 }

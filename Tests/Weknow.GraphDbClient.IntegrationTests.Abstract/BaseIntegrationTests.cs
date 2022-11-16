@@ -1,16 +1,13 @@
-using Neo4j.Driver;
+using FakeItEasy;
 
-using Weknow.GraphDbCommands;
-using Weknow.GraphDbClient.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 
-using Xunit;
+using Weknow.GraphDbClient.Abstraction;
+using Weknow.GraphDbCommands;
+
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using System;
-using FakeItEasy;
-using Microsoft.Extensions.Logging;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
@@ -22,7 +19,7 @@ public class BaseIntegrationTests : IDisposable
     protected ILabel _Test_ => throw new NotImplementedException();
     private readonly IServiceProvider _serviceProvider;
 
-    private Microsoft.Extensions.Logging.ILogger _logger = A.Fake<Microsoft.Extensions.Logging.ILogger>();
+    private readonly Microsoft.Extensions.Logging.ILogger _logger = A.Fake<Microsoft.Extensions.Logging.ILogger>();
 
     #region Action<CypherConfig> CONFIGURATION = ...
 
@@ -77,14 +74,12 @@ public class BaseIntegrationTests : IDisposable
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-#pragma warning disable CA1063 // Implement IDisposable Correctly
     public void Dispose()
     {
         Dispose(true);
         CleanAsync().Wait();
         GC.SuppressFinalize(this);
     }
-#pragma warning restore CA1063 // Implement IDisposable Correctly
 
     protected virtual void Dispose(bool disposing) { }
     ~BaseIntegrationTests()

@@ -1,11 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -41,11 +39,11 @@ namespace Weknow.GraphDbCommands
                                         .Return(n._.eTag));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                        $"MERGE (n:Person {{ Id: $Id, eTag: $eTag }}){NewLine}" +
-                        $"SET n += $map{NewLine}" +
-                        $"SET n.eTag = n.eTag + 1{NewLine}" +
-                        "RETURN n.eTag", cypher.Query);
+            Assert.Equal(
+                       $"MERGE (n:Person {{ Id: $Id, eTag: $eTag }}){NewLine}" +
+                       $"SET n += $map{NewLine}" +
+                       $"SET n.eTag = n.eTag + 1{NewLine}" +
+                       "RETURN n.eTag", cypher.Query);
         }
 
         #endregion // ETag_Test

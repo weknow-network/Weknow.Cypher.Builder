@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 using Weknow.Disposables;
 
 using Weknow.GraphDbCommands.Declarations;
-
-using static Weknow.GraphDbCommands.CypherDelegates;
-
-#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.GraphDbCommands
 {
@@ -24,7 +16,7 @@ namespace Weknow.GraphDbCommands
     {
         private readonly CypherConfig _configuration;
         private readonly HashSet<string> _ambientOnce = new();
-        private AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
+        private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
 
         #region Ctor

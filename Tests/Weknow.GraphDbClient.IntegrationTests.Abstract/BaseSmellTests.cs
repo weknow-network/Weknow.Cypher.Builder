@@ -139,7 +139,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     [Fact]
     public virtual async Task Create_Map_Match_Test()
     {
-        var i = new Someone((Int32)(DateTime.Now.Ticks % 10L), "Name", (Int32)51L);
+        var i = new Someone((int)(DateTime.Now.Ticks % 10L), "Name", (int)51L);
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var (p1, p2, p3, p4, p5) = Parameters.CreateMulti<Someone, Someone, Someone, Someone, Someone>();
         var someone1 = new Someone(1, "Deby", 51);

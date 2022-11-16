@@ -1,11 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -38,10 +36,10 @@ namespace Weknow.GraphDbCommands
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
-                    $"WHERE n IN $items{NewLine}" +
-                    "RETURN n", cypher.Query);
+            Assert.Equal(
+                   $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                   $"WHERE n IN $items{NewLine}" +
+                   "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n IN $items RETURN n / In_Test
@@ -60,10 +58,10 @@ namespace Weknow.GraphDbCommands
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
-                    $"WHERE n.Id IN $items{NewLine}" +
-                    "RETURN n", cypher.Query);
+            Assert.Equal(
+                   $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                   $"WHERE n.Id IN $items{NewLine}" +
+                   "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n.Id IN $items RETURN n / In_Prop_Test
@@ -82,14 +80,14 @@ namespace Weknow.GraphDbCommands
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
-                    $"WHERE n.PropA IN $items AND n.PropB IN $items{NewLine}" +
-                    "RETURN n", cypher.Query);
+            Assert.Equal(
+                   $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                   $"WHERE n.PropA IN $items AND n.PropB IN $items{NewLine}" +
+                   "RETURN n", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) WHERE n.PropA IN $items AND n.PropB IN $items RETURN n / In_Complex_Test
-        
+
         [Fact]
         public void In_Var_Test()
         {
@@ -103,10 +101,10 @@ namespace Weknow.GraphDbCommands
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal(
-                    $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
-                    $"WHERE n.Id IN item.Names{NewLine}" +
-                    "RETURN n", cypher.Query);
+            Assert.Equal(
+                   $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+                   $"WHERE n.Id IN item.Names{NewLine}" +
+                   "RETURN n", cypher.Query);
         }
 
     }

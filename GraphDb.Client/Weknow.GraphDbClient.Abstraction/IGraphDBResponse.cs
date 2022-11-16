@@ -1,10 +1,6 @@
 ﻿// TODO: [bnaya 2022-10-23] get statistic back (check if it possible on Neo4J and abstract it for both REDIS & neo4j)
 // TODO: [bnaya 2022-10-23] use lambda to attach relationships 
 
-using System.Diagnostics.Metrics;
-
-using Weknow.Mapping;
-
 namespace Weknow.GraphDbClient.Abstraction;
 
 /// <summary>

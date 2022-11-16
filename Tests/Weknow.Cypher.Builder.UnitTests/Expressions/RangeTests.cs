@@ -1,5 +1,3 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,7 +32,7 @@ namespace Weknow.GraphDbCommands
             //                        N(m)));
 
             //_outputHelper.WriteLine(cypher);
-			// Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
+            // Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -51,7 +49,7 @@ namespace Weknow.GraphDbCommands
             //                        N(m)));
 
             //_outputHelper.WriteLine(cypher);
-			// Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
+            // Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -68,7 +66,7 @@ namespace Weknow.GraphDbCommands
             //                        N(m)));
 
             //_outputHelper.WriteLine(cypher);
-			// Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
+            // Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -85,7 +83,7 @@ namespace Weknow.GraphDbCommands
             //                            N(m)));
 
             //    _outputHelper.WriteLine(cypher);
-			// Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+            // Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -102,7 +100,7 @@ namespace Weknow.GraphDbCommands
             //                        N(m)));
 
             //_outputHelper.WriteLine(cypher);
-			// Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
+            // Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
             throw new NotSupportedException();
         }
 
@@ -119,7 +117,7 @@ namespace Weknow.GraphDbCommands
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
+            Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_AtMost_Test
@@ -135,7 +133,7 @@ namespace Weknow.GraphDbCommands
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
+            Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_AtLeast_Test
@@ -147,11 +145,11 @@ namespace Weknow.GraphDbCommands
         {
             CypherCommand cypher = _(n => r => m =>
                                     Match(N(n) -
-                                    R[r, Rng.Scope(1,5)] >
+                                    R[r, Rng.Scope(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
+            Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_WithVar_Test
@@ -168,7 +166,7 @@ namespace Weknow.GraphDbCommands
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
+            Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_WithVarAndProp_Test
@@ -184,7 +182,7 @@ namespace Weknow.GraphDbCommands
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
+            Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
         }
 
         #endregion // Range_Enum_Infinit_Test

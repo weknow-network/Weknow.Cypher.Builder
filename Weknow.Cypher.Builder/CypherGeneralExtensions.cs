@@ -1,10 +1,4 @@
-﻿using System;
-using System.Text;
-
-using Weknow.GraphDbCommands.Declarations;
-
-using static Weknow.GraphDbCommands.CypherDelegates;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿using Weknow.GraphDbCommands.Declarations;
 
 namespace Weknow.GraphDbCommands
 {

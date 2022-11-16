@@ -1,22 +1,17 @@
-using System.Collections.Generic;
-using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbCommands;
-using Weknow.Mapping;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using System.Xml.Linq;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests
+public partial class BaseCypherCardsTests
 {
     #region MATCH .. WITH user, count(friend) AS friends WHERE friends > 5   
 
@@ -56,7 +51,7 @@ partial class BaseCypherCardsTests
                                          .Merge(N(user) - R[Knows] > N(friend))));
 
             prms = cypherOfFriends.Parameters;
-            var friendsPrm = Enumerable.Range(0, (u.key ?? 0) )
+            var friendsPrm = Enumerable.Range(0, (u.key ?? 0))
                                     .Select(m => FriendFactory(u, m))
                                     .ToArray();
             prms.AddRange(nameof(friends), friendsPrm);
@@ -156,7 +151,7 @@ partial class BaseCypherCardsTests
         Assert.True(results.Length == 4);
         for (int i = 0; i < 4; i++)
         {
-            var item = UserFactory(9 - i );
+            var item = UserFactory(9 - i);
             var res = results[i];
             Assert.Equal(item, res);
         }

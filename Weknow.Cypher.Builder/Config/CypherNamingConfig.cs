@@ -1,17 +1,14 @@
 ﻿using Pluralize.NET;
 
-using System;
-using System.Diagnostics;
-
 namespace Weknow
 {
     /// <summary>
     /// Naming convention
     /// </summary>
     [DebuggerDisplay("Node: {NodeLabelConvention}, Relation: {RelationTagConvention}")]
-    public class CypherNamingConfig 
+    public class CypherNamingConfig
     {
-        private IPluralize _pluralizeImp;
+        private readonly IPluralize _pluralizeImp;
 
         #region Ctor
 

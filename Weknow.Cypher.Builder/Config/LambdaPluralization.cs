@@ -1,9 +1,6 @@
-﻿using System;
-
-// Pluralize libraries:
+﻿// Pluralize libraries:
 // https://github.com/sarathkcm/Pluralize.NET
 // https://github.com/rvegajr/Pluralize.NET.Core
-
 
 namespace Weknow
 {
@@ -50,7 +47,7 @@ namespace Weknow
         /// </summary>
         /// <param name="word">The word to singularize.</param>
         /// <returns>The singularized word.</returns>
-        public string Singularize(string word) => _singularize(word); 
+        public string Singularize(string word) => _singularize(word);
 
         #endregion // Singularize
     }

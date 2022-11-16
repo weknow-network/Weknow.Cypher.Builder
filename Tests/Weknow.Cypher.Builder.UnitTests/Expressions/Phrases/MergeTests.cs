@@ -1,14 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
-using Weknow.GraphDbCommands;
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static Weknow.GraphDbCommands.CypherPhraseExtensions;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -143,7 +138,7 @@ namespace Weknow.GraphDbCommands
                                     );
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(cypher.Query, 
+            Assert.Equal(cypher.Query,
                 $"MERGE (n:Person {{ Id: $Id }}){NewLine}" +
                 $"\tON CREATE SET n = $map{NewLine}" +
                 $"\tON MATCH SET n.Version = coalesce(n.Version, 0) + 1"

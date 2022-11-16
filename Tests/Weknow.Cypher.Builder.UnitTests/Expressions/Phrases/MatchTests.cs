@@ -1,15 +1,13 @@
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
-using System;
-
 using Weknow.GraphDbCommands.Declarations;
 
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -36,7 +34,7 @@ namespace Weknow.GraphDbCommands
         {
             var n = Variables.Create();
             var Id = Parameters.Create();
-            CypherCommand cypher = _(() => Match(N(n, Person & Manager , new { Id }))
+            CypherCommand cypher = _(() => Match(N(n, Person & Manager, new { Id }))
                                     .Return(n));
 
             _outputHelper.WriteLine(cypher);

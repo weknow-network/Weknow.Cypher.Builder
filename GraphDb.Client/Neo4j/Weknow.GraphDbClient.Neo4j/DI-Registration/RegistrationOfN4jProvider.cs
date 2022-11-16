@@ -1,14 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Xml.Linq;
+﻿using Neo4j.Driver;
 
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using Neo4j.Driver;
-
-using Weknow.Disposables;
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbClient.Neo4jProvider;
 

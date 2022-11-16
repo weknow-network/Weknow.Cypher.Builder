@@ -1,22 +1,17 @@
-using System.Collections.Generic;
-using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbCommands;
-using Weknow.Mapping;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using System.Xml.Linq;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests
+public partial class BaseCypherCardsTests
 {
     #region CREATE(user:PERSON:_TEST_ $map)
 
@@ -104,7 +99,7 @@ partial class BaseCypherCardsTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _(n => m  =>
+        CypherCommand cypher = _(n => m =>
                                 Create(N(n, Person) - R[Knows] > N(m, Friend)));
 
 
@@ -118,7 +113,7 @@ partial class BaseCypherCardsTests
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
-        var n = await response.GetAsync <IList<string>>("labels(n)");
+        var n = await response.GetAsync<IList<string>>("labels(n)");
         var m = await response.GetAsync<IEnumerable<string>>("labels(m)");
         var r = await response.GetAsync<string>("type(r)");
 

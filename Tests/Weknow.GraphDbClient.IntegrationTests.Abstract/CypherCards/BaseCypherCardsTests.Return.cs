@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using System;
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbCommands;
-using Weknow.Mapping;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
 
@@ -15,7 +11,7 @@ using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests 
+public partial class BaseCypherCardsTests
 {
     #region UNWIND .. RETURN *
 

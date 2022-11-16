@@ -1,5 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands;
 
 /// <summary>
@@ -21,7 +20,7 @@ public class ParamsFirst<T>
 
     public static implicit operator ParamsFirst<T>(T value)
     {
-        return new ParamsFirst<T>( value );
+        return new ParamsFirst<T>(value);
     }
 
 }

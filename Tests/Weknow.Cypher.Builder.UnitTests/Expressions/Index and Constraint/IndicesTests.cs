@@ -1,14 +1,9 @@
-using System;
-using System.Xml.Linq;
-
-using Weknow.GraphDbCommands.Declarations;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 // https://neo4j.com/docs/cypher-cheat-sheet/current/
 // https://neo4j.com/docs/cypher-manual/5/indexs/
@@ -125,7 +120,7 @@ namespace Weknow.GraphDbCommands
         {
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() =>
-               TryCreateFullTextIndex("test-index", N(n, Person), FullTextAnalyzer.english, n._.Id, n._.Name)                ,
+               TryCreateFullTextIndex("test-index", N(n, Person), FullTextAnalyzer.english, n._.Id, n._.Name),
                 cfg =>
                     {
                         cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;

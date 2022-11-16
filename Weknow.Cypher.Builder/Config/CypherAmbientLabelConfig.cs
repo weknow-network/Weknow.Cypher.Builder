@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-
-using static Weknow.NamingConventionAffects;
+﻿using static Weknow.NamingConventionAffects;
 
 namespace Weknow
 {
     /// <summary>
     /// Label configuration
     /// </summary>
-    public class CypherAmbientLabelConfig 
+    public class CypherAmbientLabelConfig
     {
         private readonly CypherNamingConfig _naming;
 
@@ -134,7 +129,7 @@ namespace Weknow
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString() => Combine();
 

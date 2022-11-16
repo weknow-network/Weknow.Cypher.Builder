@@ -1,12 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Weknow.GraphDbCommands
 {
@@ -28,13 +25,13 @@ namespace Weknow.GraphDbCommands
 
         #region MATCH .. RETURN b.Name UNION MATCH .. RETURN b.Name
 
-        [Fact] 
+        [Fact]
         public void Union_Test()
         {
             var b = Variables.Create<Foo>();
 
-            CypherCommand cypher = _(a => 
-                                    Match(N(a)-R[KNOWS]>N(b))
+            CypherCommand cypher = _(a =>
+                                    Match(N(a) - R[KNOWS] > N(b))
                                     .Return(b._.Name)
                                     .Union()
                                     .Match(N(a) - R[LIKE] > N(b))
@@ -54,13 +51,13 @@ namespace Weknow.GraphDbCommands
 
         #region MATCH .. RETURN b.Name UNION ALL MATCH .. RETURN b.Name
 
-        [Fact] 
+        [Fact]
         public void UnionAll_Test()
         {
             var b = Variables.Create<Foo>();
 
-            CypherCommand cypher = _(a => 
-                                    Match(N(a)-R[KNOWS]>N(b))
+            CypherCommand cypher = _(a =>
+                                    Match(N(a) - R[KNOWS] > N(b))
                                     .Return(b._.Name)
                                     .UnionAll()
                                     .Match(N(a) - R[LIKE] > N(b))

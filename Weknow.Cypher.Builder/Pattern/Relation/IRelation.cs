@@ -1,7 +1,4 @@
-﻿using System;
-
-using Weknow.GraphDbCommands.Declarations;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿using Weknow.GraphDbCommands.Declarations;
 
 namespace Weknow.GraphDbCommands
 {

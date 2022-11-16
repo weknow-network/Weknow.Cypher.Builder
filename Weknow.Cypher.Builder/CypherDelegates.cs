@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿
 
 // https://neo4j.com/docs/cypher-refcard/current/
 

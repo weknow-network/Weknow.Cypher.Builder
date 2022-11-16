@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Neo4j.Driver;
@@ -44,7 +38,7 @@ internal static class N4jProvider
         }
 
         logger = logger ?? serviceProvider.GetService<ILogger<N4jGraphDB>>() ?? throw new ArgumentNullException("ILogger<N4jGraphDB>");
-        IDriver driver = GraphDatabase.Driver(connectionString, authToken, c=> c.WithLogger(new Logger(logger)));
+        IDriver driver = GraphDatabase.Driver(connectionString, authToken, c => c.WithLogger(new Logger(logger)));
         return driver;
     }
 

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
     /// Context container
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ContextValue<T>: IEnumerable<T>
+    public class ContextValue<T> : IEnumerable<T>
     {
         private ImmutableStack<T> _values = ImmutableStack<T>.Empty;
 
@@ -32,7 +27,7 @@ namespace Weknow.GraphDbCommands
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public T Value  => _values.Peek();
+        public T Value => _values.Peek();
 
         #endregion // Value
 
@@ -41,7 +36,7 @@ namespace Weknow.GraphDbCommands
         /// <summary>
         /// Gets all values.
         /// </summary>
-        public ImmutableStack<T> Values  => _values;
+        public ImmutableStack<T> Values => _values;
 
         #endregion // Values
 

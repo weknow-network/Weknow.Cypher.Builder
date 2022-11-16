@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-
-using Weknow.GraphDbCommands.Declarations;
-
-using static Weknow.GraphDbCommands.CypherDelegates;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
+﻿using Weknow.GraphDbCommands.Declarations;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -15,7 +8,7 @@ namespace Weknow.GraphDbCommands
     /// Entry point for constructing root level Cypher.
     /// For fluent cypher check <see cref="CypherPhraseExtensions" />
     /// </summary>
-    partial class Cypher
+    public partial class Cypher
     {
         /// <summary>
         /// Parameters factories

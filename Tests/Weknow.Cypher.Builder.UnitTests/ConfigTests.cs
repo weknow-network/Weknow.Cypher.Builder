@@ -1,11 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -252,7 +250,7 @@ RETURN f"
             CypherCommand cypher =
                         _(n =>
                                 Match(N(n))
-                                //.DetachDelete(n)
+                        //.DetachDelete(n)
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
@@ -330,7 +328,7 @@ RETURN f"
 
             CypherCommand cypher =
                         _(n => r =>
-                                Match(N(n, Person) - R[r,Like] > N(Person))
+                                Match(N(n, Person) - R[r, Like] > N(Person))
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");

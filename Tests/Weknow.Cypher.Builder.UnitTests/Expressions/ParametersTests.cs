@@ -1,5 +1,3 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -29,7 +27,7 @@ namespace Weknow.GraphDbCommands
         public void Parameters_Unwind_NonWindProp_T_Test()
         {
             var (items, Id) = Parameters.CreateMulti();
-            CypherCommand cypher = _(item => n => 
+            CypherCommand cypher = _(item => n =>
                                     Unwind(items, item,
                                     Match(N(n, Person, new { Id }))));
 

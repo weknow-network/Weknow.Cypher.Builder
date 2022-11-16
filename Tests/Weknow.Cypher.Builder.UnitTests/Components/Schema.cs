@@ -1,10 +1,7 @@
-﻿using System;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
-
-    static class Schema
+    internal static class Schema
     {
         public static ILabel Person => throw new NotImplementedException();
         public static ILabel Friend => throw new NotImplementedException();

@@ -1,6 +1,4 @@
-﻿using System;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
@@ -14,7 +12,7 @@ namespace Weknow.GraphDbCommands
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface INode: IPattern
+    public interface INode : IPattern
     {
         /// <summary>
         /// Implements the operator -.

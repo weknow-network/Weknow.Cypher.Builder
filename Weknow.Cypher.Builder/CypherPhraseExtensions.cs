@@ -1,10 +1,6 @@
-﻿using System;
-using System.Text;
-
-using Weknow.GraphDbCommands.Declarations;
+﻿using Weknow.GraphDbCommands.Declarations;
 
 using static Weknow.GraphDbCommands.CypherDelegates;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.GraphDbCommands;
 
@@ -582,9 +578,9 @@ public static class CypherPhraseExtensions
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("$0\r\n&UNWIND \\$$[]1 AS $2\r\n$3")]
-    public static Fluent Unwind<T>(this Fluent p, 
-                                    IEnumerable<T> items, 
-                                    VariableDeclaration item, 
+    public static Fluent Unwind<T>(this Fluent p,
+                                    IEnumerable<T> items,
+                                    VariableDeclaration item,
                                     Fluent next) => throw new NotImplementedException();
 
 
@@ -603,9 +599,9 @@ public static class CypherPhraseExtensions
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("$0\r\n&UNWIND \\$$1 AS $2\r\n$3")]
-    public static Fluent Unwind(this Fluent p, 
-                                VariableDeclaration items, 
-                                VariableDeclaration item, 
+    public static Fluent Unwind(this Fluent p,
+                                VariableDeclaration items,
+                                VariableDeclaration item,
                                 Fluent next) => throw new NotImplementedException();
 
     /// <summary>
@@ -619,9 +615,9 @@ public static class CypherPhraseExtensions
     /// <exception cref="System.NotImplementedException"></exception>
     /// <exception cref="NotImplementedException"></exception>
     [Cypher("$0\r\n&UNWIND $1 AS $2\r\n$3")]
-    public static Fluent Unwind(this Fluent p, 
+    public static Fluent Unwind(this Fluent p,
                                     ParameterDeclaration items,
-                                    VariableDeclaration item, 
+                                    VariableDeclaration item,
                                     Fluent next) => throw new NotImplementedException();
 
     #endregion // Unwind

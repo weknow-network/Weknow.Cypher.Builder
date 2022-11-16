@@ -1,5 +1,4 @@
-﻿#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
     [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
@@ -23,7 +22,7 @@ namespace Weknow.GraphDbCommands
         #region Casting Overloads
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="RawCypher"/>.
+        /// Performs an implicit conversion from <see cref="string"/> to <see cref="RawCypher"/>.
         /// </summary>
         /// <param name="cypher">The cypher.</param>
         /// <returns>
@@ -39,7 +38,7 @@ namespace Weknow.GraphDbCommands
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString() => _cypher;
 

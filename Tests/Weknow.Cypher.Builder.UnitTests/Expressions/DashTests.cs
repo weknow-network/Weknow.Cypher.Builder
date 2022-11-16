@@ -1,14 +1,10 @@
-using System;
+using System.Text;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace Weknow.GraphDbCommands
 {
@@ -34,9 +30,9 @@ namespace Weknow.GraphDbCommands
         {
             var (m, l, s, srm, sb) = Parameters.CreateMulti<Bar, List<int>, string, Stream, StringBuilder>();
             var n = Variables.Create<Foo>();
-           
+
             CypherCommand cypher = _(() =>
-                                        Match(N(n, Person,new
+                                        Match(N(n, Person, new
                                         {
                                             n.AsParameter()._.PropA,
                                             m._.Date,

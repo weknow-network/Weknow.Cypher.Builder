@@ -1,11 +1,9 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -15,7 +13,8 @@ namespace Weknow.GraphDbCommands
     public class WithTests
     {
         private readonly ITestOutputHelper _outputHelper;
-        record KeyedEntity(int key);
+
+        private record KeyedEntity(int key);
 
         #region Ctor
 
@@ -44,11 +43,11 @@ namespace Weknow.GraphDbCommands
             ;
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
-                $"WITH *{NewLine}" +
-                $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
-                "RETURN i.Name", cypher.Query);
+            Assert.Equal(
+               $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
+               $"WITH *{NewLine}" +
+               $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
+               "RETURN i.Name", cypher.Query);
         }
 
         #endregion // MERGE (n:PERSON { Id: $Id }) WITH * MATCH (i:PERSON { Id: $Id }) RETURN i.Name 
@@ -59,7 +58,7 @@ namespace Weknow.GraphDbCommands
         public void With_Param_Test()
         {
             var n = Variables.Create();
-            var i = Variables.Create<Foo>(); 
+            var i = Variables.Create<Foo>();
             var Id = Parameters.Create();
 
             CypherCommand cypher = _(() =>
@@ -71,11 +70,11 @@ namespace Weknow.GraphDbCommands
             ;
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
-                $"WITH n{NewLine}" +
-                $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
-                "RETURN i.Name", cypher.Query);
+            Assert.Equal(
+               $"MERGE (n:PERSON {{ Id: $Id }}){NewLine}" +
+               $"WITH n{NewLine}" +
+               $"MATCH (i:PERSON {{ Id: $Id }}){NewLine}" +
+               "RETURN i.Name", cypher.Query);
         }
 
         #endregion // MERGE (n:PERSON { Id: $Id }) WITH n MATCH (i:PERSON { Id: $Id }) RETURN i.Name
@@ -101,14 +100,14 @@ namespace Weknow.GraphDbCommands
             ;
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"UNWIND $items AS map{NewLine}" +
-                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
-                    $"ON CREATE SET n = map{NewLine}\t" +
-                    $"ON MATCH SET n += map{NewLine}" +
-                $"WITH *{NewLine}" +
-                $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
-                "RETURN n", cypher.Query);
+            Assert.Equal(
+               $"UNWIND $items AS map{NewLine}" +
+               $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                   $"ON CREATE SET n = map{NewLine}\t" +
+                   $"ON MATCH SET n += map{NewLine}" +
+               $"WITH *{NewLine}" +
+               $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
+               "RETURN n", cypher.Query);
         }
 
         #endregion // UNWIND ... MERGE (n:PERSON ...) WITH * MATCH (i:PERSON ...}) RETURN n 
@@ -133,14 +132,14 @@ namespace Weknow.GraphDbCommands
                         cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"UNWIND $items AS map{NewLine}" +
-                $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
-                    $"ON CREATE SET n = map{NewLine}\t" +
-                    $"ON MATCH SET n += map{NewLine}" +
-                $"WITH n, map{NewLine}" +
-                $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
-                "RETURN i", cypher.Query);
+            Assert.Equal(
+               $"UNWIND $items AS map{NewLine}" +
+               $"MERGE (n:PERSON {{ Id: map.Id }}){NewLine}\t" +
+                   $"ON CREATE SET n = map{NewLine}\t" +
+                   $"ON MATCH SET n += map{NewLine}" +
+               $"WITH n, map{NewLine}" +
+               $"MATCH (i:PERSON {{ Id: map.Id }}){NewLine}" +
+               "RETURN i", cypher.Query);
         }
 
         #endregion // UNWIND ... MERGE (n:PERSON ...) WITH n, map MATCH (i:PERSON ...}) RETURN i / With_Complex_Test
@@ -165,13 +164,13 @@ namespace Weknow.GraphDbCommands
                                          .Merge(N(user) - R[KNOWS] > N(friend))));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"MATCH (user:PERSON){NewLine}" +
-                $"WITH user{NewLine}" +
-                $"UNWIND $friends AS map{NewLine}" +
-                $"MERGE (friend:FRIEND {{ key: map.key }}){NewLine}" +
-                $"SET friend = map{NewLine}" +
-                $"MERGE (user)-[:KNOWS]->(friend)", cypher.Query);
+            Assert.Equal(
+               $"MATCH (user:PERSON){NewLine}" +
+               $"WITH user{NewLine}" +
+               $"UNWIND $friends AS map{NewLine}" +
+               $"MERGE (friend:FRIEND {{ key: map.key }}){NewLine}" +
+               $"SET friend = map{NewLine}" +
+               $"MERGE (user)-[:KNOWS]->(friend)", cypher.Query);
         }
 
         #endregion // MATCH (user:PERSON) WITH user UNWIND $friends AS map MERGE (friend:FRIEND) MERGE (user)-[:KNOWS]->(friend)
@@ -195,11 +194,11 @@ namespace Weknow.GraphDbCommands
                                     .Return(user));
 
             _outputHelper.WriteLine(cypher.Dump());
-			 Assert.Equal(
-                $"MATCH (user:PERSON)-[:KNOWS]->(friend:FRIEND){NewLine}" +
-                $"WITH user, count(friend) AS friends{NewLine}" +
-                $"WHERE friends > $p_0{NewLine}" +
-                "RETURN user", cypher.Query);
+            Assert.Equal(
+               $"MATCH (user:PERSON)-[:KNOWS]->(friend:FRIEND){NewLine}" +
+               $"WITH user, count(friend) AS friends{NewLine}" +
+               $"WHERE friends > $p_0{NewLine}" +
+               "RETURN user", cypher.Query);
         }
 
         #endregion // MATCH (user:PERSON)-[:KNOWS]->(friend:FRIEND) WITH user, count(friend) AS friends .. RETURN user

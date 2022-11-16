@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.GraphDbCommands
 {
@@ -30,7 +29,7 @@ namespace Weknow.GraphDbCommands
         #region Cast Overloads
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ExpressionPattern"/> to <see cref="System.String"/>.
+        /// Performs an implicit conversion from <see cref="ExpressionPattern"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns>
@@ -49,7 +48,7 @@ namespace Weknow.GraphDbCommands
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {

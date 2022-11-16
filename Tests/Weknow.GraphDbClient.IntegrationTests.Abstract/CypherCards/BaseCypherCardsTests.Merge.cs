@@ -1,22 +1,15 @@
-using System.Collections.Generic;
-using System;
-using System.Data;
-
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.GraphDbCommands;
-using Weknow.Mapping;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static Weknow.GraphDbCommands.Cypher;
-using System.Xml.Linq;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-partial class BaseCypherCardsTests
+public partial class BaseCypherCardsTests
 {
     private record Fellow(string name);
 
@@ -136,7 +129,7 @@ partial class BaseCypherCardsTests
         response = await _graphDB.RunAsync(query, query.Parameters);
         result = await response.GetAsync<PersonEntity>("n");
 
-        Assert.Equal(expected with { version = expected.version + 1}, result);
+        Assert.Equal(expected with { version = expected.version + 1 }, result);
 
         #endregion // Validation
 
@@ -171,9 +164,9 @@ partial class BaseCypherCardsTests
                                 Match(N(n, Person) - R[Knows] > N(m))
                                 .Return(n._.name, m._.name));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
-        var (a, b) = await response.GetAsync<(string a, string b)>(r => 
+        var (a, b) = await response.GetAsync<(string a, string b)>(r =>
                         (
-                            r.Get<string>(nameof(n), nameof(n._.name)), 
+                            r.Get<string>(nameof(n), nameof(n._.name)),
                             r.Get<string>(nameof(m), nameof(m._.name))
                         ));
 

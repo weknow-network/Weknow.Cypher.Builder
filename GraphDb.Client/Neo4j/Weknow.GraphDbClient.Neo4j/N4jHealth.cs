@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
 using Neo4j.Driver;
@@ -25,7 +23,7 @@ internal class N4jHealth : IHealthCheck
     /// <param name="logger">The logger.</param>
     public N4jHealth(
         IDriver driver,
-        ILogger<N4jHealth> logger) 
+        ILogger<N4jHealth> logger)
     {
         _driver = driver;
         _logger = logger;

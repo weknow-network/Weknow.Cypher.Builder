@@ -1,6 +1,4 @@
-﻿using System;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
+﻿
 namespace Weknow.GraphDbCommands
 {
     /// <summary>
@@ -25,7 +23,7 @@ namespace Weknow.GraphDbCommands
         /// (a)-[*3..]->(b)
         /// </example>
         public static Rng AtLeast(int i) => throw new NotImplementedException();
-       
+
         /// <summary>
         /// At most
         /// </summary>

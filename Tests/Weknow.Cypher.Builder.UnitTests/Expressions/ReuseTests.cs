@@ -1,15 +1,11 @@
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
-using System;
-using System.Security.Cryptography;
-
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.GraphDbCommands.Cypher;
 using static Weknow.GraphDbCommands.Schema;
-
-using static System.Environment;
 
 namespace Weknow.GraphDbCommands
 {
@@ -37,11 +33,11 @@ namespace Weknow.GraphDbCommands
             var reusedPerson = Reuse(() => N(person, Person));
             var reusedAnimal = Reuse(() => N(animal, Animal));
 
-            CypherCommand cypher = _( r =>
+            CypherCommand cypher = _(r =>
                           Match(reusedPerson - R[r, LIKE] > reusedAnimal));
 
             _outputHelper.WriteLine(cypher);
-			 Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
+            Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
         #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / LazyReuse_Node_Test
@@ -55,7 +51,7 @@ namespace Weknow.GraphDbCommands
             var n = Variables.Create();
 
             IPattern? pattern1 = Reuse(() => N(n, Person, new { PropA = nPropA }));
-          IPattern? pattern2 = Reuse(() => N(n, Person, new { PropA = n_PropA }));
+            IPattern? pattern2 = Reuse(() => N(n, Person, new { PropA = n_PropA }));
             IPattern? pattern3 = Reuse(() => N(n, Person, new { PropA = n1_PropA, PropB = n2_PropB }));
             IPattern? pattern4 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB }));
             IPattern? pattern5 = Reuse(() => N(n, Person, new { Id = n1_Id, PropA = n2_PropA, PropB = n3_PropB, PropC = n4_PropC }));

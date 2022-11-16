@@ -1,11 +1,11 @@
 ﻿using Neo4j.Driver;
+
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
-using System;
 
 namespace Weknow.GraphDbClient.Neo4jProvider;
 
-partial class N4jGraphDB
+internal partial class N4jGraphDB
 {
     /// <summary>
     /// GraphDB response abstraction

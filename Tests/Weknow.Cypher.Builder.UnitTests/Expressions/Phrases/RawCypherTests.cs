@@ -1,14 +1,8 @@
-using System;
-
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
-using Weknow.GraphDbCommands;
-using static Weknow.GraphDbCommands.Cypher;
-using static Weknow.GraphDbCommands.Schema;
-using static Weknow.GraphDbCommands.CypherPhraseExtensions;
 using static System.Environment;
+using static Weknow.GraphDbCommands.Cypher;
 
 namespace Weknow.GraphDbCommands
 {

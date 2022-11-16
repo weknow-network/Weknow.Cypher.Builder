@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.ObjectPool;
+﻿using System.Text;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.ObjectPool;
 
 namespace Weknow.GraphDbCommands
 {
@@ -33,7 +30,7 @@ namespace Weknow.GraphDbCommands
         #region char this[int index]
 
         /// <summary>
-        /// Gets the <see cref="System.Char"/> at the specified index.
+        /// Gets the <see cref="char"/> at the specified index.
         /// </summary>
         /// <returns></returns>
         public char this[int index] => _builder[index];
@@ -51,7 +48,7 @@ namespace Weknow.GraphDbCommands
         public ReadOnlySpan<char> this[int startIndex, int length] => GetRange(startIndex, length);
 
         /// <summary>
-        /// Gets the <see cref="System.String"/> with the specified range.
+        /// Gets the <see cref="string"/> with the specified range.
         /// </summary>
         /// <param name="range">The range.</param>
         /// <returns></returns>
@@ -141,7 +138,7 @@ namespace Weknow.GraphDbCommands
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString() =>
                     _builder
@@ -152,7 +149,7 @@ namespace Weknow.GraphDbCommands
         /// </summary>
         /// <param name="range">The range.</param>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public string ToString(Range range) =>
             new string(this[range]);
@@ -199,7 +196,7 @@ namespace Weknow.GraphDbCommands
         private ReadOnlySpan<char> GetRange(int startIndex, int length)
         {
             Span<char> result = new char[length];
-            
+
             int index = 0;
             foreach (ReadOnlyMemory<char> chunk in _builder.GetChunks())
             {

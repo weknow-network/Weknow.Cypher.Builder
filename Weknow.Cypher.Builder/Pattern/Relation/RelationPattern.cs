@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 using Weknow.GraphDbCommands.Declarations;
-#pragma warning disable CA1063 // Implement IDisposable Correctly
 
 namespace Weknow.GraphDbCommands
 {
@@ -11,7 +9,7 @@ namespace Weknow.GraphDbCommands
     /// </summary>
     /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
     public class RelationPattern : ExpressionPattern, IRelation
-    {        
+    {
         #region Ctor
 
         /// <summary>
@@ -20,7 +18,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="expression">The expression.</param>
         /// <param name="configuration">The configuration.</param>
         public RelationPattern(Expression expression, CypherConfig configuration)
-            :base(expression, configuration)
+            : base(expression, configuration)
         {
         }
 
@@ -64,7 +62,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="var">The variable.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[VariableDeclaration var, Rng r] => throw new NotImplementedException();
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace Weknow.GraphDbCommands
         /// </value>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[Rng r] => throw new NotImplementedException();
 
         /// <summary>
@@ -89,7 +87,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="properties">The properties.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
 
         /// <summary>
@@ -101,7 +99,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="var">The variable.</param>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[VariableDeclaration var, Range r] => throw new NotImplementedException();
 
         /// <summary>
@@ -112,7 +110,7 @@ namespace Weknow.GraphDbCommands
         /// </value>
         /// <param name="r">The r.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[Range r] => throw new NotImplementedException();
 
         /// <summary>
@@ -124,7 +122,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="var">The variable.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[VariableDeclaration var, IType type] => throw new NotImplementedException();
 
         /// <summary>
@@ -135,7 +133,7 @@ namespace Weknow.GraphDbCommands
         /// </value>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        
+
         IRelation IRelation.this[IType type] => throw new NotImplementedException();
 
         #endregion // Indexer
