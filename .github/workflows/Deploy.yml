@@ -19,18 +19,18 @@ on:
     
 env: # https://docs.github.com/en/actions/learn-github-actions/environment-variables
   BUILD_CONFIG: Release
-  DOTNET_VER: 6.0.x
+  DOTNET_VER: 7.0.x
   INCLUDE_PRERELEASE: false
   
 jobs:
       
   build-nuget:
-    uses: weknow-network/weknow-workflows/.github/workflows/dotnet-build-deploy-public-nuget.yml@release/2022-09-15
+    uses: weknow-network/weknow-workflows/.github/workflows/dotnet-build-deploy-public-nuget.yml@release/2022-11-15/net7
     secrets:
       NUGET_PUBLISH: ${{ secrets.NUGET_PUBLISH }}
     with:
       build-config: Release
-      dotnet-version: 6.0.x
+      dotnet-version: ${{ env. DOTNET_VER }}
       include-prerelease: false
       test-project: Tests/Weknow.Cypher.Builder.UnitTests
  
