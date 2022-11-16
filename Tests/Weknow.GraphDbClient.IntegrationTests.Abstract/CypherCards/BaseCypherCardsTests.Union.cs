@@ -36,7 +36,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRange(nameof(users), usersPrm);
+        prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {
@@ -50,8 +50,8 @@ public partial class BaseCypherCardsTests
                                     .Merge(N(user) < R[Knows] - N(friend)));
 
             prms = cypherOfFriends.Parameters;
-            prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
-            prms.Add(nameof(id), u.key ?? 0);
+            prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
+            prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
@@ -66,8 +66,8 @@ public partial class BaseCypherCardsTests
                                     .Merge(N(user) < R[Follow] - N(friend)));
 
             prms = cypherOfFriends.Parameters;
-            prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
-            prms.Add(nameof(id), u.key ?? 0);
+            prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
+            prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 
@@ -125,7 +125,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRange(nameof(users), usersPrm);
+        prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {
@@ -139,8 +139,8 @@ public partial class BaseCypherCardsTests
                                     .Merge(N(user) < R[Knows] - N(friend)));
 
             prms = cypherOfFriends.Parameters;
-            prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
-            prms.Add(nameof(id), u.key ?? 0);
+            prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
+            prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
@@ -155,8 +155,8 @@ public partial class BaseCypherCardsTests
                                     .Merge(N(user) < R[Follow] - N(friend)));
 
             prms = cypherOfFriends.Parameters;
-            prms.Add(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
-            prms.Add(nameof(id), u.key ?? 0);
+            prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
+            prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
 

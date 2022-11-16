@@ -63,7 +63,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
@@ -92,7 +92,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
@@ -120,7 +120,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                 .Return(v._.Name));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         string name = await response.GetAsync<string>(nameof(v), nameof(NameDictionaryable.Name));
@@ -163,11 +163,11 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         #region CypherParameters prms = ...
 
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(p1)] = someone1.ToDictionary();
-        prms[nameof(p2)] = someone2.ToDictionary();
-        prms[nameof(p3)] = someone3.ToDictionary();
-        prms[nameof(p4)] = someone4.ToDictionary();
-        prms[nameof(p5)] = someone5.ToDictionary();
+        prms = prms.AddOrUpdate(nameof(p1), someone1.ToDictionary());
+        prms = prms.AddOrUpdate(nameof(p2), someone2.ToDictionary());
+        prms = prms.AddOrUpdate(nameof(p3), someone3.ToDictionary());
+        prms = prms.AddOrUpdate(nameof(p4), someone4.ToDictionary());
+        prms = prms.AddOrUpdate(nameof(p5), someone5.ToDictionary());
 
         #endregion // CypherParameters prms = ...
 
@@ -196,7 +196,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                 .Return(p1, p2));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r1 = await response.GetAsync<NameDictionaryable>(nameof(p1));
@@ -224,7 +224,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+        prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5)));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
@@ -249,9 +249,9 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                 .Return(x));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(items)] = Enumerable.Range(0, 10)
+        prms = prms.AddOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
-                                .ToArray();
+                                .ToArray());
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
         Assert.NotEmpty(r3);
@@ -272,9 +272,9 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                 .Return(x));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(items)] = Enumerable.Range(0, 10)
+        prms = prms.AddOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {m}", m % 10 + 5).ToDictionary())
-                                .ToArray();
+                                .ToArray());
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
         Assert.Empty(r3);
@@ -294,7 +294,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     //                            .Return(p1, p2));
     //_outputHelper.WriteLine($"CYPHER: {cypher}");
     //    CypherParameters prms = cypher.Parameters;
-    //    prms[nameof(pName)] = EXPECTED;
+    //    prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
     //    IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
     //    var(r1, r2) = response.GetRangeAsync<NameDictionaryable, NameDictionaryable>(nameof(p1), nameof(p2));
@@ -318,7 +318,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         Name1 entity = await response.GetAsync<Name1>();
@@ -342,7 +342,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms[nameof(pName)] = EXPECTED;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         Name2 entity = await response.GetAsync<Name2>();

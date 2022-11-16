@@ -33,7 +33,7 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");
 
         CypherParameters prmsPrepare = cypher.Parameters;
-        prmsPrepare.AddRange(nameof(items), Enumerable.Range(0, 10)
+        prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
 
@@ -44,8 +44,8 @@ public partial class BaseCypherCardsTests
                                 .Return(n.Count()));
         _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
-        prms.Add(nameof(skipNumber), 2);
-        prms.Add(nameof(limitNumber), 6);
+        prms = prms.AddOrUpdate(nameof(skipNumber), 2);
+        prms = prms.AddOrUpdate(nameof(limitNumber), 6);
         IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
         var r = await response1.GetAsync<int>("count(n)");
 

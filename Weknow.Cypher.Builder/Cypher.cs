@@ -144,7 +144,6 @@ namespace Weknow.GraphDbCommands
         /// <summary>
         /// Specified node with label.
         /// </summary>
-        /// <param name="label">The label.</param>
         /// <returns></returns>
         [Cypher("()")]
         public static INode N() => throw new NotImplementedException();
@@ -236,7 +235,6 @@ namespace Weknow.GraphDbCommands
         /// <summary>
         /// RETURN phrase.
         /// </summary>
-        /// <param name="p">The p.</param>
         /// <param name="var">The first variable.</param>
         /// <param name="vars">Rest of the variables.</param>
         /// <returns></returns>

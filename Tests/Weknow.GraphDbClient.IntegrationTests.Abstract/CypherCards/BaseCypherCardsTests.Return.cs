@@ -29,7 +29,7 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+        prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
@@ -61,7 +61,7 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddRange(nameof(items), Enumerable.Range(0, 10)
+        prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<PersonEntity>("x").ToArrayAsync();

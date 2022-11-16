@@ -117,7 +117,6 @@
             <summary>
             Specified node with label.
             </summary>
-            <param name="label">The label.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.ILabel)">
@@ -186,7 +185,6 @@
             <summary>
             RETURN phrase.
             </summary>
-            <param name="p">The p.</param>
             <param name="var">The first variable.</param>
             <param name="vars">Rest of the variables.</param>
             <returns></returns>
@@ -1253,16 +1251,47 @@
             </summary>
             <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.Add``1(System.String,``0)">
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddIfEmpty``1(System.String,``0)">
             <summary>
-            Adds IDictionaryable parameter.
+            Adds parameter if not exists.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key">The key.</param>
             <param name="value">The value.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRange``1(System.String,``0[])">
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRangeIfEmpty``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddOrUpdate``1(System.String,``0,System.Func{``0,System.Object})">
+            <summary>
+            Adds parameter or update.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRangeOrUpdate``1(System.String,``0[])">
             <summary>
             Adds the range.
             </summary>
@@ -1271,18 +1300,36 @@
             <param name="values">The values.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRange``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddRangeOrUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
             <summary>
             Adds the range.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key">The key.</param>
             <param name="values">The values.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.AddNull(System.String)">
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.SetToNull(System.String)">
             <summary>
             Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.TrySetToNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherParameters.Remove(System.String)">
+            <summary>
+            Remove a key.
             </summary>
             <param name="key">The key.</param>
             <returns></returns>

@@ -7,7 +7,7 @@ namespace Weknow.GraphDbCommands
     /// </summary>
     public class CypherParameters : IEnumerable<KeyValuePair<string, object?>>
     {
-        private readonly Dictionary<string, object?> _parameters = new Dictionary<string, object?>();
+        private ImmutableDictionary<string, object?> _parameters = ImmutableDictionary<string, object?>.Empty;
 
         #region Ctor
 
@@ -24,7 +24,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         public CypherParameters(IDictionary<string, object?> dictionary)
         {
-            _parameters = new Dictionary<string, object?>(dictionary);
+            _parameters = ImmutableDictionary.CreateRange(dictionary);
         }
 
         #endregion // Ctor
@@ -33,62 +33,71 @@ namespace Weknow.GraphDbCommands
 
         public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
         {
-            return parameters._parameters;
+            IEnumerable<KeyValuePair<string, object?>> ps = parameters;
+            var result = new Dictionary<string, object?>(ps);
+            return result;
         }
 
         #endregion // Casting Overloads
 
-        #region Add
+        #region AddIfEmpty
 
         /// <summary>
-        /// Adds IDictionaryable parameter.
+        /// Adds parameter if not exists.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public new CypherParameters Add<T>(string key, T value) // where T : IDictionaryable
+        public CypherParameters AddIfEmpty<T>(string key, T value) // where T : IDictionaryable
         {
             if (key.StartsWith("$"))
                 key = key.Substring(1);
 
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                return this;
             if (value is IDictionaryable da)
-                _parameters[key] = da.ToDictionary();
+                _parameters = parameters.Add(key, da.ToDictionary());
             //else if (value is ValueType vt)
             //    _parameters[key] = vt;
             else
-                _parameters[key] = value;
+                _parameters = parameters.Add(key, value);
             return this;
         }
 
-        #endregion // Add
+        #endregion // AddIfEmpty
 
-        #region AddRange
+        #region AddRangeIfEmpty
 
         /// <summary>
-        /// Adds the range.
+        /// Adds parameters if not exists.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, params T[] values) // where T : IDictionaryable
+        public CypherParameters AddRangeIfEmpty<T>(string key, params T[] values) // where T : IDictionaryable
         {
-            return AddRange(key, (IEnumerable<T>)values);
+            return AddRangeIfEmpty(key, (IEnumerable<T>)values);
         }
 
         /// <summary>
-        /// Adds the range.
+        /// Adds parameters if not exists.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public CypherParameters AddRange<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
+        public CypherParameters AddRangeIfEmpty<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
         {
             if (key.StartsWith("$"))
                 key = key.Substring(1);
-            _parameters[key] = values.Select(m =>
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                return this;
+            var range = values.Select(m =>
             {
                 var result = m switch
                 {
@@ -97,25 +106,176 @@ namespace Weknow.GraphDbCommands
                 };
                 return result;
             });
+            _parameters = parameters.Add(key, range);
             return this;
         }
 
-        #endregion // AddRange
+        #endregion // AddRangeIfEmpty
 
-        #region AddNull
+        #region AddOrUpdate
+
+        /// <summary>
+        /// Adds parameter or update.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="overrideMapping">
+        /// Optional update decision mapping.
+        /// If not exists the value will simply override 
+        /// </param>
+        /// <returns></returns>
+        public CypherParameters AddOrUpdate<T>(
+            string key,
+            T value,
+            Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
+        {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                parameters = parameters.Remove(key);
+            if (overrideMapping != null)
+            { 
+                var mapped = overrideMapping(value);
+                if (mapped is IDictionaryable dam)
+                    _parameters = parameters.Add(key, dam.ToDictionary());
+                //else if (value is ValueType vt)
+                //    _parameters[key] = vt;
+                else
+                    _parameters = parameters.Add(key, mapped);
+            }
+            if (value is IDictionaryable da)
+                _parameters = parameters.Add(key, da.ToDictionary());
+            //else if (value is ValueType vt)
+            //    _parameters[key] = vt;
+            else
+                _parameters = parameters.Add(key, value);
+            return this;
+        }
+
+        #endregion // AddOrUpdate
+
+        #region AddRangeOrUpdate
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        public CypherParameters AddRangeOrUpdate<T>(
+            string key, 
+            params T[] values) // where T : IDictionaryable
+        {
+            return AddRangeOrUpdate(key, (IEnumerable<T>)values);
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <param name="overrideMapping">
+        /// Optional update decision mapping.
+        /// If not exists the value will simply override 
+        /// </param>
+        /// <returns></returns>
+        public CypherParameters AddRangeOrUpdate<T>(
+            string key, 
+            IEnumerable<T> values,
+            Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
+        {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                parameters = parameters.Remove(key);
+            var range = values.Select(m =>
+            {
+                object? value = m;
+                if (overrideMapping != null)
+                    value = overrideMapping(m); 
+                var result = value switch
+                {                    
+                    IDictionaryable da => (object)da.ToDictionary(),
+                    _ => value
+                };
+                return result;
+            });
+            _parameters = parameters.Add(key, range);
+            return this;
+        }
+
+        #endregion // AddRangeOrUpdate
+
+        #region SetToNull
 
         /// <summary>
         /// Adds a null.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public CypherParameters AddNull(string key)
+        public CypherParameters SetToNull(string key)
         {
-            _parameters[key] = null;
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                parameters = parameters.Remove(key);
+
+            _parameters = parameters.Add(key, null);
             return this;
         }
 
-        #endregion // AddNull
+        #endregion // SetToNull
+
+        #region TrySetToNull
+
+        /// <summary>
+        /// Adds a null.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public CypherParameters TrySetToNull(string key)
+        {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                return this;
+
+            _parameters = parameters.Add(key, null);
+            return this;
+        }
+
+        #endregion // TrySetToNull
+
+        #region Remove
+
+        /// <summary>
+        /// Remove a key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public CypherParameters Remove(string key) 
+        {
+            if (key.StartsWith("$"))
+                key = key.Substring(1);
+
+            var parameters = _parameters;
+            if (parameters.ContainsKey(key))
+                _parameters = parameters.Remove(key);
+            return this;
+        }
+
+        #endregion // Remove
 
         #region ContainsKey
 
@@ -158,7 +318,11 @@ namespace Weknow.GraphDbCommands
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <returns></returns>
+#pragma warning disable CS8600
+#pragma warning disable CS8603
         public T Get<T>(string key) => (T)this[key];
+#pragma warning restore CS8603 
+#pragma warning restore CS8600
 
         #endregion // Get
 
@@ -174,17 +338,17 @@ namespace Weknow.GraphDbCommands
                     return _parameters[key.Substring(1)];
                 throw new KeyNotFoundException(key);
             }
-            set
-            {
-                if (key.StartsWith("$"))
-                    key = key.Substring(1);
-                if (value is IDictionaryable d)
-                    _parameters[key] = d.ToDictionary();
-                else if (value is IEnumerable<IDictionaryable> ds)
-                    _parameters[key] = ds.Select(m => m.ToDictionary());
-                else
-                    _parameters[key] = value;
-            }
+            //set
+            //{
+            //    if (key.StartsWith("$"))
+            //        key = key.Substring(1);
+            //    if (value is IDictionaryable d)
+            //        _parameters[key] = d.ToDictionary();
+            //    else if (value is IEnumerable<IDictionaryable> ds)
+            //        _parameters[key] = ds.Select(m => m.ToDictionary());
+            //    else
+            //        _parameters[key] = value;
+            //}
         }
 
         #endregion // object? this[string key]

@@ -31,7 +31,7 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.Add(nameof(map), expected);
+        prms = prms.AddOrUpdate(nameof(map), expected);
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
@@ -71,7 +71,7 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.Add(nameof(map), expected);
+        prms = prms.AddOrUpdate(nameof(map), expected);
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
@@ -153,7 +153,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRange(nameof(users), usersPrm);
+        prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 

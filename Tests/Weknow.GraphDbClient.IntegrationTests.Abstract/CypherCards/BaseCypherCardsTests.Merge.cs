@@ -30,7 +30,7 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.Add(nameof(p), expected);
+        prms = prms.AddOrUpdate(nameof(p), expected);
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
@@ -106,7 +106,7 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        prms.Add(nameof(p), expected);
+        prms = prms.AddOrUpdate(nameof(p), expected);
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 

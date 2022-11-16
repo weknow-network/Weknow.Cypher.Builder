@@ -56,11 +56,13 @@ namespace Weknow.GraphDbCommands
 
         #region Parameters
 
+        public CypherParameters _parameters = new CypherParameters();
+
         /// <summary>
         /// Mutable state of the parameters.
         /// Parameters build during the visitor traverse.
         /// </summary>
-        public CypherParameters Parameters { get; } = new CypherParameters();
+        public CypherParameters Parameters => _parameters;
 
         #endregion // Parameters
 
@@ -306,7 +308,7 @@ namespace Weknow.GraphDbCommands
             {
                 var parameterName = $"p_{Parameters.Count}";
                 Query.Append($"${parameterName}");
-                Parameters[parameterName] = DateTime.Now;
+                _parameters = _parameters.AddOrUpdate(parameterName, DateTime.Now);
                 return node;
             }
 
@@ -369,7 +371,7 @@ namespace Weknow.GraphDbCommands
                 if (node.Member.Name == nameof(VariableDeclaration.AsParameter))
                     name = ((MemberExpression)node.Expression).Member.Name;
                 if (!Parameters.ContainsKey(name))
-                    Parameters.AddNull(name);
+                    Parameters.SetToNull(name);
             }
             else if (node.Expression is MemberExpression me && me.Member.Name == nameof(ParameterDeclaration<int>._)
                 && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
@@ -382,7 +384,7 @@ namespace Weknow.GraphDbCommands
                     Query.Append(".");
                 }
                 if (!Parameters.ContainsKey(name))
-                    Parameters.AddNull(name);
+                    Parameters.SetToNull(name);
             }
             else if (node.Expression is MemberExpression vme && vme.Member.Name == nameof(VariableDeclaration<int>._)
                 && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))
@@ -515,7 +517,7 @@ namespace Weknow.GraphDbCommands
             {
                 var parameterName = $"p_{Parameters.Count}";
                 Query.Append($"${parameterName}");
-                Parameters[parameterName] = node.Value;
+                _parameters = _parameters.AddOrUpdate(parameterName, node.Value);
             }
             return node;
         }
@@ -580,7 +582,7 @@ namespace Weknow.GraphDbCommands
                                     var parameterName = $"p_{Parameters.Count}";
                                     Query.Append(parameterName);
                                     // TODO: Assing the value of the array
-                                    Parameters[parameterName] = null; // naExp.Value;
+                                    _parameters = _parameters.SetToNull(parameterName); // naExp.Value;
                                     continue;
                                 }
                                 else if (count > 1)
