@@ -16,11 +16,6 @@ on:
         description: 'Log level'     
         required: false
         default: 'warning'
-    
-env: # https://docs.github.com/en/actions/learn-github-actions/environment-variables
-  BUILD_CONFIG: Release
-  DOTNET_VER: 7.0.x
-  INCLUDE_PRERELEASE: false
   
 jobs:
       
@@ -30,7 +25,7 @@ jobs:
       NUGET_PUBLISH: ${{ secrets.NUGET_PUBLISH }}
     with:
       build-config: Release
-      dotnet-version: ${{ env.DOTNET_VER }}
+      dotnet-version: 7.0.x
       include-prerelease: false
       test-project: Tests/Weknow.Cypher.Builder.UnitTests
  
