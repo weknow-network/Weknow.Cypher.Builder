@@ -135,7 +135,45 @@ namespace Weknow.CypherBuilder
 
         #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB 
 
-        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map / Merge_On_Match_SetProperties_Update_Test
+        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n += $map
+
+        [Fact]
+        public void Merge_On_Match_Plus_SetProperties_Update_Test()
+        {
+            var (Id, map) = Parameters.CreateMulti();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { Id }))
+                                    .OnMatchSetPlus(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
+                "ON MATCH SET n += $map", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $Id }) SET n += $map
+
+        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n += $map
+
+        [Fact]
+        public void Merge_SetProperties_Update_Test()
+        {
+            var (Id, map) = Parameters.CreateMulti();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { Id }))
+                                    .SetPlus(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}" +
+                "SET n += $map", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $Id }) SET n += $map
+
+        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map
 
         [Fact]
         public void Merge_On_Match_SetProperties_Update_Test()
@@ -152,9 +190,9 @@ namespace Weknow.CypherBuilder
                 "ON MATCH SET n = $map", cypher.Query);
         }
 
-        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map / Merge_On_Match_SetProperties_Update_Test
+        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map
 
-        #region MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
+        #region MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id })
 
         [Fact]
         public void Merge_AfterMatch_Test()
@@ -170,7 +208,7 @@ namespace Weknow.CypherBuilder
                 "MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id })", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) / Merge_AfterMatch_Test
+        #endregion // MATCH (n:Person { Id: $Id }) MERGE (n)-[:KNOWS]->(a:Animal { Id: $Id }) 
 
         #region MERGE (..) ON CREATE SET n = $map ON MATCH SET n.Version = coalesce(n.Version, 0) + 1
 

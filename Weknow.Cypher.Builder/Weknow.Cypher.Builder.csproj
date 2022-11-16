@@ -10,12 +10,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>Weknow.CypherBuilder.xml</DocumentationFile>
+    <DocumentationFile>Weknow.Cypher.Builder.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ICypherFluent.tmp.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.10" />

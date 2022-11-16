@@ -202,7 +202,7 @@ public static class CypherPhraseExtensions
     /// result in:
     /// ON CREATE SET n += map
     /// </example>
-    [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+    [Cypher("$0\r\n\tON CREATE &SET $1 \\+= $2")]
     public static Fluent OnCreateSetPlus(this Fluent fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
 
     /// <summary>
@@ -217,7 +217,7 @@ public static class CypherPhraseExtensions
     /// result in:
     /// ON CREATE SET n += $map
     /// </example>
-    [Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
+    [Cypher("$0\r\n\tON CREATE &SET $1 \\+= $2")]
     public static Fluent OnCreateSetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
 
     #endregion // OnCreateSetPlus
@@ -318,7 +318,7 @@ public static class CypherPhraseExtensions
     /// result in:
     /// ON MATCH SET n += $map
     /// </example>
-    [Cypher("$0\r\n\tON MATCH &SET $1 = $2")]
+    [Cypher("$0\r\n\tON MATCH &SET $1 \\+= $2")]
     public static Fluent OnMatchSetPlus(this Fluent fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
 
     #endregion // OnMatchSetPlus
