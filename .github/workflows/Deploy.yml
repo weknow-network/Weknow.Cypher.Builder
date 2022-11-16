@@ -30,7 +30,7 @@ jobs:
       NUGET_PUBLISH: ${{ secrets.NUGET_PUBLISH }}
     with:
       build-config: Release
-      dotnet-version: ${{ env. DOTNET_VER }}
+      dotnet-version: ${{ env.DOTNET_VER }}
       include-prerelease: false
       test-project: Tests/Weknow.Cypher.Builder.UnitTests
  
