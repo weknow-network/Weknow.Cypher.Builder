@@ -72,7 +72,7 @@ public partial class BaseCypherCardsTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
         var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var (n, map) = Variables.CreateMulti<PersonEntity>();
 
         #region Prepare
 

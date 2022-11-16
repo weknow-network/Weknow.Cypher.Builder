@@ -196,7 +196,7 @@ namespace Weknow.GraphDbCommands
         [Fact]
         public void TryConstraint_IsNotNull_Test()
         {
-            var (n, r) = Variables.CreateMulti<Foo, Foo>();
+            var (n, r) = Variables.CreateMulti<Foo>();
             CypherCommand cypher = _(() => TryCreateConstraint("test-constraint",
                                                 ConstraintType.IsNotNull,
                                                 N(n, Person) - R[r, KNOWS] > N(),

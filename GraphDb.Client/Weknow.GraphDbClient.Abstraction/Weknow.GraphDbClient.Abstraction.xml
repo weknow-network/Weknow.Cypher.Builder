@@ -120,7 +120,21 @@
             var company = results.Get<Company>("c");
             ]]></example>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary" -->
+        <member name="T:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary">
+            <summary>
+            The result summary of running a query. The result summary interface can be used 
+            to investigate details about the result, like the type of query run, how many
+            and which kinds of updates have been executed, and query plan and profiling information
+             if available. The result summary is only available after all result records have
+             been consumed. Keeping the result summary around does not influence the lifecycle
+             of any associated session and/or transaction.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary.Query">
+            <summary>
+            Gets query that has been executed
+            </summary>
+        </member>
         <member name="P:Weknow.GraphDbClient.Abstraction.IGraphExecutionSummary.ResultAvailableAfter">
             <summary>
             The time it took the server to make the result available for consumption.

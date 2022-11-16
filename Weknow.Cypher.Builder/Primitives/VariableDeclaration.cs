@@ -182,6 +182,10 @@ namespace Weknow.GraphDbCommands.Declarations
         /// Cast to parameter type.
         /// </summary>
         public ParameterDeclaration AsParameter { get; }
+        /// <summary>
+        /// Cast to parameter type.
+        /// </summary>
+        public ParameterDeclaration Prm { get; }
     }
 
 }

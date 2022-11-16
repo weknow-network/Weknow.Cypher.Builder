@@ -416,9 +416,9 @@ internal partial class N4jGraphDB
         /// The result summary of running a query. The result summary interface can be used 
         /// to investigate details about the result, like the type of query run, how many
         /// and which kinds of updates have been executed, and query plan and profiling information
-        //  if available. The result summary is only available after all result records have
-        //  been consumed. Keeping the result summary around does not influence the lifecycle
-        //  of any associated session and/or transaction.
+        ///  if available. The result summary is only available after all result records have
+        ///  been consumed. Keeping the result summary around does not influence the lifecycle
+        ///  of any associated session and/or transaction.
         /// </summary>
         private class GraphExecutionSummary : IGraphExecutionSummary
         {

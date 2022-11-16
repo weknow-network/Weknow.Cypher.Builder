@@ -27,7 +27,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region MATCH (n:Person:Manager  { Id: $Id }) RETURN n / Match_Return_Test
+        #region MATCH (n:Person:Manager  { Id: $Id }) RETURN n
 
         [Fact]
         public void Match_Return_Multi_Label_Test()
@@ -43,9 +43,10 @@ $"MATCH (n:Person:Manager {{ Id: $Id }}){NewLine}" +
 "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person:Manager { Id: $Id }) RETURN n / Match_Return_Test
+        #endregion // MATCH (n:Person:Manager { Id: $Id }) RETURN n 
 
-        #region MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
+
+        #region MATCH (n:Person { Id: $Id }) RETURN n 
 
         [Fact]
         public void Match_Return_Test()
@@ -61,9 +62,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }) RETURN n / Match_Return_Test
+        #endregion // MATCH (n:Person { Id: $Id }) RETURN n 
 
-        #region MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n / Match_2_Return_Test
+        #region MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n
 
         [Fact]
         public void Match_2_Return_Test()
@@ -85,9 +86,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                        "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n / Match_2_Return_Test
+        #endregion // MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n
 
-        #region MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n / Match_2_Return_NoGenLabel_Test
+        #region MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n
 
         [Fact]
         public void Match_2_Return_NoGenLabel_Test()
@@ -107,7 +108,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
                        "RETURN n", cypher.Query);
         }
 
-        #endregion // MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n / Match_2_Return_NoGenLabel_Test
+        #endregion // MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n
 
         #region Match_Pre_Return_Test
 
@@ -189,6 +190,8 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 
         #endregion // Match_SetAsMap_Replace_Test
 
+        #region UNWIND $items AS item MATCH (n:Person { Id: $Id }) SET n = item
+
         [Fact]
         public void Match_Set1_Test()
         {
@@ -204,9 +207,11 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
 $"UNWIND $items AS item{NewLine}" +
-$"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
+$$"""MATCH (n:Person { Id: $Id }){{NewLine}}""" +
 "SET n = item", cypher.Query);
         }
+
+        #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) SET n = item
 
         #region Match_Set_Test
 

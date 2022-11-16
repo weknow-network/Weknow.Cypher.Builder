@@ -1,5 +1,7 @@
 ﻿using Weknow.GraphDbCommands.Declarations;
 
+using static Weknow.GraphDbCommands.Cypher;
+
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbCommands
@@ -10,11 +12,175 @@ namespace Weknow.GraphDbCommands
     /// </summary>
     public partial class Cypher
     {
+        #region class Parameters<T>
+
+        /// <summary>
+        /// Deconstruct for typed parameter of same type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public class Parameters<T>
+        {
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+            }
+
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5,
+                out ParameterDeclaration<T> v6)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+                v6 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5,
+                out ParameterDeclaration<T> v6,
+                out ParameterDeclaration<T> v7)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+                v6 = ParameterDeclaration<T>.Default;
+                v7 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5,
+                out ParameterDeclaration<T> v6,
+                out ParameterDeclaration<T> v7,
+                out ParameterDeclaration<T> v8)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+                v6 = ParameterDeclaration<T>.Default;
+                v7 = ParameterDeclaration<T>.Default;
+                v8 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5,
+                out ParameterDeclaration<T> v6,
+                out ParameterDeclaration<T> v7,
+                out ParameterDeclaration<T> v8,
+                out ParameterDeclaration<T> v9)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+                v6 = ParameterDeclaration<T>.Default;
+                v7 = ParameterDeclaration<T>.Default;
+                v8 = ParameterDeclaration<T>.Default;
+                v9 = ParameterDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out ParameterDeclaration<T> v1,
+                out ParameterDeclaration<T> v2,
+                out ParameterDeclaration<T> v3,
+                out ParameterDeclaration<T> v4,
+                out ParameterDeclaration<T> v5,
+                out ParameterDeclaration<T> v6,
+                out ParameterDeclaration<T> v7,
+                out ParameterDeclaration<T> v8,
+                out ParameterDeclaration<T> v9,
+                out ParameterDeclaration<T> v10)
+            {
+                v1 = ParameterDeclaration<T>.Default;
+                v2 = ParameterDeclaration<T>.Default;
+                v3 = ParameterDeclaration<T>.Default;
+                v4 = ParameterDeclaration<T>.Default;
+                v5 = ParameterDeclaration<T>.Default;
+                v6 = ParameterDeclaration<T>.Default;
+                v7 = ParameterDeclaration<T>.Default;
+                v8 = ParameterDeclaration<T>.Default;
+                v9 = ParameterDeclaration<T>.Default;
+                v10 = ParameterDeclaration<T>.Default;
+            }
+        }
+
+        #endregion // class Parameters<T>
+
         /// <summary>
         /// Parameters factories
         /// </summary>
         public static class Parameters
         {
+            /// <summary>
+            /// Creates the multi.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <returns></returns>
+            /// <example>
+            /// <!<![CDATA[
+            /// ]]>
+            /// </example>
+            public static Parameters<T> CreateMulti<T>() => new Parameters<T>();
+
             /// <summary>
             /// Get parameters declaration.
             /// </summary>

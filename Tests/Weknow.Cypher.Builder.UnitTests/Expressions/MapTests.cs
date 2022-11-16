@@ -49,7 +49,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             var n = Variables.Create();
 
             CypherCommand cypher = _(() =>
-                                    Create(N(n, Person, n.AsParameter)));
+                                    Create(N(n, Person, n.Prm)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("CREATE (n:Person $n)", cypher.Query);

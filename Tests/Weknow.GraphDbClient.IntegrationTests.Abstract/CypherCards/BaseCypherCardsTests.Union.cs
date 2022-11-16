@@ -61,7 +61,7 @@ public partial class BaseCypherCardsTests
                                     Match(N(user, Person))
                                     .Where(user._.key == id)
                                     .Create(N(friend, Friend))
-                                       .Set(friend, friend.AsParameter)
+                                       .Set(friend, friend.Prm)
                                     .With(user, friend)
                                     .Merge(N(user) < R[Follow] - N(friend)));
 

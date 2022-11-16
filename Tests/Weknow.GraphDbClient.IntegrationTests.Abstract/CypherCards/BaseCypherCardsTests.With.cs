@@ -120,7 +120,7 @@ public partial class BaseCypherCardsTests
                                     Match(N(user, Person))
                                     .Where(user._.key == id)
                                     .With(user)
-                                    .Unwind(friends.AsParameter, map,
+                                    .Unwind(friends.Prm, map,
                                          Merge(N(friend, Friend, new { key = (~map)._.key }))
                                             .Set(friend, map)
                                          .Merge(N(user) - R[Knows] > N(friend))));

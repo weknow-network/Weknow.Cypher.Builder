@@ -240,7 +240,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
-        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var (n, map, x) = Variables.CreateMulti<Someone>();
         var p = Variables.Create<NameDictionaryable>();
         CypherCommand cypher = _(() =>
                                 Unwind(items, map,

@@ -39,6 +39,13 @@ namespace Weknow.GraphDbCommands
         /// <returns></returns>
         public static ParameterDeclaration<T> AsParameter<T>(this VariableDeclaration<T> instance) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Project the variable as parameter.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <returns></returns>
+        public static ParameterDeclaration<T> Prm<T>(this VariableDeclaration<T> instance) => throw new NotImplementedException();
+
         #endregion // AsParameter
     }
 }

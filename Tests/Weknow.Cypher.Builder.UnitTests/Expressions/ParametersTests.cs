@@ -21,7 +21,26 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Parameters_Unwind_NonWindProp_T_Test
+        #region Parameters_CreateMulti_T_Deconstruct_Test
+
+        [Fact]
+        public void Parameters_CreateMulti_T_Deconstruct_Test()
+        {
+            var (items, Id) = Parameters.CreateMulti<Foo>();
+            CypherCommand cypher = _(item => n =>
+                                    Unwind(items, item,
+                                    Match(N(n, Person, new { Id }))));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: $Id })", cypher.Query);
+            Assert.True(cypher.Parameters.ContainsKey("items"), "ContainsKey items");
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Id)), "ContainsKey Id");
+        }
+
+        #endregion // Parameters_CreateMulti_T_Deconstruct_Test 
+
+        #region UNWIND $items AS item MATCH (n:Person { Id: $Id })
 
         [Fact]
         public void Parameters_Unwind_NonWindProp_T_Test()
@@ -38,7 +57,7 @@ MATCH (n:Person { Id: $Id })", cypher.Query);
             Assert.True(cypher.Parameters.ContainsKey(nameof(Id)), "ContainsKey Id");
         }
 
-        #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) / Parameters_Unwind_NonWindProp_T_Test
+        #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) 
     }
 }
 

@@ -589,11 +589,18 @@
             CREATE (n {name: $value})
             </example>
         </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Parameters`1">
+            <summary>
+            Deconstruct for typed parameter of same type
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
         <member name="T:Weknow.GraphDbCommands.Cypher.Parameters">
             <summary>
             Parameters factories
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``1" -->
         <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Create">
             <summary>
             Get parameters declaration.
@@ -743,11 +750,18 @@
             <param name="p9">The p9.</param>
             <param name="p10">The P10.</param>
         </member>
+        <member name="T:Weknow.GraphDbCommands.Cypher.Variables`1">
+            <summary>
+            Deconstruct for typed variable of same type
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
         <member name="T:Weknow.GraphDbCommands.Cypher.Variables">
             <summary>
             Variables factories
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``1" -->
         <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Create">
             <summary>
             Get variables declaration.
@@ -1229,6 +1243,13 @@
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.AsParameter``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration{``0})">
+            <summary>
+            Project the variable as parameter.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.Prm``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration{``0})">
             <summary>
             Project the variable as parameter.
             </summary>
@@ -2963,6 +2984,11 @@
             </returns>
         </member>
         <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration.AsParameter">
+            <summary>
+            Cast to parameter type.
+            </summary>
+        </member>
+        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration.Prm">
             <summary>
             Cast to parameter type.
             </summary>

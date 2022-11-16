@@ -10,11 +10,176 @@ namespace Weknow.GraphDbCommands
     /// </summary>
     public partial class Cypher
     {
+
+        #region class Variables<T>
+
+        /// <summary>
+        /// Deconstruct for typed variable of same type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public class Variables<T>
+        {
+            public void Deconstruct(
+                out VariableDeclaration<T> v1)
+            {
+                v1 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+            }
+
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5,
+                out VariableDeclaration<T> v6)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+                v6 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5,
+                out VariableDeclaration<T> v6,
+                out VariableDeclaration<T> v7)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+                v6 = VariableDeclaration<T>.Default;
+                v7 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5,
+                out VariableDeclaration<T> v6,
+                out VariableDeclaration<T> v7,
+                out VariableDeclaration<T> v8)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+                v6 = VariableDeclaration<T>.Default;
+                v7 = VariableDeclaration<T>.Default;
+                v8 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5,
+                out VariableDeclaration<T> v6,
+                out VariableDeclaration<T> v7,
+                out VariableDeclaration<T> v8,
+                out VariableDeclaration<T> v9)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+                v6 = VariableDeclaration<T>.Default;
+                v7 = VariableDeclaration<T>.Default;
+                v8 = VariableDeclaration<T>.Default;
+                v9 = VariableDeclaration<T>.Default;
+            }
+            public void Deconstruct(
+                out VariableDeclaration<T> v1,
+                out VariableDeclaration<T> v2,
+                out VariableDeclaration<T> v3,
+                out VariableDeclaration<T> v4,
+                out VariableDeclaration<T> v5,
+                out VariableDeclaration<T> v6,
+                out VariableDeclaration<T> v7,
+                out VariableDeclaration<T> v8,
+                out VariableDeclaration<T> v9,
+                out VariableDeclaration<T> v10)
+            {
+                v1 = VariableDeclaration<T>.Default;
+                v2 = VariableDeclaration<T>.Default;
+                v3 = VariableDeclaration<T>.Default;
+                v4 = VariableDeclaration<T>.Default;
+                v5 = VariableDeclaration<T>.Default;
+                v6 = VariableDeclaration<T>.Default;
+                v7 = VariableDeclaration<T>.Default;
+                v8 = VariableDeclaration<T>.Default;
+                v9 = VariableDeclaration<T>.Default;
+                v10 = VariableDeclaration<T>.Default;
+            }
+        }
+
+        #endregion // class Variables<T>
+
         /// <summary>
         /// Variables factories
         /// </summary>
         public static class Variables
         {
+            /// <summary>
+            /// Creates the multi.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <returns></returns>
+            /// <example>
+            /// <!<![CDATA[
+            /// ]]>
+            /// </example>
+            public static Variables<T> CreateMulti<T>() => new Variables<T>();
+
             /// <summary>
             /// Get variables declaration.
             /// </summary>

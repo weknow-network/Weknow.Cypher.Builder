@@ -165,7 +165,7 @@ RETURN f"
             CypherCommand cypher =
 
                         _(() =>
-                         Create(N(f, Person, f.AsParameter))
+                         Create(N(f, Person, f.Prm))
                          .Return(f)
                         , cfg =>
                         {
@@ -292,7 +292,7 @@ RETURN f"
         [Fact]
         public void Avoid_Multi_Ambient_Assignment_Test()
         {
-            var (n, m) = Variables.CreateMulti<Foo, Foo>();
+            var (n, m) = Variables.CreateMulti<Foo>();
 
             CypherCommand cypher =
                         _(() =>

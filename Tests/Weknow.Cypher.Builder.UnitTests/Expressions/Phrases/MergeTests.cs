@@ -33,7 +33,7 @@ namespace Weknow.GraphDbCommands
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n, new { n.AsParameter()._.PropA, n.AsParameter()._.PropB }));
+                                    .OnCreateSet(n, new { n.Prm()._.PropA, n.AsParameter()._.PropB }));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -42,6 +42,58 @@ namespace Weknow.GraphDbCommands
         }
 
         #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB
+
+        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA
+
+        [Fact]
+        public void Merge_On_Create_SetProperties_Multi_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var pId = Parameters.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { n.Prm()._.Id }))
+                                    .OnCreateSet(n, new { n.Prm()._.PropA })
+                                    .Merge(N(n, Friend, new { n.Prm()._.Id }))
+                                    .OnCreateSet(n, new { n.Prm()._.PropB })
+                                    .Merge(N(n, Person, new { Id = pId }))
+                                    .OnCreateSet(n, new { n.Prm()._.PropA }));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
+                $"ON CREATE SET n.PropA = $PropA{NewLine}" +
+                $"MERGE (n:Friend {{ Id: $Id }}){NewLine}\t" +
+                $"ON CREATE SET n.PropB = $PropB{NewLine}" +
+                $"MERGE (n:Person {{ Id: $pId }}){NewLine}\t" +
+                $"ON CREATE SET n.PropA = $PropA"
+                ,
+                cypher.Query);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(n._.Id)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(pId)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA
+
+        #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA
+
+        [Fact]
+        public void Merge_On_Create_SetProperties_Infer_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { n.Prm()._.Id }))
+                                    .OnCreateSet(n, new { n.Prm()._.PropA }));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
+                "ON CREATE SET n.PropA = $PropA", cypher.Query);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(n._.Id)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA
 
         #region MERGE (n:Person { Id: $Id }) ON CREATE SET n = $map 
 

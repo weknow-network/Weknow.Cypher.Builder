@@ -137,7 +137,7 @@ namespace Weknow.GraphDbCommands
             if (parameters.ContainsKey(key))
                 parameters = parameters.Remove(key);
             if (overrideMapping != null)
-            { 
+            {
                 var mapped = overrideMapping(value);
                 if (mapped is IDictionaryable dam)
                     _parameters = parameters.Add(key, dam.ToDictionary());
@@ -167,7 +167,7 @@ namespace Weknow.GraphDbCommands
         /// <param name="values">The values.</param>
         /// <returns></returns>
         public CypherParameters AddRangeOrUpdate<T>(
-            string key, 
+            string key,
             params T[] values) // where T : IDictionaryable
         {
             return AddRangeOrUpdate(key, (IEnumerable<T>)values);
@@ -185,7 +185,7 @@ namespace Weknow.GraphDbCommands
         /// </param>
         /// <returns></returns>
         public CypherParameters AddRangeOrUpdate<T>(
-            string key, 
+            string key,
             IEnumerable<T> values,
             Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
         {
@@ -199,9 +199,9 @@ namespace Weknow.GraphDbCommands
             {
                 object? value = m;
                 if (overrideMapping != null)
-                    value = overrideMapping(m); 
+                    value = overrideMapping(m);
                 var result = value switch
-                {                    
+                {
                     IDictionaryable da => (object)da.ToDictionary(),
                     _ => value
                 };
@@ -264,7 +264,7 @@ namespace Weknow.GraphDbCommands
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public CypherParameters Remove(string key) 
+        public CypherParameters Remove(string key)
         {
             if (key.StartsWith("$"))
                 key = key.Substring(1);

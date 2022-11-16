@@ -72,7 +72,7 @@ public partial class BaseCypherCardsTests
         string MIKE = "Mike";
 
 
-        var (n, m) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var (n, m) = Variables.CreateMulti<PersonEntity>();
 
         #region Prepare
 
@@ -168,7 +168,7 @@ public partial class BaseCypherCardsTests
 
         #region Prepare
 
-        var (n_name, m_name) = Parameters.CreateMulti<PersonEntity, PersonEntity>();
+        var (n_name, m_name) = Parameters.CreateMulti<PersonEntity>();
         CypherCommand cypherPrapare = _(() =>
                                 Create(N(m, Person, new { name = n_name }))
                                 .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
