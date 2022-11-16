@@ -22,7 +22,7 @@ namespace Weknow.GraphDbCommands
 
         #endregion // Ctor
 
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
+        #region (n:Person { PropA: $PropA, PropB: $PropB })
 
         [Fact]
         public void Properties_Test()
@@ -42,9 +42,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
         }
 
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
+        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) 
 
-        #region (n:Person { Id: $Id }) / Properties_Lambda_Test
+        #region (n:Person { Id: $Id }) 
 
         [Fact]
         public void Properties_Lambda_Test()
@@ -59,9 +59,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("(n:Person { Length: $Length })", cypher);
         }
 
-        #endregion // (n:Person { Id: $Id }) / Properties_Lambda_Test
+        #endregion // (n:Person { Id: $Id })
 
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
+        #region (n:Person { PropA: $PropA, PropB: $PropB }) 
 
         [Fact]
         public void Properties_P_Test()
@@ -76,9 +76,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $Prop_B })", cypher);
         }
 
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_Test
+        #endregion // (n:Person { PropA: $PropA, PropB: $PropB })
 
-        #region MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA / Properties_Match_Set_nameof_Test_Test
+        #region MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA 
 
         [Fact]
         public void Properties_Match_Set_nameof_Test_Test()
@@ -94,9 +94,9 @@ namespace Weknow.GraphDbCommands
                            "SET n.PropA = $PropA", cypher.Query);
         }
 
-        #endregion // MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA / Properties_Match_Set_nameof_Test_Test
+        #endregion // MATCH MATCH (n:Person { Id: $Id } SET n.PropA = $PropA
 
-        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_Test
+        #region MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) 
 
         [Fact]
         public void Properties_OfT_DefaultLabel_Test()
@@ -111,9 +111,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("MATCH (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
-        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) / Properties_OfT_DefaultLabel_Test
+        #endregion // MATCH (n:Foo { PropA: $PropA, PropB: $PropB }) 
 
-        #region MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
+        #region MATCH (n:Foo { PropA: $PropA, Date: $Date }) 
 
         [Fact]
         public void Properties_OfTT_DefaultLabel_AvoidDuplication_Test()
@@ -127,9 +127,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("MATCH (n:Person { PropA: $PropA, Date: $Date })", cypher.Query);
         }
 
-        #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date }) / Properties_OfTT_DefaultLabel_AvoidDuplication_Test
+        #endregion // MATCH (n:Foo { PropA: $PropA, Date: $Date })
 
-        #region (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_Test
+        #region (n:Person { PropA: $PropA, PropB: $PropB })
 
         [Fact]
         public void Properties_OfT_Test()
@@ -145,9 +145,9 @@ namespace Weknow.GraphDbCommands
             Assert.Equal("(n:Person { PropA: $PropA, PropB: $PropB })", cypher);
         }
 
-        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) / Properties_OfT_Test
+        #endregion // (n:Person { PropA: $PropA, PropB: $PropB }) 
 
-        #region UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n / Properties_Const_Test
+        #region UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n 
 
         [Fact]
         public void Properties_Const_Test()
@@ -163,7 +163,7 @@ namespace Weknow.GraphDbCommands
                             "RETURN n", cypher.Query);
         }
 
-        #endregion // UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n / Properties_Const_Test
+        #endregion // UNWIND $items AS item MERGE (n:Person { Id: item }) RETURN n 
     }
 }
 

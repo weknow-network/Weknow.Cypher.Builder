@@ -368,7 +368,7 @@ namespace Weknow.GraphDbCommands
             if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
             {
                 Query.Append("$");
-                if (node.Member.Name == nameof(VariableDeclaration.AsParameter) || node.Member.Name == nameof(VariableDeclaration.Prm))
+                if (node.Member.Name is (nameof(VariableDeclaration.AsParameter)) or (nameof(VariableDeclaration.Prm)))
                     name = ((MemberExpression)node.Expression).Member.Name;
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);

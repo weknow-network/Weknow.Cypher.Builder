@@ -19,11 +19,7 @@ namespace Weknow.GraphDbCommands
         /// <typeparam name="T"></typeparam>
         public class Variables<T>
         {
-            public void Deconstruct(
-                out VariableDeclaration<T> v1)
-            {
-                v1 = VariableDeclaration<T>.Default;
-            }
+
             public void Deconstruct(
                 out VariableDeclaration<T> v1,
                 out VariableDeclaration<T> v2)
