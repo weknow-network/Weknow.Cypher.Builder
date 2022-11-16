@@ -1,5 +1,5 @@
 ﻿
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Pattern primitive for the Cypher expression.

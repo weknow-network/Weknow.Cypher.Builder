@@ -4,9 +4,9 @@ using System.Reflection;
 
 using Weknow.Disposables;
 
-using Weknow.GraphDbCommands.Declarations;
+using Weknow.CypherBuilder.Declarations;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// The cypher visitor is the heart of the ORM implementation
@@ -369,7 +369,7 @@ namespace Weknow.GraphDbCommands
             {
                 Query.Append("$");
                 if (node.Member.Name is (nameof(VariableDeclaration.AsParameter)) or (nameof(VariableDeclaration.Prm)))
-                    name = ((MemberExpression)node.Expression).Member.Name;
+                    name = ((MemberExpression?)node.Expression)?.Member?.Name ?? throw new ArgumentNullException("((MemberExpression?)node.Expression)?.Member?.Name");
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
@@ -451,6 +451,7 @@ namespace Weknow.GraphDbCommands
                     Visit(_expression[0].Value);
                     Query.Append('.');
                 }
+                if (node.Members == null) throw new ArgumentNullException("node.Members");
                 Query.Append(node.Members[i].Name);
                 AppendPropSeparator();
                 Expression? expr = node.Arguments[i];
@@ -535,7 +536,8 @@ namespace Weknow.GraphDbCommands
         /// </returns>
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            string name = node.Name;
+            string? name = node.Name;
+            if (name == null) throw new ArgumentNullException("VisitParameter");
             Query.Append(name);
             if (!_ambientOnce.Contains(name))
             {
@@ -581,7 +583,6 @@ namespace Weknow.GraphDbCommands
                                 {
                                     var parameterName = $"p_{Parameters.Count}";
                                     Query.Append(parameterName);
-                                    // TODO: Assing the value of the array
                                     _parameters = _parameters.SetToNull(parameterName); // naExp.Value;
                                     continue;
                                 }

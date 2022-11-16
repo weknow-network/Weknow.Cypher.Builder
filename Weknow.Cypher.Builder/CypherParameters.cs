@@ -1,6 +1,6 @@
 ﻿using Weknow.Mapping;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Cypher Parameters representation

@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Represent predefine pattern
     /// </summary>
-    /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
+    /// <seealso cref="Weknow.CypherBuilder.IPattern" />
     public class ExpressionPattern : IPattern
     {
         internal Expression expression { get; }

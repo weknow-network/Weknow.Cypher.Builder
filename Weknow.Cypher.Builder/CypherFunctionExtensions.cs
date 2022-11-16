@@ -1,6 +1,6 @@
-﻿using Weknow.GraphDbCommands.Declarations;
+﻿using Weknow.CypherBuilder.Declarations;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Cypher Function Extensions

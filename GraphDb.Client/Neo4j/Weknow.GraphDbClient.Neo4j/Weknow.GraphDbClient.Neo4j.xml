@@ -30,7 +30,6 @@
             <param name="healthBuilder">The health builder.</param>
             <param name="authToken">The authentication token.</param>
             <param name="envVarPrefix">The environment variable prefix.</param>
-            <param name="">The .</param>
             <param name="logger">The logger.</param>
             <returns></returns>
         </member>
@@ -84,7 +83,7 @@
             </summary>
             <param name="session">The session.</param>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#RunAsync(Weknow.GraphDbCommands.CypherCommand,Weknow.GraphDbCommands.CypherParameters)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>
             Executes Cypher
             </summary>

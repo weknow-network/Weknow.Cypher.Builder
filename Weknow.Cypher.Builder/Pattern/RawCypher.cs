@@ -1,5 +1,5 @@
 ﻿
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
     public class RawCypher

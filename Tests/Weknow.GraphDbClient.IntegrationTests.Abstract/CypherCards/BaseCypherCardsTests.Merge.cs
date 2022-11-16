@@ -1,9 +1,9 @@
 using Weknow.GraphDbClient.Abstraction;
-using Weknow.GraphDbCommands;
+using Weknow.CypherBuilder;
 
 using Xunit;
 
-using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.CypherBuilder.Cypher;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -90,6 +90,7 @@ public partial class BaseCypherCardsTests
     //#endregion // MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p
 
     #region MERGE (n:..) ON CREATE SET n = $p ON MATCH SET n.version = coalesce(n.version, 0) + 1
+#pragma warning disable CS0618 // Type or member is obsolete
 
     [Fact]
     public virtual async Task Merge_ON_Test()
@@ -136,6 +137,7 @@ public partial class BaseCypherCardsTests
 
         PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) { key = i };
     }
+#pragma warning restore CS0618 
 
     #endregion // MERGE (n:..) ON CREATE SET n = $p ON MATCH SET n.version = coalesce(n.version, 0) + 1
 
@@ -174,8 +176,6 @@ public partial class BaseCypherCardsTests
         Assert.Equal("Pola", b);
 
         #endregion // Validation
-
-        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) { key = i };
     }
 
     #endregion // MERGE (n:_TEST_:PERSON { key: 10 }) SET n = $p

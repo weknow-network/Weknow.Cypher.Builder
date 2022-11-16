@@ -1,15 +1,15 @@
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
-using Weknow.GraphDbCommands.Declarations;
+using Weknow.CypherBuilder.Declarations;
 
 using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
-using static Weknow.GraphDbCommands.Cypher;
-using static Weknow.GraphDbCommands.Schema;
+using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.Schema;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]

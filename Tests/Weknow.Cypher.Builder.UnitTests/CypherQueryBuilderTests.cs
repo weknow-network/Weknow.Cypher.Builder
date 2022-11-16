@@ -1,7 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Weknow.GraphDbCommands.UnitTests
+namespace Weknow.CypherBuilder.UnitTests
 {
     [Trait("TestType", "Unit")]
     public class CypherQueryBuilderTests

@@ -1,13 +1,13 @@
 using System.Data;
 
 using Weknow.GraphDbClient.Abstraction;
-using Weknow.GraphDbCommands;
+using Weknow.CypherBuilder;
 using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.CypherBuilder.Cypher;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -19,7 +19,7 @@ internal partial record NameDictionaryable(string Name);
 internal record Name1(string Name);
 internal record Name2
 {
-    public string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 }
 
 [Dictionaryable(Flavor = Flavor.Neo4j)]

@@ -47,7 +47,6 @@ public static class RegistrationOfN4jProvider
     /// <param name="healthBuilder">The health builder.</param>
     /// <param name="authToken">The authentication token.</param>
     /// <param name="envVarPrefix">The environment variable prefix.</param>
-    /// <param name="">The .</param>
     /// <param name="logger">The logger.</param>
     /// <returns></returns>
     public static IServiceCollection RegisterSingletonNeo4j(

@@ -4,8 +4,8 @@
 		<PackageId>Weknow.GraphDbClient.Abstraction</PackageId>
 		<Product>Weknow GraphDb Client Abstraction</Product>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/weknow-network/Weknow.CypherBuilder</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/weknow-network/Weknow.CypherBuilder</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageIconUrl />
 		<DocumentationFile>Weknow.GraphDbClient.Abstraction.xml</DocumentationFile>
@@ -26,7 +26,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Bnaya.CSharp.AsyncExtensions" Version="1.0.56" />
-	  <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.20" />
+	  <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.21" />
 	</ItemGroup>
 
 

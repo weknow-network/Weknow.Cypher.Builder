@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Product>Weknow Cypher builder</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/weknow-network/Weknow.GraphDbCommands</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/weknow-network/Weknow.CypherBuilder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/weknow-network/Weknow.CypherBuilder</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>Weknow.GraphDbCommands.xml</DocumentationFile>
+    <DocumentationFile>Weknow.CypherBuilder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
     <PackageReference Include="Weknow-BasicExtensions" Version="1.0.37" />
-    <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.20" />
+    <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.21" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.ObjectPool;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Responsible for abstracting the logic of the actual 

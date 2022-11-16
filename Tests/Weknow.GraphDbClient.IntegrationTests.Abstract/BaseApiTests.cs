@@ -1,11 +1,11 @@
 using Weknow.GraphDbClient.Abstraction;
-using Weknow.GraphDbCommands;
+using Weknow.CypherBuilder;
 using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.CypherBuilder.Cypher;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 

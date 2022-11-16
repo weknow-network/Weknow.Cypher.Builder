@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 
-using Weknow.GraphDbCommands.Declarations;
+using Weknow.CypherBuilder.Declarations;
 
-using static Weknow.GraphDbCommands.CypherDelegates;
+using static Weknow.CypherBuilder.CypherDelegates;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
 // TODO: [bnaya 2022-10-20] source code generator of the cypher
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.
@@ -846,6 +846,7 @@ namespace Weknow.GraphDbCommands
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="p">The p.</param>
+        /// <param name="analyzer">The analyzer.</param>
         /// <param name="var">The variable.</param>
         /// <param name="vars">The vars.</param>
         /// <returns></returns>
@@ -862,14 +863,14 @@ namespace Weknow.GraphDbCommands
 
 
         /// <summary>
-        /// Create a TEXT index on nodes with label Person and property name. 
-        /// The property value type should be a string for the TEXT index. 
+        /// Create a TEXT index on nodes with label Person and property name.
+        /// The property value type should be a string for the TEXT index.
         /// Other value types are ignored by the TEXT index.
-        /// TEXT index is utilized if the predicate compares the property with a string. 
+        /// TEXT index is utilized if the predicate compares the property with a string.
         /// Note that for example:
-        /// toLower(n.name) = 'Example String' 
+        /// toLower(n.name) = 'Example String'
         /// does not use an index.
-        /// TEXT index is utilized to check the IN list checks, 
+        /// TEXT index is utilized to check the IN list checks,
         /// when all elements in the list are strings.
         /// </summary>
         /// <param name="name">The name.</param>

@@ -2,13 +2,13 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
-using static Weknow.GraphDbCommands.Cypher;
-using static Weknow.GraphDbCommands.Schema;
+using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.Schema;
 
 // https://neo4j.com/docs/cypher-cheat-sheet/current/
 // https://neo4j.com/docs/cypher-manual/5/indexs/
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Index")]

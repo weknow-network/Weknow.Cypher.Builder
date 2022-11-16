@@ -1,5 +1,5 @@
 ﻿
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Represent alternative to range syntax (currently the range syntax is not supported as expression)

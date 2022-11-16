@@ -2,10 +2,10 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
-using static Weknow.GraphDbCommands.Cypher;
-using static Weknow.GraphDbCommands.Schema;
+using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.Schema;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "NoMagic")]

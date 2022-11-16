@@ -1,5 +1,8 @@
-﻿
-namespace Weknow.GraphDbCommands.Declarations
+﻿#pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
+#pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor.  
+
+namespace Weknow.CypherBuilder.Declarations
 {
     /// <summary>
     /// Variable primitive for the Cypher expression.
@@ -15,9 +18,7 @@ namespace Weknow.GraphDbCommands.Declarations
     /// </remarks>
     public class VariableDeclaration<T> : VariableDeclaration
     {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private VariableDeclaration() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary>
         /// Default (and only) way to get cypher parameter.
@@ -114,44 +115,44 @@ namespace Weknow.GraphDbCommands.Declarations
         #region <>
 
         /// <summary>
-        /// Declaration for operator >.
+        /// <![CDATA[Declaration for operator >.]]>
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator >(VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator >(VariableDeclaration? a, object? b) => throw new NotImplementedException();
 
         /// <summary>
-        /// Declaration for operator <.
+        /// <![CDATA[Declaration for operator <.]]>
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator <(VariableDeclaration a, object b) => throw new NotImplementedException();
+        public static bool operator <(VariableDeclaration? a, object? b) => throw new NotImplementedException();
 
         /// <summary>
-        /// Declaration for operator >.
+        /// <![CDATA[Declaration for operator >.]]>
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator >(object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator >(object? a, VariableDeclaration? b) => throw new NotImplementedException();
 
         /// <summary>
-        /// Declaration for operator <.
+        /// <![CDATA[Declaration for operator <.]]>
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator <(object a, VariableDeclaration b) => throw new NotImplementedException();
+        public static bool operator <(object? a, VariableDeclaration? b) => throw new NotImplementedException();
 
         #endregion // <>
 

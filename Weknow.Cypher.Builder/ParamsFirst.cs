@@ -1,5 +1,5 @@
 ﻿
-namespace Weknow.GraphDbCommands;
+namespace Weknow.CypherBuilder;
 
 /// <summary>
 /// Use to avoid empty params array

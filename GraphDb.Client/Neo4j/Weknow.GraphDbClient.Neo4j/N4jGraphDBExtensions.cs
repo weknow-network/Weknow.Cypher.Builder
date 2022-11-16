@@ -8,6 +8,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 internal static class N4jGraphDBExtensions
 {
     #region TryGetValue
+#pragma warning disable CS8601 // Possible null reference assignment.
 
     /// <summary>
     /// Tries to get value.
@@ -48,5 +49,6 @@ internal static class N4jGraphDBExtensions
         return true;
     }
 
+#pragma warning restore CS8601 // Possible null reference assignment.
     #endregion // TryGetValue
 }

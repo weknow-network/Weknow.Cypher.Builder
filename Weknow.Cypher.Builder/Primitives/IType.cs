@@ -1,4 +1,4 @@
-﻿namespace Weknow.GraphDbCommands
+﻿namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Relation's Type primitive for the Cypher expression.

@@ -3,11 +3,11 @@ using FakeItEasy;
 using Microsoft.Extensions.DependencyInjection;
 
 using Weknow.GraphDbClient.Abstraction;
-using Weknow.GraphDbCommands;
+using Weknow.CypherBuilder;
 
 using Xunit.Abstractions;
 
-using static Weknow.GraphDbCommands.Cypher;
+using static Weknow.CypherBuilder.Cypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 

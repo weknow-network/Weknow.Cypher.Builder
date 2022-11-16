@@ -1,4 +1,4 @@
-﻿using Weknow.GraphDbCommands;
+﻿using Weknow.CypherBuilder;
 
 
 namespace Weknow.GraphDbClient.Abstraction;

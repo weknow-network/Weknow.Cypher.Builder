@@ -1,11 +1,11 @@
 ﻿
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
 
     /// <summary>
     /// Represent relation to node
     /// </summary>
-    /// <seealso cref="Weknow.GraphDbCommands.IPattern" />
+    /// <seealso cref="Weknow.CypherBuilder.IPattern" />
     public interface IRelationNode : IPattern
     {
         /// <summary>

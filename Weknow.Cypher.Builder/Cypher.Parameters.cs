@@ -1,8 +1,8 @@
-﻿using Weknow.GraphDbCommands.Declarations;
+﻿using Weknow.CypherBuilder.Declarations;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Entry point for constructing root level Cypher.
@@ -174,7 +174,8 @@ namespace Weknow.GraphDbCommands
             /// <typeparam name="T"></typeparam>
             /// <returns></returns>
             /// <example>
-            /// <!<![CDATA[
+            /// <![CDATA[
+            /// var (a, b, c, d) = Parameters.CreateMulti<Foo>();
             /// ]]>
             /// </example>
             public static Parameters<T> CreateMulti<T>() => new Parameters<T>();

@@ -2,9 +2,9 @@
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-using Weknow.GraphDbCommands.Declarations;
+using Weknow.CypherBuilder.Declarations;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Common delegate of the Cypher builder

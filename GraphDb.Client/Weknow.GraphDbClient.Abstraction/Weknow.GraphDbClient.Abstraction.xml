@@ -9,7 +9,7 @@
             GraphDB abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDB.RunAsync(Weknow.GraphDbCommands.CypherCommand,Weknow.GraphDbCommands.CypherParameters)">
+        <member name="M:Weknow.GraphDbClient.Abstraction.IGraphDB.RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>
             Executes Cypher
             </summary>

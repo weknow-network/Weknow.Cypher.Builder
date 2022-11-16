@@ -1,5 +1,5 @@
 ﻿
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
     internal static class Schema
     {

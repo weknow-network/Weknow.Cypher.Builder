@@ -1,38 +1,38 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Weknow.GraphDbCommands</name>
+        <name>Weknow.CypherBuilder</name>
     </assembly>
     <members>
-        <member name="T:Weknow.GraphDbCommands.CypherAttribute">
+        <member name="T:Weknow.CypherBuilder.CypherAttribute">
             <summary>
             Cypher Attribute used to specify formatting pattern
             </summary>
             <seealso cref="T:System.Attribute" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherAttribute.#ctor(System.String)">
+        <member name="M:Weknow.CypherBuilder.CypherAttribute.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherAttribute"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherAttribute"/> class.
             </summary>
             <param name="format">The format.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherAttribute.Format">
+        <member name="P:Weknow.CypherBuilder.CypherAttribute.Format">
             <summary>
             Gets the format.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Cypher">
+        <member name="T:Weknow.CypherBuilder.Cypher">
             <summary>
             Entry point for constructing root level Cypher.
-            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherPhraseExtensions" />
             </summary>
             <summary>
             Entry point for constructing root level Cypher.
-            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherPhraseExtensions" />
             </summary>
             <summary>
             Entry point for constructing root level Cypher.
-            For fluent cypher check <see cref="T:Weknow.GraphDbCommands.CypherPhraseExtensions" />
+            For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherPhraseExtensions" />
             </summary>
             <summary>
             Cypher Function Extensions
@@ -41,7 +41,7 @@
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
             <summary>
             Initializes a builder.
             </summary>
@@ -49,7 +49,7 @@
             <param name="expression">The expression.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher._(System.Linq.Expressions.Expression{Weknow.GraphDbCommands.CypherDelegates.NoVariable},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.NoVariable},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -57,7 +57,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher._(System.Linq.Expressions.Expression{Weknow.GraphDbCommands.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -65,21 +65,21 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.ILabel)">
+        <member name="M:Weknow.CypherBuilder.Cypher.N(Weknow.CypherBuilder.ILabel)">
             <summary>
             Specified node with label.
             </summary>
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.N(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Specified node with variable.
             </summary>
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel)">
+        <member name="M:Weknow.CypherBuilder.Cypher.N(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel)">
             <summary>
             Specified node with variable and label.
             </summary>
@@ -87,7 +87,7 @@
             <param name="label">The label.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.N(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel,System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.N(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel,System.Object)">
             <summary>
             Specified node with variable, label and properties.
             </summary>
@@ -96,12 +96,12 @@
             <param name="properties">The properties.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.Cypher.R">
+        <member name="P:Weknow.CypherBuilder.Cypher.R">
             <summary>
             Gets the Cypher relation.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher._``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration,``0)">
+        <member name="M:Weknow.CypherBuilder.Cypher._``1(Weknow.CypherBuilder.Declarations.VariableDeclaration,``0)">
             <summary>
             Used to define properties' variables without the $ prefix.
             Useful for cases like UNWIND
@@ -114,7 +114,7 @@
                 MATCH(n:Person { PropA: item.x })
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Rgx(System.Boolean)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Rgx(System.Boolean)">
             <summary>
             Use regular expression comparison under WHERE clause.
             </summary>
@@ -124,7 +124,7 @@
             WHERE n.name =~ 'Tim.*'
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Rgx(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Rgx(System.Object)">
             <summary>
             Use regular expression comparison under WHERE clause.
             </summary>
@@ -134,13 +134,13 @@
             WHERE n.name =~ 'Tim.*'
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Profile">
+        <member name="M:Weknow.CypherBuilder.Cypher.Profile">
             <summary>
             Profile execution.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Match(Weknow.GraphDbCommands.INode[])">
+        <member name="M:Weknow.CypherBuilder.Cypher.Match(Weknow.CypherBuilder.INode[])">
             <summary>
             Matches phrase.
             </summary>
@@ -150,7 +150,7 @@
             MATCH (n:Person)-[:KNOWS]->(m:Person)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Create(Weknow.GraphDbCommands.IPattern)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Create(Weknow.CypherBuilder.IPattern)">
             <summary>
             Create phrase.
             </summary>
@@ -160,7 +160,7 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Merge(Weknow.GraphDbCommands.IPattern)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Merge(Weknow.CypherBuilder.IPattern)">
             <summary>
             MERGE phrase.
             </summary>
@@ -170,7 +170,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Unwind(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Unwind(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
             </summary>
@@ -184,7 +184,7 @@
             RETURN avg(n.age)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Unwind(Weknow.GraphDbCommands.Declarations.ParameterDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Unwind(Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Unwinds the specified items.
             </summary>
@@ -194,7 +194,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Exists(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Exists(Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             EXISTS phrase.
             </summary>
@@ -204,7 +204,7 @@
             exists(n.property)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Exists(Weknow.GraphDbCommands.CypherDelegates.NoVariable)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Exists(Weknow.CypherBuilder.CypherDelegates.NoVariable)">
             <summary>
             EXISTS phrase.
             </summary>
@@ -214,7 +214,7 @@
             exists(n.property)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.IRelationNode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelationNode}},System.Action{Weknow.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -222,7 +222,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.INodeRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INodeRelation}},System.Action{Weknow.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -230,7 +230,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.INode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INode}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -238,7 +238,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.GraphDbCommands.IRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelation}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -246,7 +246,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INodeRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INodeRelation}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -254,7 +254,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -262,7 +262,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -270,7 +270,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -278,7 +278,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -286,7 +286,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -294,7 +294,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -302,7 +302,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.INode}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -310,7 +310,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Func{Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.Cypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -318,7 +318,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Timestamp">
+        <member name="M:Weknow.CypherBuilder.Cypher.Timestamp">
             <summary>
             Milliseconds since midnight, January 1, 1970 UTC.
             </summary>
@@ -328,69 +328,69 @@
             RETURN timestamp()
             </example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Cypher.Parameters">
+        <member name="T:Weknow.CypherBuilder.Cypher.Parameters">
             <summary>
             Parameters factories
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Create">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Create">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Create``1">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Create``1">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``2">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti``2">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``3">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti``3">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``4">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti``4">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``5">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti``5">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.CreateMulti``6">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.CreateMulti``6">
             <summary>
             Get parameters declaration.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor">
+        <member name="T:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor">
             <summary>
             Parameters Deconstruction.
             </summary>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Default">
+        <member name="F:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Default">
             <summary>
             Parameters Deconstruction.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
             <param name="p1">The p1.</param>
             <param name="p2">The p2.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -398,7 +398,7 @@
             <param name="p2">The p2.</param>
             <param name="p3">The p3.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -407,7 +407,7 @@
             <param name="p3">The p3.</param>
             <param name="p4">The p4.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -417,7 +417,7 @@
             <param name="p4">The p4.</param>
             <param name="p5">The p5.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -428,7 +428,7 @@
             <param name="p5">The p5.</param>
             <param name="p6">The p6.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -440,7 +440,7 @@
             <param name="p6">The p6.</param>
             <param name="p7">The p7.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -453,7 +453,7 @@
             <param name="p7">The p7.</param>
             <param name="p8">The p8.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -467,7 +467,7 @@
             <param name="p8">The p8.</param>
             <param name="p9">The p9.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@,Weknow.GraphDbCommands.Declarations.ParameterDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Parameters.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@,Weknow.CypherBuilder.Declarations.ParameterDeclaration@)">
             <summary>
             Parameters Deconstruction.
             </summary>
@@ -482,69 +482,69 @@
             <param name="p9">The p9.</param>
             <param name="p10">The P10.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Cypher.Variables">
+        <member name="T:Weknow.CypherBuilder.Cypher.Variables">
             <summary>
             Variables factories
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Create">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Create">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Create``1">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Create``1">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``2">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti``2">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``3">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti``3">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``4">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti``4">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``5">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti``5">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.CreateMulti``6">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.CreateMulti``6">
             <summary>
             Get variables declaration.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor">
+        <member name="T:Weknow.CypherBuilder.Cypher.Variables.Deconstructor">
             <summary>
             Variables Deconstruction.
             </summary>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Default">
+        <member name="F:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Default">
             <summary>
             Variables Deconstruction.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
             <param name="v1">The v1.</param>
             <param name="v2">The v2.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -552,7 +552,7 @@
             <param name="v2">The v2.</param>
             <param name="v3">The v3.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -561,7 +561,7 @@
             <param name="v3">The v3.</param>
             <param name="v4">The v4.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -571,7 +571,7 @@
             <param name="v4">The v4.</param>
             <param name="v5">The v5.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -582,7 +582,7 @@
             <param name="v5">The v5.</param>
             <param name="v6">The v6.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -594,7 +594,7 @@
             <param name="v6">The v6.</param>
             <param name="v7">The v7.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -607,7 +607,7 @@
             <param name="v7">The v7.</param>
             <param name="v8">The v8.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -621,7 +621,7 @@
             <param name="v8">The v8.</param>
             <param name="v9">The v9.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Variables.Deconstructor.Deconstruct(Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@,Weknow.GraphDbCommands.Declarations.VariableDeclaration@)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Variables.Deconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@,Weknow.CypherBuilder.Declarations.VariableDeclaration@)">
             <summary>
             Variables Deconstruction.
             </summary>
@@ -636,7 +636,7 @@
             <param name="v9">The v9.</param>
             <param name="v10">The P10.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Type(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Type(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             String representation of the relationship type.
             </summary>
@@ -647,7 +647,7 @@
             RETURN type(r)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.StartNode(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.StartNode(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Start node of the relationship.
             </summary>
@@ -658,7 +658,7 @@
             RETURN startNode(r)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.EndNode(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.EndNode(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             End node of the relationship.
             </summary>
@@ -669,7 +669,7 @@
             RETURN endNode(r)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Id(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Id(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             The internal id of the relationship.
             </summary>
@@ -680,7 +680,7 @@
             RETURN id(n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Labels(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Labels(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Labels of the node.
             </summary>
@@ -691,7 +691,7 @@
             RETURN labels(n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Count(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Count(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Count the results.
             </summary>
@@ -702,7 +702,7 @@
             RETURN count(n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Sum(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Sum(System.Object)">
             <summary>
             Sum numerical values. Similar functions are avg(), min(), max().
             </summary>
@@ -713,7 +713,7 @@
             RETURN sum(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Max(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Max(System.Object)">
             <summary>
             Max numerical values. Similar functions are avg(), min(), sum().
             </summary>
@@ -724,7 +724,7 @@
             RETURN max(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Min(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Min(System.Object)">
             <summary>
             Min numerical values. Similar functions are avg(), sum(), max().
             </summary>
@@ -735,7 +735,7 @@
             RETURN min(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Avg(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Avg(System.Object)">
             <summary>
             Avg numerical values. Similar functions are sum(), min(), max().
             </summary>
@@ -746,7 +746,7 @@
             RETURN avg(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.CountDistinct(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.CountDistinct(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Count the results.
             </summary>
@@ -757,7 +757,7 @@
             RETURN count(n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Collect(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Collect(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -769,7 +769,7 @@
             collect(n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Collect(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Collect(System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -781,7 +781,7 @@
             collect(n.Id)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.CollectDistinct(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.CollectDistinct(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -792,7 +792,7 @@
             RETURN collect(DISTINCT n)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.CollectDistinct(System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.CollectDistinct(System.Object)">
             <summary>
             List from the values, ignores null.
             </summary>
@@ -803,7 +803,7 @@
             RETURN collect(DISTINCT n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
+        <member name="M:Weknow.CypherBuilder.Cypher.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
             <summary>
             Compares the specified with.
             </summary>
@@ -812,7 +812,7 @@
             <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.In(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             IN phrase.
             </summary>
@@ -825,7 +825,7 @@
             n.property IN [items]
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Cypher.In(System.Object,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             IN phrase.
             </summary>
@@ -838,7 +838,7 @@
             n.property IN [$items]
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Cypher.In(System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.Cypher.In(System.Object,System.Object)">
             <summary>
             IN phrase.
             </summary>
@@ -852,38 +852,38 @@
             n.property IN [item.List]
             </example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherCommand">
+        <member name="T:Weknow.CypherBuilder.CypherCommand">
             <summary>
             <![CDATA[Representation of Cypher Query & Parameters]]>
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherCommand.#ctor(System.String,Weknow.GraphDbCommands.CypherParameters)">
+        <member name="M:Weknow.CypherBuilder.CypherCommand.#ctor(System.String,Weknow.CypherBuilder.CypherParameters)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherCommand"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherCommand"/> class.
             </summary>
             <param name="query">The query.</param>
             <param name="parameters">The parameters.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherCommand.Query">
+        <member name="P:Weknow.CypherBuilder.CypherCommand.Query">
             <summary>
             Representation of Cypher Query.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherCommand.Parameters">
+        <member name="P:Weknow.CypherBuilder.CypherCommand.Parameters">
             <summary>
             Gets the parameters.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherCommand.op_Implicit(Weknow.GraphDbCommands.CypherCommand)~System.String">
+        <member name="M:Weknow.CypherBuilder.CypherCommand.op_Implicit(Weknow.CypherBuilder.CypherCommand)~System.String">
             <summary>
-            Performs an implicit conversion from <see cref="T:Weknow.GraphDbCommands.CypherCommand"/> to <see cref="T:System.String"/>.
+            Performs an implicit conversion from <see cref="T:Weknow.CypherBuilder.CypherCommand"/> to <see cref="T:System.String"/>.
             </summary>
             <param name="command">The command.</param>
             <returns>
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherCommand.ToString">
+        <member name="M:Weknow.CypherBuilder.CypherCommand.ToString">
             <summary>
             Converts to string.
             </summary>
@@ -891,25 +891,25 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherCommand.Dump">
+        <member name="M:Weknow.CypherBuilder.CypherCommand.Dump">
             <summary>
             <![CDATA[Dumps the Cypher Query & parameter into text format.]]>
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherDelegates">
+        <member name="T:Weknow.CypherBuilder.CypherDelegates">
             <summary>
             Common delegate of the Cypher builder
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Fluent">
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.Fluent">
             <summary>
             Fluent delegate is the underline used to glue the Cypher expression.
             </summary>
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Project`2">
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.Project`2">
             <summary>
             <![CDATA[Pattern delegate of T.
             Used for having IVar<T>]]>
@@ -919,13 +919,13 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherDelegates.NoVariable">
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.NoVariable">
             <summary>
             Enable starting point which don't use any variable
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherDelegates.Project`1">
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.Project`1">
             <summary>
             <![CDATA[Pattern delegate of T.
             Used for having IVar]]>
@@ -934,12 +934,12 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherGeneralExtensions">
+        <member name="T:Weknow.CypherBuilder.CypherGeneralExtensions">
             <summary>
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
             <summary>
             Define variable's alias
             </summary>
@@ -947,7 +947,7 @@
             <param name="alias">The name.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.As(System.Object,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Define variable's alias
             </summary>
@@ -956,48 +956,48 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherGeneralExtensions.AsParameter``1(Weknow.GraphDbCommands.Declarations.VariableDeclaration{``0})">
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.AsParameter``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
             <summary>
             Project the variable as parameter.
             </summary>
             <param name="instance">The instance.</param>
             <returns></returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherParameters">
+        <member name="T:Weknow.CypherBuilder.CypherParameters">
             <summary>
             Cypher Parameters representation
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
             <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Int32)">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
             <param name="capacity">The initial number of elements that the <see cref="T:System.Collections.Generic.Dictionary`2" /> can contain.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherParameters.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherParameters"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
             <param name="info">A <see cref="T:System.Runtime.Serialization.SerializationInfo" /> object containing the information required to serialize the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
             <param name="context">A <see cref="T:System.Runtime.Serialization.StreamingContext" /> structure containing the source and destination of the serialized stream associated with the <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherPhraseExtensions">
+        <member name="T:Weknow.CypherBuilder.CypherPhraseExtensions">
             <summary>
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Match(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Match(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Matches phrase.
             </summary>
@@ -1008,7 +1008,7 @@
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Match(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Match(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.IPattern)">
             <summary>
             Matches phrase.
             </summary>
@@ -1019,7 +1019,7 @@
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OptionalMatch(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OptionalMatch(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Optional Matches phrase.
             </summary>
@@ -1030,7 +1030,7 @@
             OPTIONAL MATCH (n:Person)-[:KNOWS]->(m:Person)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Create(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Create(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Create phrase.
             </summary>
@@ -1041,7 +1041,7 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Create(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Create(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.IPattern)">
             <summary>
             Create phrase.
             </summary>
@@ -1052,7 +1052,7 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Merge(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Merge(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             MERGE phrase.
             </summary>
@@ -1063,7 +1063,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Merge(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.IPattern)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Merge(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.IPattern)">
             <summary>
             MERGE phrase.
             </summary>
@@ -1074,7 +1074,7 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnCreateSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1088,7 +1088,7 @@
             ON CREATE SET n = map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnCreateSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1102,7 +1102,7 @@
             ON CREATE SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnCreateSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1116,7 +1116,7 @@
             ON CREATE SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnCreateSetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1130,7 +1130,7 @@
             ON CREATE SET n += map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnCreateSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnCreateSetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -1144,7 +1144,7 @@
             ON CREATE SET n += $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnMatchSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1158,7 +1158,7 @@
             ON MATCH SET n = map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnMatchSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1172,7 +1172,7 @@
             ON MATCH SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSet(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnMatchSet(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1186,7 +1186,7 @@
             ON MATCH SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnMatchSetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1200,7 +1200,7 @@
             ON MATCH SET n += map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OnMatchSetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OnMatchSetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1214,7 +1214,7 @@
             ON MATCH SET n += $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.ILabel[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Set(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
             <summary>
             SET label.
             </summary>
@@ -1226,7 +1226,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Set(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1240,7 +1240,7 @@
             SET n = map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Set(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1254,7 +1254,7 @@
             SET n = $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Set(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Set(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
             <summary>
             SET  phrase.
             </summary>
@@ -1269,7 +1269,7 @@
             SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.SetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.SetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1283,7 +1283,7 @@
             SET n += map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.SetPlus(Weknow.GraphDbCommands.CypherDelegates.Fluent,Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.SetPlus(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1298,7 +1298,7 @@
             SET n += $map
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Where(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Boolean)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Where(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Boolean)">
             <summary>
             WHERE phrase.
             </summary>
@@ -1310,7 +1310,7 @@
             WHERE user.name = $name
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Return(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Return(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             RETURN phrase.
             </summary>
@@ -1321,7 +1321,7 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.ReturnDistinct(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.ReturnDistinct(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             RETURN DISTINCT phrase.
             </summary>
@@ -1332,7 +1332,7 @@
             RETURN DISTINCT n
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.With(Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             WITH phrase.
             </summary>
@@ -1346,7 +1346,7 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.With(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.With(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             WITH phrase.
             </summary>
@@ -1361,7 +1361,7 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderBy(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OrderBy(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             ORDER BY phrase.
             </summary>
@@ -1374,7 +1374,7 @@
             ORDER BY friends
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.OrderByDesc(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.OrderByDesc(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             ORDER BY DESC phrase.
             </summary>
@@ -1387,7 +1387,7 @@
             ORDER BY friends DESC
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Skip(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Int32)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Skip(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Int32)">
             <summary>
             SKIP phrase.
             </summary>
@@ -1400,7 +1400,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Limit(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Int32)">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Limit(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Int32)">
             <summary>
             LIMIT phrase.
             </summary>
@@ -1413,7 +1413,7 @@
             LIMIT 5
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.Delete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.Delete(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             DELETE phrase.
             </summary>
@@ -1424,7 +1424,7 @@
             DELETE n
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherPhraseExtensions.DetachDelete(Weknow.GraphDbCommands.CypherDelegates.Fluent,System.Object[])">
+        <member name="M:Weknow.CypherBuilder.CypherPhraseExtensions.DetachDelete(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object[])">
             <summary>
             DETACH DELETE phrase.
             </summary>
@@ -1435,49 +1435,49 @@
             DETACH DELETE n
             </example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.PropertyContextBehaviors">
+        <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
             <summary>
             Behaviors of Ignore Context.
             </summary>
         </member>
-        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.None">
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.None">
             <summary>
             Avoid this setting
             </summary>
         </member>
-        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.Plan">
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Plan">
             <summary>
             No formatting
             </summary>
         </member>
-        <member name="F:Weknow.GraphDbCommands.PropertyContextBehaviors.Dolar">
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
             <summary>
             No formatting except the $ sign.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.ExpressionPattern">
+        <member name="T:Weknow.CypherBuilder.ExpressionPattern">
             <summary>
             Represent predefine pattern
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.ExpressionPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.ExpressionPattern"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.ExpressionPattern"/> class.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.op_Implicit(Weknow.GraphDbCommands.ExpressionPattern)~System.String">
+        <member name="M:Weknow.CypherBuilder.ExpressionPattern.op_Implicit(Weknow.CypherBuilder.ExpressionPattern)~System.String">
             <summary>
-            Performs an implicit conversion from <see cref="T:Weknow.GraphDbCommands.ExpressionPattern"/> to <see cref="T:System.String"/>.
+            Performs an implicit conversion from <see cref="T:Weknow.CypherBuilder.ExpressionPattern"/> to <see cref="T:System.String"/>.
             </summary>
             <param name="instance">The instance.</param>
             <returns>
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ExpressionPattern.ToString">
+        <member name="M:Weknow.CypherBuilder.ExpressionPattern.ToString">
             <summary>
             Converts to string.
             </summary>
@@ -1485,7 +1485,7 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.INode">
+        <member name="T:Weknow.CypherBuilder.INode">
             <summary>
             Pattern primitive for the Cypher expression.
             </summary>
@@ -1498,7 +1498,7 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+        <member name="M:Weknow.CypherBuilder.INode.op_Subtraction(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelationNode)">
             <summary>
             Implements the operator -.
             </summary>
@@ -1508,7 +1508,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.INode.op_Subtraction(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator -.
             </summary>
@@ -1518,7 +1518,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_Subtraction(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.INode.op_Subtraction(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator -.
             </summary>
@@ -1528,7 +1528,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.INode.op_GreaterThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator &gt;.
             </summary>
@@ -1538,7 +1538,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.INode.op_GreaterThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator &gt;.
             </summary>
@@ -1548,7 +1548,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.INode.op_LessThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator &lt;.
             </summary>
@@ -1558,7 +1558,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.INode.op_LessThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator &lt;.
             </summary>
@@ -1568,13 +1568,13 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.INodeRelation">
+        <member name="T:Weknow.CypherBuilder.INodeRelation">
             <summary>
             Represent node to relation
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.INodeRelation.op_GreaterThan(Weknow.GraphDbCommands.INodeRelation,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_GreaterThan(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INode)">
             <summary>
             Implements the operator &gt;.
             </summary>
@@ -1584,7 +1584,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.INodeRelation.op_LessThan(Weknow.GraphDbCommands.INodeRelation,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_LessThan(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INode)">
             <summary>
             Implements the operator &lt;.
             </summary>
@@ -1594,7 +1594,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.IPattern">
+        <member name="T:Weknow.CypherBuilder.IPattern">
             <summary>
             Pattern primitive for the Cypher expression.
             </summary>
@@ -1607,13 +1607,13 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="T:Weknow.GraphDbCommands.IRelationNode">
+        <member name="T:Weknow.CypherBuilder.IRelationNode">
             <summary>
             Represent relation to node
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelationNode.op_GreaterThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+        <member name="M:Weknow.CypherBuilder.IRelationNode.op_GreaterThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelationNode)">
             <summary>
             Implements the operator &gt;.
             </summary>
@@ -1623,7 +1623,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelationNode.op_LessThan(Weknow.GraphDbCommands.INode,Weknow.GraphDbCommands.IRelationNode)">
+        <member name="M:Weknow.CypherBuilder.IRelationNode.op_LessThan(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelationNode)">
             <summary>
             Implements the operator &lt;.
             </summary>
@@ -1633,48 +1633,48 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.NodePattern">
+        <member name="T:Weknow.CypherBuilder.NodePattern">
             <summary>
             Represent predefine pattern
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.NodeRelationPattern">
+        <member name="T:Weknow.CypherBuilder.NodeRelationPattern">
             <summary>
             Represent node to relation
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.ExpressionPattern" />
-            <seealso cref="T:Weknow.GraphDbCommands.INodeRelation" />
+            <seealso cref="T:Weknow.CypherBuilder.ExpressionPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.INodeRelation" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.RelationNodePattern">
+        <member name="T:Weknow.CypherBuilder.RelationNodePattern">
             <summary>
             Represent relation to node
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.ExpressionPattern" />
-            <seealso cref="T:Weknow.GraphDbCommands.IRelationNode" />
+            <seealso cref="T:Weknow.CypherBuilder.ExpressionPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IRelationNode" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.IRelation">
+        <member name="T:Weknow.CypherBuilder.IRelation">
             <summary>
             Relation primitive for the Cypher expression.
             </summary>
@@ -1686,29 +1686,29 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.IType)">
             <summary>
             Represent relation with variable and type.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="type">The type.</param>
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Represent relation with variable and type.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            The <see cref="T:Weknow.CypherBuilder.IRelation" />.
             </value>
             <param name="var">The variable.</param>
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS]-(n)]]></example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType)">
             <summary>
             Represent relation with variable and type.
             </summary>
@@ -1719,12 +1719,12 @@
             <![CDATA[(m)<-[r:KNOWS]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object)">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="type">The type.</param>
@@ -1734,24 +1734,24 @@
             <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.IType,System.Object)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.IType,System.Object)">
             <summary>
             Represent relation with variable, type and properties.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            The <see cref="T:Weknow.CypherBuilder.IRelation" />.
             </value>
             <param name="type">The type.</param>
             <param name="properties">The properties.</param>
             <returns></returns>
             <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(System.Range)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(System.Range)">
             <summary>
             Represent relation with range.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
             <returns></returns>
@@ -1759,12 +1759,12 @@
             (n)-[*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Range)">
             <summary>
             Represent relation with variable and range.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">Variable</param>
             <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
@@ -1773,12 +1773,12 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Rng)">
             <summary>
             Represent relation with range.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
             <returns></returns>
@@ -1786,12 +1786,12 @@
             (n)-[*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Rng)">
             <summary>
             Represent relation with variable and range.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">Variable</param>
             <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
@@ -1800,12 +1800,12 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.GraphDbCommands.IRelation.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">Variable</param>
             <param name="type"></param>
@@ -1816,7 +1816,7 @@
             (n)-[r:KNOW*1..5 {level: 2}]->(m)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_Subtraction(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_Subtraction(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator -.
             </summary>
@@ -1826,7 +1826,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_Subtraction(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_Subtraction(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator -.
             </summary>
@@ -1836,7 +1836,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_GreaterThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_GreaterThan(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator &gt;.
             </summary>
@@ -1846,7 +1846,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_GreaterThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_GreaterThan(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator &gt;.
             </summary>
@@ -1856,7 +1856,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_LessThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.INode)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_LessThan(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.INode)">
             <summary>
             Declaration for operator &lt;.
             </summary>
@@ -1866,7 +1866,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IRelation.op_LessThan(Weknow.GraphDbCommands.IRelation,Weknow.GraphDbCommands.IRelation)">
+        <member name="M:Weknow.CypherBuilder.IRelation.op_LessThan(Weknow.CypherBuilder.IRelation,Weknow.CypherBuilder.IRelation)">
             <summary>
             Declaration for operator &lt;.
             </summary>
@@ -1876,69 +1876,69 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.RelationPattern">
+        <member name="T:Weknow.CypherBuilder.RelationPattern">
             <summary>
             Represent predefine pattern
             </summary>
-            <seealso cref="T:Weknow.GraphDbCommands.IPattern" />
+            <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.RelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.RelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
             <param name="expression">The expression.</param>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation" /> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            The <see cref="T:Weknow.CypherBuilder.IRelation" />.
             </value>
             <param name="var">The variable.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.IType,System.Object)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.IType,System.Object)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation" /> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation" /> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation" />.
+            The <see cref="T:Weknow.CypherBuilder.IRelation" />.
             </value>
             <param name="type">The type.</param>
             <param name="properties">The properties.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Rng)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Rng)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified r.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="type">The type.</param>
@@ -1946,54 +1946,54 @@
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,System.Range)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Range)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(System.Range)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(System.Range)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified r.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified r.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="type">The type.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.GraphDbCommands.IType)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#Cypher#Builder#IRelation#Item(Weknow.CypherBuilder.IType)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified type.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified type.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="type">The type.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.RelationPattern.Item(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.IType,System.Object,Weknow.GraphDbCommands.Rng)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
             <summary>
-            Gets the <see cref="T:Weknow.GraphDbCommands.IRelation"/> with the specified variable.
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
             <value>
-            The <see cref="T:Weknow.GraphDbCommands.IRelation"/>.
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
             <param name="var">The variable.</param>
             <param name="type">The type.</param>
@@ -2002,12 +2002,12 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Rng">
+        <member name="T:Weknow.CypherBuilder.Rng">
             <summary>
             Represent alternative to range syntax (currently the range syntax is not supported as expression)
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Rng.Any">
+        <member name="M:Weknow.CypherBuilder.Rng.Any">
             <summary>
             Any length
             </summary>
@@ -2015,7 +2015,7 @@
             (a)-[*]->(b)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Rng.AtLeast(System.Int32)">
+        <member name="M:Weknow.CypherBuilder.Rng.AtLeast(System.Int32)">
             <summary>
             At least
             </summary>
@@ -2024,7 +2024,7 @@
             (a)-[*3..]->(b)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Rng.AtMost(System.Int32)">
+        <member name="M:Weknow.CypherBuilder.Rng.AtMost(System.Int32)">
             <summary>
             At most
             </summary>
@@ -2033,7 +2033,7 @@
             (a)-[*..5]->(b)
             </example>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Rng.Scope(System.Int32,System.Int32)">
+        <member name="M:Weknow.CypherBuilder.Rng.Scope(System.Int32,System.Int32)">
             <summary>
             From start index to end index.
             </summary>
@@ -2044,7 +2044,7 @@
             (a)-[*3..5]->(b)
             </example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.ILabel">
+        <member name="T:Weknow.CypherBuilder.ILabel">
             <summary>
             Label primitive for the Cypher expression.
             </summary>
@@ -2057,7 +2057,7 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ILabel.op_BitwiseAnd(Weknow.GraphDbCommands.ILabel,Weknow.GraphDbCommands.ILabel)">
+        <member name="M:Weknow.CypherBuilder.ILabel.op_BitwiseAnd(Weknow.CypherBuilder.ILabel,Weknow.CypherBuilder.ILabel)">
             <summary>
             Implements the operator &amp;.
             </summary>
@@ -2068,7 +2068,7 @@
             </returns>
             <example><![CDATA[(n:Person:Animal)]]></example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.IType">
+        <member name="T:Weknow.CypherBuilder.IType">
             <summary>
             Relation's Type primitive for the Cypher expression.
             </summary>
@@ -2081,7 +2081,7 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="M:Weknow.GraphDbCommands.IType.op_BitwiseOr(Weknow.GraphDbCommands.IType,Weknow.GraphDbCommands.IType)">
+        <member name="M:Weknow.CypherBuilder.IType.op_BitwiseOr(Weknow.CypherBuilder.IType,Weknow.CypherBuilder.IType)">
             <summary>
             Implements the operator |.
             </summary>
@@ -2092,7 +2092,7 @@
             </returns>
             <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Declarations.ParameterDeclaration">
+        <member name="T:Weknow.CypherBuilder.Declarations.ParameterDeclaration">
             <summary>
             Parameter primitive for the Cypher expression.
             </summary>
@@ -2105,13 +2105,13 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.Default">
+        <member name="F:Weknow.CypherBuilder.Declarations.ParameterDeclaration.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration.op_UnaryPlus(Weknow.GraphDbCommands.Declarations.ParameterDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration.op_UnaryPlus(Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             Declaration for operator +.
             </summary>
@@ -2121,7 +2121,7 @@
             </returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1">
+        <member name="T:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1">
             <summary>
             Parameter primitive for the Cypher expression.
             </summary>
@@ -2134,18 +2134,18 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.Default">
+        <member name="F:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1._">
+        <member name="P:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1._">
             <summary>
             Gets type representation of the variable.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.op_Implicit(Weknow.GraphDbCommands.Declarations.ParameterDeclaration{`0})~`0">
+        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1.op_Implicit(Weknow.CypherBuilder.Declarations.ParameterDeclaration{`0})~`0">
             <summary>
             Casting overload.
             </summary>
@@ -2154,7 +2154,7 @@
             The result of the conversion.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.ParameterDeclaration`1.op_OnesComplement(Weknow.GraphDbCommands.Declarations.ParameterDeclaration{`0})">
+        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1.op_OnesComplement(Weknow.CypherBuilder.Declarations.ParameterDeclaration{`0})">
             <summary>
             Use the parameter as prefix
             </summary>
@@ -2163,7 +2163,7 @@
             The result of the conversion.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1">
+        <member name="T:Weknow.CypherBuilder.Declarations.VariableDeclaration`1">
             <summary>
             Variable primitive for the Cypher expression.
             </summary>
@@ -2177,23 +2177,23 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.Default">
+        <member name="F:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1._">
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1._">
             <summary>
             Gets type representation of the variable.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.Inc">
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Inc">
             <summary>
             Gets type representation of the variable which should be increment.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration`1.op_OnesComplement(Weknow.GraphDbCommands.Declarations.VariableDeclaration{`0})">
+        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.op_OnesComplement(Weknow.CypherBuilder.Declarations.VariableDeclaration{`0})">
             <summary>
             Use the parameter as prefix
             </summary>
@@ -2202,7 +2202,7 @@
             The result of the conversion.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.Declarations.VariableDeclaration">
+        <member name="T:Weknow.CypherBuilder.Declarations.VariableDeclaration">
             <summary>
             Variable primitive for the Cypher expression.
             </summary>
@@ -2215,13 +2215,13 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
-        <member name="F:Weknow.GraphDbCommands.Declarations.VariableDeclaration.Default">
+        <member name="F:Weknow.CypherBuilder.Declarations.VariableDeclaration.Default">
             <summary>
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_Addition(Weknow.GraphDbCommands.Declarations.VariableDeclaration,Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_Addition(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Declaration for operator +.
             </summary>
@@ -2231,7 +2231,7 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.Declarations.VariableDeclaration.op_UnaryPlus(Weknow.GraphDbCommands.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_UnaryPlus(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Declaration for unary operator +.
             </summary>
@@ -2240,30 +2240,30 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.Declarations.VariableDeclaration.AsParameter">
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration.AsParameter">
             <summary>
             Cast to parameter type.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherQueryBuilder">
+        <member name="T:Weknow.CypherBuilder.CypherQueryBuilder">
             <summary>
             Responsible for abstracting the logic of the actual 
             Cypher text building.
             </summary>
             <seealso cref="T:System.IDisposable" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.#ctor">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.#ctor">
             <summary>
             Initializes a new instance.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Int32)">
+        <member name="P:Weknow.CypherBuilder.CypherQueryBuilder.Item(System.Int32)">
             <summary>
             Gets the <see cref="T:System.Char"/> at the specified index.
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Int32,System.Int32)">
+        <member name="P:Weknow.CypherBuilder.CypherQueryBuilder.Item(System.Int32,System.Int32)">
             <summary>
             <![CDATA[Gets the <see cref="ReadOnlySpan{System.Char}" /> with the specified start index.]]>
             </summary>
@@ -2271,43 +2271,43 @@
             <param name="length">The length.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Item(System.Range)">
+        <member name="P:Weknow.CypherBuilder.CypherQueryBuilder.Item(System.Range)">
             <summary>
             Gets the <see cref="T:System.String"/> with the specified range.
             </summary>
             <param name="range">The range.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Append``1(``0)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.Append``1(``0)">
             <summary>
             Appends text.
             </summary>
             <param name="text">The text.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Remove(System.Int32,System.Int32)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.Remove(System.Int32,System.Int32)">
             <summary>
             Removes the specified start index.
             </summary>
             <param name="startIndex">The start index.</param>
             <param name="length">The length.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Remove(System.Range)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.Remove(System.Range)">
             <summary>
             Removes the specified range.
             </summary>
             <param name="range">The range.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherQueryBuilder.Length">
+        <member name="P:Weknow.CypherBuilder.CypherQueryBuilder.Length">
             <summary>
             Gets the length.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Dispose">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.ToString">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.ToString">
             <summary>
             Converts to string.
             </summary>
@@ -2315,7 +2315,7 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.ToString(System.Range)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.ToString(System.Range)">
             <summary>
             Converts to string.
             </summary>
@@ -2324,7 +2324,7 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.GetEnumerator">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.GetEnumerator">
             <summary>
             Returns an enumerator that iterates through the collection.
             </summary>
@@ -2332,7 +2332,7 @@
             An enumerator that can be used to iterate through the collection.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             Returns an enumerator that iterates through a collection.
             </summary>
@@ -2340,7 +2340,7 @@
             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.GetRange(System.Int32,System.Int32)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.GetRange(System.Int32,System.Int32)">
             <summary>
             Gets the range.
             </summary>
@@ -2348,7 +2348,7 @@
             <param name="length">The length.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherQueryBuilder.Deconstruct(System.Range,System.Int32@,System.Int32@)">
+        <member name="M:Weknow.CypherBuilder.CypherQueryBuilder.Deconstruct(System.Range,System.Int32@,System.Int32@)">
             <summary>
             Deconstruct the range.
             </summary>
@@ -2356,36 +2356,36 @@
             <param name="from">From.</param>
             <param name="to">To.</param>
         </member>
-        <member name="T:Weknow.GraphDbCommands.CypherVisitor">
+        <member name="T:Weknow.CypherBuilder.CypherVisitor">
             <summary>
             The cypher visitor is the heart of the ORM implementation
             </summary>
             <seealso cref="T:System.Linq.Expressions.ExpressionVisitor" />
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.#ctor(Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.#ctor(Weknow.CypherConfig)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.CypherVisitor"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherVisitor"/> class.
             </summary>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.Dispose">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherVisitor.Query">
+        <member name="P:Weknow.CypherBuilder.CypherVisitor.Query">
             <summary>
             Mutable state of the cypher query.
             Query build during the visitor traverse.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.CypherVisitor.Parameters">
+        <member name="P:Weknow.CypherBuilder.CypherVisitor.Parameters">
             <summary>
             Mutable state of the parameters.
             Parameters build during the visitor traverse.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitLambda``1(System.Linq.Expressions.Expression{``0})">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitLambda``1(System.Linq.Expressions.Expression{``0})">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.Expression`1" />.
             </summary>
@@ -2395,7 +2395,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.BinaryExpression" />.
             </summary>
@@ -2404,7 +2404,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.MethodCallExpression" />.
             </summary>
@@ -2413,7 +2413,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitMember(System.Linq.Expressions.MemberExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitMember(System.Linq.Expressions.MemberExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.MemberExpression" />.
             </summary>
@@ -2422,7 +2422,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.NewArrayExpression" />.
             </summary>
@@ -2431,7 +2431,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitNew(System.Linq.Expressions.NewExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitNew(System.Linq.Expressions.NewExpression)">
             <summary>
             Visits the children of the <see cref="T:System.Linq.Expressions.NewExpression" />.
             </summary>
@@ -2440,7 +2440,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">
             <summary>
             Visits the <see cref="T:System.Linq.Expressions.ConstantExpression" />.
             </summary>
@@ -2449,7 +2449,7 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">
             <summary>
             Visits the <see cref="T:System.Linq.Expressions.ParameterExpression" />.
             </summary>
@@ -2458,14 +2458,14 @@
             The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.ApplyFormat(System.Linq.Expressions.MethodCallExpression,System.String)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.ApplyFormat(System.Linq.Expressions.MethodCallExpression,System.String)">
             <summary>
             Applies the format.
             </summary>
             <param name="node">The node.</param>
             <param name="format">The format.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.EqualPattern">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.EqualPattern">
             <summary>
             Determines whether [is equal pattern].
             </summary>
@@ -2473,41 +2473,41 @@
               <c>true</c> if [is equal pattern]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.CypherVisitor.AppendPropSeparator">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.AppendPropSeparator">
             <summary>
             Appends the property separator.
             </summary>
         </member>
-        <member name="T:Weknow.GraphDbCommands.ContextValue`1">
+        <member name="T:Weknow.CypherBuilder.ContextValue`1">
             <summary>
             Context container
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.#ctor(`0)">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.#ctor(`0)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.ContextValue`1"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.ContextValue`1"/> class.
             </summary>
             <param name="defaultValue">The default value.</param>
         </member>
-        <member name="P:Weknow.GraphDbCommands.ContextValue`1.Value">
+        <member name="P:Weknow.CypherBuilder.ContextValue`1.Value">
             <summary>
             Gets the value.
             </summary>
         </member>
-        <member name="P:Weknow.GraphDbCommands.ContextValue`1.Values">
+        <member name="P:Weknow.CypherBuilder.ContextValue`1.Values">
             <summary>
             Gets all values.
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.Set(`0)">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.Set(`0)">
             <summary>
             Sets the specified value.
             </summary>
             <param name="value">The value.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.Set(`0,System.Boolean)">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.Set(`0,System.Boolean)">
             <summary>
             Sets the specified value.
             </summary>
@@ -2515,7 +2515,7 @@
             <param name="condition">if set to <c>true</c> [condition].</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.GetEnumerator">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.GetEnumerator">
             <summary>
             Returns an enumerator that iterates through the collection.
             </summary>
@@ -2523,7 +2523,7 @@
             An enumerator that can be used to iterate through the collection.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             Returns an enumerator that iterates through a collection.
             </summary>
@@ -2531,7 +2531,7 @@
             An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
             </returns>
         </member>
-        <member name="M:Weknow.GraphDbCommands.ContextValue`1.op_Implicit(Weknow.GraphDbCommands.ContextValue{`0})~`0">
+        <member name="M:Weknow.CypherBuilder.ContextValue`1.op_Implicit(Weknow.CypherBuilder.ContextValue{`0})~`0">
             <summary>
             Performs an implicit conversion.
             </summary>
@@ -2540,24 +2540,24 @@
             The result of the conversion.
             </returns>
         </member>
-        <member name="T:Weknow.GraphDbCommands.DisposeableAction">
+        <member name="T:Weknow.CypherBuilder.DisposeableAction">
             <summary>
             Dispose-able action
             </summary>
             <seealso cref="T:System.IDisposable" />
         </member>
-        <member name="F:Weknow.GraphDbCommands.DisposeableAction.Empty">
+        <member name="F:Weknow.CypherBuilder.DisposeableAction.Empty">
             <summary>
             Empty
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbCommands.DisposeableAction.#ctor(System.Action)">
+        <member name="M:Weknow.CypherBuilder.DisposeableAction.#ctor(System.Action)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbCommands.DisposeableAction"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.DisposeableAction"/> class.
             </summary>
             <param name="action">The action.</param>
         </member>
-        <member name="M:Weknow.GraphDbCommands.DisposeableAction.Dispose">
+        <member name="M:Weknow.CypherBuilder.DisposeableAction.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>

@@ -439,7 +439,7 @@ internal partial class N4jGraphDB
 
             public override string ToString()
             {
-                return _summary.ToString();
+                return _summary?.ToString() ?? _query;
             }
         }
 

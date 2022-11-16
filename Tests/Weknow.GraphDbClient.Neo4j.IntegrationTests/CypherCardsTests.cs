@@ -16,7 +16,6 @@ namespace Weknow.GraphDbClient.Neo4jProvider.IntegrationTests;
 public class CypherCardsTests : BaseCypherCardsTests
 {
     private const string ENV_VAR_PREFIX = "TEST_N4J_";
-    private readonly IServiceProvider _serviceProvider; // avoid GC collection
 
     #region Ctor
 

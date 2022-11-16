@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 
-namespace Weknow.GraphDbCommands
+namespace Weknow.CypherBuilder
 {
 
     /// <summary>
     /// Represent relation to node
     /// </summary>
-    /// <seealso cref="Weknow.GraphDbCommands.ExpressionPattern" />
-    /// <seealso cref="Weknow.GraphDbCommands.IRelationNode" />
+    /// <seealso cref="Weknow.CypherBuilder.ExpressionPattern" />
+    /// <seealso cref="Weknow.CypherBuilder.IRelationNode" />
     public class RelationNodePattern : ExpressionPattern, IRelationNode
     {
         #region Ctor

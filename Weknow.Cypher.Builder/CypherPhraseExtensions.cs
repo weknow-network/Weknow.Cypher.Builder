@@ -1,8 +1,8 @@
-﻿using Weknow.GraphDbCommands.Declarations;
+﻿using Weknow.CypherBuilder.Declarations;
 
-using static Weknow.GraphDbCommands.CypherDelegates;
+using static Weknow.CypherBuilder.CypherDelegates;
 
-namespace Weknow.GraphDbCommands;
+namespace Weknow.CypherBuilder;
 
 /// <summary>
 /// Cypher Extensions
@@ -27,11 +27,10 @@ public static class CypherPhraseExtensions
     /// Matches phrase.
     /// </summary>
     /// <param name="p">The p.</param>
-    /// <param name="pattern">The pattern.</param>
+    /// <param name="patternattern">The patternattern.</param>
     /// <returns></returns>
-    /// <example>
-    /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
-    /// </example>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example><![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]></example>
     [Cypher("$0\r\nMATCH $1")]
     public static Fluent Match(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
 
@@ -61,7 +60,7 @@ public static class CypherPhraseExtensions
     /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]>
     /// </example>
     [Cypher("$0\r\nOPTIONAL MATCH $1")]
-    public static Fluent OptionalMatch(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
+    public static Fluent OptionalMatch(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
     #endregion // OptionalMatch
 
@@ -91,7 +90,7 @@ public static class CypherPhraseExtensions
     /// </example>
     [Cypher("$0\r\n" +
         "CREATE $1")]
-    public static Fluent Create(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
+    public static Fluent Create(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
     #endregion // Create
 
@@ -118,7 +117,7 @@ public static class CypherPhraseExtensions
     /// MERGE (n:Person {name: $value})
     /// </example>
     [Cypher("$0\r\nMERGE $1")]
-    public static Fluent Merge(this Fluent p, IPattern patternattern) => throw new NotImplementedException();
+    public static Fluent Merge(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
     #endregion // Merge
 
@@ -761,8 +760,10 @@ public static class CypherPhraseExtensions
     /// Pure cypher injection.
     /// Should used for non-supported cypher extensions
     /// </summary>
+    /// <param name="p">previous part</param>
     /// <param name="cypher">The cypher.</param>
     /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     [Cypher("$0\r\n$1")]
     [Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
     public static Fluent WithRawCypher(this Fluent p, RawCypher cypher) => throw new NotImplementedException();
