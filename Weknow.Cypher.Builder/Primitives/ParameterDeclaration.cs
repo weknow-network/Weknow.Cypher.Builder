@@ -152,8 +152,27 @@ public class ParameterDeclaration<T> : ParameterDeclaration
     new internal static readonly ParameterDeclaration<T> Default = new ParameterDeclaration<T>();
 
     /// <summary>
-    /// Gets type representation of the variable.
+    /// Gets type representation of the variable. while preserving the path to the parameter
     /// </summary>
+    /// <example>
+    /// <![CDATA[
+    /// Merge(N(n, Person, new { map.__.Id }))
+    /// will result in
+    /// MERGE (n:Person {{ Id: $map.Id }})
+    /// ]]>
+    /// </example>
+    public T __ { get; }
+
+    /// <summary>
+    /// Gets type representation of the variable. without preserving the path to the parameter
+    /// </summary>
+    /// <example>
+    /// <![CDATA[
+    /// Merge(N(n, Person, new { map._.Id }))
+    /// will result in
+    /// MERGE (n:Person {{ Id: $Id }})
+    /// ]]>
+    /// </example>
     public T _ { get; }
 
 

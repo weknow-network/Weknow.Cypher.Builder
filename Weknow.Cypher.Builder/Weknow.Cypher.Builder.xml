@@ -2863,10 +2863,29 @@
             It use under expression and don't need a real implementation;
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1.__">
+            <summary>
+            Gets type representation of the variable. while preserving the path to the parameter
+            </summary>
+            <example>
+            <![CDATA[
+            Merge(N(n, Person, new { map.__.Id }))
+            will result in
+            MERGE (n:Person {{ Id: $map.Id }})
+            ]]>
+            </example>
+        </member>
         <member name="P:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1._">
             <summary>
-            Gets type representation of the variable.
+            Gets type representation of the variable. without preserving the path to the parameter
             </summary>
+            <example>
+            <![CDATA[
+            Merge(N(n, Person, new { map._.Id }))
+            will result in
+            MERGE (n:Person {{ Id: $Id }})
+            ]]>
+            </example>
         </member>
         <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration`1.op_Implicit(Weknow.CypherBuilder.Declarations.ParameterDeclaration{`0})~`0">
             <summary>

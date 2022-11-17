@@ -373,11 +373,33 @@ namespace Weknow.CypherBuilder
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
-            else if (node.Expression is MemberExpression me && me.Member.Name == nameof(ParameterDeclaration<int>._)
-                && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
+            else if (node.Expression is MemberExpression me && 
+                    (me.Member.Name is nameof(ParameterDeclaration<int>._) or nameof(ParameterDeclaration<int>.__))
+                    && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
             {
                 Query.Append("$");
+                bool addNullPrm = true;
                 if (me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
+                    ue.Operand is MemberExpression ime)
+                {
+                    Query.Append(ime.Member.Name);
+                    Query.Append(".");
+                    addNullPrm = false;
+                }
+                else if (me.Expression is MemberExpression me1 && me.Member.Name == nameof(ParameterDeclaration<int>.__))
+                {
+                    Query.Append(me1.Member.Name);
+                    Query.Append(".");
+                    addNullPrm = false;
+                }
+                if (addNullPrm)
+                    Parameters.SetToNull(name);
+            }
+            else if (node.Expression is MemberExpression me__ && me__.Member.Name == nameof(ParameterDeclaration<int>.__)
+                && typeof(ParameterDeclaration).IsAssignableFrom(me__.Member.DeclaringType))
+            {
+                Query.Append("$");
+                if (me__.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
                     Query.Append(ime.Member.Name);

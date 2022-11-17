@@ -135,6 +135,70 @@ namespace Weknow.CypherBuilder
 
         #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB 
 
+        #region MERGE (n:Person { Id: $map.Id }) ON MATCH SET n = $map
+
+        [Fact]
+        public void Merge_On_Match_Propagate_1_SetProperties_Update_Test()
+        {
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { (~map)._.Id }))
+                                    .OnMatchSet(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $map.Id }}){NewLine}\t" +
+                "ON MATCH SET n = $map", cypher.Query);
+            Assert.Single(cypher.Parameters);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(map)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $map.Id }) ON MATCH SET n = $map
+
+        #region MERGE (n:Person { Id: $map.Id }) ON MATCH SET n = $map
+
+        [Fact]
+        public void Merge_On_Match_Propagate_2_SetProperties_Update_Test()
+        {
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { map.__.Id }))
+                                    .OnMatchSet(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $map.Id }}){NewLine}\t" +
+                "ON MATCH SET n = $map", cypher.Query);
+            Assert.Single(cypher.Parameters);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(map)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $map.Id }) ON MATCH SET n = $map
+
+        #region MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map
+
+        [Fact]
+        public void Merge_On_Match_NonPropagate_SetProperties_Update_Test()
+        {
+            var map = Parameters.Create<Foo>();
+            var n = Variables.Create();
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { map._.Id }))
+                                    .OnMatchSet(n, map));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
+                "ON MATCH SET n = $map", cypher.Query);
+            Assert.Equal(2, cypher.Parameters.Count);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(map)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(map.__.Id)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n = $map
+
         #region MERGE (n:Person { Id: $Id }) ON MATCH SET n += $map
 
         [Fact]

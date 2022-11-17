@@ -1,5 +1,8 @@
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
+using System.Security.Cryptography;
+using System;
+
 using Weknow.CypherBuilder.Declarations;
 
 using Xunit;
@@ -110,7 +113,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 
         #endregion // MATCH (n:Person { Id: $Id }), (a:Animal { Name: $Name } RETURN n
 
-        #region Match_Pre_Return_Test
+        #region MATCH (n:Person { Id: $n_Id }) RETURN n
 
         [Fact]
         public void Match_Pre_Return_Test()
@@ -127,9 +130,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 RETURN n", cypher.Query);
         }
 
-        #endregion // Match_Pre_Return_Test
+        #endregion // MATCH (n:Person { Id: $n_Id }) RETURN n
 
-        #region Match_Multi_Return_Test
+        #region MATCH (n:Person { Id: $nId }) MATCH(m:Person { Id: $mId }) RETURN n, m
 
         [Fact]
         public void Match_Multi_Return_Test()
@@ -149,9 +152,9 @@ MATCH (m:Person { Id: $mId })
 RETURN n, m", cypher.Query);
         }
 
-        #endregion // Match_Multi_Return_Test
+        #endregion // MATCH (n:Person { Id: $nId }) MATCH(m:Person { Id: $mId }) RETURN n, m
 
-        #region Match_SetAsMap_Update_Test
+        #region MATCH (n:Person {{ Id: $Id }}) SET n += $map
 
         [Fact]
         public void Match_SetAsMap_Update_Test()
@@ -169,9 +172,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n += $map", cypher.Query);
         }
 
-        #endregion // Match_SetAsMap_Update_Test
+        #endregion // MATCH (n:Person {{ Id: $Id }}) SET n += $map 
 
-        #region Match_SetAsMap_Replace_Test
+        #region MATCH (n:Person {{ Id: $Id }}) SET n = $map
 
         [Fact]
         public void Match_SetAsMap_Replace_Test()
@@ -188,7 +191,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n = $map", cypher.Query);
         }
 
-        #endregion // Match_SetAsMap_Replace_Test
+        #endregion // MATCH (n:Person {{ Id: $Id }}) SET n = $map
 
         #region UNWIND $items AS item MATCH (n:Person { Id: $Id }) SET n = item
 
@@ -213,7 +216,7 @@ $$"""MATCH (n:Person { Id: $Id }){{NewLine}}""" +
 
         #endregion // UNWIND $items AS item MATCH (n:Person { Id: $Id }) SET n = item
 
-        #region Match_Set_Test
+        #region MATCH (n:Person { Id: $Id }) SET n.PropA = $PropA, n.PropB = $PropB
 
         [Fact]
         public void Match_Set_Test()
@@ -231,9 +234,9 @@ $$"""MATCH (n:Person { Id: $Id }){{NewLine}}""" +
 SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
         }
 
-        #endregion // Match_Set_Test
+        #endregion // MATCH (n:Person { Id: $Id }) SET n.PropA = $PropA, n.PropB = $PropB
 
-        #region Match_Set_AddLabel_Test
+        #region MATCH (n:Person { Id: $Id }) SET n:Person
 
         [Fact]
         public void Match_Set_AddLabel_Test()
@@ -249,9 +252,9 @@ SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
 SET n:Person", cypher.Query);
         }
 
-        #endregion // Match_Set_AddLabel_Test
+        #endregion // MATCH (n:Person { Id: $Id }) SET n:Person
 
-        #region Match_Set_AddLabels_Test
+        #region MATCH (n:Person { Id: $Id }) SET n:Person:Manager
 
         [Fact]
         public void Match_Set_AddLabels_Test()
@@ -267,7 +270,25 @@ SET n:Person", cypher.Query);
 SET n:Person:Manager", cypher.Query);
         }
 
-        #endregion // Match_Set_AddLabels_Test
+        #endregion // MATCH (n:Person { Id: $Id }) SET n:Person:Manager
+
+        #region MATCH (n:Person { Id: $Id }) SET n:Person:Manager
+
+        [Fact]
+        public void Match_Set_AddLabels1_Test()
+        {
+            var Id = Parameters.Create();
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, new { Id }))
+                                    .Set(n, Person & Manager));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+@"MATCH (n:Person { Id: $Id })
+SET n:Person:Manager", cypher.Query);
+        }
+
+        #endregion // MATCH (n:Person { Id: $Id }) SET n:Person:Manager
     }
 }
 

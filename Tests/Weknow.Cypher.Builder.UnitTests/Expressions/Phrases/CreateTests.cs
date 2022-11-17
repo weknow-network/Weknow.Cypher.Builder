@@ -24,7 +24,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region Create_Test
+        #region CREATE (n:Person { PropA: $PropA, PropB: $PropB })
 
         [Fact]
         public void Create_Test()
@@ -38,9 +38,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
         }
 
-        #endregion // Create_Test
+        #endregion // CREATE (n:Person { PropA: $PropA, PropB: $PropB })
 
-        #region CreateAsMap_Test
+        #region CREATE (n:Person $n)
 
         [Fact]
         public void CreateAsMap_Test()
@@ -52,9 +52,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
-        #endregion // CreateAsMap_Test
+        #endregion // CREATE (n:Person $n)
 
-        #region CreateAsMap_WithParamName_Test
+        #region CREATE (n:Person $map)
 
         [Fact]
         public void CreateAsMap_WithParamName_Test()
@@ -67,9 +67,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
-        #endregion // CreateAsMap_WithParamName_Test
+        #endregion // CREATE (n:Person $map)
 
-        #region CreateRelation_Test
+        #region CREATE (n)-[r:KNOWS]->(m)
 
         [Fact]
         public void CreateRelation_Test()
@@ -81,9 +81,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("CREATE (n)-[r:KNOWS]->(m)", cypher.Query);
         }
 
-        #endregion // CreateRelation_Test
+        #endregion // CREATE (n)-[r:KNOWS]->(m)
 
-        #region CreateRelation_WithParams_Test
+        #region CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)
 
         [Fact]
         public void CreateRelation_WithParams_Test()
@@ -97,7 +97,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal("CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)", cypher.Query);
         }
 
-        #endregion // CreateRelation_WithParams_Test
+        #endregion // CREATE (n)-[r:KNOWS { PropA: $PropA, PropB: $PropB }]->(m)
     }
 }
 
