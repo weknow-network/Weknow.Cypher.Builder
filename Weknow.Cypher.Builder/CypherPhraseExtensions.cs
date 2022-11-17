@@ -7,8 +7,26 @@ namespace Weknow.CypherBuilder;
 /// <summary>
 /// Cypher Extensions
 /// </summary>
-public static class CypherPhraseExtensions
+public static partial class CypherPhraseExtensions
 {
+    #region dash '_<T>'
+
+    ///// <summary>
+    ///// Used to define properties' variables without the $ prefix.
+    ///// Useful for cases like UNWIND
+    ///// </summary>
+    ///// <param name="var">The variable.</param>
+    ///// <param name="exp">Any generics expression</param>
+    ///// <returns></returns>
+    ///// <example>
+    ///// UNWIND $items AS item 
+    /////     MATCH(n:Person { PropA: item.x })
+    ///// </example>
+    //[Cypher("$0\\.$1")]
+    public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
+
+    #endregion // dash '_<T>'
+
     #region Match
 
     /// <summary>

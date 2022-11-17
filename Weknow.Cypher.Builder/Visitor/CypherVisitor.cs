@@ -635,18 +635,18 @@ namespace Weknow.CypherBuilder
 
                             bool isIndexConstraint = node is MethodCallExpression mc && mc.Method.Name switch
                             {
-                                nameof(Cypher.CreateConstraint) => true,
-                                nameof(Cypher.TryCreateConstraint) => true,
-                                nameof(Cypher.CreateIndex) => true,
-                                nameof(Cypher.TryCreateIndex) => true,
-                                nameof(Cypher.TryDropConstraint) => true,
-                                nameof(Cypher.DropConstraint) => true,
-                                nameof(Cypher.TryDropIndex) => true,
-                                nameof(Cypher.DropIndex) => true,
-                                nameof(Cypher.CreateTextIndex) => true,
-                                nameof(Cypher.TryCreateFullTextIndex) => true,
-                                nameof(Cypher.CreateFullTextIndex) => true,
-                                nameof(Cypher.TryCreateTextIndex) => true,
+                                nameof(ICypher.CreateConstraint) => true,
+                                nameof(ICypher.TryCreateConstraint) => true,
+                                nameof(ICypher.CreateIndex) => true,
+                                nameof(ICypher.TryCreateIndex) => true,
+                                nameof(ICypher.TryDropConstraint) => true,
+                                nameof(ICypher.DropConstraint) => true,
+                                nameof(ICypher.TryDropIndex) => true,
+                                nameof(ICypher.DropIndex) => true,
+                                nameof(ICypher.CreateTextIndex) => true,
+                                nameof(ICypher.TryCreateFullTextIndex) => true,
+                                nameof(ICypher.CreateFullTextIndex) => true,
+                                nameof(ICypher.TryCreateTextIndex) => true,
                                 _ => false
                             };
 
@@ -712,7 +712,7 @@ namespace Weknow.CypherBuilder
                 nameof(CypherPhraseExtensions.Where) => " = ",
                 nameof(CypherPhraseExtensions.OnCreateSet) => " = ",
                 nameof(CypherPhraseExtensions.OnMatchSet) => " = ",
-                nameof(Cypher.Rgx) => " =~ ",
+                nameof(ICypher.Rgx) => " =~ ",
                 _ => null,
             };
         }

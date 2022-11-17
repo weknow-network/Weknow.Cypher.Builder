@@ -2,7 +2,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
-using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
 
 // https://neo4j.com/docs/cypher-cheat-sheet/current/

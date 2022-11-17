@@ -7,7 +7,7 @@ using Weknow.CypherBuilder;
 
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 

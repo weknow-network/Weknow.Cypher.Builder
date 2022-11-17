@@ -4,12 +4,12 @@
 
 namespace Weknow.CypherBuilder
 {
-    /// <summary>
-    /// Entry point for constructing root level Cypher.
-    /// For fluent cypher check <see cref="CypherPhraseExtensions" />
-    /// </summary>
-    public partial class Cypher
-    {
+    ///// <summary>
+    ///// Entry point for constructing root level Cypher.
+    ///// For fluent cypher check <see cref="CypherPhraseExtensions" />
+    ///// </summary>
+    //public partial class Cypher
+    //{
 
         #region class Variables<T>
 
@@ -445,4 +445,4 @@ namespace Weknow.CypherBuilder
             #endregion // Deconstructor
         }
     }
-}
+//}

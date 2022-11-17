@@ -3,7 +3,7 @@ using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
 
 namespace Weknow.CypherBuilder

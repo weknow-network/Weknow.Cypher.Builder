@@ -1,7 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
 
 namespace Weknow.CypherBuilder
@@ -178,7 +178,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n1:Person)<--(n2:Person) / NodeToNodNodeToNode_Backward_Teste_Forward_Test
 
-        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test
+        #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })
 
         [Fact]
         public void Nested_NodeToNode_WithProp_Test()
@@ -194,7 +194,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal("MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })", cypher.Query);
         }
 
-        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) / Nested_NodeToNode_WithProp_Test
+        #endregion // MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB }) 
     }
 }
 

@@ -5,7 +5,7 @@ using Weknow.Mapping;
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.Cypher;
+using static Weknow.CypherBuilder.ICypher;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 

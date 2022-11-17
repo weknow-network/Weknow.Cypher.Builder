@@ -13,7 +13,7 @@ namespace Weknow.CypherBuilder
     /// Entry point for constructing root level Cypher.
     /// For fluent cypher check <see cref="CypherPhraseExtensions" />
     /// </summary>
-    public static partial class Cypher
+    public partial interface ICypher
     {
         #region HandleConfigInjection
 
@@ -107,37 +107,6 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // dash '_'
-
-        #region dash '_<T>'
-
-        ///// <summary>
-        ///// Used to define properties' variables without the $ prefix.
-        ///// Useful for cases like UNWIND
-        ///// </summary>
-        ///// <param name="var">The variable.</param>
-        ///// <returns></returns>
-        ///// <example>
-        ///// UNWIND $items AS item 
-        /////     MATCH(n:Person { PropA: item.x })
-        ///// </example>
-        //[Cypher("$0\\.$1")]
-        //public static T _<T>(this VariableDeclaration var) => throw new NotImplementedException();
-
-        ///// <summary>
-        ///// Used to define properties' variables without the $ prefix.
-        ///// Useful for cases like UNWIND
-        ///// </summary>
-        ///// <param name="var">The variable.</param>
-        ///// <param name="exp">Any generics expression</param>
-        ///// <returns></returns>
-        ///// <example>
-        ///// UNWIND $items AS item 
-        /////     MATCH(n:Person { PropA: item.x })
-        ///// </example>
-        //[Cypher("$0\\.$1")]
-        public static T _<T>(this VariableDeclaration var, T exp) => throw new NotImplementedException();
-
-        #endregion // dash '_<T>'
 
         #region IPattern N (Node)
 
