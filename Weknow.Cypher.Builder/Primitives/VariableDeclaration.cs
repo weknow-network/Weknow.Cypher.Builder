@@ -43,6 +43,17 @@ namespace Weknow.CypherBuilder.Declarations
         /// The result of the conversion.
         /// </returns>
         public static VariableDeclaration<T> operator ~(VariableDeclaration<T> instance) => throw new NotImplementedException();
+
+
+        /// <summary>
+        /// Cast to parameter type.
+        /// </summary>
+        public new ParameterDeclaration<T> AsParameter { get; }
+        /// <summary>
+        /// Cast to parameter type.
+        /// </summary>
+        public new ParameterDeclaration<T> Prm { get; }
+
     }
 
     /// <summary>

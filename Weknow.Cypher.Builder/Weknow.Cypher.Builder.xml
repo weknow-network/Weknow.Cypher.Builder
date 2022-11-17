@@ -1265,20 +1265,6 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.AsParameter``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
-            <summary>
-            Project the variable as parameter.
-            </summary>
-            <param name="instance">The instance.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.Prm``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
-            <summary>
-            Project the variable as parameter.
-            </summary>
-            <param name="instance">The instance.</param>
-            <returns></returns>
-        </member>
         <member name="T:Weknow.CypherBuilder.CypherParameters">
             <summary>
             Cypher Parameters representation
@@ -2943,6 +2929,16 @@
             <returns>
             The result of the conversion.
             </returns>
+        </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.AsParameter">
+            <summary>
+            Cast to parameter type.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Prm">
+            <summary>
+            Cast to parameter type.
+            </summary>
         </member>
         <member name="T:Weknow.CypherBuilder.Declarations.VariableDeclaration">
             <summary>

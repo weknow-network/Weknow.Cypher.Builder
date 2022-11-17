@@ -175,7 +175,6 @@ public class ParameterDeclaration<T> : ParameterDeclaration
     /// </example>
     public T _ { get; }
 
-
     /// <summary>
     /// Casting overload.
     /// </summary>

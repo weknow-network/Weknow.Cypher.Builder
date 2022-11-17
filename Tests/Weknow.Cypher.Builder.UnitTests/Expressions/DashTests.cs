@@ -34,7 +34,7 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() =>
                                         Match(N(n, Person, new
                                         {
-                                            n.AsParameter()._.PropA,
+                                            n.Prm._.PropA,
                                             m._.Date,
                                             l._.Count,
                                             s._.Length,

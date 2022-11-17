@@ -373,7 +373,7 @@ namespace Weknow.CypherBuilder
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
-            else if (node.Expression is MemberExpression me && 
+            else if (node.Expression is MemberExpression me &&
                     (me.Member.Name is nameof(ParameterDeclaration<int>._) or nameof(ParameterDeclaration<int>.__))
                     && typeof(ParameterDeclaration).IsAssignableFrom(me.Member.DeclaringType))
             {
@@ -382,13 +382,25 @@ namespace Weknow.CypherBuilder
                 if (me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
-                    Query.Append(ime.Member.Name);
+                    if (ime.Expression is MemberExpression me2 &&
+                        ime.Member.Name is nameof(VariableDeclaration.AsParameter) or nameof(VariableDeclaration.Prm))
+                    {
+                        Query.Append(me2.Member.Name);
+                    }
+                    else
+                        Query.Append(ime.Member.Name);
                     Query.Append(".");
                     addNullPrm = false;
                 }
                 else if (me.Expression is MemberExpression me1 && me.Member.Name == nameof(ParameterDeclaration<int>.__))
                 {
-                    Query.Append(me1.Member.Name);
+                    if (me1.Expression is MemberExpression me2 &&
+                        me1.Member.Name is nameof(VariableDeclaration.AsParameter) or nameof(VariableDeclaration.Prm))
+                    {
+                        Query.Append(me2.Member.Name);
+                    }
+                    else
+                        Query.Append(me1.Member.Name);
                     Query.Append(".");
                     addNullPrm = false;
                 }
