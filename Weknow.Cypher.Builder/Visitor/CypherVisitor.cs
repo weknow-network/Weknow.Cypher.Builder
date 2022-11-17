@@ -538,7 +538,7 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherPhraseExtensions.Return);
+            bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
             bool isAnalyzer = node.Type.Name == "FullTextAnalyzer";
             if (node.Type.FullName == typeof(ConstraintType).FullName)
             {
@@ -650,7 +650,9 @@ namespace Weknow.CypherBuilder
                                 _ => false
                             };
 
+#pragma warning disable CS0618 
                             _isRawChypher = expr.Type.Name == nameof(RawCypher) || isIndexConstraint;
+#pragma warning restore CS0618 
                             using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
                             {
                                 Visit(expr);
@@ -708,10 +710,10 @@ namespace Weknow.CypherBuilder
         {
             return _methodExpr.Value?.Method.Name switch
             {
-                nameof(CypherPhraseExtensions.Set) => " = ",
-                nameof(CypherPhraseExtensions.Where) => " = ",
-                nameof(CypherPhraseExtensions.OnCreateSet) => " = ",
-                nameof(CypherPhraseExtensions.OnMatchSet) => " = ",
+                nameof(CypherExtensions.Set) => " = ",
+                nameof(CypherExtensions.Where) => " = ",
+                nameof(CypherExtensions.OnCreateSet) => " = ",
+                nameof(CypherExtensions.OnMatchSet) => " = ",
                 nameof(ICypher.Rgx) => " =~ ",
                 _ => null,
             };

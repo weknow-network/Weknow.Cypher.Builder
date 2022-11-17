@@ -7,7 +7,7 @@ namespace Weknow.CypherBuilder;
 /// <summary>
 /// Cypher Extensions
 /// </summary>
-public static partial class CypherPhraseExtensions
+public static partial class CypherExtensions
 {
     #region dash '_<T>'
 
