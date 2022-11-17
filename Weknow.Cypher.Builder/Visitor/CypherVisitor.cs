@@ -2,9 +2,8 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-using Weknow.Disposables;
-
 using Weknow.CypherBuilder.Declarations;
+using Weknow.Disposables;
 
 namespace Weknow.CypherBuilder
 {

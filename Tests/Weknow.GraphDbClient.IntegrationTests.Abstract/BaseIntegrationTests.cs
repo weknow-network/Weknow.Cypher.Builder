@@ -2,8 +2,8 @@ using FakeItEasy;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Weknow.GraphDbClient.Abstraction;
 using Weknow.CypherBuilder;
+using Weknow.GraphDbClient.Abstraction;
 
 using Xunit.Abstractions;
 

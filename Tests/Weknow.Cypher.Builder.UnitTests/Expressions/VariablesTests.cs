@@ -1,8 +1,6 @@
 using Xunit;
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.ICypher;
-
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]

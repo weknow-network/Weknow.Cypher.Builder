@@ -5,7 +5,7 @@ namespace Weknow.CypherBuilder
     /// <summary>
     /// Cypher Function Extensions
     /// </summary>
-    partial class CypherExtensions
+    public partial class CypherExtensions
     {
         #region Type / type(r)
 

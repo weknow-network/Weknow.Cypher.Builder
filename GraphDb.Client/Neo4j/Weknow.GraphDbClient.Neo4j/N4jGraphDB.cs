@@ -1,7 +1,7 @@
 ﻿using Neo4j.Driver;
 
-using Weknow.GraphDbClient.Abstraction;
 using Weknow.CypherBuilder;
+using Weknow.GraphDbClient.Abstraction;
 
 namespace Weknow.GraphDbClient.Neo4jProvider;
 

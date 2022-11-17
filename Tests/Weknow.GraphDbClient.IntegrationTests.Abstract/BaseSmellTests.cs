@@ -1,7 +1,7 @@
 using System.Data;
 
-using Weknow.GraphDbClient.Abstraction;
 using Weknow.CypherBuilder;
+using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
 
 using Xunit;
