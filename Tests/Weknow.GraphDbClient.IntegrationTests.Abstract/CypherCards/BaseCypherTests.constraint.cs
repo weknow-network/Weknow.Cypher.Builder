@@ -73,7 +73,7 @@ OPTIONS {
             _outputHelper.WriteLine($"First Create: {testCypher}");
 
             CypherParameters prmsPrepare = testCypher.Parameters;
-            prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
+            prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                     .Select(Factory));
             IGraphDBResponse response = await _graphDB.RunAsync(testCypher);
             info = await response.GetInfoAsync();

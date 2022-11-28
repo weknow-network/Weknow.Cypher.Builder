@@ -60,7 +60,7 @@ public class BaseIntegrationTests : IDisposable
     private async Task CleanAsync()
     {
         CypherCommand cypher = _(n =>
-                                Match(N(n))
+                                Match(N(n, _Test_))
                                 .DetachDelete(n),
                                 CONFIGURATION);
         var res = await _graphDB.RunAsync(cypher);

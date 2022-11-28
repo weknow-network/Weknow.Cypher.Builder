@@ -106,7 +106,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal(
                 $"CREATE FULLTEXT INDEX test-index{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
-                $"\tON EACH (n.Id, n.Name){NewLine}" +
+                $"\tON EACH [n.Id, n.Name]{NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}", cypher.Query);
             Assert.Empty(cypher.Parameters);
         }
@@ -130,7 +130,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal(
                 $"CREATE FULLTEXT INDEX test-index IF NOT EXISTS{NewLine}" +
                 $"\tFOR (n:PERSON){NewLine}" +
-                $"\tON EACH (n.Id, n.Name){NewLine}" +
+                $"\tON EACH [n.Id, n.Name]{NewLine}" +
                 $"\tOPTIONS {{{NewLine}\t\tindexConfig: {{{NewLine}\t\t\t`fulltext.analyzer`: 'english'{NewLine}\t\t  }}{NewLine}\t}}"
                 , cypher.Query);
             Assert.Empty(cypher.Parameters);

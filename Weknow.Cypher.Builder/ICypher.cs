@@ -771,7 +771,7 @@ public partial interface ICypher
     /// <param name="var">The variable.</param>
     /// <param name="vars">The vars.</param>
     /// <returns></returns>
-    [Cypher("CREATE FULLTEXT INDEX $0\r\n\tFOR $1\r\n\tON EACH ($3$4)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
+    [Cypher("CREATE FULLTEXT INDEX $0\r\n\tFOR $1\r\n\tON EACH [$3$4]\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
     public static Fluent CreateFullTextIndex(
         string name,
         IPattern p,
@@ -824,7 +824,7 @@ public partial interface ICypher
     /// <example>
     /// CREATE (n {name: $value})
     /// </example>
-    [Cypher("CREATE FULLTEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON EACH ($3$4)\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
+    [Cypher("CREATE FULLTEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON EACH [$3$4]\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
     public static Fluent TryCreateFullTextIndex(
         string name,
         IPattern p,

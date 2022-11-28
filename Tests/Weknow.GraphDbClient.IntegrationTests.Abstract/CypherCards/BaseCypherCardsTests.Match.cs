@@ -125,11 +125,11 @@ public partial class BaseCypherCardsTests
 
         var (n_name, m_name) = Parameters.CreateMulti<PersonEntity, PersonEntity>();
         CypherCommand cypherPrapare = _(() =>
-                                Create(N(m, Person, new { name = n_name }))
-                                .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
+                                Create(N(m, Person, new { name = m_name }))
+                                .Create(N(n, Person, new { name = n_name }) - R[Knows] > N(m)));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), ALICE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), MIKE);
+        prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), ALICE);
         await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
@@ -143,8 +143,8 @@ public partial class BaseCypherCardsTests
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
-        var mike = await response.GetAsync<string>(nameof(n), nameof(n._.name));
-        var alice = await response.GetAsync<string>(nameof(m), nameof(m._.name));
+        var alice = await response.GetAsync<string>(nameof(n), nameof(n._.name));
+        var mike = await response.GetAsync<string>(nameof(m), nameof(m._.name));
 
         Assert.Equal(MIKE, mike);
         Assert.Equal(ALICE, alice);
