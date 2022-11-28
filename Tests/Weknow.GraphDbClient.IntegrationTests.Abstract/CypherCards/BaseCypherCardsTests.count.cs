@@ -23,6 +23,11 @@ public partial class BaseCypherCardsTests
         var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
         var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
+        CypherCommand query = _(() =>
+                                Match(N(n, Person))
+                                .Return(n.Count()));
+        _outputHelper.WriteLine($"CYPHER: {query}");
+
         #region Prepare
 
         CypherCommand cypher = _(() =>
@@ -33,16 +38,12 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");
 
         CypherParameters prmsPrepare = cypher.Parameters;
-        prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
+        prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
 
         #endregion // Prepare
 
-        CypherCommand query = _(() =>
-                                Match(N(n, Person))
-                                .Return(n.Count()));
-        _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
         prms = prms.AddOrUpdate(nameof(skipNumber), 2);
         prms = prms.AddOrUpdate(nameof(limitNumber), 6);

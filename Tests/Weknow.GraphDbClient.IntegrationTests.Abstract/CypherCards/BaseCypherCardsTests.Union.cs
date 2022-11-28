@@ -36,7 +36,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRangeOrUpdate(nameof(users), usersPrm);
+        prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {
@@ -125,7 +125,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRangeOrUpdate(nameof(users), usersPrm);
+        prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {

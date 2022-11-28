@@ -224,7 +224,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
+        prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5)));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();

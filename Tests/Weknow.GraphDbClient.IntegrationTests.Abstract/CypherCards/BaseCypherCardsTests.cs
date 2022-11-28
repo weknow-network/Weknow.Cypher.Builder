@@ -63,18 +63,18 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
                                        .Set(n, map)));
 
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");
+        CypherCommand query = _(() =>
+                                Match(N(n, Person))
+                                .Return(n));
+        _outputHelper.WriteLine($"CYPHER: {query}");
 
         CypherParameters prms = cypher.Parameters;
-        prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
+        prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
         #endregion // Prepare
 
-        CypherCommand query = _(() =>
-                                Match(N(n, Person))
-                                .Return(n));
-        _outputHelper.WriteLine($"CYPHER: {query}");
         IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 

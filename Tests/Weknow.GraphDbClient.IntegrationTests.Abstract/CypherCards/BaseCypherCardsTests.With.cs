@@ -36,7 +36,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRangeOrUpdate(nameof(users), usersPrm);
+        prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm)
         {
@@ -54,7 +54,7 @@ public partial class BaseCypherCardsTests
             var friendsPrm = Enumerable.Range(0, (u.key ?? 0))
                                     .Select(m => FriendFactory(u, m))
                                     .ToArray();
-            prms.AddRangeOrUpdate(nameof(friends), friendsPrm);
+            prms = prms.AddRangeOrUpdate(nameof(friends), friendsPrm);
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }
@@ -111,7 +111,7 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRangeOrUpdate(nameof(users), usersPrm);
+        prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
         await _graphDB.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm)
         {
@@ -129,7 +129,7 @@ public partial class BaseCypherCardsTests
             var friendsPrm = Enumerable.Range(0, (u.key ?? 0))
                                     .Select(m => FriendFactory(u, m))
                                     .ToArray();
-            prms.AddRangeOrUpdate(nameof(friends), friendsPrm);
+            prms = prms.AddRangeOrUpdate(nameof(friends), friendsPrm);
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
             await _graphDB.RunAsync(cypherOfFriends, prms);
         }

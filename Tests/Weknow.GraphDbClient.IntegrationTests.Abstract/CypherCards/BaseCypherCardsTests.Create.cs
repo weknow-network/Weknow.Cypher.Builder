@@ -65,6 +65,10 @@ public partial class BaseCypherCardsTests
         var user = Variables.Create<PersonEntity>();
         var map = Parameters.Create<PersonEntity>();
 
+        CypherCommand query = _(() =>
+                                Match(N(user, Person))
+                                .Return(user));
+
         CypherCommand cypher = _(() =>
                                 Create(N(user, Person))
                                        .Set(user, map));
@@ -77,9 +81,6 @@ public partial class BaseCypherCardsTests
 
         #region Validation
 
-        CypherCommand query = _(() =>
-                                Match(N(user, Person))
-                                .Return(user));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
         var result = await response.GetAsync<PersonEntity>(nameof(user));
 
@@ -104,7 +105,8 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        await _graphDB.RunAsync(cypher, prms);
+        var tmp = await _graphDB.RunAsync(cypher, prms);
+        await tmp.GetInfoAsync();
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         #region Validation
@@ -153,8 +155,9 @@ public partial class BaseCypherCardsTests
         var usersPrm = Enumerable.Range(0, 10)
                                 .Select(UserFactory)
                                 .ToArray();
-        prms.AddRangeOrUpdate(nameof(users), usersPrm);
-        await _graphDB.RunAsync(cypher, prms);
+        prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
+        var r = await _graphDB.RunAsync(cypher, prms);
+        await r.GetInfoAsync();
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         #region Validation
