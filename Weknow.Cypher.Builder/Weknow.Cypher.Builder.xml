@@ -1699,35 +1699,62 @@
             RETURN n
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode[])">
+        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode)">
             <summary>
             Matches phrase.
             </summary>
             <param name="var">The variable.</param>
-            <param name="p">The p.</param>
+            <param name="n">The n.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.INode[])">
+        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.INode)">
             <summary>
             Matches phrase.
             </summary>
-            <param name="p">The p.</param>
+            <param name="n">The n.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
-            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.OptionalMatch(Weknow.CypherBuilder.INode[])">
+        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INode[])">
             <summary>
             Matches phrase.
             </summary>
-            <param name="p">The p.</param>
+            <param name="n">The n.</param>
+            <param name="rest">The rest.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
-            MATCH (n:Person)-[:KNOWS]->(m:Person)
+            MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.OptionalMatch(Weknow.CypherBuilder.INode)">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="n">The n.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.OptionalMatch(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INode[])">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="n">The n.</param>
+            <param name="rest">The rest.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Create(Weknow.CypherBuilder.IPattern)">

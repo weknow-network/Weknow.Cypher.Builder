@@ -223,35 +223,64 @@ public partial interface ICypher
     /// Matches phrase.
     /// </summary>
     /// <param name="var">The variable.</param>
-    /// <param name="p">The p.</param>
+    /// <param name="n">The n.</param>
     /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     /// <example>
     /// MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("MATCH $0 = $1")]
-    public static Fluent Match(VariableDeclaration var, params INode[] p) => throw new NotImplementedException();
+    public static Fluent Match(VariableDeclaration var, INode n) => throw new NotImplementedException();
 
     /// <summary>
     /// Matches phrase.
     /// </summary>
-    /// <param name="p">The p.</param>
+    /// <param name="n">The n.</param>
     /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     /// <example>
-    /// MATCH (n:Person)-[:KNOWS]->(m:Person)
+    /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("MATCH $0")]
-    public static Fluent Match(params INode[] p) => throw new NotImplementedException();
+    public static Fluent Match(INode n) => throw new NotImplementedException();
 
     /// <summary>
     /// Matches phrase.
     /// </summary>
-    /// <param name="p">The p.</param>
+    /// <param name="n">The n.</param>
+    /// <param name="rest">The rest.</param>
     /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     /// <example>
-    /// MATCH (n:Person)-[:KNOWS]->(m:Person)
+    /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
+    /// </example>
+    [Cypher("MATCH $0, $1")]
+    public static Fluent Match(INode n, params INode[] rest) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Matches phrase.
+    /// </summary>
+    /// <param name="n">The n.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("OPTIONAL MATCH $0")]
-    public static Fluent OptionalMatch(params INode[] p) => throw new NotImplementedException();
+    public static Fluent OptionalMatch(INode n) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Matches phrase.
+    /// </summary>
+    /// <param name="n">The n.</param>
+    /// <param name="rest">The rest.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
+    /// </example>
+    [Cypher("OPTIONAL MATCH $0,$1")]
+    public static Fluent OptionalMatch(INode n, params INode[] rest) => throw new NotImplementedException();
 
     #endregion // Match
 
@@ -983,7 +1012,6 @@ public partial interface ICypher
         ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreate..Index
-
 
     #region nodes
 
