@@ -222,6 +222,18 @@ public partial interface ICypher
     /// <summary>
     /// Matches phrase.
     /// </summary>
+    /// <param name="var">The variable.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
+    /// </example>
+    [Cypher("MATCH $0 = $1")]
+    public static Fluent Match(VariableDeclaration var, params INode[] p) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Matches phrase.
+    /// </summary>
     /// <param name="p">The p.</param>
     /// <returns></returns>
     /// <example>
@@ -273,6 +285,73 @@ public partial interface ICypher
 
     #endregion // Merge
 
+    #region Set
+
+    /// <summary>
+    /// SET label.
+    /// </summary>
+    /// <param name="var">The variable.</param>
+    /// <param name="label">The label.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// SET n:Person:Manager
+    /// </example>
+    [Cypher("&SET $0$1")]
+    public static Fluent Set(VariableDeclaration var, params ILabel[] label)
+        => throw new NotImplementedException();
+
+    /// <summary>
+    /// SET phrase.
+    /// </summary>
+    /// <param name="var">The variable.</param>
+    /// <param name="assignment">The complex.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// .Set(n, map)
+    /// result in:
+    /// SET n = map
+    /// </example>
+    [Cypher("&SET $0 = $1")]
+    public static Fluent Set(VariableDeclaration var, VariableDeclaration assignment)
+        => throw new NotImplementedException();
+
+    /// <summary>
+    /// SET phrase.
+    /// </summary>
+    /// <param name="fluent">The fluent.</param>
+    /// <param name="var"></param>
+    /// <param name="assignment"></param>
+    /// <returns></returns>
+    /// <example>
+    /// .Set(n, map)
+    /// result in:
+    /// SET n = $map
+    /// </example>
+    [Cypher("&SET $0 = $1")]
+    public static Fluent Set(VariableDeclaration var, ParameterDeclaration assignment)
+        => throw new NotImplementedException();
+
+    /// <summary>
+    /// SET  phrase.
+    /// </summary>
+    /// <param name="fluent">The fluent.</param>
+    /// <param name="var">The variable.</param>
+    /// <param name="assignment">The complex.</param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    /// <example>
+    /// .Set(n, new {prm._.Name, var._.Code})
+    /// result in:
+    /// SET n.Name = $Name, n.Code = prm.Code
+    /// </example>
+    [Cypher("&SET +00$1")]
+    public static Fluent Set(VariableDeclaration var, object assignment)
+        => throw new NotImplementedException();
+
+    #endregion // Set
+
     #region Unwind
 
     /// <summary>
@@ -318,6 +397,51 @@ public partial interface ICypher
     public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
     #endregion // Unwind
+
+    #region Foreach
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <example>
+    /// FOREACH $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("&FOREACH ($0 IN \\$$[]1 |\r\n\t$2)")]
+    public static Fluent Foreach<T>(VariableDeclaration item, IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <example>
+    /// FOREACH $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
+    public static Fluent Foreach(VariableDeclaration item, VariableDeclaration items, Fluent p) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Foreachs the specified items.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    [Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
+    public static Fluent Foreach(VariableDeclaration item, ParameterDeclaration items, Fluent p) => throw new NotImplementedException();
+
+    #endregion // Foreach
 
     #region Exists
 
@@ -859,4 +983,42 @@ public partial interface ICypher
         ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreate..Index
+
+
+    #region nodes
+
+    /// <summary>
+    /// Returns a list containing all the nodes in a path.
+    /// https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-nodes
+    /// </summary>
+    /// <param name="prop">The property.</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH p = (a)-->(b)-->(c)
+    /// WHERE a.name = 'Alice' AND c.name = 'Eskil'
+    /// RETURN nodes(p)
+    /// </example>
+    [Cypher("nodes($0)")]
+    public static VariableDeclaration Nodes(object prop) => throw new NotImplementedException();
+
+    #endregion nodes
+
+    #region relationships
+
+    /// <summary>
+    /// returns a list containing all the relationships in a path.
+    /// https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-relationships
+    /// </summary>
+    /// <param name="prop">The property.</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH p = (a)-->(b)-->(c)
+    /// WHERE a.name = 'Alice' AND c.name = 'Eskil'
+    /// RETURN relationships(p)
+    /// </example>
+    [Cypher("relationships($0)")]
+    public static VariableDeclaration Relationships(object prop) => throw new NotImplementedException();
+
+    #endregion relationships
+
 }

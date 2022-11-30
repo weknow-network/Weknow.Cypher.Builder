@@ -252,6 +252,30 @@ SET n += item", cypher.Query);
 
         #endregion // UNWIND $items AS map MERGE (n:PERSON {.. }) ON CREATE SET n = map ..
 
+        #region UNWIND [1,2,3] as num RETURN num
+
+        [Fact(Skip = "Not implemented")]
+        public void Unwind_Array_Test()
+        {
+            var items = Parameters.Create();
+            var n = Variables.Create();
+            var (num, txt) = Variables.CreateMulti();
+
+            CypherCommand cypher = _(() =>
+                                    Unwind(new[] { 1, 2, 3 }, num,
+                                    Unwind(new[] { "a", "b" }, txt,
+                                    Return(num, txt))),
+                                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+
+            _outputHelper.WriteLine(cypher);
+
+            Assert.Equal($"UNWIND $p_0 AS num{NewLine}" +
+                $"RETURN num", cypher.Query);
+            Assert.True(new[] { 1, 2, 3 }.SequenceEqual(cypher.Parameters.Get<IEnumerable<int>>("p_0")));
+        }
+
+        #endregion // UNWIND [1,2,3] as num RETURN num
+
         #region UNWIND [1,2,3] as num UNWIND['a', 'b'] as txt RETURN num, txt
 
         [Fact(Skip = "Not implemented")]
@@ -260,10 +284,6 @@ SET n += item", cypher.Query);
             var items = Parameters.Create();
             var n = Variables.Create();
             var (num, txt) = Variables.CreateMulti();
-
-            var maintainer_ = Variables.Create();
-            var (maintainer_Id, Date) = Parameters.CreateMulti();
-            var maintainer = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
 
             CypherCommand cypher = _(() =>
                                     Unwind(new[] { 1, 2, 3 }, num,

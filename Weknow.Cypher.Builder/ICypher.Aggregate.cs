@@ -72,5 +72,5 @@ public partial interface ICypher
     [Cypher("avg($0)")]
     public static VariableDeclaration Avg(object prop) => throw new NotImplementedException();
 
-    #endregion // Avg / avg(n.PropA))    }
+    #endregion // Avg / avg(n.PropA))    
 }

@@ -980,6 +980,39 @@
             <exception cref="T:System.NotImplementedException"></exception>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="prev">The previous.</param>
+            <param name="item">The item.</param>
+            <param name="items">The items.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            FOREACH $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="item">The item.</param>
+            <param name="items">The items.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            FOREACH $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.OrderBy(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             ORDER BY phrase.
@@ -1666,6 +1699,17 @@
             RETURN n
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode[])">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.INode[])">
             <summary>
             Matches phrase.
@@ -1706,6 +1750,61 @@
             MERGE (n:Person {name: $value})
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
+            <summary>
+            SET label.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="label">The label.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            SET n:Person:Manager
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            SET  phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .Set(n, new {prm._.Name, var._.Code})
+            result in:
+            SET n.Name = $Name, n.Code = prm.Code
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Unwind``1(System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
@@ -1737,6 +1836,44 @@
         <member name="M:Weknow.CypherBuilder.ICypher.Unwind(Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Unwinds the specified items.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            Foreachs the specified items.
             </summary>
             <param name="items">The items.</param>
             <param name="item">The item.</param>
@@ -2061,6 +2198,32 @@
             <exception cref="T:System.NotImplementedException"></exception>
             <example>
             CREATE (n {name: $value})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Nodes(System.Object)">
+            <summary>
+            Returns a list containing all the nodes in a path.
+            https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-nodes
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH p = (a)-->(b)-->(c)
+            WHERE a.name = 'Alice' AND c.name = 'Eskil'
+            RETURN nodes(p)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Relationships(System.Object)">
+            <summary>
+            returns a list containing all the relationships in a path.
+            https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-relationships
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH p = (a)-->(b)-->(c)
+            WHERE a.name = 'Alice' AND c.name = 'Eskil'
+            RETURN relationships(p)
             </example>
         </member>
         <member name="T:Weknow.CypherBuilder.ParamsFirst`1">

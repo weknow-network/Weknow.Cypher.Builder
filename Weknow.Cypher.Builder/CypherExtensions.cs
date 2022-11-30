@@ -639,6 +639,70 @@ public static partial class CypherExtensions
 
     #endregion // Unwind
 
+    #region Foreach
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="prev">The previous.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// FOREACH $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&FOREACH ($1 IN $[]2 |\r\n\t$3)")]
+    public static Fluent Foreach<T>(
+        this Fluent prev, 
+        VariableDeclaration item, 
+        IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
+
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <param name="prev">The previous.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// FOREACH $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&FOREACH ($1 IN $2 |\r\n\t$3)")]
+    public static Fluent Foreach(
+        this Fluent prev, 
+        VariableDeclaration item, 
+        VariableDeclaration items, 
+        Fluent p) => throw new NotImplementedException();
+
+    ///// <summary>
+    ///// FOREACH phrase.
+    ///// </summary>
+    ///// <param name="prev">The previous.</param>
+    ///// <param name="item">The item.</param>
+    ///// <param name="items">The items.</param>
+    ///// <param name="p">The p.</param>
+    ///// <returns></returns>
+    ///// <exception cref="System.NotImplementedException"></exception>
+    ///// <exception cref="NotImplementedException"></exception>
+    //[Cypher("$0\r\n&FOREACH ($1 IN $2 |\r\n\t$3)")]
+    //public static Fluent Foreach(
+    //    this Fluent prev, 
+    //    VariableDeclaration item,
+    //    ParameterDeclaration items, 
+    //    Fluent p) => throw new NotImplementedException();
+
+    #endregion // Foreach
+
     #region OrderBy
 
 
