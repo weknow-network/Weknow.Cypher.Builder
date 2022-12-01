@@ -1,12 +1,16 @@
 # Weknow Cypher Builder **Beta**.  
 [![Build & Deploy NuGet](https://github.com/weknow-network/Weknow.Cypher.Builder/actions/workflows/Deploy.yml/badge.svg)](https://github.com/weknow-network/Weknow.Cypher.Builder/actions/workflows/Deploy.yml)
-[![Weknow.Cypher.Builder](https://img.shields.io/nuget/v/Weknow.Cypher.Builder.svg)](https://www.nuget.org/packages/Weknow.Cypher.Builder/)
-[![Weknow.GraphDbClient.Abstraction](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Abstraction.svg)](https://www.nuget.org/Weknow.GraphDbClient.Abstraction/)
-[![Weknow.GraphDbClient.Redis](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Redis.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Redis/)
-[![Weknow.GraphDbClient.Neo4j](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Neo4j.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Neo4j/)
+
 
 ## Usage
-Produce Cypher Query from structural C# builder.
+- [**Weknow.Cypher.Builder:**](https://www.nuget.org/packages/Weknow.Cypher.Builder) Produce Cypher Query from structural C# builder.  
+  `dotnet add package Weknow.Cypher.Builder`
+- [**Weknow.GraphDbClient.Abstraction:**](https://www.nuget.org/packages/Weknow.GraphDbClient.Abstraction) Abstract Graph Database client.  
+  `dotnet add package Weknow.GraphDbClient.Abstraction`
+- [**Weknow.GraphDbClient.Redis:**](https://www.nuget.org/packages/Weknow.GraphDbClient.Redis) Client implementation for Redis Graph (Not implementes yet).  
+  `dotnet add package Weknow.GraphDbClient.Redis`
+- [**Weknow.GraphDbClient.Neo4j:**](https://www.nuget.org/packages/Weknow.GraphDbClient.Neo4j) Client implementation for Neo4j.  
+  `dotnet add package Weknow.GraphDbClient.Neo4j`
 
 ## Goals
 Cypher Builder aim to be developer friendly library for cypher query.
@@ -18,5 +22,40 @@ When this library evolve over time, we consider:
 
 ## Samples
 
+```cs
+var n = Variables.Create();
+var Id = Parameters.Create();
+CypherCommand cypher = _(() => Match(N(n, Person & Manager, new { Id }))
+                        .Return(n));
+```
+Produce: 
+```cypher
+MATCH (n:Person:Manager {{ Id: $Id }}) RETURN n
+```
+
+---
+
+```cs
+var items = Parameters.Create();
+var n = Variables.Create();
+var map = Variables.Create<Foo>();
+
+CypherCommand cypher = _(() =>
+                        Unwind(items, map,
+                        Merge(N(n, Person, new { map.__.Id, map.__.Name }))
+                        .OnCreateSet(n, map)
+                        .Return(n)),
+                        cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+
+```
+Produce: 
+```cypher
+UNWIND $items AS map
+MERGE (n:me1.Member.Name {{ Id: map.Id, Name: map.Name }})
+  ON CREATE SET n = map
+RETURN n
+```
+
+> Note: *The label `Person` become `me1.Member.Name` because of the `SCREAMING_CASE` convention*
 
 
