@@ -58,6 +58,25 @@ RETURN n
 
 > Note: *The label `Person` become `me1.Member.Name` because of the `SCREAMING_CASE` convention*
 
+
+## GraphDb Client
+
+```cs
+[Dictionaryable(Flavor = Flavor.Neo4j)]
+private partial record Person(string name, int age);
+
+var map = Parameters.Create<Person>();
+CypherCommand cypher = _(user =>
+                        Create(N(user, Person, map))
+                        .Return(user));
+
+CypherParameters prms = cypher.Parameters;
+prms = prms.AddOrUpdate(nameof(map), new Person("mike", 42));
+await _graphDB.RunAsync(cypher, prms);
+```
+
+> Node: [Dictionaryable] is using [Weknow.Mapping.Generation.SrcGen](https://www.nuget.org/packages/Weknow.Mapping.Generation.SrcGen) in order to generate serialization code out of `record Person`.
+
 See more on our [wiki](https://github.com/weknow-network/Weknow.Cypher.Builder/wiki)
 
 
