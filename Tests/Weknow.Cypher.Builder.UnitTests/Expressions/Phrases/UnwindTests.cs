@@ -357,15 +357,15 @@ SET n += item", cypher.Query);
     #region UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})
 
     [Fact]
-    public void Unwind_Param_WithoutMap_Test()
+    public void Unwind_Param_WithoutMap_Reuse_Test()
     {
-        var (items, maintainer_Id, Date) = Parameters.CreateMulti();
+        var (items, Id, Date) = Parameters.CreateMulti();
         var map = Variables.Create<Foo>();
-        var (n, maintainer_) = Variables.CreateMulti();
+        var m = Variables.Create();
 
-        var maintainerPattern = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
+        var maintainerPattern = Reuse(() => R[By] > N(m, Maintainer, new { Id, Date }));
 
-        CypherCommand cypher = _(() =>
+        CypherCommand cypher = _(n =>
                                 Unwind(items, map,
                                 Merge(N(n, Person, new { map.__.Id }) - maintainerPattern)),
                                 cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
@@ -375,7 +375,7 @@ SET n += item", cypher.Query);
         // Require remodel of the cypher generator,
         // On the remodeling it would be nice to add built-in indentation
         Assert.Equal($"UNWIND $items AS map{NewLine}" +
-            $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(maintainer_:MAINTAINER {{ Id: $maintainer_Id, Date: $Date }})", cypher.Query);
+            $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(m:MAINTAINER {{ Id: $Id, Date: $Date }})", cypher.Query);
     }
 
     #endregion // UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})
@@ -386,7 +386,7 @@ SET n += item", cypher.Query);
     //                  .Where(user._.key == u.key)
     //                  .With(user)
     //                  .Unwind(friends.AsParameter, map,
-    //                       .Create(N(friend, Friend, new { key = (~map)._.key }))
+    //                       .Create(N(friend, Friend, new { key = map.__.key }))
     //                       .Merge(N(user) - R[Knows] > N(friend))
     //                         .Set(friend, map)));
 
