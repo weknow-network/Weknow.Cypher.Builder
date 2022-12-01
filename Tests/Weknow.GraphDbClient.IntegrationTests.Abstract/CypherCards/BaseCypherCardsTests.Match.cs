@@ -185,8 +185,8 @@ public partial class BaseCypherCardsTests
                                 .Return(n._.name, m._.name));
 
 
-        CypherParameters prms = cypher.Parameters;
-        prms = prms.AddOrUpdate(nameof(name), ALICE);
+        CypherParameters prms = cypher.Parameters
+                                        .AddOrUpdate(nameof(name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 
@@ -194,6 +194,53 @@ public partial class BaseCypherCardsTests
         var mike = await response.GetAsync<string>(nameof(m), nameof(m._.name));
 
         Assert.Equal(MIKE, mike);
+        Assert.Equal(ALICE, alice);
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+    }
+
+    #endregion // MATCH (n {name: 'Alice'})-->(m)
+
+    #region MATCH MATCH (n {name: 'Alice'})-->(m)
+
+    [Fact]
+    public virtual async Task MATCH_N_PROP_M_OBJ_Test()
+    {
+        CypherConfig.Scope.Value = CONFIGURATION;
+
+        string ALICE = "Alice";
+        string MIKE = "Mike";
+
+
+        var (n, m) = Variables.CreateMulti<PersonEntity>();
+
+        #region Prepare
+
+        var (n_name, m_name) = Parameters.CreateMulti<PersonEntity>();
+        CypherCommand cypherPrapare = _(() =>
+                                Create(N(m, Person, new { name = n_name, age = 30 }))
+                                .Create(N(n, Person, new { name = m_name }) - R[Knows] > N(m)));
+        CypherParameters prmsPrepare = cypherPrapare.Parameters;
+        prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), MIKE);
+        prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), ALICE);
+        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+
+        #endregion // Prepare
+
+        var name = Parameters.Create<string>();
+        CypherCommand cypher = _(() =>
+                                Match(N(n, new { name = name }) > N(m))
+                                .Return(n._.name, m));
+
+
+        CypherParameters prms = cypher.Parameters
+                                        .AddOrUpdate(nameof(name), ALICE);
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+
+        var alice = await response.GetAsync<string>(nameof(n), nameof(n._.name));
+        var mike = await response.GetAsync<PersonEntity>(nameof(m));
+
+        Assert.Equal(MIKE, mike.name);
         Assert.Equal(ALICE, alice);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
     }
@@ -229,14 +276,13 @@ public partial class BaseCypherCardsTests
 
         #endregion // Prepare
 
-        var name = Parameters.Create<string>();
         CypherCommand cypher = _(() =>
                                 OptionalMatch(N(m) - R[r] > N(n))
                                 .Return(m._.name, n._.name, r.type()));
 
 
-        CypherParameters prms = cypher.Parameters;
-        prms = prms.AddOrUpdate(nameof(name), ALICE);
+        CypherParameters prms = cypher.Parameters 
+                                      .AddOrUpdate(nameof(n._.name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
 

@@ -419,7 +419,9 @@ namespace Weknow.CypherBuilder
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
-            else if (node.Expression is MemberExpression vme && vme.Member.Name == nameof(VariableDeclaration<int>._)
+            else if (node.Expression is MemberExpression vme &&
+                (vme.Member.Name == nameof(VariableDeclaration<int>._) ||
+                vme.Member.Name == nameof(VariableDeclaration<int>.__))
                 && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))
             {
                 if (vme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
@@ -428,7 +430,23 @@ namespace Weknow.CypherBuilder
                     Query.Append(ime.Member.Name);
                     Query.Append(".");
                 }
+                if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is MemberExpression vme1)
+                {
+                    Query.Append(vme1.Member.Name);
+                    Query.Append(".");
+                }
             }
+            else if (node.Expression is MethodCallExpression mce && 
+                (mce.Method.Name == "__" || mce.Method.Name == "_") &&
+                typeof(VariableDeclaration).IsAssignableFrom(mce.Method.DeclaringType))
+            {
+                if (mce.Method.Name == "__" && mce.Object.Type == typeof(VariableDeclaration))
+                {
+                    Query?.Append(mce.Object);
+                    Query.Append(".");
+                }
+            }
+
             Query.Append(name);
             if (node.Type == typeof(VariableDeclaration))
             {

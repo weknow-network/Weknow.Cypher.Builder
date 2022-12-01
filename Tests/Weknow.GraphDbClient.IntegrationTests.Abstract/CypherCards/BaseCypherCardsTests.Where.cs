@@ -92,10 +92,15 @@ public partial class BaseCypherCardsTests
                                                     .Where(n._.age == m._.age)))
                                 .Return(n));
 
-        CypherParameters prms = cypher.Parameters;
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher);
 
-        var people = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
+        IAsyncEnumerable<PersonEntity> data = response.GetRangeAsync<PersonEntity>(nameof(n));
+        var people = await data.ToArrayAsync();
+        // or
+        await foreach (var entity in data)
+        {
+            // entity.age
+        }
 
         Assert.Single(people);
         Assert.Equal(ALICE, people[0].name);

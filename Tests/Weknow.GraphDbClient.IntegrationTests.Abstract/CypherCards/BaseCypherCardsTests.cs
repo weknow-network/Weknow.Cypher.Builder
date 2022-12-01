@@ -59,7 +59,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
         CypherCommand cypher = _(() =>
                                 Unwind(items, map,
-                                     Merge(N(n, Person, new { key = (~map)._.key /* result in map.key*/ }))
+                                     Merge(N(n, Person, new { key = map.__.key /* result in map.key*/ }))
                                        .Set(n, map)));
 
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");

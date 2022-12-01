@@ -45,7 +45,6 @@ $"MATCH (n:Person:Manager {{ Id: $Id }}){NewLine}" +
 
         #endregion // MATCH (n:Person:Manager { Id: $Id }) RETURN n 
 
-
         #region MATCH (n:Person { Id: $Id }) RETURN n 
 
         [Fact]

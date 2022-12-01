@@ -3110,7 +3110,7 @@
         </member>
         <member name="F:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Default">
             <summary>
-            Default (and only) way to get cypher parameter.
+            Default (and only) way to get cypher variable.
             It use under expression and don't need a real implementation;
             </summary>
         </member>
@@ -3118,6 +3118,20 @@
             <summary>
             Gets type representation of the variable.
             </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.__">
+            <summary>
+            Gets type representation of the variable. while preserving the path.
+            </summary>
+            <example>
+            <![CDATA[
+            Unwind(items, map,
+            Merge(N(n, Person, new { map.__.Id })))
+            will result in
+            UNWIND $items AS map
+            MERGE (n:Person {{ Id: map.Id }})
+            ]]>
+            </example>
         </member>
         <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Inc">
             <summary>
@@ -3161,6 +3175,34 @@
             Default (and only) way to get cypher parameter.
             It use under expression and don't need a real implementation;
             </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration._``1">
+            <summary>
+            Gets type representation of the variable. 
+            </summary>
+            <example>
+            <![CDATA[
+            Unwind(items, map,
+            Merge(N(n, Person, new { map._<Foo>.Id })))
+            will result in
+            UNWIND $items AS map
+            MERGE (n:Person {{ Id: Id }})
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.__``1">
+            <summary>
+            Gets type representation of the variable. while preserving the path.
+            </summary>
+            <example>
+            <![CDATA[
+            Unwind(items, map,
+            Merge(N(n, Person, new { map.__<Foo>.Id })))
+            will result in
+            UNWIND $items AS map
+            MERGE (n:Person {{ Id: map.Id }})
+            ]]>
+            </example>
         </member>
         <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_Equality(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
             <summary>
