@@ -2943,6 +2943,18 @@
             It use under expression and don't need a real implementation;
             </summary>
         </member>
+        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration._``1">
+            <summary>
+            Gets type representation of the parameter. 
+            </summary>
+            <example>
+            <![CDATA[
+            Merge(N(n, Person, new { m._<Foo>.Id })))
+            will result in
+            MERGE (n:Person {{ Id: $Id }})
+            ]]>
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration.op_UnaryPlus(Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
             <summary>
             Declaration for operator +.

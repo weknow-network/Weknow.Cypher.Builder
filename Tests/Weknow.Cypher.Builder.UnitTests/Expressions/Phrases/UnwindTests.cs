@@ -334,15 +334,14 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Param_WithoutMap_Inline_Test()
     {
-        var (items, maintainer_Id, Date) = Parameters.CreateMulti();
-        var (n, maintainer_) = Variables.CreateMulti();
+        var (items, Date) = Parameters.CreateMulti();
 
-        var maintainerPattern = Reuse(() => R[By] > N(maintainer_, Maintainer, new { Id = maintainer_Id, Date = Date }));
-
-
-        CypherCommand cypher = _(map =>
+        CypherCommand cypher = _(map => n => m =>
                                 Unwind(items, map,
-                                Merge(N(n, Person, new { map.__<Foo>().Id }) - maintainerPattern)),
+                                Merge(N(n, Person, new { map.__<Foo>().Id }) - 
+                                      R[By] > 
+                                      N(m, Maintainer,
+                                             new { m.Prm._<Foo>().Id , Date }))),
                                 cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
@@ -350,7 +349,7 @@ SET n += item", cypher.Query);
         // Require remodel of the cypher generator,
         // On the remodeling it would be nice to add built-in indentation
         Assert.Equal($"UNWIND $items AS map{NewLine}" +
-            $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(maintainer_:MAINTAINER {{ Id: $maintainer_Id, Date: $Date }})", cypher.Query);
+            $"MERGE (n:PERSON {{ Id: map.Id }})-[:By]->(m:MAINTAINER {{ Id: $Id, Date: $Date }})", cypher.Query);
     }
 
     #endregion // UNWIND $items AS map MERGE (n:PERSON {..})-[:By]->(m:USER {..})

@@ -24,6 +24,20 @@ public class ParameterDeclaration
     /// </summary>
     internal static readonly ParameterDeclaration Default = new ParameterDeclaration();
 
+
+    /// <summary>
+    /// Gets type representation of the parameter. 
+    /// </summary>
+    /// <example>
+    /// <![CDATA[
+    /// Merge(N(n, Person, new { m._<Foo>.Id })))
+    /// will result in
+    /// MERGE (n:Person {{ Id: $Id }})
+    /// ]]>
+    /// </example>
+    public T _<T>() => throw new NotImplementedException();
+
+
     #region +
 
     /// <summary>

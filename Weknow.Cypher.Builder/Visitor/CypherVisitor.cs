@@ -436,6 +436,19 @@ namespace Weknow.CypherBuilder
                     Query.Append(".");
                 }
             }
+            else if (node.Expression is MethodCallExpression pme && pme.Method.Name == "_"
+                && typeof(ParameterDeclaration).IsAssignableFrom(pme.Method.DeclaringType))
+            {
+                Query.Append("$");
+                //if (pme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
+                //    ue.Operand is MemberExpression ime)
+                //{
+                //    Query.Append(ime.Member.Name);
+                //    Query.Append(".");
+                //}
+                //if (!Parameters.ContainsKey(name))
+                //    Parameters.SetToNull(name);
+            }
             else if (node.Expression is MethodCallExpression mce && 
                 (mce.Method.Name == "__" || mce.Method.Name == "_") &&
                 typeof(VariableDeclaration).IsAssignableFrom(mce.Method.DeclaringType))
