@@ -1,8 +1,8 @@
 # Weknow Cypher Builder **Beta**.  
-[![NuGet](https://img.shields.io/nuget/v/Weknow.Cypher.Builder.svg)](https://www.nuget.org/packages/Weknow.Cypher.Builder/)
-[![NuGet](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Abstraction.svg)](https://www.nuget.org/Weknow.GraphDbClient.Abstraction/)
-[![NuGet](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Redis.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Redis/)
-[![NuGet](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Neo4j.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Neo4j/)
+[![Weknow.Cypher.Builder](https://img.shields.io/nuget/v/Weknow.Cypher.Builder.svg)](https://www.nuget.org/packages/Weknow.Cypher.Builder/)
+[![Weknow.GraphDbClient.Abstraction](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Abstraction.svg)](https://www.nuget.org/Weknow.GraphDbClient.Abstraction/)
+[![Weknow.GraphDbClient.Redis](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Redis.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Redis/)
+[![Weknow.GraphDbClient.Neo4j](https://img.shields.io/nuget/v/Weknow.GraphDbClient.Neo4j.svg)](https://www.nuget.org/packages/Weknow.GraphDbClient.Neo4j/)
 
 ## Usage
 Produce Cypher Query from structural C# builder.
