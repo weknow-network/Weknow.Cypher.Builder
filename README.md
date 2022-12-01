@@ -70,8 +70,9 @@ CypherCommand cypher = _(user =>
                         Create(N(user, Person, map))
                         .Return(user));
 
-CypherParameters prms = cypher.Parameters;
-prms = prms.AddOrUpdate(nameof(map), new Person("mike", 42));
+var entity = new Person("mike", 42);
+CypherParameters prms = cypher.Parameters
+                              .AddOrUpdate(nameof(map), entity);
 await _graphDB.RunAsync(cypher, prms);
 ```
 
