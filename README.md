@@ -76,7 +76,7 @@ CypherParameters prms = cypher.Parameters
 await _graphDB.RunAsync(cypher, prms);
 ```
 
-> Node: [Dictionaryable] is using [Weknow.Mapping.Generation.SrcGen](https://www.nuget.org/packages/Weknow.Mapping.Generation.SrcGen) in order to generate serialization code out of `record Person`.
+> Node: [`[Dictionaryable]`](https://github.com/weknow-network/Weknow.Mapping.Generation) is using [Weknow.Mapping.Generation.SrcGen](https://www.nuget.org/packages/Weknow.Mapping.Generation.SrcGen) in order to generate serialization code out of `record Person`.
 
 ---
 
