@@ -58,4 +58,6 @@ RETURN n
 
 > Note: *The label `Person` become `me1.Member.Name` because of the `SCREAMING_CASE` convention*
 
+See more on our [Documentation](wiki)
+
 
