@@ -61,22 +61,42 @@ RETURN n
 
 ## GraphDb Client
 
+### Make your first insert
+
+1. Define a schema
+
+```cs
+public ILabel Person => throw new NotImplementedException();
+public IType Follow => throw new NotImplementedException();
+```
+> Yes, we believe in schema 😃
+
+2. Create entity class/record.
+
 ```cs
 [Dictionaryable(Flavor = Flavor.Neo4j)]
 private partial record Person(string name, int age);
-
-var map = Parameters.Create<Person>();
-CypherCommand cypher = _(user =>
-                        Create(N(user, Person, map))
-                        .Return(user));
-
-var entity = new Person("mike", 42);
-CypherParameters prms = cypher.Parameters
-                              .AddOrUpdate(nameof(map), entity);
-await _graphDB.RunAsync(cypher, prms);
 ```
 
 > Node: [`[Dictionaryable]`](https://github.com/weknow-network/Weknow.Mapping.Generation) is using [Weknow.Mapping.Generation.SrcGen](https://www.nuget.org/packages/Weknow.Mapping.Generation.SrcGen) in order to generate serialization code out of `record Person`.
+
+3. Write a Cypher query.
+
+```cs
+var map = Parameters.Create<PersonEntity>();
+
+CypherCommand cypher = _(user =>
+                        Create(N(user, Person, map)));
+````
+> Produce: `CREATE (user:Person $map)`
+
+4. To execute the query, you can use [GraphDb Client](GraphDB-Client).
+
+```cs
+CypherParameters prms = cypher.Parameters
+                              .AddOrUpdate(nameof(map), new Person("Nina", 76));
+await _graphDB.RunAsync(cypher, prms);
+```
 
 ---
 
