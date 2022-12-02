@@ -368,7 +368,16 @@ namespace Weknow.CypherBuilder
             {
                 Query.Append("$");
                 if (node.Member.Name is (nameof(VariableDeclaration.AsParameter)) or (nameof(VariableDeclaration.Prm)))
-                    name = ((MemberExpression?)node.Expression)?.Member?.Name ?? throw new ArgumentNullException("((MemberExpression?)node.Expression)?.Member?.Name");
+                {
+                    if (node.Expression is MemberExpression nme)
+                    {
+                        name = nme?.Member?.Name ?? throw new ArgumentNullException("((MemberExpression?)node.Expression)?.Member?.Name");
+                    }
+                    else
+                    {
+                        name = node.Expression.ToString();
+                    }
+                }
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
@@ -440,14 +449,8 @@ namespace Weknow.CypherBuilder
                 && typeof(ParameterDeclaration).IsAssignableFrom(pme.Method.DeclaringType))
             {
                 Query.Append("$");
-                //if (pme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
-                //    ue.Operand is MemberExpression ime)
-                //{
-                //    Query.Append(ime.Member.Name);
-                //    Query.Append(".");
-                //}
-                //if (!Parameters.ContainsKey(name))
-                //    Parameters.SetToNull(name);
+                if (!Parameters.ContainsKey(name))
+                    Parameters.SetToNull(name);
             }
             else if (node.Expression is MethodCallExpression mce && 
                 (mce.Method.Name == "__" || mce.Method.Name == "_") &&

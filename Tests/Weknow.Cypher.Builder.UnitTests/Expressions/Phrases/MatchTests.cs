@@ -268,6 +268,41 @@ SET n:Person:Manager", cypher.Query);
 
         #endregion // MATCH (n:Person { Id: $Id }) SET n:Person:Manager
 
+        #region MATCH (n)-->(m) RETURN m
+
+        [Fact]
+        public void Match_Pattern_Test()
+        {
+            var (n, m) = Variables.CreateMulti();
+            CypherCommand cypher = _(() => 
+                                    Match(N(n) > N(m))
+                                    .Return(m));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n)-->(m){NewLine}" +
+"RETURN m", cypher.Query);
+        }
+
+        #endregion // MATCH (n)-->(m) RETURN m
+
+        #region MATCH (n)-->(m) RETURN m
+
+        [Fact]
+        public void Match_Pattern_Inline_Test()
+        {
+            CypherCommand cypher = _(n => m => 
+                                    Match(N(n) > N(m))
+                                    .Return(m));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n)-->(m){NewLine}" +
+"RETURN m", cypher.Query);
+        }
+
+        #endregion // MATCH (n)-->(m) RETURN m
+
         #region MATCH (n:Person { Id: $Id }) SET n:Person:Manager
 
         [Fact]

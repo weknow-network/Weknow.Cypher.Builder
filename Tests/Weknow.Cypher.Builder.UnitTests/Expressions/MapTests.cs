@@ -23,25 +23,71 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region Match_SetAsMap_Update_Test
+        #region MATCH (n:Person {{ Id: $Id }}) SET n += $p
 
         [Fact]
         public void Match_SetAsMap_Update_Test()
         {
-            var (Id, p) = Parameters.CreateMulti();
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person, new { n.__.Id }))
+                                    .SetPlus(n, n.Prm));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n:Person {{ Id: n.Id }}){NewLine}" +
+"SET n += $n", cypher.Query);
+
+            Assert.Equal(1, cypher.Parameters.Count);
+            Assert.True(cypher.Parameters.ContainsKey("n"));
+        }
+
+        #endregion // MATCH (n:Person {{ Id: $Id }}) SET n += $p
+
+        #region MATCH (n:Person {{ Id: $Id }}) SET n += $p
+
+        [Fact]
+        public void Match_SetAsMap_Update_Inline_Test()
+        {
             CypherCommand cypher = _(n =>
-                                    Match(N(n, Person, new { Id }))
+                                    Match(N(n, Person, new { n.__<Foo>().Id }))
+                                    .SetPlus(n, n.Prm));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n:Person {{ Id: n.Id }}){NewLine}" +
+"SET n += $n", cypher.Query);
+
+            Assert.Equal(1, cypher.Parameters.Count);
+            Assert.True(cypher.Parameters.ContainsKey("n"));
+        }
+
+        #endregion // MATCH (n:Person {{ Id: $Id }}) SET n += $p
+
+        #region MATCH (n:Person {{ Id: $Id }}) SET n += $p
+
+        [Fact]
+        public void Match_SetAsMap_Explicit_Update_Test()
+        {
+            var p = Parameters.Create<Foo>();
+            CypherCommand cypher = _(n =>
+                                    Match(N(n, Person, new { p._.Id }))
                                     .SetPlus(n, p));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
 $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 "SET n += $p", cypher.Query);
+
+            Assert.Equal(2, cypher.Parameters.Count);
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Foo.Id)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(p)));
         }
 
-        #endregion // Match_SetAsMap_Update_Test
+        #endregion // MATCH (n:Person {{ Id: $Id }}) SET n += $p
 
-        #region CreateAsMap_Test
+        #region CREATE (n:Person $n)
 
         [Fact]
         public void CreateAsMap_Test()
@@ -55,9 +101,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             Assert.Equal("CREATE (n:Person $n)", cypher.Query);
         }
 
-        #endregion // CreateAsMap_Test
+        #endregion // CREATE (n:Person $n)
 
-        #region CreateAsMap_WithParamName_Test
+        #region CREATE (n:Person $map)
 
         [Fact]
         public void CreateAsMap_WithParamName_Test()
@@ -72,9 +118,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             Assert.Equal("CREATE (n:Person $map)", cypher.Query);
         }
 
-        #endregion // CreateAsMap_WithParamName_Test
+        #endregion // "CREATE (n:Person $map)
 
-        #region Node_Variable_Label_Map_Test
+        #region Reuse: (n:Person $n)
 
         [Fact]
         public void Node_Variable_Label_Test()
@@ -89,9 +135,9 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_Map_Test
+        #endregion // Reuse: (n:Person $n)
 
-        #region Node_Variable_Label_MapAsVar_Test
+        #region CREATE (n:Person $map)
 
         [Fact]
         public void Node_Variable_Label_MapAsVar_Test()
@@ -107,7 +153,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
-        #endregion // Node_Variable_Label_MapAsVar_Test
+        #endregion // CREATE (n:Person $map)
     }
 }
 

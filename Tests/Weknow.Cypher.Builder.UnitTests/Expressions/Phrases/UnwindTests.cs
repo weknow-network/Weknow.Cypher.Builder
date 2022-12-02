@@ -131,8 +131,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_Set_Map_Test()
     {
         var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti();
-        CypherCommand cypher = _(() => Unwind(items, map,
+        CypherCommand cypher = _(n => map => Unwind(items, map,
                                     Create(N(n, Person))
                                     .Set(n, map)
                                     .Return(n)));
@@ -145,6 +144,27 @@ RETURN n", cypher.Query);
     }
 
     #endregion // UNWIND $items AS map CREATE (n:Person) SET n = map RETURN n
+
+    #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item
+
+    [Fact]
+    public void Unwind_Entities_Update_Inline_Test()
+    {
+        var items = Parameters.Create();
+        var item = Variables.Create<Foo>();
+
+        CypherCommand cypher = _(n =>
+                                Unwind(items, item,
+                                Match(N(n, Person, new { item.__.Id }))
+                                .SetPlus(n, item)));
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { Id: item.Id })
+SET n += item", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item 
 
     #region UNWIND $items AS item MATCH (n:Person { Id: item.Id }) SET n += item
 

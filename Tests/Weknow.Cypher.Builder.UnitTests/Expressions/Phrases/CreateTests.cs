@@ -36,6 +36,58 @@ namespace Weknow.CypherBuilder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("CREATE (n:Person { PropA: $PropA, PropB: $PropB })", cypher.Query);
+
+            Assert.True(cypher.Parameters.ContainsKey(nameof(PropA)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(PropB)));
+
+            var prms = cypher.Parameters
+                             .AddOrUpdate(nameof(PropA), "Hello")
+                             .AddOrUpdate(nameof(PropB), "World");
+
+        }
+
+        #endregion // CREATE (n:Person { PropA: $PropA, PropB: $PropB })
+
+        #region CREATE (n:Person { PropA: $PropA, PropB: $PropB })
+
+        [Fact]
+        public void Create_VarPrm_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() => Create(N(n, Person, new { n.Prm._.Id, n.Prm._.Name })));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("CREATE (n:Person { Id: $Id, Name: $Name })", cypher.Query);
+
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Foo.Id)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Foo.Name)));
+
+            var prms = cypher.Parameters
+                             .AddOrUpdate(nameof(Foo.Id), "Hello")
+                             .AddOrUpdate(nameof(Foo.Name), "World");
+
+        }
+
+        #endregion // CREATE (n:Person { PropA: $PropA, PropB: $PropB })
+
+        #region CREATE (n:Person { PropA: $PropA, PropB: $PropB })
+
+        [Fact]
+        public void Create_InlineVarPrm_Test()
+        {
+            CypherCommand cypher = _(n => Create(N(n, Person, new { n.Prm._<Foo>().Id, n.Prm._<Foo>().Name })));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("CREATE (n:Person { Id: $Id, Name: $Name })", cypher.Query);
+
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Foo.Id)));
+            Assert.True(cypher.Parameters.ContainsKey(nameof(Foo.Name)));
+
+            var prms = cypher.Parameters
+                             .AddOrUpdate(nameof(Foo.Id), "Hello")
+                             .AddOrUpdate(nameof(Foo.Name), "World");
+
         }
 
         #endregion // CREATE (n:Person { PropA: $PropA, PropB: $PropB })
