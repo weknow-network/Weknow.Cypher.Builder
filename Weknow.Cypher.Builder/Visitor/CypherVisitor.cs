@@ -363,6 +363,13 @@ namespace Weknow.CypherBuilder
                 HandleAmbientLabels(name);
                 return node;
             }
+            else if (node.Type == typeof(IType))
+            {
+                if (node.Expression is MemberExpression tme && node.Member.Name == nameof(ILabel.R))
+                {
+                    name = tme.Member.Name;
+                }
+            }
 
             if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
             {
@@ -452,7 +459,7 @@ namespace Weknow.CypherBuilder
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
             }
-            else if (node.Expression is MethodCallExpression mce && 
+            else if (node.Expression is MethodCallExpression mce &&
                 (mce.Method.Name == "__" || mce.Method.Name == "_") &&
                 typeof(VariableDeclaration).IsAssignableFrom(mce.Method.DeclaringType))
             {

@@ -15,6 +15,12 @@
     public interface ILabel
     {
         /// <summary>
+        /// Use Label as a relation
+        /// </summary>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public IType R =>  throw new NotImplementedException();
+
+        /// <summary>
         /// Implements the operator &amp;.
         /// </summary>
         /// <param name="a">a.</param>

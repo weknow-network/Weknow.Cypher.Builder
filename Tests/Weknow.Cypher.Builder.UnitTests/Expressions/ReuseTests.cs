@@ -104,6 +104,21 @@ namespace Weknow.CypherBuilder
 
         #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
 
+        #region (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+
+        [Fact]
+        public void Reuse_Node_As_Type_Test()
+        {
+            var n = Variables.Create();
+            var pattern = Reuse(() => N(n, Locale) - R[Language.R] > N(Language));
+
+            var cypher = pattern.ToString();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"(n:Locale)-[:Language]->(:Language)", cypher);
+        }
+
+        #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+
         #region (a)-[r1]->(b) / Reuse_N_R_N_Test
 
         [Fact]

@@ -6,6 +6,8 @@ namespace Weknow.CypherBuilder
         public static ILabel Person => throw new NotImplementedException();
         public static ILabel Friend => throw new NotImplementedException();
         public static ILabel Animal => throw new NotImplementedException();
+        public static ILabel Language => throw new NotImplementedException();
+        public static ILabel Locale => throw new NotImplementedException();
         public static ILabel Manager => throw new NotImplementedException();
         public static ILabel Maintainer => throw new NotImplementedException();
         public static IType KNOWS => throw new NotImplementedException();

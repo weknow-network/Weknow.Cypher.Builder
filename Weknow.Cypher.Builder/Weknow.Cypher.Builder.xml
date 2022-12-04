@@ -2889,6 +2889,12 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="P:Weknow.CypherBuilder.ILabel.R">
+            <summary>
+            Use Label as a relation
+            </summary>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:Weknow.CypherBuilder.ILabel.op_BitwiseAnd(Weknow.CypherBuilder.ILabel,Weknow.CypherBuilder.ILabel)">
             <summary>
             Implements the operator &amp;.
