@@ -7,17 +7,15 @@ namespace Weknow
     /// </summary>
     public class CypherAmbientLabelConfig
     {
-        private readonly CypherNamingConfig _naming;
-
         #region Ctor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CypherAmbientLabelConfig"/> class.
+        /// Initializes a new instance of the <see cref="CypherAmbientLabelConfig" /> class.
         /// </summary>
-        /// <param name="naming">The naming.</param>
-        public CypherAmbientLabelConfig(CypherNamingConfig naming)
+        /// <param name="parent">The parent.</param>
+        public CypherAmbientLabelConfig(CypherConfig parent)
         {
-            _naming = naming;
+            Parent = parent;
         }
 
         #endregion // Ctor
@@ -79,7 +77,9 @@ namespace Weknow
             IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
             var values = Values.Select(m => AmbientFormat(m));
             formatted = formatted.Concat(values);
-            string result = string.Join(":", formatted);
+
+            var separator = Parent.Separator;
+            string result = string.Join(separator, formatted);
             return result;
         }
 
@@ -114,8 +114,9 @@ namespace Weknow
         /// <exception cref="ArgumentNullException">text</exception>
         internal protected string FormatByConvention<T>(T text)
         {
-            bool formatLabel = (_naming.ConventionAffects & Label) != None;
-            CypherNamingConvention convention = formatLabel ? _naming.Convention : CypherNamingConvention.Default;
+            var naming = Parent.Naming;
+            bool formatLabel = (naming.ConventionAffects & Label) != None;
+            CypherNamingConvention convention = formatLabel ? naming.Convention : CypherNamingConvention.Default;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
             string result = CypherNamingConfig.FormatByConvention(statement, convention);
             return result;
@@ -134,5 +135,14 @@ namespace Weknow
         public override string ToString() => Combine();
 
         #endregion // ToString
+
+        #region Parent
+
+        /// <summary>
+        /// Gets the parent configuration.
+        /// </summary>
+        internal CypherConfig Parent { get; }
+
+        #endregion // Parent
     }
 }

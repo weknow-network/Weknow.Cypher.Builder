@@ -460,6 +460,17 @@ public static partial class CypherExtensions
     [Cypher("$0\r\n&RETURN $1$2")]
     public static Fluent Return(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
 
+    /// <summary>
+    /// RETURN phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <example>
+    /// RETURN
+    /// </example>
+    [Cypher("$0\r\n&RETURN")]
+    public static Fluent Return(this Fluent p) => throw new NotImplementedException();
+
     #endregion // Return
 
     #region ReturnDistinct
@@ -640,8 +651,8 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&FOREACH ($1 IN $[]2 |\r\n\t$3)")]
     public static Fluent Foreach<T>(
-        this Fluent prev, 
-        VariableDeclaration item, 
+        this Fluent prev,
+        VariableDeclaration item,
         IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
 
 
@@ -661,9 +672,9 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&FOREACH ($1 IN $2 |\r\n\t$3)")]
     public static Fluent Foreach(
-        this Fluent prev, 
-        VariableDeclaration item, 
-        VariableDeclaration items, 
+        this Fluent prev,
+        VariableDeclaration item,
+        VariableDeclaration items,
         Fluent p) => throw new NotImplementedException();
 
     ///// <summary>
@@ -833,6 +844,94 @@ public static partial class CypherExtensions
     public static Fluent WithRawCypher(this Fluent p, RawCypher cypher) => throw new NotImplementedException();
 
     #endregion // WithRawCypher
+
+    #region CASE
+
+    /// <summary>
+    /// CASE WHEN ELSE END
+    /// https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="var">The variable.</param>
+    /// <example>
+    /// <![CDATA[
+    /// CASE n.eyes
+    ///   WHEN 'blue' THEN 1
+    ///   WHEN 'brown' THEN 2
+    ///   ELSE 3
+    /// END
+    /// ]]>  
+    /// </example>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nCASE $1\r\n")]
+    public static FluentCase Case(this Fluent p, object var) => throw new NotImplementedException();
+
+    /// <summary>
+    /// CASE WHEN ELSE END
+    /// https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <example>
+    /// <![CDATA[ 
+    /// CASE
+    ///     WHEN n.eyes = 'blue' THEN 1
+    ///     WHEN n.age< 40 THEN 2
+    ///     ELSE 3
+    /// END   
+    /// 
+    /// ---
+    /// 
+    /// MATCH(n)-[r]->(m)
+    /// RETURN
+    /// CASE
+    ///   WHEN n:A&B THEN 1
+    ///   WHEN r:!R1&!R2 THEN 2
+    ///   ELSE -1
+    /// END AS result   
+    /// ]]>  
+    /// </example>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nCASE")]
+    public static FluentCase Case(this Fluent p) => throw new NotImplementedException();
+
+    #endregion // CASE
+
+    #region When
+
+    [Cypher("$0\r\n\tWHEN $1")]
+    public static FluentCaseWhen When(this FluentCase prv, object condition) => throw new NotImplementedException();
+
+
+    [Cypher("$0\r\n\tWHEN $1$2")]
+    public static FluentCaseWhen When(this FluentCase prv, VariableDeclaration var, ILabel label) => throw new NotImplementedException();
+
+    [Cypher("$0\r\n\tWHEN $1$2")]
+    public static FluentCaseWhen When(this FluentCase prv, VariableDeclaration var, IType type) => throw new NotImplementedException();
+
+    #endregion // When
+
+
+    [Cypher("$0 THEN $1")]
+    public static FluentCase Then(this FluentCaseWhen prv, object? value ) => throw new NotImplementedException();
+
+
+    #region Else
+
+    [Cypher("$0\r\n\tELSE $1")]
+    public static FluentCase Else(this FluentCase prv, object? value ) => throw new NotImplementedException();
+
+    #endregion // Else
+
+    #region End
+
+    [Cypher("$0\r\nEND")]
+    public static Fluent End(this FluentCase prv) => throw new NotImplementedException();
+    [Cypher("$0\r\nEND AS $1")]
+    public static Fluent End(this FluentCase prv, object? alias ) => throw new NotImplementedException();
+
+    #endregion // End
 
     //#region Coalesce / coalesce(n)
 

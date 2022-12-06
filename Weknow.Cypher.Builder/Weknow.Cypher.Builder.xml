@@ -455,6 +455,20 @@
             <param name="var">The variable.</param>
             <returns></returns>
         </member>
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.FluentCase">
+            <summary>
+            Fluent Case delegate is the underline used to glue the CASE Cypher expression.
+            </summary>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherDelegates.FluentCaseWhen">
+            <summary>
+            Fluent Case delegate is the underline used to glue the CASE Cypher expression.
+            </summary>
+            <param name="var">The variable.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherDelegates.Project`2">
             <summary>
             <![CDATA[Pattern delegate of T.
@@ -859,6 +873,16 @@
             RETURN n
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Return(Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            RETURN
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.ReturnDistinct(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN DISTINCT phrase.
@@ -1124,6 +1148,53 @@
             </summary>
             <param name="p">previous part</param>
             <param name="cypher">The cypher.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Case(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object)">
+            <summary>
+            CASE WHEN ELSE END
+            https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+            </summary>
+            <param name="p">The p.</param>
+            <param name="var">The variable.</param>
+            <example>
+            <![CDATA[
+            CASE n.eyes
+              WHEN 'blue' THEN 1
+              WHEN 'brown' THEN 2
+              ELSE 3
+            END
+            ]]>  
+            </example>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Case(Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            CASE WHEN ELSE END
+            https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+            </summary>
+            <param name="p">The p.</param>
+            <example>
+            <![CDATA[ 
+            CASE
+                WHEN n.eyes = 'blue' THEN 1
+                WHEN n.age< 40 THEN 2
+                ELSE 3
+            END   
+            
+            ---
+            
+            MATCH(n)-[r]->(m)
+            RETURN
+            CASE
+              WHEN n:A&B THEN 1
+              WHEN r:!R1&!R2 THEN 2
+              ELSE -1
+            END AS result   
+            ]]>  
+            </example>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -2252,6 +2323,51 @@
             WHERE a.name = 'Alice' AND c.name = 'Eskil'
             RETURN relationships(p)
             </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Case(System.Object)">
+            <summary>
+            CASE WHEN ELSE END
+            https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+            </summary>
+            <param name="var">The variable.</param>
+            <example>
+            <![CDATA[
+            CASE n.eyes
+              WHEN 'blue' THEN 1
+              WHEN 'brown' THEN 2
+              ELSE 3
+            END 
+            ]]>  
+            </example>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Case">
+            <summary>
+            CASE WHEN ELSE END
+            https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+            </summary>
+            <example>
+            <![CDATA[
+            CASE
+                WHEN n.eyes = 'blue' THEN 1
+                WHEN n.age< 40 THEN 2
+                ELSE 3
+            END   
+            
+            ---
+            
+            MATCH(n)-[r]->(m)
+            RETURN
+            CASE
+              WHEN n:A&B THEN 1
+              WHEN r:!R1&!R2 THEN 2
+              ELSE -1
+            END AS result   
+            ]]>  
+            </example>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Weknow.CypherBuilder.ParamsFirst`1">
             <summary>
@@ -3659,11 +3775,11 @@
             Label configuration
             </summary>
         </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherNamingConfig)">
+        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherConfig)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig" /> class.
             </summary>
-            <param name="naming">The naming.</param>
+            <param name="parent">The parent.</param>
         </member>
         <member name="P:Weknow.CypherAmbientLabelConfig.Values">
             <summary>
@@ -3721,6 +3837,11 @@
             A <see cref="T:System.String" /> that represents this instance.
             </returns>
         </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Parent">
+            <summary>
+            Gets the parent configuration.
+            </summary>
+        </member>
         <member name="T:Weknow.CypherConfig">
             <summary>
             The cypher builder configuration.
@@ -3728,7 +3849,7 @@
         </member>
         <member name="F:Weknow.CypherConfig.Scope">
             <summary>
-            Using asyn configuration scope
+            Using async configuration scope
             </summary>
         </member>
         <member name="M:Weknow.CypherConfig.#ctor">
@@ -3746,12 +3867,34 @@
             Gets the naming convention.
             </summary>
         </member>
+        <member name="P:Weknow.CypherConfig.Flavor">
+            <summary>
+            The cypher flavor.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherFlavor">
+            <summary>
+            Cypher Flavor
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherFlavor.OpenCypher">
+            <summary>
+            use compatible open cypher
+            https://opencypher.org/
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherFlavor.Neo4j5">
+            <summary>
+            use neo4j 5 compatible cypher
+            https://neo4j.com/docs/cypher-cheat-sheet/current/
+            </summary>
+        </member>
         <member name="T:Weknow.CypherNamingConfig">
             <summary>
             Naming convention
             </summary>
         </member>
-        <member name="M:Weknow.CypherNamingConfig.#ctor">
+        <member name="M:Weknow.CypherNamingConfig.#ctor(Weknow.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
             </summary>
@@ -3785,6 +3928,11 @@
             <param name="text">The text.</param>
             <param name="convention">The convention.</param>
             <returns></returns>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.Parent">
+            <summary>
+            Gets the parent configuration.
+            </summary>
         </member>
         <member name="T:Weknow.CypherFormat">
             <summary>

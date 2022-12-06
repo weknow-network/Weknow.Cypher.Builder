@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "NoMagic")]
-    [Trait("Segment", "Expression")]
+    
     public class NoMagicTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -123,7 +123,7 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher =
                 _(() => Unwind(items, item,
                             Create(N(n, Person,
-                                    new Foo { Id = (~item)._.Id, Name = (~item)._.Name })))
+                                    new Foo { Id = item.__.Id, Name = item.__.Name })))
                            .Set(n, item));
 
             _outputHelper.WriteLine(cypher);

@@ -6,7 +6,7 @@
     public class CypherConfig
     {
         /// <summary>
-        /// Using asyn configuration scope
+        /// Using async configuration scope
         /// </summary>
         public static AsyncLocal<Action<CypherConfig>?> Scope = new AsyncLocal<Action<CypherConfig>?>();
 
@@ -15,8 +15,8 @@
         /// </summary>
         public CypherConfig()
         {
-            AmbientLabels = new CypherAmbientLabelConfig(Naming);
-
+            AmbientLabels = new CypherAmbientLabelConfig(this);
+            Naming = new CypherNamingConfig(this);
         }
 
         /// <summary>
@@ -27,6 +27,18 @@
         /// <summary>
         /// Gets the naming convention.
         /// </summary>
-        public CypherNamingConfig Naming { get; private set; } = new CypherNamingConfig();
-    }
+        public CypherNamingConfig Naming { get; private set; }
+
+        /// <summary>
+        /// The cypher flavor.
+        /// </summary>
+        public CypherFlavor Flavor { get; set; } = CypherFlavor.OpenCypher;
+
+        public char Separator => Flavor switch
+            {
+                CypherFlavor.Neo4j5 => '&',
+                _ => ':'
+            };
+
+}
 }

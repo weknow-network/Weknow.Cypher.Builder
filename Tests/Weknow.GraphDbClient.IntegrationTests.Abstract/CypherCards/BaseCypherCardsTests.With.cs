@@ -28,7 +28,7 @@ public partial class BaseCypherCardsTests
 
         CypherCommand cypherOfUsers = _(() =>
                                 Unwind(users, map,
-                                     Merge(N(user, Person, new { key = (~map)._.key /* result in map.key*/ }))
+                                     Merge(N(user, Person, new { key = map.__.key /* result in map.key*/ }))
                                        .Set(user, map)));
 
 
@@ -46,7 +46,7 @@ public partial class BaseCypherCardsTests
                                     .Where(user._.key == id)
                                     .With(user)
                                     .Unwind(friends.AsParameter, map,
-                                         Merge(N(friend, Friend, new { key = (~map)._.key }))
+                                         Merge(N(friend, Friend, new { key = map.__.key }))
                                             .Set(friend, map)
                                          .Merge(N(user) - R[Knows] > N(friend))));
 
@@ -103,7 +103,7 @@ public partial class BaseCypherCardsTests
 
         CypherCommand cypherOfUsers = _(() =>
                                 Unwind(users, map,
-                                     Merge(N(user, Person, new { key = (~map)._.key /* result in map.key*/ }))
+                                     Merge(N(user, Person, new { key = map.__.key /* result in map.key*/ }))
                                        .Set(user, map)));
 
 
@@ -121,7 +121,7 @@ public partial class BaseCypherCardsTests
                                     .Where(user._.key == id)
                                     .With(user)
                                     .Unwind(friends.Prm, map,
-                                         Merge(N(friend, Friend, new { key = (~map)._.key }))
+                                         Merge(N(friend, Friend, new { key = map.__.key }))
                                             .Set(friend, map)
                                          .Merge(N(user) - R[Knows] > N(friend))));
 

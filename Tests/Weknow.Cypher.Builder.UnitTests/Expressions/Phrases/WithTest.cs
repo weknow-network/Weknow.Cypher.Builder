@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder;
 
 [Trait("TestType", "Unit")]
 [Trait("Group", "Phrases")]
-[Trait("Segment", "Expression")]
+
 public class WithTests
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -90,11 +90,11 @@ public class WithTests
 
         CypherCommand cypher = _(() =>
                     Unwind(items, map,
-                    Merge(N(n, Person, new { (~map)._.Id }))
+                    Merge(N(n, Person, new { map.__.Id }))
                     .OnCreateSet(n, map)
                     .OnMatchSetPlus(n, map)
                     .With()
-                    .Match(N(i, Person, new { (~map)._.Id }))
+                    .Match(N(i, Person, new { map.__.Id }))
                     .Return(n)),
                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
         ;
@@ -123,11 +123,11 @@ public class WithTests
 
         CypherCommand cypher = _(() =>
                     Unwind(items, map,
-                    Merge(N(n, Person, new { (~map)._.Id }))
+                    Merge(N(n, Person, new { map.__.Id }))
                     .OnCreateSet(n, map)
                     .OnMatchSetPlus(n, map)
                     .With(n, map)
-                    .Match(N(i, Person, new { (~map)._.Id }))
+                    .Match(N(i, Person, new { map.__.Id }))
                     .Return(i)),
                     cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
 
@@ -159,7 +159,7 @@ public class WithTests
                                 Match(N(user, Person))
                                 .With(user)
                                 .Unwind(friends.AsParameter, map,
-                                     Merge(N(friend, Friend, new { key = (~map)._.key }))
+                                     Merge(N(friend, Friend, new { key = map.__.key }))
                                         .Set(friend, map)
                                      .Merge(N(user) - R[KNOWS] > N(friend))));
 

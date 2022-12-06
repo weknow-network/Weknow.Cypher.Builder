@@ -19,6 +19,20 @@ namespace Weknow.CypherBuilder
         public delegate Fluent Fluent(VariableDeclaration var);
 
         /// <summary>
+        /// Fluent Case delegate is the underline used to glue the CASE Cypher expression.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        public delegate FluentCase FluentCase(VariableDeclaration var);
+
+        /// <summary>
+        /// Fluent Case delegate is the underline used to glue the CASE Cypher expression.
+        /// </summary>
+        /// <param name="var">The variable.</param>
+        /// <returns></returns>
+        public delegate FluentCase FluentCaseWhen(VariableDeclaration var);
+
+        /// <summary>
         /// <![CDATA[Pattern delegate of T.
         /// Used for having IVar<T>]]>
         /// </summary>

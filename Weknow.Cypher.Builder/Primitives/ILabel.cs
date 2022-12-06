@@ -30,6 +30,7 @@
         /// </returns>
         /// <example><![CDATA[(n:Person:Animal)]]></example>
         public static ILabel operator &(ILabel a, ILabel b) => throw new NotImplementedException();
+        public static ILabel operator !(ILabel a) => throw new NotImplementedException();
     }
 
 }

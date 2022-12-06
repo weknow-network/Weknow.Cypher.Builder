@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    [Trait("Segment", "Expression")]
+    
     public class WhereTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -299,7 +299,7 @@ WHERE $p_1 }", cypher.Query);
 
             CypherCommand cypher = _(() =>
                                     Unwind(items, item,
-                                    Match(N(n, Person, new { (~item)._.Id }))
+                                    Match(N(n, Person, new { item.__.Id }))
                                     .Where(n._.Name != item._.Name)));
 
             _outputHelper.WriteLine(cypher);

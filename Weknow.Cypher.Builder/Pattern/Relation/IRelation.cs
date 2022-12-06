@@ -47,7 +47,7 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS]-(n)]]>
         /// </example>
-        IRelation this[VariableDeclaration var, IType type] { [Cypher("[$0:$1]")] get; }
+        IRelation this[VariableDeclaration var, IType type] { [Cypher("[$0$1]")] get; }
 
         /// <summary>
         /// Represent relation with variable, type and properties.
@@ -62,7 +62,7 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// <![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]>
         /// </example>
-        IRelation this[VariableDeclaration var, IType type, object properties] { [Cypher("[$0:$1 $2]")] get; }
+        IRelation this[VariableDeclaration var, IType type, object properties] { [Cypher("[$0$1 $2]")] get; }
         /// <summary>
         /// Represent relation with variable, type and properties.
         /// </summary>
@@ -138,7 +138,7 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[VariableDeclaration var, IType type, object properties, Rng r] { [Cypher("[$0:$1 $2 $3]")] get; }
+        IRelation this[VariableDeclaration var, IType type, object properties, Rng r] { [Cypher("[$0$1 $2 $3]")] get; }
 
         #endregion // Indexers this [...]
 

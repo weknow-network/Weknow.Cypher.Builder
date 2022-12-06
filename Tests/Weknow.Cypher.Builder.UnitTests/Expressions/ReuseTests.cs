@@ -10,7 +10,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
-    [Trait("Segment", "Expression")]
+    
     public class ReuseTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -251,7 +251,7 @@ namespace Weknow.CypherBuilder
                 _(() =>
                              Unwind(items, item,
                                 //                       Id = item.Id
-                                Match(N(n, Person, new { (~item)._.Id }), user)
+                                Match(N(n, Person, new { item.__.Id }), user)
                                 .Merge(by)
                                 .Return(n)));
 

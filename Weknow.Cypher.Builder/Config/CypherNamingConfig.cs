@@ -15,7 +15,7 @@ namespace Weknow
         /// <summary>
         /// Initializes a new instance of the <see cref="CypherNamingConfig"/> class.
         /// </summary>
-        public CypherNamingConfig()
+        public CypherNamingConfig(CypherConfig parent)
         {
             _pluralizeImp = new Pluralizer();
             Pluralization =
@@ -23,6 +23,7 @@ namespace Weknow
                                 word => _pluralizeImp.Pluralize(word),
                                 word => _pluralizeImp.Singularize(word)
                             );
+            Parent = parent;
         }
 
         #endregion // Ctor
@@ -94,5 +95,9 @@ namespace Weknow
 
         #endregion // FormatByConvention
 
+        /// <summary>
+        /// Gets the parent configuration.
+        /// </summary>
+        internal CypherConfig Parent { get; }
     }
 }

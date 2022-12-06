@@ -150,7 +150,7 @@ public partial interface ICypher
     public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
     [Cypher("($0 $1)")]
     public static INode N(VariableDeclaration var, object properties) => throw new NotImplementedException();
-    [Cypher("($0 $1)")]
+    [Cypher("(:$0 $1)")]
     public static INode N(ILabel label, object properties) => throw new NotImplementedException();
 
     #endregion // IPattern N (Node)
@@ -1049,4 +1049,54 @@ public partial interface ICypher
 
     #endregion relationships
 
+    #region CASE
+
+    /// <summary>
+    /// CASE WHEN ELSE END
+    /// https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+    /// </summary>
+    /// <param name="var">The variable.</param>
+    /// <example>
+    /// <![CDATA[
+    /// CASE n.eyes
+    ///   WHEN 'blue' THEN 1
+    ///   WHEN 'brown' THEN 2
+    ///   ELSE 3
+    /// END 
+    /// ]]>  
+    /// </example>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("CASE $0\r\n")]
+    public static FluentCase Case(object var) => throw new NotImplementedException();
+
+    /// <summary>
+    /// CASE WHEN ELSE END
+    /// https://neo4j.com/docs/cypher-manual/5/syntax/expressions/
+    /// </summary>
+    /// <example>
+    /// <![CDATA[
+    /// CASE
+    ///     WHEN n.eyes = 'blue' THEN 1
+    ///     WHEN n.age< 40 THEN 2
+    ///     ELSE 3
+    /// END   
+    /// 
+    /// ---
+    /// 
+    /// MATCH(n)-[r]->(m)
+    /// RETURN
+    /// CASE
+    ///   WHEN n:A&B THEN 1
+    ///   WHEN r:!R1&!R2 THEN 2
+    ///   ELSE -1
+    /// END AS result   
+    /// ]]>  
+    /// </example>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("CASE\r\n")]
+    public static FluentCase Case() => throw new NotImplementedException();
+
+    #endregion // CASE
 }

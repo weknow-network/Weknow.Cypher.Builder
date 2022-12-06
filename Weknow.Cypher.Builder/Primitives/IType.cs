@@ -23,5 +23,7 @@
         /// </returns>
         /// <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
         public static IType operator |(IType a, IType b) => throw new NotImplementedException();
+        public static IType operator &(IType a, IType b) => throw new NotImplementedException();
+        public static IType operator !(IType a) => throw new NotImplementedException();
     }
 }
