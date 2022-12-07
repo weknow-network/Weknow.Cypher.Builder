@@ -6,8 +6,6 @@ using static Weknow.CypherBuilder.CypherDelegates;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
-// TODO: [bnaya 2022-10-20] source code generator of the cypher
-
 namespace Weknow.CypherBuilder;
 
 /// <summary>
@@ -349,9 +347,8 @@ public partial interface ICypher
     /// <summary>
     /// SET phrase.
     /// </summary>
-    /// <param name="fluent">The fluent.</param>
-    /// <param name="var"></param>
-    /// <param name="assignment"></param>
+    /// <param name="var">The variable.</param>
+    /// <param name="assignment">The assignment.</param>
     /// <returns></returns>
     /// <example>
     /// .Set(n, map)
@@ -365,7 +362,6 @@ public partial interface ICypher
     /// <summary>
     /// SET  phrase.
     /// </summary>
-    /// <param name="fluent">The fluent.</param>
     /// <param name="var">The variable.</param>
     /// <param name="assignment">The complex.</param>
     /// <returns></returns>

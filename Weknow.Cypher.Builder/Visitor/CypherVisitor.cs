@@ -345,7 +345,7 @@ namespace Weknow.CypherBuilder
                     }
                     else
                     {
-                        name = node.Expression.ToString();
+                        name = node.Expression?.ToString() ?? throw new ArgumentNullException("Null expression");
                     }
                 }
                 if (!Parameters.ContainsKey(name))
@@ -429,7 +429,7 @@ namespace Weknow.CypherBuilder
                 if (mce.Method.Name == "__" && mce.Object.Type == typeof(VariableDeclaration))
                 {
                     Query?.Append(mce.Object);
-                    Query.Append(".");
+                    Query?.Append(".");
                 }
             }
 
@@ -829,7 +829,8 @@ namespace Weknow.CypherBuilder
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
-            // TODO: [bnaya 2022-12-06] n += $map
+            // TODO: [bnaya 2022-12-06] support n += $map
+
             if (node.NodeType == ExpressionType.Not)
                 Query.Append("!");
             return base.VisitUnary(node);
