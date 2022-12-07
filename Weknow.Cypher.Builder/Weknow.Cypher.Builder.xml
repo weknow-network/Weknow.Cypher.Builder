@@ -1394,6 +1394,24 @@
             <param name="alias">The name.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="prv"></param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Object)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="prv"></param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Define variable's alias
@@ -1758,6 +1776,15 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Return">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <returns></returns>
+            <example>
+            RETURN n
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Return(Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN phrase.
@@ -1765,7 +1792,6 @@
             <param name="var">The first variable.</param>
             <param name="vars">Rest of the variables.</param>
             <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
             <example>
             RETURN n
             </example>
@@ -1878,9 +1904,8 @@
             <summary>
             SET phrase.
             </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
             <returns></returns>
             <example>
             .Set(n, map)
@@ -1892,7 +1917,6 @@
             <summary>
             SET  phrase.
             </summary>
-            <param name="fluent">The fluent.</param>
             <param name="var">The variable.</param>
             <param name="assignment">The complex.</param>
             <returns></returns>
@@ -2509,6 +2533,36 @@
             </summary>
             <param name="l">The l.</param>
             <param name="r">The r.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_Subtraction(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INodeRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_GreaterThan(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INodeRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_LessThan(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INodeRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3899,14 +3953,9 @@
             Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
             </summary>
         </member>
-        <member name="P:Weknow.CypherNamingConfig.Convention">
+        <member name="P:Weknow.CypherNamingConfig.LabelConvention">
             <summary>
             Gets or sets the convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.ConventionAffects">
-            <summary>
-            Gets or sets the convention affects.
             </summary>
         </member>
         <member name="P:Weknow.CypherNamingConfig.Pluralization">

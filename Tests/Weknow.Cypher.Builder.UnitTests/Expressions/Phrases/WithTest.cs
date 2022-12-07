@@ -39,7 +39,7 @@ public class WithTests
                     .With()
                     .Match(N(i, Person, new { Id }))
                     .Return(i._.Name),
-                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                    cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
         ;
 
         _outputHelper.WriteLine(cypher.Dump());
@@ -66,7 +66,7 @@ public class WithTests
                     .With(n)
                     .Match(N(i, Person, new { Id }))
                     .Return(i._.Name),
-                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                    cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
         ;
 
         _outputHelper.WriteLine(cypher.Dump());
@@ -96,7 +96,7 @@ public class WithTests
                     .With()
                     .Match(N(i, Person, new { map.__.Id }))
                     .Return(n)),
-                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                    cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
         ;
 
         _outputHelper.WriteLine(cypher.Dump());
@@ -129,7 +129,7 @@ public class WithTests
                     .With(n, map)
                     .Match(N(i, Person, new { map.__.Id }))
                     .Return(i)),
-                    cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                    cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher.Dump());
         Assert.Equal(
@@ -149,7 +149,7 @@ public class WithTests
     [Fact]
     public void With_Unwind_Test()
     {
-        CypherConfig.Scope.Value = cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+        CypherConfig.Scope.Value = cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
 
         var users = Parameters.Create();
         var (user, friend, friends) = Variables.CreateMulti();
@@ -180,7 +180,7 @@ public class WithTests
     [Fact]
     public void With_Count_Test()
     {
-        CypherConfig.Scope.Value = cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+        CypherConfig.Scope.Value = cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
 
         var users = Parameters.Create();
         var friends = Variables.Create();

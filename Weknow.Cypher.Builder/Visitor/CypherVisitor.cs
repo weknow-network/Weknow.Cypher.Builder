@@ -19,6 +19,8 @@ namespace Weknow.CypherBuilder
         private readonly HashSet<string> _ambientOnce = new();
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
+        private IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
+
 
         #region Ctor
 
@@ -203,6 +205,18 @@ namespace Weknow.CypherBuilder
                 case ExpressionType.OrElse:
                     Query.Append(" OR ");
                     break;
+                case ExpressionType.Modulo:
+                    Query.Append(" % ");
+                    break;
+                case ExpressionType.Divide:
+                    Query.Append(" / ");
+                    break;
+                case ExpressionType.Multiply:
+                    Query.Append(" * ");
+                    break;
+                //case ExpressionType.UnaryPlus:
+                //    Query.Append(" * ");
+                //    break;
             }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -223,6 +237,17 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
+            bool shouldCreatePrms = node.Method.Name switch
+            {
+                nameof(CypherExtensions.Case) => false,
+                nameof(CypherExtensions.When) => false,
+                nameof(CypherExtensions.Then) => false,
+                nameof(CypherExtensions.Else) => false,
+                nameof(CypherGeneralExtensions.As) => false,
+                _ => true
+            };
+            using var _ = _shouldCreateParameter.Push(shouldCreatePrms);
+
             string mtdName = node.Method.Name;
             string type = node.Type.Name;
             ReadOnlyCollection<Expression> args = node.Arguments;
@@ -287,7 +312,8 @@ namespace Weknow.CypherBuilder
 
             var pi = node.Member as PropertyInfo;
 
-            if (node.Member.Name == nameof(DateTime.Now) && node.Member.DeclaringType == typeof(DateTime))
+            bool shouldCreatePrm = _shouldCreateParameter.State;
+            if (shouldCreatePrm && node.Member.Name == nameof(DateTime.Now) && node.Member.DeclaringType == typeof(DateTime))
             {
                 var parameterName = $"p_{Parameters.Count}";
                 Query.Append($"${parameterName}");
@@ -360,14 +386,18 @@ namespace Weknow.CypherBuilder
                 if (me.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
+                    string candidateVariable = string.Empty;
+                    var candidateLen = candidateVariable.Length;
                     if (ime.Expression is MemberExpression me2 &&
                         ime.Member.Name is nameof(VariableDeclaration.AsParameter) or nameof(VariableDeclaration.Prm))
                     {
-                        Query.Append(me2.Member.Name);
+                        candidateVariable = $"{me2.Member.Name}.";
                     }
                     else
-                        Query.Append(ime.Member.Name);
-                    Query.Append(".");
+                        candidateVariable = $"{ime.Member.Name}.";
+
+                    if (Query[^candidateLen..].ToString() != candidateVariable)
+                        Query.Append(candidateVariable);
                     addNullPrm = false;
                 }
                 else if (me.Expression is MemberExpression me1 && me.Member.Name == nameof(ParameterDeclaration<int>.__))
@@ -392,8 +422,10 @@ namespace Weknow.CypherBuilder
                 if (me__.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
-                    Query.Append(ime.Member.Name);
-                    Query.Append(".");
+                    string candidateVariable = $"{ime.Member.Name}.";
+                    var candidateLen = candidateVariable.Length;
+                    if (Query[^candidateLen..].ToString() != candidateVariable)
+                        Query.Append(ime.Member.Name);
                 }
                 if (!Parameters.ContainsKey(name))
                     Parameters.SetToNull(name);
@@ -403,16 +435,20 @@ namespace Weknow.CypherBuilder
                 vme.Member.Name == nameof(VariableDeclaration<int>.__))
                 && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))
             {
+                string candidateVariable = string.Empty;
                 if (vme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
                     ue.Operand is MemberExpression ime)
                 {
-                    Query.Append(ime.Member.Name);
-                    Query.Append(".");
+                    candidateVariable = $"{ime.Member.Name}.";
                 }
                 if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is MemberExpression vme1)
                 {
-                    Query.Append(vme1.Member.Name);
-                    Query.Append(".");
+                    candidateVariable = $"{vme1.Member.Name}.";
+                }
+                var candidateLen = candidateVariable.Length;
+                if (Query[^candidateLen..].ToString() != candidateVariable)
+                {
+                    Query.Append(candidateVariable);
                 }
             }
             else if (node.Expression is MethodCallExpression pme && pme.Method.Name == "_"
@@ -428,8 +464,10 @@ namespace Weknow.CypherBuilder
             {
                 if (mce.Method.Name == "__" && mce.Object.Type == typeof(VariableDeclaration))
                 {
-                    Query?.Append(mce.Object);
-                    Query?.Append(".");
+                    string candidateVariable = $"{mce.Object}.";
+                    var candidateLen = candidateVariable.Length;
+                    if (Query[^candidateLen..].ToString() != candidateVariable)
+                        Query?.Append(candidateVariable);
                 }
             }
 
@@ -558,12 +596,14 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitConstant(ConstantExpression node)
         {
             bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
-            bool isAnalyzer = node.Type.Name == "FullTextAnalyzer";
+            bool isAnalyzer = node.Type.Name == "FullTextAnalyzer"; 
+            bool shouldCreatePrm = _shouldCreateParameter.State;
+
             if (node.Type.FullName == typeof(ConstraintType).FullName)
             {
                 Query.Append(node.Value?.ToString()?.ToSCREAMING(' '));
             }
-            else if (isReturn || isAnalyzer || _isRawChypher)
+            else if (!shouldCreatePrm || isReturn || isAnalyzer || _isRawChypher)
             {
                 Query.Append(node.Value);
             }
@@ -756,6 +796,7 @@ namespace Weknow.CypherBuilder
                 nameof(CypherExtensions.Where) => " = ",
                 nameof(CypherExtensions.OnCreateSet) => " = ",
                 nameof(CypherExtensions.OnMatchSet) => " = ",
+                nameof(CypherExtensions.When) => " = ",
                 nameof(ICypher.Rgx) => " =~ ",
                 _ => null,
             };

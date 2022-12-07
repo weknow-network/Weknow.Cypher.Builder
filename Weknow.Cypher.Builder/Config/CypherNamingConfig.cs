@@ -33,18 +33,9 @@ namespace Weknow
         /// <summary>
         /// Gets or sets the convention.
         /// </summary>
-        public CypherNamingConvention Convention { get; set; } = CypherNamingConvention.Default;
+        public CypherNamingConvention LabelConvention { get; set; } = CypherNamingConvention.Default;
 
         #endregion // Convention
-
-        #region ConventionAffects
-
-        /// <summary>
-        /// Gets or sets the convention affects.
-        /// </summary>
-        public NamingConventionAffects ConventionAffects { get; set; } = NamingConventionAffects.All;
-
-        #endregion // ConventionAffects
 
         #region Pluralization
 

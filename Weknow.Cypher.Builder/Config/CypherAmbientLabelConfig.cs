@@ -115,8 +115,7 @@ namespace Weknow
         internal protected string FormatByConvention<T>(T text)
         {
             var naming = Parent.Naming;
-            bool formatLabel = (naming.ConventionAffects & Label) != None;
-            CypherNamingConvention convention = formatLabel ? naming.Convention : CypherNamingConvention.Default;
+            CypherNamingConvention convention = naming.LabelConvention;
             string statement = text?.ToString() ?? throw new ArgumentNullException(nameof(text));
             string result = CypherNamingConfig.FormatByConvention(statement, convention);
             return result;

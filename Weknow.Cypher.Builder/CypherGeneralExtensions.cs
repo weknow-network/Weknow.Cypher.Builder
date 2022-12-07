@@ -1,5 +1,7 @@
 ﻿using Weknow.CypherBuilder.Declarations;
 
+using static Weknow.CypherBuilder.CypherDelegates;
+
 namespace Weknow.CypherBuilder
 {
     /// <summary>
@@ -17,6 +19,26 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         [Cypher("$0 AS $1")]
         public static VariableDeclaration As(this VariableDeclaration var, string alias) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Define variable's alias
+        /// </summary>
+        /// <param name="prv"></param>
+        /// <param name="alias">The alias.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [Cypher("$0 AS $1")]
+        public static Fluent As(this Fluent prv, VariableDeclaration alias) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Define variable's alias
+        /// </summary>
+        /// <param name="prv"></param>
+        /// <param name="alias">The alias.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [Cypher("$0 AS $1")]
+        public static Fluent As(this Fluent prv, object alias) => throw new NotImplementedException();
 
         /// <summary>
         /// Define variable's alias

@@ -203,10 +203,19 @@ public partial interface ICypher
     /// <summary>
     /// RETURN phrase.
     /// </summary>
+    /// <returns></returns>
+    /// <example>
+    /// RETURN n
+    /// </example>
+    [Cypher("RETURN")]
+    public static Fluent Return() => throw new NotImplementedException();
+
+    /// <summary>
+    /// RETURN phrase.
+    /// </summary>
     /// <param name="var">The first variable.</param>
     /// <param name="vars">Rest of the variables.</param>
     /// <returns></returns>
-    /// <exception cref="System.NotImplementedException"></exception>
     /// <example>
     /// RETURN n
     /// </example>

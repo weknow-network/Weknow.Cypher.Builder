@@ -33,7 +33,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => DropConstraint("test-constraint"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -54,7 +54,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => TryDropConstraint("test-constraint"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -74,7 +74,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => CreateConstraint("test-constraint", N(n, Person), n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -98,7 +98,7 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() => TryCreateConstraint("test-constraint", N(n, Person), n._.Id, n._.Name), cfg =>
             {
                 cfg.AmbientLabels.Add("AmbientLabel"); // index should ignore it
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -123,7 +123,7 @@ namespace Weknow.CypherBuilder
                                                 N(n, Person),
                                                 n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -149,7 +149,7 @@ namespace Weknow.CypherBuilder
                                                 N(n, Person),
                                                 n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -176,7 +176,7 @@ namespace Weknow.CypherBuilder
                                                 N(n, Person),
                                                  n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -202,7 +202,7 @@ namespace Weknow.CypherBuilder
                                                 N(n, Person) - R[r, KNOWS] > N(),
                                                 n._.Id, r._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -236,7 +236,7 @@ OPTIONS {
   }
 }"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 #pragma warning restore CS0618 // Type or member is obsolete
 

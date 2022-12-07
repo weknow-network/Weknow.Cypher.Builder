@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="7.0.0" />
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
-    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.37" />
+    <PackageReference Include="Weknow-BasicExtensions" Version="1.0.41" />
     <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.22" />
   </ItemGroup>
 

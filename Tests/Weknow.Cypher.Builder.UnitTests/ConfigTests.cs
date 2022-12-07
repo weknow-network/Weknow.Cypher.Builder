@@ -85,7 +85,7 @@ namespace Weknow.CypherBuilder
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -111,7 +111,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -132,7 +132,7 @@ RETURN f"
             CypherConfig.Scope.Value = cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         };
             CypherCommand cypher =
 
@@ -160,7 +160,7 @@ RETURN f"
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add("Microsoft");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         };
             CypherCommand cypher =
 
@@ -171,7 +171,7 @@ RETURN f"
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add("Google");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -193,7 +193,7 @@ RETURN f"
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add("Microsoft");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         };
             CypherCommand cypher =
 
@@ -204,7 +204,7 @@ RETURN f"
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add("Google");
-                            cfg.Naming.Convention = CypherNamingConvention.camelCase;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.camelCase;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -230,7 +230,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -254,7 +254,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -276,7 +276,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -304,7 +304,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -332,7 +332,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
-                            cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                         });
 
             _outputHelper.WriteLine(cypher);

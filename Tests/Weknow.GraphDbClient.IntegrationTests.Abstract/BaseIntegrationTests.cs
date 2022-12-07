@@ -25,7 +25,7 @@ public class BaseIntegrationTests : IDisposable
 
     protected Action<CypherConfig> CONFIGURATION = cfg =>
     {
-        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
         cfg.AmbientLabels.Add(TEST_LABEL);
     };
 
@@ -35,7 +35,7 @@ public class BaseIntegrationTests : IDisposable
 
     protected Action<CypherConfig> CONFIGURATION_NO_AMBIENT = cfg =>
     {
-        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
     };
 
     #endregion // Action<CypherConfig> CONFIGURATION_NO_AMBIENT

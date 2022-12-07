@@ -202,7 +202,7 @@ SET n += item", cypher.Query);
                                 Merge(N(n, Person, new { map.__.Id }))
                                 .OnCreateSet(n, map)
                                 .Return(n)),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -230,7 +230,7 @@ SET n += item", cypher.Query);
                                Merge(N(n, Person, new { map.__.Id }))
                                .OnCreateSet(n, map)
                                .Return(n)),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -258,7 +258,7 @@ SET n += item", cypher.Query);
                                Merge(N(n, Person, new { map.__.Id, map.__.Name }))
                                .OnCreateSet(n, map)
                                .Return(n)),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -285,7 +285,7 @@ SET n += item", cypher.Query);
                                Merge(N(n, Person, new { map.__.Id, (~map)._.Name }))
                                .OnCreateSet(n, map)
                                .Return(n)),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -312,7 +312,7 @@ SET n += item", cypher.Query);
                                 Unwind(new[] { 1, 2, 3 }, num,
                                 Unwind(new[] { "a", "b" }, txt,
                                 Return(num, txt))),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -336,7 +336,7 @@ SET n += item", cypher.Query);
                                 Unwind(new[] { 1, 2, 3 }, num,
                                 Unwind(new[] { "a", "b" }, txt,
                                 Return(num, txt))),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -362,7 +362,7 @@ SET n += item", cypher.Query);
                                       R[By] > 
                                       N(m, Maintainer,
                                              new { m.Prm._<Foo>().Id , Date }))),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 
@@ -388,7 +388,7 @@ SET n += item", cypher.Query);
         CypherCommand cypher = _(n =>
                                 Unwind(items, map,
                                 Merge(N(n, Person, new { map.__.Id }) - maintainerPattern)),
-                                cfg => cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE);
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
 

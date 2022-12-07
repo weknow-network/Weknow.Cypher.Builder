@@ -27,6 +27,33 @@ namespace Weknow.CypherBuilder
         /// </returns>
         public static INode operator <(INodeRelation l, INode r) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Declaration for operator -.
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static INodeRelation operator -(INodeRelation r1, INodeRelation r2) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator -.
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static INodeRelation operator >(INodeRelation r1, INodeRelation r2) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator -.
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static INodeRelation operator <(INodeRelation r1, INodeRelation r2) => throw new NotImplementedException();
     }
 
 }

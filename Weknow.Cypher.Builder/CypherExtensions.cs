@@ -864,7 +864,7 @@ public static partial class CypherExtensions
     /// </example>
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    [Cypher("$0\r\nCASE $1\r\n")]
+    [Cypher("$0\r\nCASE $1")]
     public static FluentCase Case(this Fluent p, object var) => throw new NotImplementedException();
 
     /// <summary>
@@ -900,21 +900,34 @@ public static partial class CypherExtensions
 
     #region When
 
-    [Cypher("$0\r\n\tWHEN $1")]
+    [Cypher("$0\r\n\t&WHEN $1")]
     public static FluentCaseWhen When(this FluentCase prv, object condition) => throw new NotImplementedException();
 
+    [Cypher("$0\r\n\t&WHEN '$1'")]
+    public static FluentCaseWhen When(this FluentCase prv, string condition) => throw new NotImplementedException();
 
-    [Cypher("$0\r\n\tWHEN $1$2")]
+    [Cypher("$0\r\n\t&WHEN $1")]
+    public static FluentCaseWhen When(this FluentCase prv, bool condition) => throw new NotImplementedException();
+
+
+    [Cypher("$0\r\n\t&WHEN $1$2")]
     public static FluentCaseWhen When(this FluentCase prv, VariableDeclaration var, ILabel label) => throw new NotImplementedException();
 
-    [Cypher("$0\r\n\tWHEN $1$2")]
+    [Cypher("$0\r\n\t&WHEN $1$2")]
     public static FluentCaseWhen When(this FluentCase prv, VariableDeclaration var, IType type) => throw new NotImplementedException();
 
     #endregion // When
 
 
+    #region Then
+
     [Cypher("$0 THEN $1")]
     public static FluentCase Then(this FluentCaseWhen prv, object? value ) => throw new NotImplementedException();
+
+    [Cypher("$0 THEN '$1'")]
+    public static FluentCase Then(this FluentCaseWhen prv, string value ) => throw new NotImplementedException();
+
+    #endregion // Then
 
 
     #region Else
@@ -922,14 +935,15 @@ public static partial class CypherExtensions
     [Cypher("$0\r\n\tELSE $1")]
     public static FluentCase Else(this FluentCase prv, object? value ) => throw new NotImplementedException();
 
+    [Cypher("$0\r\n\tELSE '$1'")]
+    public static FluentCase Else(this FluentCase prv, string value ) => throw new NotImplementedException();
+
     #endregion // Else
 
     #region End
 
     [Cypher("$0\r\nEND")]
     public static Fluent End(this FluentCase prv) => throw new NotImplementedException();
-    [Cypher("$0\r\nEND AS $1")]
-    public static Fluent End(this FluentCase prv, object? alias ) => throw new NotImplementedException();
 
     #endregion // End
 

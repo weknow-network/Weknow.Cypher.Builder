@@ -33,7 +33,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => DropIndex("test-index"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -53,7 +53,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => TryDropIndex("test-index"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -73,7 +73,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => CreateIndex("test-index", N(n, Person), n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                 cfg.AmbientLabels.Add("AmbientLabel"); // index should ignore it
             });
 
@@ -99,7 +99,7 @@ namespace Weknow.CypherBuilder
                 ,
                 cfg =>
                     {
-                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                     });
 
             _outputHelper.WriteLine(cypher);
@@ -123,7 +123,7 @@ namespace Weknow.CypherBuilder
                TryCreateFullTextIndex("test-index", N(n, Person), FullTextAnalyzer.english, n._.Id, n._.Name),
                 cfg =>
                     {
-                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                     });
 
             _outputHelper.WriteLine(cypher);
@@ -149,7 +149,7 @@ namespace Weknow.CypherBuilder
                 ,
                 cfg =>
                     {
-                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                     });
 
             _outputHelper.WriteLine(cypher);
@@ -173,7 +173,7 @@ namespace Weknow.CypherBuilder
                TryCreateTextIndex("test-index", N(n, Person), n._.Id, n._.Name),
                 cfg =>
                     {
-                        cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                        cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                     });
 
             _outputHelper.WriteLine(cypher);
@@ -195,7 +195,7 @@ namespace Weknow.CypherBuilder
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() => TryCreateIndex("test-index", N(n, Person), n._.Id, n._.Name), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 
             _outputHelper.WriteLine(cypher);
@@ -227,7 +227,7 @@ OPTIONS {
   }
 }"), cfg =>
             {
-                cfg.Naming.Convention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
             });
 #pragma warning restore CS0618 // Type or member is obsolete
 
