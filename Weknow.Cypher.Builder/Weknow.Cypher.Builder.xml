@@ -860,6 +860,18 @@
             WHERE user.name = $name
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Return(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.ParamsFirst{System.Object})">
+            <summary>
+            RETURN phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="var">The first variable.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            RETURN n
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Return(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN phrase.
@@ -1022,6 +1034,22 @@
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="item">The item.</param>
+            <param name="items">The items.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            FOREACH $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             FOREACH phrase.
             </summary>
@@ -1437,6 +1465,13 @@
             <param name="alias">The alias.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherInputAttribute">
+            <summary>
+            decorate object collection which are part of the Cypher Builder API,
+            in order to avoid handling it as collection in the cypher output.
+            </summary>
+            <seealso cref="T:System.Attribute" />
         </member>
         <member name="T:Weknow.CypherBuilder.CypherParameters">
             <summary>

@@ -139,13 +139,9 @@ public partial class BaseCypherCardsTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-
         var users = Parameters.Create();
-        var friends = Variables.Create();
-        var userName = Parameters.Create<string>();
-        var (user, friend, map) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
-
-        CypherCommand cypher = _(() =>
+        var user = Variables.Create<PersonEntity>();
+        CypherCommand cypher = _(map => 
                                 Unwind(users, map,
                                      Create(N(user, Person))
                                        .Set(user, map)));

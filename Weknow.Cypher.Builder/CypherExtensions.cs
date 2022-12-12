@@ -184,7 +184,7 @@ public static partial class CypherExtensions
     /// ON CREATE SET n.Name = $Name, n.Code = prm.Code
     /// </example>
     [Cypher("$0\r\n\tON CREATE &SET +01$2")]
-    public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
+    public static Fluent OnCreateSet(this Fluent fluent, VariableDeclaration var, [CypherInput] object assignment) => throw new NotImplementedException();
 
     #endregion // OnCreateSet
 
@@ -285,7 +285,7 @@ public static partial class CypherExtensions
     /// ON MATCH SET n.Name = $Name, n.Code = prm.Code
     /// </example>
     [Cypher("$0\r\n\tON MATCH &SET +01$2")]
-    public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
+    public static Fluent OnMatchSet(this Fluent fluent, VariableDeclaration var, [CypherInput] object assignment) => throw new NotImplementedException();
 
     #endregion // OnMatchSet
 
@@ -385,7 +385,7 @@ public static partial class CypherExtensions
     /// SET n.Name = $Name, n.Code = prm.Code
     /// </example>
     [Cypher("$0\r\n&SET +01$2")]
-    public static Fluent Set(this Fluent fluent, VariableDeclaration var, object assignment)
+    public static Fluent Set(this Fluent fluent, VariableDeclaration var, [CypherInput] object assignment)
         => throw new NotImplementedException();
 
     #endregion // Set
@@ -451,6 +451,19 @@ public static partial class CypherExtensions
     /// </summary>
     /// <param name="p">The p.</param>
     /// <param name="var">The first variable.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// RETURN n
+    /// </example>
+    [Cypher("$0\r\n&RETURN $1")]
+    public static Fluent Return(this Fluent p, ParamsFirst<object?> var) => throw new NotImplementedException();
+
+    /// <summary>
+    /// RETURN phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="var">The first variable.</param>
     /// <param name="vars">Rest of the variables.</param>
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
@@ -458,7 +471,7 @@ public static partial class CypherExtensions
     /// RETURN n
     /// </example>
     [Cypher("$0\r\n&RETURN $1$2")]
-    public static Fluent Return(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent Return(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// RETURN phrase.
@@ -486,7 +499,7 @@ public static partial class CypherExtensions
     /// RETURN DISTINCT n
     /// </example>
     [Cypher("$0\r\n&RETURN DISTINCT $1$2")]
-    public static Fluent ReturnDistinct(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent ReturnDistinct(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Return
 
@@ -566,7 +579,7 @@ public static partial class CypherExtensions
     /// RETURN user
     /// </example>
     [Cypher("$0\r\nWITH $1$2")]
-    public static Fluent With(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent With(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // With
 
@@ -589,7 +602,7 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&UNWIND \\$$[]1 AS $2\r\n$3")]
     public static Fluent Unwind<T>(this Fluent p,
-                                    IEnumerable<T> items,
+                                    [CypherInput] IEnumerable<T> items,
                                     VariableDeclaration item,
                                     Fluent next) => throw new NotImplementedException();
 
@@ -653,7 +666,7 @@ public static partial class CypherExtensions
     public static Fluent Foreach<T>(
         this Fluent prev,
         VariableDeclaration item,
-        IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
+        [CypherInput] IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
 
 
     /// <summary>
@@ -675,6 +688,27 @@ public static partial class CypherExtensions
         this Fluent prev,
         VariableDeclaration item,
         VariableDeclaration items,
+        Fluent p) => throw new NotImplementedException();
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <param name="prev">The previous.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="p">The p.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// FOREACH $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&FOREACH ($1 IN $2 |\r\n\t$3)")]
+    public static Fluent Foreach(
+        this Fluent prev,
+        VariableDeclaration item,
+        Fluent items,
         Fluent p) => throw new NotImplementedException();
 
     ///// <summary>
@@ -712,7 +746,7 @@ public static partial class CypherExtensions
     /// ORDER BY friends
     /// </example>
     [Cypher("$0\r\nORDER BY $1$2")]
-    public static Fluent OrderBy(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent OrderBy(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // OrderBy
 
@@ -731,7 +765,7 @@ public static partial class CypherExtensions
     /// ORDER BY friends DESC
     /// </example>
     [Cypher("$0\r\nORDER BY $1$2 DESC")]
-    public static Fluent OrderByDesc(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent OrderByDesc(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // OrderByDesc
 
@@ -812,7 +846,7 @@ public static partial class CypherExtensions
     /// DELETE n
     /// </example>
     [Cypher("$0\r\nDELETE $1$2")]
-    public static Fluent Delete(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent Delete(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// DETACH DELETE phrase.
@@ -825,7 +859,7 @@ public static partial class CypherExtensions
     /// DETACH DELETE n
     /// </example>
     [Cypher("$0\r\nDETACH DELETE $1$2")]
-    public static Fluent DetachDelete(this Fluent p, ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent DetachDelete(this Fluent p, ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Delete / Detach
 
@@ -865,7 +899,7 @@ public static partial class CypherExtensions
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
     [Cypher("$0\r\nCASE $1")]
-    public static FluentCase Case(this Fluent p, object var) => throw new NotImplementedException();
+    public static FluentCase Case(this Fluent p, [CypherInput] object var) => throw new NotImplementedException();
 
     /// <summary>
     /// CASE WHEN ELSE END
@@ -901,7 +935,7 @@ public static partial class CypherExtensions
     #region When
 
     [Cypher("$0\r\n\t&WHEN $1")]
-    public static FluentCaseWhen When(this FluentCase prv, object condition) => throw new NotImplementedException();
+    public static FluentCaseWhen When(this FluentCase prv, [CypherInput] object condition) => throw new NotImplementedException();
 
     [Cypher("$0\r\n\t&WHEN '$1'")]
     public static FluentCaseWhen When(this FluentCase prv, string condition) => throw new NotImplementedException();
@@ -922,7 +956,7 @@ public static partial class CypherExtensions
     #region Then
 
     [Cypher("$0 THEN $1")]
-    public static FluentCase Then(this FluentCaseWhen prv, object? value ) => throw new NotImplementedException();
+    public static FluentCase Then(this FluentCaseWhen prv, [CypherInput] object? value ) => throw new NotImplementedException();
 
     [Cypher("$0 THEN '$1'")]
     public static FluentCase Then(this FluentCaseWhen prv, string value ) => throw new NotImplementedException();
@@ -933,7 +967,7 @@ public static partial class CypherExtensions
     #region Else
 
     [Cypher("$0\r\n\tELSE $1")]
-    public static FluentCase Else(this FluentCase prv, object? value ) => throw new NotImplementedException();
+    public static FluentCase Else(this FluentCase prv, [CypherInput] object? value ) => throw new NotImplementedException();
 
     [Cypher("$0\r\n\tELSE '$1'")]
     public static FluentCase Else(this FluentCase prv, string value ) => throw new NotImplementedException();

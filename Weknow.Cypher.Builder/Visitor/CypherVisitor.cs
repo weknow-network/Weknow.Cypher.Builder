@@ -20,6 +20,7 @@ namespace Weknow.CypherBuilder
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
         private IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
+        private IStackCancelable<bool> _isCypherInput = Disposable.CreateStack(false);
 
 
         #region Ctor
@@ -214,9 +215,9 @@ namespace Weknow.CypherBuilder
                 case ExpressionType.Multiply:
                     Query.Append(" * ");
                     break;
-                //case ExpressionType.UnaryPlus:
-                //    Query.Append(" * ");
-                //    break;
+                    //case ExpressionType.UnaryPlus:
+                    //    Query.Append(" * ");
+                    //    break;
             }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -237,6 +238,13 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
+            if (node.Method.Name == nameof(Array.Empty) &&
+                node.Method.DeclaringType.Name == nameof(Array))
+            {
+                Query.Append("[]");
+                return node;
+            }
+
             bool shouldCreatePrms = node.Method.Name switch
             {
                 nameof(CypherExtensions.Case) => false,
@@ -495,6 +503,8 @@ namespace Weknow.CypherBuilder
         {
             var separator = _configuration.Separator;
 
+            if(!_isCypherInput.State)
+                Query.Append("[");
             foreach (var expr in node.Expressions)
             {
                 Visit(expr);
@@ -507,6 +517,8 @@ namespace Weknow.CypherBuilder
                         Query.Append(", ");
                 }
             }
+            if(!_isCypherInput.State)
+                Query.Append("]");
             return node;
         }
 
@@ -524,8 +536,19 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitNew(NewExpression node)
         {
             using var _ = _isProperties.Set(true);
-            if (_expression[0].Value == null)
-                Query.Append("{ ");
+            bool isEnumerable = node.Type.IsAssignableTo(typeof(IEnumerable));
+            bool isObject = _expression[0].Value == null;
+            bool ignoreEnumerable = Query[Query.Length - 1] == '[';
+            if (isObject)
+            {
+                if (isEnumerable)
+                {
+                    if(!ignoreEnumerable)
+                        Query.Append("[");
+                }
+                else
+                    Query.Append("{ ");
+            }
             for (int i = 0; i < node.Arguments.Count; i++)
             {
                 if (_expression[0].Value != null)
@@ -541,8 +564,16 @@ namespace Weknow.CypherBuilder
                 if (expr != node.Arguments.Last())
                     Query.Append(", ");
             }
-            if (_expression[0].Value == null)
-                Query.Append(" }");
+            if (isObject)
+            {
+                if (isEnumerable)
+                {
+                    if (!ignoreEnumerable)
+                        Query.Append("]");
+                }
+                else
+                    Query.Append(" }");
+            }
             return node;
         }
 
@@ -596,7 +627,7 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitConstant(ConstantExpression node)
         {
             bool isReturn = _methodExpr.Value?.Method.Name == nameof(CypherExtensions.Return);
-            bool isAnalyzer = node.Type.Name == "FullTextAnalyzer"; 
+            bool isAnalyzer = node.Type.Name == "FullTextAnalyzer";
             bool shouldCreatePrm = _shouldCreateParameter.State;
 
             if (node.Type.FullName == typeof(ConstraintType).FullName)
@@ -652,6 +683,7 @@ namespace Weknow.CypherBuilder
         private void ApplyFormat(MethodCallExpression node, string format)
         {
             var disp = new List<IDisposable>();
+            var mtdPrms = node.Method.GetParameters();
             for (var i = 0; i < format.Length; i++)
             {
                 switch (format[i])
@@ -667,6 +699,12 @@ namespace Weknow.CypherBuilder
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
+                            bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputAttribute>() != null;
+                            if (isCypherInput != _isCypherInput.State)
+                                _isCypherInput.Push(isCypherInput);
+                            if (index == args.Count - 1)
+                            { 
+                            }
 
                             int count = args.Count;
                             // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
@@ -878,5 +916,52 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // VisitUnary
+
+        protected override Expression VisitListInit(ListInitExpression node)
+        {
+            Query.Append("[");
+
+            var result = base.VisitListInit(node);
+
+            if (Query[^2..].ToString() == ", ")
+                Query.Remove(Query.Length - 2, 2);
+            Query.Append("]");
+
+            return result;
+        }
+
+        protected override Expression VisitLoop(LoopExpression node)
+        {
+            return base.VisitLoop(node);
+        }
+
+        protected override ElementInit VisitElementInit(ElementInit node)
+        {
+            var result =  base.VisitElementInit(node);
+            Query.Append(", ");
+            return result;
+        }
+
+        protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
+        {
+            return base.VisitMemberAssignment(node);
+        }
+
+        protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
+        {
+            return base.VisitMemberListBinding(node);
+        }
+
+        protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
+        {
+            return base.VisitMemberMemberBinding(node);
+        }
+
+        [return: NotNullIfNotNull("node")]
+        public override Expression? Visit(Expression? node)
+        {
+            var result = base.Visit(node);
+            return result;
+        }
     }
 }

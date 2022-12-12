@@ -145,11 +145,11 @@ public partial interface ICypher
     /// <param name="properties">The properties.</param>
     /// <returns></returns>
     [Cypher("($0$1 $2)")]
-    public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var, ILabel label, [CypherInput] object properties) => throw new NotImplementedException();
     [Cypher("($0 $1)")]
-    public static INode N(VariableDeclaration var, object properties) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var, [CypherInput] object properties) => throw new NotImplementedException();
     [Cypher("(:$0 $1)")]
-    public static INode N(ILabel label, object properties) => throw new NotImplementedException();
+    public static INode N(ILabel label, [CypherInput] object properties) => throw new NotImplementedException();
 
     #endregion // IPattern N (Node)
 
@@ -183,7 +183,7 @@ public partial interface ICypher
     /// WHERE n.name =~ 'Tim.*'
     /// </example>
     [Cypher("&$0")]
-    public static bool Rgx(object properties) => throw new NotImplementedException();
+    public static bool Rgx([CypherInput] object properties) => throw new NotImplementedException();
 
     #endregion // Rgx
 
@@ -220,7 +220,7 @@ public partial interface ICypher
     /// RETURN n
     /// </example>
     [Cypher("RETURN $0$1")]
-    public static Fluent Return(ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+    public static Fluent Return(ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Return
 
@@ -381,7 +381,7 @@ public partial interface ICypher
     /// SET n.Name = $Name, n.Code = prm.Code
     /// </example>
     [Cypher("&SET +00$1")]
-    public static Fluent Set(VariableDeclaration var, object assignment)
+    public static Fluent Set(VariableDeclaration var, [CypherInput] object assignment)
         => throw new NotImplementedException();
 
     #endregion // Set
@@ -401,7 +401,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&UNWIND \\$$[]0 AS $1\r\n$2")]
-    public static Fluent Unwind<T>(IEnumerable<T> items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+    public static Fluent Unwind<T>([CypherInput] IEnumerable<T> items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
 
     /// <summary>
@@ -447,7 +447,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&FOREACH ($0 IN \\$$[]1 |\r\n\t$2)")]
-    public static Fluent Foreach<T>(VariableDeclaration item, IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
+    public static Fluent Foreach<T>(VariableDeclaration item, [CypherInput] IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -791,7 +791,7 @@ public partial interface ICypher
     public static Fluent CreateConstraint(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
@@ -808,7 +808,7 @@ public partial interface ICypher
         string name,
         ConstraintType type,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // CreateConstraint
 
@@ -826,7 +826,7 @@ public partial interface ICypher
     public static Fluent TryCreateConstraint(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
@@ -843,7 +843,7 @@ public partial interface ICypher
         string name,
         ConstraintType type,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreateConstraint
 
@@ -889,7 +889,7 @@ public partial interface ICypher
     public static Fluent CreateIndex(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a TEXT index on nodes with label Person and property name. 
@@ -915,7 +915,7 @@ public partial interface ICypher
     public static Fluent CreateTextIndex(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a full-text index on relationships with the name index_name and analyzer.
@@ -934,7 +934,7 @@ public partial interface ICypher
         string name,
         IPattern p,
         FullTextAnalyzer analyzer,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     ///// <summary>
     ///// Create a index phrase.
@@ -967,7 +967,7 @@ public partial interface ICypher
     public static Fluent TryCreateIndex(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     /// <summary>
     /// Create a index phrase.
@@ -987,7 +987,7 @@ public partial interface ICypher
         string name,
         IPattern p,
         FullTextAnalyzer analyzer,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
 
     /// <summary>
@@ -1014,7 +1014,7 @@ public partial interface ICypher
     public static Fluent TryCreateTextIndex(
         string name,
         IPattern p,
-        ParamsFirst<object?> var, params object?[] vars) => throw new NotImplementedException();
+        ParamsFirst<object?> var, [CypherInput] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // TryCreate..Index
 
@@ -1032,7 +1032,7 @@ public partial interface ICypher
     /// RETURN nodes(p)
     /// </example>
     [Cypher("nodes($0)")]
-    public static VariableDeclaration Nodes(object prop) => throw new NotImplementedException();
+    public static VariableDeclaration Nodes([CypherInput]object prop) => throw new NotImplementedException();
 
     #endregion nodes
 
@@ -1072,7 +1072,7 @@ public partial interface ICypher
     /// </example>
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    [Cypher("CASE $0\r\n")]
+    [Cypher("CASE $0")]
     public static FluentCase Case(object var) => throw new NotImplementedException();
 
     /// <summary>
@@ -1100,7 +1100,7 @@ public partial interface ICypher
     /// </example>
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    [Cypher("CASE\r\n")]
+    [Cypher("CASE")]
     public static FluentCase Case() => throw new NotImplementedException();
 
     #endregion // CASE

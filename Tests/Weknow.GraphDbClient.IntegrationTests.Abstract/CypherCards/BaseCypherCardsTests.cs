@@ -28,6 +28,7 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
 
     private ILabel Product => throw new NotImplementedException();
     private ILabel Person => throw new NotImplementedException();
+    private ILabel Desc => throw new NotImplementedException();
     private ILabel Friend => throw new NotImplementedException();
 
     private IType Knows => throw new NotImplementedException();

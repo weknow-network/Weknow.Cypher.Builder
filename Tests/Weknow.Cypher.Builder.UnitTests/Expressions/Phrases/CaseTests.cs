@@ -141,5 +141,35 @@ public class CaseTests
     }
 
     #endregion // CASE n.Color WHEN 'Blue' THEN '$100' ..
+
+    #region CASE $delimiter WHEN 7 THEN 2 ..
+
+    [Fact]
+    public void Case_Array_Test()
+    {
+        var delimiter = Parameters.Create<int>();
+        CypherCommand cypher = _(v =>
+                                Case()
+                                    .When(delimiter % 2 == 0).Then(new[] { 1, 2 })
+                                    .When(delimiter % 3 == 0).Then(new List<int> { 2, 3, 4})
+                                    .When(delimiter % 5 == 0 ).Then(new List<int> ())
+                                    .Else(Array.Empty<int>())
+                                .End().As(v));
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(
+                     $"CASE{NewLine}" +
+                     $"\tWHEN $delimiter % 2 = 0 THEN [1, 2]{NewLine}" +
+                     $"\tWHEN $delimiter % 3 = 0 THEN [2, 3, 4]{NewLine}" +
+                     $"\tWHEN $delimiter % 5 = 0 THEN []{NewLine}" +
+                     $"\tELSE []{NewLine}" +
+                     $"END AS v"
+                       , cypher.Query);
+        CypherParameters parameters = cypher.Parameters;
+        Assert.Equal(1, parameters.Count);
+        Assert.True(parameters.ContainsKey(nameof(delimiter)));
+    }
+
+    #endregion // CASE $delimiter WHEN 7 THEN 2 ..
 }
 
