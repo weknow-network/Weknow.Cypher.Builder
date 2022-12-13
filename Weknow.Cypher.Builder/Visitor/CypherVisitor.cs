@@ -451,7 +451,11 @@ namespace Weknow.CypherBuilder
                 }
             }
 
-            Query.Append(name);
+            if (node.Type == typeof(IType))
+            {
+                name = _configuration.Naming.ConvertToTypeConvention(name);
+            }
+            Query?.Append(name);
             if (node.Type == typeof(VariableDeclaration))
             {
                 HandleAmbientLabels(node);

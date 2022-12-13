@@ -2476,6 +2476,12 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="F:Weknow.CypherBuilder.INode.Fake">
+            <summary>
+            Creates a mock object's node.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.CypherBuilder.INode.op_Subtraction(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.IRelationNode)">
             <summary>
             Implements the operator -.
@@ -2722,6 +2728,12 @@
             Primitives don't have actual implementation, 
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
+        </member>
+        <member name="F:Weknow.CypherBuilder.IRelation.Fake">
+            <summary>
+            Creates a mock object's node.
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.IType)">
             <summary>
@@ -3094,6 +3106,12 @@
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
         </member>
+        <member name="F:Weknow.CypherBuilder.ILabel.Fake">
+            <summary>
+            Creates a mock object's label.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Weknow.CypherBuilder.ILabel.R">
             <summary>
             Use Label as a relation
@@ -3123,6 +3141,12 @@
             Primitives don't have actual implementation, 
             it's a declarative unit which will be evaluate at parsing time (by the visitor). 
             </remarks>
+        </member>
+        <member name="F:Weknow.CypherBuilder.IType.Fake">
+            <summary>
+            Creates a mock object's type.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Weknow.CypherBuilder.IType.op_BitwiseOr(Weknow.CypherBuilder.IType,Weknow.CypherBuilder.IType)">
             <summary>
@@ -3882,6 +3906,14 @@
             For example "`@{0}`"
             </summary>
         </member>
+        <member name="M:Weknow.CypherAmbientLabelConfig.Add(Weknow.CypherBuilder.ILabel,System.String)">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="label">The label.</param>
+            <param name="name">Automatic parameter, should be ignored.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
             <summary>
             Adds the additional ambient labels which will be added to cypher queries.
@@ -3990,8 +4022,20 @@
         </member>
         <member name="P:Weknow.CypherNamingConfig.LabelConvention">
             <summary>
-            Gets or sets the convention.
+            Gets or sets the label's convention.
             </summary>
+        </member>
+        <member name="P:Weknow.CypherNamingConfig.TypeConvention">
+            <summary>
+            Gets or sets the type's convention.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherNamingConfig.ConvertToTypeConvention(System.String)">
+            <summary>
+            Converts to type convention.
+            </summary>
+            <param name="name">The name.</param>
+            <returns></returns>
         </member>
         <member name="P:Weknow.CypherNamingConfig.Pluralization">
             <summary>

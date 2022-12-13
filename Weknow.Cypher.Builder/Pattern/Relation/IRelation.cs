@@ -1,4 +1,5 @@
-﻿using Weknow.CypherBuilder.Declarations;
+﻿using Weknow.Cypher.Builder;
+using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {
@@ -15,6 +16,12 @@ namespace Weknow.CypherBuilder
     /// </remarks>
     public interface IRelation : IPattern
     {
+        /// <summary>
+        /// Creates a mock object's node.
+        /// </summary>
+        /// <returns></returns>
+        internal readonly static IRelation Fake = MockGenerator.MockInterface<IRelation>();
+
         #region Indexers this[...]
 
         /// <summary>

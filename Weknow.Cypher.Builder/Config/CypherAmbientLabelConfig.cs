@@ -1,4 +1,9 @@
-﻿using static Weknow.NamingConventionAffects;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+using Weknow.CypherBuilder;
+
+using static Weknow.NamingConventionAffects;
 
 namespace Weknow
 {
@@ -41,6 +46,21 @@ namespace Weknow
         #endregion // Formatter
 
         #region Add
+
+        /// <summary>
+        /// Adds the additional ambient labels which will be added to cypher queries.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="name">Automatic parameter, should be ignored.</param>
+        /// <returns></returns>
+        public CypherAmbientLabelConfig Add(
+            ILabel label,
+            [CallerArgumentExpression(nameof(label))]
+            string name = "")
+        {
+            Values = Values.Add(name);
+            return this;
+        }
 
         /// <summary>
         /// Adds the additional ambient labels which will be added to cypher queries.

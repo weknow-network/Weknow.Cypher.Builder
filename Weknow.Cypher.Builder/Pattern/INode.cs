@@ -1,4 +1,6 @@
 ﻿
+using Weknow.Cypher.Builder;
+
 namespace Weknow.CypherBuilder
 {
     /// <summary>
@@ -14,6 +16,13 @@ namespace Weknow.CypherBuilder
     /// </remarks>
     public interface INode : IPattern
     {
+        /// <summary>
+        /// Creates a mock object's node.
+        /// </summary>
+        /// <returns></returns>
+        internal readonly static INode Fake = MockGenerator.MockInterface<INode>();
+
+
         /// <summary>
         /// Implements the operator -.
         /// </summary>

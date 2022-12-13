@@ -1,3 +1,10 @@
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+
+using Castle.DynamicProxy;
+
+using FakeItEasy;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,8 +19,9 @@ namespace Weknow.CypherBuilder
     public class ConfigTests
     {
         protected readonly ITestOutputHelper _outputHelper;
-        private ILabel Person => throw new NotImplementedException();
-        private IType Like => throw new NotImplementedException();
+        //private ILabel Person => new ProxyGenerator().CreateInterfaceProxyWithoutTarget<ILabel>(); //A.Fake<ILabel>();//  throw new NotImplementedException();
+        private IType Like => IType.Fake;
+        private ILabel Person => ILabel.Fake;
 
         #region Ctor
 
@@ -96,6 +104,34 @@ RETURN f"
         }
 
         #endregion // Blank_Label_Convention_Test
+
+        #region Blank_ILabel_Convention_Test
+
+        [Fact]
+        public void Blank_ILabel_Convention_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(() =>
+                         Create(N(f))
+                         .Return(f)
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels
+                                .Add(Prod)
+                                .Add(Maintainer);
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:PROD:MAINTAINER)
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Blank_ILabel_Convention_Test
 
         #region Blank_Label_Parameter_Convention_Test
 
@@ -319,6 +355,31 @@ RETURN f"
 
         #endregion // Avoid_Multi_Ambient_Assignment_Test
 
+        #region Type_Variable_Convention_Test
+
+        [Fact]
+        public void Type_Variable_Convention_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(n => r =>
+                                Match(N(n, Person) - R[r, Like] > N(Person))
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.TypeConvention = CypherNamingConvention.SCREAMING_CASE;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"MATCH (n:GIT_HUB:PERSON)-[r:LIKE]->(:PERSON:GIT_HUB)"
+                           , cypher.Query);
+        }
+
+        #endregion // Type_Variable_Convention_Test
+
         #region Type_Variable_Avoid_Convention_Test
 
         [Fact]
@@ -342,6 +403,22 @@ RETURN f"
         }
 
         #endregion // Type_Variable_Avoid_Convention_Test
+
+
+
+        //[Fact]
+        //public void Test()
+        //{
+        //    CreateX(Person);
+        //}
+
+        //public static void CreateX<T>(T t,
+        //    [CallerMemberName] string memberName = "",
+        //    [CallerArgumentExpression("t")] string exp = "")
+        //{
+        //    throw new NotImplementedException();
+        //}
+
     }
 }
 

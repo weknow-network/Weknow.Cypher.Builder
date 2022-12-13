@@ -1,4 +1,7 @@
-﻿using Pluralize.NET;
+﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Microsoft.VisualBasic;
+
+using Pluralize.NET;
 
 namespace Weknow
 {
@@ -28,14 +31,38 @@ namespace Weknow
 
         #endregion // Ctor
 
-        #region Convention
+        #region LabelConvention
 
         /// <summary>
-        /// Gets or sets the convention.
+        /// Gets or sets the label's convention.
         /// </summary>
         public CypherNamingConvention LabelConvention { get; set; } = CypherNamingConvention.Default;
 
-        #endregion // Convention
+        #endregion // LabelConvention
+
+        #region TypeConvention
+
+        /// <summary>
+        /// Gets or sets the type's convention.
+        /// </summary>
+        public CypherNamingConvention TypeConvention { get; set; } = CypherNamingConvention.Default;
+
+        #endregion // TypeConvention
+
+        #region ConvertToTypeConvention
+
+        /// <summary>
+        /// Converts to type convention.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        internal string ConvertToTypeConvention(string name)
+        {
+            string result = CypherNamingConfig.FormatByConvention(name, TypeConvention);
+            return result;
+        }
+
+        #endregion // ConvertToTypeConvention
 
         #region Pluralization
 
@@ -86,9 +113,13 @@ namespace Weknow
 
         #endregion // FormatByConvention
 
+        #region Parent
+
         /// <summary>
         /// Gets the parent configuration.
         /// </summary>
         internal CypherConfig Parent { get; }
+
+        #endregion // Parent
     }
 }

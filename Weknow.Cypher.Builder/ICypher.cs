@@ -114,21 +114,21 @@ public partial interface ICypher
     /// </summary>
     /// <returns></returns>
     [Cypher("()")]
-    public static INode N() => throw new NotImplementedException();
+    public static INode N() => INode.Fake;
     /// <summary>
     /// Specified node with label.
     /// </summary>
     /// <param name="label">The label.</param>
     /// <returns></returns>
     [Cypher("(:$0)")]
-    public static INode N(ILabel label) => throw new NotImplementedException();
+    public static INode N(ILabel label) => INode.Fake;
     /// <summary>
     /// Specified node with variable.
     /// </summary>
     /// <param name="var">The variable.</param>
     /// <returns></returns>
     [Cypher("($0)")]
-    public static INode N(VariableDeclaration var) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var) => INode.Fake;
     /// <summary>
     /// Specified node with variable and label.
     /// </summary>
@@ -136,7 +136,7 @@ public partial interface ICypher
     /// <param name="label">The label.</param>
     /// <returns></returns>
     [Cypher("($0$1)")]
-    public static INode N(VariableDeclaration var, ILabel label) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var, ILabel label) => INode.Fake;
     /// <summary>
     /// Specified node with variable, label and properties.
     /// </summary>
@@ -145,11 +145,11 @@ public partial interface ICypher
     /// <param name="properties">The properties.</param>
     /// <returns></returns>
     [Cypher("($0$1 $2)")]
-    public static INode N(VariableDeclaration var, ILabel label, object properties) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var, ILabel label, object properties) => INode.Fake;
     [Cypher("($0 $1)")]
-    public static INode N(VariableDeclaration var, object properties) => throw new NotImplementedException();
+    public static INode N(VariableDeclaration var, object properties) => INode.Fake;
     [Cypher("(:$0 $1)")]
-    public static INode N(ILabel label, object properties) => throw new NotImplementedException();
+    public static INode N(ILabel label, object properties) => INode.Fake;
 
     #endregion // IPattern N (Node)
 
@@ -158,7 +158,7 @@ public partial interface ICypher
     /// <summary>
     /// Gets the Cypher relation.
     /// </summary>
-    public static IRelation R => throw new NotImplementedException();
+    public static IRelation R => IRelation.Fake;
 
     #endregion // IRelation R (Relation)
 

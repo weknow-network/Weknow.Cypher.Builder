@@ -1,4 +1,6 @@
-﻿namespace Weknow.CypherBuilder
+﻿using Weknow.Cypher.Builder;
+
+namespace Weknow.CypherBuilder
 {
 
     /// <summary>
@@ -14,6 +16,12 @@
     /// </remarks>
     public interface ILabel
     {
+        /// <summary>
+        /// Creates a mock object's label.
+        /// </summary>
+        /// <returns></returns>
+        public readonly static ILabel Fake = MockGenerator.MockInterface<ILabel>();
+
         /// <summary>
         /// Use Label as a relation
         /// </summary>
