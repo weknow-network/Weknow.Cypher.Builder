@@ -46,29 +46,30 @@ public partial class BaseCypherCardsTests
 
     #endregion // FOREACH (item IN $items | CREATE (:PERSON:_TEST_ { Version: item }))
 
-    #region CREATE(user:PERSON:_TEST_ $map)
+    // TODO: no RawCypher & switch u with user
+
+    #region FOREACH .. RawCypher
 
     [Fact]
-    public virtual async Task Foreach_Condition_Test()
+    public virtual async Task Foreach_Condition_RawCypher_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
         var users = Parameters.Create();
-        var user = Variables.Create<PersonEntity>();
-        CypherCommand cypher = _(map => d => n =>
+        var (user, u) = Variables.CreateMulti<PersonEntity>();
+        CypherCommand cypher = _(map => n =>
                 Unwind(users, map,
                         Create(N(user, Person))
                         .Set(user, map)
                         //.Foreach(d, Case().When(d.__<PersonEntity>().desc != null)
-                        .Foreach(d, Case()
-                            .When("d.desc IS NOT NULL")
-                            .Then("[1]")
-                            .Else("[]")
+                        .Foreach(u, Case()
+                            .When(RawCypher("user.desc IS NOT NULL"))
+                            .Then(RawCypher("[user]"))
+                            .Else(RawCypher("[]"))
                         .End(),
-                        Create(N(n, Desc, new { Text = user.__.desc }) < R[Desc.R] - N(user))
+                        Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
                         )
                     ));
-
 
         CypherParameters prms = cypher.Parameters;
         var usersPrm = Enumerable.Range(0, 10)
@@ -78,15 +79,18 @@ public partial class BaseCypherCardsTests
         var r = await _graphDB.RunAsync(cypher, prms);
 
 
-        CypherCommand cypherGet = _(n => d =>
-                        Match(N(Person) < R[Desc.R] - N(d, Desc))
-                        .Return("d.Text"));
+        CypherCommand cypherGet = _(() =>
+                        Match(N(user, Person))
+                        .Where(user.__.key == 0)
+                        .Return(user.__.desc));
 
 
         _outputHelper.WriteLine($"CYPHER GET: {cypherGet}");
 
         var responseGet = await _graphDB.RunAsync(cypherGet);
-        var result = await responseGet.GetAsync<string>("n.Version");
+        var result = await responseGet.GetAsync<string>("user.desc");
+        // TODO: [bnaya 2022-12-13] GetAsync should work with expression
+        //var result = await responseGet.GetAsync<string>(user.__.desc);
         Assert.Equal("Describe 0", result);
 
 
@@ -97,5 +101,5 @@ public partial class BaseCypherCardsTests
         };
     }
 
-    #endregion // CREATE(user:PERSON:_TEST_ $map)
+    #endregion // FOREACH .. RawCypher
 }

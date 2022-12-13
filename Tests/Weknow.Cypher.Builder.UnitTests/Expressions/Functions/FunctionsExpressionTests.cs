@@ -111,7 +111,49 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n1)-[r]->(n2) ... / Functions_Test
 
-        #region MATCH (n1)-[r]->(n2) ... / Aggregation_Test
+        #region MATCH (n) RETURN avg(n.PropA) AS avg
+
+        [Fact]
+        public void Aggregation_Short_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Avg(n._.PropA).As("avg")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "avg(n.PropA) AS avg", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN avg(n.PropA) AS avg
+
+        #region MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min 
+
+        [Fact]
+        public void Aggregation_2_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Sum(n._.PropA).As("sum"),
+                                        Min(n._.PropA).As("min")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "sum(n.PropA) AS sum, " +
+                                "min(n.PropA) AS min", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min 
+
+        #region MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min ...
 
         [Fact]
         public void Aggregation_Test()
@@ -135,7 +177,7 @@ namespace Weknow.CypherBuilder
                                 "avg(n.PropA) AS avg", cypher.Query);
         }
 
-        #endregion // MATCH (n1)-[r]->(n2) ..., startNode(r), endNode(r) / Aggregation_Test
+        #endregion // MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min ...
 
         #region MATCH (n) RETURN collect(n) / Collect_Test
 

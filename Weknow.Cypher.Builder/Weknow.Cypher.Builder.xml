@@ -1466,7 +1466,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="T:Weknow.CypherBuilder.CypherInputAttribute">
+        <member name="T:Weknow.CypherBuilder.CypherInputCollectionAttribute">
             <summary>
             decorate object collection which are part of the Cypher Builder API,
             in order to avoid handling it as collection in the cypher output.

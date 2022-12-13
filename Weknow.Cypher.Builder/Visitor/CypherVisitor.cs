@@ -543,7 +543,7 @@ namespace Weknow.CypherBuilder
             {
                 if (isEnumerable)
                 {
-                    if(!ignoreEnumerable)
+                    if(!ignoreEnumerable && !_isCypherInput.State)
                         Query.Append("[");
                 }
                 else
@@ -568,7 +568,7 @@ namespace Weknow.CypherBuilder
             {
                 if (isEnumerable)
                 {
-                    if (!ignoreEnumerable)
+                    if (!ignoreEnumerable && !_isCypherInput.State)
                         Query.Append("]");
                 }
                 else
@@ -699,85 +699,90 @@ namespace Weknow.CypherBuilder
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
-                            bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputAttribute>() != null;
+                            bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputCollectionAttribute>() != null;
+                            IDisposable inputScope = Disposable.Empty;
                             if (isCypherInput != _isCypherInput.State)
-                                _isCypherInput.Push(isCypherInput);
-                            if (index == args.Count - 1)
-                            { 
-                            }
-
-                            int count = args.Count;
-                            // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
-                            if (expr is NewArrayExpression naExp && expr.NodeType == ExpressionType.NewArrayInit)
+                                inputScope = _isCypherInput.Push(isCypherInput);
+                            using (inputScope)
                             {
-                                if (isArray)
+                                if (index == args.Count - 1)
                                 {
-                                    var parameterName = $"p_{Parameters.Count}";
-                                    Query.Append(parameterName);
-                                    _parameters = _parameters.SetToNull(parameterName); // naExp.Value;
-                                    continue;
                                 }
-                                else if (count > 1)
+
+                                int count = args.Count;
+                                // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
+                                if (expr is NewArrayExpression naExp && 
+                                    expr.NodeType == ExpressionType.NewArrayInit)
                                 {
-                                    var prv = args[count - 2];
-                                    if (prv.NodeType == ExpressionType.Convert &&
-                                        prv.Type.Name == "ParamsFirst`1" &&
-                                        naExp.Expressions.Count != 0)
+                                    if (isArray)
                                     {
-                                        Query.Append(", ");
+                                        var parameterName = $"p_{Parameters.Count}";
+                                        Query.Append(parameterName);
+                                        _parameters = _parameters.SetToNull(parameterName); // naExp.Value;
+                                        continue;
                                     }
+                                    else if (count > 1)
+                                    {
+                                        var prv = args[count - 2];
+                                        if (prv.NodeType == ExpressionType.Convert &&
+                                            prv.Type.Name == "ParamsFirst`1" &&
+                                            naExp.Expressions.Count != 0)
+                                        {
+                                            Query.Append(", ");
+                                        }
+                                    }
+
                                 }
 
-                            }
-
-                            bool isIndexConstraint = node is MethodCallExpression mc && mc.Method.Name switch
-                            {
-                                nameof(ICypher.CreateConstraint) => true,
-                                nameof(ICypher.TryCreateConstraint) => true,
-                                nameof(ICypher.CreateIndex) => true,
-                                nameof(ICypher.TryCreateIndex) => true,
-                                nameof(ICypher.TryDropConstraint) => true,
-                                nameof(ICypher.DropConstraint) => true,
-                                nameof(ICypher.TryDropIndex) => true,
-                                nameof(ICypher.DropIndex) => true,
-                                nameof(ICypher.CreateTextIndex) => true,
-                                nameof(ICypher.TryCreateFullTextIndex) => true,
-                                nameof(ICypher.CreateFullTextIndex) => true,
-                                nameof(ICypher.TryCreateTextIndex) => true,
-                                _ => false
-                            };
-
-#pragma warning disable CS0618 
-                            _isRawChypher = expr.Type.Name == nameof(RawCypher) || isIndexConstraint;
-#pragma warning restore CS0618 
-                            using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
-                            {
-                                bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
-                                Visit(expr);
-                                if (isVar)
+                                bool isIndexConstraint = node is MethodCallExpression mc && mc.Method.Name switch
                                 {
-                                    if (count > index + 1)
+                                    nameof(ICypher.CreateConstraint) => true,
+                                    nameof(ICypher.TryCreateConstraint) => true,
+                                    nameof(ICypher.CreateIndex) => true,
+                                    nameof(ICypher.TryCreateIndex) => true,
+                                    nameof(ICypher.TryDropConstraint) => true,
+                                    nameof(ICypher.DropConstraint) => true,
+                                    nameof(ICypher.TryDropIndex) => true,
+                                    nameof(ICypher.DropIndex) => true,
+                                    nameof(ICypher.CreateTextIndex) => true,
+                                    nameof(ICypher.TryCreateFullTextIndex) => true,
+                                    nameof(ICypher.CreateFullTextIndex) => true,
+                                    nameof(ICypher.TryCreateTextIndex) => true,
+                                    _ => false
+                                };
+
+#pragma warning disable CS0618
+                                _isRawChypher = expr.Type.Name == nameof(RawCypher) || isIndexConstraint;
+#pragma warning restore CS0618
+                                using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
+                                {
+                                    bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
+                                    Visit(expr);
+                                    if (isVar)
                                     {
-                                        Expression nextEXpr = args[index + 1];
-                                        if (nextEXpr.Type == typeof(ILabel) ||
-                                            nextEXpr.Type == typeof(IType))
+                                        if (count > index + 1)
                                         {
-                                            Query.Append(":");
-                                        }
-                                        else if (nextEXpr is NewArrayExpression nae &&
-                                                    nae.Expressions.Count != 0)
-                                        {
-                                            Expression first = nae.Expressions.First();
-                                            if (first.Type == typeof(ILabel) ||
-                                            first.Type == typeof(IType))
+                                            Expression nextEXpr = args[index + 1];
+                                            if (nextEXpr.Type == typeof(ILabel) ||
+                                                nextEXpr.Type == typeof(IType))
                                             {
                                                 Query.Append(":");
+                                            }
+                                            else if (nextEXpr is NewArrayExpression nae &&
+                                                        nae.Expressions.Count != 0)
+                                            {
+                                                Expression first = nae.Expressions.First();
+                                                if (first.Type == typeof(ILabel) ||
+                                                first.Type == typeof(IType))
+                                                {
+                                                    Query.Append(":");
+                                                }
                                             }
                                         }
                                     }
                                 }
+                                _isRawChypher = false;
                             }
-                            _isRawChypher = false;
                         }
                         break;
                     case '+':
@@ -919,13 +924,16 @@ namespace Weknow.CypherBuilder
 
         protected override Expression VisitListInit(ListInitExpression node)
         {
-            Query.Append("[");
+            if (!_isCypherInput.State)
+                Query.Append("[");
 
             var result = base.VisitListInit(node);
 
             if (Query[^2..].ToString() == ", ")
                 Query.Remove(Query.Length - 2, 2);
-            Query.Append("]");
+
+            if (!_isCypherInput.State)
+                Query.Append("]");
 
             return result;
         }

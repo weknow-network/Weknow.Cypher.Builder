@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
     /// </summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public class CypherInputAttribute: Attribute
+    public class CypherInputCollectionAttribute: Attribute
     {
        
     }
