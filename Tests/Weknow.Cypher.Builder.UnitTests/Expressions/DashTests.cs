@@ -9,7 +9,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
-    
+
     public class DashTests
     {
         private readonly ITestOutputHelper _outputHelper;

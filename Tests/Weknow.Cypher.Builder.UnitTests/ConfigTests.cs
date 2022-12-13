@@ -1,10 +1,3 @@
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-
-using Castle.DynamicProxy;
-
-using FakeItEasy;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,7 +12,6 @@ namespace Weknow.CypherBuilder
     public class ConfigTests
     {
         protected readonly ITestOutputHelper _outputHelper;
-        //private ILabel Person => new ProxyGenerator().CreateInterfaceProxyWithoutTarget<ILabel>(); //A.Fake<ILabel>();//  throw new NotImplementedException();
         private IType Like => IType.Fake;
         private ILabel Person => ILabel.Fake;
 
@@ -403,22 +395,6 @@ RETURN f"
         }
 
         #endregion // Type_Variable_Avoid_Convention_Test
-
-
-
-        //[Fact]
-        //public void Test()
-        //{
-        //    CreateX(Person);
-        //}
-
-        //public static void CreateX<T>(T t,
-        //    [CallerMemberName] string memberName = "",
-        //    [CallerArgumentExpression("t")] string exp = "")
-        //{
-        //    throw new NotImplementedException();
-        //}
-
     }
 }
 

@@ -13,7 +13,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    
+
     public class MatchTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -274,7 +274,7 @@ SET n:Person:Manager", cypher.Query);
         public void Match_Pattern_Test()
         {
             var (n, m) = Variables.CreateMulti();
-            CypherCommand cypher = _(() => 
+            CypherCommand cypher = _(() =>
                                     Match(N(n) > N(m))
                                     .Return(m));
 
@@ -291,7 +291,7 @@ $"MATCH (n)-->(m){NewLine}" +
         [Fact]
         public void Match_Pattern_Inline_Test()
         {
-            CypherCommand cypher = _(n => m => 
+            CypherCommand cypher = _(n => m =>
                                     Match(N(n) > N(m))
                                     .Return(m));
 

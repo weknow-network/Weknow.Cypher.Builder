@@ -1,7 +1,6 @@
 using System.Data;
 
 using Weknow.CypherBuilder;
-using Weknow.GraphDbClient.Abstraction;
 
 using Xunit;
 
@@ -29,7 +28,7 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters
-                                      .AddOrUpdate(nameof(items), new[] {1,2,3});
+                                      .AddOrUpdate(nameof(items), new[] { 1, 2, 3 });
         var response = await _graphDB.RunAsync(cypher, prms);
 
         CypherCommand cypherGet = _(n => item =>
@@ -63,7 +62,7 @@ public partial class BaseCypherCardsTests
                         .Set(user, map)
                         .Foreach(u, Case()
                             .When(user.__.desc != null)
-                            .Then(new [] { user})
+                            .Then(new[] { user })
                             .Else(Array.Empty<PersonEntity>())
                         .End(),
                         Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
@@ -93,9 +92,9 @@ public partial class BaseCypherCardsTests
         Assert.Equal("Describe 0", result);
 
 
-        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) 
+        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30)
         {
-            key = i ,
+            key = i,
             desc = i % 3 == 0 ? $"Describe {i}" : null
         };
     }
@@ -145,9 +144,9 @@ public partial class BaseCypherCardsTests
         Assert.Equal("Describe 0", result);
 
 
-        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30) 
+        PersonEntity UserFactory(int i) => new PersonEntity($"User {i}", i + 30)
         {
-            key = i ,
+            key = i,
             desc = i % 3 == 0 ? $"Describe {i}" : null
         };
     }

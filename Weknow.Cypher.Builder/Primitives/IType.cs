@@ -1,6 +1,4 @@
-﻿using Weknow.Cypher.Builder;
-
-namespace Weknow.CypherBuilder
+﻿namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Relation's Type primitive for the Cypher expression.
@@ -19,7 +17,7 @@ namespace Weknow.CypherBuilder
         /// Creates a mock object's type.
         /// </summary>
         /// <returns></returns>
-        public readonly static IType Fake = MockGenerator.MockInterface<IType>();
+        public readonly static IType Fake = Stub.Empty;
 
         /// <summary>
         /// Implements the operator |.

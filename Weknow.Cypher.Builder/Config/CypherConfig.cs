@@ -35,10 +35,10 @@
         public CypherFlavor Flavor { get; set; } = CypherFlavor.OpenCypher;
 
         public char Separator => Flavor switch
-            {
-                CypherFlavor.Neo4j5 => '&',
-                _ => ':'
-            };
+        {
+            CypherFlavor.Neo4j5 => '&',
+            _ => ':'
+        };
 
-}
+    }
 }

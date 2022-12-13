@@ -956,10 +956,10 @@ public static partial class CypherExtensions
     #region Then
 
     [Cypher("$0 THEN $1")]
-    public static FluentCase Then(this FluentCaseWhen prv, object? value ) => throw new NotImplementedException();
+    public static FluentCase Then(this FluentCaseWhen prv, object? value) => throw new NotImplementedException();
 
     [Cypher("$0 THEN '$1'")]
-    public static FluentCase Then(this FluentCaseWhen prv, string value ) => throw new NotImplementedException();
+    public static FluentCase Then(this FluentCaseWhen prv, string value) => throw new NotImplementedException();
 
     #endregion // Then
 
@@ -967,10 +967,10 @@ public static partial class CypherExtensions
     #region Else
 
     [Cypher("$0\r\n\tELSE $1")]
-    public static FluentCase Else(this FluentCase prv, object? value ) => throw new NotImplementedException();
+    public static FluentCase Else(this FluentCase prv, object? value) => throw new NotImplementedException();
 
     [Cypher("$0\r\n\tELSE '$1'")]
-    public static FluentCase Else(this FluentCase prv, string value ) => throw new NotImplementedException();
+    public static FluentCase Else(this FluentCase prv, string value) => throw new NotImplementedException();
 
     #endregion // Else
 

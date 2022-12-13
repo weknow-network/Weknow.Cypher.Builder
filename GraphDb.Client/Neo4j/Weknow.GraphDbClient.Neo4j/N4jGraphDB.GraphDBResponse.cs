@@ -381,7 +381,7 @@ internal partial class N4jGraphDB
             }
             result = entity.As<T>();
             return result;
-                
+
         }
 
         #endregion // T ConvertTo<T>(object entity)

@@ -10,7 +10,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
-    
+
     public class FunctionsExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

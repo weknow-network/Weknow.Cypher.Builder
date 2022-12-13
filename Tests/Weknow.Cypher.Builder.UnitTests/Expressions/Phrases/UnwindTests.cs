@@ -358,10 +358,10 @@ SET n += item", cypher.Query);
 
         CypherCommand cypher = _(map => n => m =>
                                 Unwind(items, map,
-                                Merge(N(n, Person, new { map.__<Foo>().Id }) - 
-                                      R[By] > 
+                                Merge(N(n, Person, new { map.__<Foo>().Id }) -
+                                      R[By] >
                                       N(m, Maintainer,
-                                             new { m.Prm._<Foo>().Id , Date }))),
+                                             new { m.Prm._<Foo>().Id, Date }))),
                                 cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);

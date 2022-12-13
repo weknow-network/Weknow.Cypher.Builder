@@ -7,7 +7,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
-    
+
     public class NodeTests
     {
         private readonly ITestOutputHelper _outputHelper;

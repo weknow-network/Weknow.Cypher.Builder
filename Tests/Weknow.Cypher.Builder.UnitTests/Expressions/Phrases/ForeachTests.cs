@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    
+
     public class ForeachTests
     {
         private readonly ITestOutputHelper _outputHelper;
@@ -37,7 +37,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (item IN $items |{NewLine}\t" +
-                "SET item.Version = $p_1)", 
+                "SET item.Version = $p_1)",
                 cypher.Query);
             Assert.Null(cypher.Parameters["items"]);
             Assert.Equal(1, cypher.Parameters["p_1"]);
@@ -59,7 +59,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (item IN items |{NewLine}\t" +
-                "SET item.Version = $p_0)", 
+                "SET item.Version = $p_0)",
                 cypher.Query);
             Assert.Equal(1, cypher.Parameters["p_0"]);
             Assert.Equal(1, cypher.Parameters.Count);
@@ -75,12 +75,12 @@ namespace Weknow.CypherBuilder
             var (n, item) = Variables.CreateMulti<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Foreach(item, new[] { 1, 2, 3}, Set(n, new { Value = item })));
+                                    Foreach(item, new[] { 1, 2, 3 }, Set(n, new { Value = item })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (item IN $p_0 |{NewLine}\t" +
-                "SET n.Value = item)", 
+                "SET n.Value = item)",
                 cypher.Query);
             Assert.True(new[] { 1, 2, 3 }.SequenceEqual(cypher.Parameters.Get<IEnumerable<int>>("p_0")));
             Assert.Equal(1, cypher.Parameters.Count);
@@ -103,7 +103,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal(
                 $"MATCH (n:Person){NewLine}" +
                 $"FOREACH (item IN n |{NewLine}\t" +
-                "SET item.Enabled = $p_0)", 
+                "SET item.Enabled = $p_0)",
                 cypher.Query);
             Assert.Equal(true, cypher.Parameters["p_0"]);
             Assert.Equal(1, cypher.Parameters.Count);
@@ -120,15 +120,15 @@ namespace Weknow.CypherBuilder
 
             CypherCommand cypher = _(() =>
                                     Match(v, N(p, Person) > N(a, Animal))
-                                    .Where(p._.Name == "Eric" && a._.Name == "Doggy") 
-                                    .Foreach(item,  Nodes(v), Set(item, new { Enabled = true })));
+                                    .Where(p._.Name == "Eric" && a._.Name == "Doggy")
+                                    .Foreach(item, Nodes(v), Set(item, new { Enabled = true })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MATCH v = (p:Person)-->(a:Animal){NewLine}" +
                 $"WHERE p.Name = $p_0 AND a.Name = $p_1{NewLine}" +
                 $"FOREACH (item IN nodes(v) |{NewLine}\t" +
-                "SET item.Enabled = $p_2)", 
+                "SET item.Enabled = $p_2)",
                 cypher.Query);
             Assert.Equal("Eric", cypher.Parameters["p_0"]);
             Assert.Equal("Doggy", cypher.Parameters["p_1"]);

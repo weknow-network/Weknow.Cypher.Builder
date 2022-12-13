@@ -8,7 +8,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    
+
     public class DetachDeleteTests
     {
         private readonly ITestOutputHelper _outputHelper;

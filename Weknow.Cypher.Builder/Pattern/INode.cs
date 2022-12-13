@@ -1,7 +1,4 @@
-﻿
-using Weknow.Cypher.Builder;
-
-namespace Weknow.CypherBuilder
+﻿namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Pattern primitive for the Cypher expression.
@@ -20,7 +17,7 @@ namespace Weknow.CypherBuilder
         /// Creates a mock object's node.
         /// </summary>
         /// <returns></returns>
-        internal readonly static INode Fake = MockGenerator.MockInterface<INode>();
+        internal readonly static INode Fake = Stub.Empty;
 
 
         /// <summary>

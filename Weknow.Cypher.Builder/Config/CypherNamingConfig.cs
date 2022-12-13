@@ -1,7 +1,4 @@
-﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-using Microsoft.VisualBasic;
-
-using Pluralize.NET;
+﻿using Pluralize.NET;
 
 namespace Weknow
 {

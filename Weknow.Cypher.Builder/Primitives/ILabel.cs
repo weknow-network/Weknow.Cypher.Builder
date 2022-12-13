@@ -1,6 +1,4 @@
-﻿using Weknow.Cypher.Builder;
-
-namespace Weknow.CypherBuilder
+﻿namespace Weknow.CypherBuilder
 {
 
     /// <summary>
@@ -20,13 +18,13 @@ namespace Weknow.CypherBuilder
         /// Creates a mock object's label.
         /// </summary>
         /// <returns></returns>
-        public readonly static ILabel Fake = MockGenerator.MockInterface<ILabel>();
+        public readonly static ILabel Fake = Stub.Empty;
 
         /// <summary>
         /// Use Label as a relation
         /// </summary>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IType R =>  throw new NotImplementedException();
+        public IType R => throw new NotImplementedException();
 
         /// <summary>
         /// Implements the operator &amp;.

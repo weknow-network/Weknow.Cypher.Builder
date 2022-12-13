@@ -1,9 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Weknow.CypherBuilder;
-
-using static Weknow.NamingConventionAffects;
 
 namespace Weknow
 {

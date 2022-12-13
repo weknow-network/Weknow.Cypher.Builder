@@ -29,7 +29,7 @@ public class CaseTests
     public void Case_Pattern_Test()
     {
         var n = Variables.Create<Foo>();
-        CypherCommand cypher = _(r => m => 
+        CypherCommand cypher = _(r => m =>
                                 Match(N(n) - R[r] > N(m))
                                 .Return()
                                 .Case()
@@ -151,8 +151,8 @@ public class CaseTests
         CypherCommand cypher = _(v =>
                                 Case()
                                     .When(delimiter % 2 == 0).Then(new[] { 1, 2 })
-                                    .When(delimiter % 3 == 0).Then(new List<int> { 2, 3, 4})
-                                    .When(delimiter % 5 == 0 ).Then(new List<int> ())
+                                    .When(delimiter % 3 == 0).Then(new List<int> { 2, 3, 4 })
+                                    .When(delimiter % 5 == 0).Then(new List<int>())
                                     .Else(Array.Empty<int>())
                                 .End().As(v));
 

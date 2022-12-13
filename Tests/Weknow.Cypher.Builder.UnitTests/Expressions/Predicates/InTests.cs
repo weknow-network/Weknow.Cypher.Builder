@@ -9,7 +9,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("Group", "Predicates")]
-    
+
     public class InTests
     {
         private readonly ITestOutputHelper _outputHelper;

@@ -281,7 +281,7 @@ public partial class BaseCypherCardsTests
                                 .Return(m._.name, n._.name, r.type()));
 
 
-        CypherParameters prms = cypher.Parameters 
+        CypherParameters prms = cypher.Parameters
                                       .AddOrUpdate(nameof(n._.name), ALICE);
 
         IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);

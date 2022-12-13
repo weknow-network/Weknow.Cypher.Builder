@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Pattern")]
-    
+
     public class ETagTests
     {
         private readonly ITestOutputHelper _outputHelper;

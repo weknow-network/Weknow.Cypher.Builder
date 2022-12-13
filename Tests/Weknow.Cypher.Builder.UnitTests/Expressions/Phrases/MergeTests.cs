@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    
+
     public class MergeTests
     {
         private readonly ITestOutputHelper _outputHelper;

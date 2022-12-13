@@ -8,7 +8,7 @@ using static Weknow.CypherBuilder.Schema;
 namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
-    
+
     public class PropertiesExpressionTests
     {
         private readonly ITestOutputHelper _outputHelper;

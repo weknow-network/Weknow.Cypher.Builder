@@ -1,5 +1,4 @@
-﻿using Weknow.Cypher.Builder;
-using Weknow.CypherBuilder.Declarations;
+﻿using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {
@@ -20,7 +19,7 @@ namespace Weknow.CypherBuilder
         /// Creates a mock object's node.
         /// </summary>
         /// <returns></returns>
-        internal readonly static IRelation Fake = MockGenerator.MockInterface<IRelation>();
+        internal readonly static IRelation Fake = Stub.Empty;
 
         #region Indexers this[...]
 

@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "Phrases")]
-    
+
     public class WhereTests
     {
         private readonly ITestOutputHelper _outputHelper;

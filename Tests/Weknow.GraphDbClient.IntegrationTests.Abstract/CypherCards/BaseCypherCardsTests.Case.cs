@@ -1,7 +1,4 @@
-using System.Data;
-
 using Weknow.CypherBuilder;
-using Weknow.GraphDbClient.Abstraction;
 
 using Xunit;
 

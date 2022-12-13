@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
-using Weknow.Mapping;
 
 namespace Weknow.CypherBuilder
 {
@@ -19,8 +17,8 @@ namespace Weknow.CypherBuilder
         private readonly HashSet<string> _ambientOnce = new();
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
-        private IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
-        private IStackCancelable<bool> _isCypherInput = Disposable.CreateStack(false);
+        private readonly IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
+        private readonly IStackCancelable<bool> _isCypherInput = Disposable.CreateStack(false);
 
 
         #region Ctor
@@ -142,7 +140,7 @@ namespace Weknow.CypherBuilder
                     break;
                 case ExpressionType.Equal:
                     if (isRightNull)
-                    { 
+                    {
                         Query.Append(" IS NULL ");
                         return node;
                     }
@@ -151,7 +149,7 @@ namespace Weknow.CypherBuilder
                     break;
                 case ExpressionType.NotEqual:
                     if (isRightNull)
-                    { 
+                    {
                         Query.Append(" IS NOT NULL ");
                         return node;
                     }
@@ -479,7 +477,7 @@ namespace Weknow.CypherBuilder
         {
             var separator = _configuration.Separator;
 
-            if(!_isCypherInput.State)
+            if (!_isCypherInput.State)
                 Query.Append("[");
             foreach (var expr in node.Expressions)
             {
@@ -493,7 +491,7 @@ namespace Weknow.CypherBuilder
                         Query.Append(", ");
                 }
             }
-            if(!_isCypherInput.State)
+            if (!_isCypherInput.State)
                 Query.Append("]");
             return node;
         }
@@ -519,7 +517,7 @@ namespace Weknow.CypherBuilder
             {
                 if (isEnumerable)
                 {
-                    if(!ignoreEnumerable && !_isCypherInput.State)
+                    if (!ignoreEnumerable && !_isCypherInput.State)
                         Query.Append("[");
                 }
                 else
@@ -686,7 +684,7 @@ namespace Weknow.CypherBuilder
 
         protected override ElementInit VisitElementInit(ElementInit node)
         {
-            var result =  base.VisitElementInit(node);
+            var result = base.VisitElementInit(node);
             Query.Append(", ");
             return result;
         }
@@ -731,7 +729,7 @@ namespace Weknow.CypherBuilder
 
                                 int count = args.Count;
                                 // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
-                                if (expr is NewArrayExpression naExp && 
+                                if (expr is NewArrayExpression naExp &&
                                     expr.NodeType == ExpressionType.NewArrayInit)
                                 {
                                     if (isArray)

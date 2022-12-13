@@ -9,7 +9,7 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
     [Trait("Group", "NoMagic")]
-    
+
     public class NoMagicTests
     {
         private readonly ITestOutputHelper _outputHelper;

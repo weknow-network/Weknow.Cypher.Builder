@@ -1,7 +1,4 @@
-﻿
-using Weknow.CypherBuilder.Declarations;
-
-namespace Weknow.CypherBuilder
+﻿namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// decorate object collection which are part of the Cypher Builder API,
@@ -9,8 +6,8 @@ namespace Weknow.CypherBuilder
     /// </summary>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public class CypherInputCollectionAttribute: Attribute
+    public class CypherInputCollectionAttribute : Attribute
     {
-       
+
     }
 }
