@@ -79,47 +79,6 @@ namespace Weknow.CypherBuilder
             [0] = new ContextValue<Expression?>(null),
         };
 
-        #region HandleAmbientLabels
-
-        private void HandleAmbientLabels(Expression node, params string[] labels)
-        {
-            if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
-                return;
-
-            var separator = _configuration.Separator;
-
-            if (!_shouldHandleAmbient.Value)
-            {
-                if (labels == null || labels.Length == 0)
-                    return;
-
-                HandleStartChar();
-
-
-                IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
-                var addition = string.Join(separator, formatted);
-                Query.Append(addition);
-                return;
-            }
-
-            _shouldHandleAmbient.Deactivate();
-
-            HandleStartChar();
-
-            Query.Append(_configuration.AmbientLabels.Combine(labels));
-
-            void HandleStartChar()
-            {
-                if (node.Type != typeof(VariableDeclaration))
-                    return;
-                char lastChar = Query[^1];
-                if (lastChar != ':')
-                    Query.Append(':');
-            }
-        }
-
-        #endregion // HandleAmbientLabels
-
         #region VisitLambda
 
         /// <summary>
@@ -150,6 +109,9 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitBinary(BinaryExpression node)
         {
             Visit(node.Left);
+
+            bool isRightNull = node.Right is ConstantExpression rexp && rexp.Value == null;
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             switch (node.NodeType)
             {
@@ -179,10 +141,20 @@ namespace Weknow.CypherBuilder
                         Query.Append("-");
                     break;
                 case ExpressionType.Equal:
+                    if (isRightNull)
+                    { 
+                        Query.Append(" IS NULL ");
+                        return node;
+                    }
                     string? eq = EqualPattern();
                     Query.Append(eq);
                     break;
                 case ExpressionType.NotEqual:
+                    if (isRightNull)
+                    { 
+                        Query.Append(" IS NOT NULL ");
+                        return node;
+                    }
                     Query.Append(" <> ");
                     break;
                 case ExpressionType.GreaterThanOrEqual:
@@ -673,6 +645,50 @@ namespace Weknow.CypherBuilder
 
         #endregion // VisitParameter
 
+        #region VisitUnary
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            // TODO: [bnaya 2022-12-06] support n += $map
+
+            if (node.NodeType == ExpressionType.Not)
+                Query.Append("!");
+            return base.VisitUnary(node);
+        }
+
+        #endregion // VisitUnary
+
+        #region VisitListInit
+
+        protected override Expression VisitListInit(ListInitExpression node)
+        {
+            if (!_isCypherInput.State)
+                Query.Append("[");
+
+            var result = base.VisitListInit(node);
+
+            if (Query[^2..].ToString() == ", ")
+                Query.Remove(Query.Length - 2, 2);
+
+            if (!_isCypherInput.State)
+                Query.Append("]");
+
+            return result;
+        }
+
+        #endregion // VisitListInit
+
+        #region VisitElementInit
+
+        protected override ElementInit VisitElementInit(ElementInit node)
+        {
+            var result =  base.VisitElementInit(node);
+            Query.Append(", ");
+            return result;
+        }
+
+        #endregion // VisitElementInit
+
         #region ApplyFormat
 
         /// <summary>
@@ -909,67 +925,45 @@ namespace Weknow.CypherBuilder
 
         #endregion // AmbientContextStack
 
-        #region VisitUnary
+        #region HandleAmbientLabels
 
-        protected override Expression VisitUnary(UnaryExpression node)
+        private void HandleAmbientLabels(Expression node, params string[] labels)
         {
-            // TODO: [bnaya 2022-12-06] support n += $map
+            if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
+                return;
 
-            if (node.NodeType == ExpressionType.Not)
-                Query.Append("!");
-            return base.VisitUnary(node);
+            var separator = _configuration.Separator;
+
+            if (!_shouldHandleAmbient.Value)
+            {
+                if (labels == null || labels.Length == 0)
+                    return;
+
+                HandleStartChar();
+
+
+                IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
+                var addition = string.Join(separator, formatted);
+                Query.Append(addition);
+                return;
+            }
+
+            _shouldHandleAmbient.Deactivate();
+
+            HandleStartChar();
+
+            Query.Append(_configuration.AmbientLabels.Combine(labels));
+
+            void HandleStartChar()
+            {
+                if (node.Type != typeof(VariableDeclaration))
+                    return;
+                char lastChar = Query[^1];
+                if (lastChar != ':')
+                    Query.Append(':');
+            }
         }
 
-        #endregion // VisitUnary
-
-        protected override Expression VisitListInit(ListInitExpression node)
-        {
-            if (!_isCypherInput.State)
-                Query.Append("[");
-
-            var result = base.VisitListInit(node);
-
-            if (Query[^2..].ToString() == ", ")
-                Query.Remove(Query.Length - 2, 2);
-
-            if (!_isCypherInput.State)
-                Query.Append("]");
-
-            return result;
-        }
-
-        protected override Expression VisitLoop(LoopExpression node)
-        {
-            return base.VisitLoop(node);
-        }
-
-        protected override ElementInit VisitElementInit(ElementInit node)
-        {
-            var result =  base.VisitElementInit(node);
-            Query.Append(", ");
-            return result;
-        }
-
-        protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
-        {
-            return base.VisitMemberAssignment(node);
-        }
-
-        protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
-        {
-            return base.VisitMemberListBinding(node);
-        }
-
-        protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
-        {
-            return base.VisitMemberMemberBinding(node);
-        }
-
-        [return: NotNullIfNotNull("node")]
-        public override Expression? Visit(Expression? node)
-        {
-            var result = base.Visit(node);
-            return result;
-        }
+        #endregion // HandleAmbientLabels
     }
 }

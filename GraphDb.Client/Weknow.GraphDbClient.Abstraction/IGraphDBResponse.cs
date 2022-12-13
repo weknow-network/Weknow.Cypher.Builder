@@ -3,6 +3,9 @@
 
 namespace Weknow.GraphDbClient.Abstraction;
 
+// TODO: [bnaya 2022-12-13] GetAsync should work with expression
+// Example: var result = await responseGet.GetAsync<string>(user.__.desc);
+
 /// <summary>
 /// Graph Database response abstraction
 /// </summary>
