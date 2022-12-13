@@ -45,8 +45,6 @@ public partial class BaseCypherCardsTests
 
     #endregion // FOREACH (item IN $items | CREATE (:PERSON:_TEST_ { Version: item }))
 
-    // TODO: no RawCypher & switch u with user
-
     #region FOREACH - When pattern
 
     [Fact]
@@ -110,6 +108,7 @@ public partial class BaseCypherCardsTests
 
         var users = Parameters.Create();
         var (user, u) = Variables.CreateMulti<PersonEntity>();
+#pragma warning disable CS0618 // Type or member is obsolete
         CypherCommand cypher = _(map => n =>
                 Unwind(users, map,
                         Create(N(user, Person))
@@ -122,6 +121,7 @@ public partial class BaseCypherCardsTests
                         Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
                         )
                     ));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         CypherParameters prms = cypher.Parameters;
         var usersPrm = Enumerable.Range(0, 10)

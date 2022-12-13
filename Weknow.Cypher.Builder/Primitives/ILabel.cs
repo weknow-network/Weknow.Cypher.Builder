@@ -24,7 +24,7 @@
         /// Use Label as a relation
         /// </summary>
         /// <exception cref="System.NotImplementedException"></exception>
-        public IType R => throw new NotImplementedException();
+        public IType R => Stub.Empty;
 
         /// <summary>
         /// Implements the operator &amp;.
@@ -35,8 +35,8 @@
         /// The result of the operator.
         /// </returns>
         /// <example><![CDATA[(n:Person:Animal)]]></example>
-        public static ILabel operator &(ILabel a, ILabel b) => throw new NotImplementedException();
-        public static ILabel operator !(ILabel a) => throw new NotImplementedException();
+        public static ILabel operator &(ILabel a, ILabel b) => Stub.Empty;
+        public static ILabel operator !(ILabel a) => Stub.Empty;
     }
 
 }

@@ -34,7 +34,7 @@ public class UnwindTests
 
         CypherCommand cypher = _(() =>
                                 Unwind(items, item,
-                                Match(N(n, Person, new { (~item)._.PropA, (~item)._.PropB }))));
+                                Match(N(n, Person, new { item.__.PropA, item.__.PropB }))));
 
         _outputHelper.WriteLine(cypher);
         Assert.Equal(@"UNWIND $items AS item
@@ -282,7 +282,7 @@ SET n += item", cypher.Query);
 
         CypherCommand cypher = _(n =>
                                Unwind(items, map,
-                               Merge(N(n, Person, new { map.__.Id, (~map)._.Name }))
+                               Merge(N(n, Person, new { map.__.Id, map.__.Name }))
                                .OnCreateSet(n, map)
                                .Return(n)),
                                 cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);

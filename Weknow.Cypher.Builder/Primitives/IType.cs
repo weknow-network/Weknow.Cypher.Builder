@@ -27,9 +27,26 @@
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        /// <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
-        public static IType operator |(IType a, IType b) => throw new NotImplementedException();
-        public static IType operator &(IType a, IType b) => throw new NotImplementedException();
-        public static IType operator !(IType a) => throw new NotImplementedException();
+        /// <example><![CDATA[(n)-[:KNOWS|LOVES]->(m)]]></example>
+        public static IType operator |(IType a, IType b) => Stub.Empty;
+        /// <summary>
+        /// <![CDATA[Implements the operator &.]]>
+        /// </summary>
+        /// <param name="a">a.</param>
+        /// <param name="b">The b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        /// <example><![CDATA[(n)-[:KNOWS&LOVES]->(m)]]></example>
+        public static IType operator &(IType a, IType b) => Stub.Empty;
+        /// <summary>
+        /// Implements the operator !.
+        /// </summary>
+        /// <param name="a">a.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        /// <example><![CDATA[(n)-[:!KNOWS]->(m)]]></example>
+        public static IType operator !(IType a) => Stub.Empty;
     }
 }

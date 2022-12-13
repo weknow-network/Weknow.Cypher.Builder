@@ -209,7 +209,7 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             if (node.Method.Name == nameof(Array.Empty) &&
-                node.Method.DeclaringType.Name == nameof(Array))
+                node?.Method?.DeclaringType?.Name == nameof(Array))
             {
                 Query.Append("[]");
                 return node;
