@@ -208,6 +208,7 @@ public partial interface ICypher
     /// RETURN n
     /// </example>
     [Cypher("RETURN")]
+	[CypherClause]
     public static Fluent Return() => throw new NotImplementedException();
 
     /// <summary>
@@ -220,6 +221,7 @@ public partial interface ICypher
     /// RETURN n
     /// </example>
     [Cypher("RETURN $0$1")]
+	[CypherClause]
     public static Fluent Return(ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
 
     #endregion // Return
@@ -237,6 +239,7 @@ public partial interface ICypher
     /// MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("MATCH $0 = $1")]
+	[CypherClause]
     public static Fluent Match(VariableDeclaration var, INode n) => throw new NotImplementedException();
 
     /// <summary>
@@ -249,6 +252,7 @@ public partial interface ICypher
     /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("MATCH $0")]
+	[CypherClause]
     public static Fluent Match(INode n) => throw new NotImplementedException();
 
     /// <summary>
@@ -262,6 +266,7 @@ public partial interface ICypher
     /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("MATCH $0, $1")]
+	[CypherClause]
     public static Fluent Match(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
 
     /// <summary>
@@ -274,6 +279,7 @@ public partial interface ICypher
     /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("OPTIONAL MATCH $0")]
+	[CypherClause]
     public static Fluent OptionalMatch(INode n) => throw new NotImplementedException();
 
     /// <summary>
@@ -287,6 +293,7 @@ public partial interface ICypher
     /// MATCH (n:Person)-[:KNOWS]-&gt;(m:Person)
     /// </example>
     [Cypher("OPTIONAL MATCH $0,$1")]
+	[CypherClause]
     public static Fluent OptionalMatch(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
 
     #endregion // Match
@@ -302,6 +309,7 @@ public partial interface ICypher
     /// CREATE (n {name: $value})
     /// </example>
     [Cypher("CREATE $0")]
+	[CypherClause]
     public static Fluent Create(IPattern p) => throw new NotImplementedException();
 
     #endregion // Create
@@ -317,6 +325,7 @@ public partial interface ICypher
     /// MERGE (n:Person {name: $value})
     /// </example>
     [Cypher("MERGE $0")]
+	[CypherClause]
     public static Fluent Merge(IPattern p) => throw new NotImplementedException();
 
     #endregion // Merge
@@ -334,6 +343,7 @@ public partial interface ICypher
     /// SET n:Person:Manager
     /// </example>
     [Cypher("&SET $0$1")]
+	[CypherClause]
     public static Fluent Set(VariableDeclaration var, [CypherInputCollection] params ILabel[] label)
         => throw new NotImplementedException();
 
@@ -350,6 +360,7 @@ public partial interface ICypher
     /// SET n = map
     /// </example>
     [Cypher("&SET $0 = $1")]
+	[CypherClause]
     public static Fluent Set(VariableDeclaration var, VariableDeclaration assignment)
         => throw new NotImplementedException();
 
@@ -365,6 +376,7 @@ public partial interface ICypher
     /// SET n = $map
     /// </example>
     [Cypher("&SET $0 = $1")]
+	[CypherClause]
     public static Fluent Set(VariableDeclaration var, ParameterDeclaration assignment)
         => throw new NotImplementedException();
 
@@ -381,6 +393,7 @@ public partial interface ICypher
     /// SET n.Name = $Name, n.Code = prm.Code
     /// </example>
     [Cypher("&SET +00$1")]
+	[CypherClause]
     public static Fluent Set(VariableDeclaration var, object assignment)
         => throw new NotImplementedException();
 
@@ -401,6 +414,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&UNWIND \\$$[]0 AS $1\r\n$2")]
+	[CypherClause]
     public static Fluent Unwind<T>([CypherInputCollection] IEnumerable<T> items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
 
@@ -417,6 +431,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&UNWIND \\$$0 AS $1\r\n$2")]
+	[CypherClause]
     public static Fluent Unwind(VariableDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
     /// <summary>
@@ -428,6 +443,7 @@ public partial interface ICypher
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [Cypher("&UNWIND $0 AS $1\r\n$2")]
+	[CypherClause]
     public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
 
     #endregion // Unwind
@@ -447,6 +463,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&FOREACH ($0 IN \\$$[]1 |\r\n\t$2)")]
+	[CypherClause]
     public static Fluent Foreach<T>(VariableDeclaration item, [CypherInputCollection] IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
 
     /// <summary>
@@ -462,6 +479,7 @@ public partial interface ICypher
     /// RETURN avg(n.age)
     /// </example>
     [Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
+	[CypherClause]
     public static Fluent Foreach(VariableDeclaration item, VariableDeclaration items, Fluent p) => throw new NotImplementedException();
 
     /// <summary>
@@ -473,6 +491,7 @@ public partial interface ICypher
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
     [Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
+	[CypherClause]
     public static Fluent Foreach(VariableDeclaration item, ParameterDeclaration items, Fluent p) => throw new NotImplementedException();
 
     #endregion // Foreach

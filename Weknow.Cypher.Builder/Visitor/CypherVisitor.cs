@@ -20,6 +20,17 @@ namespace Weknow.CypherBuilder
         private readonly IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
         private readonly IStackCancelable<bool> _isCypherInput = Disposable.CreateStack(false);
 
+        private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
+
+
+        // track the recent cypher operator (in contrast with _methodExpr which pick specific operators)
+        private readonly IStackCancelable<string> _directOperation = Disposable.CreateStack(string.Empty);
+        private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
+
+        private readonly Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
+        {
+            [0] = new ContextValue<Expression?>(null),
+        };
 
         #region Ctor
 
@@ -67,15 +78,6 @@ namespace Weknow.CypherBuilder
         public CypherParameters Parameters => _parameters;
 
         #endregion // Parameters
-
-        private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
-
-        private readonly ContextValue<MethodCallExpression?> _methodExpr = new ContextValue<MethodCallExpression?>(null);
-
-        private readonly Dictionary<int, ContextValue<Expression?>> _expression = new Dictionary<int, ContextValue<Expression?>>()
-        {
-            [0] = new ContextValue<Expression?>(null),
-        };
 
         #region VisitLambda
 
@@ -165,7 +167,8 @@ namespace Weknow.CypherBuilder
                     Query.Append("|");
                     break;
                 case ExpressionType.And:
-                    if (_configuration.Flavor == CypherFlavor.Neo4j5)
+
+                    if (_configuration.Flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
                         Query.Append("&");
                     else
                         Query.Append(":");
@@ -208,14 +211,23 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (node.Method.Name == nameof(Array.Empty) &&
-                node?.Method?.DeclaringType?.Name == nameof(Array))
+            var mtd = node.Method;
+
+            if (mtd.Name == nameof(Array.Empty) &&
+                mtd.DeclaringType?.Name == nameof(Array))
             {
                 Query.Append("[]");
                 return node;
             }
 
-            bool shouldCreatePrms = node.Method.Name switch
+            var opScope = Disposable.Empty;
+            if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null )
+            {
+                opScope = _directOperation.Push(mtd.Name);
+            }
+            using var opScp = opScope;
+
+            bool shouldCreatePrms = mtd.Name switch
             {
                 nameof(CypherExtensions.Case) => false,
                 nameof(CypherExtensions.When) => false,
@@ -226,11 +238,11 @@ namespace Weknow.CypherBuilder
             };
             using var _ = _shouldCreateParameter.Push(shouldCreatePrms);
 
-            string mtdName = node.Method.Name;
+            string mtdName = mtd.Name;
             string type = node.Type.Name;
             ReadOnlyCollection<Expression> args = node.Arguments;
 
-            var format = node.Method.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
+            var format = mtd.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
 
             if (format != null)
             {
@@ -967,5 +979,20 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // HandleAmbientLabels
+
+        #region IsNeo4jAndExpression()
+        private bool IsNeo4jAndExpression() => _directOperation.State switch
+        {
+            nameof(ICypher.Match) => true,
+            nameof(ICypher.OptionalMatch) => true,
+            nameof(CypherExtensions.Where) => true,
+            nameof(CypherExtensions.When) => true,
+            nameof(CypherExtensions.With) => true,
+            nameof(CypherExtensions.Return) => true,
+            nameof(CypherExtensions.ReturnDistinct) => true,
+            _ => false
+        };
+
+        #endregion // IsNeo4jAndExpression()
     }
 }

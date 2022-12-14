@@ -21,6 +21,12 @@
             Gets the format.
             </summary>
         </member>
+        <member name="T:Weknow.CypherBuilder.CypherClauseAttribute">
+            <summary>
+            Cypher Clause indicator
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
         <member name="T:Weknow.CypherBuilder.ConstraintOptions">
             <summary>
             Constraint options
@@ -3157,7 +3163,28 @@
             <returns>
             The result of the operator.
             </returns>
-            <example><![CDATA[(n)-[:KNOWS|:LOVES]->(m)]]></example>
+            <example><![CDATA[(n)-[:KNOWS|LOVES]->(m)]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IType.op_BitwiseAnd(Weknow.CypherBuilder.IType,Weknow.CypherBuilder.IType)">
+            <summary>
+            <![CDATA[Implements the operator &.]]>
+            </summary>
+            <param name="a">a.</param>
+            <param name="b">The b.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example><![CDATA[(n)-[:KNOWS&LOVES]->(m)]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IType.op_LogicalNot(Weknow.CypherBuilder.IType)">
+            <summary>
+            Implements the operator !.
+            </summary>
+            <param name="a">a.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+            <example><![CDATA[(n)-[:!KNOWS]->(m)]]></example>
         </member>
         <member name="T:Weknow.CypherBuilder.Declarations.ParameterDeclaration">
             <summary>
