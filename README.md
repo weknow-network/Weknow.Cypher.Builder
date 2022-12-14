@@ -14,7 +14,7 @@
 
 ## Goals
 Cypher Builder aim to be developer friendly library for cypher query.
-It bring as match intellisense & cypher correction as it can while keeping the Cypher expression readable.  
+It bring as match intellisense & cypher correction as it can while keeping the Cypher expression readable and well documented.  
 
 When this library evolve over time, we consider:
 - Source code generation which will provide a type-safe parameters 
