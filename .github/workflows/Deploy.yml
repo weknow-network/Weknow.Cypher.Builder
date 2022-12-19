@@ -20,7 +20,7 @@ on:
 jobs:
       
   build-nuget:
-    uses: weknow-network/weknow-workflows/.github/workflows/dotnet-build-deploy-public-nuget.yml@release/2022-11-15/net7
+    uses: weknow-network/weknow-workflows/.github/workflows/dotnet-build-deploy-public-nuget.yml@release/2022-12-19/coverage
     secrets:
       NUGET_PUBLISH: ${{ secrets.NUGET_PUBLISH }}
     with:
