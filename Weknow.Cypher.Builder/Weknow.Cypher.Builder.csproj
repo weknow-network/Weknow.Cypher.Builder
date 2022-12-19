@@ -24,7 +24,8 @@
     <PackageReference Include="Pluralize.NET" Version="1.0.2" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="Weknow-BasicExtensions" Version="1.0.42" />
-    <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.27" />
+    <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.28" />
+    <PackageReference Include="Weknow.Mapping.Generation.SrcGen" Version="1.0.28" />
   </ItemGroup>
 
   <ItemGroup>
