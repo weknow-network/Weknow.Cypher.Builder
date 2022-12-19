@@ -28,4 +28,14 @@ jobs:
       dotnet-version: 7.0.x
       include-prerelease: false
       test-project: Tests/Weknow.Cypher.Builder.UnitTests
+
+
+  code-covarage:
+    uses: b3b00/coverlet-action@1.1.9
+    with:
+      testProject: 'Tests/Weknow.Cypher.Builder.UnitTests/Weknow.Cypher.Builder.UnitTests.csproj'
+      output: 'lcov.info'
+      outputFormat: 'lcov'
+      excludes: '[program]*,[test]test.*'
+      threshold: 80
  
