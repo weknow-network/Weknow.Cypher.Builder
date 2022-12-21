@@ -1138,4 +1138,11 @@ public static partial class CypherExtensions
     public static Fluent End(this FluentCase prv) => throw new NotImplementedException();
 
     #endregion // End
+
+    #region IgnoreAmbient
+
+    [Cypher("$0\r\n$1")]
+    public static Fluent IgnoreAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
+
+    #endregion // IgnoreAmbient
 }

@@ -573,6 +573,10 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
                                     Match(N(item, Person, new { item.__.PropA, item.__.PropB })))
                                 .Unwind(items, item1 =>
                                     Match(N(item1, Person, new { item1.__.PropA, item1.__.PropB })))
+                                .IgnoreAmbient(
+                                    Unwind(items, item2 =>
+                                        Match(N(item2, Person, new { item2.__.PropA, item2.__.PropB })))
+                                )
                                  ,cfg =>
                                  {
                                      cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
@@ -584,7 +588,9 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
         Assert.Equal(@"UNWIND $items AS item
 MATCH (item:PROD:PERSON { PropA: item.PropA, PropB: item.PropB })
 UNWIND $items AS item1
-MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Query);
+MATCH (item1:PERSON { PropA: item1.PropA, PropB: item1.PropB })
+UNWIND $items AS item2
+MATCH (item2:PERSON { PropA: item2.PropA, PropB: item2.PropB })", cypher.Query);
     }
 
     #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 

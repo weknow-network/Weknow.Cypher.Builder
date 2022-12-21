@@ -1713,6 +1713,11 @@
             Behaviors of Ignore Context.
             </summary>
         </member>
+        <member name="T:Weknow.CypherBuilder.IgnoreBehavior">
+            <summary>
+            Ignore things.
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
             <summary>
             Behaviors of Ignore Context.

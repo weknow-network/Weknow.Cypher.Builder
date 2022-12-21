@@ -21,6 +21,7 @@ namespace Weknow.CypherBuilder
         private bool _isRawChypher = false;
         private readonly IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
         private readonly IStackCancelable<bool> _isCypherInput = Disposable.CreateStack(false);
+        private readonly IStackCancelable<IgnoreBehavior> _ignoreScope = Disposable.CreateStack(IgnoreBehavior.None);
 
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
 
@@ -219,6 +220,12 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             var mtd = node.Method;
+
+            using var ignoreScope = mtd.Name switch
+            {
+                nameof(CypherExtensions.IgnoreAmbient) => _ignoreScope.Push(IgnoreBehavior.Ambient),
+                _ => Disposable.Empty
+            };
 
             if (mtd.Name == nameof(Array.Empty) &&
                 mtd.DeclaringType?.Name == nameof(Array))
@@ -959,7 +966,7 @@ namespace Weknow.CypherBuilder
 
             var separator = _configuration.Separator;
 
-            if (!_shouldHandleAmbient.Value)
+            if ((_ignoreScope.State & IgnoreBehavior.Ambient) == IgnoreBehavior.Ambient || !_shouldHandleAmbient.Value)
             {
                 if (labels == null || labels.Length == 0)
                     return;

@@ -242,14 +242,14 @@ namespace Weknow.CypherBuilder
         {
             var p = Parameters.Create<Bar>();
             var maintainer_Id = Parameters.Create();
-            var (u, maintainer_, n, items) = Variables.CreateMulti();
-            var item = Variables.Create<Foo>();
+            var (u, maintainer_, n) = Variables.CreateMulti();
+            var items = Variables.Create<Foo>();
 
             INode user = Reuse(() => N(u, Maintainer, new { Id = maintainer_Id }));
             INode by = Reuse(() => N(u) - R[By, new { p._.Date }] > N(n));
             CypherCommand cypher =
                 _(() =>
-                             Unwind(items, item,
+                             Unwind(items, item =>
                                 //                       Id = item.Id
                                 Match(N(n, Person, new { item.__.Id }), user)
                                 .Merge(by)
