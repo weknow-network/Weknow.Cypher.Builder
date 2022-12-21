@@ -256,7 +256,7 @@ namespace Weknow.CypherBuilder
                                 .Return(n)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal($"UNWIND $items AS item{NewLine}" +
+            Assert.Equal($"UNWIND items AS item{NewLine}" +
                 $"MATCH (n:Person {{ Id: item.Id }}), (u:Maintainer {{ Id: $maintainer_Id }}){NewLine}" +
                 $"MERGE (u)-[:By {{ Date: $Date }}]->(n){NewLine}" +
                 "RETURN n", cypher);

@@ -5,6 +5,8 @@ using System.Reflection;
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
 
+using static Weknow.CypherBuilder.CypherDelegates;
+
 namespace Weknow.CypherBuilder
 {
     /// <summary>
@@ -91,6 +93,11 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
+            if (node.Type.Name.StartsWith(nameof(FluentUnwindAction)))
+            {
+                Query.Append(node.Parameters[0].Name);
+                Query.Append(Environment.NewLine);
+            }
             Visit(node.Body);
             return node;
         }
@@ -434,6 +441,10 @@ namespace Weknow.CypherBuilder
                 if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is MemberExpression vme1)
                 {
                     candidateVariable = $"{vme1.Member.Name}.";
+                }
+                if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is ParameterExpression vmpe)
+                {
+                    candidateVariable = $"{vmpe.Name}.";
                 }
                 var candidateLen = candidateVariable.Length;
                 if (Query[^candidateLen..].ToString() != candidateVariable)

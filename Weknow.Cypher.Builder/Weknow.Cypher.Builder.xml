@@ -994,6 +994,83 @@
             RETURN avg(n.age)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind``1(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="next">The next statement.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction{``0})">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction{``0})">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="p">The p.</param>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Unwind(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             UNWIND phrase.
@@ -1975,6 +2052,72 @@
             <param name="items">The items.</param>
             <param name="item">The item.</param>
             <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Unwind``1(System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction{``0})">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <param name="p">The p.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Unwind(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Unwind``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction{``0})">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Unwind(Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction)">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
+            <returns></returns>
+            <example>
+            UNWIND $names AS name
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Unwind``1(Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentUnwindAction{``0})">
+            <summary>
+            UNWIND phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="item">The item.</param>
             <returns></returns>
             <example>
             UNWIND $names AS name

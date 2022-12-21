@@ -6,7 +6,7 @@ namespace Weknow.CypherBuilder
     /// Cypher Attribute used to specify formatting pattern
     /// </summary>
     /// <seealso cref="System.Attribute" />
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Delegate)]
     public sealed class CypherAttribute : Attribute
     {
         #region Ctor

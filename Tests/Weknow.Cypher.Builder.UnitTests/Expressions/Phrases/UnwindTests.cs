@@ -26,6 +26,102 @@ public class UnwindTests
     #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
 
     [Fact]
+    public void Unwind_FuncT_Test()
+    {
+        var items = Parameters.Create<Foo>();
+        var n = Variables.Create();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__.PropA, item.__.PropB })))
+                                .Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__.PropA, item.__.PropB })))
+                                );
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })
+UNWIND $items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
+    public void Unwind_Func_Test()
+    {
+        var items = Parameters.Create();
+        var n = Variables.Create();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__<Foo>().PropA, item.__<Foo>().PropB })))
+                                .Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__<Foo>().PropA, item.__<Foo>().PropB })))
+                                );
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND $items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })
+UNWIND $items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
+    public void Unwind_FuncT_Var_Test()
+    {
+        var items = Variables.Create<Foo>();
+        var n = Variables.Create();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__.PropA, item.__.PropB })))
+                                .Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__.PropA, item.__.PropB })))
+                                );
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })
+UNWIND items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
+    public void Unwind_Func_Var_Test()
+    {
+        var items = Variables.Create();
+        var n = Variables.Create();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__<Foo>().PropA, item.__<Foo>().PropB })))
+                                .Unwind(items, item =>
+                                    Match(N(n, Person, new { item.__<Foo>().PropA, item.__<Foo>().PropB })))
+                                );
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })
+UNWIND items AS item
+MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
     public void Unwind_Test()
     {
         var items = Parameters.Create();
@@ -53,7 +149,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
                                 Match(N(n, Person, new { PropA = item }))));
 
         _outputHelper.WriteLine(cypher);
-        Assert.Equal(@"UNWIND $items AS item
+        Assert.Equal(@"UNWIND items AS item
 MATCH (n:Person { PropA: item })", cypher.Query);
     }
 
@@ -298,6 +394,33 @@ SET n += item", cypher.Query);
     }
 
     #endregion // UNWIND $items AS map MERGE (n:PERSON {.. }) ON CREATE SET n = map ..
+
+    #region UNWIND [1,2,3] as num RETURN num
+
+    [Fact(Skip = "Not implemented")]
+    public void Unwind_Array_Func_Test()
+    {
+        var items = Parameters.Create();
+        var n = Variables.Create();
+        var (num, txt) = Variables.CreateMulti();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(new[] { 1, 2, 3 }, num =>
+                                Unwind(new[] { "a", "b" }, txt =>
+                                Return(num, txt))),
+                                cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
+
+        _outputHelper.WriteLine(cypher);
+
+        Assert.Equal(
+            $"UNWIND $p_0 AS num{NewLine}" +
+            $"UNWIND $p_1 AS txt{NewLine}" +
+            $"RETURN num, txt", cypher.Query);
+        Assert.True(new[] { 1, 2, 3 }.SequenceEqual(cypher.Parameters.Get<IEnumerable<int>>("p_0")));
+        Assert.True(new[] { "a", "b" }.SequenceEqual(cypher.Parameters.Get<IEnumerable<string>>("p_1")));
+    }
+
+    #endregion // UNWIND [1,2,3] as num RETURN num
 
     #region UNWIND [1,2,3] as num RETURN num
 

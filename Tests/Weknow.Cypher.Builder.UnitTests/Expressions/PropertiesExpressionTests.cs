@@ -158,7 +158,7 @@ namespace Weknow.CypherBuilder
                                     .Return(n)));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal($"UNWIND $items AS item{NewLine}" +
+            Assert.Equal($"UNWIND items AS item{NewLine}" +
                            $"MERGE (n:Person {{ Id: item }}){NewLine}" +
                             "RETURN n", cypher.Query);
         }

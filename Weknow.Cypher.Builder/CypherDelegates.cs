@@ -54,5 +54,9 @@ namespace Weknow.CypherBuilder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         public delegate R Project<R>(VariableDeclaration var);
+
+        public delegate Fluent FluentUnwindAction(VariableDeclaration item);
+
+        public delegate Fluent FluentUnwindAction<T>(VariableDeclaration<T> item);
     }
 }

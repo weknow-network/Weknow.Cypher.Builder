@@ -635,11 +635,108 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&UNWIND \\$$[]1 AS $2\r\n$3")]
 	[CypherClause]
+    [Obsolete("use the overload with FluentUnwindAction")]
     public static Fluent Unwind<T>(this Fluent p,
                                     [CypherInputCollection] IEnumerable<T> items,
                                     VariableDeclaration item,
                                     Fluent next) => throw new NotImplementedException();
 
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <param name="next">The next statement.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND \\$$[]1 AS $2")]
+	[CypherClause]
+    public static Fluent Unwind<T>(this Fluent p,
+                                    [CypherInputCollection] IEnumerable<T> items,
+                                    FluentUnwindAction item) => throw new NotImplementedException();
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND $1 AS $2")]
+	[CypherClause]
+    public static Fluent Unwind(this Fluent p,
+                                VariableDeclaration items,
+                                FluentUnwindAction item) => throw new NotImplementedException();
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND $1 AS $2")]
+	[CypherClause]
+    public static Fluent Unwind<T>(this Fluent p,
+                                VariableDeclaration<T> items,
+                                FluentUnwindAction<T> item) => throw new NotImplementedException();
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND $1 AS $2")]
+	[CypherClause]
+    public static Fluent Unwind(this Fluent p,
+                                ParameterDeclaration items,
+                                FluentUnwindAction item) => throw new NotImplementedException();
+
+    /// <summary>
+    /// UNWIND phrase.
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="items">The items.</param>
+    /// <param name="item">The item.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// UNWIND $names AS name
+    /// MATCH(n { name: name})
+    /// RETURN avg(n.age)
+    /// </example>
+    [Cypher("$0\r\n&UNWIND $1 AS $2")]
+	[CypherClause]
+    public static Fluent Unwind<T>(this Fluent p,
+                                ParameterDeclaration<T> items,
+                                FluentUnwindAction<T> item) => throw new NotImplementedException();
 
     /// <summary>
     /// UNWIND phrase.
@@ -655,8 +752,9 @@ public static partial class CypherExtensions
     /// MATCH(n { name: name})
     /// RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&UNWIND \\$$1 AS $2\r\n$3")]
+    [Cypher("$0\r\n&UNWIND $1 AS $2\r\n$3")]
 	[CypherClause]
+    [Obsolete("use the overload with FluentUnwindAction")]
     public static Fluent Unwind(this Fluent p,
                                 VariableDeclaration items,
                                 VariableDeclaration item,
@@ -674,6 +772,7 @@ public static partial class CypherExtensions
     /// <exception cref="NotImplementedException"></exception>
     [Cypher("$0\r\n&UNWIND $1 AS $2\r\n$3")]
 	[CypherClause]
+    [Obsolete("use the overload with FluentUnwindAction")]
     public static Fluent Unwind(this Fluent p,
                                     ParameterDeclaration items,
                                     VariableDeclaration item,
