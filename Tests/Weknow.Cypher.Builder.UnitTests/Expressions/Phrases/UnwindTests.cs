@@ -533,5 +533,61 @@ SET n += item", cypher.Query);
     //                       .Merge(N(user) - R[Knows] > N(friend))
     //                         .Set(friend, map)));
 
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
+    public void Unwind_FuncT_Ambient_Test()
+    {
+        var items = Parameters.Create<Foo>();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(item, Person, new { item.__.PropA, item.__.PropB })))
+                                .Unwind(items, item1 =>
+                                    Match(N(item1, Person, new { item1.__.PropA, item1.__.PropB })))
+                                 ,cfg =>
+                                 {
+                                     cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                                     cfg.AmbientLabels.Add(Prod);
+                                     cfg.Flavor = CypherFlavor.Neo4j5;
+                                 });
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND $items AS item
+MATCH (item:PROD:PERSON { PropA: item.PropA, PropB: item.PropB })
+UNWIND $items AS item1
+MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
+    [Fact]
+    public void Unwind_FuncT_Ambient_String_Test()
+    {
+        var items = Parameters.Create<Foo>();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(items, item =>
+                                    Match(N(item, Person, new { item.__.PropA, item.__.PropB })))
+                                .Unwind(items, item1 =>
+                                    Match(N(item1, Person, new { item1.__.PropA, item1.__.PropB })))
+                                 ,cfg =>
+                                 {
+                                     cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                                     cfg.AmbientLabels.Add($"Prod");
+                                     cfg.Flavor = CypherFlavor.Neo4j5;
+                                 });
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal(@"UNWIND $items AS item
+MATCH (item:PROD:PERSON { PropA: item.PropA, PropB: item.PropB })
+UNWIND $items AS item1
+MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Query);
+    }
+
+    #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
+
 }
 

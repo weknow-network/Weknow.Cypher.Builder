@@ -981,7 +981,7 @@ namespace Weknow.CypherBuilder
 
             void HandleStartChar()
             {
-                if (node.Type != typeof(VariableDeclaration))
+                if (!node.Type.Name.StartsWith(nameof(VariableDeclaration)))
                     return;
                 char lastChar = Query[^1];
                 if (lastChar != ':')
