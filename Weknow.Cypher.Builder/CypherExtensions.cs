@@ -1141,7 +1141,7 @@ public static partial class CypherExtensions
 
     #region IgnoreAmbient
 
-    [Cypher("$0\r\n$1")]
+    //[Cypher("$0\r\n$1")]
     public static Fluent IgnoreAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
 
     #endregion // IgnoreAmbient

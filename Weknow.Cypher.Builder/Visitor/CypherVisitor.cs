@@ -221,11 +221,17 @@ namespace Weknow.CypherBuilder
         {
             var mtd = node.Method;
 
-            using var ignoreScope = mtd.Name switch
+            if (mtd.Name == nameof(CypherExtensions.IgnoreAmbient))
             {
-                nameof(CypherExtensions.IgnoreAmbient) => _ignoreScope.Push(IgnoreBehavior.Ambient),
-                _ => Disposable.Empty
-            };
+                Visit(node.Arguments[0]);
+                using (_ignoreScope.Push(IgnoreBehavior.Ambient))
+                {
+                    Query.Append(Environment.NewLine);
+                    Visit(node.Arguments[1]);
+                    return node;
+                }
+            }
+
 
             if (mtd.Name == nameof(Array.Empty) &&
                 mtd.DeclaringType?.Name == nameof(Array))
@@ -235,7 +241,7 @@ namespace Weknow.CypherBuilder
             }
 
             var opScope = Disposable.Empty;
-            if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null )
+            if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
             {
                 opScope = _directOperation.Push(mtd.Name);
             }

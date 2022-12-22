@@ -588,7 +588,7 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
         Assert.Equal(@"UNWIND $items AS item
 MATCH (item:PROD:PERSON { PropA: item.PropA, PropB: item.PropB })
 UNWIND $items AS item1
-MATCH (item1:PERSON { PropA: item1.PropA, PropB: item1.PropB })
+MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })
 UNWIND $items AS item2
 MATCH (item2:PERSON { PropA: item2.PropA, PropB: item2.PropB })", cypher.Query);
     }
