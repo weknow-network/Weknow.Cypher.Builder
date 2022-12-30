@@ -854,6 +854,19 @@
             SET n += $map
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetAmbientLabels(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            SET ambient labels phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <returns></returns>
+            <example>
+            .SetAmbient(n)
+            result in:
+            SET n:ENV_PROD
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Where(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Boolean)">
             <summary>
             WHERE phrase.
@@ -1306,6 +1319,15 @@
             END AS result   
             ]]>  
             </example>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.IgnoreAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            Avoid adding ambient labels within this scope
+            </summary>
+            <param name="p">The p.</param>
+            <param name="next">The next.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -2581,6 +2603,13 @@
             </example>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.IgnoreAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent)">
+            <summary>
+            Avoid adding ambient labels within this scope
+            </summary>
+            <param name="next"></param>
+            <returns></returns>
         </member>
         <member name="T:Weknow.CypherBuilder.ParamsFirst`1">
             <summary>
@@ -3974,6 +4003,12 @@
             </summary>
             <seealso cref="T:System.IDisposable" />
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.AndRepresentation">
+            <summary>
+            <![CDATA[representation of &.]]>
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.ContextValue`1">
             <summary>
             Context container
@@ -4095,14 +4130,14 @@
             </summary>
             <param name="additionalLabels">The additional labels.</param>
         </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String[])">
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String,System.String[])">
             <summary>
             Get combined label string with ambient and additional labels.
             </summary>
             <param name="additionalLabels">The labels.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Get combined label string with ambient and additional labels.
             </summary>
@@ -4124,14 +4159,6 @@
             <param name="text">The text.</param>
             <returns></returns>
             <exception cref="T:System.ArgumentNullException">text</exception>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.ToString">
-            <summary>
-            Converts to string.
-            </summary>
-            <returns>
-            A <see cref="T:System.String" /> that represents this instance.
-            </returns>
         </member>
         <member name="P:Weknow.CypherAmbientLabelConfig.Parent">
             <summary>

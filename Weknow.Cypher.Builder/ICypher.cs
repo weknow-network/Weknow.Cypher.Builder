@@ -1201,4 +1201,17 @@ public partial interface ICypher
     public static FluentCase Case() => throw new NotImplementedException();
 
     #endregion // CASE
+
+    #region IgnoreAmbient
+
+    /// <summary>
+    /// Avoid adding ambient labels within this scope
+    /// </summary>
+    /// <param name="next"></param>
+    /// <returns></returns>
+    //[Cypher("$0\r\n$1")]
+    public static Fluent IgnoreAmbient(Fluent next) => throw new NotImplementedException();
+
+    #endregion // IgnoreAmbient
+
 }

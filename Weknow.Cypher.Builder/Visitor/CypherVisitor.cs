@@ -175,11 +175,8 @@ namespace Weknow.CypherBuilder
                     Query.Append("|");
                     break;
                 case ExpressionType.And:
-
-                    if (_configuration.Flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
-                        Query.Append("&");
-                    else
-                        Query.Append(":");
+                    string sign = AndRepresentation();
+                    Query.Append(sign);
                     break;
                 case ExpressionType.AndAlso:
                     Query.Append(" AND ");
@@ -223,11 +220,16 @@ namespace Weknow.CypherBuilder
 
             if (mtd.Name == nameof(CypherExtensions.IgnoreAmbient))
             {
-                Visit(node.Arguments[0]);
+                int idx = 0;
+                if (node.Arguments.Count == 2)
+                {
+                    Visit(node.Arguments[0]);
+                    idx = 1;
+                    Query.Append(Environment.NewLine);
+                }
                 using (_ignoreScope.Push(IgnoreBehavior.Ambient))
                 {
-                    Query.Append(Environment.NewLine);
-                    Visit(node.Arguments[1]);
+                    Visit(node.Arguments[idx]);
                     return node;
                 }
             }
@@ -239,6 +241,7 @@ namespace Weknow.CypherBuilder
                 Query.Append("[]");
                 return node;
             }
+
 
             var opScope = Disposable.Empty;
             if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
@@ -298,7 +301,15 @@ namespace Weknow.CypherBuilder
                 }
                 else if (mtdName == nameof(Rng.Any))
                 {
+
                     Query.Append("*");
+                }
+            }
+            if (mtd.Name == nameof(CypherExtensions.SetAmbientLabels))
+            {
+                using (_shouldHandleAmbient.Activate())
+                {
+                    HandleAmbientLabels(node);
                 }
             }
 
@@ -511,7 +522,7 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitNewArray(NewArrayExpression node)
         {
-            var separator = _configuration.Separator;
+            string separator = AndRepresentation();
 
             if (!_isCypherInput.State)
                 Query.Append("[");
@@ -820,6 +831,9 @@ namespace Weknow.CypherBuilder
                                             if (nextEXpr.Type == typeof(ILabel) ||
                                                 nextEXpr.Type == typeof(IType))
                                             {
+                                                // TODO: [bnaya 2022-12-30] Need more context, is it the first char after a variable?
+                                                //string sep = AndRepresentation();
+                                                //Query.Append(sep);
                                                 Query.Append(":");
                                             }
                                             else if (nextEXpr is NewArrayExpression nae &&
@@ -970,8 +984,7 @@ namespace Weknow.CypherBuilder
             if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
                 return;
 
-            var separator = _configuration.Separator;
-
+            string separator = AndRepresentation();
             if ((_ignoreScope.State & IgnoreBehavior.Ambient) == IgnoreBehavior.Ambient || !_shouldHandleAmbient.Value)
             {
                 if (labels == null || labels.Length == 0)
@@ -990,7 +1003,7 @@ namespace Weknow.CypherBuilder
 
             HandleStartChar();
 
-            Query.Append(_configuration.AmbientLabels.Combine(labels));
+            Query.Append(_configuration.AmbientLabels.Combine(separator, labels));
 
             void HandleStartChar()
             {
@@ -998,7 +1011,7 @@ namespace Weknow.CypherBuilder
                     return;
                 char lastChar = Query[^1];
                 if (lastChar != ':')
-                    Query.Append(':');
+                    Query.Append(text: ':');
             }
         }
 
@@ -1018,5 +1031,20 @@ namespace Weknow.CypherBuilder
         };
 
         #endregion // IsNeo4jAndExpression()
+
+        #region AndRepresentation
+
+        /// <summary>
+        /// <![CDATA[representation of &.]]>
+        /// </summary>
+        /// <returns></returns>
+        private string AndRepresentation()
+        {
+            if (_configuration.Flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
+                return "&";
+            return ":";
+        }
+
+        #endregion // AndRepresentation
     }
 }

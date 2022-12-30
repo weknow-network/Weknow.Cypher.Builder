@@ -170,13 +170,40 @@ RETURN f"
                         );
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
             Assert.Equal(@"CREATE (f:GIT_HUB:PERSON $f)
 RETURN f"
                            , cypher.Query);
         }
 
         #endregion // Label_Convention_Context_Test
+
+        #region Fix_Label_Convention_Context_Test
+
+        [Fact]
+        public void Fix_Label_Convention_Context_Test()
+        {
+            var f = Variables.Create();
+            CypherConfig.Scope.Value = cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                        };
+            CypherCommand cypher =
+
+                        _(() =>
+                         IgnoreAmbient(Create(N(f, Person, f.AsParameter)))
+                         .SetAmbientLabels(f)
+                         .Return(f)
+                        );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:PERSON $f)
+SET f:GIT_HUB
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Fix_Label_Convention_Context_Test
 
         #region Label_Convention_Context_Overlap_Test
 
@@ -252,19 +279,25 @@ RETURN f"
             var f = Variables.Create();
 
             CypherCommand cypher =
-                        _(() =>
-                         Create(N(f, Person, f.AsParameter))
-                         .Return(f)
+                        _(c => mrg => mtc =>
+                         Match(N(mtc, Person, mtc.AsParameter))
+                         .Merge(N(mrg, Person, mrg.AsParameter))
+                         .Create(N(c, Person, c.AsParameter))
+                         .Return(c, mrg, mtc)
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Flavor = CypherFlavor.Neo4j5;
                         });
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal(@"CREATE (f:GIT_HUB:PERSON $f)
-RETURN f"
+            Assert.Equal(
+                $"MATCH (mtc:GIT_HUB&PERSON $mtc){NewLine}" +
+                $"MERGE (mrg:GIT_HUB:PERSON $mrg){NewLine}" +
+                $"CREATE (c:GIT_HUB:PERSON $c){NewLine}" +
+                "RETURN c, mrg, mtc"
                            , cypher.Query);
         }
 

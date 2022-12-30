@@ -81,6 +81,7 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n" +
         "CREATE $1")]
+	[CypherClause]
     public static Fluent Create(this Fluent p, Fluent pp) => throw new NotImplementedException();
 
     /// <summary>
@@ -94,6 +95,7 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n" +
         "CREATE $1")]
+	[CypherClause]
     public static Fluent Create(this Fluent p, IPattern pattern) => throw new NotImplementedException();
 
     #endregion // Create
@@ -450,6 +452,25 @@ public static partial class CypherExtensions
         => throw new NotImplementedException();
 
     #endregion // SetPlus
+
+    #region SetAmbient
+
+    /// <summary>
+    /// SET ambient labels phrase.
+    /// </summary>
+    /// <param name="fluent">The fluent.</param>
+    /// <param name="var">The variable.</param>
+    /// <returns></returns>
+    /// <example>
+    /// .SetAmbient(n)
+    /// result in:
+    /// SET n:ENV_PROD
+    /// </example>
+    [Cypher("$0\r\n&SET $1:")]
+    public static Fluent SetAmbientLabels(this Fluent fluent, VariableDeclaration var)
+        => throw new NotImplementedException();
+
+    #endregion // SetAmbient
 
     #region Where
 
@@ -1142,6 +1163,13 @@ public static partial class CypherExtensions
     #region IgnoreAmbient
 
     //[Cypher("$0\r\n$1")]
+    /// <summary>
+    /// Avoid adding ambient labels within this scope
+    /// </summary>
+    /// <param name="p">The p.</param>
+    /// <param name="next">The next.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
     public static Fluent IgnoreAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
 
     #endregion // IgnoreAmbient

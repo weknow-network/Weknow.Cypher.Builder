@@ -77,10 +77,10 @@ namespace Weknow
         /// </summary>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
-        internal string Combine(params string[] additionalLabels)
+        internal string Combine(string separator, params string[] additionalLabels)
         {
             if (additionalLabels == null) return string.Empty;
-            return Combine((IEnumerable<string>)additionalLabels);
+            return Combine(separator, (IEnumerable<string>)additionalLabels);
         }
 
         /// <summary>
@@ -88,14 +88,14 @@ namespace Weknow
         /// </summary>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
-        internal string Combine(IEnumerable<string> additionalLabels)
+        internal string Combine(string separator, IEnumerable<string> additionalLabels)
         {
             if (additionalLabels == null) return string.Empty;
             IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
             var values = Values.Select(m => AmbientFormat(m));
             formatted = formatted.Concat(values);
 
-            var separator = Parent.Separator;
+            //var separator = Parent.Separator;
             string result = string.Join(separator, formatted);
             return result;
         }
@@ -139,18 +139,6 @@ namespace Weknow
         }
 
         #endregion // FormatByConvention
-
-        #region ToString
-
-        /// <summary>
-        /// Converts to string.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString() => Combine();
-
-        #endregion // ToString
 
         #region Parent
 
