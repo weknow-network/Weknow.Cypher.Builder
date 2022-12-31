@@ -831,7 +831,7 @@ namespace Weknow.CypherBuilder
                                             if (nextEXpr.Type == typeof(ILabel) ||
                                                 nextEXpr.Type == typeof(IType))
                                             {
-                                                // TODO: [bnaya 2022-12-30] Need more context, is it the first char after a variable?
+                                                // TODO: [bnaya 2022-12-30] Need more context, is it the first char after a variable? (depend on whether having ambient)
                                                 //string sep = AndRepresentation();
                                                 //Query.Append(sep);
                                                 Query.Append(":");
