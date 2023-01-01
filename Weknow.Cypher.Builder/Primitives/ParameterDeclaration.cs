@@ -75,25 +75,25 @@ public class ParameterDeclaration
     /// </returns>
     public static bool operator !=(object? a, ParameterDeclaration? b) => throw new NotImplementedException();
 
-    /// <summary>
-    /// Declaration for operator ==.
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns>
-    /// The result of the operator.
-    /// </returns>
-    public static bool operator ==(ParameterDeclaration? a, object? b) => throw new NotImplementedException();
+    ///// <summary>
+    ///// Declaration for operator ==.
+    ///// </summary>
+    ///// <param name="a"></param>
+    ///// <param name="b"></param>
+    ///// <returns>
+    ///// The result of the operator.
+    ///// </returns>
+    //public static bool operator ==(ParameterDeclaration? a, object? b) => throw new NotImplementedException();
 
-    /// <summary>
-    /// Declaration for operator !=.
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns>
-    /// The result of the operator.
-    /// </returns>
-    public static bool operator !=(ParameterDeclaration? a, object? b) => throw new NotImplementedException();
+    ///// <summary>
+    ///// Declaration for operator !=.
+    ///// </summary>
+    ///// <param name="a"></param>
+    ///// <param name="b"></param>
+    ///// <returns>
+    ///// The result of the operator.
+    ///// </returns>
+    //public static bool operator !=(ParameterDeclaration? a, object? b) => throw new NotImplementedException();
 
     #endregion // == / !=
 

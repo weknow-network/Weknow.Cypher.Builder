@@ -36,6 +36,7 @@
         /// </returns>
         /// <example><![CDATA[(n:Person:Animal)]]></example>
         public static ILabel operator &(ILabel a, ILabel b) => Stub.Empty;
+        public static ILabel operator |(ILabel a, ILabel b) => Stub.Empty;
         public static ILabel operator !(ILabel a) => Stub.Empty;
     }
 

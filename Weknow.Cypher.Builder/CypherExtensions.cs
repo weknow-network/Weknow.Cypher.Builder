@@ -453,7 +453,7 @@ public static partial class CypherExtensions
 
     #endregion // SetPlus
 
-    #region SetAmbient
+    #region SetAmbientLabels
 
     /// <summary>
     /// SET ambient labels phrase.
@@ -466,11 +466,11 @@ public static partial class CypherExtensions
     /// result in:
     /// SET n:ENV_PROD
     /// </example>
-    [Cypher("$0\r\n&SET $1:")]
+    //[Cypher("$0\r\n&SET $1:")]
     public static Fluent SetAmbientLabels(this Fluent fluent, VariableDeclaration var)
         => throw new NotImplementedException();
 
-    #endregion // SetAmbient
+    #endregion // SetAmbientLabels
 
     #region Where
 
@@ -1173,4 +1173,28 @@ public static partial class CypherExtensions
     public static Fluent IgnoreAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
 
     #endregion // IgnoreAmbient
+
+    #region IsNull
+
+    /// <summary>
+    /// Use to generate IS NULL statement (cypher)
+    /// </summary>
+    /// <param name="instance">The instance.</param>
+    /// <returns></returns>
+    [Cypher("$0 IS NULL")]
+    public static bool IsNull(this object instance) => instance == null;
+
+    #endregion // IsNull
+
+    #region IsNotNull
+
+    /// <summary>
+    /// Use to generate IS NOT NULL statement (cypher)
+    /// </summary>
+    /// <param name="instance">The instance.</param>
+    /// <returns></returns>
+    [Cypher("$0 IS NOT NULL")]
+    public static bool IsNotNull(this object instance) => instance == null;
+
+    #endregion // IsNotNull
 }

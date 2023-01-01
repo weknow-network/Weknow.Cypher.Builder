@@ -1331,6 +1331,20 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.IsNull(System.Object)">
+            <summary>
+            Use to generate IS NULL statement (cypher)
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.IsNotNull(System.Object)">
+            <summary>
+            Use to generate IS NOT NULL statement (cypher)
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Type(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             String representation of the relationship type.
@@ -3424,26 +3438,6 @@
             The result of the operator.
             </returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration.op_Equality(Weknow.CypherBuilder.Declarations.ParameterDeclaration,System.Object)">
-            <summary>
-            Declaration for operator ==.
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration.op_Inequality(Weknow.CypherBuilder.Declarations.ParameterDeclaration,System.Object)">
-            <summary>
-            Declaration for operator !=.
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
         <member name="M:Weknow.CypherBuilder.Declarations.ParameterDeclaration.op_GreaterThan(Weknow.CypherBuilder.Declarations.ParameterDeclaration,System.Object)">
             <summary>
             <![CDATA[Declaration for operator >.]]>
@@ -3666,26 +3660,6 @@
             </returns>
         </member>
         <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_Inequality(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            Declaration for operator !=.
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_Equality(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
-            <summary>
-            Declaration for operator ==.
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Declarations.VariableDeclaration.op_Inequality(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Declaration for operator !=.
             </summary>

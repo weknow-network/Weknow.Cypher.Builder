@@ -145,25 +145,25 @@ namespace Weknow.CypherBuilder.Declarations
         /// </returns>
         public static bool operator !=(VariableDeclaration a, object b) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Declaration for operator ==.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator ==(object a, VariableDeclaration b) => throw new NotImplementedException();
+        ///// <summary>
+        ///// Declaration for operator ==.
+        ///// </summary>
+        ///// <param name="a"></param>
+        ///// <param name="b"></param>
+        ///// <returns>
+        ///// The result of the operator.
+        ///// </returns>
+        //public static bool operator ==(object a, VariableDeclaration b) => throw new NotImplementedException();
 
-        /// <summary>
-        /// Declaration for operator !=.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator !=(object a, VariableDeclaration b) => throw new NotImplementedException();
+        ///// <summary>
+        ///// Declaration for operator !=.
+        ///// </summary>
+        ///// <param name="a"></param>
+        ///// <param name="b"></param>
+        ///// <returns>
+        ///// The result of the operator.
+        ///// </returns>
+        //public static bool operator !=(object a, VariableDeclaration b) => throw new NotImplementedException();
 
         #endregion // == / !=
 

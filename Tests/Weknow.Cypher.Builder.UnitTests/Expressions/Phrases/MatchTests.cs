@@ -63,6 +63,25 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
 
         #endregion // MATCH (n:Person { Id: $Id }) RETURN n 
 
+        #region MATCH (n:Person { Id: $Id }) RETURN n 
+
+        [Fact]
+        public void Match_Or_Label_Test()
+        {
+            var n = Variables.Create();
+            var Id = Parameters.Create();
+            CypherCommand cypher = _(() => Match(N(n, Person | Animal, new { Id }))
+                                    .Return(n)
+                                    , cfg => cfg.Flavor = CypherFlavor.Neo4j5);
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+$"MATCH (n:Person|Animal {{ Id: $Id }}){NewLine}" +
+"RETURN n", cypher.Query);
+        }
+
+        #endregion // MATCH (n:Person { Id: $Id }) RETURN n 
+
         #region MATCH (n:Person { Id: $Id }), (a:Bar:Animal { Name: $Name } RETURN n
 
         [Fact]

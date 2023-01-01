@@ -205,6 +205,32 @@ RETURN f"
 
         #endregion // Fix_Label_Convention_Context_Test
 
+        #region Fix_Empty_Label_Convention_Context_Test
+
+        [Fact]
+        public void Fix_Empty_Label_Convention_Context_Test()
+        {
+            var f = Variables.Create();
+            CypherConfig.Scope.Value = cfg =>
+                        {
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                        };
+            CypherCommand cypher =
+
+                        _(() =>
+                         IgnoreAmbient(Create(N(f, Person, f.AsParameter)))
+                         .SetAmbientLabels(f)
+                         .Return(f)
+                        );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:PERSON $f)
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Fix_Empty_Label_Convention_Context_Test
+
         #region Label_Convention_Context_Overlap_Test
 
         [Fact]
@@ -271,9 +297,36 @@ RETURN f"
 
         #endregion // Label_Convention_Context_Overlap_Case_Test
 
+        #region Label_Convention_Match_Test
+
+        [Fact] // (Skip = "Should be fixed")]
+        public void Label_Convention_Match_Neo4j_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(c => mrg => mtc =>
+                         Match(N(mtc, Person, mtc.AsParameter))
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.AmbientLabels.Add(Prod);
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Flavor = CypherFlavor.Neo4j5;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MATCH (mtc:GIT_HUB&PROD&PERSON $mtc)" 
+                           , cypher.Query);
+        }
+
+        #endregion // Label_Convention_Match_Test
+
         #region Label_Convention_Test
 
-        [Fact(Skip = "Should be fixed")]
+        [Fact] // (Skip = "Should be fixed")]
         public void Label_Convention_Test()
         {
             var f = Variables.Create();
@@ -287,6 +340,7 @@ RETURN f"
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("GitHub");
+                            cfg.AmbientLabels.Add(Prod);
                             cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                             cfg.Flavor = CypherFlavor.Neo4j5;
                         });
@@ -294,9 +348,9 @@ RETURN f"
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"MATCH (mtc:GIT_HUB&PERSON $mtc){NewLine}" +
-                $"MERGE (mrg:GIT_HUB:PERSON $mrg){NewLine}" +
-                $"CREATE (c:GIT_HUB:PERSON $c){NewLine}" +
+                $"MATCH (mtc:GIT_HUB&PROD&PERSON $mtc){NewLine}" +
+                $"MERGE (mrg:GIT_HUB:PROD:PERSON $mrg){NewLine}" +
+                $"CREATE (c:GIT_HUB:PROD:PERSON $c){NewLine}" +
                 "RETURN c, mrg, mtc"
                            , cypher.Query);
         }

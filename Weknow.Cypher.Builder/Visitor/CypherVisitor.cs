@@ -217,25 +217,27 @@ namespace Weknow.CypherBuilder
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
             var mtd = node.Method;
+            string name = mtd.Name;
+            ReadOnlyCollection<Expression> args = node.Arguments;
 
-            if (mtd.Name == nameof(CypherExtensions.IgnoreAmbient))
+            if (name == nameof(CypherExtensions.IgnoreAmbient))
             {
                 int idx = 0;
-                if (node.Arguments.Count == 2)
+                if (args.Count == 2)
                 {
-                    Visit(node.Arguments[0]);
+                    Visit(args[0]);
                     idx = 1;
                     Query.Append(Environment.NewLine);
                 }
                 using (_ignoreScope.Push(IgnoreBehavior.Ambient))
                 {
-                    Visit(node.Arguments[idx]);
+                    Visit(args[idx]);
                     return node;
                 }
             }
 
 
-            if (mtd.Name == nameof(Array.Empty) &&
+            if (name == nameof(Array.Empty) &&
                 mtd.DeclaringType?.Name == nameof(Array))
             {
                 Query.Append("[]");
@@ -246,11 +248,11 @@ namespace Weknow.CypherBuilder
             var opScope = Disposable.Empty;
             if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
             {
-                opScope = _directOperation.Push(mtd.Name);
+                opScope = _directOperation.Push(name);
             }
             using var opScp = opScope;
 
-            bool shouldCreatePrms = mtd.Name switch
+            bool shouldCreatePrms = name switch
             {
                 nameof(CypherExtensions.Case) => false,
                 nameof(CypherExtensions.When) => false,
@@ -261,13 +263,26 @@ namespace Weknow.CypherBuilder
             };
             using var _ = _shouldCreateParameter.Push(shouldCreatePrms);
 
-            string mtdName = mtd.Name;
             string type = node.Type.Name;
-            ReadOnlyCollection<Expression> args = node.Arguments;
 
             var format = mtd.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
 
-            if (format != null)
+            if (name == nameof(CypherExtensions.SetAmbientLabels))
+            {
+                Visit(args[0]);
+                if (_configuration.AmbientLabels.Values.Count != 0)
+                {
+                    Query.Append(Environment.NewLine);
+                    Query.Append("SET ");
+                    Visit(args[1]);
+                    Query.Append(":");
+                    using (_shouldHandleAmbient.Activate())
+                    {
+                        HandleAmbientLabels(node);
+                    }
+                }
+            }
+            else if (format != null)
             {
                 bool ambScope = node.Type == typeof(INode);
                 using (ambScope ? _shouldHandleAmbient.Activate() : Disposable.Empty)
@@ -277,7 +292,7 @@ namespace Weknow.CypherBuilder
             }
             else if (type == nameof(Rng))
             {
-                if (mtdName == nameof(Rng.Scope))
+                if (name == nameof(Rng.Scope))
                 {
                     Query.Append("*");
                     var index0 = (ConstantExpression)node.Arguments[0];
@@ -286,30 +301,23 @@ namespace Weknow.CypherBuilder
                     var index1 = (ConstantExpression)node.Arguments[1];
                     Query.Append(index1.Value);
                 }
-                else if (mtdName == nameof(Rng.AtMost))
+                else if (name == nameof(Rng.AtMost))
                 {
                     Query.Append("*..");
                     var index = (ConstantExpression)node.Arguments[0];
                     Query.Append(index.Value);
                 }
-                else if (mtdName == nameof(Rng.AtLeast))
+                else if (name == nameof(Rng.AtLeast))
                 {
                     Query.Append("*");
                     var index = (ConstantExpression)node.Arguments[0];
                     Query.Append(index.Value);
                     Query.Append("..");
                 }
-                else if (mtdName == nameof(Rng.Any))
+                else if (name == nameof(Rng.Any))
                 {
 
                     Query.Append("*");
-                }
-            }
-            if (mtd.Name == nameof(CypherExtensions.SetAmbientLabels))
-            {
-                using (_shouldHandleAmbient.Activate())
-                {
-                    HandleAmbientLabels(node);
                 }
             }
 
@@ -748,7 +756,9 @@ namespace Weknow.CypherBuilder
         private void ApplyFormat(MethodCallExpression node, string format)
         {
             var disp = new List<IDisposable>();
-            var mtdPrms = node.Method.GetParameters();
+            MethodInfo mtd = node.Method;
+            var mtdPrms = mtd.GetParameters();
+
             for (var i = 0; i < format.Length; i++)
             {
                 switch (format[i])
@@ -822,6 +832,7 @@ namespace Weknow.CypherBuilder
                                 using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
                                 {
                                     bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
+                                    var qlen = Query.Length;
                                     Visit(expr);
                                     if (isVar)
                                     {
@@ -831,10 +842,16 @@ namespace Weknow.CypherBuilder
                                             if (nextEXpr.Type == typeof(ILabel) ||
                                                 nextEXpr.Type == typeof(IType))
                                             {
-                                                // TODO: [bnaya 2022-12-30] Need more context, is it the first char after a variable? (depend on whether having ambient)
-                                                //string sep = AndRepresentation();
-                                                //Query.Append(sep);
-                                                Query.Append(":");
+                                                string addition = Query.ToString(qlen..);
+                                                if (addition.IndexOf(':') == -1) // check if addition is having the first ':'
+                                                {
+                                                    Query.Append(":");
+                                                }
+                                                else 
+                                                {
+                                                    string sep = AndRepresentation();
+                                                    Query.Append(sep);
+                                                }
                                             }
                                             else if (nextEXpr is NewArrayExpression nae &&
                                                         nae.Expressions.Count != 0)

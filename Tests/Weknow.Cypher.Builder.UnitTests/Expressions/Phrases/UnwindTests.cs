@@ -563,7 +563,7 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
 
     #region UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 
 
-    [Fact (Skip = "Should be fixed")]
+    [Fact] //  (Skip = "Should be fixed")]
     public void Unwind_FuncT_Ambient_String_Test()
     {
         var items = Parameters.Create<Foo>();
@@ -590,7 +590,7 @@ MATCH (item:PROD&PERSON { PropA: item.PropA, PropB: item.PropB })
 UNWIND $items AS item1
 MATCH (item1:PROD&PERSON { PropA: item1.PropA, PropB: item1.PropB })
 UNWIND $items AS item2
-MATCH (item2&PERSON { PropA: item2.PropA, PropB: item2.PropB })", cypher.Query);
+MATCH (item2:PERSON { PropA: item2.PropA, PropB: item2.PropB })", cypher.Query);
     }
 
     #endregion // UNWIND $items AS item MATCH (n:Person { PropA: item.PropA, .. }) 

@@ -329,6 +329,86 @@ WHERE n.Name IS NOT NULL ", cypher.Query);
         }
 
         #endregion // WHERE n.Name IS NOT NULL  
+
+        #region WHERE n IS NULL 
+
+        [Fact]
+        public void WhereVarIsNull_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person))
+                                    .Where(n == null));
+
+            _outputHelper.WriteLine(cypher.Dump());
+            Assert.Equal(
+@"MATCH (n:Person)
+WHERE n IS NULL ", cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // WHERE n IS NULL  
+
+        #region WHERE n IS NOT NULL 
+
+        [Fact]
+        public void WhereVarIsNotNull_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person))
+                                    .Where(n != null));
+
+            _outputHelper.WriteLine(cypher.Dump());
+            Assert.Equal(
+@"MATCH (n:Person)
+WHERE n IS NOT NULL ", cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // WHERE n IS NULL  
+
+        #region WHERE n IS NULL 
+
+        [Fact]
+        public void WhereVarIsNull1_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person))
+                                    .Where(n.IsNull()));
+
+            _outputHelper.WriteLine(cypher.Dump());
+            Assert.Equal(
+@"MATCH (n:Person)
+WHERE n IS NULL", cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // WHERE n IS NULL  
+
+        #region WHERE n IS NOT NULL 
+
+        [Fact]
+        public void WhereVarIsNotNull1_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _(() =>
+                                    Match(N(n, Person))
+                                    .Where(n.IsNotNull()));
+
+            _outputHelper.WriteLine(cypher.Dump());
+            Assert.Equal(
+@"MATCH (n:Person)
+WHERE n IS NOT NULL", cypher.Query);
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // WHERE n IS NOT NULL  
     }
 }
 
