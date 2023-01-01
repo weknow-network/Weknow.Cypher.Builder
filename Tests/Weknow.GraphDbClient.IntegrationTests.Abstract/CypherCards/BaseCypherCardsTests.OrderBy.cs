@@ -19,13 +19,13 @@ public partial class BaseCypherCardsTests
     public virtual async Task Orderby_Age_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
 
         #region Prepare
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(n, Person))
                                        .Set(n, map)));
 
@@ -71,13 +71,13 @@ public partial class BaseCypherCardsTests
     public virtual async Task Orderby_Desc_Age_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
 
         #region Prepare
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(n, Person))
                                        .Set(n, map)));
 

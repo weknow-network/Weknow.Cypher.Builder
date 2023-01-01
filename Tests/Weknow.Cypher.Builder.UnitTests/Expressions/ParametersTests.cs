@@ -46,8 +46,8 @@ namespace Weknow.CypherBuilder
         public void Parameters_Unwind_NonWindProp_T_Test()
         {
             var (items, Id) = Parameters.CreateMulti();
-            CypherCommand cypher = _(item => n =>
-                                    Unwind(items, item,
+            CypherCommand cypher = _(n =>
+                                    Unwind(items, item =>
                                     Match(N(n, Person, new { Id }))));
 
             _outputHelper.WriteLine(cypher);

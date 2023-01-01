@@ -141,8 +141,8 @@ public partial class BaseCypherCardsTests
 
         var users = Parameters.Create();
         var user = Variables.Create<PersonEntity>();
-        CypherCommand cypher = _(map =>
-                                Unwind(users, map,
+        CypherCommand cypher = _(() =>
+                                Unwind(users, map =>
                                      Create(N(user, Person))
                                        .Set(user, map)));
 

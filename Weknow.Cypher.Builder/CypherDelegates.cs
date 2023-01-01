@@ -58,5 +58,9 @@ namespace Weknow.CypherBuilder
         public delegate Fluent FluentUnwindAction(VariableDeclaration item);
 
         public delegate Fluent FluentUnwindAction<T>(VariableDeclaration<T> item);
+
+        public delegate Fluent FluentForEachAction(VariableDeclaration item);
+
+        public delegate Fluent FluentForEachAction<T>(VariableDeclaration<T> item);
     }
 }

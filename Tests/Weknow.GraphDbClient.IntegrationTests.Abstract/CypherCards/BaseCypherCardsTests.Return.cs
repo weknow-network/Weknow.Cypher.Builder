@@ -19,10 +19,10 @@ public partial class BaseCypherCardsTests
     public virtual async Task Return_Star_Unwind_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(n, Person))
                                        .Set(n, map))
                                 .Return("*"));
@@ -51,10 +51,10 @@ public partial class BaseCypherCardsTests
     public virtual async Task Return_Alias_Unwind_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(n, Person))
                                        .Set(n, map))
                                 .Return(n.As("x")));

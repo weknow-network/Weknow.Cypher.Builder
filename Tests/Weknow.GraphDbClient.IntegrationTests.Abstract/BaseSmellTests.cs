@@ -214,10 +214,10 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
-        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var (n, x) = Variables.CreateMulti<Someone>();
         var p = Variables.Create<NameDictionaryable>();
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(x, Person))
                                        .Set(x, map))
                                 .Return(x));
@@ -240,10 +240,10 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
-        var (n, map, x) = Variables.CreateMulti<Someone>();
+        var (n, x) = Variables.CreateMulti<Someone>();
         var p = Variables.Create<NameDictionaryable>();
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(x, Person))
                                        .Set(x, map))
                                 .Return(x));
@@ -264,10 +264,10 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION_NO_AMBIENT;
         var items = Parameters.Create();
-        var (n, map, x) = Variables.CreateMulti<Someone, Someone, Someone>();
+        var (n, x) = Variables.CreateMulti<Someone>();
         var p = Variables.Create<NameDictionaryable>();
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(x, Person, map.AsParameter)))
                                 .Return(x));
         _outputHelper.WriteLine($"CYPHER: {cypher}");

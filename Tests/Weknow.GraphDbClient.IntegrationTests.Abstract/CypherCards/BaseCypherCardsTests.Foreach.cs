@@ -21,8 +21,8 @@ public partial class BaseCypherCardsTests
 
         var items = Parameters.Create();
 
-        CypherCommand cypher = _(n => item =>
-                                Foreach(item, items, Create(N(Person, new { Version = item }))));
+        CypherCommand cypher = _(n => 
+                                Foreach( items, item => Create(N(Person, new { Version = item }))));
 
 
         _outputHelper.WriteLine($"CYPHER: {cypher}");
@@ -53,17 +53,17 @@ public partial class BaseCypherCardsTests
         CypherConfig.Scope.Value = CONFIGURATION;
 
         var users = Parameters.Create();
-        var (user, u) = Variables.CreateMulti<PersonEntity>();
-        CypherCommand cypher = _(map => n =>
-                Unwind(users, map,
+        var user = Variables.Create<PersonEntity>();
+        CypherCommand cypher = _( n =>
+                Unwind(users, map =>
                         Create(N(user, Person))
                         .Set(user, map)
-                        .Foreach(u, Case()
-                            .When(user.__.desc != null)
-                            .Then(new[] { user })
-                            .Else(Array.Empty<PersonEntity>())
-                        .End(),
-                        Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
+                        .Foreach<PersonEntity>(Case()
+                                .When(user.__.desc != null)
+                                .Then(new[] { user })
+                                .Else(Array.Empty<PersonEntity>())
+                            .End(), u =>
+                            Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
                         )
                     ));
 

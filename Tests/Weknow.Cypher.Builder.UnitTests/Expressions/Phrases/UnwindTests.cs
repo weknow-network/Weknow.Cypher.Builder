@@ -124,12 +124,11 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
     [Fact]
     public void Unwind_Test()
     {
-        var items = Parameters.Create();
-        var item = Variables.Create<Foo>();
+        var items = Parameters.Create<Foo>();
         var n = Variables.Create();
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, item,
+                                Unwind(items, item =>
                                 Match(N(n, Person, new { item.__.PropA, item.__.PropB }))));
 
         _outputHelper.WriteLine(cypher);
@@ -144,8 +143,8 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
     [Fact]
     public void Unwind_PropConst_AsMap_Test()
     {
-        CypherCommand cypher = _(items => item => n =>
-                                Unwind(items, item,
+        CypherCommand cypher = _(items =>  n =>
+                                Unwind(items, item =>
                                 Match(N(n, Person, new { PropA = item }))));
 
         _outputHelper.WriteLine(cypher);
@@ -161,8 +160,8 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_Map_Test()
     {
         var items = Parameters.Create();
-        var (map, n) = Variables.CreateMulti();
-        CypherCommand cypher = _(() => Unwind(items, map,
+        var n = Variables.Create();
+        CypherCommand cypher = _(() => Unwind(items, map =>
                                         Create(N(n, Person))
                                         .Set(n, map)));
 
@@ -183,9 +182,9 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_AsMap_Test()
     {
         var items = Parameters.Create();
-        var (map, n) = Variables.CreateMulti();
+        var  n = Variables.Create();
 
-        CypherCommand cypher = _(() => Unwind(items, map,
+        CypherCommand cypher = _(() => Unwind(items, map =>
                                         Create(N(n, Person, map))));
 
         _outputHelper.WriteLine(cypher);
@@ -204,9 +203,9 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_SET_AsMap_Test()
     {
         var items = Parameters.Create();
-        var (map, n) = Variables.CreateMulti();
+        var n = Variables.Create();
 
-        CypherCommand cypher = _(() => Unwind(items, map,
+        CypherCommand cypher = _(() => Unwind(items, map =>
                                         Create(N(n, Person))
                                         .Set(n, map)));
 
@@ -227,7 +226,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_Set_Map_Test()
     {
         var items = Parameters.Create();
-        CypherCommand cypher = _(n => map => Unwind(items, map,
+        CypherCommand cypher = _(n => Unwind(items, map =>
                                     Create(N(n, Person))
                                     .Set(n, map)
                                     .Return(n)));
@@ -246,11 +245,10 @@ RETURN n", cypher.Query);
     [Fact]
     public void Unwind_Entities_Update_Inline_Test()
     {
-        var items = Parameters.Create();
-        var item = Variables.Create<Foo>();
+        var items = Parameters.Create<Foo>();
 
         CypherCommand cypher = _(n =>
-                                Unwind(items, item,
+                                Unwind(items, item =>
                                 Match(N(n, Person, new { item.__.Id }))
                                 .SetPlus(n, item)));
 
@@ -267,12 +265,11 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Entities_Update_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var n = Variables.Create();
-        var item = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, item,
+                                Unwind(items, item =>
                                 Match(N(n, Person, new { item.__.Id }))
                                 .SetPlus(n, item)));
 
@@ -289,12 +286,11 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Create_OnCreateSet_Map_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var n = Variables.Create();
-        var map = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                 Merge(N(n, Person, new { map.__.Id }))
                                 .OnCreateSet(n, map)
                                 .Return(n)),
@@ -317,12 +313,11 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Create_OnCreateSet_Mix_Map_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var n = Variables.Create();
-        var map = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                               Unwind(items, map,
+                               Unwind(items, map =>
                                Merge(N(n, Person, new { map.__.Id }))
                                .OnCreateSet(n, map)
                                .Return(n)),
@@ -345,12 +340,11 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var n = Variables.Create();
-        var map = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                               Unwind(items, map,
+                               Unwind(items, map =>
                                Merge(N(n, Person, new { map.__.Id, map.__.Name }))
                                .OnCreateSet(n, map)
                                .Return(n)),
@@ -373,11 +367,10 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Create_OnCreateSet_Gen_Map_MultiParam_Fluent_Test()
     {
-        var items = Parameters.Create();
-        var map = Variables.Create<Foo>();
+        var items = Parameters.Create<Foo>();
 
         CypherCommand cypher = _(n =>
-                               Unwind(items, map,
+                               Unwind(items, map =>
                                Merge(N(n, Person, new { map.__.Id, map.__.Name }))
                                .OnCreateSet(n, map)
                                .Return(n)),
@@ -402,7 +395,6 @@ SET n += item", cypher.Query);
     {
         var items = Parameters.Create();
         var n = Variables.Create();
-        var (num, txt) = Variables.CreateMulti();
 
         CypherCommand cypher = _(() =>
                                 Unwind(new[] { 1, 2, 3 }, num =>
@@ -429,12 +421,11 @@ SET n += item", cypher.Query);
     {
         var items = Parameters.Create();
         var n = Variables.Create();
-        var (num, txt) = Variables.CreateMulti();
 
         CypherCommand cypher = _(() =>
-                                Unwind(new[] { 1, 2, 3 }, num,
-                                Unwind(new[] { "a", "b" }, txt,
-                                Return(num, txt))),
+                                Unwind(new[] { 1, 2, 3 }, num =>
+                                    Unwind(new[] { "a", "b" }, txt =>
+                                        Return(num, txt))),
                                 cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
@@ -453,12 +444,11 @@ SET n += item", cypher.Query);
     {
         var items = Parameters.Create();
         var n = Variables.Create();
-        var (num, txt) = Variables.CreateMulti();
 
         CypherCommand cypher = _(() =>
-                                Unwind(new[] { 1, 2, 3 }, num,
-                                Unwind(new[] { "a", "b" }, txt,
-                                Return(num, txt))),
+                                Unwind(new[] { 1, 2, 3 }, num =>
+                                    Unwind(new[] { "a", "b" }, txt =>
+                                        Return(num, txt))),
                                 cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 
         _outputHelper.WriteLine(cypher);
@@ -479,8 +469,8 @@ SET n += item", cypher.Query);
     {
         var (items, Date) = Parameters.CreateMulti();
 
-        CypherCommand cypher = _(map => n => m =>
-                                Unwind(items, map,
+        CypherCommand cypher = _(n => m =>
+                                Unwind(items, map =>
                                 Merge(N(n, Person, new { map.__<Foo>().Id }) -
                                       R[By] >
                                       N(m, Maintainer,
@@ -502,14 +492,13 @@ SET n += item", cypher.Query);
     [Fact]
     public void Unwind_Param_WithoutMap_Reuse_Test()
     {
-        var (items, Id, Date) = Parameters.CreateMulti();
-        var map = Variables.Create<Foo>();
+        var (items, Id, Date) = Parameters.CreateMulti<Foo>();
         var m = Variables.Create();
 
         var maintainerPattern = Reuse(() => R[By] > N(m, Maintainer, new { Id, Date }));
 
         CypherCommand cypher = _(n =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                 Merge(N(n, Person, new { map.__.Id }) - maintainerPattern)),
                                 cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
 

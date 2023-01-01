@@ -19,15 +19,15 @@ public partial class BaseCypherCardsTests
     public virtual async Task With_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var users = Parameters.Create();
-        var friends = Variables.Create();
+        var users = Parameters.Create<PersonEntity>();
+        var friends = Variables.Create<PersonEntity>();
         var userName = Parameters.Create<string>();
-        var (user, friend, map) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        var (user, friend) = Variables.CreateMulti<PersonEntity>();
 
         #region Prepare
 
         CypherCommand cypherOfUsers = _(() =>
-                                Unwind(users, map,
+                                Unwind(users, map =>
                                      Merge(N(user, Person, new { key = map.__.key /* result in map.key*/ }))
                                        .Set(user, map)));
 
@@ -45,7 +45,7 @@ public partial class BaseCypherCardsTests
                                     Match(N(user, Person))
                                     .Where(user._.key == id)
                                     .With(user)
-                                    .Unwind(friends.AsParameter, map,
+                                    .Unwind(friends.AsParameter, map =>
                                          Merge(N(friend, Friend, new { key = map.__.key }))
                                             .Set(friend, map)
                                          .Merge(N(user) - R[Knows] > N(friend))));
@@ -94,16 +94,16 @@ public partial class BaseCypherCardsTests
     public virtual async Task With_OrderBy_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var users = Parameters.Create();
-        var friends = Variables.Create();
+        var users = Parameters.Create<PersonEntity>();
+        var friends = Variables.Create<PersonEntity>();
         var userName = Parameters.Create<string>();
-        var (user, friend, map) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        var (user, friend) = Variables.CreateMulti<PersonEntity>();
 
         #region Prepare
 
         CypherCommand cypherOfUsers = _(() =>
-                                Unwind(users, map,
-                                     Merge(N(user, Person, new { key = map.__.key /* result in map.key*/ }))
+                                Unwind(users, map =>
+                                     Merge(N(user, Person, new { map.__.key /* result in map.key*/ }))
                                        .Set(user, map)));
 
 
@@ -120,7 +120,7 @@ public partial class BaseCypherCardsTests
                                     Match(N(user, Person))
                                     .Where(user._.key == id)
                                     .With(user)
-                                    .Unwind(friends.Prm, map,
+                                    .Unwind(friends.Prm, map =>
                                          Merge(N(friend, Friend, new { key = map.__.key }))
                                             .Set(friend, map)
                                          .Merge(N(user) - R[Knows] > N(friend))));

@@ -294,11 +294,11 @@ WHERE $p_1 }", cypher.Query);
         [Fact]
         public void Where_Unwind_Test()
         {
-            var items = Parameters.Create();
-            var (item, n) = Variables.CreateMulti<Foo, Foo>();
+            var items = Parameters.Create<Foo>();
+            var n = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Unwind(items, item,
+                                    Unwind(items, item =>
                                     Match(N(n, Person, new { item.__.Id }))
                                     .Where(n._.Name != item._.Name)));
 

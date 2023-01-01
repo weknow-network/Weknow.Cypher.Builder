@@ -116,15 +116,14 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Unwind_NoMagic5_Test()
         {
-            var items = Parameters.Create();
-            var item = Variables.Create<Foo>();
+            var items = Parameters.Create<Foo>();
             var n = Variables.Create(); ;
 
             CypherCommand cypher =
-                _(() => Unwind(items, item,
+                _(() => Unwind(items, item =>
                             Create(N(n, Person,
-                                    new Foo { Id = item.__.Id, Name = item.__.Name })))
-                           .Set(n, item));
+                                    new Foo { Id = item.__.Id, Name = item.__.Name }))
+                           .Set(n, item)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

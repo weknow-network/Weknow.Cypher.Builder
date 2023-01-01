@@ -84,12 +84,11 @@ public class WithTests
     [Fact]
     public void With_Complex_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var (n, i) = Variables.CreateMulti();
-        var map = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                    Unwind(items, map,
+                    Unwind(items, map =>
                     Merge(N(n, Person, new { map.__.Id }))
                     .OnCreateSet(n, map)
                     .OnMatchSetPlus(n, map)
@@ -117,12 +116,11 @@ public class WithTests
     [Fact]
     public void With_Params_Complex_Test()
     {
-        var items = Parameters.Create();
+        var items = Parameters.Create<Foo>();
         var (n, i) = Variables.CreateMulti();
-        var map = Variables.Create<Foo>();
 
         CypherCommand cypher = _(() =>
-                    Unwind(items, map,
+                    Unwind(items, map =>
                     Merge(N(n, Person, new { map.__.Id }))
                     .OnCreateSet(n, map)
                     .OnMatchSetPlus(n, map)
@@ -152,13 +150,12 @@ public class WithTests
         CypherConfig.Scope.Value = cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
 
         var users = Parameters.Create();
-        var (user, friend, friends) = Variables.CreateMulti();
-        var map = Variables.Create<KeyedEntity>();
+        var (user, friend, friends) = Variables.CreateMulti<KeyedEntity>();
 
         CypherCommand cypher = _(() =>
                                 Match(N(user, Person))
                                 .With(user)
-                                .Unwind(friends.AsParameter, map,
+                                .Unwind(friends.AsParameter, map =>
                                      Merge(N(friend, Friend, new { key = map.__.key }))
                                         .Set(friend, map)
                                      .Merge(N(user) - R[KNOWS] > N(friend))));

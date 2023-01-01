@@ -495,7 +495,7 @@ namespace Weknow.CypherBuilder
                 (mce.Method.Name == "__" || mce.Method.Name == "_") &&
                 typeof(VariableDeclaration).IsAssignableFrom(mce.Method.DeclaringType))
             {
-                if (mce.Method.Name == "__" && mce.Object.Type == typeof(VariableDeclaration))
+                if (mce.Method.Name == "__" && mce?.Object?.Type == typeof(VariableDeclaration))
                 {
                     string candidateVariable = $"{mce.Object}.";
                     var candidateLen = candidateVariable.Length;

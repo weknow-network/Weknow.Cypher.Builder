@@ -75,6 +75,7 @@ namespace Weknow
         /// <summary>
         /// Get combined label string with ambient and additional labels.
         /// </summary>
+        /// <param name="separator">The separator.</param>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
         internal string Combine(string separator, params string[] additionalLabels)
@@ -86,6 +87,7 @@ namespace Weknow
         /// <summary>
         /// Get combined label string with ambient and additional labels.
         /// </summary>
+        /// <param name="separator">The separator.</param>
         /// <param name="additionalLabels">The labels.</param>
         /// <returns></returns>
         internal string Combine(string separator, IEnumerable<string> additionalLabels)

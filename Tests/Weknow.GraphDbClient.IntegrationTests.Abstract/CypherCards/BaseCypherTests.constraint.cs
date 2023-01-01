@@ -40,8 +40,8 @@ OPTIONS {
     public virtual async Task Constraint_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
         var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
         try
@@ -67,7 +67,7 @@ OPTIONS {
             info = await constraintResponse.GetInfoAsync();
 
             CypherCommand testCypher = _(() =>
-                                    Unwind(items, map,
+                                    Unwind(items, map =>
                                          Create(N(n, Product))
                                            .Set(n, map)));
             _outputHelper.WriteLine($"First Create: {testCypher}");

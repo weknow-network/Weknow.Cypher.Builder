@@ -214,11 +214,10 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
         public void Match_Set1_Test()
         {
             var Id = Parameters.Create();
-            var items = Parameters.Create();
-            var item = Variables.Create<Foo>();
+            var items = Parameters.Create<Foo>();
             var n = Variables.Create();
             CypherCommand cypher = _(() =>
-                                    Unwind(items, item,
+                                    Unwind(items, item =>
                                     Match(N(n, Person, new { Id }))
                                     .Set(n, item)));
 

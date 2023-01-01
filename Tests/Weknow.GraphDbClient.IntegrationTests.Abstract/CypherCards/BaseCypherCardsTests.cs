@@ -53,14 +53,14 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
     public virtual async Task Unwind_Merge_Set_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
-        var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var items = Parameters.Create<PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
 
         #region Prepare
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
-                                     Merge(N(n, Person, new { key = map.__.key /* result in map.key*/ }))
+                                Unwind(items, map =>
+                                     Merge(N(n, Person, new { map.__.key /* result in key = map.key*/ }))
                                        .Set(n, map)));
 
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");

@@ -4,6 +4,8 @@ using Xunit.Abstractions;
 using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
+using Weknow.CypherBuilder.Declarations;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Weknow.CypherBuilder
 {
@@ -28,20 +30,51 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Foreach_Parameters_Test()
         {
-            var items = Parameters.Create();
-            var item = Variables.Create<Foo>();
+            ParameterDeclaration items = Parameters.Create();
+            VariableDeclaration item = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Foreach(item, items, Set(item, new { Version = 1 })));
+                                    Foreach(items, item => Set(item, new { Version = 1 }))
+                                    .Foreach(items, item => Set(item, new { Version = 2 })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (item IN $items |{NewLine}\t" +
-                "SET item.Version = $p_1)",
+                $"SET item.Version = $p_1){NewLine}" +
+                $"FOREACH (item IN $items |{NewLine}\t" +
+                "SET item.Version = $p_2)",
                 cypher.Query);
             Assert.Null(cypher.Parameters["items"]);
             Assert.Equal(1, cypher.Parameters["p_1"]);
-            Assert.Equal(2, cypher.Parameters.Count);
+            Assert.Equal(2, cypher.Parameters["p_2"]);
+            Assert.Equal(3, cypher.Parameters.Count);
+        }
+
+        #endregion // FOREACH (item IN $items | SET item.Version = 1)
+
+        #region FOREACH (item IN $items | SET item.Version = 1)
+
+        [Fact]
+        public void Foreach_Parameters_Obsolete_Test()
+        {
+            var items = Parameters.Create();
+            var item = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Foreach(item, items, Set(item, new { Version = 1 }))
+                                    .Foreach(item, items, Set(item, new { Version = 2 })));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"FOREACH (item IN $items |{NewLine}\t" +
+                $"SET item.Version = $p_1){NewLine}" +
+                $"FOREACH (item IN $items |{NewLine}\t" +
+                "SET item.Version = $p_2)",
+                cypher.Query);
+            Assert.Null(cypher.Parameters["items"]);
+            Assert.Equal(1, cypher.Parameters["p_1"]);
+            Assert.Equal(2, cypher.Parameters["p_2"]);
+            Assert.Equal(3, cypher.Parameters.Count);
         }
 
         #endregion // FOREACH (item IN $items | SET item.Version = 1)
@@ -51,10 +84,10 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Foreach_Variables_Test()
         {
-            var (items, item) = Variables.CreateMulti<Foo>();
+            var items = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Foreach(item, items, Set(item, new { Version = 1 })));
+                                    Foreach(items, item => Set(item, new { Version = 1 })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -72,10 +105,10 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Not implemented")]
         public void Foreach_Array_Test()
         {
-            var (n, item) = Variables.CreateMulti<Foo>();
+            var n = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Foreach(item, new[] { 1, 2, 3 }, Set(n, new { Value = item })));
+                                    Foreach(new[] { 1, 2, 3 }, item => Set(n, new { Value = item })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -116,12 +149,12 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Foreach_Match_Assignment_Test()
         {
-            var (v, p, a, item) = Variables.CreateMulti<Foo>();
+            var (v, p, a) = Variables.CreateMulti<Foo>();
 
             CypherCommand cypher = _(() =>
                                     Match(v, N(p, Person) > N(a, Animal))
                                     .Where(p._.Name == "Eric" && a._.Name == "Doggy")
-                                    .Foreach(item, Nodes(v), Set(item, new { Enabled = true })));
+                                    .Foreach(Nodes(v), item => Set(item, new { Enabled = true })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

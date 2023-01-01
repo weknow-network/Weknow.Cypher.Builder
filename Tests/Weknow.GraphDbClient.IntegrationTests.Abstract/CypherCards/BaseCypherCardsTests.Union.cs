@@ -21,13 +21,13 @@ public partial class BaseCypherCardsTests
         CypherConfig.Scope.Value = CONFIGURATION;
         #region Prepare
 
-        var users = Parameters.Create();
+        var users = Parameters.Create<PersonEntity>();
         var friends = Variables.Create();
         var userName = Parameters.Create<string>();
-        var (user, friend, map) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        var (user, friend) = Variables.CreateMulti<PersonEntity>();
 
         CypherCommand cypherOfUsers = _(() =>
-                                Unwind(users, map,
+                                Unwind(users, map =>
                                      Create(N(user, Person))
                                        .Set(user, map)));
 
@@ -110,13 +110,13 @@ public partial class BaseCypherCardsTests
         CypherConfig.Scope.Value = CONFIGURATION;
         #region Prepare
 
-        var users = Parameters.Create();
+        var users = Parameters.Create<PersonEntity>();
         var friends = Variables.Create();
         var userName = Parameters.Create<string>();
-        var (user, friend, map) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
+        var (user, friend) = Variables.CreateMulti<PersonEntity>();
 
         CypherCommand cypherOfUsers = _(() =>
-                                Unwind(users, map,
+                                Unwind(users, map =>
                                      Create(N(user, Person))
                                        .Set(user, map)));
 

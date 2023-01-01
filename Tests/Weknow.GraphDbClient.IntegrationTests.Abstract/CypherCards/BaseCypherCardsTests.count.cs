@@ -20,7 +20,7 @@ public partial class BaseCypherCardsTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
         var items = Parameters.Create();
-        var (n, map) = Variables.CreateMulti<PersonEntity, PersonEntity>();
+        var n = Variables.Create<PersonEntity>();
         var (skipNumber, limitNumber) = Parameters.CreateMulti();
 
         CypherCommand query = _(() =>
@@ -31,7 +31,7 @@ public partial class BaseCypherCardsTests
         #region Prepare
 
         CypherCommand cypher = _(() =>
-                                Unwind(items, map,
+                                Unwind(items, map =>
                                      Create(N(n, Person))
                                        .Set(n, map)));
 
