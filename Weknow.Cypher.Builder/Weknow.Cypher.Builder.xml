@@ -21,6 +21,11 @@
             Gets the format.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.CypherAttribute.Flavor">
+            <summary>
+            Gets the flavor.
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherClauseAttribute">
             <summary>
             Cypher Clause indicator

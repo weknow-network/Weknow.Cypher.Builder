@@ -25,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Weknow.Cypher.Builder.Extensions.Neo4j\Weknow.Cypher.Builder.Extensions.Neo4j.csproj" />
+	  <ProjectReference Include="..\..\Weknow.Cypher.Builder.Extensions\Weknow.Cypher.Builder.Extensions.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

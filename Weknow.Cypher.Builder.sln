@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.GraphDbClient.Neo4j"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.GraphDbClient.IntegrationTests.Abstract", "Tests\Weknow.GraphDbClient.IntegrationTests.Abstract\Weknow.GraphDbClient.IntegrationTests.Abstract.csproj", "{644AD1C4-9EB3-41AD-A1B4-27EDAF96A787}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Extensions.Neo4j", "Weknow.Cypher.Builder.Extensions.Neo4j\Weknow.Cypher.Builder.Extensions.Neo4j.csproj", "{5EA41DFE-4A20-4B8B-83E8-06B2A334F3D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weknow.Cypher.Builder.Extensions", "Weknow.Cypher.Builder.Extensions\Weknow.Cypher.Builder.Extensions.csproj", "{4D79D997-8C22-4708-AFD1-0C43AF9CE418}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,10 +76,10 @@ Global
 		{644AD1C4-9EB3-41AD-A1B4-27EDAF96A787}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{644AD1C4-9EB3-41AD-A1B4-27EDAF96A787}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{644AD1C4-9EB3-41AD-A1B4-27EDAF96A787}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5EA41DFE-4A20-4B8B-83E8-06B2A334F3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EA41DFE-4A20-4B8B-83E8-06B2A334F3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EA41DFE-4A20-4B8B-83E8-06B2A334F3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EA41DFE-4A20-4B8B-83E8-06B2A334F3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D79D997-8C22-4708-AFD1-0C43AF9CE418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D79D997-8C22-4708-AFD1-0C43AF9CE418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D79D997-8C22-4708-AFD1-0C43AF9CE418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D79D997-8C22-4708-AFD1-0C43AF9CE418}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

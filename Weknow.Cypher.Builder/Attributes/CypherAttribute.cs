@@ -1,4 +1,6 @@
 ﻿
+using Weknow.Mapping;
+
 namespace Weknow.CypherBuilder
 {
 
@@ -30,5 +32,14 @@ namespace Weknow.CypherBuilder
         public string Format { get; }
 
         #endregion // Format
+
+        #region Flavor
+
+        /// <summary>
+        /// Gets the flavor.
+        /// </summary>
+        public CypherFlavor Flavor { get; init; } = CypherFlavor.OpenCypher;
+
+        #endregion // Flavor
     }
 }

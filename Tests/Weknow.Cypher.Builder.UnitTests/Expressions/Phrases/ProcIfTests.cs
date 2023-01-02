@@ -13,13 +13,13 @@ namespace Weknow.CypherBuilder
     [Trait("TestType", "Unit")]
     [Trait("Group", "Procedures")]
 
-    public class _IfTests
+    public class ProcIfTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public _IfTests(ITestOutputHelper outputHelper)
+        public ProcIfTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
@@ -34,14 +34,14 @@ namespace Weknow.CypherBuilder
             ParameterDeclaration p = Parameters.Create();
 
             CypherCommand cypher = _(item =>
-                                     _If(p.IsNull(), Set(item, new { Version = 1 }))
-                                    ._If(p.IsNull(), Set(item, new { Version = 2 })));
+                                        Proc().If(p.IsNull(), Set(item, new { Version = 1 }))
+                                        .Proc().If(p.IsNotNull(), Set(item, new { Version = 2 })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (var_0 IN CASE WHEN $p IS NULL THEN [1] ELSE [] END |{NewLine}\t" +
                 $"SET item.Version = $p_1){NewLine}" +
-                $"FOREACH (var_1 IN CASE WHEN $p IS NULL THEN [1] ELSE [] END |{NewLine}\t" +
+                $"FOREACH (var_1 IN CASE WHEN $p IS NOT NULL THEN [1] ELSE [] END |{NewLine}\t" +
                 "SET item.Version = $p_2)",
                 cypher.Query);
             Assert.Null(cypher.Parameters["p"]);

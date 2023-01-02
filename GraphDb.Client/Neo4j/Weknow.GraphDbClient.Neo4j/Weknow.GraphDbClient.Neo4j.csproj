@@ -29,6 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Weknow.Cypher.Builder.Extensions\Weknow.Cypher.Builder.Extensions.csproj" />
 	  <ProjectReference Include="..\..\Weknow.GraphDbClient.Abstraction\Weknow.GraphDbClient.Abstraction.csproj" />
 	</ItemGroup>
 

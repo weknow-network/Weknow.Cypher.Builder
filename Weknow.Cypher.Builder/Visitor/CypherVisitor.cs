@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
+using Weknow.Mapping;
 
 using static Weknow.CypherBuilder.CypherDelegates;
 
@@ -15,10 +17,13 @@ namespace Weknow.CypherBuilder
     /// <seealso cref="System.Linq.Expressions.ExpressionVisitor" />
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
+        private const string EXT_ASSEMBLY_NAME = "Weknow.Cypher.Builder.Extensions";
         private const string AUTO_VAR = "$auto-var$";
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
         private int _autoVarCounter = 0;
         private readonly CypherConfig _configuration;
+        private readonly CypherFlavor _flavor;
+
         private readonly HashSet<string> _ambientOnce = new();
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
@@ -47,6 +52,7 @@ namespace Weknow.CypherBuilder
         public CypherVisitor(CypherConfig configuration)
         {
             _configuration = configuration;
+            _flavor = configuration.Flavor;
         }
 
         #endregion // Ctor
@@ -208,6 +214,13 @@ namespace Weknow.CypherBuilder
 
         #endregion // VisitBinaryVisitUnary
 
+        [return: NotNullIfNotNull("node")]
+        public override Expression? Visit(Expression? node)
+        {
+            var res = base.Visit(node);
+            return res;
+        }
+
         #region VisitMethodCall
 
         /// <summary>
@@ -222,8 +235,53 @@ namespace Weknow.CypherBuilder
             var mtd = node.Method;
             string name = mtd.Name;
             ReadOnlyCollection<Expression> args = node.Arguments;
+            string type = node.Type.Name;
+            string? assembly = node?.Type?.Assembly?.GetName()?.Name;
 
-            if (name == nameof(CypherExtensions.NoAmbient))
+            #region string? format = ...
+
+            var atts = mtd.GetCustomAttributes<CypherAttribute>(false).ToArray();
+            string? format = atts.Where(m => m.Flavor == _flavor)
+                            .Select(att => att.Format)
+                            .FirstOrDefault();
+            if(format == null && atts.Length != 0 && _flavor != CypherFlavor.OpenCypher) 
+            {
+                format = atts
+                            .Select(att => att.Format)
+                            .FirstOrDefault();
+            }
+
+            #endregion // string? format = ...
+
+            #region Proc
+
+            if (node.Object is MethodCallExpression om && 
+                om.Method.Name == "Proc" &&
+                om.Type.Assembly.GetName().Name == EXT_ASSEMBLY_NAME)
+            {
+                
+                Visit(node.Object);
+            }
+
+            #endregion // Proc
+
+            if (name == "Proc" && assembly == EXT_ASSEMBLY_NAME)
+            {
+                #region Proc
+
+                if(format != null)
+                {
+                    ApplyFormat(node, format);
+                }
+                else if (args.Count != 0)
+                {
+                    Visit(args[0]);
+                }
+                return node;
+
+                #endregion // Proc
+            }
+            else if (name == nameof(CypherExtensions.NoAmbient))
             {
                 int idx = 0;
                 if (args.Count == 2)
@@ -265,10 +323,6 @@ namespace Weknow.CypherBuilder
                 _ => true
             };
             using var _ = _shouldCreateParameter.Push(shouldCreatePrms);
-
-            string type = node.Type.Name;
-
-            var format = mtd.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
 
 
             if (name == nameof(CypherExtensions.Foreach) && mtd.GetCustomAttribute<ObsoleteAttribute>() == null)
@@ -1111,7 +1165,7 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         private string AndRepresentation()
         {
-            if (_configuration.Flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
+            if (_flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
                 return "&";
             return ":";
         }
