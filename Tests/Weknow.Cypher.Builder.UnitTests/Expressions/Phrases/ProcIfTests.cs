@@ -51,6 +51,33 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // FOREACH (_rnd_ IN CASE WHEN $p IS NULL THEN [1] ELSE [] END |
+
+        #region // CALL apoc.when($p IS NULL, ...)
+
+        //[Fact]
+        //public void Foreach_Parameters_Neo4j_Test()
+        //{
+        //    ParameterDeclaration p = Parameters.Create();
+
+        //    CypherCommand cypher = _(item =>
+        //                                Proc().If(p.IsNull(), Set(item, new { Version = 1 }))
+        //                                .Proc().If(p.IsNotNull(), Set(item, new { Version = 2 }))
+        //                                , cfg => cfg.Flavor = CypherFlavor.Neo4j5);
+
+        //    _outputHelper.WriteLine(cypher);
+        //    Assert.Equal(
+        //        $"CALL apoc.when($p IS NULL,{NewLine}\t" +
+        //        $"'SET item.Version = $p_1'){NewLine}" +
+        //        $"CALL apoc.when($p IS NOT NULL,{NewLine}\t" +
+        //        "'SET item.Version = $p_2')",
+        //        cypher.Query);
+        //    Assert.Null(cypher.Parameters["p"]);
+        //    Assert.Equal(1, cypher.Parameters["p_1"]);
+        //    Assert.Equal(2, cypher.Parameters["p_2"]);
+        //    Assert.Equal(3, cypher.Parameters.Count);
+        //}
+
+        #endregion // CALL apoc.when($p IS NULL, ...)
     }
 }
 

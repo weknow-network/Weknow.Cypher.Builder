@@ -8,7 +8,7 @@ namespace Weknow.CypherBuilder
     /// Cypher Attribute used to specify formatting pattern
     /// </summary>
     /// <seealso cref="System.Attribute" />
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Delegate)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Delegate, AllowMultiple = true)]
     public sealed class CypherAttribute : Attribute
     {
         #region Ctor
