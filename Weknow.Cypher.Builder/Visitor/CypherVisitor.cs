@@ -15,6 +15,9 @@ namespace Weknow.CypherBuilder
     /// <seealso cref="System.Linq.Expressions.ExpressionVisitor" />
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
+        private const string AUTO_VAR = "$auto-var$";
+        private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
+        private int _autoVarCounter = 0;
         private readonly CypherConfig _configuration;
         private readonly HashSet<string> _ambientOnce = new();
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
@@ -275,10 +278,10 @@ namespace Weknow.CypherBuilder
                     2 => args[1] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
                     3 => args[2] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
                     _ => throw new NotSupportedException(nameof(CypherExtensions.Foreach))
-                }; 
+                };
                 Expression items = args.Count switch
                 {
-                    2 => args[0] ,
+                    2 => args[0],
                     3 => args[1],
                     _ => throw new NotSupportedException(nameof(CypherExtensions.Foreach))
                 };
@@ -805,11 +808,22 @@ namespace Weknow.CypherBuilder
                 {
                     case '$':
                         {
+                            if (i + AUTO_VAR_LEN < format.Length)
+                            {
+                                bool isAutoVar = format[(i)..(i + AUTO_VAR_LEN)] == AUTO_VAR;
+                                if (isAutoVar)
+                                {
+                                    i += AUTO_VAR_LEN - 1;
+                                    Query.Append($"var_{_autoVarCounter++}");
+                                    continue;
+                                }
+                            }
                             i++;
-                            var isArray = format.Length > i + 1 &&
+                            bool isArray = format.Length > i + 1 &&
                                           format[(i)..(i + 2)] == "[]";
                             if (isArray)
                                 i += 2;
+
                             var ch = format[i];
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
@@ -872,7 +886,7 @@ namespace Weknow.CypherBuilder
                                 using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
                                 {
                                     bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
-                                    var qlen = Query.Length;                                    
+                                    var qlen = Query.Length;
                                     Visit(expr);
                                     if (isVar)
                                     {
@@ -887,7 +901,7 @@ namespace Weknow.CypherBuilder
                                                 {
                                                     Query.Append(":");
                                                 }
-                                                else 
+                                                else
                                                 {
                                                     string sep = AndRepresentation();
                                                     Query.Append(sep);
