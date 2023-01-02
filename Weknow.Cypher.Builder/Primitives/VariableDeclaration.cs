@@ -242,6 +242,11 @@ namespace Weknow.CypherBuilder.Declarations
         /// Cast to parameter type.
         /// </summary>
         public ParameterDeclaration Prm { get; }
+
+        /// <summary>
+        /// Avoid ambient label attachment
+        /// </summary>
+        public VariableDeclaration NoAmbient { get; }  
     }
 
 }

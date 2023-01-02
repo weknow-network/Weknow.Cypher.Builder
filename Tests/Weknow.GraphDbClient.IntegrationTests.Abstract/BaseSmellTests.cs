@@ -280,31 +280,6 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         Assert.Empty(r3);
     }
 
-    //[Fact]
-    //public virtual async Task Create_Match_Multi_Test()
-    //{
-    //    const string EXPECTED = "Ben";
-    //    CypherConfig.Scope.Value = CONFIGURATION;
-    //    var pName = Parameters.Create();
-
-    //    var (p1, p2) = Variables.CreateMulti<NameDictionaryable, NameDictionaryable>();
-    //    CypherCommand cypher = _(() =>
-    //                            Create(N(p1, Person, new { Name = pName }))
-    //                            .Create(N(p2, Person, new { Name = pName }))
-    //                            .Return(p1, p2));
-    //_outputHelper.WriteLine($"CYPHER: {cypher}");
-    //    CypherParameters prms = cypher.Parameters;
-    //    prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
-
-    //    IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
-    //    var(r1, r2) = response.GetRangeAsync<NameDictionaryable, NameDictionaryable>(nameof(p1), nameof(p2));
-    //    var e1 = await r1.ToArrayAsync();
-    //    Assert.Equal(EXPECTED, e1.Single().Name);
-    //    var e2 = await r1.ToArrayAsync();
-    //    Assert.Equal(EXPECTED, e2.Single().Name);
-
-    //}
-
     [Fact(Skip = "Not Supported Yet")]
     public virtual async Task Create_Match1_Test()
     {

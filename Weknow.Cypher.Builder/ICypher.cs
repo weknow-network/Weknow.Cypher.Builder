@@ -527,6 +527,8 @@ public partial interface ICypher
 
 	#region Foreach
 
+	#region deprecated
+
 	/// <summary>
 	/// FOREACH phrase.
 	/// </summary>
@@ -579,6 +581,8 @@ public partial interface ICypher
 	public static Fluent Foreach(VariableDeclaration item,ParameterDeclaration items, Fluent p) => throw new NotImplementedException();
 
 
+	#endregion // deprecated
+
 	/// <summary>
 	/// FOREACH phrase.
 	/// </summary>
@@ -590,8 +594,9 @@ public partial interface ICypher
 	///     MATCH(n { name: name})
 	///     RETURN avg(n.age))
 	/// </example>
-	[Cypher("&FOREACH ($1 IN \\$$[]0)")]
+	//[Cypher("&FOREACH ($1 IN \\$$[]0)")]
 	[CypherClause]
+	//[Obsolete("Not implemented yet", true)]
 	public static Fluent Foreach<T>([CypherInputCollection] IEnumerable<T> items, FluentForEachAction iteration) => throw new NotImplementedException();
 
 	/// <summary>
@@ -605,7 +610,7 @@ public partial interface ICypher
 	///     MATCH(n { name: name})
 	///     RETURN avg(n.age))
 	/// </example>
-	[Cypher("&FOREACH ($1 IN $2)")]
+	//[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
 	public static Fluent Foreach(ParameterDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
 
@@ -621,7 +626,7 @@ public partial interface ICypher
 	///     MATCH(n { name: name})
 	///     RETURN avg(n.age))
 	/// </example>
-	[Cypher("&FOREACH ($1 IN $0)")]
+	//[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
 	public static Fluent Foreach(VariableDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
 
@@ -637,7 +642,7 @@ public partial interface ICypher
     ///     MATCH(n { name: name})
     ///     RETURN avg(n.age))
     /// </example>
-    [Cypher("&FOREACH ($1 IN $0)")]
+    //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
 	public static Fluent Foreach<T>(VariableDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
@@ -653,9 +658,40 @@ public partial interface ICypher
     ///     MATCH(n { name: name})
     ///     RETURN avg(n.age))
     /// </example>
-    [Cypher("&FOREACH ($1 IN $0)")]
+    //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
 	public static Fluent Foreach<T>(ParameterDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="iteration">The iteration expression.</param>
+    /// <returns></returns>
+    /// <example>
+    /// FOREACH ($names IN name |
+    ///     MATCH(n { name: name})
+    ///     RETURN avg(n.age))
+    /// </example>
+    //[Cypher("&FOREACH ($1 IN $0)")]
+	[CypherClause]
+	public static Fluent Foreach(Fluent items, FluentForEachAction iteration) => throw new NotImplementedException();
+
+    /// <summary>
+    /// FOREACH phrase.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items">The items.</param>
+    /// <param name="iteration">The iteration expression.</param>
+    /// <returns></returns>
+    /// <example>
+    /// FOREACH ($names IN name |
+    ///     MATCH(n { name: name})
+    ///     RETURN avg(n.age))
+    /// </example>
+    //[Cypher("&FOREACH ($1 IN $0)")]
+	[CypherClause]
+	public static Fluent Foreach<T>(Fluent items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
 	#endregion // Foreach
 
@@ -1285,18 +1321,18 @@ public partial interface ICypher
 	[Cypher("CASE")]
 	public static FluentCase Case() => throw new NotImplementedException();
 
-	#endregion // CASE
+    #endregion // CASE
 
-	#region IgnoreAmbient
+    #region NoAmbient
 
-	/// <summary>
-	/// Avoid adding ambient labels within this scope
-	/// </summary>
-	/// <param name="next"></param>
-	/// <returns></returns>
-	//[Cypher("$0\r\n$1")]
-	public static Fluent IgnoreAmbient(Fluent next) => throw new NotImplementedException();
+    /// <summary>
+    /// Avoid adding ambient labels within this scope
+    /// </summary>
+    /// <param name="next"></param>
+    /// <returns></returns>
+    //[Cypher("$0\r\n$1")]
+    public static Fluent NoAmbient(Fluent next) => throw new NotImplementedException();
 
-	#endregion // IgnoreAmbient
+    #endregion // NoAmbient
 
 }

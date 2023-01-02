@@ -102,7 +102,7 @@ namespace Weknow.CypherBuilder
 
         #region FOREACH (item IN [1,2,3] | SET n.Value = item)
 
-        [Fact(Skip = "Not implemented")]
+        [Fact] // (Skip = "Not implemented")]
         public void Foreach_Array_Test()
         {
             var n = Variables.Create<Foo>();
@@ -112,11 +112,10 @@ namespace Weknow.CypherBuilder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                $"FOREACH (item IN $p_0 |{NewLine}\t" +
+                $"FOREACH (item IN [1, 2, 3] |{NewLine}\t" +
                 "SET n.Value = item)",
                 cypher.Query);
-            Assert.True(new[] { 1, 2, 3 }.SequenceEqual(cypher.Parameters.Get<IEnumerable<int>>("p_0")));
-            Assert.Equal(1, cypher.Parameters.Count);
+            Assert.Equal(0, cypher.Parameters.Count);
         }
 
         #endregion // FOREACH (item IN [1,2,3] | SET n.Value = item)

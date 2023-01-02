@@ -802,46 +802,7 @@ public static partial class CypherExtensions
 
 	#region Foreach
 
-	///// <summary>
-	///// FOREACH phrase.
-	///// </summary>
-	///// <typeparam name="T"></typeparam>
-	///// <param name="prev">The previous.</param>
-	///// <param name="item">The item.</param>
-	///// <param name="items">The items.</param>
-	///// <param name="p">The p.</param>
-	///// <returns></returns>
-	///// <example>
-	///// FOREACH $names IN name |
-	/////     MATCH(n { name: name})
-	/////     RETURN avg(n.age)
-	///// </example>
-	//[Cypher("$0\r\n&FOREACH ($1 IN $[]2 |\r\n\t$3)")]
-	//[CypherClause]
- //   [Obsolete("use the overload with FluentForEachAction")]
- //   public static Fluent Foreach<T>(
-	//	this Fluent prev,
-	//	VariableDeclaration item,
-	//	[CypherInputCollection] IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
-
-    /// <summary>
-    /// FOREACH phrase.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="prev">The previous.</param>
-    /// <param name="items">The items.</param>
-    /// <param name="iteration">The iteration expression.</param>
-    /// <returns></returns>
-    /// <example>
-    /// FOREACH $names IN name |
-    ///     MATCH(n { name: name})
-    ///     RETURN avg(n.age)
-    /// </example>
-    [Cypher("$0\r\n&FOREACH ($1 IN $[]2 |\r\n\t$3)")]
-	[CypherClause]
-	public static Fluent Foreach<T>(
-		this Fluent prev,
-		[CypherInputCollection] IEnumerable<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
+	#region deprecated
 
 
 	/// <summary>
@@ -889,27 +850,28 @@ public static partial class CypherExtensions
 		ParameterDeclaration items,
 		Fluent p) => throw new NotImplementedException();
 
-	///// <summary>
-	///// FOREACH phrase which gets a statement like CASE, etc.
-	///// </summary>
-	///// <param name="prev">The previous.</param>
-	///// <param name="item">The item.</param>
-	///// <param name="items">The items.</param>
-	///// <param name="p">The p.</param>
-	///// <returns></returns>
-	///// <example>
-	///// FOREACH $names IN name |
-	/////     MATCH(n { name: name})
-	/////     RETURN avg(n.age)
-	///// </example>
-	//[Cypher("$0\r\n&FOREACH ($1 IN $2 |\r\n\t$3)")]
-	//[CypherClause]
- //   [Obsolete("use the overload with FluentForEachAction")]
- //   public static Fluent Foreach(
-	//	this Fluent prev,
-	//	VariableDeclaration item,
-	//	Fluent items,
-	//	Fluent p) => throw new NotImplementedException();
+	#endregion // deprecated
+
+	/// <summary>
+	/// FOREACH phrase.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="prev">The previous.</param>
+	/// <param name="items">The items.</param>
+	/// <param name="iteration">The iteration expression.</param>
+	/// <returns></returns>
+	/// <example>
+	/// FOREACH $names IN name |
+	///     MATCH(n { name: name})
+	///     RETURN avg(n.age)
+	/// </example>
+	//[Cypher("$0\r\n&FOREACH ($1 IN $[]2 |\r\n\t$3)")]
+	[CypherClause]
+    //[Obsolete("Not implemented yet", true)]
+    public static Fluent Foreach<T>(
+		this Fluent prev,
+		[CypherInputCollection] IEnumerable<T> items, 
+		FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -923,7 +885,7 @@ public static partial class CypherExtensions
     ///     MATCH(n { name: name})
     ///     RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
 	public static Fluent Foreach(
 		this Fluent prev,
@@ -943,7 +905,7 @@ public static partial class CypherExtensions
     ///     MATCH(n { name: name})
     ///     RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
 	public static Fluent Foreach(
 		this Fluent prev,
@@ -963,7 +925,7 @@ public static partial class CypherExtensions
     /// MATCH(n { name: name})
     /// RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
 	public static Fluent Foreach<T>(
 		this Fluent prev,
@@ -984,7 +946,7 @@ public static partial class CypherExtensions
     /// MATCH(n { name: name})
     /// RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
 	public static Fluent Foreach<T>(
 		this Fluent prev,
@@ -995,7 +957,6 @@ public static partial class CypherExtensions
     /// <summary>
     /// FOREACH phrase.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="prev">The previous.</param>
     /// <param name="items">The items.</param>
     /// <param name="iteration">The iteration expression.</param>
@@ -1005,12 +966,12 @@ public static partial class CypherExtensions
     /// MATCH(n { name: name})
     /// RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
-	public static Fluent Foreach<T>(
+	public static Fluent Foreach(
 		this Fluent prev,
         Fluent items,
-		FluentForEachAction<T> iteration) => throw new NotImplementedException();
+		FluentForEachAction iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -1025,11 +986,11 @@ public static partial class CypherExtensions
     /// MATCH(n { name: name})
     /// RETURN avg(n.age)
     /// </example>
-    [Cypher("$0\r\n&FOREACH ($2 IN $1)")]
+    //[Cypher("$0\r\n&FOREACH ($2 IN $1)")]
 	[CypherClause]
 	public static Fluent Foreach<T>(
 		this Fluent prev,
-        Fluent<T> items,
+        Fluent items,
 		FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
 	#endregion // Foreach
@@ -1314,7 +1275,7 @@ public static partial class CypherExtensions
 	/// <param name="next">The next.</param>
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
-	public static Fluent IgnoreAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
+	public static Fluent NoAmbient(this Fluent p, Fluent next) => throw new NotImplementedException();
 
 	#endregion // IgnoreAmbient
 

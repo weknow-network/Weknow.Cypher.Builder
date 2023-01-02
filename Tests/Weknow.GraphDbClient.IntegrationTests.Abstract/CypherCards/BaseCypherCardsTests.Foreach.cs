@@ -63,7 +63,7 @@ public partial class BaseCypherCardsTests
                                 .Then(new[] { user })
                                 .Else(Array.Empty<PersonEntity>())
                             .End(), u =>
-                            Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
+                            Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u.NoAmbient))
                         )
                     ));
 
@@ -107,18 +107,18 @@ public partial class BaseCypherCardsTests
         CypherConfig.Scope.Value = CONFIGURATION;
 
         var users = Parameters.Create();
-        var (user, u) = Variables.CreateMulti<PersonEntity>();
+        var user = Variables.Create<PersonEntity>();
 #pragma warning disable CS0618 // Type or member is obsolete
         CypherCommand cypher = _(map => n =>
                 Unwind(users, map,
                         Create(N(user, Person))
                         .Set(user, map)
-                        .Foreach(u, Case()
+                        .Foreach<PersonEntity>(Case()
                             .When(RawCypher("user.desc IS NOT NULL"))
                             .Then(RawCypher("[user]"))
                             .Else(RawCypher("[]"))
                         .End(),
-                        Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u))
+                        u => Create(N(n, Desc, new { Text = u.__.desc }) < R[Desc.R] - N(u.NoAmbient))
                         )
                     ));
 #pragma warning restore CS0618 // Type or member is obsolete

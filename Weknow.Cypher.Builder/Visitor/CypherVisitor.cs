@@ -220,7 +220,7 @@ namespace Weknow.CypherBuilder
             string name = mtd.Name;
             ReadOnlyCollection<Expression> args = node.Arguments;
 
-            if (name == nameof(CypherExtensions.IgnoreAmbient))
+            if (name == nameof(CypherExtensions.NoAmbient))
             {
                 int idx = 0;
                 if (args.Count == 2)
@@ -267,6 +267,40 @@ namespace Weknow.CypherBuilder
 
             var format = mtd.GetCustomAttributes<CypherAttribute>(false).Select(att => att.Format).FirstOrDefault();
 
+
+            if (name == nameof(CypherExtensions.Foreach) && mtd.GetCustomAttribute<ObsoleteAttribute>() == null)
+            {
+                LambdaExpression iteration = args.Count switch
+                {
+                    2 => args[1] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
+                    3 => args[2] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
+                    _ => throw new NotSupportedException(nameof(CypherExtensions.Foreach))
+                }; 
+                Expression items = args.Count switch
+                {
+                    2 => args[0] ,
+                    3 => args[1],
+                    _ => throw new NotSupportedException(nameof(CypherExtensions.Foreach))
+                };
+                if (args.Count == 3)
+                {
+                    Visit(args[0]);
+                    Query.Append(Environment.NewLine);
+                }
+                Query.Append("FOREACH (");
+                var variable = iteration.Parameters[0];
+                Query.Append(variable.Name);
+                Query.Append(" IN ");
+                using (_shouldCreateParameter.Push(items.NodeType != ExpressionType.NewArrayInit))
+                {
+                    Visit(items);
+                }
+                Query.Append(" |");
+                Query.Append(Environment.NewLine);
+                Query.Append("\t");
+                Visit(iteration.Body);
+                Query.Append(")");
+            }
             if (name == nameof(CypherExtensions.SetAmbientLabels))
             {
                 Visit(args[0]);
@@ -341,6 +375,7 @@ namespace Weknow.CypherBuilder
 
             var pi = node.Member as PropertyInfo;
 
+            bool shouldTryHandleAmbient = true;
             bool shouldCreatePrm = _shouldCreateParameter.State;
             if (shouldCreatePrm && node.Member.Name == nameof(DateTime.Now) && node.Member.DeclaringType == typeof(DateTime))
             {
@@ -503,13 +538,18 @@ namespace Weknow.CypherBuilder
                         Query?.Append(candidateVariable);
                 }
             }
+            else if (name == nameof(VariableDeclaration.NoAmbient) && node.Type == typeof(VariableDeclaration))
+            {
+                name = node?.Expression?.ToString()!;
+                shouldTryHandleAmbient = false;
+            }
 
             if (node.Type == typeof(IType))
             {
                 name = _configuration.Naming.ConvertToTypeConvention(name);
             }
             Query?.Append(name);
-            if (node.Type == typeof(VariableDeclaration))
+            if (node.Type == typeof(VariableDeclaration) && shouldTryHandleAmbient)
             {
                 HandleAmbientLabels(node);
             }
@@ -832,7 +872,7 @@ namespace Weknow.CypherBuilder
                                 using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
                                 {
                                     bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
-                                    var qlen = Query.Length;
+                                    var qlen = Query.Length;                                    
                                     Visit(expr);
                                     if (isVar)
                                     {

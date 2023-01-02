@@ -562,7 +562,7 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
                                     Match(N(item, Person, new { item.__.PropA, item.__.PropB })))
                                 .Unwind(items, item1 =>
                                     Match(N(item1, Person, new { item1.__.PropA, item1.__.PropB })))
-                                .IgnoreAmbient(
+                                .NoAmbient(
                                     Unwind(items, item2 =>
                                         Match(N(item2, Person, new { item2.__.PropA, item2.__.PropB })))
                                 )

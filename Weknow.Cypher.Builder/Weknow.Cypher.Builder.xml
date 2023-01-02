@@ -1111,22 +1111,6 @@
             <exception cref="T:System.NotImplementedException"></exception>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
-            <summary>
-            FOREACH phrase.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="prev">The previous.</param>
-            <param name="item">The item.</param>
-            <param name="items">The items.</param>
-            <param name="p">The p.</param>
-            <returns></returns>
-            <example>
-            FOREACH $names IN name |
-                MATCH(n { name: name})
-                RETURN avg(n.age)
-            </example>
-        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             FOREACH phrase.
@@ -1157,60 +1141,57 @@
                 RETURN avg(n.age)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
-            <summary>
-            FOREACH phrase which gets a statement like CASE, etc.
-            </summary>
-            <param name="prev">The previous.</param>
-            <param name="item">The item.</param>
-            <param name="items">The items.</param>
-            <param name="p">The p.</param>
-            <returns></returns>
-            <example>
-            FOREACH $names IN name |
-                MATCH(n { name: name})
-                RETURN avg(n.age)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction,Weknow.CypherBuilder.CypherDelegates.Fluent)">
-            <summary>
-            FOREACH phrase.
-            </summary>
-            <param name="prev">The previous.</param>
-            <param name="items">The items.</param>
-            <param name="fn">Iteration content.</param>
-            <param name="p">The p.</param>
-            <returns></returns>
-            <example>
-            FOREACH $names IN name |
-                MATCH(n { name: name})
-                RETURN avg(n.age)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction,Weknow.CypherBuilder.CypherDelegates.Fluent)">
-            <summary>
-            FOREACH phrase.
-            </summary>
-            <param name="prev">The previous.</param>
-            <param name="items">The items.</param>
-            <param name="fn">Iteration content.</param>
-            <param name="p">The p.</param>
-            <returns></returns>
-            <example>
-            FOREACH $names IN name |
-                MATCH(n { name: name})
-                RETURN avg(n.age)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
             <summary>
             FOREACH phrase.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="prev">The previous.</param>
             <param name="items">The items.</param>
-            <param name="fn">Iteration content.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="prev">The previous.</param>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH $names IN name |
@@ -1218,15 +1199,43 @@
             RETURN avg(n.age)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
             <summary>
             FOREACH phrase.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="prev">The previous.</param>
             <param name="items">The items.</param>
-            <param name="fn">Iteration content.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names IN name |
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH $names IN name |
+            MATCH(n { name: name})
+            RETURN avg(n.age)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="prev">The previous.</param>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH $names IN name |
@@ -1395,7 +1404,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.IgnoreAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.NoAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Avoid adding ambient labels within this scope
             </summary>
@@ -2304,13 +2313,12 @@
                 RETURN avg(n.age))
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
             <summary>
             FOREACH phrase.
             </summary>
             <param name="items">The items.</param>
-            <param name="f">The f.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH ($names IN name |
@@ -2318,13 +2326,12 @@
                 RETURN avg(n.age))
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.ParameterDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
             <summary>
             FOREACH phrase.
             </summary>
             <param name="items">The items.</param>
-            <param name="f">The f.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH ($names IN name |
@@ -2332,14 +2339,26 @@
                 RETURN avg(n.age))
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH ($names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
             <summary>
             FOREACH phrase.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="items">The items.</param>
-            <param name="f">The f.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH ($names IN name |
@@ -2347,14 +2366,40 @@
                 RETURN avg(n.age))
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0},Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.Declarations.ParameterDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
             <summary>
             FOREACH phrase.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="items">The items.</param>
-            <param name="f">The f.</param>
-            <param name="p">The p.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH ($names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction)">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <example>
+            FOREACH ($names IN name |
+                MATCH(n { name: name})
+                RETURN avg(n.age))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Foreach``1(Weknow.CypherBuilder.CypherDelegates.Fluent,Weknow.CypherBuilder.CypherDelegates.FluentForEachAction{``0})">
+            <summary>
+            FOREACH phrase.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
             <returns></returns>
             <example>
             FOREACH ($names IN name |
@@ -2752,7 +2797,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.IgnoreAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypher.NoAmbient(Weknow.CypherBuilder.CypherDelegates.Fluent)">
             <summary>
             Avoid adding ambient labels within this scope
             </summary>
@@ -3872,6 +3917,11 @@
             Cast to parameter type.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration.NoAmbient">
+            <summary>
+            Avoid ambient label attachment
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherQueryBuilder">
             <summary>
             Responsible for abstracting the logic of the actual 
@@ -4242,6 +4292,7 @@
             <summary>
             Get combined label string with ambient and additional labels.
             </summary>
+            <param name="separator">The separator.</param>
             <param name="additionalLabels">The labels.</param>
             <returns></returns>
         </member>
