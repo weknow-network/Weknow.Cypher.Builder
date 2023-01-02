@@ -230,6 +230,35 @@ RETURN f"
 
         #endregion // NoAmbient_Label_Convention_Context_Test
 
+        #region Enforce_NoAmbient_Label_Convention_Context_Test
+
+        [Fact]
+        public void Enforce_NoAmbient_Label_Convention_Context_Test()
+        {
+            var f = Variables.Create();
+            CypherConfig.Scope.Value = cfg =>
+                        {
+                            cfg.AmbientLabels.Add("GitHub");
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                        };
+            CypherCommand cypher =
+                        _(() =>
+                         NoAmbient(
+                            Create(N(f, Person, f.AsParameter))
+                            .SetAmbientLabels(f)
+                          )
+                         .Return(f)
+                        );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:PERSON $f)
+SET f:GIT_HUB
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Enforce_NoAmbient_Label_Convention_Context_Test
+
         #region NoAmbient_Empty_Label_Convention_Context_Test
 
         [Fact]

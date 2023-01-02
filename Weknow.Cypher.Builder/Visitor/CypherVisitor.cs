@@ -367,6 +367,7 @@ namespace Weknow.CypherBuilder
                     Query.Append("SET ");
                     Visit(args[1]);
                     Query.Append(":");
+                    using (_ignoreScope.Push(IgnoreBehavior.None))
                     using (_shouldHandleAmbient.Activate())
                     {
                         HandleAmbientLabels(node);
