@@ -4333,6 +4333,7 @@
         <member name="P:Weknow.CypherAmbientLabelConfig.Enable">
             <summary>
             Toggle enable state.
+            Useful for disabling the ambient label from central place.
             </summary>
             <value>
               <c>true</c> if enable; otherwise, <c>disable</c>.

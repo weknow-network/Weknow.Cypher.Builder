@@ -1,16 +1,20 @@
-﻿using Neo4j.Driver;
+﻿using System.Threading;
+
+using Neo4j.Driver;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
+
 
 namespace Weknow.GraphDbClient.Neo4jProvider;
 
 /// <summary>
 /// Neo4j graphDb abstraction
 /// </summary>
-internal partial class N4jGraphDB : IGraphDB
+internal sealed partial class N4jGraphDB : IGraphDB
 {
     private readonly N4jSession _session;
+    private readonly IAsyncQueryRunner _runner;
 
     #region Ctor
 
@@ -21,6 +25,7 @@ internal partial class N4jGraphDB : IGraphDB
     public N4jGraphDB(N4jSession session)
     {
         _session = session;
+        _runner = session.Session;
     }
 
     #endregion // Ctor
@@ -36,11 +41,37 @@ internal partial class N4jGraphDB : IGraphDB
     /// Response factory
     /// </returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    async ValueTask<IGraphDBResponse> IGraphDB.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
+    async ValueTask<IGraphDBResponse> IGraphDBRunner.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
-        IResultCursor cursor = await _session.Session.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
+        IResultCursor cursor = await _runner.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
         return await GraphDBResponse.Create(cursor);
-    }
 
     #endregion // RunAsync
+
+    #region StartTransaction
+
+    }
+
+    /// <summary>
+    /// Starts a transaction.
+    /// </summary>
+    /// <param name="timeout">The timeout.</param>
+    /// <returns></returns>
+    IGraphDBTransaction IGraphDB.StartTransaction(TimeSpan? timeout)
+    {
+        var cfg = new GraphDBTransactionConfig { Timeout = timeout };
+        return (this as IGraphDB).StartTransaction(cfg);
+    }
+
+    /// <summary>
+    /// Starts a transaction.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns></returns>
+    IGraphDBTransaction IGraphDB.StartTransaction(Abstraction.GraphDBTransactionConfig configuration)
+    {
+        return new N4jGraphDBTx(_session.Session, configuration);
+    }
+
+    #endregion // StartTransaction
 }

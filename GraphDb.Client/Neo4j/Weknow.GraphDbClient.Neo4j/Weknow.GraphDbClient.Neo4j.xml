@@ -83,7 +83,7 @@
             </summary>
             <param name="session">The session.</param>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDBRunner#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>
             Executes Cypher
             </summary>
@@ -94,32 +94,46 @@
             </returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#StartTransaction(System.Nullable{System.TimeSpan})">
+            <summary>
+            Starts a transaction.
+            </summary>
+            <param name="timeout">The timeout.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDB#StartTransaction(Weknow.GraphDbClient.Abstraction.GraphDBTransactionConfig)">
+            <summary>
+            Starts a transaction.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse">
             <summary>
             GraphDB response abstraction
             </summary>
             <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBResponse" />
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.#ctor(Neo4j.Driver.IResultCursor)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.#ctor(Neo4j.Driver.IResultCursor)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse"/> class.
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse"/> class.
             </summary>
             <param name="result">The result.</param>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetInfoAsync">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetInfoAsync">
             <summary>
             Gets the information asynchronous.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GetOrFetchAsync(System.Int32)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GetOrFetchAsync(System.Int32)">
             <summary>
             Get from cache or Fetch.
             </summary>
             <param name="index">The index.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1">
             <summary>
             Gets the first result set as T
             </summary>
@@ -133,7 +147,7 @@
             var person = results.Get<Person>();
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.String,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.String,System.String)">
             <summary>
             Cast result set as T by a key.
             </summary>
@@ -150,7 +164,7 @@
             var company = results.Get<Company>("c");
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1">
             <summary>
             Gets the first result set
             </summary>
@@ -163,7 +177,7 @@
             var person = results.Get<Person>();
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
             <summary>
             Gets the first result
             </summary>
@@ -177,7 +191,7 @@
             var person = results.Get<Person>();
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.Func{Weknow.GraphDbClient.Abstraction.IGraphDBRecord,``0})">
             <summary>
             Gets the first result set
             </summary>
@@ -191,7 +205,7 @@
             var person = results.Get<Person>();
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.String,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetRangeAsync``1(System.String,System.String)">
             <summary>
             Gets result set by a key.
             </summary>
@@ -207,7 +221,7 @@
             var company = results.Get<Company>("c");
             ]]></example>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord)">
             <summary>
             Mappers a record.
             </summary>
@@ -215,7 +229,7 @@
             <param name="record">The record.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord,System.String)">
             <summary>
             Mappers a record segment (key).
             </summary>
@@ -224,7 +238,7 @@
             <param name="key">The key.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GetFullName(System.String,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GetFullName(System.String,System.String)">
             <summary>
             Gets the full name.
             </summary>
@@ -232,7 +246,7 @@
             <param name="property">The property.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,System.String)">
             <summary>
             Mappers by key and property.
             </summary>
@@ -242,7 +256,7 @@
             <param name="property">The property.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String)">
             <summary>
             Mappers by key.
             </summary>
@@ -251,7 +265,7 @@
             <param name="key">The key.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.ConvertTo``1(System.Object)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(System.Object)">
             <summary>
             Converts to.
             </summary>
@@ -260,13 +274,13 @@
             <returns></returns>
             <exception cref="T:System.InvalidCastException"></exception>
         </member>
-        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GraphDbRecord">
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GraphDbRecord">
             <summary>
             Handle a single record mapping
             </summary>
             <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBRecord" />
         </member>
-        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.GraphDBResponse.GraphExecutionSummary">
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GraphExecutionSummary">
             <summary>
             The result summary of running a query. The result summary interface can be used 
             to investigate details about the result, like the type of query run, how many
@@ -299,6 +313,54 @@
             <param name="record">The record.</param>
             <param name="value">The value.</param>
             <returns></returns>
+        </member>
+        <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx">
+            <summary>
+            Neo4j graphDb abstraction
+            </summary>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.#ctor(Neo4j.Driver.IAsyncSession,Weknow.GraphDbClient.Abstraction.GraphDBTransactionConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
+            </summary>
+            <param name="session">The session.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Weknow#GraphDbClient#Abstraction#IGraphDBRunner#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
+            <summary>
+            Executes Cypher
+            </summary>
+            <param name="cypherCommand">The cypher command.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>
+            Response factory
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Weknow#GraphDbClient#Abstraction#IGraphDBTransaction#CommitAsync">
+            <summary>
+            Asynchronously commit this transaction.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Weknow#GraphDbClient#Abstraction#IGraphDBTransaction#RollbackAsync">
+            <summary>
+            Asynchronously roll back this transaction.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.System#IAsyncDisposable#DisposeAsync">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.
+            </summary>
+            <returns>
+            A task that represents the asynchronous dispose operation.
+            </returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx"/> class.
+            </summary>
         </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jProvider">
             <summary>

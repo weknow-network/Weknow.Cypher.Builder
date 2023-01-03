@@ -1,18 +1,19 @@
-﻿using Weknow.CypherBuilder;
+﻿namespace Weknow.GraphDbClient.Abstraction;
 
-
-namespace Weknow.GraphDbClient.Abstraction;
-
-/// <summary>
-/// GraphDB abstraction
-/// </summary>
-public interface IGraphDB
+public interface IGraphDB: IGraphDBRunner
 {
+
     /// <summary>
-    /// Executes Cypher
+    /// Starts a transaction.
     /// </summary>
-    /// <param name="cypherCommand">The cypher command.</param>
-    /// <param name="parameters">The parameters.</param>
-    /// <returns>Response factory</returns>
-    ValueTask<IGraphDBResponse> RunAsync(CypherCommand cypherCommand, CypherParameters? parameters = null);
+    /// <param name="timeout">The timeout.</param>
+    /// <returns></returns>
+    IGraphDBTransaction StartTransaction(TimeSpan? timeout = null);
+
+    /// <summary>
+    /// Starts a transaction.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns></returns>
+    IGraphDBTransaction StartTransaction(GraphDBTransactionConfig configuration);
 }
