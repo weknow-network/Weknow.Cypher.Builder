@@ -22,7 +22,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<RepositoryUrl>https://github.com/weknow-network/wk-net-pkg-common.git</RepositoryUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageIconUrl />
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/weknow-network/Weknow.Cypher.Builder</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 

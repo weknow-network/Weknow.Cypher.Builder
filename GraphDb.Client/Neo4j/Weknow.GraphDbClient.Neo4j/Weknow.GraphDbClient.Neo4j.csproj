@@ -3,11 +3,6 @@
 	<PropertyGroup>
 		<PackageId>Weknow.GraphDbClient.Neo4j</PackageId>
 		<Product>Weknow GraphDb Client for Neo4j</Product>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/weknow-network/Weknow.CypherBuilder</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/weknow-network/Weknow.CypherBuilder</RepositoryUrl>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageIconUrl />
 		<DocumentationFile>Weknow.GraphDbClient.Neo4j.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
