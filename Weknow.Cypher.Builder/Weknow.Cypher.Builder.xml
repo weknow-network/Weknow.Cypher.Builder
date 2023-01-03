@@ -4330,6 +4330,14 @@
             Gets the parent configuration.
             </summary>
         </member>
+        <member name="P:Weknow.CypherAmbientLabelConfig.Enable">
+            <summary>
+            Toggle enable state.
+            </summary>
+            <value>
+              <c>true</c> if enable; otherwise, <c>disable</c>.
+            </value>
+        </member>
         <member name="T:Weknow.CypherConfig">
             <summary>
             The cypher builder configuration.

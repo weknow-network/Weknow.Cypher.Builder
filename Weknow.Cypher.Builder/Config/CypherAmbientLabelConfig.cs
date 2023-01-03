@@ -94,7 +94,8 @@ namespace Weknow
         {
             if (additionalLabels == null) return string.Empty;
             IEnumerable<string> formatted = additionalLabels.Select(m => FormatByConvention(m));
-            var values = Values.Select(m => AmbientFormat(m));
+
+            var values = Enable ? Values.Select(m => AmbientFormat(m)) : ImmutableList<string>.Empty;
             formatted = formatted.Concat(values);
 
             //var separator = Parent.Separator;
@@ -150,5 +151,18 @@ namespace Weknow
         internal CypherConfig Parent { get; }
 
         #endregion // Parent
+
+        #region Enable
+
+        /// <summary>
+        /// Toggle enable state.
+        /// Useful for disabling the ambient label from central place.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if enable; otherwise, <c>disable</c>.
+        /// </value>
+        public bool Enable { get; set; } = true;
+
+        #endregion // Enable
     }
 }
