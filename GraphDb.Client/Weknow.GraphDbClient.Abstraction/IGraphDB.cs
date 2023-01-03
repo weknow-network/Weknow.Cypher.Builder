@@ -8,12 +8,12 @@ public interface IGraphDB: IGraphDBRunner
     /// </summary>
     /// <param name="timeout">The timeout.</param>
     /// <returns></returns>
-    IGraphDBTransaction StartTransaction(TimeSpan? timeout = null);
+    Task<IGraphDBTransaction> StartTransaction(TimeSpan? timeout = null);
 
     /// <summary>
     /// Starts a transaction.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <returns></returns>
-    IGraphDBTransaction StartTransaction(GraphDBTransactionConfig configuration);
+    Task<IGraphDBTransaction> StartTransaction(GraphDBTransactionConfig configuration);
 }

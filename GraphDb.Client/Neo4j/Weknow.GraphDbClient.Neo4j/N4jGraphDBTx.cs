@@ -11,25 +11,17 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 /// </summary>
 internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
 {
-    private Task<IAsyncTransaction> _tx;
+    private IAsyncTransaction _tx;
 
     #region Ctor
 
     /// <summary>
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
-    /// <param name="session">The session.</param>
-    /// <param name="configuration">The configuration.</param>
-    public N4jGraphDBTx(IAsyncSession session, GraphDBTransactionConfig configuration)
+    /// <param name="transaction">The transaction.</param>
+    public N4jGraphDBTx(IAsyncTransaction transaction)
     {
-        _tx =  session.BeginTransactionAsync(c =>
-        {
-            TimeSpan? timeout = configuration?.Timeout;
-            if (timeout != null)
-            {
-                c.WithTimeout(timeout);
-            }
-        });
+        _tx = transaction;
     }
 
     #endregion // Ctor
@@ -47,8 +39,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// <exception cref="System.NotImplementedException"></exception>
     async ValueTask<IGraphDBResponse> IGraphDBRunner.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
-        var tx = await _tx;
-        IResultCursor cursor = await tx.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
+        IResultCursor cursor = await _tx.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
         return await GraphDBResponse.Create(cursor);
     }
 
@@ -62,8 +53,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// <returns></returns>
     async Task IGraphDBTransaction.CommitAsync()
     {
-        var tx = await _tx;
-        await tx.CommitAsync();
+        await _tx.CommitAsync();
     }
 
     #endregion // CommitAsync
@@ -76,8 +66,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// <returns></returns>
     async Task IGraphDBTransaction.RollbackAsync()
     {
-        var tx = await _tx;
-        await tx.RollbackAsync();
+        await _tx.RollbackAsync();
     }
 
     #endregion // RollbackAsync
@@ -92,8 +81,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// </returns>
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        var tx = await _tx;
-        await tx.DisposeAsync();
+        await _tx.DisposeAsync();
     }
 
     /// <summary>

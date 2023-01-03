@@ -319,12 +319,11 @@
             Neo4j graphDb abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.#ctor(Neo4j.Driver.IAsyncSession,Weknow.GraphDbClient.Abstraction.GraphDBTransactionConfig)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.#ctor(Neo4j.Driver.IAsyncTransaction)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>
-            <param name="session">The session.</param>
-            <param name="configuration">The configuration.</param>
+            <param name="transaction">The transaction.</param>
         </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Weknow#GraphDbClient#Abstraction#IGraphDBRunner#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>

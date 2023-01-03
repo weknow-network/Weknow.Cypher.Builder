@@ -45,33 +45,44 @@ internal sealed partial class N4jGraphDB : IGraphDB
     {
         IResultCursor cursor = await _runner.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
         return await GraphDBResponse.Create(cursor);
-
+    }
     #endregion // RunAsync
 
     #region StartTransaction
 
-    }
+
 
     /// <summary>
     /// Starts a transaction.
     /// </summary>
     /// <param name="timeout">The timeout.</param>
     /// <returns></returns>
-    IGraphDBTransaction IGraphDB.StartTransaction(TimeSpan? timeout)
+    Task<IGraphDBTransaction> IGraphDB.StartTransaction(TimeSpan? timeout)
     {
         var cfg = new GraphDBTransactionConfig { Timeout = timeout };
         return (this as IGraphDB).StartTransaction(cfg);
     }
+
 
     /// <summary>
     /// Starts a transaction.
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <returns></returns>
-    IGraphDBTransaction IGraphDB.StartTransaction(Abstraction.GraphDBTransactionConfig configuration)
+    async Task<IGraphDBTransaction> IGraphDB.StartTransaction(Abstraction.GraphDBTransactionConfig configuration)
     {
-        return new N4jGraphDBTx(_session.Session, configuration);
+        var tx = await _session.Session.BeginTransactionAsync(c =>
+        {
+            TimeSpan? timeout = configuration?.Timeout;
+            if (timeout != null)
+            {
+                c.WithTimeout(timeout);
+            }
+        });
+        
+        return new N4jGraphDBTx(tx);
     }
 
     #endregion // StartTransaction
 }
+
