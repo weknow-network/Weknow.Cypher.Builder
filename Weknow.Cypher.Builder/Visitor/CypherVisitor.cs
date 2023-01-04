@@ -361,7 +361,8 @@ namespace Weknow.CypherBuilder
             if (name == nameof(CypherExtensions.SetAmbientLabels))
             {
                 Visit(args[0]);
-                if (_configuration.AmbientLabels.Values.Count != 0)
+                var ambCfg = _configuration.AmbientLabels;
+                if (ambCfg.Values.Count != 0 && ambCfg.Enable)
                 {
                     Query.Append(Environment.NewLine);
                     Query.Append("SET ");

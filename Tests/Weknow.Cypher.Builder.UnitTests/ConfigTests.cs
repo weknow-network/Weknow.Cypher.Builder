@@ -285,6 +285,35 @@ RETURN f"
 
         #endregion // NoAmbient_Empty_Label_Convention_Context_Test
 
+
+        #region Disable_Ambient_Empty_Label_Convention_Context_Test
+
+        [Fact]
+        public void Disable_Ambient_Empty_Label_Convention_Context_Test()
+        {
+            var f = Variables.Create();
+            CypherConfig.Scope.Value = cfg =>
+                        {
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                            cfg.AmbientLabels.Enable = false;
+                        };
+            CypherCommand cypher =
+
+                        _(() =>
+                         NoAmbient(Create(N(f, Person, f.AsParameter)))
+                         .SetAmbientLabels(f)
+                         .Return(f)
+                        );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:PERSON $f)
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Disable_Ambient_Empty_Label_Convention_Context_Test
+
         #region Label_Convention_Context_Overlap_Test
 
         [Fact]
