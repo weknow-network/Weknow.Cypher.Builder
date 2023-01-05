@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Xml.Linq;
 
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
@@ -18,6 +20,7 @@ namespace Weknow.CypherBuilder
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private const string EXT_ASSEMBLY_NAME = "Weknow.Cypher.Builder.Extensions";
+        private static readonly char[] LABEL_SPLITTER = new[] { ':', '&', '|'};
         private const string AUTO_VAR = "$auto-var$";
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
         private int _autoVarCounter = 0;
@@ -214,13 +217,6 @@ namespace Weknow.CypherBuilder
 
         #endregion // VisitBinaryVisitUnary
 
-        [return: NotNullIfNotNull("node")]
-        public override Expression? Visit(Expression? node)
-        {
-            var res = base.Visit(node);
-            return res;
-        }
-
         #region VisitMethodCall
 
         /// <summary>
@@ -244,7 +240,7 @@ namespace Weknow.CypherBuilder
             string? format = atts.Where(m => m.Flavor == _flavor)
                             .Select(att => att.Format)
                             .FirstOrDefault();
-            if(format == null && atts.Length != 0 && _flavor != CypherFlavor.OpenCypher) 
+            if (format == null && atts.Length != 0 && _flavor != CypherFlavor.OpenCypher)
             {
                 format = atts
                             .Select(att => att.Format)
@@ -255,11 +251,11 @@ namespace Weknow.CypherBuilder
 
             #region Proc
 
-            if (node.Object is MethodCallExpression om && 
+            if (node.Object is MethodCallExpression om &&
                 om.Method.Name == "Proc" &&
                 om.Type.Assembly.GetName().Name == EXT_ASSEMBLY_NAME)
             {
-                
+
                 Visit(node.Object);
             }
 
@@ -269,7 +265,7 @@ namespace Weknow.CypherBuilder
             {
                 #region Proc
 
-                if(format != null)
+                if (format != null)
                 {
                     ApplyFormat(node, format);
                 }
@@ -435,15 +431,8 @@ namespace Weknow.CypherBuilder
             var pi = node.Member as PropertyInfo;
 
             bool shouldTryHandleAmbient = true;
-            bool shouldCreatePrm = _shouldCreateParameter.State;
-            if (shouldCreatePrm && node.Member.Name == nameof(DateTime.Now) && node.Member.DeclaringType == typeof(DateTime))
-            {
-                var parameterName = $"p_{Parameters.Count}";
-                Query.Append($"${parameterName}");
-                _parameters = _parameters.AddOrUpdate(parameterName, DateTime.Now);
+            if (HandleDateTime(node))
                 return node;
-            }
-
 
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
@@ -603,17 +592,17 @@ namespace Weknow.CypherBuilder
                 shouldTryHandleAmbient = false;
             }
 
-            if (node.Type == typeof(IType))
+            if (node?.Type == typeof(IType))
             {
                 name = _configuration.Naming.ConvertToTypeConvention(name);
             }
             Query?.Append(name);
-            if (node.Type == typeof(VariableDeclaration) && shouldTryHandleAmbient)
+            if (node?.Type == typeof(VariableDeclaration) && shouldTryHandleAmbient)
             {
                 HandleAmbientLabels(node);
             }
 
-            return node;
+            return node!;
         }
 
         #endregion // VisitMember
@@ -791,11 +780,9 @@ namespace Weknow.CypherBuilder
             string? name = node.Name;
             if (name == null) throw new ArgumentNullException("VisitParameter");
             Query.Append(name);
-            if (!_ambientOnce.Contains(name))
-            {
-                HandleAmbientLabels(node);
-                _ambientOnce.Add(name);
-            }
+
+            //HandleAmbientLabels(node);
+
             return node;
         }
 
@@ -805,8 +792,6 @@ namespace Weknow.CypherBuilder
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
-            // TODO: [bnaya 2022-12-06] support n += $map
-
             if (node.NodeType == ExpressionType.Not)
                 Query.Append("!");
             return base.VisitUnary(node);
@@ -890,14 +875,9 @@ namespace Weknow.CypherBuilder
                                 inputScope = _isCypherInput.Push(isCypherInput);
                             using (inputScope)
                             {
-                                if (index == args.Count - 1)
-                                {
-                                }
-
                                 int count = args.Count;
                                 // handling case of safe params array (when having ParamsFirst parameter to avoid empty array)
-                                if (expr is NewArrayExpression naExp &&
-                                    expr.NodeType == ExpressionType.NewArrayInit)
+                                if (expr.IsArray(out int length))
                                 {
                                     if (isArray)
                                     {
@@ -911,7 +891,7 @@ namespace Weknow.CypherBuilder
                                         var prv = args[count - 2];
                                         if (prv.NodeType == ExpressionType.Convert &&
                                             prv.Type.Name == "ParamsFirst`1" &&
-                                            naExp.Expressions.Count != 0)
+                                            length != 0)
                                         {
                                             Query.Append(", ");
                                         }
@@ -919,59 +899,60 @@ namespace Weknow.CypherBuilder
 
                                 }
 
-                                bool isIndexConstraint = node is MethodCallExpression mc && mc.Method.Name switch
-                                {
-                                    nameof(ICypher.CreateConstraint) => true,
-                                    nameof(ICypher.TryCreateConstraint) => true,
-                                    nameof(ICypher.CreateIndex) => true,
-                                    nameof(ICypher.TryCreateIndex) => true,
-                                    nameof(ICypher.TryDropConstraint) => true,
-                                    nameof(ICypher.DropConstraint) => true,
-                                    nameof(ICypher.TryDropIndex) => true,
-                                    nameof(ICypher.DropIndex) => true,
-                                    nameof(ICypher.CreateTextIndex) => true,
-                                    nameof(ICypher.TryCreateFullTextIndex) => true,
-                                    nameof(ICypher.CreateFullTextIndex) => true,
-                                    nameof(ICypher.TryCreateTextIndex) => true,
-                                    _ => false
-                                };
+                                bool isIndexConstraint = IsIndexConstraint(node);
 
 #pragma warning disable CS0618
                                 _isRawChypher = expr.Type.Name == nameof(RawCypher) || isIndexConstraint;
 #pragma warning restore CS0618
                                 using (isIndexConstraint ? _shouldHandleAmbient.Deny() : Disposable.Empty)
                                 {
-                                    bool isVar = expr.Type.IsAssignableTo(typeof(VariableDeclaration));
+                                    bool isVar = expr.Type.IsAssignableTo<VariableDeclaration>();
+                                    bool isLabel = expr.IsOfType<ILabel>();
+                                    bool prevIsVar = index == 0 ? false : args[index - 1].Type.IsAssignableTo<VariableDeclaration>(); ;
                                     var qlen = Query.Length;
-                                    Visit(expr);
+                                    using (isLabel && prevIsVar ? _shouldHandleAmbient.Deny() : Disposable.Empty) // ambient should trigger at the variable level in order to avoid duplicates
+                                    {
+                                        Visit(expr);
+                                    }
                                     if (isVar)
                                     {
+                                        bool isNextLabel = false;
+                                        string sep = AndRepresentation();
+                                        string addition = Query.ToString(qlen..);
+                                        bool hasColon = LABEL_SPLITTER.Any(c => addition.IndexOf(c) != -1);// check if addition is having the first ':'
                                         if (count > index + 1)
                                         {
-                                            Expression nextEXpr = args[index + 1];
-                                            if (nextEXpr.Type == typeof(ILabel) ||
-                                                nextEXpr.Type == typeof(IType))
+                                            Expression nextExpr = args[index + 1];
+                                            isNextLabel = nextExpr.IsOfType<ILabel>();
+                                            bool isNextType = nextExpr.IsOfType<IType>();
+
+                                            if (isNextLabel || isNextType)
                                             {
-                                                string addition = Query.ToString(qlen..);
-                                                if (addition.IndexOf(':') == -1) // check if addition is having the first ':'
-                                                {
-                                                    Query.Append(":");
-                                                }
-                                                else
-                                                {
-                                                    string sep = AndRepresentation();
+
+                                                if (hasColon && isNextLabel)
                                                     Query.Append(sep);
-                                                }
-                                            }
-                                            else if (nextEXpr is NewArrayExpression nae &&
-                                                        nae.Expressions.Count != 0)
-                                            {
-                                                Expression first = nae.Expressions.First();
-                                                if (first.Type == typeof(ILabel) ||
-                                                first.Type == typeof(IType))
-                                                {
+                                                else
                                                     Query.Append(":");
-                                                }
+                                            }
+                                            //else if (nextExpr is NewArrayExpression nae &&
+                                            //            nae.Expressions.Count != 0)
+                                            //{
+                                            //    Expression first = nae.Expressions.First();
+                                            //    if (first.Type == typeof(ILabel) ||
+                                            //    first.Type == typeof(IType))
+                                            //    {
+                                            //        Query.Append(":");
+                                            //    }
+                                            //}
+                                        }
+                                        bool noAmbient = (expr is MemberExpression namb) && namb.Member.Name == nameof(CypherExtensions.NoAmbient);
+                                        if (!noAmbient)
+                                        {
+                                            int curIndex = Query.Length;
+                                            HandleAmbientLabels(expr);
+                                            if (isNextLabel && curIndex != Query.Length)
+                                            {
+                                                Query.Append(sep);
                                             }
                                         }
                                     }
@@ -1106,43 +1087,100 @@ namespace Weknow.CypherBuilder
 
         #region HandleAmbientLabels
 
-        private void HandleAmbientLabels(Expression node, params string[] labels)
+        private bool HandleAmbientLabels(Expression node, params string[] labels)
         {
             if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
-                return;
+                return false;
+
+
+            var variable = string.Empty;
+            if (node.Type.Name.StartsWith(nameof(VariableDeclaration)))
+            {
+                variable = node switch
+                {
+                    MemberExpression mem => mem.Member.Name,
+                    ParameterExpression prm => prm.Name,
+                    _ => string.Empty
+                };
+            }
 
             string separator = AndRepresentation();
+            char last = Query[^1];
+            bool hasColon = LABEL_SPLITTER.Any(c => last == c); // check if addition is having the first ':'
+
+            if (_ambientOnce.Contains(variable))
+                return false;
+            if (variable != string.Empty)
+                _ambientOnce.Add(variable);
+
             if ((_ignoreScope.State & IgnoreBehavior.Ambient) == IgnoreBehavior.Ambient || !_shouldHandleAmbient.Value)
             {
                 if (labels == null || labels.Length == 0)
-                    return;
+                    return false;
 
-                HandleStartChar();
+                //hasChanged = HandleStartChar();
 
 
                 IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
                 var addition = string.Join(separator, formatted);
+
+                if (!hasColon && !string.IsNullOrEmpty(addition)) // && variable != string.Empty)
+                    Query.Append(":");
+
                 Query.Append(addition);
-                return;
+                return true;
             }
 
             _shouldHandleAmbient.Deactivate();
 
-            HandleStartChar();
+            //HandleStartChar();
 
-            Query.Append(_configuration.AmbientLabels.Combine(separator, labels));
+            string ambAddition = _configuration.AmbientLabels.Combine(separator, labels);
+            if (!hasColon && !string.IsNullOrEmpty(ambAddition)) // && variable != string.Empty)
+                Query.Append(":");
+            Query.Append(ambAddition);
 
-            void HandleStartChar()
-            {
-                if (!node.Type.Name.StartsWith(nameof(VariableDeclaration)))
-                    return;
-                char lastChar = Query[^1];
-                if (lastChar != ':')
-                    Query.Append(text: ':');
-            }
+            return true;
+
+            //bool HandleStartChar()
+            //{
+            //    if (!node.Type.Name.StartsWith(nameof(VariableDeclaration)))
+            //        return false;
+            //    char lastChar = Query[^1];
+            //    if (lastChar != ':')
+            //    {
+            //        Query.Append(text: ':');
+            //        return true;
+            //    }
+            //    return false;
+            //}
         }
 
         #endregion // HandleAmbientLabels
+
+        #region IsIndexConstraint
+
+        private static bool IsIndexConstraint(MethodCallExpression node)
+        {
+            return node is MethodCallExpression mc && mc.Method.Name switch
+            {
+                nameof(ICypher.CreateConstraint) => true,
+                nameof(ICypher.TryCreateConstraint) => true,
+                nameof(ICypher.CreateIndex) => true,
+                nameof(ICypher.TryCreateIndex) => true,
+                nameof(ICypher.TryDropConstraint) => true,
+                nameof(ICypher.DropConstraint) => true,
+                nameof(ICypher.TryDropIndex) => true,
+                nameof(ICypher.DropIndex) => true,
+                nameof(ICypher.CreateTextIndex) => true,
+                nameof(ICypher.TryCreateFullTextIndex) => true,
+                nameof(ICypher.CreateFullTextIndex) => true,
+                nameof(ICypher.TryCreateTextIndex) => true,
+                _ => false
+            };
+        }
+
+        #endregion // IsIndexConstraint
 
         #region IsNeo4jAndExpression()
         private bool IsNeo4jAndExpression() => _directOperation.State switch
@@ -1173,5 +1211,86 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // AndRepresentation
+
+        #region HandleDateTime
+
+        /// <summary>
+        /// Handles the date time.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        private bool HandleDateTime(MemberExpression node)
+        {
+            bool shouldCreatePrm = _shouldCreateParameter.State;
+            var declaration = node.Member.DeclaringType;
+            if (!shouldCreatePrm || (declaration != typeof(DateTime) && declaration != typeof(DateTimeOffset) && declaration != typeof(TimeSpan)))
+                return false;
+
+            var timeConfig = _configuration.Time;
+            var memberName = node.Member.Name;
+
+            if (timeConfig.TimeConvention == TimeConvention.AsFunction)
+            {
+                string? fn = memberName switch
+                {
+                    nameof(DateTime.Now) => "datetime",
+                    nameof(DateTime.UtcNow) => "datetime",
+                    nameof(DateTime.Today) => "date",
+                    nameof(DateTime.TimeOfDay) => "time",
+                    _ => null
+                };
+
+                if (fn != null)
+                {
+                    Query.Append(fn);
+                    if (timeConfig.ClockConvention != TimeClockConvention.Default)
+                    {
+                        Query.Append($".{timeConfig.ClockConvention}".ToLower());
+                    }
+                    Query.Append("()");
+                    return true;
+                }
+            }
+
+            if (declaration == typeof(DateTime) || declaration == typeof(DateTimeOffset))
+            {
+                DateTimeOffset? date = memberName switch
+                {
+                    nameof(DateTime.Now) => DateTimeOffset.Now,
+                    nameof(DateTime.UtcNow) => DateTimeOffset.UtcNow,
+                    nameof(DateTime.Today) => new DateTimeOffset(DateTime.Today),
+                    _ => null
+                };
+
+                if (date != null)
+                {
+                    Append(date);
+                    return true;
+                }
+
+                TimeSpan? time = memberName switch
+                {
+                    nameof(DateTime.TimeOfDay) => DateTimeOffset.Now.TimeOfDay,
+                    _ => null
+                };
+
+                if (time != null)
+                {
+                    Append(time);
+                    return true;
+                }
+            }
+
+            return false;
+
+            void Append<T>(T value)
+            {
+                var parameterName = $"p_{Parameters.Count}";
+                Query.Append($"${parameterName}");
+                _parameters = _parameters.AddOrUpdate(parameterName, value);
+            }
+        }
+
+        #endregion // HandleDateTime
     }
 }

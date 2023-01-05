@@ -25,6 +25,16 @@ internal record Name2
 [Dictionaryable(Flavor = Flavor.Neo4j)]
 internal partial record Someone(int Id, string Name, int Age);
 
+[Dictionaryable(Flavor = Flavor.Neo4j)]
+internal partial record Sometime
+{
+    public required string Name { get; init; }
+    public required DateTimeOffset Birthday { get; init; }
+    public required DateTimeOffset Local { get; init; }
+    public required DateTime IssueDate { get; init; }
+    public required TimeSpan At { get; init; }
+}
+
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
 //[Trait("TestType", "Integration")]
@@ -207,6 +217,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     }
 
     #endregion // CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
+
     #region UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
     [Fact]
@@ -258,6 +269,88 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     }
 
     #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
+
+    #region CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
+
+    [Fact]
+    public virtual async Task Create_Date_Explicit_Prm_Match_Test()
+    {
+        const string EXPECTED = "someone";
+        CypherConfig.Scope.Value = CONFIGURATION;
+
+        var (prm1, prm2, prm3, prm4) = Parameters.CreateMulti();
+
+        CypherCommand cypher = _(p =>
+                                Create(N(p, Person,
+                                new
+                                {
+                                    Name = "someone",
+                                    Birthday = prm1,
+                                    IssueDate = prm2,
+                                    At = prm3,
+                                    Local = prm4
+                                }))
+                                .Return(p));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters
+                                    .AddOrUpdate(nameof(prm1), DateTimeOffset.UtcNow)
+                                    .AddOrUpdate(nameof(prm2), DateTime.Today)
+                                    .AddOrUpdate(nameof(prm3), DateTime.Now.TimeOfDay)
+                                    .AddOrUpdate(nameof(prm4), DateTimeOffset.Now);
+
+        await using var tx = await _graphDB.StartTransaction();
+        IGraphDBResponse response = await tx.RunAsync(cypher, prms);
+        Sometime entity = await response.GetAsync<Sometime>();
+        Sometime[] entities = await response.GetRangeAsync<Sometime>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity.Name);
+        Assert.Equal(prms[nameof(prm1)], entity.Birthday);
+        Assert.Equal(prms[nameof(prm2)], entity.IssueDate);
+        Assert.Equal(prms[nameof(prm3)], entity.At);
+        Assert.Equal(prms[nameof(prm4)], entity.Local);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
+    }
+
+    #endregion // CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
+
+    #region CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
+
+    [Fact]
+    public virtual async Task Create_Date_Prm_Match_Test()
+    {
+        const string EXPECTED = "Ben";
+        CypherConfig.Scope.Value = CONFIGURATION;
+
+        CypherCommand cypher = _(p =>
+                                Create(N(p, Person,
+                                new Sometime
+                                {
+                                    Name = "someone",
+                                    Birthday = DateTimeOffset.UtcNow,
+                                    IssueDate = DateTime.Today,
+                                    At = DateTime.Now.TimeOfDay,
+                                    Local = DateTimeOffset.Now
+                                }))
+                                .Return(p));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        Sometime entity = await response.GetAsync<Sometime>();
+        Sometime[] entities = await response.GetRangeAsync<Sometime>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity.Name);
+        Assert.Equal(prms[nameof(entity.Birthday)], entity.Birthday);
+        Assert.Equal(prms[nameof(entity.IssueDate)], entity.IssueDate);
+        Assert.Equal(prms[nameof(entity.At)], entity.At);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single().Name);
+    }
+
+    #endregion // CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
 
     [Fact(Skip = "Unwind BAD SYNTAX, use Create_Match_Multi_Unwind_Test")]
     public virtual async Task BAD_SYNTAX_Create_Match_Multi_Unwind_Test()

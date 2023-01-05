@@ -72,6 +72,10 @@ namespace Weknow.CypherBuilder.Declarations
 
     }
 
+    public class TimeVariableDeclaration: VariableDeclaration
+    { 
+    }
+
     /// <summary>
     /// Variable primitive for the Cypher expression.
     /// </summary>

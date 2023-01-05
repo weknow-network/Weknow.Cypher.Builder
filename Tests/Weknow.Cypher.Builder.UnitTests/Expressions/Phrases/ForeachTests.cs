@@ -60,9 +60,11 @@ namespace Weknow.CypherBuilder
             var items = Parameters.Create();
             var item = Variables.Create<Foo>();
 
+#pragma warning disable CS0618 // Type or member is obsolete
             CypherCommand cypher = _(() =>
                                     Foreach(item, items, Set(item, new { Version = 1 }))
                                     .Foreach(item, items, Set(item, new { Version = 2 })));
+#pragma warning restore CS0618 // Type or member is obsolete
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -125,11 +127,11 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Foreach_Match_Test()
         {
-            var (n, item) = Variables.CreateMulti<Foo>();
+            var n = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person))
-                                    .Foreach(item, n, Set(item, new { Enabled = true })));
+                                    .Foreach(n, item => Set(item, new { Enabled = true })));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

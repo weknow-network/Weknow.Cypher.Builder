@@ -1,5 +1,4 @@
-﻿
-using Weknow.Mapping;
+﻿using Weknow.Mapping;
 
 namespace Weknow.CypherBuilder
 {

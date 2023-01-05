@@ -65,6 +65,363 @@
             Full-text analyzer.
             </summary>
         </member>
+        <member name="T:Weknow.CypherBuilder.CypherConfig">
+            <summary>
+            The cypher builder configuration.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherConfig.Scope">
+            <summary>
+            Using async configuration scope
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherConfig.AmbientLabels">
+            <summary>
+            Ambient Label configuration
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherConfig.Naming">
+            <summary>
+            Gets the naming convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherConfig.Flavor">
+            <summary>
+            The cypher flavor.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherConfig.Time">
+            <summary>
+            Gets the date/time convention.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherFlavor">
+            <summary>
+            Cypher Flavor
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherFlavor.OpenCypher">
+            <summary>
+            use compatible open cypher
+            https://opencypher.org/
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherFlavor.Neo4j5">
+            <summary>
+            use neo4j 5 compatible cypher
+            https://neo4j.com/docs/cypher-cheat-sheet/current/
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherNamingConvention">
+            <summary>
+            Formatting options
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherNamingConvention.Default">
+            <summary>
+            The default
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherNamingConvention.SCREAMING_CASE">
+            <summary>
+            The screaming case
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherNamingConvention.camelCase">
+            <summary>
+            The camel case
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherNamingConvention.PacalCase">
+            <summary>
+            The pacal case
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.TimeClockConvention">
+            <summary>
+            Controlling when the time is sampled (for cypher date/time function)
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeClockConvention.Default">
+            <summary>
+            The default clock (Neo4j is using 'statement' as the default)
+            </summary>
+            <example>
+            DateTimeOffset.Today become date() 
+            if the TimeConvention is AsFunction
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </example>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeClockConvention.Realtime">
+            <summary>
+             The instant produced will be the live clock of the system.
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </summary>
+            <example>
+            DateTimeOffset.Today become date.realtime() 
+            if the TimeConvention is AsFunction
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </example>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeClockConvention.Statement">
+            <summary>
+            The same instant is produced 
+            for each invocation within the same statement. 
+            A different time may be produced 
+            for different statements within the same transaction.
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </summary>
+            <example>
+            DateTimeOffset.Today become date.statement() 
+            if the TimeConvention is AsFunction
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </example>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeClockConvention.Transaction">
+            <summary>
+            The same instant is produced for each invocation 
+            within the same transaction. A different time may be produced for 
+            different transactions.
+            </summary>
+            <example>
+            DateTimeOffset.Today become date.transaction() 
+            if the TimeConvention is AsFunction
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </example>
+        </member>
+        <member name="T:Weknow.CypherBuilder.TimeConvention">
+            <summary>
+            Cypher formatting options
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeConvention.AsFunction">
+            <summary>
+            Convert date-time expression like DateTime.Now into Cypher func like datetime()
+            </summary>
+            <example>
+            DateTime.Today or DateTimeOffset.Today become date()
+            DateTime.Now/UtcNow or DateTimeOffset.Now/UtcNow become datetime()
+            DateTime.Now.TimeOfDay or DateTimeOffset.TimeOfDay become time()    
+            
+            https://neo4j.com/docs/cypher-manual/current/functions/temporal/
+            </example>
+        </member>
+        <member name="F:Weknow.CypherBuilder.TimeConvention.AsParameter">
+            <summary>
+            Date/Time expression will mapped into parameters (with default of the time when it construct)
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.FullTextAnalyzer">
+            <summary>
+            Full text search analyzer options
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.IPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.ConfigTimeConvention">
+            <summary>
+            Date/Time convention
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.ConfigTimeConvention.TimeConvention">
+            <summary>
+            Gets or sets the time convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.ConfigTimeConvention.ClockConvention">
+            <summary>
+            Gets or sets the clock convention.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherAmbientLabelConfig">
+            <summary>
+            Label configuration
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.#ctor(Weknow.CypherBuilder.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherAmbientLabelConfig" /> class.
+            </summary>
+            <param name="parent">The parent.</param>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherAmbientLabelConfig.Values">
+            <summary>
+            Gets the additional ambient labels which will be added to cypher queries
+            (when the expression is not hard-codded string).
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherAmbientLabelConfig.Formatter">
+            <summary>
+            Gets or sets the formatter label formatter.
+            For example "`@{0}`"
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.Add(Weknow.CypherBuilder.ILabel,System.String)">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="label">The label.</param>
+            <param name="name">Automatic parameter, should be ignored.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.Add(System.String[])">
+            <summary>
+            Adds the additional ambient labels which will be added to cypher queries.
+            </summary>
+            <param name="additionalLabels">The additional labels.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.Combine(System.String,System.String[])">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="separator">The separator.</param>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.Combine(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Get combined label string with ambient and additional labels.
+            </summary>
+            <param name="separator">The separator.</param>
+            <param name="additionalLabels">The labels.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.AmbientFormat(System.String)">
+            <summary>
+            Ambients the format.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
+            <summary>
+            Formats the specified text.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="text">The text.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">text</exception>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherAmbientLabelConfig.Parent">
+            <summary>
+            Gets the parent configuration.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherAmbientLabelConfig.Enable">
+            <summary>
+            Toggle enable state.
+            Useful for disabling the ambient label from central place.
+            </summary>
+            <value>
+              <c>true</c> if enable; otherwise, <c>disable</c>.
+            </value>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherNamingConfig">
+            <summary>
+            Naming convention
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherNamingConfig.#ctor(Weknow.CypherBuilder.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherNamingConfig"/> class.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherNamingConfig.LabelConvention">
+            <summary>
+            Gets or sets the label's convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherNamingConfig.TypeConvention">
+            <summary>
+            Gets or sets the type's convention.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherNamingConfig.ConvertToTypeConvention(System.String)">
+            <summary>
+            Converts to type convention.
+            </summary>
+            <param name="name">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherNamingConfig.Pluralization">
+            <summary>
+            Gets or sets the pluralization service.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherNamingConfig.SetPluralization(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Sets the pluralization service.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherNamingConfig.FormatByConvention(System.String,Weknow.CypherBuilder.CypherNamingConvention)">
+            <summary>
+            Formats by convention.
+            </summary>
+            <param name="text">The text.</param>
+            <param name="convention">The convention.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherNamingConfig.Parent">
+            <summary>
+            Gets the parent configuration.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.LambdaPluralization">
+            <summary>
+            Pluralization services.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.LambdaPluralization.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.LambdaPluralization"/> class.
+            </summary>
+            <param name="pluralize">The pluralize.</param>
+            <param name="singularize">The singularize.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.LambdaPluralization.Pluralize(System.String)">
+            <summary>
+            Pluralize a word using the service.
+            </summary>
+            <param name="word">The word to pluralize.</param>
+            <returns>The pluralized word </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.LambdaPluralization.Singularize(System.String)">
+            <summary>
+            Singularize a word using the service.
+            </summary>
+            <param name="word">The word to singularize.</param>
+            <returns>The singularized word.</returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.Parameters`1">
             <summary>
             Deconstruct for typed parameter of same type
@@ -1861,6 +2218,46 @@
             No formatting except the $ sign.
             </summary>
         </member>
+        <member name="T:Weknow.CypherBuilder.HelperExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsAssignableTo``1(System.Type)">
+            <summary>
+            Determines whether [is assignable to].
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t">The t.</param>
+            <returns>
+              <c>true</c> if [is assignable to] [the specified t]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsOfType``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Check if expression is of type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression)">
+            <summary>
+            Check if expression is array
+            </summary>
+            <param name="expr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression,System.Int32@)">
+            <summary>
+            Check if expression is array
+            </summary>
+            <param name="expr">The expression.</param>
+            <param name="length">The array length.</param>
+            <returns>
+              <c>true</c> if the specified array expression is array; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.ICypher">
             <summary>
             Entry point for constructing root level Cypher.
@@ -1915,14 +2312,14 @@
             RETURN avg(n.PropA)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.HandleConfigInjection(System.Action{Weknow.CypherConfig},Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.ICypher.HandleConfigInjection(System.Action{Weknow.CypherBuilder.CypherConfig},Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Handles the configuration injection.
             </summary>
             <param name="configuration">The configuration.</param>
             <param name="cfg">The CFG.</param>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Init(Weknow.CypherConfig,System.Linq.Expressions.Expression)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Init(Weknow.CypherBuilder.CypherConfig,System.Linq.Expressions.Expression)">
             <summary>
             Initializes a builder.
             </summary>
@@ -1930,7 +2327,7 @@
             <param name="expression">The expression.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.NoVariable},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.NoVariable},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -1938,7 +2335,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.Fluent},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.Fluent},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -1946,7 +2343,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression,System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression,System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>
@@ -2432,7 +2829,7 @@
             exists(n.property)
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelationNode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelationNode}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -2440,7 +2837,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INodeRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INodeRelation}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Reuses the specified expression.
             </summary>
@@ -2448,7 +2845,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INode}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.INode}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2456,7 +2853,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelation}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.IRelation}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2464,7 +2861,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INodeRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INodeRelation}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2472,7 +2869,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2480,7 +2877,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2488,7 +2885,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2496,7 +2893,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2504,7 +2901,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2512,7 +2909,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2520,7 +2917,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode}}}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2528,7 +2925,7 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}}},System.Action{Weknow.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher.Reuse(System.Linq.Expressions.Expression{System.Func{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IRelation}}}}}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Use for encapsulation of reusable expression.
             </summary>
@@ -2670,7 +3067,7 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.CreateFullTextIndex(System.String,Weknow.CypherBuilder.IPattern,Weknow.FullTextAnalyzer,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
+        <member name="M:Weknow.CypherBuilder.ICypher.CreateFullTextIndex(System.String,Weknow.CypherBuilder.IPattern,Weknow.CypherBuilder.FullTextAnalyzer,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a full-text index on relationships with the name index_name and analyzer.
             Full-text indexes on relationships can only be used by from
@@ -2694,7 +3091,7 @@
             <param name="vars">The vars.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.TryCreateFullTextIndex(System.String,Weknow.CypherBuilder.IPattern,Weknow.FullTextAnalyzer,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
+        <member name="M:Weknow.CypherBuilder.ICypher.TryCreateFullTextIndex(System.String,Weknow.CypherBuilder.IPattern,Weknow.CypherBuilder.FullTextAnalyzer,Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             Create a index phrase.
             </summary>
@@ -2820,7 +3217,7 @@
             </summary>
             <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.CypherBuilder.ExpressionPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.ExpressionPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.ExpressionPattern"/> class.
             </summary>
@@ -3040,7 +3437,7 @@
             </summary>
             <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.CypherBuilder.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.NodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
@@ -3054,7 +3451,7 @@
             <seealso cref="T:Weknow.CypherBuilder.ExpressionPattern" />
             <seealso cref="T:Weknow.CypherBuilder.INodeRelation" />
         </member>
-        <member name="M:Weknow.CypherBuilder.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.NodeRelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
@@ -3091,7 +3488,7 @@
             <seealso cref="T:Weknow.CypherBuilder.ExpressionPattern" />
             <seealso cref="T:Weknow.CypherBuilder.IRelationNode" />
         </member>
-        <member name="M:Weknow.CypherBuilder.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.RelationNodePattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
@@ -3312,7 +3709,7 @@
             </summary>
             <seealso cref="T:Weknow.CypherBuilder.IPattern" />
         </member>
-        <member name="M:Weknow.CypherBuilder.RelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.RelationPattern.#ctor(System.Linq.Expressions.Expression,Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance.
             </summary>
@@ -4044,7 +4441,7 @@
             </summary>
             <seealso cref="T:System.Linq.Expressions.ExpressionVisitor" />
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherVisitor.#ctor(Weknow.CypherConfig)">
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.#ctor(Weknow.CypherBuilder.CypherConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherVisitor"/> class.
             </summary>
@@ -4172,6 +4569,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherVisitor.HandleDateTime(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Handles the date time.
+            </summary>
+            <param name="node">The node.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.ContextValue`1">
             <summary>
             Context container
@@ -4255,308 +4659,6 @@
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
-        </member>
-        <member name="T:Weknow.CypherAmbientLabelConfig">
-            <summary>
-            Label configuration
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.#ctor(Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherAmbientLabelConfig" /> class.
-            </summary>
-            <param name="parent">The parent.</param>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Values">
-            <summary>
-            Gets the additional ambient labels which will be added to cypher queries
-            (when the expression is not hard-codded string).
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Formatter">
-            <summary>
-            Gets or sets the formatter label formatter.
-            For example "`@{0}`"
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Add(Weknow.CypherBuilder.ILabel,System.String)">
-            <summary>
-            Adds the additional ambient labels which will be added to cypher queries.
-            </summary>
-            <param name="label">The label.</param>
-            <param name="name">Automatic parameter, should be ignored.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Add(System.String[])">
-            <summary>
-            Adds the additional ambient labels which will be added to cypher queries.
-            </summary>
-            <param name="additionalLabels">The additional labels.</param>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String,System.String[])">
-            <summary>
-            Get combined label string with ambient and additional labels.
-            </summary>
-            <param name="separator">The separator.</param>
-            <param name="additionalLabels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.Combine(System.String,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Get combined label string with ambient and additional labels.
-            </summary>
-            <param name="separator">The separator.</param>
-            <param name="additionalLabels">The labels.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.AmbientFormat(System.String)">
-            <summary>
-            Ambients the format.
-            </summary>
-            <param name="text">The text.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherAmbientLabelConfig.FormatByConvention``1(``0)">
-            <summary>
-            Formats the specified text.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="text">The text.</param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException">text</exception>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Parent">
-            <summary>
-            Gets the parent configuration.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherAmbientLabelConfig.Enable">
-            <summary>
-            Toggle enable state.
-            Useful for disabling the ambient label from central place.
-            </summary>
-            <value>
-              <c>true</c> if enable; otherwise, <c>disable</c>.
-            </value>
-        </member>
-        <member name="T:Weknow.CypherConfig">
-            <summary>
-            The cypher builder configuration.
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherConfig.Scope">
-            <summary>
-            Using async configuration scope
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherConfig.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherConfig"/> class.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.AmbientLabels">
-            <summary>
-            Ambient Label configuration
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Naming">
-            <summary>
-            Gets the naming convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherConfig.Flavor">
-            <summary>
-            The cypher flavor.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherFlavor">
-            <summary>
-            Cypher Flavor
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherFlavor.OpenCypher">
-            <summary>
-            use compatible open cypher
-            https://opencypher.org/
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherFlavor.Neo4j5">
-            <summary>
-            use neo4j 5 compatible cypher
-            https://neo4j.com/docs/cypher-cheat-sheet/current/
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherNamingConfig">
-            <summary>
-            Naming convention
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.#ctor(Weknow.CypherConfig)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherNamingConfig"/> class.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.LabelConvention">
-            <summary>
-            Gets or sets the label's convention.
-            </summary>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.TypeConvention">
-            <summary>
-            Gets or sets the type's convention.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.ConvertToTypeConvention(System.String)">
-            <summary>
-            Converts to type convention.
-            </summary>
-            <param name="name">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.Pluralization">
-            <summary>
-            Gets or sets the pluralization service.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.SetPluralization(System.Func{System.String,System.String},System.Func{System.String,System.String})">
-            <summary>
-            Sets the pluralization service.
-            </summary>
-            <param name="pluralize">The pluralize.</param>
-            <param name="singularize">The singularize.</param>
-        </member>
-        <member name="M:Weknow.CypherNamingConfig.FormatByConvention(System.String,Weknow.CypherNamingConvention)">
-            <summary>
-            Formats by convention.
-            </summary>
-            <param name="text">The text.</param>
-            <param name="convention">The convention.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.CypherNamingConfig.Parent">
-            <summary>
-            Gets the parent configuration.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherFormat">
-            <summary>
-            Cypher formatting options
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherFormat.SingleLine">
-            <summary>
-            A single line of cypher query
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherFormat.MultiLine">
-            <summary>
-            Multi line of cypher query
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherFormat.MultiLineDense">
-            <summary>
-            Multi line of cypher query with some density on where and set properties
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherNamingConvention">
-            <summary>
-            Formatting options
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherNamingConvention.Default">
-            <summary>
-            The default
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherNamingConvention.SCREAMING_CASE">
-            <summary>
-            The screaming case
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherNamingConvention.camelCase">
-            <summary>
-            The camel case
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherNamingConvention.PacalCase">
-            <summary>
-            The pacal case
-            </summary>
-        </member>
-        <member name="T:Weknow.FullTextAnalyzer">
-            <summary>
-            Full text search analyzer options
-            </summary>
-        </member>
-        <member name="T:Weknow.NamingConventionAffects">
-            <summary>
-            What get affected by the naming convention
-            </summary>
-        </member>
-        <member name="F:Weknow.NamingConventionAffects.None">
-            <summary>
-            disable
-            </summary>
-        </member>
-        <member name="F:Weknow.NamingConventionAffects.Label">
-            <summary>
-            Node
-            </summary>
-        </member>
-        <member name="F:Weknow.NamingConventionAffects.Type">
-            <summary>
-            Relations
-            </summary>
-        </member>
-        <member name="F:Weknow.NamingConventionAffects.All">
-            <summary>
-            All
-            </summary>
-        </member>
-        <member name="T:Weknow.IPluralization">
-            <summary>
-            Pluralization services.
-            </summary>
-        </member>
-        <member name="M:Weknow.IPluralization.Pluralize(System.String)">
-            <summary>
-            Pluralize a word using the service.
-            </summary>
-            <param name="word">The word to pluralize.</param>
-            <returns>The pluralized word </returns>
-        </member>
-        <member name="M:Weknow.IPluralization.Singularize(System.String)">
-            <summary>
-            Singularize a word using the service.
-            </summary>
-            <param name="word">The word to singularize.</param>
-            <returns>The singularized word.</returns>
-        </member>
-        <member name="T:Weknow.LambdaPluralization">
-            <summary>
-            Pluralization services.
-            </summary>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.#ctor(System.Func{System.String,System.String},System.Func{System.String,System.String})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.LambdaPluralization"/> class.
-            </summary>
-            <param name="pluralize">The pluralize.</param>
-            <param name="singularize">The singularize.</param>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.Pluralize(System.String)">
-            <summary>
-            Pluralize a word using the service.
-            </summary>
-            <param name="word">The word to pluralize.</param>
-            <returns>The pluralized word </returns>
-        </member>
-        <member name="M:Weknow.LambdaPluralization.Singularize(System.String)">
-            <summary>
-            Singularize a word using the service.
-            </summary>
-            <param name="word">The word to singularize.</param>
-            <returns>The singularized word.</returns>
         </member>
     </members>
 </doc>

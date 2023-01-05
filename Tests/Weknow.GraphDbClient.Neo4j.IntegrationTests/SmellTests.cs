@@ -112,6 +112,23 @@ public class SmellTests : BaseSmellTests
 
     #endregion // UNWIND $items AS map CREATE(x:PERSON) SET x = map RETURN x
 
+    #region CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
 
+    [Fact]
+    public override Task Create_Date_Explicit_Prm_Match_Test()
+    {
+        return base.Create_Date_Explicit_Prm_Match_Test();
+    }
 
+    #endregion // CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
+
+    #region CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
+
+    [Fact]
+    public override Task Create_Date_Prm_Match_Test()
+    {
+        return base.Create_Date_Prm_Match_Test();
+    }
+
+    #endregion // CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
 }

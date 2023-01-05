@@ -254,7 +254,8 @@ WHERE $p_1 }", cypher.Query);
             var PropA = Parameters.Create();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { PropA }))
-                                    .Where(n._.Date > DateTime.Now));
+                                    .Where(n._.Date > DateTime.Now),
+                                    c => c.Time.TimeConvention = TimeConvention.AsParameter);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(
@@ -276,7 +277,8 @@ WHERE $p_1 }", cypher.Query);
             var PropA = Parameters.Create();
             CypherCommand cypher = _(() =>
                                     Match(N(n, Person, new { PropA }))
-                                    .Where(n._.Date >= DateTime.Now));
+                                    .Where(n._.Date >= DateTime.Now),
+                                    c => c.Time.TimeConvention = TimeConvention.AsParameter);
 
             _outputHelper.WriteLine(cypher.Dump());
             Assert.Equal(

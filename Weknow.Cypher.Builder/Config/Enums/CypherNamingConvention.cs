@@ -1,25 +1,24 @@
-﻿namespace Weknow
+﻿namespace Weknow.CypherBuilder;
+
+/// <summary>
+/// Formatting options
+/// </summary>
+public enum CypherNamingConvention
 {
     /// <summary>
-    /// Formatting options
+    /// The default
     /// </summary>
-    public enum CypherNamingConvention
-    {
-        /// <summary>
-        /// The default
-        /// </summary>
-        Default,
-        /// <summary>
-        /// The screaming case
-        /// </summary>
-        SCREAMING_CASE,
-        /// <summary>
-        /// The camel case
-        /// </summary>
-        camelCase,
-        /// <summary>
-        /// The pacal case
-        /// </summary>
-        PacalCase
-    }
+    Default,
+    /// <summary>
+    /// The screaming case
+    /// </summary>
+    SCREAMING_CASE,
+    /// <summary>
+    /// The camel case
+    /// </summary>
+    camelCase,
+    /// <summary>
+    /// The pacal case
+    /// </summary>
+    PacalCase
 }

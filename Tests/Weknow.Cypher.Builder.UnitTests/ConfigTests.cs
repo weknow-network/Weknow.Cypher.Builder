@@ -1,3 +1,5 @@
+using Castle.Core.Configuration;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -286,6 +288,28 @@ RETURN f"
         #endregion // NoAmbient_Empty_Label_Convention_Context_Test
 
 
+        #region MATCH (n:Person { Id: $Id }) SET n:Person:Manager
+
+        [Fact]
+        public void Match_Set_AddLabels1_Test()
+        {
+            CypherConfig.Scope.Value = cfg =>
+            {
+                cfg.AmbientLabels.Add("GitHub");
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+                cfg.Flavor = CypherFlavor.Neo4j5;
+            };
+
+            CypherCommand cypher = _(m => n => r =>
+            OptionalMatch(N(m) - R[r] > N(n, Person)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("OPTIONAL MATCH (m:GIT_HUB)-[r]->(n:GIT_HUB&PERSON)", cypher.Query);
+        }
+
+        #endregion // MATCH (n:Person { Id: $Id }) SET n:Person:Manager
+
+
         #region Disable_Ambient_Empty_Label_Convention_Context_Test
 
         [Fact]
@@ -507,9 +531,9 @@ RETURN f"
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
-            Assert.Equal($"MATCH (n:PERSON:GIT_HUB){NewLine}" +
+            Assert.Equal($"MATCH (n:GIT_HUB:PERSON){NewLine}" +
                          $"WHERE n.FirstName = $p_0{NewLine}" +
-                         $"MATCH (m:PERSON:GIT_HUB){NewLine}" +
+                         $"MATCH (m:GIT_HUB:PERSON){NewLine}" +
                          $"WHERE m.FirstName = $p_1{NewLine}" +
                          $"CREATE (n)-[:KNOWS]->(m)"
                            , cypher.Query);
