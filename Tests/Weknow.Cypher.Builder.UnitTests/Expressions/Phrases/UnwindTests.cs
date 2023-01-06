@@ -1,3 +1,5 @@
+using Weknow.Mapping;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -538,7 +540,7 @@ SET n += item", cypher.Query);
                                  {
                                      cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                                      cfg.AmbientLabels.Add(Prod);
-                                     cfg.Flavor = CypherFlavor.OpenCypher;
+                                     cfg.Flavor = Flavor.OpenCypher;
                                  });
 
         _outputHelper.WriteLine(cypher);
@@ -570,7 +572,7 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
                                  {
                                      cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                                      cfg.AmbientLabels.Add($"Prod");
-                                     cfg.Flavor = CypherFlavor.Neo4j5;
+                                     cfg.Flavor = Flavor.Neo4j;
                                  });
 
         _outputHelper.WriteLine(cypher);

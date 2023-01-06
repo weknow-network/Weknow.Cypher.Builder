@@ -1,3 +1,5 @@
+using Weknow.Mapping;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -37,7 +39,7 @@ public class CaseTests
                                     .When(r, !LIKE & !KNOWS).Then(2)
                                     .Else(-1)
                                 .End().As("v"),
-                                cfg => cfg.Flavor = CypherFlavor.Neo4j5);
+                                cfg => cfg.Flavor = Flavor.Neo4j);
         _outputHelper.WriteLine(cypher);
         Assert.Equal($"MATCH (n)-[r]->(m){NewLine}" +
                      $"RETURN{NewLine}" +

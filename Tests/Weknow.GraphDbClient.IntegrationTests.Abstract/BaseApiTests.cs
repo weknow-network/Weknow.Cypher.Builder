@@ -11,7 +11,7 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-[Dictionaryable(Flavor = Flavor.Neo4j)]
+[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
 public partial record Idable(int id);
 
 //[Trait("Group", "Predicates")]

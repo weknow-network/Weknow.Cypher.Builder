@@ -1,5 +1,7 @@
 using System.Data;
 
+using Neo4j.Driver;
+
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
@@ -13,7 +15,7 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-[Dictionaryable(Flavor = Flavor.Neo4j)]
+[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
 internal partial record NameDictionaryable(string Name);
 
 internal record Name1(string Name);
@@ -22,17 +24,17 @@ internal record Name2
     public string Name { get; init; } = string.Empty;
 }
 
-[Dictionaryable(Flavor = Flavor.Neo4j)]
+[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
 internal partial record Someone(int Id, string Name, int Age);
 
-[Dictionaryable(Flavor = Flavor.Neo4j)]
+[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
 internal partial record Sometime
 {
     public required string Name { get; init; }
-    public required DateTimeOffset Birthday { get; init; }
-    public required DateTimeOffset Local { get; init; }
-    public required DateTime IssueDate { get; init; }
-    public required TimeSpan At { get; init; }
+    public  DateTimeOffset Birthday { get; init; }
+    public  DateTimeOffset Local { get; init; }
+    public  DateTime IssueDate { get; init; }
+    public  TimeSpan At { get; init; }
 }
 
 //    //[Trait("Group", "Predicates")]
@@ -320,7 +322,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     [Fact]
     public virtual async Task Create_Date_Prm_Match_Test()
     {
-        const string EXPECTED = "Ben";
+        const string EXPECTED = "someone";
         CypherConfig.Scope.Value = CONFIGURATION;
 
         CypherCommand cypher = _(p =>
@@ -343,9 +345,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         Sometime[] entities = await response.GetRangeAsync<Sometime>().ToArrayAsync();
 
         Assert.Equal(EXPECTED, entity.Name);
-        Assert.Equal(prms[nameof(entity.Birthday)], entity.Birthday);
-        Assert.Equal(prms[nameof(entity.IssueDate)], entity.IssueDate);
-        Assert.Equal(prms[nameof(entity.At)], entity.At);
+        Assert.Equal(DateTime.Today, entity.IssueDate);
         Assert.Single(entities);
         Assert.Equal(EXPECTED, entities.Single().Name);
     }

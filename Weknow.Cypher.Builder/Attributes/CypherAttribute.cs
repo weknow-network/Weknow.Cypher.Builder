@@ -37,7 +37,7 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Gets the flavor.
         /// </summary>
-        public CypherFlavor Flavor { get; init; } = CypherFlavor.OpenCypher;
+        public Flavor Flavor { get; init; } = Flavor.OpenCypher;
 
         #endregion // Flavor
     }

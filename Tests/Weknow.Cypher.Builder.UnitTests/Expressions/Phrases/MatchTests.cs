@@ -3,6 +3,7 @@
 using Castle.Core.Configuration;
 
 using Weknow.CypherBuilder.Declarations;
+using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -74,7 +75,7 @@ $"MATCH (n:Person {{ Id: $Id }}){NewLine}" +
             var Id = Parameters.Create();
             CypherCommand cypher = _(() => Match(N(n, Person | Animal, new { Id }))
                                     .Return(n)
-                                    , cfg => cfg.Flavor = CypherFlavor.Neo4j5);
+                                    , cfg => cfg.Flavor = Flavor.Neo4j);
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

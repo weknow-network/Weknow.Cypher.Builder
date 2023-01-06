@@ -100,23 +100,6 @@
             Gets the date/time convention.
             </summary>
         </member>
-        <member name="T:Weknow.CypherBuilder.CypherFlavor">
-            <summary>
-            Cypher Flavor
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.CypherFlavor.OpenCypher">
-            <summary>
-            use compatible open cypher
-            https://opencypher.org/
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.CypherFlavor.Neo4j5">
-            <summary>
-            use neo4j 5 compatible cypher
-            https://neo4j.com/docs/cypher-cheat-sheet/current/
-            </summary>
-        </member>
         <member name="T:Weknow.CypherBuilder.CypherNamingConvention">
             <summary>
             Formatting options

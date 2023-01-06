@@ -1,4 +1,6 @@
-﻿namespace Weknow.CypherBuilder;
+﻿using Weknow.Mapping;
+
+namespace Weknow.CypherBuilder;
 
 /// <summary>
 /// The cypher builder configuration.
@@ -33,7 +35,7 @@ public class CypherConfig
     /// <summary>
     /// The cypher flavor.
     /// </summary>
-    public CypherFlavor Flavor { get; set; } = CypherFlavor.OpenCypher;
+    public Flavor Flavor { get; set; } = Flavor.OpenCypher;
 
     /// <summary>
     /// Gets the date/time convention.

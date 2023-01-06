@@ -4,6 +4,7 @@ using Xunit.Abstractions;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
 using static System.Environment;
+using Weknow.Mapping;
 
 namespace Weknow.CypherBuilder
 {
@@ -29,7 +30,7 @@ namespace Weknow.CypherBuilder
         {
             string cypher = _(() => Match(N(Person & Maintainer))
                                     .Match(N(Animal & Friend)), 
-                                    c => c.Flavor = CypherFlavor.Neo4j5);
+                                    c => c.Flavor = Flavor.Neo4j);
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal($"MATCH (:Person&Maintainer){NewLine}" +
@@ -63,7 +64,7 @@ namespace Weknow.CypherBuilder
         {
             string cypher = _(() => Merge(N(Person&Maintainer))
                                     .Merge(N(Animal & Friend)),
-                c => c.Flavor = CypherFlavor.Neo4j5);
+                c => c.Flavor = Flavor.Neo4j);
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

@@ -1,5 +1,7 @@
 using Castle.Core.Configuration;
 
+using Weknow.Mapping;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -297,7 +299,7 @@ RETURN f"
             {
                 cfg.AmbientLabels.Add("GitHub");
                 cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                cfg.Flavor = CypherFlavor.Neo4j5;
+                cfg.Flavor = Flavor.Neo4j;
             };
 
             CypherCommand cypher = _(m => n => r =>
@@ -419,7 +421,7 @@ RETURN f"
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add(Prod);
                             cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                            cfg.Flavor = CypherFlavor.Neo4j5;
+                            cfg.Flavor = Flavor.Neo4j;
                         });
 
             _outputHelper.WriteLine(cypher);
@@ -449,7 +451,7 @@ RETURN f"
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.AmbientLabels.Add(Prod);
                             cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                            cfg.Flavor = CypherFlavor.Neo4j5;
+                            cfg.Flavor = Flavor.Neo4j;
                         });
 
             _outputHelper.WriteLine(cypher);

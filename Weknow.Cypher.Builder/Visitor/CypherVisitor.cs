@@ -25,7 +25,7 @@ namespace Weknow.CypherBuilder
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
         private int _autoVarCounter = 0;
         private readonly CypherConfig _configuration;
-        private readonly CypherFlavor _flavor;
+        private readonly Flavor _flavor;
 
         private readonly HashSet<string> _ambientOnce = new();
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
@@ -240,7 +240,7 @@ namespace Weknow.CypherBuilder
             string? format = atts.Where(m => m.Flavor == _flavor)
                             .Select(att => att.Format)
                             .FirstOrDefault();
-            if (format == null && atts.Length != 0 && _flavor != CypherFlavor.OpenCypher)
+            if (format == null && atts.Length != 0 && _flavor != Flavor.OpenCypher)
             {
                 format = atts
                             .Select(att => att.Format)
@@ -251,7 +251,7 @@ namespace Weknow.CypherBuilder
 
             #region Proc
 
-            if (node.Object is MethodCallExpression om &&
+            if (node!.Object is MethodCallExpression om &&
                 om.Method.Name == "Proc" &&
                 om.Type.Assembly.GetName().Name == EXT_ASSEMBLY_NAME)
             {
@@ -934,16 +934,6 @@ namespace Weknow.CypherBuilder
                                                 else
                                                     Query.Append(":");
                                             }
-                                            //else if (nextExpr is NewArrayExpression nae &&
-                                            //            nae.Expressions.Count != 0)
-                                            //{
-                                            //    Expression first = nae.Expressions.First();
-                                            //    if (first.Type == typeof(ILabel) ||
-                                            //    first.Type == typeof(IType))
-                                            //    {
-                                            //        Query.Append(":");
-                                            //    }
-                                            //}
                                         }
                                         bool noAmbient = (expr is MemberExpression namb) && namb.Member.Name == nameof(CypherExtensions.NoAmbient);
                                         if (!noAmbient)
@@ -1118,9 +1108,6 @@ namespace Weknow.CypherBuilder
                 if (labels == null || labels.Length == 0)
                     return false;
 
-                //hasChanged = HandleStartChar();
-
-
                 IEnumerable<string> formatted = labels.Select(m => _configuration.AmbientLabels.FormatByConvention(m));
                 var addition = string.Join(separator, formatted);
 
@@ -1133,27 +1120,12 @@ namespace Weknow.CypherBuilder
 
             _shouldHandleAmbient.Deactivate();
 
-            //HandleStartChar();
-
             string ambAddition = _configuration.AmbientLabels.Combine(separator, labels);
             if (!hasColon && !string.IsNullOrEmpty(ambAddition)) // && variable != string.Empty)
                 Query.Append(":");
             Query.Append(ambAddition);
 
             return true;
-
-            //bool HandleStartChar()
-            //{
-            //    if (!node.Type.Name.StartsWith(nameof(VariableDeclaration)))
-            //        return false;
-            //    char lastChar = Query[^1];
-            //    if (lastChar != ':')
-            //    {
-            //        Query.Append(text: ':');
-            //        return true;
-            //    }
-            //    return false;
-            //}
         }
 
         #endregion // HandleAmbientLabels
@@ -1205,7 +1177,7 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         private string AndRepresentation()
         {
-            if (_flavor == CypherFlavor.Neo4j5 && IsNeo4jAndExpression())
+            if (_flavor == Flavor.Neo4j && IsNeo4jAndExpression())
                 return "&";
             return ":";
         }
