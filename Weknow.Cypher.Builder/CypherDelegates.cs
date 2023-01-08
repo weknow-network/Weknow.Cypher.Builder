@@ -6,21 +6,21 @@ using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {
-    //public interface Fluent
-    //{ 
-    //}
+    public interface Fluent
+    {
+    }
 
     /// <summary>
     /// Common delegate of the Cypher builder
     /// </summary>
     public static class CypherDelegates
     {
-        /// <summary>
-        /// Fluent delegate is the underline used to glue the Cypher expression.
-        /// </summary>
-        /// <param name="var">The variable.</param>
-        /// <returns></returns>
-        public delegate Fluent Fluent(VariableDeclaration var);
+        ///// <summary>
+        ///// Fluent delegate is the underline used to glue the Cypher expression.
+        ///// </summary>
+        ///// <param name="var">The variable.</param>
+        ///// <returns></returns>
+        //public delegate Fluent Fluent(VariableDeclaration var);
 
 
         /// <summary>

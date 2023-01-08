@@ -371,7 +371,7 @@ RETURN f"
             var f = Variables.Create();
 
             CypherCommand cypher =
-                        _(c => mrg => mtc =>
+                        _((c, mtc) =>
                          Match(N(mtc, Person, mtc.AsParameter))
                         , cfg =>
                         {
@@ -398,7 +398,7 @@ RETURN f"
             var f = Variables.Create();
 
             CypherCommand cypher =
-                        _(c => mrg => mtc =>
+                        _((c, mtc, mrg) =>
                          Match(N(mtc, Person, mtc.AsParameter))
                          .Merge(N(mrg, Person, mrg.AsParameter))
                          .Create(N(c, Person, c.AsParameter))
@@ -508,7 +508,7 @@ RETURN f"
             var f = Variables.Create();
 
             CypherCommand cypher =
-                        _(n => r =>
+                        _((n, r) =>
                                 Match(N(n, Person) - R[r, Like] > N(Person))
                         , cfg =>
                         {

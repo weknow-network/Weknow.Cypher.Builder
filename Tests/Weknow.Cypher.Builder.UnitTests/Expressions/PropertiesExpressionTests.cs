@@ -152,7 +152,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Properties_Const_Test()
         {
-            CypherCommand cypher = _(items => n =>
+            CypherCommand cypher = _((items, n) =>
                                     Unwind(items, item =>
                                     Merge(N(n, Person, new { Id = item }))
                                     .Return(n)));

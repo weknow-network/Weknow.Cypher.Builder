@@ -14,7 +14,7 @@
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypherProc.If(System.Boolean,Weknow.CypherBuilder.CypherDelegates.Fluent)">
+        <member name="M:Weknow.CypherBuilder.ICypherProc.If(System.Boolean,Weknow.CypherBuilder.Fluent)">
             <summary>
             Conditional query.
             </summary>

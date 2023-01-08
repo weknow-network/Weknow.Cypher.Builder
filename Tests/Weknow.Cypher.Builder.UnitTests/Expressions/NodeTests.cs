@@ -141,7 +141,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void NodeToNode_Test()
         {
-            CypherCommand cypher = _(n1 => n2 =>
+            CypherCommand cypher = _((n1, n2) =>
                                     Match(N(n1, Person) - N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -155,7 +155,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void NodeToNode_Forward_Test()
         {
-            CypherCommand cypher = _(n1 => n2 =>
+            CypherCommand cypher = _((n1, n2) =>
                                     Match(N(n1, Person) > N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -169,7 +169,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void NodeToNode_Backward_Test()
         {
-            CypherCommand cypher = _(n1 => n2 =>
+            CypherCommand cypher = _((n1, n2) =>
                                     Match(N(n1, Person) < N(n2, Person)));
 
             _outputHelper.WriteLine(cypher);

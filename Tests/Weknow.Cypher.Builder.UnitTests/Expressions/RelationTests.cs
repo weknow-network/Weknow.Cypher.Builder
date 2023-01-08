@@ -123,7 +123,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Relation_WithVar_2_Test()
         {
-            CypherCommand cypher = _(a => r1 => b => r2 => c =>
+            CypherCommand cypher = _((a, r1, b, r2, c) =>
              Match(N(a, Person) - R[r1, KNOWS] > N(b, Person) < R[r2, KNOWS] - N(c, Person)));
 
             _outputHelper.WriteLine(cypher);

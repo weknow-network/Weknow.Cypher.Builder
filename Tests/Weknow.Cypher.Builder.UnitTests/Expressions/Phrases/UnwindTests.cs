@@ -145,7 +145,7 @@ MATCH (n:Person { PropA: item.PropA, PropB: item.PropB })", cypher.Query);
     [Fact]
     public void Unwind_PropConst_AsMap_Test()
     {
-        CypherCommand cypher = _(items =>  n =>
+        CypherCommand cypher = _((items, n) =>
                                 Unwind(items, item =>
                                 Match(N(n, Person, new { PropA = item }))));
 

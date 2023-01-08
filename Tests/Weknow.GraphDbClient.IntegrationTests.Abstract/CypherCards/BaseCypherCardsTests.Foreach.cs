@@ -31,7 +31,7 @@ public partial class BaseCypherCardsTests
                                       .AddOrUpdate(nameof(items), new[] { 1, 2, 3 });
         var response = await _graphDB.RunAsync(cypher, prms);
 
-        CypherCommand cypherGet = _(n => item =>
+        CypherCommand cypherGet = _((n, item) =>
                                 Match(N(n, Person, new { Version = 1 }))
                                 .Return("n.Version"));
 
@@ -109,7 +109,7 @@ public partial class BaseCypherCardsTests
         var users = Parameters.Create();
         var user = Variables.Create<PersonEntity>();
 #pragma warning disable CS0618 // Type or member is obsolete
-        CypherCommand cypher = _(map => n =>
+        CypherCommand cypher = _((map, n) =>
                 Unwind(users, map,
                         Create(N(user, Person))
                         .Set(user, map)
