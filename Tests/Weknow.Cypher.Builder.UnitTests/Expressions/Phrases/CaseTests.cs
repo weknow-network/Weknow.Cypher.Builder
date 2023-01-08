@@ -31,7 +31,7 @@ public class CaseTests
     public void Case_Pattern_Test()
     {
         var n = Variables.Create<Foo>();
-        CypherCommand cypher = _(r => m =>
+        CypherCommand cypher = _((r, m) =>
                                 Match(N(n) - R[r] > N(m))
                                 .Return()
                                 .Case()

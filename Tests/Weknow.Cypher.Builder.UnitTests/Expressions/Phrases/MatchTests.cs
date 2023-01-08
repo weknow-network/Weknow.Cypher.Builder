@@ -312,7 +312,7 @@ $"MATCH (n)-->(m){NewLine}" +
         [Fact]
         public void Match_Pattern_Inline_Test()
         {
-            CypherCommand cypher = _(n => m =>
+            CypherCommand cypher = _((n, m) =>
                                     Match(N(n) > N(m))
                                     .Return(m));
 

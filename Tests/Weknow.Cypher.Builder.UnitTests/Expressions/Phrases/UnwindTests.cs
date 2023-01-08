@@ -471,7 +471,7 @@ SET n += item", cypher.Query);
     {
         var (items, Date) = Parameters.CreateMulti();
 
-        CypherCommand cypher = _(n => m =>
+        CypherCommand cypher = _((n, m) =>
                                 Unwind(items, map =>
                                 Merge(N(n, Person, new { map.__<Foo>().Id }) -
                                       R[By] >

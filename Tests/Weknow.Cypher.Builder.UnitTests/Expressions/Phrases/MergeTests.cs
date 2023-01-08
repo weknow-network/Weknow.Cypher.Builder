@@ -342,7 +342,7 @@ namespace Weknow.CypherBuilder
         public void Merge_AfterMatch_Test()
         {
             var Id = Parameters.Create();
-            CypherCommand cypher = _(n => a =>
+            CypherCommand cypher = _((n, a) =>
                                     Match(N(n, Person, new { Id }))
                                     .Merge(N(n) - R[KNOWS] > N(a, Animal, new { Id })));
 

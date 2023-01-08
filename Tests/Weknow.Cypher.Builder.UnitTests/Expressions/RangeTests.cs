@@ -26,7 +26,7 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Expression don't support Range")]
         public void Range_Test()
         {
-            //CypherCommand cypher = _(n => r => m =>
+            //CypherCommand cypher = _((n, r, m) =>
             //                        Match(N(n) -
             //                        R[1..5] >
             //                        N(m)));
@@ -43,7 +43,7 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Expression don't support Range")]
         public void Range_FromAny_Test()
         {
-            //CypherCommand cypher = _(n => r => m =>
+            //CypherCommand cypher = _((n, r, m) =>
             //                        Match(N(n) -
             //                        R[..5] >
             //                        N(m)));
@@ -60,7 +60,7 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Expression don't support Range")]
         public void Range_WithVar_Test()
         {
-            //CypherCommand cypher = _(n => r => m =>
+            //CypherCommand cypher = _((n, r, m) =>
             //                        Match(N(n) -
             //                        R[r, 1..5] >
             //                        N(m)));
@@ -77,7 +77,7 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Expression don't support Range")]
         public void Range_WithVarAndProp_Test()
         {
-            //    CypherCommand cypher = _(n => r => m =>
+            //    CypherCommand cypher = _((n, r, m) =>
             //                            Match(N(n) -
             //                            R[r, KNOWS, P(PropA), 1..5] >
             //                            N(m)));
@@ -94,7 +94,7 @@ namespace Weknow.CypherBuilder
         [Fact(Skip = "Expression don't support Range")]
         public void Range_Infinit_Test()
         {
-            //CypherCommand cypher = _(n => r => m =>
+            //CypherCommand cypher = _((n, r, m) =>
             //                        Match(N(n) -
             //                        R[..] >
             //                        N(m)));
@@ -111,7 +111,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Range_Enum_AtMost_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
+            CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
                                     R[Rng.AtMost(5)] >
                                     N(m)));
@@ -127,7 +127,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Range_Enum_AtLeast_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
+            CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
                                     R[Rng.AtLeast(3)] >
                                     N(m)));
@@ -143,7 +143,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Range_Enum_WithVar_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
+            CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
                                     R[r, Rng.Scope(1, 5)] >
                                     N(m)));
@@ -160,7 +160,7 @@ namespace Weknow.CypherBuilder
         public void Range_Enum_WithVarAndProp_Test()
         {
             var PropA = Parameters.Create();
-            CypherCommand cypher = _(n => r => m =>
+            CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
                                     R[r, KNOWS, new { PropA }, Rng.Scope(1, 5)] >
                                     N(m)));
@@ -176,7 +176,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Range_Enum_Infinit_Test()
         {
-            CypherCommand cypher = _(n => r => m =>
+            CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
                                     R[Rng.Any()] >
                                     N(m)));

@@ -29,7 +29,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Relation_Test()
         {
-            CypherCommand cypher = _(a => b =>
+            CypherCommand cypher = _((a, b) =>
              Match(N(a, Person) - R[KNOWS] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -44,7 +44,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Relation_WithVar_Test()
         {
-            CypherCommand cypher = _(a => r => b =>
+            CypherCommand cypher = _((a, r, b) =>
              Match(N(a, Person) - R[r, KNOWS] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -60,7 +60,7 @@ namespace Weknow.CypherBuilder
         public void Relation_WithProp_Test()
         {
             var PropA = Parameters.Create();
-            CypherCommand cypher = _(a => r => b =>
+            CypherCommand cypher = _((a, r, b) =>
              Match(N(a, Person) - R[r, KNOWS, new { PropA }] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -93,7 +93,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Relation_MultiType_Test()
         {
-            CypherCommand cypher = _(a => r => b =>
+            CypherCommand cypher = _((a, r, b) =>
              Match(N(a, Person) - R[r, KNOWS | LIKE] > N(b, Person)));
 
             _outputHelper.WriteLine(cypher);
@@ -108,7 +108,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Relation_2_Test()
         {
-            CypherCommand cypher = _(a => b => c =>
+            CypherCommand cypher = _((a, b, c) =>
              Match(N(a, Person) - R[KNOWS] > N(b, Person) < R[KNOWS] - N(c, Person)));
 
             _outputHelper.WriteLine(cypher);

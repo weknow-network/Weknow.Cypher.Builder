@@ -51,17 +51,40 @@ public partial interface ICypher
 						parameters);
 	}
 
-	#endregion // Init
+    #endregion // Init
 
-	#region dash '_'
+    #region dash '_'
 
-	/// <summary>
-	/// Build cypher expression
-	/// </summary>
-	/// <param name="expression">The expression.</param>
-	/// <param name="configuration">The configuration.</param>
-	/// <returns></returns>
-	public static CypherCommand _(
+    #region _(Expression e, ...)
+
+
+    /// <summary>
+    /// Build cypher expression
+    /// </summary>
+    /// <param name="expression">The expression.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns></returns>
+    public static CypherCommand _(
+						Expression expression,
+						Action<CypherConfig>? configuration = null)
+	{
+		var cfg = new CypherConfig();
+		HandleConfigInjection(configuration, cfg);
+		CypherCommand result = Init(cfg, expression);
+		return result;
+	}
+
+    #endregion // _(Expression e, ...)
+
+    #region _(Expression<NoVariable> e, ...)
+
+    /// <summary>
+    /// Build cypher expression
+    /// </summary>
+    /// <param name="expression">The expression.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns></returns>
+    public static CypherCommand _(
 						Expression<NoVariable> expression,
 						Action<CypherConfig>? configuration = null)
 	{
@@ -70,6 +93,8 @@ public partial interface ICypher
 		CypherCommand result = Init(cfg, expression);
 		return result;
 	}
+
+    #endregion // _(Expression<NoVariable> e, ...)
 
 	/// <summary>
 	/// Build cypher expression
@@ -103,6 +128,21 @@ public partial interface ICypher
 		return result;
 	}
 
+	/// <summary>
+	/// Build cypher expression
+	/// </summary>
+	/// <param name="expression">The expression.</param>
+	/// <param name="configuration">The configuration.</param>
+	/// <returns></returns>
+	public static CypherCommand _(
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Action<CypherConfig>? configuration = null)
+	{
+		var cfg = new CypherConfig();
+		HandleConfigInjection(configuration, cfg);
+		CypherCommand result = Init(cfg, expression);
+		return result;
+	}
 
 	/// <summary>
 	/// Build cypher expression
@@ -111,7 +151,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -119,6 +159,39 @@ public partial interface ICypher
 		CypherCommand result = Init(cfg, expression);
 		return result;
 	}
+
+	/// <summary>
+	/// Build cypher expression
+	/// </summary>
+	/// <param name="expression">The expression.</param>
+	/// <param name="configuration">The configuration.</param>
+	/// <returns></returns>
+	public static CypherCommand _(
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Action<CypherConfig>? configuration = null)
+	{
+		var cfg = new CypherConfig();
+		HandleConfigInjection(configuration, cfg);
+		CypherCommand result = Init(cfg, expression);
+		return result;
+	}
+
+	/// <summary>
+	/// Build cypher expression
+	/// </summary>
+	/// <param name="expression">The expression.</param>
+	/// <param name="configuration">The configuration.</param>
+	/// <returns></returns>
+	public static CypherCommand _(
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Action<CypherConfig>? configuration = null)
+	{
+		var cfg = new CypherConfig();
+		HandleConfigInjection(configuration, cfg);
+		CypherCommand result = Init(cfg, expression);
+		return result;
+	}
+
 
 	#endregion // dash '_'
 
