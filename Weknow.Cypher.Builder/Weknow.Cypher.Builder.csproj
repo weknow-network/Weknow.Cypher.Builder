@@ -18,7 +18,7 @@
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="Weknow-BasicExtensions" Version="1.0.42" />
     <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.34" />
-    <PackageReference Include="Weknow.Mapping.Generation.SrcGen" Version="1.0.34" />
+    <PackageReference Include="Weknow.Mapping.Generation.SrcGen" Version="1.0.35" />
   </ItemGroup>
 
   <ItemGroup>
