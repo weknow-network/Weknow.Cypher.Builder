@@ -6,6 +6,10 @@ using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {
+    //public interface Fluent
+    //{ 
+    //}
+
     /// <summary>
     /// Common delegate of the Cypher builder
     /// </summary>
@@ -17,6 +21,7 @@ namespace Weknow.CypherBuilder
         /// <param name="var">The variable.</param>
         /// <returns></returns>
         public delegate Fluent Fluent(VariableDeclaration var);
+
 
         /// <summary>
         /// Fluent Case delegate is the underline used to glue the CASE Cypher expression.

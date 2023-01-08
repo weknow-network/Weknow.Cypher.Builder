@@ -2318,7 +2318,15 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{Weknow.CypherBuilder.CypherDelegates.Fluent},System.Action{Weknow.CypherBuilder.CypherConfig})">
+        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent}},System.Action{Weknow.CypherBuilder.CypherConfig})">
+            <summary>
+            Build cypher expression
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="configuration">The configuration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher._(System.Linq.Expressions.Expression{System.Func{Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.CypherDelegates.Fluent}},System.Action{Weknow.CypherBuilder.CypherConfig})">
             <summary>
             Build cypher expression
             </summary>

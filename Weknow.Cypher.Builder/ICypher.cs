@@ -71,6 +71,21 @@ public partial interface ICypher
 		return result;
 	}
 
+	/// <summary>
+	/// Build cypher expression
+	/// </summary>
+	/// <param name="expression">The expression.</param>
+	/// <param name="configuration">The configuration.</param>
+	/// <returns></returns>
+	public static CypherCommand _(
+						Expression<Func<VariableDeclaration, Fluent>> expression,
+						Action<CypherConfig>? configuration = null)
+	{
+		var cfg = new CypherConfig();
+		HandleConfigInjection(configuration, cfg);
+		CypherCommand result = Init(cfg, expression);
+		return result;
+	}
 
 	/// <summary>
 	/// Build cypher expression
@@ -79,7 +94,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Fluent> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, Fluent>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
