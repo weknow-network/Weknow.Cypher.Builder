@@ -1,4 +1,5 @@
 using System.Data;
+using System.Text.Json.Serialization;
 
 using Neo4j.Driver;
 
@@ -35,6 +36,16 @@ internal partial record Sometime
     public  DateTimeOffset Local { get; init; }
     public  DateTime IssueDate { get; init; }
     public  TimeSpan At { get; init; }
+}
+
+[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
+internal partial record DateConvensionEntity
+{
+    public required string Id { get; init; }
+    [JsonPropertyName("creation-date")]
+    public required DateTimeOffset CreatedAt { get; init; }
+    [JsonPropertyName("modification-date")]
+    public  DateTimeOffset? ModifiedAt { get; init; }
 }
 
 //    //[Trait("Group", "Predicates")]
@@ -351,6 +362,73 @@ public abstract class BaseSmellTests : BaseIntegrationTests
     }
 
     #endregion // CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
+
+    #region MERGE ... SetDateConvention()
+
+    [Fact]
+    public virtual async Task Merge_Dat_Convention_Test()
+    {
+        const string EXPECTED = "merge-date-convention";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var date = DateTimeOffset.UtcNow;
+
+        CypherCommand cypher = _(p =>
+                                Merge(N(p, Person,
+                                new 
+                                {
+                                    Id = "merge-date-convention"
+                                }))
+                                .SetDateConvention(p)
+                                .Return(p));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var entity = await response.GetAsync<DateConvensionEntity>();
+
+        Assert.Equal(EXPECTED, entity.Id);
+        Assert.True(date <= entity.CreatedAt);
+        Assert.Null(entity.ModifiedAt);
+
+        response = await _graphDB.RunAsync(cypher, prms);
+        entity = await response.GetAsync<DateConvensionEntity>();
+
+        Assert.True(date <= entity.CreatedAt);
+        Assert.NotNull(entity.ModifiedAt);
+    }
+
+    #endregion // MERGE ... SetDateConvention()
+
+    #region CREATE ... SetDateConvention()
+
+    [Fact]
+    public virtual async Task Create_Dat_Convention_Test()
+    {
+        const string EXPECTED = "merge-date-convention";
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var date = DateTimeOffset.UtcNow;
+
+        CypherCommand cypher = _(p =>
+                                Create(N(p, Person,
+                                new 
+                                {
+                                    Id = "merge-date-convention"
+                                }))
+                                .SetDateConvention(p)
+                                .Return(p));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+
+        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        var entity = await response.GetAsync<DateConvensionEntity>();
+
+        Assert.Equal(EXPECTED, entity.Id);
+        Assert.True(date <= entity.CreatedAt);
+    }
+
+    #endregion // CREATE ... SetDateConvention()
 
     [Fact(Skip = "Unwind BAD SYNTAX, use Create_Match_Multi_Unwind_Test")]
     public virtual async Task BAD_SYNTAX_Create_Match_Multi_Unwind_Test()

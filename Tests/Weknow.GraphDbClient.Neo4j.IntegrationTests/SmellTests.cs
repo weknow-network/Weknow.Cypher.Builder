@@ -131,4 +131,18 @@ public class SmellTests : BaseSmellTests
     }
 
     #endregion // CREATE (p:_TEST_:PERSON { Name: $n, Birthday: $b, IssueDate: $i, At: $t }) RETURN p
+
+    #region MERGE ... SetDateConvention()
+
+    [Fact]
+    public override Task Merge_Dat_Convention_Test() => base.Merge_Dat_Convention_Test();
+
+    #endregion // MERGE ... SetDateConvention()
+
+    #region CREATE ... SetDateConvention()
+
+    [Fact]
+    public override Task Create_Dat_Convention_Test() => base.Create_Dat_Convention_Test();
+
+    #endregion // CREATE ... SetDateConvention()
 }

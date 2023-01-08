@@ -14,21 +14,31 @@ public static  class CypherHigerAbstractionExtensions
     [Cypher("$0\r\n")]
     public static ICypherProc Proc(this ICypherStatement prev) => throw new NotImplementedException();
 
- //   #region _If
+    #region SetDateConvention
 
- //   /// <summary>
- //   /// Conditional query.
- //   /// </summary>
- //   /// <param name="prev">The previous.</param>
- //   /// <param name="condition">The condition.</param>
- //   /// <param name="action">The action to execute when condition is true.</param>
- //   /// <returns></returns>
- //   [Cypher("$0\r\n&FOREACH ($auto-var$ IN CASE WHEN $1 THEN [1] ELSE [] END |\r\n\t$2)")]
-	//[CypherClause]
-	//public static Fluent _If(
-	//	this Fluent prev,
-	//	bool condition,
-	//	Fluent action) => throw new NotImplementedException();
+    /// <summary>
+    /// Set date convention.
+    /// </summary>
+    /// <param name="prev">The previous.</param>
+    /// <param name="variable">The variable.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\n\tON CREATE SET $1.`creation-date` = datetime()\r\n\tON MATCH SET $1.`modification-date` = datetime()")]
+    [CypherClause]
+    public static ICypherMergeStatement SetDateConvention(
+        this ICypherMergeStatement prev,
+        VariableDeclaration variable) => throw new NotImplementedException();
 
-	//#endregion // _If
+    /// <summary>
+    /// Set date convention.
+    /// </summary>
+    /// <param name="prev">The previous.</param>
+    /// <param name="variable">The variable.</param>
+    /// <returns></returns>
+    [Cypher("$0\r\n\tSET $1.`creation-date` = datetime()")]
+    [CypherClause]
+    public static ICypherCreateStatement SetDateConvention(
+        this ICypherCreateStatement prev,
+        VariableDeclaration variable) => throw new NotImplementedException();
+
+    #endregion // SetDateConvention
 }

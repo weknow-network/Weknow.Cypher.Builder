@@ -13,6 +13,15 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<PackageReleaseNotes>
+			BREAKING CHANGES
+
+			API CHANGES: break version 2.5.86
+			use _((n,m) =&gt; ...) instead of _(n =&gt; m =&gt; ...)
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSource>True</IncludeSource>
 		<IncludeSymbols>True</IncludeSymbols>

@@ -9,6 +9,22 @@
             Cypher Extensions
             </summary>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherHigerAbstractionExtensions.SetDateConvention(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Set date convention.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherHigerAbstractionExtensions.SetDateConvention(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Set date convention.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+        </member>
         <member name="T:Weknow.CypherBuilder.ICypherHigerAbstraction">
             <summary>
             Cypher Extensions
