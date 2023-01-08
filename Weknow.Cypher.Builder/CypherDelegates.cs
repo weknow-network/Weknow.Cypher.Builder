@@ -2,13 +2,11 @@
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
+using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {
-    public interface Fluent
-    {
-    }
 
     /// <summary>
     /// Common delegate of the Cypher builder
@@ -50,7 +48,7 @@ namespace Weknow.CypherBuilder
         /// Enable starting point which don't use any variable
         /// </summary>
         /// <returns></returns>
-        public delegate Fluent NoVariable();
+        public delegate ICypherStatement NoVariable();
         /// <summary>
         /// <![CDATA[Pattern delegate of T.
         /// Used for having IVar]]>
@@ -60,12 +58,12 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         public delegate R Project<R>(VariableDeclaration var);
 
-        public delegate Fluent FluentUnwindAction(VariableDeclaration item);
+        public delegate ICypherStatement FluentUnwindAction(VariableDeclaration item);
 
-        public delegate Fluent FluentUnwindAction<T>(VariableDeclaration<T> item);
+        public delegate ICypherStatement FluentUnwindAction<T>(VariableDeclaration<T> item);
 
-        public delegate Fluent FluentForEachAction(VariableDeclaration item);
+        public delegate ICypherStatement FluentForEachAction(VariableDeclaration item);
 
-        public delegate Fluent FluentForEachAction<T>(VariableDeclaration<T> item);
+        public delegate ICypherStatement FluentForEachAction<T>(VariableDeclaration<T> item);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Weknow.CypherBuilder.Declarations;
+﻿using Weknow.Cypher.Builder.Fluent;
+using Weknow.CypherBuilder.Declarations;
 
 using static Weknow.CypherBuilder.CypherDelegates;
 
@@ -28,7 +29,7 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("$0 AS $1")]
-        public static Fluent As(this Fluent prv, VariableDeclaration alias) => throw new NotImplementedException();
+        public static ICypherStatement As(this ICypherStatement prv, VariableDeclaration alias) => throw new NotImplementedException();
 
         /// <summary>
         /// Define variable's alias
@@ -38,7 +39,7 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [Cypher("$0 AS $1")]
-        public static Fluent As(this Fluent prv, object alias) => throw new NotImplementedException();
+        public static ICypherStatement As(this ICypherStatement prv, object alias) => throw new NotImplementedException();
 
         /// <summary>
         /// Define variable's alias

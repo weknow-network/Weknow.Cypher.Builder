@@ -1,4 +1,5 @@
-﻿using Weknow.CypherBuilder.Declarations;
+﻿using Weknow.Cypher.Builder.Fluent;
+using Weknow.CypherBuilder.Declarations;
 
 using static Weknow.CypherBuilder.CypherDelegates;
 
@@ -11,7 +12,7 @@ namespace Weknow.CypherBuilder;
 public static  class CypherHigerAbstractionExtensions
 {
     [Cypher("$0\r\n")]
-    public static ICypherProc Proc(this Fluent prev) => throw new NotImplementedException();
+    public static ICypherProc Proc(this ICypherStatement prev) => throw new NotImplementedException();
 
  //   #region _If
 

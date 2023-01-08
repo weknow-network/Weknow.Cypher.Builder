@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-
+using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 
 using static Weknow.CypherBuilder.CypherDelegates;
@@ -103,7 +103,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -119,7 +119,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -135,7 +135,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -151,7 +151,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -167,7 +167,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -183,7 +183,7 @@ public partial interface ICypher
 	/// <param name="configuration">The configuration.</param>
 	/// <returns></returns>
 	public static CypherCommand _(
-						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, Fluent>> expression,
+						Expression<Func<VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, VariableDeclaration, ICypherStatement>> expression,
 						Action<CypherConfig>? configuration = null)
 	{
 		var cfg = new CypherConfig();
@@ -282,7 +282,7 @@ public partial interface ICypher
 	/// </summary>
 	/// <returns></returns>
 	[Cypher("PROFILE")]
-	public static Fluent Profile() => throw new NotImplementedException();
+	public static ICypherStatement Profile() => throw new NotImplementedException();
 
 	#endregion // Profile
 
@@ -297,7 +297,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("RETURN")]
 	[CypherClause]
-	public static Fluent Return() => throw new NotImplementedException();
+	public static ICypherStatement Return() => throw new NotImplementedException();
 
 	/// <summary>
 	/// RETURN phrase.
@@ -310,7 +310,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("RETURN $0$1")]
 	[CypherClause]
-	public static Fluent Return(ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
+	public static ICypherStatement Return(ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
 
 	#endregion // Return
 
@@ -328,7 +328,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("MATCH $0 = $1")]
 	[CypherClause]
-	public static Fluent Match(VariableDeclaration var, INode n) => throw new NotImplementedException();
+	public static ICypherMatchStatement Match(VariableDeclaration var, INode n) => throw new NotImplementedException();
 
 	/// <summary>
 	/// Matches phrase.
@@ -341,7 +341,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("MATCH $0")]
 	[CypherClause]
-	public static Fluent Match(INode n) => throw new NotImplementedException();
+	public static ICypherMatchStatement Match(INode n) => throw new NotImplementedException();
 
 	/// <summary>
 	/// Matches phrase.
@@ -355,7 +355,11 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("MATCH $0, $1")]
 	[CypherClause]
-	public static Fluent Match(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
+	public static ICypherMatchStatement Match(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
+
+	#endregion // Match
+
+	#region Optional Match
 
 	/// <summary>
 	/// Matches phrase.
@@ -368,7 +372,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("OPTIONAL MATCH $0")]
 	[CypherClause]
-	public static Fluent OptionalMatch(INode n) => throw new NotImplementedException();
+	public static ICypherMatchStatement OptionalMatch(INode n) => throw new NotImplementedException();
 
 	/// <summary>
 	/// Matches phrase.
@@ -382,9 +386,9 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("OPTIONAL MATCH $0,$1")]
 	[CypherClause]
-	public static Fluent OptionalMatch(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
+	public static ICypherMatchStatement OptionalMatch(INode n, [CypherInputCollection] params INode[] rest) => throw new NotImplementedException();
 
-	#endregion // Match
+	#endregion // Optional Match
 
 	#region Create
 
@@ -398,7 +402,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("CREATE $0")]
 	[CypherClause]
-	public static Fluent Create(IPattern p) => throw new NotImplementedException();
+	public static ICypherCreateStatement Create(IPattern p) => throw new NotImplementedException();
 
 	#endregion // Create
 
@@ -414,7 +418,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("MERGE $0")]
 	[CypherClause]
-	public static Fluent Merge(IPattern p) => throw new NotImplementedException();
+	public static ICypherMergeStatement Merge(IPattern p) => throw new NotImplementedException();
 
 	#endregion // Merge
 
@@ -432,7 +436,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&SET $0$1")]
 	[CypherClause]
-	public static Fluent Set(VariableDeclaration var, [CypherInputCollection] params ILabel[] label)
+	public static ICypherStatement Set(VariableDeclaration var, [CypherInputCollection] params ILabel[] label)
 		=> throw new NotImplementedException();
 
 	/// <summary>
@@ -449,7 +453,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&SET $0 = $1")]
 	[CypherClause]
-	public static Fluent Set(VariableDeclaration var, VariableDeclaration assignment)
+	public static ICypherStatement Set(VariableDeclaration var, VariableDeclaration assignment)
 		=> throw new NotImplementedException();
 
 	/// <summary>
@@ -465,7 +469,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&SET $0 = $1")]
 	[CypherClause]
-	public static Fluent Set(VariableDeclaration var, ParameterDeclaration assignment)
+	public static ICypherStatement Set(VariableDeclaration var, ParameterDeclaration assignment)
 		=> throw new NotImplementedException();
 
 	/// <summary>
@@ -482,7 +486,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&SET +00$1")]
 	[CypherClause]
-	public static Fluent Set(VariableDeclaration var, object assignment)
+	public static ICypherStatement Set(VariableDeclaration var, object assignment)
 		=> throw new NotImplementedException();
 
 	#endregion // Set
@@ -504,7 +508,7 @@ public partial interface ICypher
 	[Cypher("&UNWIND \\$$[]0 AS $1\r\n$2")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentUnwindAction")]
-	public static Fluent Unwind<T>([CypherInputCollection] IEnumerable<T> items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Unwind<T>([CypherInputCollection] IEnumerable<T> items, VariableDeclaration item, ICypherStatement p) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -519,7 +523,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&UNWIND \\$$[]0 AS $1")]
 	[CypherClause]
-	public static Fluent Unwind<T>([CypherInputCollection] IEnumerable<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
+	public static ICypherStatement Unwind<T>([CypherInputCollection] IEnumerable<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -534,7 +538,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&UNWIND $0 AS $1")]
 	[CypherClause]
-	public static Fluent Unwind(VariableDeclaration items, FluentUnwindAction item) => throw new NotImplementedException();
+	public static ICypherStatement Unwind(VariableDeclaration items, FluentUnwindAction item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -549,7 +553,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&UNWIND $0 AS $1")]
 	[CypherClause]
-	public static Fluent Unwind<T>(VariableDeclaration<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
+	public static ICypherStatement Unwind<T>(VariableDeclaration<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -564,7 +568,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&UNWIND $0 AS $1")]
 	[CypherClause]
-	public static Fluent Unwind(ParameterDeclaration items, FluentUnwindAction item) => throw new NotImplementedException();
+	public static ICypherStatement Unwind(ParameterDeclaration items, FluentUnwindAction item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -579,7 +583,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&UNWIND $0 AS $1")]
 	[CypherClause]
-	public static Fluent Unwind<T>(ParameterDeclaration<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
+	public static ICypherStatement Unwind<T>(ParameterDeclaration<T> items, FluentUnwindAction<T> item) => throw new NotImplementedException();
 
 	/// <summary>
 	/// UNWIND phrase.
@@ -596,7 +600,7 @@ public partial interface ICypher
 	[Cypher("&UNWIND $0 AS $1\r\n$2")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentUnwindAction")]
-	public static Fluent Unwind(VariableDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Unwind(VariableDeclaration items, VariableDeclaration item, ICypherStatement p) => throw new NotImplementedException();
 
 	/// <summary>
 	/// Unwinds the specified items.
@@ -609,7 +613,7 @@ public partial interface ICypher
 	[Cypher("&UNWIND $0 AS $1\r\n$2")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentUnwindAction")]
-	public static Fluent Unwind(ParameterDeclaration items, VariableDeclaration item, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Unwind(ParameterDeclaration items, VariableDeclaration item, ICypherStatement p) => throw new NotImplementedException();
 
 	#endregion // Unwind
 
@@ -632,7 +636,7 @@ public partial interface ICypher
 	[Cypher("&FOREACH ($0 IN \\$$[]1 |\r\n\t$2)")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentForEachAction")]
-	public static Fluent Foreach<T>(VariableDeclaration item, [CypherInputCollection] IEnumerable<T> items, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Foreach<T>(VariableDeclaration item, [CypherInputCollection] IEnumerable<T> items, ICypherStatement p) => throw new NotImplementedException();
 
 	/// <summary>
 	/// FOREACH phrase.
@@ -649,7 +653,7 @@ public partial interface ICypher
 	[Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentForEachAction")]
-	public static Fluent Foreach(VariableDeclaration item, VariableDeclaration items, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Foreach(VariableDeclaration item, VariableDeclaration items, ICypherStatement p) => throw new NotImplementedException();
 
 	/// <summary>
 	/// FOREACH phrase.
@@ -666,7 +670,7 @@ public partial interface ICypher
 	[Cypher("&FOREACH ($0 IN $1 |\r\n\t$2)")]
 	[CypherClause]
 	[Obsolete("use the overload with FluentForEachAction")]
-	public static Fluent Foreach(VariableDeclaration item,ParameterDeclaration items, Fluent p) => throw new NotImplementedException();
+	public static ICypherStatement Foreach(VariableDeclaration item,ParameterDeclaration items, ICypherStatement p) => throw new NotImplementedException();
 
 
 	#endregion // deprecated
@@ -685,7 +689,7 @@ public partial interface ICypher
 	//[Cypher("&FOREACH ($1 IN \\$$[]0)")]
 	[CypherClause]
 	//[Obsolete("Not implemented yet", true)]
-	public static Fluent Foreach<T>([CypherInputCollection] IEnumerable<T> items, FluentForEachAction iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach<T>([CypherInputCollection] IEnumerable<T> items, FluentForEachAction iteration) => throw new NotImplementedException();
 
 	/// <summary>
 	/// FOREACH phrase.
@@ -700,7 +704,7 @@ public partial interface ICypher
 	/// </example>
 	//[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach(ParameterDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach(ParameterDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
 
 
 	/// <summary>
@@ -716,7 +720,7 @@ public partial interface ICypher
 	/// </example>
 	//[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach(VariableDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach(VariableDeclaration items, FluentForEachAction iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -732,7 +736,7 @@ public partial interface ICypher
     /// </example>
     //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach<T>(VariableDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach<T>(VariableDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -748,7 +752,7 @@ public partial interface ICypher
     /// </example>
     //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach<T>(ParameterDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach<T>(ParameterDeclaration<T> items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -763,7 +767,7 @@ public partial interface ICypher
     /// </example>
     //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach(Fluent items, FluentForEachAction iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach(ICypherStatement items, FluentForEachAction iteration) => throw new NotImplementedException();
 
     /// <summary>
     /// FOREACH phrase.
@@ -779,7 +783,7 @@ public partial interface ICypher
     /// </example>
     //[Cypher("&FOREACH ($1 IN $0)")]
 	[CypherClause]
-	public static Fluent Foreach<T>(Fluent items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
+	public static ICypherStatement Foreach<T>(ICypherStatement items, FluentForEachAction<T> iteration) => throw new NotImplementedException();
 
 	#endregion // Foreach
 
@@ -794,7 +798,7 @@ public partial interface ICypher
 	/// exists(n.property)
 	/// </example>
 	[Cypher("EXISTS { $0 }")]
-	public static bool Exists(Fluent p) => throw new NotImplementedException();
+	public static bool Exists(ICypherStatement p) => throw new NotImplementedException();
 	/// <summary>
 	/// EXISTS phrase.
 	/// </summary>
@@ -1051,7 +1055,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	[Obsolete("It's better to use the Cypher methods instead of clear text as log as it supported", false)]
 	[Cypher("$0")]
-	public static Fluent RawCypher(RawCypher cypher) => throw new NotImplementedException();
+	public static ICypherRawStatement RawCypher(RawCypher cypher) => throw new NotImplementedException();
 
 	#endregion // RawCypher
 
@@ -1078,7 +1082,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
 	[Cypher("DROP CONSTRAINT $0 IF EXISTS")]
-	public static Fluent TryDropConstraint(
+	public static ICypherStatement TryDropConstraint(
 		string name) => throw new NotImplementedException();
 
 	#endregion // TryDropConstraint
@@ -1094,7 +1098,7 @@ public partial interface ICypher
 	/// <param name="vars">The vars.</param>
 	/// <returns></returns>
 	[Cypher("CREATE CONSTRAINT $0\r\n\tFOR $1\r\n\tREQUIRE ($2$3)")]
-	public static Fluent CreateConstraint(
+	public static ICypherStatement CreateConstraint(
 		string name,
 		IPattern p,
 		[CypherInputCollection] ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1110,7 +1114,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
 	[Cypher("CREATE CONSTRAINT $0\r\n\tFOR $2\r\n\tREQUIRE ($3$4) $1")]
-	public static Fluent CreateConstraint(
+	public static ICypherStatement CreateConstraint(
 		string name,
 		ConstraintType type,
 		IPattern p,
@@ -1129,7 +1133,7 @@ public partial interface ICypher
 	/// <param name="vars">The vars.</param>
 	/// <returns></returns>
 	[Cypher("CREATE CONSTRAINT $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tREQUIRE ($2$3)")]
-	public static Fluent TryCreateConstraint(
+	public static ICypherStatement TryCreateConstraint(
 		string name,
 		IPattern p,
 		[CypherInputCollection] ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1145,7 +1149,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
 	[Cypher("CREATE CONSTRAINT $0 IF NOT EXISTS\r\n\tFOR $2\r\n\tREQUIRE ($3$4) $1")]
-	public static Fluent TryCreateConstraint(
+	public static ICypherStatement TryCreateConstraint(
 		string name,
 		ConstraintType type,
 		IPattern p,
@@ -1162,7 +1166,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
 	[Cypher("DROP INDEX $0")]
-	public static Fluent DropIndex(
+	public static ICypherStatement DropIndex(
 		string name) => throw new NotImplementedException();
 
 	#endregion // DropIndex
@@ -1176,7 +1180,7 @@ public partial interface ICypher
 	/// <returns></returns>
 	/// <exception cref="System.NotImplementedException"></exception>
 	[Cypher("DROP INDEX $0 IF EXISTS")]
-	public static Fluent TryDropIndex(
+	public static ICypherStatement TryDropIndex(
 		string name) => throw new NotImplementedException();
 
 	#endregion // TryDropIndex
@@ -1192,7 +1196,7 @@ public partial interface ICypher
 	/// <param name="vars">The vars.</param>
 	/// <returns></returns>
 	[Cypher("CREATE INDEX $0\r\n\tFOR $1\r\n\tON ($2$3)")]
-	public static Fluent CreateIndex(
+	public static ICypherStatement CreateIndex(
 		string name,
 		IPattern p,
 		ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1218,7 +1222,7 @@ public partial interface ICypher
 	/// CREATE (n {name: $value})
 	/// </example>
 	[Cypher("CREATE TEXT INDEX $0\r\n\tFOR $1\r\n\tON ($2$3)")]
-	public static Fluent CreateTextIndex(
+	public static ICypherStatement CreateTextIndex(
 		string name,
 		IPattern p,
 		ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1236,7 +1240,7 @@ public partial interface ICypher
 	/// <param name="vars">The vars.</param>
 	/// <returns></returns>
 	[Cypher("CREATE FULLTEXT INDEX $0\r\n\tFOR $1\r\n\tON EACH [$3$4]\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
-	public static Fluent CreateFullTextIndex(
+	public static ICypherStatement CreateFullTextIndex(
 		string name,
 		IPattern p,
 		FullTextAnalyzer analyzer,
@@ -1270,7 +1274,7 @@ public partial interface ICypher
 	/// <param name="vars">The vars.</param>
 	/// <returns></returns>
 	[Cypher("CREATE INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON ($2$3)")]
-	public static Fluent TryCreateIndex(
+	public static ICypherStatement TryCreateIndex(
 		string name,
 		IPattern p,
 		[CypherInputCollection] ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1289,7 +1293,7 @@ public partial interface ICypher
 	/// CREATE (n {name: $value})
 	/// </example>
 	[Cypher("CREATE FULLTEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON EACH [$3$4]\r\n\tOPTIONS {\r\n\t\tindexConfig: {\r\n\t\t\t`fulltext.analyzer`: '$2'\r\n\t\t  }\r\n\t}")]
-	public static Fluent TryCreateFullTextIndex(
+	public static ICypherStatement TryCreateFullTextIndex(
 		string name,
 		IPattern p,
 		FullTextAnalyzer analyzer,
@@ -1317,7 +1321,7 @@ public partial interface ICypher
 	/// CREATE (n {name: $value})
 	/// </example>
 	[Cypher("CREATE TEXT INDEX $0 IF NOT EXISTS\r\n\tFOR $1\r\n\tON ($2$3)")]
-	public static Fluent TryCreateTextIndex(
+	public static ICypherStatement TryCreateTextIndex(
 		string name,
 		IPattern p,
 		[CypherInputCollection] ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
@@ -1419,8 +1423,9 @@ public partial interface ICypher
     /// <param name="next"></param>
     /// <returns></returns>
     //[Cypher("$0\r\n$1")]
-    public static Fluent NoAmbient(Fluent next) => throw new NotImplementedException();
+    public static T NoAmbient<T>(T next)  
+		where T : ICypherStatement
+        => throw new NotImplementedException();
 
     #endregion // NoAmbient
-
 }

@@ -1,4 +1,5 @@
-﻿using static Weknow.CypherBuilder.CypherDelegates;
+﻿using Weknow.Cypher.Builder.Fluent;
+using static Weknow.CypherBuilder.CypherDelegates;
 
 namespace Weknow.CypherBuilder;
 
@@ -13,7 +14,7 @@ public interface ICypherProc
     [Cypher("&FOREACH ($auto-var$ IN CASE WHEN $0 THEN [1] ELSE [] END |\r\n\t$1)")]
     //[Cypher("CALL apoc.when($0,\r\n\t'$1')", Flavor = CypherFlavor.Neo4j5)]
 	[CypherClause]
-    public Fluent If(
+    public ICypherStatement If(
         bool condition,
-        Fluent action) => throw new NotImplementedException();
+        ICypherStatement action) => throw new NotImplementedException();
 }
