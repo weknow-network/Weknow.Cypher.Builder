@@ -42,7 +42,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _(n => m =>
+        CypherCommand cypher = _((n, m) =>
                                 Create(N(n, Person) - R[Knows] > N(m, Friend)));
 
 
@@ -50,7 +50,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
-        CypherCommand query = _(n => m => r =>
+        CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
@@ -80,7 +80,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _(n => m => 
+        CypherCommand cypher = _((n, m) => 
                                 Unwind(new[] { 1, 2, 3 }, item =>
                                 Create(N(n, Person, new { id = item }) - R[Knows] > N(m, Friend))));
 
@@ -90,7 +90,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
-        CypherCommand query = _(n => m => r =>
+        CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n, r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
@@ -124,7 +124,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _(n => m =>
+        CypherCommand cypher = _((n, m) =>
                                 Create(N(n, Person) - R[Knows] > N(m, Friend)));
 
 
@@ -132,7 +132,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
         await _graphDB.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
-        CypherCommand query = _(n => m => r =>
+        CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);

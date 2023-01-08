@@ -100,7 +100,7 @@ public partial class BaseCypherCardsTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _(n => m =>
+        CypherCommand cypher = _((n, m) =>
                                 Create(N(n, Person) - R[Knows] > N(m, Friend)));
 
 
@@ -111,7 +111,7 @@ public partial class BaseCypherCardsTests
 
         #region Validation
 
-        CypherCommand query = _(n => m => r =>
+        CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
         IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
