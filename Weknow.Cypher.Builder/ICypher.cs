@@ -1178,22 +1178,7 @@ public partial interface ICypher
 		return new RelationPattern(expression.Body, cfg);
 	}
 
-	#endregion // Reuse
-
-	#region Timestamp / timestamp()
-
-	/// <summary>
-	/// Milliseconds since midnight, January 1, 1970 UTC.
-	/// </summary>
-	/// <returns></returns>
-	/// <example>
-	/// MATCH (n)
-	/// RETURN timestamp()
-	/// </example>
-	[Cypher("timestamp()")]
-	public static VariableDeclaration Timestamp() => throw new NotImplementedException();
-
-	#endregion // Timestamp / timestamp()
+    #endregion // Reuse
 
 	#region FromRawCypher
 

@@ -248,7 +248,7 @@ $$"""MATCH (n:Person { Id: $Id }){{NewLine}}""" +
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
 @"MATCH (n:Person { Id: $Id })
-SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
+SET n = { PropA: $PropA, PropB: $PropB }", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) SET n.PropA = $PropA, n.PropB = $PropB

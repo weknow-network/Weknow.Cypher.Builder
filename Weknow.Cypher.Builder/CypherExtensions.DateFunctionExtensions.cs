@@ -5,31 +5,52 @@
 
 namespace Weknow.CypherBuilder;
 
-///// <summary>
-///// Cypher Function Extensions
-///// </summary>
-//partial interface ICypher
-//{
-//    [Cypher("date()")]
-//    public static TimeVariableDeclaration Date() => throw new NotImplementedException();
-   
-//    [Cypher("localdate()")]
-//    public static TimeVariableDeclaration LocalDate() => throw new NotImplementedException();
+/// <summary>
+/// Cypher Function Extensions
+/// </summary>
+partial interface ICypher
+{
+    #region timestamp()
 
-//    [Cypher("time()")]
-//    public static TimeVariableDeclaration Time() => throw new NotImplementedException();
+    /// <summary>
+    /// Milliseconds since midnight, January 1, 1970 UTC.
+    /// </summary>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (n)
+    /// RETURN timestamp()
+    /// </example>
+    [Cypher("timestamp()")]
+    public static VariableDeclaration Timestamp() => throw new NotImplementedException();
 
-//    [Cypher("localtime()")]
-//    public static TimeVariableDeclaration LocalTime() => throw new NotImplementedException();
+    #endregion // timestamp()
 
-//    [Cypher("datetime()")]
-//    public static TimeVariableDeclaration DateTime() => throw new NotImplementedException();
+    /// <summary>
+    /// Calendar functions.
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0")]
+    public static ICypherCalendar Calendar() => throw new NotImplementedException();
 
-//    [Cypher("localdatetime()")]
-//    public static TimeVariableDeclaration LocalDateTime() => throw new NotImplementedException();
+    public interface ICypherCalendar
+    {
+        [Cypher("date()")]
+        public TimeVariableDeclaration Date() => throw new NotImplementedException();
 
-//    //[Cypher("transaction()")]
-//    //public static TimeVariableDeclaration Transaction(this TimeVariableDeclaration variable) => throw new NotImplementedException();
+        [Cypher("localdate()")]
+        public TimeVariableDeclaration LocalDate() => throw new NotImplementedException();
 
+        [Cypher("time()")]
+        public TimeVariableDeclaration Time() => throw new NotImplementedException();
 
-//}
+        [Cypher("localtime()")]
+        public TimeVariableDeclaration LocalTime() => throw new NotImplementedException();
+
+        [Cypher("datetime()")]
+        public TimeVariableDeclaration DateTime() => throw new NotImplementedException();
+
+        [Cypher("localdatetime()")]
+        public TimeVariableDeclaration LocalDateTime() => throw new NotImplementedException();
+    }
+}

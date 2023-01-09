@@ -982,7 +982,7 @@
             ON MATCH SET n = map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,System.Object,System.Object)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -994,34 +994,6 @@
             .OnMatchSet(n, map)
             result in:
             ON MATCH SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            ON MATCH SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .OnMatchSet(n, map)
-            result in:
-            ON MATCH SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            ON MATCH SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .OnMatchSet(n, new {prm._.Name, var._.Code})
-            result in:
-            ON MATCH SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
@@ -1064,7 +1036,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,System.Object,System.Object)">
             <summary>
             SET phrase.
             </summary>
@@ -1076,35 +1048,6 @@
             .Set(n, map)
             result in:
             SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .Set(n, map)
-            result in:
-            SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            SET  phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var">The variable.</param>
-            <param name="assignment">The complex.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            .Set(n, new {prm._.Name, var._.Code})
-            result in:
-            SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
@@ -1119,7 +1062,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,System.Object,System.Object)">
             <summary>
             SET phrase.
             </summary>
@@ -1131,35 +1074,6 @@
             .Set(n, map)
             result in:
             SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .Set(n, map)
-            result in:
-            SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            SET  phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var">The variable.</param>
-            <param name="assignment">The complex.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            .Set(n, new {prm._.Name, var._.Code})
-            result in:
-            SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
@@ -1174,7 +1088,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,System.Object,System.Object)">
             <summary>
             SET phrase.
             </summary>
@@ -1186,35 +1100,6 @@
             .Set(n, map)
             result in:
             SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .Set(n, map)
-            result in:
-            SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            SET  phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var">The variable.</param>
-            <param name="assignment">The complex.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            .Set(n, new {prm._.Name, var._.Code})
-            result in:
-            SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
@@ -1229,7 +1114,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,System.Object,System.Object)">
             <summary>
             SET phrase.
             </summary>
@@ -1241,35 +1126,6 @@
             .Set(n, map)
             result in:
             SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .Set(n, map)
-            result in:
-            SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            SET  phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var">The variable.</param>
-            <param name="assignment">The complex.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <example>
-            .Set(n, new {prm._.Name, var._.Code})
-            result in:
-            SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
@@ -2195,294 +2051,11 @@
             n.property IN [item.List]
             </example>
         </member>
-        <member name="T:Weknow.CypherBuilder.CypherGeneralExtensions">
-            <summary>
-            Cypher Extensions
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.String)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="alias">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="prv"></param>
-            <param name="alias">The alias.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.Object)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="prv"></param>
-            <param name="alias">The alias.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="alias">The alias.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},System.String)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="alias">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="alias">The alias.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="T:Weknow.CypherBuilder.CypherInputCollectionAttribute">
-            <summary>
-            decorate object collection which are part of the Cypher Builder API,
-            in order to avoid handling it as collection in the cypher output.
-            </summary>
-            <seealso cref="T:System.Attribute" />
-        </member>
-        <member name="T:Weknow.CypherBuilder.CypherParameters">
-            <summary>
-            Cypher Parameters representation
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
-            </summary>
-            <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0)">
-            <summary>
-            Adds parameter if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="value">The value.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">
-            <summary>
-            Adds parameters if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Adds parameters if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddOrUpdate``1(System.String,``0,System.Func{``0,System.Object})">
-            <summary>
-            Adds parameter or update.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="value">The value.</param>
-            <param name="overrideMapping">
-            Optional update decision mapping.
-            If not exists the value will simply override 
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,``0[])">
-            <summary>
-            Adds the range.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
-            <summary>
-            Adds the range.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <param name="overrideMapping">
-            Optional update decision mapping.
-            If not exists the value will simply override 
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.SetToNull(System.String)">
-            <summary>
-            Adds a null.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.TrySetToNull(System.String)">
-            <summary>
-            Adds a null.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.Remove(System.String)">
-            <summary>
-            Remove a key.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.ContainsKey(System.String)">
-            <summary>
-            Determines whether the specified key contains key.
-            </summary>
-            <param name="key">The key.</param>
-            <returns>
-              <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through the collection.
-            </summary>
-            <returns>
-            An enumerator that can be used to iterate through the collection.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through a collection.
-            </summary>
-            <returns>
-            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.Get``1(System.String)">
-            <summary>
-            Gets the specified key.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.CypherBuilder.ConstraintType">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsUnique">
-            <summary>
-            IS UNIQUE
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNotNull">
-            <summary>
-            IS NOT NULL
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNodeKey">
-            <summary>
-            IS NODE KEY
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.FullTextLanguage">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.IgnoreBehavior">
-            <summary>
-            Ignore things.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.None">
-            <summary>
-            Avoid this setting
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Plan">
-            <summary>
-            No formatting
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
-            <summary>
-            No formatting except the $ sign.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.HelperExtensions">
-            <summary>
-            Cypher Extensions
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsAssignableTo``1(System.Type)">
-            <summary>
-            Determines whether [is assignable to].
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="t">The t.</param>
-            <returns>
-              <c>true</c> if [is assignable to] [the specified t]; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsOfType``1(System.Linq.Expressions.Expression)">
-            <summary>
-            Check if expression is of type
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="expr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression)">
-            <summary>
-            Check if expression is array
-            </summary>
-            <param name="expr"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression,System.Int32@)">
-            <summary>
-            Check if expression is array
-            </summary>
-            <param name="expr">The expression.</param>
-            <param name="length">The array length.</param>
-            <returns>
-              <c>true</c> if the specified array expression is array; otherwise, <c>false</c>.
-            </returns>
-        </member>
         <member name="T:Weknow.CypherBuilder.ICypher">
             <summary>
+            Cypher Function Extensions
+            </summary>
+            <summary>
             Entry point for constructing root level Cypher.
             For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherExtensions" />
             </summary>
@@ -2490,6 +2063,23 @@
             Entry point for constructing root level Cypher.
             For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherExtensions" />
             </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Timestamp">
+            <summary>
+            Milliseconds since midnight, January 1, 1970 UTC.
+            </summary>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN timestamp()
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Calendar">
+            <summary>
+            Calendar functions.
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Sum(System.Object)">
             <summary>
@@ -3276,16 +2866,6 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Timestamp">
-            <summary>
-            Milliseconds since midnight, January 1, 1970 UTC.
-            </summary>
-            <returns></returns>
-            <example>
-            MATCH (n)
-            RETURN timestamp()
-            </example>
-        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.FromRawCypher(Weknow.CypherBuilder.RawCypher)">
             <summary>
             Pure cypher injection.
@@ -3548,6 +3128,292 @@
             </summary>
             <param name="next"></param>
             <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherGeneralExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.String)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="prv"></param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.Object)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="prv"></param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},System.String)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(System.Object,Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The alias.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherInputCollectionAttribute">
+            <summary>
+            decorate object collection which are part of the Cypher Builder API,
+            in order to avoid handling it as collection in the cypher output.
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherParameters">
+            <summary>
+            Cypher Parameters representation
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
+            </summary>
+            <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0)">
+            <summary>
+            Adds parameter if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddOrUpdate``1(System.String,``0,System.Func{``0,System.Object})">
+            <summary>
+            Adds parameter or update.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,``0[])">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.SetToNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.TrySetToNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.Remove(System.String)">
+            <summary>
+            Remove a key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.ContainsKey(System.String)">
+            <summary>
+            Determines whether the specified key contains key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>
+              <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.Get``1(System.String)">
+            <summary>
+            Gets the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.ConstraintType">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsUnique">
+            <summary>
+            IS UNIQUE
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNotNull">
+            <summary>
+            IS NOT NULL
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNodeKey">
+            <summary>
+            IS NODE KEY
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.FullTextLanguage">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.IgnoreBehavior">
+            <summary>
+            Ignore things.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.None">
+            <summary>
+            Avoid this setting
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Plan">
+            <summary>
+            No formatting
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
+            <summary>
+            No formatting except the $ sign.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.HelperExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsAssignableTo``1(System.Type)">
+            <summary>
+            Determines whether [is assignable to].
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t">The t.</param>
+            <returns>
+              <c>true</c> if [is assignable to] [the specified t]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsOfType``1(System.Linq.Expressions.Expression)">
+            <summary>
+            Check if expression is of type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression)">
+            <summary>
+            Check if expression is array
+            </summary>
+            <param name="expr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.HelperExtensions.IsArray(System.Linq.Expressions.Expression,System.Int32@)">
+            <summary>
+            Check if expression is array
+            </summary>
+            <param name="expr">The expression.</param>
+            <param name="length">The array length.</param>
+            <returns>
+              <c>true</c> if the specified array expression is array; otherwise, <c>false</c>.
+            </returns>
         </member>
         <member name="T:Weknow.CypherBuilder.ParamsFirst`1">
             <summary>

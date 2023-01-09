@@ -42,7 +42,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal(
                        $"MERGE (n:Person {{ Id: $Id, eTag: $eTag }}){NewLine}" +
                        $"SET n += $map{NewLine}" +
-                       $"SET n.eTag = n.eTag + 1{NewLine}" +
+                       $"SET n = {{ eTag: n.eTag + 1 }}{NewLine}" +
                        "RETURN n.eTag", cypher.Query);
         }
 

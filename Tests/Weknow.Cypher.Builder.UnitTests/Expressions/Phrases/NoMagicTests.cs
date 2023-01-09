@@ -106,7 +106,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"CREATE (n:Person {{ Id: $map.Id, Name: $map.FirstName }}){NewLine}" +
-                "SET n.Address = $map.Address", cypher.Query);
+                "SET n = { Address: $map.Address }", cypher.Query);
         }
 
         #endregion // Merge_NoMagic4_Test
@@ -141,7 +141,7 @@ namespace Weknow.CypherBuilder
         {
             var (a, b) = Parameters.CreateMulti<string, string>();
             var Id = Parameters.Create();
-            var n = Variables.Create(); ;
+            var n = Variables.Create(); 
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
@@ -150,7 +150,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
-                "ON MATCH SET n.PropA = $a, n.PropB = $b", cypher.Query);
+                "ON MATCH SET n = { PropA = $a, PropB = $b }", cypher.Query);
         }
 
         #endregion // Merge_On_Match_NoMagic6_SetProperties_OfT_Test

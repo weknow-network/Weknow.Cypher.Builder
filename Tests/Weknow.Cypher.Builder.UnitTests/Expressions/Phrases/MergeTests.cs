@@ -59,7 +59,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
-                $"ON CREATE SET n.PropA = $PropA, n.PropB = $PropB{NewLine}\t"+
+                $"ON CREATE SET n = {{ PropA: $PropA, PropB: $PropB }}{NewLine}\t"+
                 $"ON CREATE SET n.`creation-date` = datetime(){NewLine}\t"+
                 "ON MATCH SET n.`modification-date` = datetime()"
                 , cypher.Query);
@@ -154,7 +154,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
-                "ON MATCH SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
+                "ON MATCH SET n = { PropA: $PropA, PropB: $PropB }", cypher.Query);
         }
 
         #endregion // MERGE (n:Person { Id: $Id }) ON MATCH SET n.PropA = $PropA, n.PropB = $PropB 
@@ -421,7 +421,7 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MERGE (n:Person {{ Id: $p.Id }}){NewLine}\t" +
-                "ON CREATE SET n.PropA = $p.PropA"
+                "ON CREATE SET n = { PropA: $p.PropA }"
                 ,
                 cypher.Query);
 
