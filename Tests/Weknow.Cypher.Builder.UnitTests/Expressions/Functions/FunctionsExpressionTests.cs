@@ -64,11 +64,11 @@ namespace Weknow.CypherBuilder
         {
             var (n, m) = Variables.CreateMulti();
             CypherCommand cypher = _(() => Match(N(n, new { Id = 1 }))
-                                    .Set(n, new { Date = Timestamp(), Today = Calendar().Date() })
+                                    .Set(n, new { Date = Fn.Cal.Timestamp(), Today = Fn.Cal.Date() })
                                     .Merge(N(m))
-                                    .OnCreateSet(n, new { CreationDate = Timestamp() })
-                                    .OnMatchSet(n, new { ModifiedDate = Timestamp() })
-                                    .Return(n, Timestamp().As("date")));
+                                    .OnCreateSet(n, new { CreationDate = Fn.Cal.Timestamp() })
+                                    .OnMatchSet(n, new { ModifiedDate = Fn.Cal.Timestamp() })
+                                    .Return(n, Fn.Cal.Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal($"MATCH (n {{ Id: $p_0 }}){NewLine}" +
@@ -88,7 +88,7 @@ namespace Weknow.CypherBuilder
         {
             var (n1, r, n2) = Variables.CreateMulti();
             CypherCommand cypher = _(() => Match(N(n1) - R[r] > N(n2))
-                                    .Return(Timestamp().As("time"),
+                                    .Return(Fn.Cal.Timestamp().As("time"),
                                             n1.Labels().As("label"),
                                             n1.Id(),
                                             r.Type(),
@@ -122,7 +122,7 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        Avg(n._.PropA).As("avg")));
+                                        Fn.Ag.Avg(n._.PropA).As("avg")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal($"MATCH (n){NewLine}" +
@@ -142,12 +142,14 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        Sum(n._.PropA).As("sum"),
-                                        Min(n._.PropA).As("min")));
+                                        Fn.Ag.Avg(n._.Version).As(n._.Version),
+                                        Fn.Ag.Sum(n._.PropA).As("sum"),
+                                        Fn.Ag.Min(n._.PropA).As("min")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN " +
+                                "avg(n.Version) AS Version, " +
                                 "sum(n.PropA) AS sum, " +
                                 "min(n.PropA) AS min", cypher.Query);
         }
@@ -164,10 +166,10 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        Sum(n._.PropA).As("sum"),
-                                        Min(n._.PropA).As("min"),
-                                        Max(n._.PropA).As("max"),
-                                        Avg(n._.PropA).As("avg")));
+                                        Fn.Aggregation.Sum(n._.PropA).As("sum"),
+                                        Fn.Ag.Min(n._.PropA).As("min"),
+                                        Fn.Ag.Max(n._.PropA).As("max"),
+                                        Fn.Ag.Avg(n._.PropA).As("avg")));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal($"MATCH (n){NewLine}" +

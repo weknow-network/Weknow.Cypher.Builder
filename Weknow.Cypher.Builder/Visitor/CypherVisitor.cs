@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 using Weknow.Cypher.Builder.Fluent;
@@ -22,6 +23,8 @@ namespace Weknow.CypherBuilder
     {
         private const string EXT_ASSEMBLY_NAME = "Weknow.Cypher.Builder.Extensions";
         private static readonly Type VARIABLE_TYPE = typeof(VariableDeclaration);
+        private static readonly string __ = nameof(VariableDeclaration<int>.__);
+        private static readonly string _ = nameof(VariableDeclaration<int>._);
         private static readonly char[] LABEL_SPLITTER = new[] { ':', '&', '|' };
         private const string AUTO_VAR = "$auto-var$";
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
@@ -244,6 +247,12 @@ namespace Weknow.CypherBuilder
             string type = node.Type.Name;
             string? assembly = node?.Type?.Assembly?.GetName()?.Name;
 
+            if (_directOperation.State == "As" && type == "Delegate" && args.Count == 2)
+            {
+                Visit(args[1]);
+                return node;
+            }
+
             #region string? format = ...
 
             var atts = mtd.GetCustomAttributes<CypherAttribute>(false).ToArray();
@@ -312,12 +321,6 @@ namespace Weknow.CypherBuilder
             }
 
 
-            var opScope = Disposable.Empty;
-            if (mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
-            {
-                opScope = _directOperation.Push(name);
-            }
-            using var opScp = opScope;
 
             bool shouldCreatePrms = name switch
             {
@@ -394,22 +397,22 @@ namespace Weknow.CypherBuilder
                 if (name == nameof(Rng.Scope))
                 {
                     Query.Append("*");
-                    var index0 = (ConstantExpression)node.Arguments[0];
+                    var index0 = (ConstantExpression)args[0];
                     Query.Append(index0.Value);
                     Query.Append("..");
-                    var index1 = (ConstantExpression)node.Arguments[1];
+                    var index1 = (ConstantExpression)args[1];
                     Query.Append(index1.Value);
                 }
                 else if (name == nameof(Rng.AtMost))
                 {
                     Query.Append("*..");
-                    var index = (ConstantExpression)node.Arguments[0];
+                    var index = (ConstantExpression)args[0];
                     Query.Append(index.Value);
                 }
                 else if (name == nameof(Rng.AtLeast))
                 {
                     Query.Append("*");
-                    var index = (ConstantExpression)node.Arguments[0];
+                    var index = (ConstantExpression)args[0];
                     Query.Append(index.Value);
                     Query.Append("..");
                 }
@@ -417,6 +420,14 @@ namespace Weknow.CypherBuilder
                 {
 
                     Query.Append("*");
+                }
+            }
+            // TODO: [bnaya 2023-01-09] Support Alias of: Fn.Ag.Sum(n._.PropA).As(Fn.Ag.Sum)
+            else if (name == "As" && args.Count == 2)
+            {
+                using (_directOperation.Push("As"))
+                {
+                    Visit(args[1]);
                 }
             }
 
@@ -443,6 +454,12 @@ namespace Weknow.CypherBuilder
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
                 return node;
+
+            if (_directOperation.State == "As")
+            {
+                Query.Append(name);
+                return node;
+            }
 
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
@@ -553,8 +570,8 @@ namespace Weknow.CypherBuilder
                     Parameters.SetToNull(name);
             }
             else if (node.Expression is MemberExpression vme &&
-                (vme.Member.Name == nameof(VariableDeclaration<int>._) ||
-                vme.Member.Name == nameof(VariableDeclaration<int>.__))
+                (vme.Member.Name == _ ||
+                vme.Member.Name == __)
                 && VARIABLE_TYPE.IsAssignableFrom(vme.Member.DeclaringType))
             {
                 string candidateVariable = string.Empty;
@@ -563,11 +580,11 @@ namespace Weknow.CypherBuilder
                 {
                     candidateVariable = $"{ime.Member.Name}.";
                 }
-                if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is MemberExpression vme1)
+                if (vme.Member.Name == __ && vme.Expression is MemberExpression vme1)
                 {
                     candidateVariable = $"{vme1.Member.Name}.";
                 }
-                if (vme.Member.Name == nameof(VariableDeclaration<int>.__) && vme.Expression is ParameterExpression vmpe)
+                if (vme.Member.Name == __ && vme.Expression is ParameterExpression vmpe)
                 {
                     candidateVariable = $"{vmpe.Name}.";
                 }
@@ -577,7 +594,7 @@ namespace Weknow.CypherBuilder
                     Query.Append(candidateVariable);
                 }
             }
-            else if (node.Expression is MethodCallExpression pme && pme.Method.Name == "_"
+            else if (node.Expression is MethodCallExpression pme && pme.Method.Name == _
                 && typeof(ParameterDeclaration).IsAssignableFrom(pme.Method.DeclaringType))
             {
                 Query.Append("$");
@@ -585,10 +602,10 @@ namespace Weknow.CypherBuilder
                     Parameters.SetToNull(name);
             }
             else if (node.Expression is MethodCallExpression mce &&
-                (mce.Method.Name == "__" || mce.Method.Name == "_") &&
+                (mce.Method.Name == __ || mce.Method.Name == _) &&
                 VARIABLE_TYPE.IsAssignableFrom(mce.Method.DeclaringType))
             {
-                if (mce.Method.Name == "__" && mce?.Object?.Type == VARIABLE_TYPE)
+                if (mce.Method.Name == __ && mce?.Object?.Type == VARIABLE_TYPE)
                 {
                     string candidateVariable = $"{mce.Object}.";
                     var candidateLen = candidateVariable.Length;
@@ -850,6 +867,9 @@ namespace Weknow.CypherBuilder
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="format">The format.</param>
+        /// <param name="opScope">The op scope.</param>
+        /// <param name="startScopeAtIndex">Start index of the scope at.</param>
+        /// <returns></returns>
         private void ApplyFormat(MethodCallExpression node, string format)
         {
             var disp = new List<IDisposable>();
@@ -925,58 +945,17 @@ namespace Weknow.CypherBuilder
                                     var qlen = Query.Length;
                                     using (isLabel && prevIsVar ? _shouldHandleAmbient.Deny() : Disposable.Empty) // ambient should trigger at the variable level in order to avoid duplicates
                                     {
-                                        //string op = _directOperation.State;
-
-                                        //Expression zero = args[0];
-                                        //bool isExtMtd = zero.Type.IsAssignableTo(typeof(ICypherStatement));
-                                        //if (_isSetOperation.Contains(op) &&
-                                        //    args.Count == index + 2 &&
-                                        //    (isExtMtd && index == 1 || !isExtMtd && index == 0))
-                                        //{
-                                        //    Expression right = args[index + 1];
-                                        //    if (expr.Type.IsAssignableTo(VARIABLE_TYPE))
-                                        //    {
-                                        //        if (right is NewExpression newExp &&
-                                        //            right.Type.Name.IndexOf("__AnonymousType") != -1)
-                                        //        {
-                                        //            int newIdx = 0;
-                                        //            var members = newExp.Members;
-                                        //            foreach (var nprop in newExp.Arguments)
-                                        //            {
-                                        //                string name = members[newIdx].Name;
-                                        //                if (newIdx++ != 0)
-                                        //                    Query.Append(", ");
-                                        //                Visit(expr);
-                                        //                Query.Append(".");
-                                        //                Query.Append(name);
-                                        //                Query.Append(" = ");
-                                        //                Visit(nprop);
-                                        //            }
-                                        //            i = format.Length;
-                                        //            break;
-                                        //        }
-                                        //        //else if (right is MemberInitExpression initExp)
-                                        //        //{
-                                        //        //    int newIdx = 0;
-                                        //        //    var members = initExp.NewExpression.Members;
-                                        //        //    Visit(initExp);
-                                        //        //    foreach (var nprop in initExp.NewExpression.Arguments)
-                                        //        //    {
-                                        //        //        string name = members[newIdx].Name;
-                                        //        //        if (newIdx++ != 0)
-                                        //        //            Query.Append(", ");
-                                        //        //        Visit(expr);
-                                        //        //        Query.Append(".");
-                                        //        //        Query.Append(name);
-                                        //        //        Query.Append(" = ");
-                                        //        //        Visit(nprop);
-                                        //        //    }
-                                        //        //    i = format.Length;
-                                        //        //    break;
-                                        //        //}
-                                        //    }
-                                        //}
-                                        Visit(expr);
+                                        bool isExtensionMtd = mtd.IsDefined(typeof(ExtensionAttribute), true);
+                                        var opScope = Disposable.Empty;
+                                        int scpStartAt = isExtensionMtd ? 1 : 0;
+                                        if (index >= scpStartAt && mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
+                                        {
+                                            opScope = _directOperation.Push(mtd.Name);
+                                        }
+                                        using (opScope)
+                                        {
+                                            Visit(expr);
+                                        }
                                     }
                                     if (isVar)
                                     {

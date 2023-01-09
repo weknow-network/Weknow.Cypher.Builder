@@ -113,6 +113,29 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // CREATE (p:Person { Name: $p_0, Birthday: $p_1, IssueDate: $p_2, At: $p_3 }) RETURN p
+
+        #region CREATE (p:Person { Name: $n, Birthday: datetime(), IssueDate: date(), At: time() }) RETURN p
+
+        [Fact]
+        public void DateTime_Fn_Test()
+        {
+            CypherCommand cypher = _(p =>
+                                    Create(N(p, Person,
+                                    new
+                                    {
+                                        Name = "someone",
+                                        Birthday = Fn.Calendar.DateTime(),
+                                        IssueDate = Fn.Cal.Date(),
+                                        At = Fn.Cal.Time()
+                                    }))
+                                    .Return(p));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($$"""CREATE (p:Person { Name: $p_0, Birthday: datetime(), IssueDate: date(), At: time() }){{NewLine}}""" +
+                "RETURN p", cypher.Query);
+        }
+
+        #endregion // CREATE (p:Person { Name: $n, Birthday: datetime(), IssueDate: date(), At: time() }) RETURN p
     }
 }
 

@@ -10,31 +10,39 @@ namespace Weknow.CypherBuilder;
 /// </summary>
 partial interface ICypher
 {
-    #region timestamp()
-
-    /// <summary>
-    /// Milliseconds since midnight, January 1, 1970 UTC.
-    /// </summary>
-    /// <returns></returns>
-    /// <example>
-    /// MATCH (n)
-    /// RETURN timestamp()
-    /// </example>
-    [Cypher("timestamp()")]
-    public static VariableDeclaration Timestamp() => throw new NotImplementedException();
-
-    #endregion // timestamp()
-
-    /// <summary>
-    /// Calendar functions.
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="System.NotImplementedException"></exception>
-    [Cypher("$0")]
-    public static ICypherCalendar Calendar() => throw new NotImplementedException();
+    partial interface IFn
+    {
+        /// <summary>
+        /// Calendar functions.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public ICypherCalendar Cal=> throw new NotImplementedException();
+        /// <summary>
+        /// Calendar functions.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public ICypherCalendar Calendar => throw new NotImplementedException();
+    }
 
     public interface ICypherCalendar
     {
+        #region timestamp()
+
+        /// <summary>
+        /// Milliseconds since midnight, January 1, 1970 UTC.
+        /// </summary>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// RETURN timestamp()
+        /// </example>
+        [Cypher("timestamp()")]
+        public TimeVariableDeclaration Timestamp() => throw new NotImplementedException();
+
+        #endregion // timestamp()
+
         [Cypher("date()")]
         public TimeVariableDeclaration Date() => throw new NotImplementedException();
 
