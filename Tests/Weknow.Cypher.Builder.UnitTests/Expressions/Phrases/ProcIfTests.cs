@@ -40,9 +40,9 @@ namespace Weknow.CypherBuilder
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"FOREACH (var_0 IN CASE WHEN $p IS NULL THEN [1] ELSE [] END |{NewLine}\t" +
-                $"SET item.Version = $p_1){NewLine}" +
+                $"SET item = {{ Version: $p_1 }}){NewLine}" +
                 $"FOREACH (var_1 IN CASE WHEN $p IS NOT NULL THEN [1] ELSE [] END |{NewLine}\t" +
-                "SET item.Version = $p_2)",
+                "SET item = { Version: $p_2 })",
                 cypher.Query);
             Assert.Null(cypher.Parameters["p"]);
             Assert.Equal(1, cypher.Parameters["p_1"]);

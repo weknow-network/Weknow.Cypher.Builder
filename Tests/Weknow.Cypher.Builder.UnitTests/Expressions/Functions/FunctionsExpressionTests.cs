@@ -2,6 +2,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Weknow.CypherBuilder.CypherExtensions;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
@@ -62,19 +63,19 @@ namespace Weknow.CypherBuilder
         public void Timestamp_Test()
         {
             var (n, m) = Variables.CreateMulti();
-            CypherCommand cypher = _(() => Match(N(n))
-                                    .Set(n, new { Date = Timestamp() })
+            CypherCommand cypher = _(() => Match(N(n, new { Id = 1 }))
+                                    .Set(n, new { Date = Timestamp(), Today = Calendar().Date() })
                                     .Merge(N(m))
                                     .OnCreateSet(n, new { CreationDate = Timestamp() })
                                     .OnMatchSet(n, new { ModifiedDate = Timestamp() })
                                     .Return(n, Timestamp().As("date")));
 
             _outputHelper.WriteLine(cypher);
-            Assert.Equal($"MATCH (n){NewLine}" +
-                $"SET n.Date = timestamp(){NewLine}" +
+            Assert.Equal($"MATCH (n {{ Id: $p_0 }}){NewLine}" +
+                $"SET n = {{ Date: timestamp(), Today: date() }}{NewLine}" +
                 $"MERGE (m){NewLine}" +
-                $"\tON CREATE SET n.CreationDate = timestamp(){NewLine}" +
-                $"\tON MATCH SET n.ModifiedDate = timestamp(){NewLine}" +
+                $"\tON CREATE SET n = {{ CreationDate: timestamp() }}{NewLine}" +
+                $"\tON MATCH SET n = {{ ModifiedDate: timestamp() }}{NewLine}" +
                 "RETURN n, timestamp() AS date", cypher.Query);
         }
 

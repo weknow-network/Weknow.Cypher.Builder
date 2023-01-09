@@ -617,40 +617,7 @@ public partial interface ICypher
 	/// </example>
 	[Cypher("&SET $0 = $1")]
 	[CypherClause]
-	public static ICypherStatement Set(VariableDeclaration var, VariableDeclaration assignment)
-		=> throw new NotImplementedException();
-
-	/// <summary>
-	/// SET phrase.
-	/// </summary>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The assignment.</param>
-	/// <returns></returns>
-	/// <example>
-	/// .Set(n, map)
-	/// result in:
-	/// SET n = $map
-	/// </example>
-	[Cypher("&SET $0 = $1")]
-	[CypherClause]
-	public static ICypherStatement Set(VariableDeclaration var, ParameterDeclaration assignment)
-		=> throw new NotImplementedException();
-
-	/// <summary>
-	/// SET  phrase.
-	/// </summary>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The complex.</param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	/// <example>
-	/// .Set(n, new {prm._.Name, var._.Code})
-	/// result in:
-	/// SET n.Name = $Name, n.Code = prm.Code
-	/// </example>
-	[Cypher("&SET +00$1")]
-	[CypherClause]
-	public static ICypherStatement Set(VariableDeclaration var, object assignment)
+	public static ICypherStatement Set(object var, object assignment)
 		=> throw new NotImplementedException();
 
 	#endregion // Set
@@ -1178,22 +1145,7 @@ public partial interface ICypher
 		return new RelationPattern(expression.Body, cfg);
 	}
 
-	#endregion // Reuse
-
-	#region Timestamp / timestamp()
-
-	/// <summary>
-	/// Milliseconds since midnight, January 1, 1970 UTC.
-	/// </summary>
-	/// <returns></returns>
-	/// <example>
-	/// MATCH (n)
-	/// RETURN timestamp()
-	/// </example>
-	[Cypher("timestamp()")]
-	public static VariableDeclaration Timestamp() => throw new NotImplementedException();
-
-	#endregion // Timestamp / timestamp()
+    #endregion // Reuse
 
 	#region FromRawCypher
 

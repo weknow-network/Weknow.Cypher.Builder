@@ -685,7 +685,10 @@ namespace Weknow.CypherBuilder
                 }
                 if (node.Members == null) throw new ArgumentNullException("node.Members");
                 Query.Append(node.Members[i].Name);
-                AppendPropSeparator();
+                if (isObject)
+                    Query.Append(": ");
+                else
+                    AppendPropSeparator();
                 Expression? expr = node.Arguments[i];
                 Visit(expr);
                 if (expr != node.Arguments.Last())
@@ -922,36 +925,57 @@ namespace Weknow.CypherBuilder
                                     var qlen = Query.Length;
                                     using (isLabel && prevIsVar ? _shouldHandleAmbient.Deny() : Disposable.Empty) // ambient should trigger at the variable level in order to avoid duplicates
                                     {
-                                        string op = _directOperation.State;
+                                        //string op = _directOperation.State;
 
-                                        Expression zero = args[0];
-                                        bool isExtMtd = zero.Type.IsAssignableTo(typeof(ICypherStatement));
-                                        if (_isSetOperation.Contains(op) &&
-                                            args.Count == index + 2 &&
-                                            (isExtMtd && index == 1 || !isExtMtd && index == 0))
-                                        {
-                                            Expression right = args[index + 1];
-                                            if (expr.Type.IsAssignableTo(VARIABLE_TYPE) &&
-                                                right is NewExpression newExp &&
-                                                right.Type.Name.IndexOf("__AnonymousType") != -1)
-                                            {
-                                                int newIdx = 0;
-                                                var members = newExp.Members;
-                                                foreach (var nprop in newExp.Arguments)
-                                                {
-                                                    string name = members[newIdx].Name;
-                                                    if (newIdx++ != 0)
-                                                        Query.Append(", ");
-                                                    Visit(expr);
-                                                    Query.Append(".");
-                                                        Query.Append(name);
-                                                    Query.Append(" = ");
-                                                    Visit(nprop);
-                                                }
-                                                i = format.Length;
-                                                break;
-                                            }
-                                        }
+                                        //Expression zero = args[0];
+                                        //bool isExtMtd = zero.Type.IsAssignableTo(typeof(ICypherStatement));
+                                        //if (_isSetOperation.Contains(op) &&
+                                        //    args.Count == index + 2 &&
+                                        //    (isExtMtd && index == 1 || !isExtMtd && index == 0))
+                                        //{
+                                        //    Expression right = args[index + 1];
+                                        //    if (expr.Type.IsAssignableTo(VARIABLE_TYPE))
+                                        //    {
+                                        //        if (right is NewExpression newExp &&
+                                        //            right.Type.Name.IndexOf("__AnonymousType") != -1)
+                                        //        {
+                                        //            int newIdx = 0;
+                                        //            var members = newExp.Members;
+                                        //            foreach (var nprop in newExp.Arguments)
+                                        //            {
+                                        //                string name = members[newIdx].Name;
+                                        //                if (newIdx++ != 0)
+                                        //                    Query.Append(", ");
+                                        //                Visit(expr);
+                                        //                Query.Append(".");
+                                        //                Query.Append(name);
+                                        //                Query.Append(" = ");
+                                        //                Visit(nprop);
+                                        //            }
+                                        //            i = format.Length;
+                                        //            break;
+                                        //        }
+                                        //        //else if (right is MemberInitExpression initExp)
+                                        //        //{
+                                        //        //    int newIdx = 0;
+                                        //        //    var members = initExp.NewExpression.Members;
+                                        //        //    Visit(initExp);
+                                        //        //    foreach (var nprop in initExp.NewExpression.Arguments)
+                                        //        //    {
+                                        //        //        string name = members[newIdx].Name;
+                                        //        //        if (newIdx++ != 0)
+                                        //        //            Query.Append(", ");
+                                        //        //        Visit(expr);
+                                        //        //        Query.Append(".");
+                                        //        //        Query.Append(name);
+                                        //        //        Query.Append(" = ");
+                                        //        //        Visit(nprop);
+                                        //        //    }
+                                        //        //    i = format.Length;
+                                        //        //    break;
+                                        //        //}
+                                        //    }
+                                        //}
                                         Visit(expr);
                                     }
                                     if (isVar)
