@@ -201,42 +201,6 @@ public static partial class CypherExtensions
 
 	#endregion // OnCreateSet
 
-	#region OnCreateSetPlus
-
-	/// <summary>
-	/// ON CREATE SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var"></param>
-	/// <param name="assignment"></param>
-	/// <returns></returns>
-	/// <example>
-	/// .OnCreateSetPlus(n, map)
-	/// result in:
-	/// ON CREATE SET n += map
-	/// </example>
-	[Cypher("$0\r\n\tON CREATE &SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherMergeStatement OnCreateSetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
-
-	/// <summary>
-	/// ON CREATE SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var"></param>
-	/// <param name="assignment"></param>
-	/// <returns></returns>
-	/// <example>
-	/// .OnCreateSetPlus(n, map)
-	/// result in:
-	/// ON CREATE SET n += $map
-	/// </example>
-	[Cypher("$0\r\n\tON CREATE &SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherMergeStatement OnCreateSetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
-
-	#endregion // OnCreateSetPlus
-
 	#region OnMatchSet
 
 	/// <summary>
