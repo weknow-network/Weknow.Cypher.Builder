@@ -224,23 +224,7 @@ public static partial class CypherExtensions
 	/// </example>
 	[Cypher("$0\r\n\tON MATCH &SET $1 \\+= $2")]
 	[CypherClause]
-	public static ICypherMergeStatement OnMatchSetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
-
-	/// <summary>
-	/// ON MATCH SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var"></param>
-	/// <param name="assignment"></param>
-	/// <returns></returns>
-	/// <example>
-	/// .OnMatchSetPlus(n, map)
-	/// result in:
-	/// ON MATCH SET n += $map
-	/// </example>
-	[Cypher("$0\r\n\tON MATCH &SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherMergeStatement OnMatchSetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
+	public static ICypherMergeStatement OnMatchSetPlus(this ICypherMergeStatement fluent, object var, object assignment) => throw new NotImplementedException();
 
     #endregion // OnMatchSetPlus
 
@@ -410,25 +394,7 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&SET $1 \\+= $2")]
 	[CypherClause]
-	public static ICypherMatchStatement SetPlus(this ICypherMatchStatement fluent, VariableDeclaration var, VariableDeclaration assignment)
-		=> throw new NotImplementedException();
-
-	/// <summary>
-	/// SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The assignment.</param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	/// <example>
-	/// .SetPlus(n, map)
-	/// result in:
-	/// SET n += $map
-	/// </example>
-	[Cypher("$0\r\n&SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherMatchStatement SetPlus(this ICypherMatchStatement fluent, VariableDeclaration var, ParameterDeclaration assignment)
+	public static ICypherMatchStatement SetPlus(this ICypherMatchStatement fluent, object var, object assignment)
 		=> throw new NotImplementedException();
 
     #endregion // SetPlus (ICypherMatchStatement...)
@@ -449,26 +415,9 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&SET $1 \\+= $2")]
 	[CypherClause]
-	public static ICypherMergeStatement SetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, VariableDeclaration assignment)
+	public static ICypherMergeStatement SetPlus(this ICypherMergeStatement fluent, object var, object assignment)
 		=> throw new NotImplementedException();
 
-	/// <summary>
-	/// SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The assignment.</param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	/// <example>
-	/// .SetPlus(n, map)
-	/// result in:
-	/// SET n += $map
-	/// </example>
-	[Cypher("$0\r\n&SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherMergeStatement SetPlus(this ICypherMergeStatement fluent, VariableDeclaration var, ParameterDeclaration assignment)
-		=> throw new NotImplementedException();
 
     #endregion // SetPlus (ICypherMergeStatement...)
 
@@ -488,26 +437,9 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&SET $1 \\+= $2")]
 	[CypherClause]
-	public static ICypherCreateStatement SetPlus(this ICypherCreateStatement fluent, VariableDeclaration var, VariableDeclaration assignment)
+	public static ICypherCreateStatement SetPlus(this ICypherCreateStatement fluent, object var, object assignment)
 		=> throw new NotImplementedException();
 
-	/// <summary>
-	/// SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The assignment.</param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	/// <example>
-	/// .SetPlus(n, map)
-	/// result in:
-	/// SET n += $map
-	/// </example>
-	[Cypher("$0\r\n&SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherCreateStatement SetPlus(this ICypherCreateStatement fluent, VariableDeclaration var, ParameterDeclaration assignment)
-		=> throw new NotImplementedException();
 
     #endregion // SetPlus (ICypherCreateStatement...)
 
@@ -527,25 +459,7 @@ public static partial class CypherExtensions
     /// </example>
     [Cypher("$0\r\n&SET $1 \\+= $2")]
 	[CypherClause]
-	public static ICypherRawStatement SetPlus(this ICypherRawStatement fluent, VariableDeclaration var, VariableDeclaration assignment)
-		=> throw new NotImplementedException();
-
-	/// <summary>
-	/// SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var">The variable.</param>
-	/// <param name="assignment">The assignment.</param>
-	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
-	/// <example>
-	/// .SetPlus(n, map)
-	/// result in:
-	/// SET n += $map
-	/// </example>
-	[Cypher("$0\r\n&SET $1 \\+= $2")]
-	[CypherClause]
-	public static ICypherRawStatement SetPlus(this ICypherRawStatement fluent, VariableDeclaration var, ParameterDeclaration assignment)
+	public static ICypherRawStatement SetPlus(this ICypherRawStatement fluent, object var, object assignment)
 		=> throw new NotImplementedException();
 
     #endregion // SetPlus (ICypherRawStatement...)
