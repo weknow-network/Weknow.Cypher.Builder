@@ -382,6 +382,31 @@ namespace Weknow.CypherBuilder
 #pragma warning restore CS0618 // Type or member is obsolete
         #endregion // MERGE (..) ON CREATE SET n = $map ON MATCH SET n.Version = coalesce(n.Version, 0) + 1
 
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.PropA = $p.PropA
+
+        [Fact]
+        public void Merge_SetPlus_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var p = Parameters.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { p.__.Id }))
+                                    .OnCreateSet(n, new { p.__.PropA }));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $p.Id }}){NewLine}\t" +
+                "ON CREATE SET n.PropA = $p.PropA"
+                ,
+                cypher.Query);
+
+            // TODO: [bnaya 2023-01-09] should add parameter 'p' 
+            //Assert.True(cypher.Parameters.ContainsKey(nameof(p)));
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.PropA = $p.PropA
+
         // TODO: 
         /*
          MERGE (n:Person {name: $value})
