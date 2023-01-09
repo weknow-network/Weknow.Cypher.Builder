@@ -996,7 +996,7 @@
             ON MATCH SET n = map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             ON MATCH SET phrase.
             </summary>
@@ -1008,6 +1008,20 @@
             .OnMatchSetPlus(n, map)
             result in:
             ON MATCH SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            ON MATCH SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var"></param>
+            <param name="assignment"></param>
+            <returns></returns>
+            <example>
+            .OnMatchSetPlus(n, map)
+            result in:
+            ON MATCH SET n += $map
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Set(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.ILabel[])">
@@ -1114,7 +1128,7 @@
             SET n = map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1128,7 +1142,22 @@
             SET n += map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMatchStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1142,7 +1171,22 @@
             SET n += map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1156,7 +1200,22 @@
             SET n += map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -1168,6 +1227,21 @@
             .SetPlus(n, map)
             result in:
             SET n += map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.SetPlus(Weknow.Cypher.Builder.Fluent.ICypherRawStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="fluent">The fluent.</param>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .SetPlus(n, map)
+            result in:
+            SET n += $map
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.SetAmbientLabels(Weknow.Cypher.Builder.Fluent.ICypherCreateStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
@@ -2388,7 +2462,7 @@
             SET n:Person:Manager
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Set(System.Object,System.Object)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             SET phrase.
             </summary>
@@ -2400,6 +2474,33 @@
             .Set(n, map)
             result in:
             SET n = map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
+            <summary>
+            SET phrase.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="assignment">The assignment.</param>
+            <returns></returns>
+            <example>
+            .Set(n, map)
+            result in:
+            SET n = $map
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Set(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
+            <summary>
+            SET  phrase.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="assignment">The complex.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            .Set(n, new {prm._.Name, var._.Code})
+            result in:
+            SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Unwind``1(System.Collections.Generic.IEnumerable{``0},Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.Cypher.Builder.Fluent.ICypherStatement)">
