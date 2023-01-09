@@ -23,6 +23,26 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        [Fact]
+        public void Merge_On_Create_Objects_Test()
+        {
+            var p = Parameters.Create<Foo>();
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Merge(N(n, Person, new { p.__.Id }))
+                                    .OnCreateSet(n.__.Name, p.__.Name));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                $"MERGE (n:Person {{ Id: $p.Id }}){NewLine}\t" +
+                "ON CREATE SET n.Name = $p.Name", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
         #region MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB
 
         [Fact]
@@ -33,12 +53,16 @@ namespace Weknow.CypherBuilder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))
-                                    .OnCreateSet(n, new { n.Prm._.PropA, n.AsParameter._.PropB }));
+                                    .OnCreateSet(n, new { n.Prm._.PropA, n.AsParameter._.PropB })
+                                    .SetDateConvention(n));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MERGE (n:Person {{ Id: $Id }}){NewLine}\t" +
-                "ON CREATE SET n.PropA = $PropA, n.PropB = $PropB", cypher.Query);
+                $"ON CREATE SET n.PropA = $PropA, n.PropB = $PropB{NewLine}\t"+
+                $"ON CREATE SET n.`creation-date` = datetime(){NewLine}\t"+
+                "ON MATCH SET n.`modification-date` = datetime()"
+                , cypher.Query);
         }
 
         #endregion // MERGE (n:Person { Id: $Id }) ON CREATE SET n.PropA = $PropA, n.PropB = $PropB
@@ -53,11 +77,11 @@ namespace Weknow.CypherBuilder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { n.Prm._.Id }))
-                                    .OnCreateSet(n, new { n.Prm._.PropA })
+                                    .OnCreateSet(n.__.PropA, n.Prm._.PropA )
                                     .Merge(N(n, Friend, new { n.Prm._.Id }))
-                                    .OnCreateSet(n, new { n.Prm._.PropB })
+                                    .OnCreateSet(n.__.PropB, n.Prm._.PropB )
                                     .Merge(N(n, Person, new { Id = pId }))
-                                    .OnCreateSet(n, new { n.Prm._.PropA }));
+                                    .OnCreateSet(n.__.PropA, n.Prm._.PropA));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
@@ -84,7 +108,7 @@ namespace Weknow.CypherBuilder
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { n.Prm._.Id }))
-                                    .OnCreateSet(n, new { n.AsParameter._.PropA }));
+                                    .OnCreateSet(n.__.PropA,  n.AsParameter._.PropA ));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

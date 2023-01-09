@@ -102,7 +102,7 @@ public partial class BaseCypherCardsTests
         var p = Parameters.Create<PersonEntity>();
         CypherCommand cypher = _(n =>
                                 Merge(N(n, Person, new { key = 10 }))
-                                .OnCreateSetPlus(n, p)
+                                .OnCreateSet(n, p)
                                 .OnMatchSet(FromRawCypher("n.version = coalesce(n.version, 0) + 1")));
 
 

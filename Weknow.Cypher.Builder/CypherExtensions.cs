@@ -165,39 +165,7 @@ public static partial class CypherExtensions
 	/// </example>
 	[Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
 	[CypherClause]
-	public static ICypherMergeStatement OnCreateSet(this ICypherMergeStatement fluent, VariableDeclaration var, VariableDeclaration assignment) => throw new NotImplementedException();
-
-	/// <summary>
-	/// ON CREATE SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var"></param>
-	/// <param name="assignment"></param>
-	/// <returns></returns>
-	/// <example>
-	/// .OnCreateSet(n, map)
-	/// result in:
-	/// ON CREATE SET n = $map
-	/// </example>
-	[Cypher("$0\r\n\tON CREATE &SET $1 = $2")]
-	[CypherClause]
-	public static ICypherMergeStatement OnCreateSet(this ICypherMergeStatement fluent, VariableDeclaration var, ParameterDeclaration assignment) => throw new NotImplementedException();
-
-	/// <summary>
-	/// ON CREATE SET phrase.
-	/// </summary>
-	/// <param name="fluent">The fluent.</param>
-	/// <param name="var"></param>
-	/// <param name="assignment"></param>
-	/// <returns></returns>
-	/// <example>
-	/// .OnCreateSet(n, new {prm._.Name, var._.Code})
-	/// result in:
-	/// ON CREATE SET n.Name = $Name, n.Code = prm.Code
-	/// </example>
-	[Cypher("$0\r\n\tON CREATE &SET +01$2")]
-	[CypherClause]
-	public static ICypherMergeStatement OnCreateSet(this ICypherMergeStatement fluent, VariableDeclaration var, object assignment) => throw new NotImplementedException();
+	public static ICypherMergeStatement OnCreateSet(this ICypherMergeStatement fluent, object var, object assignment) => throw new NotImplementedException();
 
 	#endregion // OnCreateSet
 

@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 
+using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
 using Weknow.Mapping;
@@ -20,7 +21,8 @@ namespace Weknow.CypherBuilder
     internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         private const string EXT_ASSEMBLY_NAME = "Weknow.Cypher.Builder.Extensions";
-        private static readonly char[] LABEL_SPLITTER = new[] { ':', '&', '|'};
+        private static readonly Type VARIABLE_TYPE = typeof(VariableDeclaration);
+        private static readonly char[] LABEL_SPLITTER = new[] { ':', '&', '|' };
         private const string AUTO_VAR = "$auto-var$";
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
         private int _autoVarCounter = 0;
@@ -28,6 +30,14 @@ namespace Weknow.CypherBuilder
         private readonly Flavor _flavor;
 
         private readonly HashSet<string> _ambientOnce = new();
+        private readonly HashSet<string> _isSetOperation = new(new[]
+        {
+            nameof(CypherExtensions.Set),
+            nameof(CypherExtensions.SetPlus),
+            nameof(CypherExtensions.OnCreateSet),
+            nameof(CypherExtensions.OnMatchSet),
+            nameof(CypherExtensions.OnMatchSetPlus)
+        });
         private readonly AmbientContextStack _shouldHandleAmbient = new AmbientContextStack();
         private bool _isRawChypher = false;
         private readonly IStackCancelable<bool> _shouldCreateParameter = Disposable.CreateStack(true);
@@ -452,7 +462,7 @@ namespace Weknow.CypherBuilder
                 return node;
             }
             else if (node.Expression is MemberExpression me &&
-                     typeof(VariableDeclaration).IsAssignableFrom(me.Member.DeclaringType) &&
+                     VARIABLE_TYPE.IsAssignableFrom(me.Member.DeclaringType) &&
                      !_isProperties.Value)
             {
                 Visit(me.Expression);
@@ -545,7 +555,7 @@ namespace Weknow.CypherBuilder
             else if (node.Expression is MemberExpression vme &&
                 (vme.Member.Name == nameof(VariableDeclaration<int>._) ||
                 vme.Member.Name == nameof(VariableDeclaration<int>.__))
-                && typeof(VariableDeclaration).IsAssignableFrom(vme.Member.DeclaringType))
+                && VARIABLE_TYPE.IsAssignableFrom(vme.Member.DeclaringType))
             {
                 string candidateVariable = string.Empty;
                 if (vme.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
@@ -576,9 +586,9 @@ namespace Weknow.CypherBuilder
             }
             else if (node.Expression is MethodCallExpression mce &&
                 (mce.Method.Name == "__" || mce.Method.Name == "_") &&
-                typeof(VariableDeclaration).IsAssignableFrom(mce.Method.DeclaringType))
+                VARIABLE_TYPE.IsAssignableFrom(mce.Method.DeclaringType))
             {
-                if (mce.Method.Name == "__" && mce?.Object?.Type == typeof(VariableDeclaration))
+                if (mce.Method.Name == "__" && mce?.Object?.Type == VARIABLE_TYPE)
                 {
                     string candidateVariable = $"{mce.Object}.";
                     var candidateLen = candidateVariable.Length;
@@ -586,7 +596,7 @@ namespace Weknow.CypherBuilder
                         Query?.Append(candidateVariable);
                 }
             }
-            else if (name == nameof(VariableDeclaration.NoAmbient) && node.Type == typeof(VariableDeclaration))
+            else if (name == nameof(VariableDeclaration.NoAmbient) && node.Type == VARIABLE_TYPE)
             {
                 name = node?.Expression?.ToString()!;
                 shouldTryHandleAmbient = false;
@@ -597,7 +607,7 @@ namespace Weknow.CypherBuilder
                 name = _configuration.Naming.ConvertToTypeConvention(name);
             }
             Query?.Append(name);
-            if (node?.Type == typeof(VariableDeclaration) && shouldTryHandleAmbient)
+            if (node?.Type == VARIABLE_TYPE && shouldTryHandleAmbient)
             {
                 HandleAmbientLabels(node);
             }
@@ -912,6 +922,36 @@ namespace Weknow.CypherBuilder
                                     var qlen = Query.Length;
                                     using (isLabel && prevIsVar ? _shouldHandleAmbient.Deny() : Disposable.Empty) // ambient should trigger at the variable level in order to avoid duplicates
                                     {
+                                        string op = _directOperation.State;
+
+                                        Expression zero = args[0];
+                                        bool isExtMtd = zero.Type.IsAssignableTo(typeof(ICypherStatement));
+                                        if (_isSetOperation.Contains(op) &&
+                                            args.Count == index + 2 &&
+                                            (isExtMtd && index == 1 || !isExtMtd && index == 0))
+                                        {
+                                            Expression right = args[index + 1];
+                                            if (expr.Type.IsAssignableTo(VARIABLE_TYPE) &&
+                                                right is NewExpression newExp &&
+                                                right.Type.Name.IndexOf("__AnonymousType") != -1)
+                                            {
+                                                int newIdx = 0;
+                                                var members = newExp.Members;
+                                                foreach (var nprop in newExp.Arguments)
+                                                {
+                                                    string name = members[newIdx].Name;
+                                                    if (newIdx++ != 0)
+                                                        Query.Append(", ");
+                                                    Visit(expr);
+                                                    Query.Append(".");
+                                                        Query.Append(name);
+                                                    Query.Append(" = ");
+                                                    Visit(nprop);
+                                                }
+                                                i = format.Length;
+                                                break;
+                                            }
+                                        }
                                         Visit(expr);
                                     }
                                     if (isVar)

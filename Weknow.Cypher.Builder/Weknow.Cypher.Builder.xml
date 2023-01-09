@@ -952,7 +952,7 @@
             ON CREATE SET n = map
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,System.Object,System.Object)">
             <summary>
             ON CREATE SET phrase.
             </summary>
@@ -964,34 +964,6 @@
             .OnCreateSet(n, map)
             result in:
             ON CREATE SET n = map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.ParameterDeclaration)">
-            <summary>
-            ON CREATE SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .OnCreateSet(n, map)
-            result in:
-            ON CREATE SET n = $map
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.OnCreateSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Object)">
-            <summary>
-            ON CREATE SET phrase.
-            </summary>
-            <param name="fluent">The fluent.</param>
-            <param name="var"></param>
-            <param name="assignment"></param>
-            <returns></returns>
-            <example>
-            .OnCreateSet(n, new {prm._.Name, var._.Code})
-            result in:
-            ON CREATE SET n.Name = $Name, n.Code = prm.Code
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.OnMatchSet(Weknow.Cypher.Builder.Fluent.ICypherMergeStatement,Weknow.CypherBuilder.IRawCypher)">
