@@ -104,7 +104,7 @@ public class CypherNamingConfig
         {
             CypherNamingConvention.SCREAMING_CASE => text.ToSCREAMING(),
             CypherNamingConvention.camelCase => text.ToCamelCase(),
-            CypherNamingConvention.PacalCase => text.ToCamelCase(),
+            CypherNamingConvention.PacalCase => text.ToPascalCase(),
             _ => text
         };
     }

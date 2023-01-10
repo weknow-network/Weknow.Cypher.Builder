@@ -18,6 +18,8 @@ namespace Weknow.CypherBuilder
         protected readonly ITestOutputHelper _outputHelper;
         private IType Like => IType.Fake;
         private ILabel Person => ILabel.Fake;
+        private ILabel BestSeller => ILabel.Fake;
+        private ILabel BOOK => ILabel.Fake;
 
         #region Ctor
 
@@ -50,13 +52,38 @@ namespace Weknow.CypherBuilder
                         }    );
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
             Assert.Equal(@"CREATE (f:GIT_HUB)
 RETURN f"
                            , cypher.Query);
         }
 
         #endregion // Blank_Label_Convention_Test
+
+        #region Pascal_Label_Camel_Type_Convention_Test
+
+        [Fact]
+        public void Pascal_Label_Camel_Type_Convention_Test()
+        {
+            var f = Variables.Create();
+
+            CypherCommand cypher =
+                        _(() =>
+                         Create(N(f, BestSeller) - R[BestSeller.R]>N(BOOK))
+                         .Return(f)
+                        , cfg =>
+                        {
+                            cfg.AmbientLabels.Add("git-hub");
+                            cfg.Naming.LabelConvention = CypherNamingConvention.PacalCase;
+                            cfg.Naming.TypeConvention = CypherNamingConvention.camelCase;
+                        }    );
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(@"CREATE (f:GitHub:BestSeller)-[:bestSeller]->(:Book:GitHub)
+RETURN f"
+                           , cypher.Query);
+        }
+
+        #endregion // Pascal_Label_Camel_Type_Convention_Test
 
         #region Blank_ILabel_Convention_Test
 
