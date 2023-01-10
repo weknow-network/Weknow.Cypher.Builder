@@ -2,6 +2,8 @@
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor.  
 
+using Weknow.Cypher.Builder.Fluent;
+
 namespace Weknow.CypherBuilder.Declarations
 {
     /// <summary>
@@ -87,7 +89,7 @@ namespace Weknow.CypherBuilder.Declarations
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public class VariableDeclaration
+    public class VariableDeclaration: ICypherToken
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private protected VariableDeclaration() { }

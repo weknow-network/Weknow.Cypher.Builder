@@ -1,4 +1,6 @@
-﻿namespace Weknow.CypherBuilder
+﻿using Weknow.Cypher.Builder.Fluent;
+
+namespace Weknow.CypherBuilder
 {
 
     /// <summary>
@@ -12,7 +14,7 @@
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface ILabel
+    public interface ILabel: ICypherToken
     {
         /// <summary>
         /// Creates a mock object's label.

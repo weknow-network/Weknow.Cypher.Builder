@@ -1,4 +1,6 @@
-﻿namespace Weknow.CypherBuilder.Declarations;
+﻿using Weknow.Cypher.Builder.Fluent;
+
+namespace Weknow.CypherBuilder.Declarations;
 
 #pragma warning disable CS0660 // Type defines operator == or operator != but does not override Object.Equals(object o)
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
@@ -14,7 +16,7 @@
 /// Primitives don't have actual implementation, 
 /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
 /// </remarks>
-public class ParameterDeclaration
+public class ParameterDeclaration: ICypherToken
 {
     private protected ParameterDeclaration() { }
 

@@ -1328,13 +1328,30 @@ public static partial class CypherExtensions
 	[CypherClause]
 	public static FluentCase Else(this FluentCase prv, string value) => throw new NotImplementedException();
 
-	#endregion // Else
+    #endregion // Else
 
-	#region End
+    #region End
 
-	[Cypher("$0\r\nEND")]
+    /// <summary>
+    /// Ends of Case statement.
+    /// </summary>
+    /// <param name="prv"></param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    [Cypher("$0\r\nEND")]
 	[CypherClause]
 	public static ICypherStatement End(this FluentCase prv) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Ends of Case statement which enable to alter the type.
+	/// Can be useful for case statement which switch Labels or Types
+    /// </summary>
+    /// <param name="prv"></param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+	[Cypher("$0\r\nEND")]
+	[CypherClause]
+	public static T End<T>(this FluentCase prv) /* where T: ICypherToken */ => throw new NotImplementedException();
 
 	#endregion // End
 

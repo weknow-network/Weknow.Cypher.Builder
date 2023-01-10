@@ -86,6 +86,33 @@ public class CaseTests
 
     #endregion // CASE n.Color WHEN 'Blue' THEN '$100' ..
 
+    #region CASE n.Color WHEN 'Blue' THEN '$100' ..
+
+    [Fact]
+    public void Case_Label_Test()
+    {
+        var n = Variables.Create<Surface>();
+        CypherCommand cypher = _(v =>
+                                Match(N(n))
+                                .Where(
+                                Case(n.__.Color)
+                                .When(nameof(ConsoleColor.Blue)).Then(true)
+                                .When(nameof(ConsoleColor.Yellow)).Then(true)
+                                .Else(false)
+                                .End<bool>()));
+
+        _outputHelper.WriteLine(cypher);
+        Assert.Equal($"MATCH (n){NewLine}" +
+                     $"WHERE CASE n.Color{NewLine}" +
+                     $"\tWHEN 'Blue' THEN True{NewLine}" +
+                     $"\tWHEN 'Yellow' THEN True{NewLine}" +
+                     $"\tELSE False{NewLine}" +
+                     $"END"
+                       , cypher.Query);
+    }
+
+    #endregion // CASE n.Color WHEN 'Blue' THEN '$100' ..
+
     #region CASE $delimiter WHEN 7 THEN 2 ..
 
     [Fact]

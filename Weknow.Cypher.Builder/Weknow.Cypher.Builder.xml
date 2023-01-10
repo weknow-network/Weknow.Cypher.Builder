@@ -1771,6 +1771,23 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.End(Weknow.CypherBuilder.CypherDelegates.FluentCase)">
+            <summary>
+            Ends of Case statement.
+            </summary>
+            <param name="prv"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.End``1(Weknow.CypherBuilder.CypherDelegates.FluentCase)">
+            <summary>
+            Ends of Case statement which enable to alter the type.
+            Can be useful for case statement which switch Labels or Types
+            </summary>
+            <param name="prv"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.NoAmbient(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.Cypher.Builder.Fluent.ICypherStatement)">
             <summary>
             Avoid adding ambient labels within this scope

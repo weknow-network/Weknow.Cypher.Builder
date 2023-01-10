@@ -1,4 +1,6 @@
-﻿namespace Weknow.CypherBuilder
+﻿using Weknow.Cypher.Builder.Fluent;
+
+namespace Weknow.CypherBuilder
 {
     /// <summary>
     /// Relation's Type primitive for the Cypher expression.
@@ -11,7 +13,7 @@
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public interface IType
+    public interface IType: ICypherToken
     {
         /// <summary>
         /// Creates a mock object's type.
