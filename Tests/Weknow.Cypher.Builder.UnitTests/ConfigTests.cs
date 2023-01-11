@@ -273,7 +273,6 @@ RETURN f"
 
         #endregion // NoAmbient_Empty_Label_Convention_Context_Test
 
-
         #region MATCH (n:Person { Id: $Id }) SET n:Person:Manager
 
         [Fact]
@@ -317,6 +316,7 @@ RETURN f"
                         );
 
             _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"CREATE (f:PERSON $f)
 RETURN f"
                            , cypher.Query);
@@ -349,7 +349,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"CREATE (f:GIT_HUB:MICROSOFT:GOOGLE:PERSON $f)
 RETURN f"
                            , cypher.Query);
@@ -382,7 +382,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"CREATE (f:gitHub:microsoft:google:person $f)
 RETURN f"
                            , cypher.Query);
@@ -409,7 +409,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(
                 "MATCH (mtc:GIT_HUB&PROD&PERSON $mtc)" 
                            , cypher.Query);
@@ -440,7 +440,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(
                 $"MATCH (mtc:GIT_HUB&PROD&PERSON $mtc){NewLine}" +
                 $"MERGE (mrg:GIT_HUB:PROD:PERSON {{ Name: $mrg.Name, Color: $mrg.Color }}){NewLine}" +
@@ -467,7 +467,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"MATCH (n:GIT_HUB)"
                            , cypher.Query);
         }
@@ -489,7 +489,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"MATCH (n:GIT_HUB:PERSON)-[:Like]->(:PERSON:GIT_HUB)"
                            , cypher.Query);
         }
@@ -517,7 +517,7 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal($"MATCH (n:GIT_HUB:PERSON){NewLine}" +
                          $"WHERE n.FirstName = $p_0{NewLine}" +
                          $"MATCH (m:GIT_HUB:PERSON){NewLine}" +
@@ -546,12 +546,40 @@ RETURN f"
                         });
 
             _outputHelper.WriteLine(cypher);
-            _outputHelper.WriteLine(cypher);
+
             Assert.Equal(@"MATCH (n:GIT_HUB:PERSON)-[r:LIKE]->(:PERSON:GIT_HUB)"
                            , cypher.Query);
         }
 
         #endregion // Type_Variable_Convention_Test
+
+        #region ParamEnum_Convention_Test
+
+        [Fact]
+        public void ParamEnum_Convention_Test()
+        {
+            var n = Variables.Create<Surface>();
+
+            CypherCommand cypher =
+                        _(() =>
+                                Match(N(n, Person))
+                                .Where(n.__.Color == ConsoleColor.Cyan)
+                        , cfg =>
+                        {
+                            cfg.Parameters.EnumAsString= true;
+                        });
+
+            _outputHelper.WriteLine(cypher);
+
+            Assert.Equal($"MATCH (n:Person){NewLine}" +
+                "WHERE n.Color = $p_0"
+                           , cypher.Query);
+            Assert.Single(cypher.Parameters);
+            Assert.Equal(nameof(ConsoleColor.Cyan), cypher.Parameters["p_0"]);
+            Assert.NotEqual(ConsoleColor.Cyan, cypher.Parameters["p_0"]);
+        }
+
+        #endregion // ParamEnum_Convention_Test
 
         #region Type_Variable_Avoid_Convention_Test
 

@@ -8,23 +8,26 @@ namespace Weknow.CypherBuilder
     public class CypherParameters : IEnumerable<KeyValuePair<string, object?>>
     {
         private ImmutableDictionary<string, object?> _parameters = ImmutableDictionary<string, object?>.Empty;
+        private readonly CypherParamConfig? _config;
 
         #region Ctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CypherParameters"/> class.
         /// </summary>
-        public CypherParameters()
+        public CypherParameters(CypherParamConfig? config)
         {
+            _config = config;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CypherParameters"/> class.
         /// </summary>
         /// <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        public CypherParameters(IDictionary<string, object?> dictionary)
+        public CypherParameters(IDictionary<string, object?> dictionary, CypherParamConfig? config)
         {
             _parameters = ImmutableDictionary.CreateRange(dictionary);
+            _config = config;
         }
 
         #endregion // Ctor
@@ -59,6 +62,8 @@ namespace Weknow.CypherBuilder
                 return this;
             if (value is IDictionaryable da)
                 _parameters = parameters.Add(key, da.ToDictionary());
+            else if (value is Enum && (_config?.EnumAsString ?? true))
+                _parameters = parameters.Add(key, value.ToString());
             //else if (value is ValueType vt)
             //    _parameters[key] = vt;
             else
@@ -148,6 +153,8 @@ namespace Weknow.CypherBuilder
             }
             if (value is IDictionaryable da)
                 _parameters = parameters.Add(key, da.ToDictionary());
+            else if (value is Enum && (_config?.EnumAsString ?? true))
+                _parameters = parameters.Add(key, value.ToString());
             //else if (value is ValueType vt)
             //    _parameters[key] = vt;
             else

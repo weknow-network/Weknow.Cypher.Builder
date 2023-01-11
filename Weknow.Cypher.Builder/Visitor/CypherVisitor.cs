@@ -76,6 +76,7 @@ namespace Weknow.CypherBuilder
         {
             _configuration = configuration;
             _flavor = configuration.Flavor;
+            _parameters = new CypherParameters(configuration.Parameters);
         }
 
         #endregion // Ctor
@@ -104,7 +105,7 @@ namespace Weknow.CypherBuilder
 
         #region Parameters
 
-        public CypherParameters _parameters = new CypherParameters();
+        public CypherParameters _parameters;
 
         /// <summary>
         /// Mutable state of the parameters.

@@ -47,6 +47,15 @@ public class CypherNamingConfig
 
     #endregion // TypeConvention
 
+    #region PropertyConvention
+
+    /// <summary>
+    /// Gets or sets the property's convention.
+    /// </summary>
+    public CypherNamingConvention PropertyConvention { get; set; } = CypherNamingConvention.Default;
+
+    #endregion // PropertyConvention
+
     #region ConvertToTypeConvention
 
     /// <summary>

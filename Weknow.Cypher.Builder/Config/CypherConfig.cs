@@ -20,6 +20,7 @@ public class CypherConfig
         AmbientLabels = new CypherAmbientLabelConfig(this);
         Naming = new CypherNamingConfig(this);
         Time = new ConfigTimeConvention();
+        Parameters = new CypherParamConfig(this);
     }
 
     /// <summary>
@@ -41,4 +42,9 @@ public class CypherConfig
     /// Gets the date/time convention.
     /// </summary>
     public ConfigTimeConvention Time { get; private set; }
+
+    /// <summary>
+    /// Ambient Label configuration
+    /// </summary>
+    public CypherParamConfig Parameters { get; }
 }

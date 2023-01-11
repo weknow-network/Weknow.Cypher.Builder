@@ -100,6 +100,11 @@
             Gets the date/time convention.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.CypherConfig.Parameters">
+            <summary>
+            Ambient Label configuration
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherNamingConvention">
             <summary>
             Formatting options
@@ -347,6 +352,11 @@
             Gets or sets the type's convention.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.CypherNamingConfig.PropertyConvention">
+            <summary>
+            Gets or sets the property's convention.
+            </summary>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherNamingConfig.ConvertToTypeConvention(System.String)">
             <summary>
             Converts to type convention.
@@ -375,6 +385,32 @@
             <returns></returns>
         </member>
         <member name="P:Weknow.CypherBuilder.CypherNamingConfig.Parent">
+            <summary>
+            Gets the parent configuration.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherParamConfig">
+            <summary>
+            Label configuration
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParamConfig.#ctor(Weknow.CypherBuilder.CypherConfig)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParamConfig" /> class.
+            </summary>
+            <param name="parent">The parent.</param>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherParamConfig.Convention">
+            <summary>
+            Gets or sets the property's convention.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherParamConfig.EnumAsString">
+            <summary>
+            Gets or sets the convert enum to string.
+            </summary>
+        </member>
+        <member name="P:Weknow.CypherBuilder.CypherParamConfig.Parent">
             <summary>
             Gets the parent configuration.
             </summary>
@@ -2027,12 +2063,12 @@
             Cypher Parameters representation
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(Weknow.CypherBuilder.CypherParamConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object},Weknow.CypherBuilder.CypherParamConfig)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
             </summary>
