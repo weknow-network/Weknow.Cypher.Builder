@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
+using Microsoft.VisualBasic;
+
 using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
@@ -23,11 +25,13 @@ namespace Weknow.CypherBuilder
     {
         private const string EXT_ASSEMBLY_NAME = "Weknow.Cypher.Builder.Extensions";
         private static readonly Type VARIABLE_TYPE = typeof(VariableDeclaration);
+        private static readonly Type PARAMETER_TYPE = typeof(ParameterDeclaration);
         private static readonly string __ = nameof(VariableDeclaration<int>.__);
         private static readonly string _ = nameof(VariableDeclaration<int>._);
         private static readonly char[] LABEL_SPLITTER = new[] { ':', '&', '|' };
         private const string AUTO_VAR = "$auto-var$";
         private static readonly int AUTO_VAR_LEN = AUTO_VAR.Length;
+
         private int _autoVarCounter = 0;
         private readonly CypherConfig _configuration;
         private readonly Flavor _flavor;
@@ -49,6 +53,9 @@ namespace Weknow.CypherBuilder
 
         private readonly ContextValue<bool> _isProperties = new ContextValue<bool>(false);
 
+        private readonly IStackCancelable<bool> _isLastArg = Disposable.CreateStack(false);
+        private readonly IStackCancelable<int> _fmtIdex = Disposable.CreateStack(0);
+        private readonly IStackCancelable<ExpressionType?> _expType = Disposable.CreateStack<ExpressionType?>(null);
 
         // track the recent cypher operator (in contrast with _methodExpr which pick specific operators)
         private readonly IStackCancelable<string> _directOperation = Disposable.CreateStack(string.Empty);
@@ -452,16 +459,23 @@ namespace Weknow.CypherBuilder
             string name = node.Member.Name;
 
             var pi = node.Member as PropertyInfo;
-
+            
+            bool isMerge = _directOperation.State == nameof(ICypher.Merge);
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
                 return node;
+
+            #region As
 
             if (_directOperation.State == "As")
             {
                 Query.Append(name);
                 return node;
             }
+
+            #endregion // As
+
+            #region Inc
 
             if (node.Expression is MemberExpression mme && mme.Member.Name == nameof(VariableDeclaration<int>.Inc))
             {
@@ -472,7 +486,19 @@ namespace Weknow.CypherBuilder
                 return node;
             }
 
-            if ((node.Type == typeof(INode) || node.Type == typeof(IRelation) || node.Type == typeof(INodeRelation) || node.Type == typeof(IRelationNode)) &&
+            #endregion // Inc
+
+            bool isPrm = PARAMETER_TYPE.IsAssignableFrom(node.Type);
+            bool isVar = VARIABLE_TYPE.IsAssignableFrom(node.Type);
+            bool isIPattern = typeof(IPattern).IsAssignableFrom(node.Type);
+            //bool isINode = node.Type == typeof(INode);
+            //bool isIRelation = node.Type == typeof(IRelation);
+            //bool isINodeRelation = node.Type == typeof(INodeRelation);
+            //bool isIRelationNode = node.Type == typeof(IRelationNode);
+            var shouldDeconstruct = isMerge && _isLastArg.State && _fmtIdex.State != 0 && _expType.State != ExpressionType.New && (isPrm || isVar);
+
+
+            if (isIPattern &&
                     node.Expression is ConstantExpression c &&
                     node.Member is FieldInfo fi &&
                     fi.GetValue(c.Value) is ExpressionPattern p)
@@ -501,9 +527,11 @@ namespace Weknow.CypherBuilder
                 }
             }
 
-            if (typeof(ParameterDeclaration).IsAssignableFrom(node.Type))
+            if (isPrm)
             {
-                Query.Append("$");
+                if (!shouldDeconstruct)
+                    Query.Append("$");
+
                 if (node.Member.Name is (nameof(VariableDeclaration.AsParameter)) or (nameof(VariableDeclaration.Prm)))
                 {
                     if (node.Expression is MemberExpression nme)
@@ -567,7 +595,7 @@ namespace Weknow.CypherBuilder
                     _parameters.AddOrUpdate<object?>(prmName, null);
             }
             else if (node.Expression is MemberExpression me__ && me__.Member.Name == nameof(ParameterDeclaration<int>.__)
-                && typeof(ParameterDeclaration).IsAssignableFrom(me__.Member.DeclaringType))
+                && PARAMETER_TYPE.IsAssignableFrom(me__.Member.DeclaringType))
             {
                 Query.Append("$");
                 if (me__.Expression is UnaryExpression ue && ue.NodeType == ExpressionType.Not &&
@@ -611,7 +639,7 @@ namespace Weknow.CypherBuilder
                 }
             }
             else if (node.Expression is MethodCallExpression pme && pme.Method.Name == _
-                && typeof(ParameterDeclaration).IsAssignableFrom(pme.Method.DeclaringType))
+                && PARAMETER_TYPE.IsAssignableFrom(pme.Method.DeclaringType))
             {
                 Query.Append("$");
                 if (!Parameters.ContainsKey(name))
@@ -639,7 +667,21 @@ namespace Weknow.CypherBuilder
             {
                 name = _configuration.Naming.ConvertToTypeConvention(name);
             }
-            Query?.Append(name);
+            if (shouldDeconstruct)
+            {
+                if (!node.Type.IsGenericType)
+                    throw new ArgumentException("None generic variable/parameter is not allowed within a 'Merge' operation, use anonymous type instead");
+                var genArgs = node.Type.GetGenericArguments();
+                if (genArgs.Length != 1)
+                    throw new NotSupportedException("'Merge' operation support only variable of parameter with a single generic argument, use anonymous type instead");
+                var props = genArgs[0]
+                                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                                .Select(m => $"{m.Name}: ${name}.{m.Name}");
+                var mrgProps = string.Join(", ", props);
+                Query!.Append($$"""{ {{mrgProps}} }""");
+            }
+            else
+                Query?.Append(name);
             if (node?.Type == VARIABLE_TYPE && shouldTryHandleAmbient)
             {
                 HandleAmbientLabels(node);
@@ -918,6 +960,9 @@ namespace Weknow.CypherBuilder
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
+                            using var expType = _expType.Push(expr.NodeType);
+                            using var isLastArg = _isLastArg.Push(index == args.Count - 1);
+                            using var fmtIdx = _fmtIdex.Push(index);
                             bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputCollectionAttribute>() != null;
                             IDisposable inputScope = Disposable.Empty;
                             if (isCypherInput != _isCypherInput.State)

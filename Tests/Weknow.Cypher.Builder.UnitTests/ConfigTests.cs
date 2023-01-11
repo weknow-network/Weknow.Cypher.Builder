@@ -423,11 +423,12 @@ RETURN f"
         public void Label_Convention_Test()
         {
             var f = Variables.Create();
+            var mrg = Variables.Create<Surface>();
 
             CypherCommand cypher =
-                        _((c, mtc, mrg) =>
+                        _((c, mtc) =>
                          Match(N(mtc, Person, mtc.AsParameter))
-                         .Merge(N(mrg, Person, mrg.AsParameter))
+                         .Merge(N(mrg, Person, mrg.Prm))
                          .Create(N(c, Person, c.AsParameter))
                          .Return(c, mrg, mtc)
                         , cfg =>
@@ -442,7 +443,7 @@ RETURN f"
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
                 $"MATCH (mtc:GIT_HUB&PROD&PERSON $mtc){NewLine}" +
-                $"MERGE (mrg:GIT_HUB:PROD:PERSON $mrg){NewLine}" +
+                $"MERGE (mrg:GIT_HUB:PROD:PERSON {{ Name: $mrg.Name, Color: $mrg.Color }}){NewLine}" +
                 $"CREATE (c:GIT_HUB:PROD:PERSON $c){NewLine}" +
                 "RETURN c, mrg, mtc"
                            , cypher.Query);

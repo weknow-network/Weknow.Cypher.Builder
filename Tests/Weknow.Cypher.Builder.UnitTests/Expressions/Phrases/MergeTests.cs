@@ -431,6 +431,57 @@ namespace Weknow.CypherBuilder
 
         #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.PropA = $p.PropA
 
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        [Fact]
+        public void Merge_Object_Param_Deconstruct_Test()
+        {
+            var p = Parameters.Create<Surface>();
+
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, p)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Name: $p.Name, Color: $p.Color })", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        [Fact]
+        public void Merge_Object_Param_OfVar_Deconstruct_Test()
+        {
+            var p = Variables.Create<Surface>();
+
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, p.Prm)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Name: $p.Name, Color: $p.Color })", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        [Fact]
+        public void Merge_Object_Var_Deconstruct_Test()
+        {
+            var p = Variables.Create<Surface>();
+
+            CypherCommand cypher = _(n =>
+                                    Merge(N(n, Person, p)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                "MERGE (n:Person { Name: $p.Name, Color: $p.Color })", cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
         // TODO: 
         /*
          MERGE (n:Person {name: $value})
