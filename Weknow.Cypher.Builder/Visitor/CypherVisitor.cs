@@ -674,9 +674,10 @@ namespace Weknow.CypherBuilder
                 var genArgs = node.Type.GetGenericArguments();
                 if (genArgs.Length != 1)
                     throw new NotSupportedException("'Merge' operation support only variable of parameter with a single generic argument, use anonymous type instead");
+                string prefix = isVar ? string.Empty : "$";
                 var props = genArgs[0]
                                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                                .Select(m => $"{m.Name}: ${name}.{m.Name}");
+                                .Select(m => $"{m.Name}: {prefix}{name}.{m.Name}");
                 var mrgProps = string.Join(", ", props);
                 Query!.Append($$"""{ {{mrgProps}} }""");
             }
@@ -876,9 +877,11 @@ namespace Weknow.CypherBuilder
                 var genArgs = node.Type.GetGenericArguments();
                 if (genArgs.Length != 1)
                     throw new NotSupportedException("'Merge' operation support only variable of parameter with a single generic argument, use anonymous type instead");
+                bool isVar = node.Type.IsAssignableTo<VariableDeclaration>();
+                string prefix = isVar ? string.Empty : "$";
                 var props = genArgs[0]
                                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                                .Select(m => $"{m.Name}: ${name}.{m.Name}");
+                                .Select(m => $"{m.Name}: {prefix}{name}.{m.Name}");
                 var mrgProps = string.Join(", ", props);
                 Query!.Append($$"""{ {{mrgProps}} }""");
             }

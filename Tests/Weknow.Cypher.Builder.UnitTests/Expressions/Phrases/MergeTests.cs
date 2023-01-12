@@ -477,7 +477,7 @@ namespace Weknow.CypherBuilder
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MERGE (n:Person { Name: $p.Name, Color: $p.Color })", cypher.Query);
+                "MERGE (n:Person { Name: p.Name, Color: p.Color })", cypher.Query);
         }
 
         #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
@@ -497,7 +497,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal(
                         """
                         UNWIND $p AS item
-                        MERGE (n:Person { Name: $item.Name, Color: $item.Color })
+                        MERGE (n:Person { Name: item.Name, Color: item.Color })
                         """
                         , cypher.Query);
         }
