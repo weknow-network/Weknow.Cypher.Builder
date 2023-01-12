@@ -482,6 +482,28 @@ namespace Weknow.CypherBuilder
 
         #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
 
+        #region MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
+        [Fact]
+        public void Unwind_Merge_Object_Param_Deconstruct_Test()
+        {
+            var p = Parameters.Create<Surface>();
+
+            CypherCommand cypher = _(n =>
+                                    Unwind(p, item =>
+                                    Merge(N(n, Person, item))));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                        """
+                        UNWIND $p AS item
+                        MERGE (n:Person { Name: $item.Name, Color: $item.Color })
+                        """
+                        , cypher.Query);
+        }
+
+        #endregion // MERGE (n:Person { Id: $p.Id }) ON CREATE SET n.Name = $p.Name
+
         // TODO: 
         /*
          MERGE (n:Person {name: $value})

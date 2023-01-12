@@ -460,7 +460,6 @@ namespace Weknow.CypherBuilder
 
             var pi = node.Member as PropertyInfo;
             
-            bool isMerge = _directOperation.State == nameof(ICypher.Merge);
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
                 return node;
@@ -488,6 +487,7 @@ namespace Weknow.CypherBuilder
 
             #endregion // Inc
 
+            //bool isMerge = _directOperation.State == nameof(ICypher.Merge);
             bool isPrm = PARAMETER_TYPE.IsAssignableFrom(node.Type);
             bool isVar = VARIABLE_TYPE.IsAssignableFrom(node.Type);
             bool isIPattern = typeof(IPattern).IsAssignableFrom(node.Type);
@@ -495,7 +495,7 @@ namespace Weknow.CypherBuilder
             //bool isIRelation = node.Type == typeof(IRelation);
             //bool isINodeRelation = node.Type == typeof(INodeRelation);
             //bool isIRelationNode = node.Type == typeof(IRelationNode);
-            var shouldDeconstruct = isMerge && _isLastArg.State && _fmtIdex.State != 0 && _expType.State != ExpressionType.New && (isPrm || isVar);
+            var shouldDeconstruct = ShouldDeconstruct(node);
 
 
             if (isIPattern &&
@@ -865,9 +865,25 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitParameter(ParameterExpression node)
         {
+            var shouldDeconstruct = ShouldDeconstruct(node);
             string? name = node.Name;
             if (name == null) throw new ArgumentNullException("VisitParameter");
-            Query.Append(name);
+
+            if (shouldDeconstruct)
+            {
+                if (!node.Type.IsGenericType)
+                    throw new ArgumentException("None generic variable/parameter is not allowed within a 'Merge' operation, use anonymous type instead");
+                var genArgs = node.Type.GetGenericArguments();
+                if (genArgs.Length != 1)
+                    throw new NotSupportedException("'Merge' operation support only variable of parameter with a single generic argument, use anonymous type instead");
+                var props = genArgs[0]
+                                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                                .Select(m => $"{m.Name}: ${name}.{m.Name}");
+                var mrgProps = string.Join(", ", props);
+                Query!.Append($$"""{ {{mrgProps}} }""");
+            }
+            else
+                Query.Append(name);
 
             //HandleAmbientLabels(node);
 
@@ -1092,6 +1108,19 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // ApplyFormat
+
+        #region ShouldDeconstruct
+
+        private bool ShouldDeconstruct(Expression node)
+        {
+            bool isMerge = _directOperation.State == nameof(ICypher.Merge);
+            bool isPrm = PARAMETER_TYPE.IsAssignableFrom(node.Type);
+            bool isVar = VARIABLE_TYPE.IsAssignableFrom(node.Type);
+            var shouldDeconstruct = isMerge && _isLastArg.State && _fmtIdex.State != 0 && _expType.State != ExpressionType.New && (isPrm || isVar);
+            return shouldDeconstruct;
+        }
+
+        #endregion // ShouldDeconstruct
 
         #region EqualPattern
 
