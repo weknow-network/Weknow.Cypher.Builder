@@ -1,7 +1,4 @@
-﻿using Weknow.CypherBuilder;
-
-
-namespace Weknow.GraphDbClient.Abstraction;
+﻿namespace Weknow.GraphDbClient.Abstraction;
 
 
 public interface IGraphDBTransaction : IGraphDBRunner, IAsyncDisposable

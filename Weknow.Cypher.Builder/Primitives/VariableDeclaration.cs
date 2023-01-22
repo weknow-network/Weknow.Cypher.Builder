@@ -74,8 +74,8 @@ namespace Weknow.CypherBuilder.Declarations
 
     }
 
-    public class TimeVariableDeclaration: VariableDeclaration
-    { 
+    public class TimeVariableDeclaration : VariableDeclaration
+    {
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ namespace Weknow.CypherBuilder.Declarations
     /// Primitives don't have actual implementation, 
     /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
     /// </remarks>
-    public class VariableDeclaration: ICypherToken
+    public class VariableDeclaration : ICypherToken
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private protected VariableDeclaration() { }
@@ -252,7 +252,7 @@ namespace Weknow.CypherBuilder.Declarations
         /// <summary>
         /// Avoid ambient label attachment
         /// </summary>
-        public VariableDeclaration NoAmbient { get; }  
+        public VariableDeclaration NoAmbient { get; }
     }
 
 }

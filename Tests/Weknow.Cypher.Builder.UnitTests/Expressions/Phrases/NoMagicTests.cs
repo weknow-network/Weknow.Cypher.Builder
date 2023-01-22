@@ -141,7 +141,7 @@ namespace Weknow.CypherBuilder
         {
             var (a, b) = Parameters.CreateMulti<string, string>();
             var Id = Parameters.Create();
-            var n = Variables.Create(); 
+            var n = Variables.Create();
 
             CypherCommand cypher = _(() =>
                                     Merge(N(n, Person, new { Id }))

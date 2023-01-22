@@ -1,12 +1,8 @@
 using Xunit;
 using Xunit.Abstractions;
 
-using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
-using static Weknow.CypherBuilder.ICypherHigerAbstraction;
 using static Weknow.CypherBuilder.Schema;
-using Weknow.CypherBuilder.Declarations;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Weknow.CypherBuilder
 {
@@ -32,7 +28,7 @@ namespace Weknow.CypherBuilder
         public void MergeSetDateConvention_Test()
         {
             CypherCommand cypher = _(n =>
-                                        Merge(N(n, Person, new { id = 1}))
+                                        Merge(N(n, Person, new { id = 1 }))
                                         .SetDateConvention(n));
 
             _outputHelper.WriteLine(cypher);
@@ -55,7 +51,7 @@ namespace Weknow.CypherBuilder
         public void CreateSetDateConvention_Test()
         {
             CypherCommand cypher = _(n =>
-                                        Create(N(n, Person, new { id = 1}))
+                                        Create(N(n, Person, new { id = 1 }))
                                         .SetDateConvention(n));
 
             _outputHelper.WriteLine(cypher);

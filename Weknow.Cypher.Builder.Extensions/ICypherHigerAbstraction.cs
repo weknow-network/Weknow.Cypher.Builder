@@ -1,9 +1,4 @@
-﻿using Weknow.Cypher.Builder.Fluent;
-using Weknow.CypherBuilder.Declarations;
-
-using static Weknow.CypherBuilder.CypherDelegates;
-
-namespace Weknow.CypherBuilder;
+﻿namespace Weknow.CypherBuilder;
 
 /// <summary>
 /// Cypher Extensions

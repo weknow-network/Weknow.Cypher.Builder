@@ -80,7 +80,7 @@ public abstract class BaseApiTests : BaseIntegrationTests
     {
         CypherConfig.Scope.Value = CONFIGURATION;
 
-        CypherCommand cypher = _((n, m) => 
+        CypherCommand cypher = _((n, m) =>
                                 Unwind(new[] { 1, 2, 3 }, item =>
                                 Create(N(n, Person, new { id = item }) - R[Knows] > N(m, Friend))));
 

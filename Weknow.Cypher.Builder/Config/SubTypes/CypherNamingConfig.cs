@@ -1,5 +1,4 @@
 ﻿using Pluralize.NET;
-using Weknow.CypherBuilder;
 
 namespace Weknow.CypherBuilder;
 

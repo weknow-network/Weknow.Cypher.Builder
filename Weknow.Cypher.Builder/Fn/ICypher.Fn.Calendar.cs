@@ -8,7 +8,7 @@ namespace Weknow.CypherBuilder;
 /// <summary>
 /// Cypher Function Extensions
 /// </summary>
-partial interface ICypher
+public partial interface ICypher
 {
     partial interface IFn
     {
@@ -17,7 +17,7 @@ partial interface ICypher
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public ICypherCalendar Cal=> throw new NotImplementedException();
+        public ICypherCalendar Cal => throw new NotImplementedException();
         /// <summary>
         /// Calendar functions.
         /// </summary>

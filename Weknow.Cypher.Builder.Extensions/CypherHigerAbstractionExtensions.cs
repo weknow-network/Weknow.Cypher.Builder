@@ -1,15 +1,13 @@
 ﻿using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 
-using static Weknow.CypherBuilder.CypherDelegates;
-
 namespace Weknow.CypherBuilder;
 
 
 /// <summary>
 /// Cypher Extensions
 /// </summary>
-public static  class CypherHigerAbstractionExtensions
+public static class CypherHigerAbstractionExtensions
 {
     [Cypher("$0\r\n")]
     public static ICypherProc Proc(this ICypherStatement prev) => throw new NotImplementedException();

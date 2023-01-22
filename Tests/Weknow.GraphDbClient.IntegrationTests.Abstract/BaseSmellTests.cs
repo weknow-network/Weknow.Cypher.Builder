@@ -1,8 +1,6 @@
 using System.Data;
 using System.Text.Json.Serialization;
 
-using Neo4j.Driver;
-
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
@@ -32,10 +30,10 @@ internal partial record Someone(int Id, string Name, int Age);
 internal partial record Sometime
 {
     public required string Name { get; init; }
-    public  DateTimeOffset Birthday { get; init; }
-    public  DateTimeOffset Local { get; init; }
-    public  DateTime IssueDate { get; init; }
-    public  TimeSpan At { get; init; }
+    public DateTimeOffset Birthday { get; init; }
+    public DateTimeOffset Local { get; init; }
+    public DateTime IssueDate { get; init; }
+    public TimeSpan At { get; init; }
 }
 
 [Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
@@ -45,7 +43,7 @@ internal partial record DateConvensionEntity
     [JsonPropertyName("creation-date")]
     public required DateTimeOffset CreatedAt { get; init; }
     [JsonPropertyName("modification-date")]
-    public  DateTimeOffset? ModifiedAt { get; init; }
+    public DateTimeOffset? ModifiedAt { get; init; }
 }
 
 //    //[Trait("Group", "Predicates")]
@@ -374,7 +372,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         CypherCommand cypher = _(p =>
                                 Merge(N(p, Person,
-                                new 
+                                new
                                 {
                                     Id = "merge-date-convention"
                                 }))
@@ -411,7 +409,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         CypherCommand cypher = _(p =>
                                 Create(N(p, Person,
-                                new 
+                                new
                                 {
                                     Id = "merge-date-convention"
                                 }))

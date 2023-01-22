@@ -2,7 +2,6 @@ using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Weknow.CypherBuilder.CypherExtensions;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;

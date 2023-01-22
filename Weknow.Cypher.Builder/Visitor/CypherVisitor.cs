@@ -1,14 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
-using Microsoft.VisualBasic;
-
-using Weknow.Cypher.Builder.Fluent;
 using Weknow.CypherBuilder.Declarations;
 using Weknow.Disposables;
 using Weknow.Mapping;
@@ -459,7 +453,7 @@ namespace Weknow.CypherBuilder
             string name = node.Member.Name;
 
             var pi = node.Member as PropertyInfo;
-            
+
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
                 return node;
@@ -591,7 +585,7 @@ namespace Weknow.CypherBuilder
                 }
                 if (addNullPrm)
                     _parameters.SetToNull(name);
-                else if(!string.IsNullOrEmpty(prmName))
+                else if (!string.IsNullOrEmpty(prmName))
                     _parameters.AddOrUpdate<object?>(prmName, null);
             }
             else if (node.Expression is MemberExpression me__ && me__.Member.Name == nameof(ParameterDeclaration<int>.__)

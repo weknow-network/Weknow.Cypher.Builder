@@ -72,6 +72,29 @@
             </returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.N4jReadiness">
+            <summary>
+            REDIS health check
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.N4jReadiness.#ctor(Microsoft.Extensions.Logging.ILogger{Microsoft.Extensions.DependencyInjection.N4jReadiness},Weknow.GraphDbClient.Abstraction.IGraphDB)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="driver">The driver.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.N4jReadiness.Microsoft#Extensions#Diagnostics#HealthChecks#IHealthCheck#CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Runs the health check, returning the status of the component being checked.
+            </summary>
+            <param name="context">A context object associated with the current execution.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that can be used to cancel the health check.</param>
+            <returns>
+            A <see cref="T:System.Threading.Tasks.Task`1" /> that completes when the health check has finished, yielding the status of the component being checked.
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB">
             <summary>
             Neo4j graphDb abstraction

@@ -2,7 +2,7 @@
 
 namespace Weknow.Cypher.Builder.Fluent
 {
-    public interface ICypherCreateStatement: ICypherStatement
+    public interface ICypherCreateStatement : ICypherStatement
     {
     }
 }

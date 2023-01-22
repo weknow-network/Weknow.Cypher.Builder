@@ -21,8 +21,8 @@ public partial class BaseCypherCardsTests
 
         var items = Parameters.Create();
 
-        CypherCommand cypher = _(n => 
-                                Foreach( items, item => Create(N(Person, new { Version = item }))));
+        CypherCommand cypher = _(n =>
+                                Foreach(items, item => Create(N(Person, new { Version = item }))));
 
 
         _outputHelper.WriteLine($"CYPHER: {cypher}");
@@ -54,7 +54,7 @@ public partial class BaseCypherCardsTests
 
         var users = Parameters.Create();
         var user = Variables.Create<PersonEntity>();
-        CypherCommand cypher = _( n =>
+        CypherCommand cypher = _(n =>
                 Unwind(users, map =>
                         Create(N(user, Person))
                         .Set(user, map)

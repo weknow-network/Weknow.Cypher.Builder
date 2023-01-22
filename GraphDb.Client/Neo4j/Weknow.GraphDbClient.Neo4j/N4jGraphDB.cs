@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using Neo4j.Driver;
+﻿using Neo4j.Driver;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
@@ -79,7 +77,7 @@ internal sealed partial class N4jGraphDB : IGraphDB
                 c.WithTimeout(timeout);
             }
         });
-        
+
         return new N4jGraphDBTx(tx);
     }
 

@@ -1,12 +1,11 @@
+using Weknow.CypherBuilder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.ICypherHigerAbstraction;
-using static Weknow.CypherBuilder.Schema;
-using Weknow.CypherBuilder.Declarations;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Weknow.CypherBuilder
 {

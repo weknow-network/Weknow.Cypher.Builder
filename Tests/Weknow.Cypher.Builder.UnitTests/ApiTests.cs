@@ -1,13 +1,7 @@
-using Castle.Core.Configuration;
-
-using Weknow.Mapping;
-
 using Xunit;
 using Xunit.Abstractions;
 
-using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
-using static Weknow.CypherBuilder.Schema;
 
 namespace Weknow.CypherBuilder
 {
@@ -34,19 +28,19 @@ namespace Weknow.CypherBuilder
 
         #region Label_Convention_Match_Test
 
-        [Fact] 
+        [Fact]
         public void Label_Convention_Match_Neo4j_Test()
         {
             var f = Variables.Create();
 
             CypherCommand cypher =
-                        _((n, m) => 
-                         Match(N(n, Person, new { id = m})));
+                        _((n, m) =>
+                         Match(N(n, Person, new { id = m })));
 
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MATCH (n:Person { id: m })" 
+                "MATCH (n:Person { id: m })"
                            , cypher.Query);
         }
 

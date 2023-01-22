@@ -1,6 +1,6 @@
 ﻿namespace Weknow.GraphDbClient.Abstraction;
 
-public interface IGraphDB: IGraphDBRunner
+public interface IGraphDB : IGraphDBRunner
 {
 
     /// <summary>

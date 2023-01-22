@@ -1,11 +1,11 @@
+using Weknow.CypherBuilder.Declarations;
+
 using Xunit;
 using Xunit.Abstractions;
 
 using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
-using Weknow.CypherBuilder.Declarations;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Weknow.CypherBuilder
 {
@@ -89,7 +89,7 @@ namespace Weknow.CypherBuilder
             var items = Variables.Create<Foo>();
 
             CypherCommand cypher = _(() =>
-                                    Foreach(items, item => Set(item.__.Version,  1 )));
+                                    Foreach(items, item => Set(item.__.Version, 1)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

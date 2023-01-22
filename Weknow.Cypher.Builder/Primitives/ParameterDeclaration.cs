@@ -16,7 +16,7 @@ namespace Weknow.CypherBuilder.Declarations;
 /// Primitives don't have actual implementation, 
 /// it's a declarative unit which will be evaluate at parsing time (by the visitor). 
 /// </remarks>
-public class ParameterDeclaration: ICypherToken
+public class ParameterDeclaration : ICypherToken
 {
     private protected ParameterDeclaration() { }
 

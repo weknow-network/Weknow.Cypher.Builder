@@ -8,6 +8,6 @@ public record GraphDBTransactionConfig
     /// <summary>
     /// Timeout.
     /// </summary>
-    public TimeSpan? Timeout { get; init; } 
+    public TimeSpan? Timeout { get; init; }
 }
 

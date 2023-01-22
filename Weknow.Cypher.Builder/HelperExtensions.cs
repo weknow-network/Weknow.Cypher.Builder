@@ -1,9 +1,5 @@
 ﻿using System.Linq.Expressions;
 
-using Weknow.CypherBuilder.Declarations;
-
-using static Weknow.CypherBuilder.CypherDelegates;
-
 namespace Weknow.CypherBuilder;
 
 /// <summary>

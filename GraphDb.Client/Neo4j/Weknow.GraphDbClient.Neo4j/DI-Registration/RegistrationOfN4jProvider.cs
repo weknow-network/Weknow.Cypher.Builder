@@ -97,6 +97,11 @@ public static class RegistrationOfN4jProvider
                 failureStatus: null,
                 tags: new[] { "health" },
                 timeout: DEFAULT_HEALTH_TIMEOUNT);
+        healthBuilder?.AddTypeActivatedCheck<N4jHealth>(
+                nameof(N4jReadiness),
+                failureStatus: null,
+                tags: new[] { "readiness", "ready" },
+                timeout: DEFAULT_HEALTH_TIMEOUNT);
     }
 
     #endregion // RegisterHealthCheck

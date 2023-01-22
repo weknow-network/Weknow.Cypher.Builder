@@ -11,7 +11,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 /// </summary>
 internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
 {
-    private IAsyncTransaction _tx;
+    private readonly IAsyncTransaction _tx;
 
     #region Ctor
 

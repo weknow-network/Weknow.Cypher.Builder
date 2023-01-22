@@ -1,6 +1,4 @@
-﻿using Weknow.CypherBuilder.Declarations;
-
-// https://neo4j.com/docs/cypher-refcard/current/
+﻿// https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.CypherBuilder;
 

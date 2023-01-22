@@ -1,10 +1,11 @@
+using Weknow.Mapping;
+
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
 using static Weknow.CypherBuilder.Schema;
-using static System.Environment;
-using Weknow.Mapping;
 
 namespace Weknow.CypherBuilder
 {
@@ -29,7 +30,7 @@ namespace Weknow.CypherBuilder
         public void Flavor_Match_Test()
         {
             string cypher = _(() => Match(N(Person & Maintainer))
-                                    .Match(N(Animal & Friend)), 
+                                    .Match(N(Animal & Friend)),
                                     c => c.Flavor = Flavor.Neo4j);
 
             _outputHelper.WriteLine(cypher);
@@ -62,7 +63,7 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Flavor_Merge_Test()
         {
-            string cypher = _(() => Merge(N(Person&Maintainer))
+            string cypher = _(() => Merge(N(Person & Maintainer))
                                     .Merge(N(Animal & Friend)),
                 c => c.Flavor = Flavor.Neo4j);
 

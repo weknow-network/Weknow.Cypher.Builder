@@ -184,7 +184,7 @@ MATCH (n:Person { PropA: item })", cypher.Query);
     public void Unwind_Create_AsMap_Test()
     {
         var items = Parameters.Create();
-        var  n = Variables.Create();
+        var n = Variables.Create();
 
         CypherCommand cypher = _(() => Unwind(items, map =>
                                         Create(N(n, Person, map))));
@@ -536,7 +536,7 @@ SET n += item", cypher.Query);
                                     Match(N(item, Person, new { item.__.PropA, item.__.PropB })))
                                 .Unwind(items, item1 =>
                                     Match(N(item1, Person, new { item1.__.PropA, item1.__.PropB })))
-                                 ,cfg =>
+                                 , cfg =>
                                  {
                                      cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                                      cfg.AmbientLabels.Add(Prod);
@@ -568,7 +568,7 @@ MATCH (item1:PROD:PERSON { PropA: item1.PropA, PropB: item1.PropB })", cypher.Qu
                                     Unwind(items, item2 =>
                                         Match(N(item2, Person, new { item2.__.PropA, item2.__.PropB })))
                                 )
-                                 ,cfg =>
+                                 , cfg =>
                                  {
                                      cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
                                      cfg.AmbientLabels.Add($"Prod");

@@ -1,5 +1,3 @@
-using Castle.Core.Configuration;
-
 using Weknow.Mapping;
 
 using Xunit;
@@ -49,7 +47,7 @@ namespace Weknow.CypherBuilder
                         {
                             cfg.AmbientLabels.Add("GitHub");
                             cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
-                        }    );
+                        });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"CREATE (f:GIT_HUB)
@@ -68,14 +66,14 @@ RETURN f"
 
             CypherCommand cypher =
                         _(() =>
-                         Create(N(f, BestSeller) - R[BestSeller.R]>N(BOOK))
+                         Create(N(f, BestSeller) - R[BestSeller.R] > N(BOOK))
                          .Return(f)
                         , cfg =>
                         {
                             cfg.AmbientLabels.Add("git-hub");
                             cfg.Naming.LabelConvention = CypherNamingConvention.PacalCase;
                             cfg.Naming.TypeConvention = CypherNamingConvention.camelCase;
-                        }    );
+                        });
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(@"CREATE (f:GitHub:BestSeller)-[:bestSeller]->(:Book:GitHub)
@@ -411,7 +409,7 @@ RETURN f"
             _outputHelper.WriteLine(cypher);
             _outputHelper.WriteLine(cypher);
             Assert.Equal(
-                "MATCH (mtc:GIT_HUB&PROD&PERSON $mtc)" 
+                "MATCH (mtc:GIT_HUB&PROD&PERSON $mtc)"
                            , cypher.Query);
         }
 
