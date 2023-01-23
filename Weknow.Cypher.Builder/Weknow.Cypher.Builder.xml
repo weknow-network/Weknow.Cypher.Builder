@@ -4663,8 +4663,6 @@
             </summary>
             <param name="node">The node.</param>
             <param name="format">The format.</param>
-            <param name="opScope">The op scope.</param>
-            <param name="startScopeAtIndex">Start index of the scope at.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherVisitor.EqualPattern">

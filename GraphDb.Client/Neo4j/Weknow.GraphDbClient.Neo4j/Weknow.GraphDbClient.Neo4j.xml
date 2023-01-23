@@ -81,8 +81,8 @@
             <summary>
             Initializes a new instance.
             </summary>
-            <param name="driver">The driver.</param>
             <param name="logger">The logger.</param>
+            <param name="graphDB">The graph database.</param>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.N4jReadiness.Microsoft#Extensions#Diagnostics#HealthChecks#IHealthCheck#CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <summary>
