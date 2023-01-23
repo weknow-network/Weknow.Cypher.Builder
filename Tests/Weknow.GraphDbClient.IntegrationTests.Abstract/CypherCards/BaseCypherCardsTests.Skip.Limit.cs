@@ -35,7 +35,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypher.Parameters;
         prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prmsPrepare);
 
         #endregion // Prepare
 
@@ -49,7 +49,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = query.Parameters;
         prms = prms.AddOrUpdate(nameof(skipNumber), 2);
         prms = prms.AddOrUpdate(nameof(limitNumber), 6);
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 
         #region Validation
@@ -89,7 +89,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypher.Parameters;
         prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prmsPrepare);
 
         #endregion // Prepare
 
@@ -100,7 +100,7 @@ public partial class BaseCypherCardsTests
                                 .Skip(2));
         _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 
         #region Validation
@@ -140,7 +140,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypher.Parameters;
         prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prmsPrepare);
 
         #endregion // Prepare
 
@@ -150,7 +150,7 @@ public partial class BaseCypherCardsTests
                                 .Limit(2));
         _outputHelper.WriteLine($"CYPHER: {query}");
         CypherParameters prms = query.Parameters;
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 
         #region Validation

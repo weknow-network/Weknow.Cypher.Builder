@@ -17,7 +17,7 @@ public partial record Idable(int id);
 //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
 [Trait("TestType", "Integration")]
-public abstract class BaseApiTests : BaseIntegrationTests
+public abstract class BaseApiTests : TxBaseIntegrationTests
 {
     private ILabel Person => throw new NotImplementedException();
     private ILabel Friend => throw new NotImplementedException();
@@ -47,13 +47,13 @@ public abstract class BaseApiTests : BaseIntegrationTests
 
 
         CypherParameters prms = cypher.Parameters;
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         IList<string> n = await response.GetAsync<IList<string>>("labels(n)");
         IEnumerable<string> m = await response.GetAsync<IEnumerable<string>>("labels(m)");
         var r = await response.GetAsync<string>("type(r)");
@@ -79,33 +79,35 @@ public abstract class BaseApiTests : BaseIntegrationTests
     public virtual async Task GetRangeAsync_Factory_Test()
     {
         CypherConfig.Scope.Value = CONFIGURATION;
+        var n = Variables.Create<Idable>();
 
-        CypherCommand cypher = _((n, m) =>
+        CypherCommand cypher = _(m =>
                                 Unwind(new[] { 1, 2, 3 }, item =>
                                 Create(N(n, Person, new { id = item }) - R[Knows] > N(m, Friend))));
 
 
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddRangeOrUpdate("p_0", 1, 2, 3); // should be removed when it will be part of the parameters generation
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
-        CypherCommand query = _((n, m, r) =>
+        CypherCommand query = _(( m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
-                                .Return(n, r.type(), m.Labels()));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+                                .Return(n, r.type(), m.Labels())
+                                .OrderBy(n.__.id));
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         int i = 1;
-        await foreach (var (n, m, r) in response.GetRangeAsync<(Idable, IList<string>, string)>(m =>
+        await foreach (var (n1, m, r) in response.GetRangeAsync<(Idable, IList<string>, string)>(x =>
                     (
-                        m.Get<Idable>("n"),
-                        m.Get<IList<string>>("labels(m)"),
-                        m.Get<string>("type(r)")
+                        x.Get<Idable>(nameof(n)),
+                        x.Get<IList<string>>("labels(m)"),
+                        x.Get<string>("type(r)")
                         )))
         {
             #region Validation
 
             Assert.Equal(nameof(Knows), r);
-            Assert.Equal(i++, n.id);
+            Assert.Equal(i++, n1.id);
             Assert.Equal(2, m.Count());
             Assert.Contains(nameof(_Test_).ToUpper(), m);
             Assert.Contains(nameof(Friend).ToUpper(), m);
@@ -129,13 +131,13 @@ public abstract class BaseApiTests : BaseIntegrationTests
 
 
         CypherParameters prms = cypher.Parameters;
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherCommand query = _((n, m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n.Labels(), r.type(), m.Labels()));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var (n, m, r) = await response.GetAsync<(IList<string>, IList<string>, string)>(m =>
                     (
                         m.Get<IList<string>>("labels(n)"),

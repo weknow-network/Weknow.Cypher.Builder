@@ -35,7 +35,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), ALICE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), MIKE);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -49,7 +49,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(name), ALICE);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var mike = await response.GetAsync<string>(nameof(n), nameof(n._.name));
         var alice = await response.GetAsync<string>(nameof(m), nameof(m._.name));
@@ -83,7 +83,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), ALICE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), MIKE);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -96,7 +96,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters;
         //prms.AddString(nameof(name), "p_0");
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var mike = await response.GetAsync<string>(nameof(n), nameof(n._.name));
         var alice = await response.GetAsync<string>(nameof(m), nameof(m._.name));
@@ -121,8 +121,6 @@ public partial class BaseCypherCardsTests
 
         var (n, m) = Variables.CreateMulti<PersonEntity, PersonEntity>();
 
-        await using var tx = await _graphDB.StartTransaction();
-
         #region Prepare
 
         var (n_name, m_name) = Parameters.CreateMulti<PersonEntity, PersonEntity>();
@@ -132,7 +130,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), MIKE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), ALICE);
-        await tx.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -143,7 +141,7 @@ public partial class BaseCypherCardsTests
 
         CypherParameters prms = cypher.Parameters;
 
-        IGraphDBResponse response = await tx.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var alice = await response.GetAsync<string>(nameof(n), nameof(n._.name));
         var mike = await response.GetAsync<string>(nameof(m), nameof(m._.name));
@@ -177,7 +175,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), MIKE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), ALICE);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -190,7 +188,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters
                                         .AddOrUpdate(nameof(name), ALICE);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var alice = await response.GetAsync<string>(nameof(n), nameof(n._.name));
         var mike = await response.GetAsync<string>(nameof(m), nameof(m._.name));
@@ -224,7 +222,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), MIKE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), ALICE);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -237,7 +235,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters
                                         .AddOrUpdate(nameof(name), ALICE);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var alice = await response.GetAsync<string>(nameof(n), nameof(n._.name));
         var mike = await response.GetAsync<PersonEntity>(nameof(m));
@@ -261,7 +259,7 @@ public partial class BaseCypherCardsTests
 
         var (m, n, k) = Variables.CreateMulti<PersonEntity, PersonEntity, PersonEntity>();
         var r = Variables.Create();
-        var tx = _graphDB;
+        var tx = _tx;
         //await using var tx = await _graphDB.StartTransaction();
 
         #region Prepare

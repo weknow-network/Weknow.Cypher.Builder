@@ -13,7 +13,7 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
+public abstract partial class BaseCypherCardsTests : TxBaseIntegrationTests
 {
     #region Ctor
 
@@ -66,17 +66,18 @@ public abstract partial class BaseCypherCardsTests : BaseIntegrationTests
         _outputHelper.WriteLine($"CYPHER (prepare): {cypher}");
         CypherCommand query = _(() =>
                                 Match(N(n, Person))
-                                .Return(n));
+                                .Return(n)
+                                .OrderBy(n.__.name));
         _outputHelper.WriteLine($"CYPHER: {query}");
 
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         #endregion // Prepare
 
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query, prms);
         var r3 = await response1.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
 
         #region Validation

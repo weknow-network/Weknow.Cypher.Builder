@@ -31,7 +31,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
         Assert.True(r3.Length == 10);
         for (int i = 0; i < 10; i++)
@@ -63,7 +63,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<PersonEntity>("x").ToArrayAsync();
         Assert.True(r3.Length == 10);
         for (int i = 0; i < 10; i++)
@@ -95,7 +95,7 @@ public partial class BaseCypherCardsTests
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         CypherParameters prms = cypher.Parameters;
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
 
         #endregion // Prepare
 
@@ -104,7 +104,7 @@ public partial class BaseCypherCardsTests
         CypherCommand query1 = _(() =>
                         Match(pattern)
                         .ReturnDistinct(n));
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query1, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query1, prms);
 
         _outputHelper.WriteLine($"CYPHER: {query1}");
 
@@ -117,7 +117,7 @@ public partial class BaseCypherCardsTests
                         .Return(n));
 
         _outputHelper.WriteLine($"CYPHER: {query2}");
-        IGraphDBResponse response2 = await _graphDB.RunAsync(query2, prms);
+        IGraphDBResponse response2 = await _tx.RunAsync(query2, prms);
         var r2 = await response2.GetRangeAsync<PersonEntity>(nameof(n)).ToArrayAsync();
         Assert.True(r2.Length == 2);
     }

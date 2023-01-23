@@ -2,8 +2,10 @@ using System.Data;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
+using Weknow.Mapping;
 
 using Xunit;
+using Xunit.Abstractions;
 
 using static Weknow.CypherBuilder.ICypher;
 
@@ -11,8 +13,30 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-public partial class BaseCypherCardsTests
+public abstract partial class CypherCardsConstraintsBaseTests: NonTxBaseIntegrationTests 
 {
+    private ILabel Product => throw new NotImplementedException();
+
+    #region partial record PersonEntity
+
+    [Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
+    private partial record PersonEntity(string name, int age)
+    {
+        public int? key { get; init; }
+        public string? desc { get; init; } = null;
+        public int? version { get; init; } = 0;
+        public DateTime? updatedOn { get; init; }
+    }
+
+    #endregion // partial record PersonEntity
+
+
+    public CypherCardsConstraintsBaseTests(
+        IServiceProvider serviceProvider, 
+        ITestOutputHelper outputHelper) :
+                base(serviceProvider, outputHelper)
+    {
+    }
 
     /*
 CREATE CONSTRAINT constraint_name

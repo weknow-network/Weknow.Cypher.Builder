@@ -28,7 +28,7 @@ public partial class BaseCypherCardsTests
                                 .Create(N(Person, new { name = "Groum", age = 20 }))
                                 .Create(N(Person, new { name = "Borka", age = 25 })));
         CypherParameters prmsPrepare = cypherPrapare.Parameters;
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -43,7 +43,7 @@ public partial class BaseCypherCardsTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(value), 25);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
 
         var people = await response.GetRangeAsync<string>(nameof(n), nameof(n._.name)).ToArrayAsync();
 
@@ -82,7 +82,7 @@ public partial class BaseCypherCardsTests
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(n_name), MIKE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(m_name), ALICE);
         prmsPrepare = prmsPrepare.AddOrUpdate(nameof(k_name), BOB);
-        await _graphDB.RunAsync(cypherPrapare, prmsPrepare);
+        await _tx.RunAsync(cypherPrapare, prmsPrepare);
 
         #endregion // Prepare
 
@@ -92,7 +92,7 @@ public partial class BaseCypherCardsTests
                                                     .Where(n._.age == m._.age)))
                                 .Return(n));
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher);
+        IGraphDBResponse response = await _tx.RunAsync(cypher);
 
         IAsyncEnumerable<PersonEntity> data = response.GetRangeAsync<PersonEntity>(nameof(n));
         var people = await data.ToArrayAsync();

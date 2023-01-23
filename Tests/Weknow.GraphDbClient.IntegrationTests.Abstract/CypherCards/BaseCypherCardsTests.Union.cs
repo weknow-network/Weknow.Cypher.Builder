@@ -37,7 +37,7 @@ public partial class BaseCypherCardsTests
                                 .Select(UserFactory)
                                 .ToArray();
         prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
-        await _graphDB.RunAsync(cypherOfUsers, prms);
+        await _tx.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {
             var id = Parameters.Create();
@@ -52,7 +52,7 @@ public partial class BaseCypherCardsTests
             prms = cypherOfFriends.Parameters;
             prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
-            await _graphDB.RunAsync(cypherOfFriends, prms);
+            await _tx.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
         {
@@ -68,7 +68,7 @@ public partial class BaseCypherCardsTests
             prms = cypherOfFriends.Parameters;
             prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
-            await _graphDB.RunAsync(cypherOfFriends, prms);
+            await _tx.RunAsync(cypherOfFriends, prms);
         }
 
         #endregion // Prepare
@@ -80,7 +80,7 @@ public partial class BaseCypherCardsTests
                                 .Match(N(friend, Friend) - R[Follow] > N(user, Person))
                                 .Return(user._.name));
         _outputHelper.WriteLine($"CYPHER: {query}");
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var results = await response.GetRangeAsync<string>(nameof(user), nameof(user._.name)).ToArrayAsync();
         var ordered = results.OrderBy(m => m).ToArray();
 
@@ -126,7 +126,7 @@ public partial class BaseCypherCardsTests
                                 .Select(UserFactory)
                                 .ToArray();
         prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
-        await _graphDB.RunAsync(cypherOfUsers, prms);
+        await _tx.RunAsync(cypherOfUsers, prms);
         foreach (var u in usersPrm.Skip(5))
         {
             var id = Parameters.Create();
@@ -141,7 +141,7 @@ public partial class BaseCypherCardsTests
             prms = cypherOfFriends.Parameters;
             prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 40));
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
-            await _graphDB.RunAsync(cypherOfFriends, prms);
+            await _tx.RunAsync(cypherOfFriends, prms);
         }
         foreach (var u in usersPrm.Skip(2).Take(6))
         {
@@ -157,7 +157,7 @@ public partial class BaseCypherCardsTests
             prms = cypherOfFriends.Parameters;
             prms = prms.AddOrUpdate(nameof(friend), FriendFactory(u, (u.key ?? 0) + 60));
             prms = prms.AddOrUpdate(nameof(id), u.key ?? 0);
-            await _graphDB.RunAsync(cypherOfFriends, prms);
+            await _tx.RunAsync(cypherOfFriends, prms);
         }
 
         #endregion // Prepare
@@ -169,7 +169,7 @@ public partial class BaseCypherCardsTests
                                 .Match(N(friend, Friend) - R[Follow] > N(user, Person))
                                 .Return(user._.name));
         _outputHelper.WriteLine($"CYPHER: {query}");
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var results = await response.GetRangeAsync<string>(nameof(user), nameof(user._.name)).ToArrayAsync();
 
         #region Validation

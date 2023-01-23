@@ -40,14 +40,14 @@ public partial class BaseCypherCardsTests
         CypherParameters prmsPrepare = cypher.Parameters;
         prmsPrepare = prmsPrepare.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(Factory));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prmsPrepare);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prmsPrepare);
 
         #endregion // Prepare
 
         CypherParameters prms = query.Parameters;
         prms = prms.AddOrUpdate(nameof(skipNumber), 2);
         prms = prms.AddOrUpdate(nameof(limitNumber), 6);
-        IGraphDBResponse response1 = await _graphDB.RunAsync(query, prms);
+        IGraphDBResponse response1 = await _tx.RunAsync(query, prms);
         var r = await response1.GetAsync<int>("count(n)");
 
         Assert.Equal(10, r);

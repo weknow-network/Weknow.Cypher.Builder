@@ -11,9 +11,9 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-public class NonTxBaseIntegrationTests : IDisposable
+public class TxBaseIntegrationTests : IDisposable
 {
-    protected readonly IGraphDB _graphDB;
+    protected readonly IGraphDBTransaction _tx;
     protected readonly ITestOutputHelper _outputHelper;
     protected const string TEST_LABEL = nameof(_Test_);
     protected ILabel _Test_ => throw new NotImplementedException();
@@ -42,31 +42,20 @@ public class NonTxBaseIntegrationTests : IDisposable
 
     #region Ctor
 
-    public NonTxBaseIntegrationTests(
+    public TxBaseIntegrationTests(
         IServiceProvider serviceProvider,
         ITestOutputHelper outputHelper)
     {
         _serviceProvider = serviceProvider;
-        _graphDB = serviceProvider.GetRequiredService<IGraphDB>();
+        var graphDB = serviceProvider.GetRequiredService<IGraphDB>();
+
+        _tx = graphDB.StartTransaction().Result;
 
         _outputHelper = outputHelper;
     }
 
     #endregion // Ctor
 
-    #region CleanAsync
-
-    private async Task CleanAsync()
-    {
-        CypherCommand cypher = _(n =>
-                                Match(N(n, _Test_))
-                                .DetachDelete(n),
-                                CONFIGURATION);
-        var res = await _graphDB.RunAsync(cypher);
-        await res.GetInfoAsync();
-    }
-
-    #endregion // CleanAsync
 
     #region Dispose
 
@@ -75,13 +64,13 @@ public class NonTxBaseIntegrationTests : IDisposable
     /// </summary>
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
         Dispose(true);
-        CleanAsync().Wait();
+        _tx.RollbackAsync().Wait();
+        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing) { }
-    ~NonTxBaseIntegrationTests()
+    ~TxBaseIntegrationTests()
     {
         Dispose(false);
     }

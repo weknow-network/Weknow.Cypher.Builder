@@ -31,7 +31,7 @@ public partial class BaseCypherCardsTests
 
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(p), expected);
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         #region Validation
@@ -39,7 +39,7 @@ public partial class BaseCypherCardsTests
         CypherCommand query = _((n) =>
                                 Match(N(n, Person, new { key = 10 }))
                                 .Return(n));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var result = await response.GetAsync<PersonEntity>("n");
 
         Assert.Equal(expected, result);
@@ -108,7 +108,7 @@ public partial class BaseCypherCardsTests
 
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(p), expected);
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         #region Validation
@@ -116,18 +116,18 @@ public partial class BaseCypherCardsTests
         CypherCommand query = _((n) =>
                                 Match(N(n, Person, new { key = 10 }))
                                 .Return(n));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var result = await response.GetAsync<PersonEntity>("n");
 
         Assert.Equal(expected, result);
 
         #endregion // Validation
 
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
 
         #region Validation
 
-        response = await _graphDB.RunAsync(query, query.Parameters);
+        response = await _tx.RunAsync(query, query.Parameters);
         result = await response.GetAsync<PersonEntity>("n");
 
         Assert.Equal(expected with { version = expected.version + 1 }, result);
@@ -157,7 +157,7 @@ public partial class BaseCypherCardsTests
 
 
         CypherParameters prms = cypher.Parameters;
-        await _graphDB.RunAsync(cypher, prms);
+        await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
         #region Validation
@@ -165,7 +165,7 @@ public partial class BaseCypherCardsTests
         CypherCommand query = _(() =>
                                 Match(N(n, Person) - R[Knows] > N(m))
                                 .Return(n._.name, m._.name));
-        IGraphDBResponse response = await _graphDB.RunAsync(query, query.Parameters);
+        IGraphDBResponse response = await _tx.RunAsync(query, query.Parameters);
         var (a, b) = await response.GetAsync<(string a, string b)>(r =>
                         (
                             r.Get<string>(nameof(n), nameof(n._.name)),

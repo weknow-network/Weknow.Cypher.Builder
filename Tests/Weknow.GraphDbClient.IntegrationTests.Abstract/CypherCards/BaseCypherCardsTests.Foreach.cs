@@ -29,7 +29,7 @@ public partial class BaseCypherCardsTests
 
         CypherParameters prms = cypher.Parameters
                                       .AddOrUpdate(nameof(items), new[] { 1, 2, 3 });
-        var response = await _graphDB.RunAsync(cypher, prms);
+        var response = await _tx.RunAsync(cypher, prms);
 
         CypherCommand cypherGet = _((n, item) =>
                                 Match(N(n, Person, new { Version = 1 }))
@@ -38,7 +38,7 @@ public partial class BaseCypherCardsTests
 
         _outputHelper.WriteLine($"CYPHER GET: {cypherGet}");
 
-        var responseGet = await _graphDB.RunAsync(cypherGet);
+        var responseGet = await _tx.RunAsync(cypherGet);
         var result = await responseGet.GetAsync<int>("n.Version");
         Assert.Equal(1, result);
     }
@@ -72,7 +72,7 @@ public partial class BaseCypherCardsTests
                                 .Select(UserFactory)
                                 .ToArray();
         prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
-        var r = await _graphDB.RunAsync(cypher, prms);
+        var r = await _tx.RunAsync(cypher, prms);
 
 
         CypherCommand cypherGet = _(() =>
@@ -83,7 +83,7 @@ public partial class BaseCypherCardsTests
 
         _outputHelper.WriteLine($"CYPHER GET: {cypherGet}");
 
-        var responseGet = await _graphDB.RunAsync(cypherGet);
+        var responseGet = await _tx.RunAsync(cypherGet);
         // TODO: [bnaya 2022-12-13] GetAsync should work with expression
         //var result = await responseGet.GetAsync<string>(user.__.desc);
         var result = await responseGet.GetAsync<string>("user.desc");
@@ -128,7 +128,7 @@ public partial class BaseCypherCardsTests
                                 .Select(UserFactory)
                                 .ToArray();
         prms = prms.AddRangeOrUpdate(nameof(users), usersPrm);
-        var r = await _graphDB.RunAsync(cypher, prms);
+        var r = await _tx.RunAsync(cypher, prms);
 
 
         CypherCommand cypherGet = _(() =>
@@ -139,7 +139,7 @@ public partial class BaseCypherCardsTests
 
         _outputHelper.WriteLine($"CYPHER GET: {cypherGet}");
 
-        var responseGet = await _graphDB.RunAsync(cypherGet);
+        var responseGet = await _tx.RunAsync(cypherGet);
         var result = await responseGet.GetAsync<string>("user.desc");
         Assert.Equal("Describe 0", result);
 

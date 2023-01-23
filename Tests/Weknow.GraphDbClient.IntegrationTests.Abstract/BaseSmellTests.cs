@@ -49,7 +49,7 @@ internal partial record DateConvensionEntity
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
 //[Trait("TestType", "Integration")]
-public abstract class BaseSmellTests : BaseIntegrationTests
+public abstract class BaseSmellTests : TxBaseIntegrationTests
 {
     #region Ctor
 
@@ -86,7 +86,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
         NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>().ToArrayAsync();
 
@@ -115,7 +115,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         NameDictionaryable entity = await response.GetAsync<NameDictionaryable>();
         NameDictionaryable[] entities = await response.GetRangeAsync<NameDictionaryable>(nameof(v)).ToArrayAsync();
 
@@ -143,7 +143,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         string name = await response.GetAsync<string>(nameof(v), nameof(NameDictionaryable.Name));
         string[] names = await response.GetRangeAsync<string>(nameof(v), nameof(NameDictionaryable.Name)).ToArrayAsync();
 
@@ -192,7 +192,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         #endregion // CypherParameters prms = ...
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var managers = await response.GetRangeAsync<Someone>(nameof(m1)).ToArrayAsync();
         var persons = await response.GetRangeAsync<Someone>(nameof(m2)).ToArrayAsync();
         Assert.True(managers.Length == 3);
@@ -219,7 +219,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r1 = await response.GetAsync<NameDictionaryable>(nameof(p1));
         Assert.Equal(EXPECTED, r1.Name);
 
@@ -248,7 +248,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddRangeOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5)));
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
         Assert.NotEmpty(r3);
     }
@@ -274,7 +274,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         prms = prms.AddOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {n}", m % 10 + 5).ToDictionary())
                                 .ToArray());
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
         Assert.NotEmpty(r3);
     }
@@ -310,8 +310,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
                                     .AddOrUpdate(nameof(prm3), DateTime.Now.TimeOfDay)
                                     .AddOrUpdate(nameof(prm4), DateTimeOffset.Now);
 
-        await using var tx = await _graphDB.StartTransaction();
-        IGraphDBResponse response = await tx.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         Sometime entity = await response.GetAsync<Sometime>();
         Sometime[] entities = await response.GetRangeAsync<Sometime>().ToArrayAsync();
 
@@ -349,7 +348,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         CypherParameters prms = cypher.Parameters;
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         Sometime entity = await response.GetAsync<Sometime>();
         Sometime[] entities = await response.GetRangeAsync<Sometime>().ToArrayAsync();
 
@@ -382,14 +381,14 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         CypherParameters prms = cypher.Parameters;
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var entity = await response.GetAsync<DateConvensionEntity>();
 
         Assert.Equal(EXPECTED, entity.Id);
         Assert.True(date <= entity.CreatedAt);
         Assert.Null(entity.ModifiedAt);
 
-        response = await _graphDB.RunAsync(cypher, prms);
+        response = await _tx.RunAsync(cypher, prms);
         entity = await response.GetAsync<DateConvensionEntity>();
 
         Assert.True(date <= entity.CreatedAt);
@@ -419,7 +418,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
 
         CypherParameters prms = cypher.Parameters;
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var entity = await response.GetAsync<DateConvensionEntity>();
 
         Assert.Equal(EXPECTED, entity.Id);
@@ -444,7 +443,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         prms = prms.AddOrUpdate(nameof(items), Enumerable.Range(0, 10)
                                 .Select(m => new Someone(m, $"Number {m}", m % 10 + 5).ToDictionary())
                                 .ToArray());
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         var r3 = await response.GetRangeAsync<Someone>(nameof(x)).ToArrayAsync();
         Assert.Empty(r3);
     }
@@ -464,7 +463,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         Name1 entity = await response.GetAsync<Name1>();
         Name1[] entities = await response.GetRangeAsync<Name1>().ToArrayAsync();
 
@@ -488,7 +487,7 @@ public abstract class BaseSmellTests : BaseIntegrationTests
         CypherParameters prms = cypher.Parameters;
         prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
 
-        IGraphDBResponse response = await _graphDB.RunAsync(cypher, prms);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
         Name2 entity = await response.GetAsync<Name2>();
         Name2[] entities = await response.GetRangeAsync<Name2>().ToArrayAsync();
 

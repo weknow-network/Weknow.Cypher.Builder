@@ -33,7 +33,7 @@ public partial class BaseCypherCardsTests
 
         CypherParameters prms = cypher.Parameters
                                       .AddOrUpdate(nameof(delimiter), input);
-        var response = await _graphDB.RunAsync(cypher, prms);
+        var response = await _tx.RunAsync(cypher, prms);
         var result = await response.GetAsync<string>("color");
         Assert.Equal(expected, result);
     }
