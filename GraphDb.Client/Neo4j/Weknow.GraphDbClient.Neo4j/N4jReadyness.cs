@@ -24,8 +24,8 @@ internal class N4jReadiness : IHealthCheck
     /// <summary>
     /// Initializes a new instance.
     /// </summary>
-    /// <param name="driver">The driver.</param>
     /// <param name="logger">The logger.</param>
+    /// <param name="graphDB">The graph database.</param>
     public N4jReadiness(
             ILogger<N4jReadiness> logger,
             IGraphDB graphDB)

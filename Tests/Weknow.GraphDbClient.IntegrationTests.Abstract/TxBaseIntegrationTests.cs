@@ -7,8 +7,6 @@ using Weknow.GraphDbClient.Abstraction;
 
 using Xunit.Abstractions;
 
-using static Weknow.CypherBuilder.ICypher;
-
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 public class TxBaseIntegrationTests : IDisposable

@@ -91,7 +91,7 @@ public abstract class BaseApiTests : TxBaseIntegrationTests
         await _tx.RunAsync(cypher, prms);
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
-        CypherCommand query = _(( m, r) =>
+        CypherCommand query = _((m, r) =>
                                 Match(N(n, Person) - R[r, Knows] > N(m, Friend))
                                 .Return(n, r.type(), m.Labels())
                                 .OrderBy(n.__.id));

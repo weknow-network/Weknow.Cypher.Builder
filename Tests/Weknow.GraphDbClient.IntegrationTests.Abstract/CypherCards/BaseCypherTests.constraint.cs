@@ -13,7 +13,7 @@ using static Weknow.CypherBuilder.ICypher;
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
-public abstract partial class CypherCardsConstraintsBaseTests: NonTxBaseIntegrationTests 
+public abstract partial class CypherCardsConstraintsBaseTests : NonTxBaseIntegrationTests
 {
     private ILabel Product => throw new NotImplementedException();
 
@@ -32,7 +32,7 @@ public abstract partial class CypherCardsConstraintsBaseTests: NonTxBaseIntegrat
 
 
     public CypherCardsConstraintsBaseTests(
-        IServiceProvider serviceProvider, 
+        IServiceProvider serviceProvider,
         ITestOutputHelper outputHelper) :
                 base(serviceProvider, outputHelper)
     {

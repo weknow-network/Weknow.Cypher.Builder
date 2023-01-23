@@ -253,7 +253,7 @@ namespace Weknow.CypherBuilder
             if (_directOperation.State == "As" && type == "Delegate" && args.Count == 2)
             {
                 Visit(args[1]);
-                return node;
+                return node!;
             }
 
             #region string? format = ...
@@ -663,7 +663,7 @@ namespace Weknow.CypherBuilder
             }
             if (shouldDeconstruct)
             {
-                if (!node.Type.IsGenericType)
+                if (!node!.Type.IsGenericType)
                     throw new ArgumentException("None generic variable/parameter is not allowed within a 'Merge' operation, use anonymous type instead");
                 var genArgs = node.Type.GetGenericArguments();
                 if (genArgs.Length != 1)
@@ -938,8 +938,6 @@ namespace Weknow.CypherBuilder
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="format">The format.</param>
-        /// <param name="opScope">The op scope.</param>
-        /// <param name="startScopeAtIndex">Start index of the scope at.</param>
         /// <returns></returns>
         private void ApplyFormat(MethodCallExpression node, string format)
         {
@@ -1228,10 +1226,10 @@ namespace Weknow.CypherBuilder
             char last = Query[^1];
             bool hasColon = LABEL_SPLITTER.Any(c => last == c); // check if addition is having the first ':'
 
-            if (_ambientOnce.Contains(variable))
+            if (_ambientOnce.Contains(variable!))
                 return false;
             if (variable != string.Empty)
-                _ambientOnce.Add(variable);
+                _ambientOnce.Add(variable!);
 
             if ((_ignoreScope.State & IgnoreBehavior.Ambient) == IgnoreBehavior.Ambient || !_shouldHandleAmbient.Value)
             {
