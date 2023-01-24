@@ -258,6 +258,36 @@ OPTIONS {
         }
 
         #endregion // CREATE CONSTRAINT .. REQUIRE (n.Id, n.Name) IS NODE KEY OPTIONS {..}
+
+        #region CREATE CONSTRAINT .. FOR (p:PERSON)-[r:KNOWS]->(f:FRIEND) REQUIRE (n.Id, r.Version, f.Name) IS NODE KEY 
+
+        [Fact]
+        public void TryConstraint_Relationship_IsNodeKey_Test()
+        {
+            var p = Variables.Create<Foo>();
+            var f = Variables.Create<Foo>();
+            var r = Variables.Create<Foo>();
+            CypherCommand cypher = _(() => TryCreateConstraint(
+                                                "test-constraint",
+                                                ConstraintType.IsNotNull,
+                                                N(p, Person) - R[r,KNOWS] > N(f, Friend),
+                                                 r.__.Version), cfg =>
+            {
+                cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;
+            });
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                """
+                CREATE CONSTRAINT test-constraint IF NOT EXISTS
+                  FOR (p:PERSON)-[r:KNOWS]->(f:FRIEND)
+                  REQUIRE (r.Version) IS NOT NULL
+                """
+                , cypher.Query.Replace("\t", "  "));
+            Assert.Empty(cypher.Parameters);
+        }
+
+        #endregion // CREATE CONSTRAINT .. FOR (p:PERSON)-[r:KNOWS]->(f:FRIEND) REQUIRE (n.Id, r.Version, f.Name) IS NODE KEY 
     }
 }
 
