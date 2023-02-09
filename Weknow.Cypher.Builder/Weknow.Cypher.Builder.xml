@@ -1811,6 +1811,32 @@
             <param name="instance">The instance.</param>
             <returns></returns>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Call(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.Cypher.Builder.Fluent.ICypherStatement)">
+            <summary>
+            Call statement.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example>
+            CALL {
+              MATCH (n:Person)
+            }
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Call(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.IPattern)">
+            <summary>
+            Call statement.
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example>
+            CALL {
+              MATCH (n:Person)
+            }
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Type(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             String representation of the relationship type.
@@ -3285,6 +3311,30 @@
             </summary>
             <param name="next"></param>
             <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Call(Weknow.Cypher.Builder.Fluent.ICypherStatement)">
+            <summary>
+            Calls the specified statement.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example>
+            CALL {
+              MATCH (n:Person)
+            }
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Call(Weknow.CypherBuilder.IPattern)">
+            <summary>
+            Calls the specified statement.
+            </summary>
+            <param name="statement">The statement.</param>
+            <returns></returns>
+            <example>
+            CALL {
+              MATCH (n:Person)
+            }
+            </example>
         </member>
         <member name="T:Weknow.CypherBuilder.HelperExtensions">
             <summary>

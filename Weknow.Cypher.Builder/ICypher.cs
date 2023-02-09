@@ -1545,4 +1545,23 @@ public partial interface ICypher
         => throw new NotImplementedException();
 
     #endregion // NoAmbient
+
+    #region Call
+
+    /// <summary>
+    /// Calls the specified statement.
+    /// </summary>
+    /// <param name="statement">The statement.</param>
+    /// <returns></returns>
+    /// <example>
+    /// CALL {
+    ///   MATCH (n:Person)
+    /// }
+    /// </example>
+    [Cypher("&CALL {\r\n$0\r\n}")]
+    [CypherClause]
+    public static ICypherStatement Call(
+        ICypherStatement statement) => throw new NotImplementedException();
+
+    #endregion // Call
 }
