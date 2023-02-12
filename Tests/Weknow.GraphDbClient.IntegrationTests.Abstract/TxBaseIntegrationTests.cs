@@ -11,7 +11,7 @@ namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 
 public class TxBaseIntegrationTests : IDisposable
 {
-    protected readonly IGraphDBTransaction _tx;
+    protected IGraphDBTransaction _tx;
     protected readonly ITestOutputHelper _outputHelper;
     protected const string TEST_LABEL = nameof(_Test_);
     protected ILabel _Test_ => throw new NotImplementedException();
@@ -47,13 +47,21 @@ public class TxBaseIntegrationTests : IDisposable
         _serviceProvider = serviceProvider;
         var graphDB = serviceProvider.GetRequiredService<IGraphDB>();
 
-        _tx = graphDB.StartTransaction().Result;
+        Init(graphDB);
 
         _outputHelper = outputHelper;
     }
 
     #endregion // Ctor
 
+    #region Init
+
+    protected virtual void Init(IGraphDB graphDB)
+    {
+        _tx = graphDB.StartTransaction().Result;
+    }
+
+    #endregion // Init
 
     #region Dispose
 
@@ -64,10 +72,14 @@ public class TxBaseIntegrationTests : IDisposable
     {
         Dispose(true);
         _tx.RollbackAsync().Wait();
+        DisposeAfterTxRollback();
         GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing) { }
+
+    protected virtual void DisposeAfterTxRollback() { }
+
     ~TxBaseIntegrationTests()
     {
         Dispose(false);

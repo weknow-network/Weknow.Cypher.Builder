@@ -129,6 +129,8 @@ namespace Weknow.CypherBuilder.Declarations
         /// </example>
         public T __<T>() => throw new NotImplementedException();
 
+        private string? OverrideName { get; init; }
+
         #region == / !=
 
         /// <summary>
@@ -239,6 +241,15 @@ namespace Weknow.CypherBuilder.Declarations
         public static VariableDeclaration operator +(VariableDeclaration item) => throw new NotImplementedException();
 
         #endregion // +
+
+        #region  Casting Overloads
+
+        public static implicit operator VariableDeclaration(string name)
+        {
+            return new VariableDeclaration { OverrideName = name };
+        }
+
+        #endregion // Casting Overloads
 
         /// <summary>
         /// Cast to parameter type.

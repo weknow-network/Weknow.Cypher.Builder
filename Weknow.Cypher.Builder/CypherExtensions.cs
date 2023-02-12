@@ -1412,22 +1412,5 @@ public static partial class CypherExtensions
         this ICypherStatement prev,
         ICypherStatement statement) => throw new NotImplementedException();
 
-    /// <summary>
-    /// Call statement.
-    /// </summary>
-    /// <param name="prev">The previous.</param>
-    /// <param name="statement">The statement.</param>
-    /// <returns></returns>
-    /// <example>
-    /// CALL {
-    ///   MATCH (n:Person)
-    /// }
-    /// </example>
-    [Cypher("$0\r\n&CALL {\r\n$1\r\n}")]
-    [CypherClause]
-    public static ICypherStatement Call(
-        this ICypherStatement prev,
-        IPattern statement) => throw new NotImplementedException();
-
     #endregion // Call
 }

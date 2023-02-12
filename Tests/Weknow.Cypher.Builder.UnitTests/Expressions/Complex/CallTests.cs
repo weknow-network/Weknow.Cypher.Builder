@@ -24,7 +24,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region 
+        #region CALL {...}
 
         [Fact]
         public void Call_Test()
@@ -49,7 +49,7 @@ namespace Weknow.CypherBuilder
             Assert.Empty(cypher.Parameters);
         }
 
-        #endregion // 
+        #endregion // CALL {...}
 
         #region 
 
@@ -57,7 +57,7 @@ namespace Weknow.CypherBuilder
         //public void Call_FullText_Test()
         //{
         //    /*
-        //    CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health^2 *Health*', {limit:50}) YIELD node as locale, score
+        //    CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50}) YIELD node as locale, score
         //    WITH locale, score
         //    MATCH (locale) <- [:LOCALE_TITLE] - (industry:Industry)
         //    CALL {

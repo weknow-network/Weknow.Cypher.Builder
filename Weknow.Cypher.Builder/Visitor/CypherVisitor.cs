@@ -947,7 +947,18 @@ namespace Weknow.CypherBuilder
 
             for (var i = 0; i < format.Length; i++)
             {
-                switch (format[i])
+                string curAndNext = i + 2 < format.Length ? format[i..(i + 2)] : string.Empty;
+                SpecialFormat specialFormat = SpecialFormat.None;
+                if (curAndNext == "📌")
+                    specialFormat = SpecialFormat.Pinned;
+                bool isPinned = specialFormat == SpecialFormat.Pinned;
+                i = specialFormat switch
+                {
+                    SpecialFormat.Pinned => i + 2,
+                    _ => i
+                };
+                char ch = format[i];
+                switch (ch)
                 {
                     case '$':
                         {
@@ -962,12 +973,12 @@ namespace Weknow.CypherBuilder
                                 }
                             }
                             i++;
+                            ch = format[i];
                             bool isArray = format.Length > i + 1 &&
                                           format[(i)..(i + 2)] == "[]";
                             if (isArray)
                                 i += 2;
 
-                            var ch = format[i];
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
@@ -975,9 +986,12 @@ namespace Weknow.CypherBuilder
                             using var isLastArg = _isLastArg.Push(index == args.Count - 1);
                             using var fmtIdx = _fmtIdex.Push(index);
                             bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputCollectionAttribute>() != null;
+
+                            IDisposable isPinnedScope = isPinned ? _shouldCreateParameter.Push(false) : Disposable.Empty;
                             IDisposable inputScope = Disposable.Empty;
                             if (isCypherInput != _isCypherInput.State)
                                 inputScope = _isCypherInput.Push(isCypherInput);
+                            using (isPinnedScope)
                             using (inputScope)
                             {
                                 int count = args.Count;
@@ -1068,8 +1082,8 @@ namespace Weknow.CypherBuilder
                         break;
                     case '+':
                         {
-                            var ch = format[++i];
-                            string fmt1 = ch.ToString();
+                            char ch1 = format[++i];
+                            string fmt1 = ch1.ToString();
 
                             string fmt2 = format[++i].ToString();
                             int index1 = int.Parse(fmt1);
@@ -1090,8 +1104,7 @@ namespace Weknow.CypherBuilder
                         }
                     default:
                         {
-                            char f = format[i];
-                            Query.Append(f);
+                            Query.Append(ch);
                             break;
                         }
                 }

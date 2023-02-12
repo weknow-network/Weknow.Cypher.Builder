@@ -32,39 +32,6 @@
             </summary>
             <seealso cref="T:System.Attribute" />
         </member>
-        <member name="T:Weknow.CypherBuilder.ConstraintOptions">
-            <summary>
-            Constraint options
-            </summary>
-            <example>
-            <![CDATA[
-            CREATE FULLTEXT INDEX index_name
-            FOR()-[r: KNOWS]-() ON EACH[r.info, r.note]
-            OPTIONS
-            {
-                indexConfig: {
-                    `fulltext.analyzer`: 'english',
-                },
-            }
-            
-            CREATE FULLTEXT INDEX index_name
-            FOR()-[r: KNOWS]-() ON EACH[r.info, r.note]
-            OPTIONS
-            {
-                indexConfig: {
-                    `spatial.wgs-84.min`: [-100.0, -100.0],
-                    `spatial.wgs-84.max`: [100.0, 100.0]    /// 
-                },
-                indexProvider: 'native-btree-1.0'
-            }
-            ]]>
-            </example>
-        </member>
-        <member name="P:Weknow.CypherBuilder.ConstraintOptions.FulltextAnalyzer">
-            <summary>
-            Full-text analyzer.
-            </summary>
-        </member>
         <member name="T:Weknow.CypherBuilder.CypherConfig">
             <summary>
             The cypher builder configuration.
@@ -839,6 +806,9 @@
             <returns></returns>
         </member>
         <member name="T:Weknow.CypherBuilder.CypherExtensions">
+            <summary>
+            Cypher Extensions
+            </summary>
             <summary>
             Cypher Extensions
             </summary>
@@ -1824,17 +1794,97 @@
             }
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Call(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.IPattern)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String)">
             <summary>
-            Call statement.
+            Full Text Search statement.
+            (requires existence of full text search index)
             </summary>
             <param name="prev">The previous.</param>
-            <param name="statement">The statement.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
             <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
             <example>
-            CALL {
-              MATCH (n:Person)
-            }
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="scoreAlias">Score alias for the YIELD phrase.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.FullText(Weknow.Cypher.Builder.Fluent.ICypherStatement,System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="prev">The previous.</param>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="scoreAlias">Score alias for the YIELD phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Type(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
@@ -2020,216 +2070,6 @@
             n.property IN [item.List]
             </example>
         </member>
-        <member name="T:Weknow.CypherBuilder.CypherGeneralExtensions">
-            <summary>
-            Cypher Extensions
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(Weknow.Cypher.Builder.Fluent.ICypherStatement,``0)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="prv"></param>
-            <param name="alias">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(System.Object,``0)">
-            <summary>
-            Define variable's alias
-            </summary>
-            <param name="var">The variable.</param>
-            <param name="alias">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.CypherBuilder.CypherInputCollectionAttribute">
-            <summary>
-            decorate object collection which are part of the Cypher Builder API,
-            in order to avoid handling it as collection in the cypher output.
-            </summary>
-            <seealso cref="T:System.Attribute" />
-        </member>
-        <member name="T:Weknow.CypherBuilder.CypherParameters">
-            <summary>
-            Cypher Parameters representation
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
-            </summary>
-            <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0)">
-            <summary>
-            Adds parameter if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="value">The value.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">
-            <summary>
-            Adds parameters if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Adds parameters if not exists.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddOrUpdate``1(System.String,``0,System.Func{``0,System.Object})">
-            <summary>
-            Adds parameter or update.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="value">The value.</param>
-            <param name="overrideMapping">
-            Optional update decision mapping.
-            If not exists the value will simply override 
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,``0[])">
-            <summary>
-            Adds the range.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
-            <summary>
-            Adds the range.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <param name="values">The values.</param>
-            <param name="overrideMapping">
-            Optional update decision mapping.
-            If not exists the value will simply override 
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.SetToNull(System.String)">
-            <summary>
-            Adds a null.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.TrySetToNull(System.String)">
-            <summary>
-            Adds a null.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.Remove(System.String)">
-            <summary>
-            Remove a key.
-            </summary>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.ContainsKey(System.String)">
-            <summary>
-            Determines whether the specified key contains key.
-            </summary>
-            <param name="key">The key.</param>
-            <returns>
-              <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through the collection.
-            </summary>
-            <returns>
-            An enumerator that can be used to iterate through the collection.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through a collection.
-            </summary>
-            <returns>
-            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.Get``1(System.String)">
-            <summary>
-            Gets the specified key.
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="key">The key.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Weknow.CypherBuilder.ConstraintType">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsUnique">
-            <summary>
-            IS UNIQUE
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNotNull">
-            <summary>
-            IS NOT NULL
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNodeKey">
-            <summary>
-            IS NODE KEY
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.FullTextLanguage">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.IgnoreBehavior">
-            <summary>
-            Ignore things.
-            </summary>
-        </member>
-        <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
-            <summary>
-            Behaviors of Ignore Context.
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.None">
-            <summary>
-            Avoid this setting
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Plan">
-            <summary>
-            No formatting
-            </summary>
-        </member>
-        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
-            <summary>
-            No formatting except the $ sign.
-            </summary>
-        </member>
         <member name="T:Weknow.CypherBuilder.ICypher">
             <summary>
             Entry point for constructing root level Cypher.
@@ -2246,6 +2086,90 @@
             Entry point for constructing root level Cypher.
             For fluent cypher check <see cref="T:Weknow.CypherBuilder.CypherExtensions" />
             </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <returns></returns>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <returns></returns>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="scoreAlias">Score alias for the YIELD phrase.</param>
+            <returns></returns>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.FullText(System.String,System.String,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Int32)">
+            <summary>
+            Full Text Search statement.
+            (requires existence of full text search index)
+            </summary>
+            <param name="fullTextIndex">Full index of the text.</param>
+            <param name="searchPhrase">The search phrase.</param>
+            <param name="nodeAlias">Node alias for the YIELD phrase.</param>
+            <param name="scoreAlias">Score alias for the YIELD phrase.</param>
+            <param name="limit">The limit.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            CALL db.index.fulltext.queryNodes("test_index", 'Healthcare^3 Health*^2 Health~', {limit:50})
+            </example>
         </member>
         <member name="P:Weknow.CypherBuilder.ICypher.IFn.Ag">
             <summary>
@@ -3324,17 +3248,220 @@
             }
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Call(Weknow.CypherBuilder.IPattern)">
+        <member name="T:Weknow.CypherBuilder.CypherGeneralExtensions">
             <summary>
-            Calls the specified statement.
+            Cypher Extensions
             </summary>
-            <param name="statement">The statement.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(Weknow.Cypher.Builder.Fluent.ICypherStatement,``0)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="prv"></param>
+            <param name="alias">The name.</param>
             <returns></returns>
-            <example>
-            CALL {
-              MATCH (n:Person)
-            }
-            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherGeneralExtensions.As``1(System.Object,``0)">
+            <summary>
+            Define variable's alias
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="alias">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherInputCollectionAttribute">
+            <summary>
+            decorate object collection which are part of the Cypher Builder API,
+            in order to avoid handling it as collection in the cypher output.
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="T:Weknow.CypherBuilder.CypherParameters">
+            <summary>
+            Cypher Parameters representation
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters"/> class.
+            </summary>
+            <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0)">
+            <summary>
+            Adds parameter if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds parameters if not exists.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddOrUpdate``1(System.String,``0,System.Func{``0,System.Object})">
+            <summary>
+            Adds parameter or update.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,``0[])">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeOrUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
+            <summary>
+            Adds the range.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="values">The values.</param>
+            <param name="overrideMapping">
+            Optional update decision mapping.
+            If not exists the value will simply override 
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.SetToNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.TrySetToNull(System.String)">
+            <summary>
+            Adds a null.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.Remove(System.String)">
+            <summary>
+            Remove a key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.ContainsKey(System.String)">
+            <summary>
+            Determines whether the specified key contains key.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>
+              <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.Get``1(System.String)">
+            <summary>
+            Gets the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Weknow.CypherBuilder.ConstraintType">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsUnique">
+            <summary>
+            IS UNIQUE
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNotNull">
+            <summary>
+            IS NOT NULL
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.ConstraintType.IsNodeKey">
+            <summary>
+            IS NODE KEY
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.IgnoreBehavior">
+            <summary>
+            Ignore things.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.PropertyContextBehaviors">
+            <summary>
+            Behaviors of Ignore Context.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.None">
+            <summary>
+            Avoid this setting
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Plan">
+            <summary>
+            No formatting
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
+            <summary>
+            No formatting except the $ sign.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.SpecialFormat">
+            <summary>
+            Special formatting char.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.SpecialFormat.Pinned">
+            <summary>
+            📌 use to prevent from creating a parameter (keeps the literal)
+            </summary>
         </member>
         <member name="T:Weknow.CypherBuilder.HelperExtensions">
             <summary>
