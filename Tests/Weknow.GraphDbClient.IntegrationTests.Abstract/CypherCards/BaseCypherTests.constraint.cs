@@ -164,7 +164,7 @@ OPTIONS {
                                     TryCreateConstraint(
                                          "TEST_CONSTRAINT",
                                          ConstraintType.IsNotNull,
-                                         N() - R[g, Graduate] > N(), 
+                                         N() - R[g, Graduate] > N(),
                                             g.__.year));
 
             IGraphDBResponse constraintResponse = await _graphDB.RunAsync(constraintCypher);
@@ -175,28 +175,32 @@ OPTIONS {
                                            .Set(a, a.Prm)
                                          .Merge(N(u, User, new { u.Prm.__.email }))
                                            .Set(u, u.Prm)
-                                         .Create(N(a) < R[g, Graduate, new { g.Prm.__.degree, g.Prm.__.year }] - N(u))                                           
+                                         .Create(N(a) < R[g, Graduate, new { g.Prm.__.degree, g.Prm.__.year }] - N(u))
                                            );
             _outputHelper.WriteLine($"First Create: {cypher}");
 
             var tx = await _graphDB.StartTransaction();
-            CypherParameters prms = cypher.Parameters 
+            CypherParameters prms = cypher.Parameters
                                                 .AddOrUpdate(nameof(a), new AcademyEntity("University of California, Los Angeles", "UCLA").ToDictionary())
                                                 .AddOrUpdate(nameof(u), new UserEntity("Mike", "mike@gmail.com").ToDictionary())
                                                 .AddOrUpdate(nameof(g), new GraduateEntity(2000, "B.A"))
                                                 ;
             IGraphDBResponse response = await tx.RunAsync(cypher, prms);
+#pragma warning disable S1854 // Unused assignments should be removed
             info = await response.GetInfoAsync();
+#pragma warning restore S1854 // Unused assignments should be removed
 
-            var d = prms[nameof(g)] as Dictionary<string, object?>;
+            var d = prms[nameof(g)] as Dictionary<string, object?> ?? throw new NullReferenceException();
             d[nameof(GraduateEntity.year)] = null;
             bool hasError = false;
             try
             {
-                response = await tx.RunAsync(cypher, prms);
+#pragma warning disable S1854 // Unused assignments should be removed
+                response = await tx!.RunAsync(cypher, prms);
+#pragma warning restore S1854 // Unused assignments should be removed
                 await tx.CommitAsync(); // will trigger the constraint
             }
-            catch 
+            catch
             {
                 hasError = true;
             }

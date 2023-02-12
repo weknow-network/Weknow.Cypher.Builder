@@ -1,9 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-using static System.Environment;
 using static Weknow.CypherBuilder.ICypher;
-using static Weknow.CypherBuilder.Schema;
 
 // https://neo4j.com/docs/cypher-cheat-sheet/current/
 // https://neo4j.com/docs/cypher-manual/5/indexs/
@@ -31,11 +29,11 @@ namespace Weknow.CypherBuilder
         public void FullText_Node_Score_Limit_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _((n,rate) =>
+            CypherCommand cypher = _((n, rate) =>
                FullText("test-index-1", "health~",
-                         n, rate, 
-                         20 )
-               .FullText("test-index-2", 
+                         n, rate,
+                         20)
+               .FullText("test-index-2",
                          """
                          title: "nice fence"~3^1 description: good year
                          """,
@@ -64,11 +62,11 @@ namespace Weknow.CypherBuilder
         public void FullText_Node_Limit_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _((n,rate) =>
+            CypherCommand cypher = _((n, rate) =>
                FullText("test-index-1", "health~",
-                         n, 
-                         20 )
-               .FullText("test-index-2", 
+                         n,
+                         20)
+               .FullText("test-index-2",
                          """
                          title: "nice fence"~3^1 description: good year
                          """,
@@ -97,10 +95,10 @@ namespace Weknow.CypherBuilder
         public void FullText_Node_Score_Test()
         {
             var n = Variables.Create<Foo>();
-            CypherCommand cypher = _((n,rate) =>
+            CypherCommand cypher = _((n, rate) =>
                FullText("test-index-1", "health~",
                          n, rate)
-               .FullText("test-index-2", 
+               .FullText("test-index-2",
                          """
                          title: "nice fence"~3^1 description: good year
                          """,
@@ -127,8 +125,8 @@ namespace Weknow.CypherBuilder
         {
             CypherCommand cypher = _(() =>
                FullText("test-index-1", "health~",
-                         20 )
-               .FullText("test-index-2", 
+                         20)
+               .FullText("test-index-2",
                          """
                          title: "nice fence"~3^1 description: good year
                          """,
@@ -157,8 +155,8 @@ namespace Weknow.CypherBuilder
         {
             var n = Variables.Create<Foo>();
             CypherCommand cypher = _(() =>
-               FullText("test-index-1", "health~" )
-               .FullText("test-index-2", 
+               FullText("test-index-1", "health~")
+               .FullText("test-index-2",
                          """
                          title: "nice fence"~3^1 description: good year
                          """));

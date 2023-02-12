@@ -3,7 +3,7 @@ using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder;
 
-partial interface ICypher
+public partial interface ICypher
 {
     #region FullText
 

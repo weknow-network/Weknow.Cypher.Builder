@@ -270,7 +270,7 @@ OPTIONS {
             CypherCommand cypher = _(() => TryCreateConstraint(
                                                 "test-constraint",
                                                 ConstraintType.IsNotNull,
-                                                N(p, Person) - R[r,KNOWS] > N(f, Friend),
+                                                N(p, Person) - R[r, KNOWS] > N(f, Friend),
                                                  r.__.Version), cfg =>
             {
                 cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE;

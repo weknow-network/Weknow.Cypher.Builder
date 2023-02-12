@@ -1,10 +1,4 @@
-using System;
 using System.Data;
-using System.Threading;
-
-using FakeItEasy.Sdk;
-
-using FakeItEasy;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
@@ -13,9 +7,7 @@ using Weknow.Mapping;
 using Xunit;
 using Xunit.Abstractions;
 
-using static System.Formats.Asn1.AsnWriter;
 using static Weknow.CypherBuilder.ICypher;
-using Microsoft.Extensions.DependencyInjection;
 
 // https://neo4j.com/docs/cypher-refcard/current/
 
@@ -100,13 +92,13 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
         await CreateData();
         CypherConfig.Scope.Value = CONFIGURATION;
         CypherCommand cypher = _((rate) =>
-           FullText(INDEX_NAME,  """
+           FullText(INDEX_NAME, """
                                             "quick brown fox"
                                             """,
                      n, rate,
                      2)
            .With(n, rate)
-           .Return( n.__.key, rate));
+           .Return(n.__.key, rate));
 
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 

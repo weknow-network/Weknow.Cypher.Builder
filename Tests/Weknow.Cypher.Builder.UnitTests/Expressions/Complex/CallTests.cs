@@ -13,7 +13,7 @@ namespace Weknow.CypherBuilder
     public class CallTests
     {
         private readonly ITestOutputHelper _outputHelper;
-        private ILabel Person = ILabel.Fake;
+        private readonly ILabel Person = ILabel.Fake;
 
         #region Ctor
 
@@ -29,10 +29,10 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Call_Test()
         {
-            CypherCommand cypher = _((n,m, k) => 
+            CypherCommand cypher = _((n, m, k) =>
                                         Call(Match(N(n, Person)))
-                                        .Match(N(n)-N(m))
-                                        .Call(Match(N(m)-N(k))));
+                                        .Match(N(n) - N(m))
+                                        .Call(Match(N(m) - N(k))));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal(

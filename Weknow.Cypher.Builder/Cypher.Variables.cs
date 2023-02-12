@@ -15,7 +15,7 @@ namespace Weknow.CypherBuilder;
 public class Variables<T>
 {
     // TODO: [bnaya 2023-01-24] Use Source Generator in order to generate the Deconstruction (both in form of virtual method with parameters of from an attribute with permutation count)
-    
+
     public void Deconstruct(
         out VariableDeclaration<T> v1,
         out VariableDeclaration<T> v2)
