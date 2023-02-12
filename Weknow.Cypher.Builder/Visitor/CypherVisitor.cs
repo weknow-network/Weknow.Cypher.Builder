@@ -973,12 +973,12 @@ namespace Weknow.CypherBuilder
                                 }
                             }
                             i++;
-                            ch = format[i];
                             bool isArray = format.Length > i + 1 &&
                                           format[(i)..(i + 2)] == "[]";
                             if (isArray)
                                 i += 2;
 
+                            ch = format[i];
                             int index = int.Parse(ch.ToString());
                             var args = node.Arguments;
                             Expression expr = args[index];
