@@ -215,7 +215,6 @@ OPTIONS {
             await Task.Delay(300); // no way to wait until delete completed
         }
 
-        PersonEntity Factory(int i) => new PersonEntity($"Person {i}", i) { key = i, desc = $"Something to say on {i}" };
     }
 
     #endregion // CREATE CONSTRAINT / INDEX
