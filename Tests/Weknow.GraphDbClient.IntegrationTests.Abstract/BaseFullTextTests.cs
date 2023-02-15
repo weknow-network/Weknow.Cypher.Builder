@@ -86,7 +86,8 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
 
     #region FullText1_Test
 
-    public virtual async Task FullText1_Test()
+    [Fact]
+    public async Task FullText1_Test()
     {
         var n = Variables.Create<PersonEntity>();
         await CreateData();
@@ -127,6 +128,35 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
     }
 
     #endregion // FullText1_Test
+
+    #region FullText2_Test
+
+    [Fact]
+    public async Task FullText2_Test()
+    {
+        var n = Variables.Create<PersonEntity>();
+        var search = Parameters.Create<string>();
+
+        await CreateData();
+        CypherConfig.Scope.Value = CONFIGURATION;
+        CypherCommand cypher = _((rate) =>
+           FullText(INDEX_NAME, search,
+                     n, rate,
+                     2)
+           .With(n, rate)
+           .Return(n.__.key, rate));
+
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+        var prms = cypher.Parameters.AddOrUpdate(nameof(search), """
+                                            "quick brown fox"
+                                            """);
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
+        IAsyncEnumerable<int> keys = response.GetRangeAsync<int>(nameof(n), nameof(n.__.key));
+        int[] results = await keys.ToArrayAsync();
+        Assert.Equal(1, results[0]);
+    }
+
+    #endregion // FullText2_Test
 
     #region CreateIndex
 

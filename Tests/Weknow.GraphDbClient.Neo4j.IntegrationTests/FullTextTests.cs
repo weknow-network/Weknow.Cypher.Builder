@@ -45,11 +45,4 @@ public class FullTextTests : BaseFullTextTests
     }
 
     #endregion // RegisterGraphDB
-
-    [Fact]
-    public override Task FullText1_Test()
-    {
-        return base.FullText1_Test();
-    }
-
 }
