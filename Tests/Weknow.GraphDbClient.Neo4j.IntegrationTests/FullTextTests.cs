@@ -1,4 +1,3 @@
-#pragma warning disable S2699 // Tests should include assertions
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

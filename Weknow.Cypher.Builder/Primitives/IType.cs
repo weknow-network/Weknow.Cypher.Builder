@@ -60,7 +60,7 @@ namespace Weknow.CypherBuilder
         /// <![CDATA[MATCH (n)-[*..5]->(m)]]>
         /// </example>
         public static IType operator *(IType a, int range) => Stub.Empty;
-        
+
         /// <summary>
         /// Implements the operator op_Multiply with represent a range.
         /// </summary>

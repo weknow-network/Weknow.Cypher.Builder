@@ -20,8 +20,8 @@
 
 
 	<ItemGroup>
-	  <PackageReference Include="Bnaya.CSharp.AsyncExtensions" Version="1.0.62" />
-	  <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.40" />
+	  <PackageReference Include="Bnaya.CSharp.AsyncExtensions" Version="1.0.64" />
+	  <PackageReference Include="Weknow.Mapping.Contracts" Version="1.0.42" />
 	</ItemGroup>
 
 

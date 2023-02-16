@@ -53,7 +53,7 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
 
     #region Ctor
 
-    public BaseFullTextTests(
+    protected BaseFullTextTests(
             IServiceProvider serviceProvider,
             ITestOutputHelper outputHelper)
         : base(serviceProvider, outputHelper)
@@ -112,7 +112,7 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
                                             "quick fox"~3
                                             """);
 
-        response = await _tx.RunAsync(cypher);
+        response = await _tx.RunAsync(cypher, prms);
         keys = response.GetRangeAsync<int>(nameof(n), nameof(n.__.key));
         results = await keys.ToArrayAsync();
         Assert.Equal(1, results[0]);
@@ -121,7 +121,7 @@ public abstract partial class BaseFullTextTests : TxBaseIntegrationTests
                                             "quick fox"
                                             """);
 
-        response = await _tx.RunAsync(cypher);
+        response = await _tx.RunAsync(cypher, prms);
         keys = response.GetRangeAsync<int>(nameof(n), nameof(n.__.key));
         results = await keys.ToArrayAsync();
         Assert.Empty(results);

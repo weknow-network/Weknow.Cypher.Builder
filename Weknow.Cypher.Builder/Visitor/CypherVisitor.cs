@@ -221,15 +221,12 @@ namespace Weknow.CypherBuilder
                 case ExpressionType.Multiply:
                     Query.Append("*");
                     break;
-                    //case ExpressionType.UnaryPlus:
-                    //    Query.Append(" * ");
-                    //    break;
             }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             if (node.NodeType == ExpressionType.Multiply && node.Type.Name == nameof(IType))
             {
-                if(node.Right.NodeType == ExpressionType.Constant)
+                if (node.Right.NodeType == ExpressionType.Constant)
                     Query.Append("..");
                 using (_shouldCreateParameter.Push(false))
                 {
@@ -344,15 +341,15 @@ namespace Weknow.CypherBuilder
                 nameof(CypherGeneralExtensions.As) => false,
                 _ => true
             };
-            using var _ = _shouldCreateParameter.Push(shouldCreatePrms);
+            using var ___ = _shouldCreateParameter.Push(shouldCreatePrms);
 
 
             if (name == nameof(CypherExtensions.Foreach) && mtd.GetCustomAttribute<ObsoleteAttribute>() == null)
             {
                 LambdaExpression iteration = args.Count switch
                 {
-                    2 => args[1] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
-                    3 => args[2] as LambdaExpression ?? throw new ArgumentNullException(nameof(FluentForEachAction)),
+                    2 => args[1] as LambdaExpression ?? throw new NullReferenceException(nameof(FluentForEachAction)),
+                    3 => args[2] as LambdaExpression ?? throw new NullReferenceException(nameof(FluentForEachAction)),
                     _ => throw new NotSupportedException(nameof(CypherExtensions.Foreach))
                 };
                 Expression items = args.Count switch
@@ -409,7 +406,6 @@ namespace Weknow.CypherBuilder
             {
                 using (_shouldCreateParameter.Push(false))
                 {
-                    //Query.Append("*");
                     if (name == nameof(Range.EndAt))
                     {
                         Query.Append("..");
@@ -420,9 +416,6 @@ namespace Weknow.CypherBuilder
                         Visit(args[0]);
                         Query.Append("..");
                     }
-                    //else if (name == nameof(Range.All))
-                    //{
-                    //}
                 }
             }
             // TODO: [bnaya 2023-01-09] Support Alias of: Fn.Ag.Sum(n._.PropA).As(Fn.Ag.Sum)
@@ -452,13 +445,13 @@ namespace Weknow.CypherBuilder
         {
             string name = node.Member.Name;
 
-            var pi = node.Member as PropertyInfo;
+            PropertyInfo? pi = node.Member as PropertyInfo;
 
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
                 return node;
 
-            if (node.Type == typeof(Range) && pi.Name == nameof(Range.All))
+            if (node.Type == typeof(Range) && pi?.Name == nameof(Range.All))
                 return node;
 
             #region As
@@ -484,14 +477,9 @@ namespace Weknow.CypherBuilder
 
             #endregion // Inc
 
-            //bool isMerge = _directOperation.State == nameof(ICypher.Merge);
             bool isPrm = PARAMETER_TYPE.IsAssignableFrom(node.Type);
             bool isVar = VARIABLE_TYPE.IsAssignableFrom(node.Type);
             bool isIPattern = typeof(IPattern).IsAssignableFrom(node.Type);
-            //bool isINode = node.Type == typeof(INode);
-            //bool isIRelation = node.Type == typeof(IRelation);
-            //bool isINodeRelation = node.Type == typeof(INodeRelation);
-            //bool isIRelationNode = node.Type == typeof(IRelationNode);
             var shouldDeconstruct = ShouldDeconstruct(node);
 
 
@@ -516,12 +504,11 @@ namespace Weknow.CypherBuilder
                 HandleAmbientLabels(node, name);
                 return node;
             }
-            else if (node.Type == typeof(IType))
+            else if (node.Type == typeof(IType) &&
+                node.Expression is MemberExpression tme &&
+                node.Member.Name == nameof(ILabel.R))
             {
-                if (node.Expression is MemberExpression tme && node.Member.Name == nameof(ILabel.R))
-                {
-                    name = tme.Member.Name;
-                }
+                name = tme.Member.Name;
             }
 
             if (isPrm)
@@ -533,11 +520,11 @@ namespace Weknow.CypherBuilder
                 {
                     if (node.Expression is MemberExpression nme)
                     {
-                        name = nme?.Member?.Name ?? throw new ArgumentNullException("((MemberExpression?)node.Expression)?.Member?.Name");
+                        name = nme?.Member?.Name ?? throw new NullReferenceException("((MemberExpression?)node.Expression)?.Member?.Name");
                     }
                     else
                     {
-                        name = node.Expression?.ToString() ?? throw new ArgumentNullException("Null expression");
+                        name = node.Expression?.ToString() ?? throw new NullReferenceException("Null expression");
                     }
                 }
                 if (!Parameters.ContainsKey(name))
@@ -802,23 +789,25 @@ namespace Weknow.CypherBuilder
 
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
-            using var _ = _isProperties.Set(true);
-            if (_expression[0].Value == null)
-                Query.Append("{ ");
-            foreach (var item in node.Bindings)
+            using (_isProperties.Set(true))
             {
-                if (_expression[0].Value != null)
+                if (_expression[0].Value == null)
+                    Query.Append("{ ");
+                foreach (var item in node.Bindings)
                 {
-                    Visit(_expression[0].Value);
-                    Query.Append('.');
+                    if (_expression[0].Value != null)
+                    {
+                        Visit(_expression[0].Value);
+                        Query.Append('.');
+                    }
+                    VisitMemberBinding(item);
+                    if (item != node.Bindings.Last())
+                        Query.Append(", ");
                 }
-                VisitMemberBinding(item);
-                if (item != node.Bindings.Last())
-                    Query.Append(", ");
+                if (_expression[0].Value == null)
+                    Query.Append(" }");
+                return node;
             }
-            if (_expression[0].Value == null)
-                Query.Append(" }");
-            return node;
         }
 
         #endregion // VisitMemberInit
@@ -881,7 +870,7 @@ namespace Weknow.CypherBuilder
         {
             var shouldDeconstruct = ShouldDeconstruct(node);
             string? name = node.Name;
-            if (name == null) throw new ArgumentNullException("VisitParameter");
+            if (name == null) throw new NotSupportedException("VisitParameter expecting `node.Name`");
 
             if (shouldDeconstruct)
             {
@@ -900,8 +889,6 @@ namespace Weknow.CypherBuilder
             }
             else
                 Query.Append(name);
-
-            //HandleAmbientLabels(node);
 
             return node;
         }
@@ -1021,7 +1008,7 @@ namespace Weknow.CypherBuilder
                                     {
                                         var parameterName = $"p_{Parameters.Count}";
                                         Query.Append(parameterName);
-                                        _parameters = _parameters.SetToNull(parameterName); // naExp.Value;
+                                        _parameters = _parameters.SetToNull(parameterName);
                                         continue;
                                     }
                                     else if (count > 1)
@@ -1046,7 +1033,7 @@ namespace Weknow.CypherBuilder
                                 {
                                     bool isVar = expr.Type.IsAssignableTo<VariableDeclaration>();
                                     bool isLabel = expr.IsOfType<ILabel>();
-                                    bool prevIsVar = index == 0 ? false : args[index - 1].Type.IsAssignableTo<VariableDeclaration>(); ;
+                                    bool prevIsVar = index != 0 && args[index - 1].Type.IsAssignableTo<VariableDeclaration>();
                                     var qlen = Query.Length;
                                     using (isLabel && prevIsVar ? _shouldHandleAmbient.Deny() : Disposable.Empty) // ambient should trigger at the variable level in order to avoid duplicates
                                     {
@@ -1202,7 +1189,7 @@ namespace Weknow.CypherBuilder
         /// Should handle ambient stack
         /// </summary>
         /// <seealso cref="System.IDisposable" />
-        private class AmbientContextStack
+        private sealed class AmbientContextStack
         {
             private AmbientContextState _value;
             public bool Value => _value == AmbientContextState.Active;
@@ -1237,6 +1224,7 @@ namespace Weknow.CypherBuilder
 
         #region HandleAmbientLabels
 
+#pragma warning disable S3241 // Methods should not return values that are never used
         private bool HandleAmbientLabels(Expression node, params string[] labels)
         {
             if (_configuration.AmbientLabels.Values.Count == 0 && (labels == null || labels.Length == 0))
@@ -1287,6 +1275,7 @@ namespace Weknow.CypherBuilder
 
             return true;
         }
+#pragma warning restore S3241 // Methods should not return values that are never used
 
         #endregion // HandleAmbientLabels
 

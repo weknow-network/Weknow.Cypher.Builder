@@ -28,7 +28,7 @@ namespace Weknow.CypherBuilder
         {
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[KNOWS * new System.Range(1,5)] >
+                                    R[KNOWS * new System.Range(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
@@ -158,7 +158,7 @@ namespace Weknow.CypherBuilder
             var PropA = Parameters.Create();
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[KNOWS,  new System.Range(1, 5)] >
+                                    R[KNOWS, new System.Range(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
