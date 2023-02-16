@@ -2,7 +2,7 @@
 
 namespace Weknow.CypherBuilder
 {
-    internal class Stub : ILabel, IRelation, IType, INode
+    internal class Stub : ILabel, IRelation, IType, INode, IEnumerable<IType>
     {
         public static readonly Stub Empty = new Stub();
 
@@ -12,21 +12,30 @@ namespace Weknow.CypherBuilder
 
         IRelation IRelation.this[VariableDeclaration var] => ((IRelation)Empty)[var];
 
-        IRelation IRelation.this[Range r] => ((IRelation)Empty)[r];
+        //IRelation IRelation.this[Range r] => ((IRelation)Empty)[r];
 
-        IRelation IRelation.this[Rng r] => ((IRelation)Empty)[r];
+        IRelation IRelation.this[Range r] => ((IRelation)Empty)[r];
 
         IRelation IRelation.this[VariableDeclaration var, IType type] => ((IRelation)Empty)[var, type];
 
         IRelation IRelation.this[IType type, object properties] => ((IRelation)Empty)[type, properties];
 
-        IRelation IRelation.this[VariableDeclaration var, Range r] => ((IRelation)Empty)[var, r];
+        //IRelation IRelation.this[VariableDeclaration var, Range r] => ((IRelation)Empty)[var, r];
 
-        IRelation IRelation.this[VariableDeclaration var, Rng r] => ((IRelation)Empty)[var, r];
+        IRelation IRelation.this[VariableDeclaration var, Range r] => ((IRelation)Empty)[var, r];
 
         IRelation IRelation.this[VariableDeclaration var, IType type, object properties] => ((IRelation)Empty)[var, type, properties];
 
-        IRelation IRelation.this[VariableDeclaration var, IType type, object properties, Rng r] => ((IRelation)Empty)[var, type, properties, r];
+        IRelation IRelation.this[IType type, Range r] => ((IRelation)Empty)[type, r];
+
+        IRelation IRelation.this[VariableDeclaration var, IType type, object properties, Range r] => ((IRelation)Empty)[var, type, properties, r];
+
+        public IEnumerator<IType> GetEnumerator()
+        {
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion // IRelation Members
     }

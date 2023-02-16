@@ -24,9 +24,6 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region Indexer
-
-
         /// <summary>
         /// Gets the <see cref="IRelation" /> with the specified variable.
         /// </summary>
@@ -63,7 +60,7 @@ namespace Weknow.CypherBuilder
         /// <param name="r">The r.</param>
         /// <returns></returns>
 
-        IRelation IRelation.this[VariableDeclaration var, Rng r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, System.Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified r.
@@ -74,7 +71,7 @@ namespace Weknow.CypherBuilder
         /// <param name="r">The r.</param>
         /// <returns></returns>
 
-        IRelation IRelation.this[Rng r] => throw new NotImplementedException();
+        IRelation IRelation.this[System.Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -88,30 +85,7 @@ namespace Weknow.CypherBuilder
         /// <param name="r">The r.</param>
         /// <returns></returns>
 
-        IRelation IRelation.this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
-
-        /// <summary>
-        /// Gets the <see cref="IRelation"/> with the specified variable.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="var">The variable.</param>
-        /// <param name="r">The r.</param>
-        /// <returns></returns>
-
-        IRelation IRelation.this[VariableDeclaration var, Range r] => throw new NotImplementedException();
-
-        /// <summary>
-        /// Gets the <see cref="IRelation"/> with the specified r.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="r">The r.</param>
-        /// <returns></returns>
-
-        IRelation IRelation.this[Range r] => throw new NotImplementedException();
+        IRelation IRelation.this[VariableDeclaration var, IType type, object properties, System.Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -136,9 +110,17 @@ namespace Weknow.CypherBuilder
 
         IRelation IRelation.this[IType type] => throw new NotImplementedException();
 
-        #endregion // Indexer
-
-        #region IRelation this[VariableDeclaration var, IType type, object properties, Rng r]
+        /// <summary>
+        /// Gets the <see cref="IRelation"/> with the specified variable.
+        /// </summary>
+        /// <value>
+        /// The <see cref="IRelation"/>.
+        /// </value>
+        /// <param name="type">The type.</param>
+        /// <param name="r">The r.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public IRelation this[IType type, System.Range r] => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the <see cref="IRelation"/> with the specified variable.
@@ -152,8 +134,7 @@ namespace Weknow.CypherBuilder
         /// <param name="r">The r.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public IRelation this[VariableDeclaration var, IType type, object properties, Rng r] => throw new NotImplementedException();
+        public IRelation this[VariableDeclaration var, IType type, object properties, System.Range r] => throw new NotImplementedException();
 
-        #endregion // IRelation this[VariableDeclaration var, IType type, object properties, Rng r]
     }
 }

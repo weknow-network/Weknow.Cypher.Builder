@@ -80,6 +80,19 @@ namespace Weknow.CypherBuilder
         /// <returns></returns>
         /// <example><![CDATA[(m)<-[r:KNOWS {name: $name}]-(n)]]></example>
         IRelation this[IType type, object properties] { [Cypher("[:$0 $1]")] get; }
+        ///// <summary>
+        ///// Represent relation with variable and range.
+        ///// </summary>
+        ///// <value>
+        ///// The <see cref="IRelation"/>.
+        ///// </value>
+        ///// <param name="var">Variable</param>
+        ///// <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
+        ///// <returns></returns>
+        ///// <example>
+        ///// (n)-[r:*1..5]->(m)
+        ///// </example>
+        //IRelation this[VariableDeclaration var, Range r] { [Cypher("[$0$1]")] get; }
         /// <summary>
         /// Represent relation with range.
         /// </summary>
@@ -91,7 +104,7 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// (n)-[*1..5]->(m)
         /// </example>
-        IRelation this[Range r] { [Cypher("[$0]")] get; }
+        IRelation this[System.Range r] { [Cypher("[*$0]")] get; }
         /// <summary>
         /// Represent relation with variable and range.
         /// </summary>
@@ -104,32 +117,20 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// (n)-[r:*1..5]->(m)
         /// </example>
-        IRelation this[VariableDeclaration var, Range r] { [Cypher("[$0$1]")] get; }
+        IRelation this[VariableDeclaration var, System.Range r] { [Cypher("[$0*$1]")] get; }
         /// <summary>
-        /// Represent relation with range.
+        /// Represent relation with variable, type and range.
         /// </summary>
         /// <value>
         /// The <see cref="IRelation"/>.
         /// </value>
+        /// <param name="type"></param>
         /// <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
         /// <returns></returns>
         /// <example>
-        /// (n)-[*1..5]->(m)
+        /// (n)-[:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[Rng r] { [Cypher("[$0]")] get; }
-        /// <summary>
-        /// Represent relation with variable and range.
-        /// </summary>
-        /// <value>
-        /// The <see cref="IRelation"/>.
-        /// </value>
-        /// <param name="var">Variable</param>
-        /// <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
-        /// <returns></returns>
-        /// <example>
-        /// (n)-[r:*1..5]->(m)
-        /// </example>
-        IRelation this[VariableDeclaration var, Rng r] { [Cypher("[$0$1]")] get; }
+        IRelation this[IType type, System.Range r] { [Cypher("[:$0*$1]")] get; }
         /// <summary>
         /// Represent relation with variable, type and range.
         /// </summary>
@@ -144,7 +145,7 @@ namespace Weknow.CypherBuilder
         /// <example>
         /// (n)-[r:KNOW*1..5 {level: 2}]->(m)
         /// </example>
-        IRelation this[VariableDeclaration var, IType type, object properties, Rng r] { [Cypher("[$0$1 $2 $3]")] get; }
+        IRelation this[VariableDeclaration var, IType type, object properties, System.Range r] { [Cypher("[$0$1 $2 *$3]")] get; }
 
         #endregion // Indexers this [...]
 

@@ -3897,34 +3897,21 @@
             (n)-[r:*1..5]->(m)
             </example>
         </member>
-        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Rng)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.IType,System.Range)">
             <summary>
-            Represent relation with range.
+            Represent relation with variable, type and range.
             </summary>
             <value>
             The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
+            <param name="type"></param>
             <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
             <returns></returns>
             <example>
-            (n)-[*1..5]->(m)
+            (n)-[:KNOW*1..5 {level: 2}]->(m)
             </example>
         </member>
-        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Rng)">
-            <summary>
-            Represent relation with variable and range.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
-            </value>
-            <param name="var">Variable</param>
-            <param name="r">The range: https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges </param>
-            <returns></returns>
-            <example>
-            (n)-[r:*1..5]->(m)
-            </example>
-        </member>
-        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
+        <member name="P:Weknow.CypherBuilder.IRelation.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,System.Range)">
             <summary>
             Represent relation with variable, type and range.
             </summary>
@@ -4036,40 +4023,6 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#CypherBuilder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.Rng)">
-            <summary>
-            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="r">The r.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#CypherBuilder#IRelation#Item(Weknow.CypherBuilder.Rng)">
-            <summary>
-            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified r.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
-            </value>
-            <param name="r">The r.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#CypherBuilder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
-            <summary>
-            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
-            </summary>
-            <value>
-            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
-            </value>
-            <param name="var">The variable.</param>
-            <param name="type">The type.</param>
-            <param name="properties">The properties.</param>
-            <param name="r">The r.</param>
-            <returns></returns>
-        </member>
         <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#CypherBuilder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
@@ -4088,6 +4041,19 @@
             <value>
             The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
             </value>
+            <param name="r">The r.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Weknow#CypherBuilder#IRelation#Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,System.Range)">
+            <summary>
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
+            </value>
+            <param name="var">The variable.</param>
+            <param name="type">The type.</param>
+            <param name="properties">The properties.</param>
             <param name="r">The r.</param>
             <returns></returns>
         </member>
@@ -4112,7 +4078,19 @@
             <param name="type">The type.</param>
             <returns></returns>
         </member>
-        <member name="P:Weknow.CypherBuilder.RelationPattern.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,Weknow.CypherBuilder.Rng)">
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Item(Weknow.CypherBuilder.IType,System.Range)">
+            <summary>
+            Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
+            </summary>
+            <value>
+            The <see cref="T:Weknow.CypherBuilder.IRelation"/>.
+            </value>
+            <param name="type">The type.</param>
+            <param name="r">The r.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="P:Weknow.CypherBuilder.RelationPattern.Item(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.IType,System.Object,System.Range)">
             <summary>
             Gets the <see cref="T:Weknow.CypherBuilder.IRelation"/> with the specified variable.
             </summary>
@@ -4125,48 +4103,6 @@
             <param name="r">The r.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="T:Weknow.CypherBuilder.Rng">
-            <summary>
-            Represent alternative to range syntax (currently the range syntax is not supported as expression)
-            </summary>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Rng.Any">
-            <summary>
-            Any length
-            </summary>
-            <example>
-            (a)-[*]->(b)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Rng.AtLeast(System.Int32)">
-            <summary>
-            At least
-            </summary>
-            <param name="i">The i.</param>
-            <example>
-            (a)-[*3..]->(b)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Rng.AtMost(System.Int32)">
-            <summary>
-            At most
-            </summary>
-            <param name="i">The i.</param>
-            <example>
-            (a)-[*..5]->(b)
-            </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.Rng.Scope(System.Int32,System.Int32)">
-            <summary>
-            From start index to end index.
-            </summary>
-            <param name="start">The start.</param>
-            <param name="end">The end.</param>
-            <returns></returns>
-            <example>
-            (a)-[*3..5]->(b)
-            </example>
         </member>
         <member name="T:Weknow.CypherBuilder.ILabel">
             <summary>
@@ -4254,6 +4190,26 @@
             The result of the operator.
             </returns>
             <example><![CDATA[(n)-[:!KNOWS]->(m)]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IType.op_Multiply(Weknow.CypherBuilder.IType,System.Int32)">
+            <summary>
+            Implements the operator op_Multiply with represent a range.
+            </summary>
+            <param name="a">a.</param>
+            <param name="range">The range.</param>
+            <example>
+            <![CDATA[MATCH (n)-[*..5]->(m)]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.IType.op_Multiply(Weknow.CypherBuilder.IType,System.Range)">
+            <summary>
+            Implements the operator op_Multiply with represent a range.
+            </summary>
+            <param name="a">a.</param>
+            <param name="range">The range.</param>
+            <example>
+            <![CDATA[MATCH (n)-[*..5]->(m)]]>
+            </example>
         </member>
         <member name="T:Weknow.CypherBuilder.Declarations.ParameterDeclaration">
             <summary>

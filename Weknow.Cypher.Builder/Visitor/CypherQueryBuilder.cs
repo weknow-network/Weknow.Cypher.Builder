@@ -52,7 +52,7 @@ namespace Weknow.CypherBuilder
         /// </summary>
         /// <param name="range">The range.</param>
         /// <returns></returns>
-        public ReadOnlySpan<char> this[Range range]
+        public ReadOnlySpan<char> this[System.Range range]
         {
             get
             {
@@ -103,7 +103,7 @@ namespace Weknow.CypherBuilder
         /// Removes the specified range.
         /// </summary>
         /// <param name="range">The range.</param>
-        public void Remove(Range range)
+        public void Remove(System.Range range)
         {
             Deconstruct(range, out int from, out int to);
             _builder.Remove(from, to - from);
@@ -151,7 +151,7 @@ namespace Weknow.CypherBuilder
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public string ToString(Range range) =>
+        public string ToString(System.Range range) =>
             new string(this[range]);
 
         #endregion // ToString
@@ -236,7 +236,7 @@ namespace Weknow.CypherBuilder
         /// <param name="range">The range.</param>
         /// <param name="from">From.</param>
         /// <param name="to">To.</param>
-        private void Deconstruct(Range range, out int from, out int to)
+        private void Deconstruct(System.Range range, out int from, out int to)
         {
             from = range.Start.Value;
             if (range.Start.IsFromEnd)

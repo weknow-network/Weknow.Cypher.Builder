@@ -219,7 +219,7 @@ namespace Weknow.CypherBuilder
                     Query.Append(" / ");
                     break;
                 case ExpressionType.Multiply:
-                    Query.Append(" * ");
+                    Query.Append("*");
                     break;
                     //case ExpressionType.UnaryPlus:
                     //    Query.Append(" * ");
@@ -227,7 +227,17 @@ namespace Weknow.CypherBuilder
             }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
-            Visit(node.Right);
+            if (node.NodeType == ExpressionType.Multiply && node.Type.Name == nameof(IType))
+            {
+                if(node.Right.NodeType == ExpressionType.Constant)
+                    Query.Append("..");
+                using (_shouldCreateParameter.Push(false))
+                {
+                    Visit(node.Right);
+                }
+            }
+            else
+                Visit(node.Right);
             return node;
         }
 
@@ -395,34 +405,24 @@ namespace Weknow.CypherBuilder
                     ApplyFormat(node, format);
                 }
             }
-            else if (type == nameof(Rng))
+            else if (type == nameof(Range))
             {
-                if (name == nameof(Rng.Scope))
+                using (_shouldCreateParameter.Push(false))
                 {
-                    Query.Append("*");
-                    var index0 = (ConstantExpression)args[0];
-                    Query.Append(index0.Value);
-                    Query.Append("..");
-                    var index1 = (ConstantExpression)args[1];
-                    Query.Append(index1.Value);
-                }
-                else if (name == nameof(Rng.AtMost))
-                {
-                    Query.Append("*..");
-                    var index = (ConstantExpression)args[0];
-                    Query.Append(index.Value);
-                }
-                else if (name == nameof(Rng.AtLeast))
-                {
-                    Query.Append("*");
-                    var index = (ConstantExpression)args[0];
-                    Query.Append(index.Value);
-                    Query.Append("..");
-                }
-                else if (name == nameof(Rng.Any))
-                {
-
-                    Query.Append("*");
+                    //Query.Append("*");
+                    if (name == nameof(Range.EndAt))
+                    {
+                        Query.Append("..");
+                        Visit(args[0]);
+                    }
+                    else if (name == nameof(Range.StartAt))
+                    {
+                        Visit(args[0]);
+                        Query.Append("..");
+                    }
+                    //else if (name == nameof(Range.All))
+                    //{
+                    //}
                 }
             }
             // TODO: [bnaya 2023-01-09] Support Alias of: Fn.Ag.Sum(n._.PropA).As(Fn.Ag.Sum)
@@ -456,6 +456,9 @@ namespace Weknow.CypherBuilder
 
             bool shouldTryHandleAmbient = true;
             if (HandleDateTime(node))
+                return node;
+
+            if (node.Type == typeof(Range) && pi.Name == nameof(Range.All))
                 return node;
 
             #region As
@@ -732,8 +735,10 @@ namespace Weknow.CypherBuilder
         /// </returns>
         protected override Expression VisitNew(NewExpression node)
         {
+            ReadOnlyCollection<Expression> args = node.Arguments;
             using var _ = _isProperties.Set(true);
             bool isEnumerable = node.Type.IsAssignableTo(typeof(IEnumerable));
+            bool isRange = node.NodeType == ExpressionType.New && node.Type.FullName == "System.Range" && args.Count == 2;
             bool isObject = _expression[0].Value == null;
             bool ignoreEnumerable = Query[Query.Length - 1] == '[';
             if (isObject)
@@ -743,25 +748,39 @@ namespace Weknow.CypherBuilder
                     if (!ignoreEnumerable && !_isCypherInput.State)
                         Query.Append("[");
                 }
-                else
+                else if (!isRange)
                     Query.Append("{ ");
             }
-            for (int i = 0; i < node.Arguments.Count; i++)
+            for (int i = 0; i < args.Count; i++)
             {
                 if (_expression[0].Value != null)
                 {
                     Visit(_expression[0].Value);
                     Query.Append('.');
                 }
-                if (node.Members == null) throw new ArgumentNullException("node.Members");
+                if (node.Members == null)
+                {
+                    if (isRange)
+                    {
+                        using (_shouldCreateParameter.Push(false))
+                        {
+                            Visit(args[0]);
+                            Query.Append("..");
+                            Visit(args[1]);
+                        }
+                        break;
+                    }
+                    else
+                        throw new ArgumentNullException("node.Members");
+                }
                 Query.Append(node.Members[i].Name);
                 if (isObject)
                     Query.Append(": ");
                 else
                     AppendPropSeparator();
-                Expression? expr = node.Arguments[i];
+                Expression? expr = args[i];
                 Visit(expr);
-                if (expr != node.Arguments.Last())
+                if (expr != args.Last())
                     Query.Append(", ");
             }
             if (isObject)
@@ -771,7 +790,7 @@ namespace Weknow.CypherBuilder
                     if (!ignoreEnumerable && !_isCypherInput.State)
                         Query.Append("]");
                 }
-                else
+                else if (!isRange)
                     Query.Append(" }");
             }
             return node;

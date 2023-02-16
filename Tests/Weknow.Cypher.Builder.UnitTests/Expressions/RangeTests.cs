@@ -8,153 +8,132 @@ namespace Weknow.CypherBuilder
 {
     [Trait("TestType", "Unit")]
 
-    public class WhereXTests
+    public class RangeTests
     {
         private readonly ITestOutputHelper _outputHelper;
 
         #region Ctor
 
-        public WhereXTests(ITestOutputHelper outputHelper)
+        public RangeTests(ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
         }
 
         #endregion // Ctor
 
-        #region Range_Test
+        #region MATCH (n)-[*1..5]->(m)
 
-        [Fact(Skip = "Expression don't support Range")]
-        public void Range_Test()
+        [Fact]
+        public void Range_Scope_Test()
         {
-            //CypherCommand cypher = _((n, r, m) =>
-            //                        Match(N(n) -
-            //                        R[1..5] >
-            //                        N(m)));
+            CypherCommand cypher = _((n, r, m) =>
+                                    Match(N(n) -
+                                    R[KNOWS * new System.Range(1,5)] >
+                                    N(m)));
 
-            //_outputHelper.WriteLine(cypher);
-            // Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
-            throw new NotSupportedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)-[:KNOWS*1..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Test
+        #endregion // MATCH (n)-[*1..5]->(m)
 
-        #region Range_FromAny_Test
+        #region MATCH (n)-[*1..]->(m)
 
-        [Fact(Skip = "Expression don't support Range")]
-        public void Range_FromAny_Test()
+        [Fact]
+        public void Range_StartAt_Test()
         {
-            //CypherCommand cypher = _((n, r, m) =>
-            //                        Match(N(n) -
-            //                        R[..5] >
-            //                        N(m)));
+            CypherCommand cypher = _((n, r, m) =>
+                                    Match(N(n) -
+                                    R[KNOWS * System.Range.StartAt(1)] >
+                                    N(m)));
 
-            //_outputHelper.WriteLine(cypher);
-            // Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
-            throw new NotSupportedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)-[:KNOWS*1..]->(m)", cypher.Query);
         }
 
-        #endregion // Range_FromAny_Test
+        #endregion // MATCH (n)-[*1..]->(m)
 
-        #region Range_WithVar_Test
+        #region MATCH (n)-[*..5]->(m)
 
-        [Fact(Skip = "Expression don't support Range")]
-        public void Range_WithVar_Test()
+        [Fact]
+        public void Range_Multiply_Test()
         {
-            //CypherCommand cypher = _((n, r, m) =>
-            //                        Match(N(n) -
-            //                        R[r, 1..5] >
-            //                        N(m)));
+            CypherCommand cypher = _((n, r, m) =>
+                                    Match(N(n) -
+                                    R[KNOWS * 5] >
+                                    N(m)));
 
-            //_outputHelper.WriteLine(cypher);
-            // Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
-            throw new NotSupportedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)-[:KNOWS*..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_WithVar_Test
+        #endregion // MATCH (n)-[*..5]->(m)
 
-        #region Range_WithVarAndProp_Test
+        #region MATCH (n)-[*1..5]->(m)
 
-        [Fact(Skip = "Expression don't support Range")]
-        public void Range_WithVarAndProp_Test()
+        [Fact]
+        public void Range_Enum_Scope_Test()
         {
-            //    CypherCommand cypher = _((n, r, m) =>
-            //                            Match(N(n) -
-            //                            R[r, KNOWS, P(PropA), 1..5] >
-            //                            N(m)));
+            CypherCommand cypher = _((n, r, m) =>
+                                    Match(N(n) -
+                                    R[new Range(1, 5)] >
+                                    N(m)));
 
-            //    _outputHelper.WriteLine(cypher);
-            // Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
-            throw new NotSupportedException();
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)-[*1..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_WithVarAndProp_Test
+        #endregion // MATCH (n)-[*1..5]->(m)
 
-        #region Range_Infinit_Test
-
-        [Fact(Skip = "Expression don't support Range")]
-        public void Range_Infinit_Test()
-        {
-            //CypherCommand cypher = _((n, r, m) =>
-            //                        Match(N(n) -
-            //                        R[..] >
-            //                        N(m)));
-
-            //_outputHelper.WriteLine(cypher);
-            // Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
-            throw new NotSupportedException();
-        }
-
-        #endregion // Range_Infinit_Test
-
-        #region Range_Enum_AtMost_Test
+        #region MATCH (n)-[*..5]->(m)
 
         [Fact]
         public void Range_Enum_AtMost_Test()
         {
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[Rng.AtMost(5)] >
+                                    R[System.Range.EndAt(5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)-[*..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Enum_AtMost_Test
+        #endregion // MATCH (n)-[*..5]->(m)
 
-        #region Range_Enum_AtLeast_Test
+        #region MATCH (n)-[*3..]->(m)
 
         [Fact]
         public void Range_Enum_AtLeast_Test()
         {
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[Rng.AtLeast(3)] >
+                                    R[System.Range.StartAt(3)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)-[*3..]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Enum_AtLeast_Test
+        #endregion // MATCH (n)-[*3..]->(m)
 
-        #region Range_Enum_WithVar_Test
+        #region MATCH (n)-[r*1..5]->(m)
 
         [Fact]
         public void Range_Enum_WithVar_Test()
         {
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[r, Rng.Scope(1, 5)] >
+                                    R[r, new System.Range(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)-[r*1..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Enum_WithVar_Test
+        #endregion // MATCH (n)-[r*1..5]->(m)
 
-        #region Range_Enum_WithVarAndProp_Test
+        #region MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)
 
         [Fact]
         public void Range_Enum_WithVarAndProp_Test()
@@ -162,29 +141,46 @@ namespace Weknow.CypherBuilder
             var PropA = Parameters.Create();
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[r, KNOWS, new { PropA }, Rng.Scope(1, 5)] >
+                                    R[r, KNOWS, new { PropA }, new System.Range(1, 5)] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Enum_WithVarAndProp_Test
+        #endregion // MATCH (n)-[r:KNOWS { PropA: $PropA } *1..5]->(m)
 
-        #region Range_Enum_Infinit_Test
+        #region MATCH (n)-[:KNOWS*1..5]->(m)
+
+        [Fact]
+        public void Range_Enum_WithType_Test()
+        {
+            var PropA = Parameters.Create();
+            CypherCommand cypher = _((n, r, m) =>
+                                    Match(N(n) -
+                                    R[KNOWS,  new System.Range(1, 5)] >
+                                    N(m)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal("MATCH (n)-[:KNOWS*1..5]->(m)", cypher.Query);
+        }
+
+        #endregion // MATCH (n)-[:KNOWS*1..5]->(m)
+
+        #region MATCH (n)-[*]->(m)
 
         [Fact]
         public void Range_Enum_Infinit_Test()
         {
             CypherCommand cypher = _((n, r, m) =>
                                     Match(N(n) -
-                                    R[Rng.Any()] >
+                                    R[System.Range.All] >
                                     N(m)));
 
             _outputHelper.WriteLine(cypher);
             Assert.Equal("MATCH (n)-[*]->(m)", cypher.Query);
         }
 
-        #endregion // Range_Enum_Infinit_Test
+        #endregion // MATCH (n)-[*]->(m)
     }
 }
