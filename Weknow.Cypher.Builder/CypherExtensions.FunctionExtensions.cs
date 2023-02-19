@@ -193,6 +193,26 @@ public partial class CypherExtensions
 
     #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
+    #region Length / length(n)
+
+    /// <summary>
+    /// Length of a path.
+    /// </summary>
+    /// <param name="path">The path.</param>
+    /// <returns></returns>
+    /// <example>
+    /// <![CDATA[
+    /// MATCH p = (a)-->(b)-->(c)
+    /// WHERE a.name = 'Alice'
+    /// RETURN length(p)
+    /// ]]>
+    /// </example>
+    [Cypher("length($0)")]
+    public static VariableDeclaration Length(this VariableDeclaration path) => throw new NotImplementedException();
+
+    #endregion // Length / length(n)
+
+
     #region // Coalesce / coalesce(n)
 
     ///// <summary>

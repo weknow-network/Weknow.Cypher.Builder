@@ -2021,6 +2021,20 @@
             RETURN collect(DISTINCT n.PropA)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Length(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            Length of a path.
+            </summary>
+            <param name="path">The path.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            WHERE a.name = 'Alice'
+            RETURN length(p)
+            ]]>
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
             <summary>
             Compares the specified with.
@@ -3561,8 +3575,8 @@
             <summary>
             Implements the operator -.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3571,8 +3585,8 @@
             <summary>
             Declaration for operator -.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3581,8 +3595,8 @@
             <summary>
             Declaration for operator -.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3591,8 +3605,8 @@
             <summary>
             Declaration for operator &gt;.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3601,8 +3615,8 @@
             <summary>
             Declaration for operator &gt;.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3611,8 +3625,8 @@
             <summary>
             Declaration for operator &lt;.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3621,8 +3635,8 @@
             <summary>
             Declaration for operator &lt;.
             </summary>
-            <param name="l">The l.</param>
-            <param name="r">The r.</param>
+            <param name="l"></param>
+            <param name="r"></param>
             <returns>
             The result of the operator.
             </returns>
@@ -3632,6 +3646,36 @@
             Represent node to relation
             </summary>
             <seealso cref="T:Weknow.CypherBuilder.IPattern" />
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_Subtraction(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INodeRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_Subtraction(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INode)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.INodeRelation.op_Subtraction(Weknow.CypherBuilder.INode,Weknow.CypherBuilder.INodeRelation)">
+            <summary>
+            Declaration for operator -.
+            </summary>
+            <param name="r1"></param>
+            <param name="r2"></param>
+            <returns>
+            The result of the operator.
+            </returns>
         </member>
         <member name="M:Weknow.CypherBuilder.INodeRelation.op_GreaterThan(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INode)">
             <summary>
@@ -3649,16 +3693,6 @@
             </summary>
             <param name="l">The l.</param>
             <param name="r">The r.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:Weknow.CypherBuilder.INodeRelation.op_Subtraction(Weknow.CypherBuilder.INodeRelation,Weknow.CypherBuilder.INodeRelation)">
-            <summary>
-            Declaration for operator -.
-            </summary>
-            <param name="r1"></param>
-            <param name="r2"></param>
             <returns>
             The result of the operator.
             </returns>

@@ -23,8 +23,8 @@
         /// <summary>
         /// Implements the operator -.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -33,8 +33,8 @@
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -42,8 +42,8 @@
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -51,8 +51,8 @@
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -60,8 +60,8 @@
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -69,8 +69,8 @@
         /// <summary>
         /// Declaration for operator &lt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -78,8 +78,8 @@
         /// <summary>
         /// Declaration for operator &lt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
