@@ -819,12 +819,22 @@
             Cypher Extensions
             </summary>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Match(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode)">
+            <summary>
+            Matches phrase into path variable.
+            </summary>
+            <param name="previous">The previous.</param>
+            <param name="path">The path.</param>
+            <param name="statement">.</param>
+            <returns></returns>
+            <example><![CDATA[ p = MATCH (n:Person)-[:KNOWS]->(m:Person) ]]></example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Match(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.Cypher.Builder.Fluent.ICypherStatement)">
             <summary>
             Matches phrase.
             </summary>
-            <param name="p">The p.</param>
-            <param name="pp"></param>
+            <param name="previous">The p.</param>
+            <param name="statement"></param>
             <returns></returns>
             <example>
             <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
@@ -834,7 +844,7 @@
             <summary>
             Matches phrase.
             </summary>
-            <param name="p">The p.</param>
+            <param name="previous">The p.</param>
             <param name="patternattern">The patternattern.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>

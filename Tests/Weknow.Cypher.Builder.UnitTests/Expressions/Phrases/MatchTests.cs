@@ -339,6 +339,27 @@ SET n:Person:Manager", cypher.Query);
         }
 
         #endregion // MATCH (n:Person { Id: $Id }) SET n:Person:Manager
+
+        #region MATCH p = (n)-[r]->(m) RETURN p
+
+        [Fact]
+        public void Match_PathTest()
+        {
+            CypherCommand cypher = _((p, p1, n, m, r) =>
+                                    Match(p, N(n) - R[r] > N(m))
+                                    .Match(p1, N(n) - R[r] > N(m))
+                                    .Return(p, p1));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                    """
+                    MATCH p = (n)-[r]->(m)
+                    MATCH p1 = (n)-[r]->(m)
+                    RETURN p, p1
+                    """, cypher.Query);
+        }
+
+        #endregion // MATCH p = (n)-[r]->(m) RETURN p
     }
 }
 

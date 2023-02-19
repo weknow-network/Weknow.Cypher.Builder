@@ -13,29 +13,41 @@ public static partial class CypherExtensions
     #region Match
 
     /// <summary>
+    /// Matches phrase into path variable.
+    /// </summary>
+    /// <param name="previous">The previous.</param>
+    /// <param name="path">The path.</param>
+    /// <param name="statement">.</param>
+    /// <returns></returns>
+    /// <example><![CDATA[ p = MATCH (n:Person)-[:KNOWS]->(m:Person) ]]></example>
+    [Cypher("$0\r\nMATCH $1 = $2")]
+    [CypherClause]
+    public static ICypherMatchStatement Match(this ICypherStatement previous, VariableDeclaration path, INode statement) => throw new NotImplementedException();
+
+    /// <summary>
     /// Matches phrase.
     /// </summary>
-    /// <param name="p">The p.</param>
-    /// <param name="pp"></param>
+    /// <param name="previous">The p.</param>
+    /// <param name="statement"></param>
     /// <returns></returns>
     /// <example>
     /// <![CDATA[ MATCH (n:Person)-[:KNOWS]->(m:Person) ]]>
     /// </example>
     [Cypher("$0\r\nMATCH $1")]
     [CypherClause]
-    public static ICypherMatchStatement Match(this ICypherStatement p, ICypherStatement pp) => throw new NotImplementedException();
+    public static ICypherMatchStatement Match(this ICypherStatement previous, ICypherStatement statement) => throw new NotImplementedException();
 
     /// <summary>
     /// Matches phrase.
     /// </summary>
-    /// <param name="p">The p.</param>
+    /// <param name="previous">The p.</param>
     /// <param name="patternattern">The patternattern.</param>
     /// <returns></returns>
     /// <exception cref="System.NotImplementedException"></exception>
     /// <example><![CDATA[ MATCH (n:Person)-[:KNOWS]->;(m:Person) ]]></example>
     [Cypher("$0\r\nMATCH $1")]
     [CypherClause]
-    public static ICypherMatchStatement Match(this ICypherStatement p, IPattern patternattern) => throw new NotImplementedException();
+    public static ICypherMatchStatement Match(this ICypherStatement previous, IPattern patternattern) => throw new NotImplementedException();
 
     #endregion // Match
 
