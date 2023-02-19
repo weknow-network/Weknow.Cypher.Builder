@@ -153,6 +153,48 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n) RETURN count(DISTINCT n.PropA) AS count
 
+        #region MATCH (n) RETURN collect(n.PropA) AS collect
+
+        [Fact]
+        public void Aggregation_Collect_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var collect = Variables.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Ag.Collect(n._.PropA).As(collect)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "collect(n.PropA) AS collect", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN collect(n.PropA) AS collect
+
+        #region MATCH (n) RETURN collect(DISTINCT n.PropA) AS collect
+
+        [Fact]
+        public void Aggregation_CollectDistinct_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var collect = Variables.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Ag.CollectDistinct(n._.PropA).As(collect)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "collect(DISTINCT n.PropA) AS collect", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN collect(DISTINCT n.PropA) AS count
+
         #region MATCH (n) RETURN avg(DISTINCT n.PropA) AS avg
 
         [Fact]
@@ -253,7 +295,7 @@ namespace Weknow.CypherBuilder
             CypherCommand cypher = _(() =>
                                     Match(N(n))
                                     .Return(
-                                        Fn.Aggregation.Sum(n._.PropA).As("sum"),
+                                        Fn.Aggregation.SumDistinct(n._.PropA).As("sum"),
                                         Fn.Ag.MinDistinct(n._.PropA).As("min"),
                                         Fn.Ag.MaxDistinct(n._.PropA).As("max"),
                                         Fn.Ag.AvgDistinct(n._.PropA).As("avg")));

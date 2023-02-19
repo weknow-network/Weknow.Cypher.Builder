@@ -156,6 +156,38 @@ public partial interface ICypher
 
         #endregion // Avg / avg(DISTINCT n.PropA)) 
 
+        #region Collect / collect(n)
+
+        /// <summary>
+        /// List from the values, ignores null.
+        /// </summary>
+        /// <param name="result">The result to be collect.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// RETURN collect(n)
+        /// </example>
+        [Cypher("collect($0)")]
+        public VariableDeclaration Collect(object result) => throw new NotImplementedException();
+
+        #endregion // Collect / collect(n)
+
+        #region CollectDistinct / collect(DISTINCT n)
+
+        /// <summary>
+        /// List from the values, ignores null.
+        /// </summary>
+        /// <param name="result">The result to be collect.</param>
+        /// <returns></returns>
+        /// <example>
+        /// MATCH (n)
+        /// RETURN collect(n)
+        /// </example>
+        [Cypher("collect(DISTINCT $0)")]
+        public VariableDeclaration CollectDistinct(object result) => throw new NotImplementedException();
+
+        #endregion // CollectDistinct / collect(DISTINCT n)
+
         #region Count / count(n)
 
         /// <summary>
@@ -171,7 +203,6 @@ public partial interface ICypher
         public VariableDeclaration Count(object result) => throw new NotImplementedException();
 
         #endregion // Count / count(n)
-
 
         #region CountDistinct / count(DISTINCT n)
 

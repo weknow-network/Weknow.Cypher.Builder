@@ -2301,6 +2301,28 @@
             RETURN avg(n.PropA)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.Collect(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="result">The result to be collect.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(n)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.CollectDistinct(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="result">The result to be collect.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN collect(n)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.Count(System.Object)">
             <summary>
             Count the results.
