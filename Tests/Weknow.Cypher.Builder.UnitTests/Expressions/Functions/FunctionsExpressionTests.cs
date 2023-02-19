@@ -111,6 +111,68 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n1)-[r]->(n2) ... / Functions_Test
 
+        #region MATCH (n) RETURN count(n.PropA) AS count
+
+        [Fact]
+        public void Aggregation_Count_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var count = Variables.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Ag.Count(n._.PropA).As(count)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "count(n.PropA) AS count", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN count(n.PropA) AS count
+
+        #region MATCH (n) RETURN count(DISTINCT n.PropA) AS count
+
+        [Fact]
+        public void Aggregation_CountDistinct_Test()
+        {
+            var n = Variables.Create<Foo>();
+            var count = Variables.Create();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Ag.CountDistinct(n._.PropA).As(count)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "count(DISTINCT n.PropA) AS count", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN count(DISTINCT n.PropA) AS count
+
+        #region MATCH (n) RETURN avg(DISTINCT n.PropA) AS avg
+
+        [Fact]
+        public void Aggregation_Short_DISTINCT_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Ag.AvgDistinct(n._.PropA).As("avg")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "avg(DISTINCT n.PropA) AS avg", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN avg(DISTINCT n.PropA) AS avg
+
         #region MATCH (n) RETURN avg(n.PropA) AS avg
 
         [Fact]
@@ -181,6 +243,32 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min ...
 
+        #region MATCH (n) RETURN sum(DISTINCT n.PropA) AS sum, min(DISTINCT n.PropA) AS min ...
+
+        [Fact]
+        public void Aggregation_DISTINCT_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(
+                                        Fn.Aggregation.Sum(n._.PropA).As("sum"),
+                                        Fn.Ag.MinDistinct(n._.PropA).As("min"),
+                                        Fn.Ag.MaxDistinct(n._.PropA).As("max"),
+                                        Fn.Ag.AvgDistinct(n._.PropA).As("avg")));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN " +
+                                "sum(DISTINCT n.PropA) AS sum, " +
+                                "min(DISTINCT n.PropA) AS min, " +
+                                "max(DISTINCT n.PropA) AS max, " +
+                                "avg(DISTINCT n.PropA) AS avg", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min ...
+
         #region MATCH (n) RETURN collect(n) / Collect_Test
 
         [Fact]
@@ -241,6 +329,8 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n) RETURN collect(n) / Collect_Test
 
+        #region MATCH (n) RETURN collect(n.PropA)
+
         [Fact]
         public void Collect_Var_Prop_Test()
         {
@@ -254,6 +344,8 @@ namespace Weknow.CypherBuilder
             Assert.Equal($"MATCH (n){NewLine}" +
                          "RETURN collect(n.PropA)", cypher.Query);
         }
+
+        #endregion // MATCH (n) RETURN collect(n.PropA)
 
         #region MATCH (n) RETURN collect(n.PropA) / Collect_PropT_Test
 

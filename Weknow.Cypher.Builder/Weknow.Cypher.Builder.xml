@@ -2257,6 +2257,72 @@
             RETURN avg(n.PropA)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.SumDistinct(System.Object)">
+            <summary>
+            Sum numerical values. Similar functions are avg(), min(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN sum(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.MaxDistinct(System.Object)">
+            <summary>
+            Max numerical values. Similar functions are avg(), min(), sum().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN max(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.MinDistinct(System.Object)">
+            <summary>
+            Min numerical values. Similar functions are avg(), sum(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN min(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.AvgDistinct(System.Object)">
+            <summary>
+            Avg numerical values. Similar functions are sum(), min(), max().
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN avg(n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.Count(System.Object)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="result">The result to be count.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.CountDistinct(System.Object)">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="result">The result to be count.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.ICypherCalendar.Timestamp">
             <summary>
             Milliseconds since midnight, January 1, 1970 UTC.
