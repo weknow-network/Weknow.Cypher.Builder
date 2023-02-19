@@ -479,6 +479,42 @@ public partial interface ICypher
 
     #endregion // Return
 
+    #region With
+
+    /// <summary>
+    /// WITH phrase.
+    /// </summary>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (user)-[:FRIEND]-(friend)
+    /// WHERE user.name = $name
+    /// WITH user, count(friend) AS friends
+    /// WHERE friends > 10
+    /// RETURN user
+    /// </example>
+    [Cypher("WITH *")]
+    [CypherClause]
+    public static ICypherWithStatement With() => throw new NotImplementedException();
+
+    /// <summary>
+    /// WITH phrase.
+    /// </summary>
+    /// <param name="var">The first variable.</param>
+    /// <param name="vars">Rest of the variables</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (user)-[:FRIEND]-(friend)
+    /// WHERE user.name = $name
+    /// WITH user, count(friend) AS friends
+    /// WHERE friends > 10
+    /// RETURN user
+    /// </example>
+    [Cypher("WITH $0$1")]
+    [CypherClause]
+    public static ICypherWithStatement With(ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
+
+    #endregion // With
+
     #region Match
 
     /// <summary>

@@ -199,5 +199,40 @@ public class WithTests
     }
 
     #endregion // MATCH (user:PERSON)-[:KNOWS]->(friend:FRIEND) WITH user, count(friend) AS friends .. RETURN user
+
+    #region CALL { WITH n MATCH (i)--(n) RETURN i }
+
+    [Fact]
+    public void Call_With_Test()
+    {
+        var Id = Parameters.Create();
+        var n = Variables.Create();
+        var i = Variables.Create<Foo>(); ;
+
+        CypherCommand cypher = _(() =>
+                    Merge(N(n, Person, new { Id }))
+                    .Call(
+                    With(n)
+                        .Match(N(i)-N(n))
+                        .Return(i)
+                    )
+                    .Return(i._.Name),
+                    cfg => cfg.Naming.LabelConvention = CypherNamingConvention.SCREAMING_CASE);
+        ;
+
+        _outputHelper.WriteLine(cypher.Dump());
+        Assert.Equal(
+                """
+                MERGE (n:PERSON { Id: $Id })
+                CALL {
+                WITH n
+                MATCH (i)--(n)
+                RETURN i
+                }
+                RETURN i.Name
+                """, cypher.Query);
+    }
+
+    #endregion // CALL { WITH n MATCH (i)--(n) RETURN i } 
 }
 

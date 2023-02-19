@@ -2520,6 +2520,34 @@
             RETURN n
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.With">
+            <summary>
+            WITH phrase.
+            </summary>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            WITH user, count(friend) AS friends
+            WHERE friends > 10
+            RETURN user
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.With(Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
+            <summary>
+            WITH phrase.
+            </summary>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables</param>
+            <returns></returns>
+            <example>
+            MATCH (user)-[:FRIEND]-(friend)
+            WHERE user.name = $name
+            WITH user, count(friend) AS friends
+            WHERE friends > 10
+            RETURN user
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode)">
             <summary>
             Matches phrase.
