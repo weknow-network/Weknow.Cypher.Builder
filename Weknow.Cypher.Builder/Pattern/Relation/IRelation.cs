@@ -154,8 +154,26 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static IRelationNode operator -(IRelationNode r1, IRelation r2) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator -.
+        /// </summary>
+        /// <param name="r1"></param>
+        /// <param name="r2"></param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static IRelationNode operator -(IRelation r1, IRelationNode r2) => throw new NotImplementedException();
+        /// <summary>
+        /// Declaration for operator -.
+        /// </summary>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -163,8 +181,8 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator -.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -172,8 +190,8 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -181,8 +199,8 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator &gt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -190,8 +208,8 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator &lt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>
@@ -199,8 +217,8 @@ namespace Weknow.CypherBuilder
         /// <summary>
         /// Declaration for operator &lt;.
         /// </summary>
-        /// <param name="l">The l.</param>
-        /// <param name="r">The r.</param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
         /// <returns>
         /// The result of the operator.
         /// </returns>

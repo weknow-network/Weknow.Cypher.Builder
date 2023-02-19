@@ -146,6 +146,8 @@ namespace Weknow.CypherBuilder
 
             bool isRightNull = node.Right is ConstantExpression rexp && rexp.Value == null;
 
+            bool afterRelationEnds = Query[^1] == ']';
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             switch (node.NodeType)
             {
@@ -154,8 +156,12 @@ namespace Weknow.CypherBuilder
                         Query.Append(" > ");
                     else
                     {
-                        if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
+                        if (!afterRelationEnds &&
+                            node.Left.Type == typeof(INode) && 
+                            node.Right.Type == typeof(INode))
+                        {
                             Query.Append("-");
+                        }
                         Query.Append("->");
                     }
                     break;
@@ -165,14 +171,22 @@ namespace Weknow.CypherBuilder
                     else
                     {
                         Query.Append("<-");
-                        if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
+                        if (!afterRelationEnds && 
+                            node.Left.Type == typeof(INode) && 
+                            node.Right.Type == typeof(INode))
+                        {
                             Query.Append("-");
+                        }
                     }
                     break;
                 case ExpressionType.Subtract:
                     Query.Append("-");
-                    if (node.Left.Type == typeof(INode) && node.Right.Type == typeof(INode))
+                    if (!afterRelationEnds &&
+                        node.Left.Type == typeof(INode) &&
+                        node.Right.Type == typeof(INode))
+                    {
                         Query.Append("-");
+                    }
                     break;
                 case ExpressionType.Equal:
                     if (isRightNull)

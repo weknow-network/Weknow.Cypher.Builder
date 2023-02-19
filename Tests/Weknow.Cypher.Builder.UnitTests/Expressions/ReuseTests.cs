@@ -24,8 +24,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region MATCH (person:Person)-[r:LIKE]->(animal:Animal) / LazyReuse_Node_Test
-
+        #region MATCH (person:Person)-[r:LIKE]->(animal:Animal) 
         [Fact]
         public void LazyReuse_Node_Test()
         {
@@ -40,10 +39,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("MATCH (person:Person)-[r:LIKE]->(animal:Animal)", cypher.Query);
         }
 
-        #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) / LazyReuse_Node_Test
+        #endregion // MATCH (person:Person)-[r:LIKE]->(animal:Animal) 
 
-        #region (n:Person { PropA: $nPropA }) ... / LazyReuse_Overloads_Test
-
+        #region (n:Person { PropA: $nPropA }) ... 
         [Fact]
         public void LazyReuse_Overloads_Test()
         {
@@ -75,7 +73,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal("(n:Person { Id: $n1_Id, PropA: $n2_PropA, PropB: $n3_PropB, PropC: $n4_PropC })", cypher5);
         }
 
-        #endregion // (n:Person { PropA: $nPropA }) ... / LazyReuse_Overloads_Test
+        #endregion // (n:Person { PropA: $nPropA }) ... 
 
         #region [:LIKE] / Reuse_Relation_Test
 
@@ -90,8 +88,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // [:LIKE] / Reuse_Relation_Test
 
-        #region (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
-
+        #region (n:Person:Animal)-[:LIKE] 
         [Fact]
         public void Reuse_Node_And_Relation_Test()
         {
@@ -102,10 +99,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Person:Animal)-[:LIKE]", pattern.ToString());
         }
 
-        #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+        #endregion // (n:Person:Animal)-[:LIKE] 
 
-        #region (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
-
+        #region (n:Person:Animal)-[:LIKE] 
         [Fact]
         public void Reuse_Node_As_Type_Test()
         {
@@ -117,10 +113,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Locale)-[:Language]->(:Language)", cypher);
         }
 
-        #endregion // (n:Person:Animal)-[:LIKE] / Reuse_Node_And_Relation_Test
+        #endregion // (n:Person:Animal)-[:LIKE] 
 
-        #region (a)-[r1]->(b) / Reuse_N_R_N_Test
-
+        #region (a)-[r1]->(b) 
         [Fact]
         public void Reuse_N_R_N_Test()
         {
@@ -132,10 +127,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(a)-[r1]->(b)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1]->(b) / Reuse_N_R_N_Test
+        #endregion // (a)-[r1]->(b) 
 
-        #region (a)-[r1]->(b) / Reuse_N_R2_N_Test
-
+        #region (a)-[r1]->(b) 
         [Fact]
         public void Reuse_N_R2_N_Test()
         {
@@ -149,10 +143,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1]->(b) / Reuse_N_R2_N_Test
+        #endregion // (a)-[r1]->(b) 
 
-        #region (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
-
+        #region (a)-[r1:LIKE { Id: Id }]->(b) 
         [Fact]
         public void Reuse_N_R3_N_Test()
         {
@@ -165,10 +158,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("(a)-[:LIKE { Id: $Id }]->(b)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1:LIKE { Id: Id }]->(b) / Reuse_N_R3_N_Test
+        #endregion // (a)-[r1:LIKE { Id: Id }]->(b) 
 
-        #region (a)-[r1: KIKE { Id: $Id}]->(b) / Reuse_N_R1_N_Test
-
+        #region (a)-[r1: KIKE { Id: $Id}]->(b) 
         [Fact]
         public void Reuse_N_R1_N_Test()
         {
@@ -182,10 +174,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("(a)-[r1:LIKE { Id: $Id }]->(b)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1: KIKE { Id: $Id}]->(b) / Reuse_N_R1_N_Test
+        #endregion // (a)-[r1: KIKE { Id: $Id}]->(b) 
 
-        #region (a)-[r1]->(b)<-[r2] / Reuse_Complex4_Test
-
+        #region (a)-[r1]->(b)<-[r2] 
         [Fact]
         public void Reuse_Complex4_Test()
         {
@@ -197,10 +188,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(a)-[r1]->(b)<-[r2]", pattern.ToString());
         }
 
-        #endregion // (a)-[r1]->(b)<-[r2] / Reuse_Complex4_Test
+        #endregion // (a)-[r1]->(b)<-[r2] 
 
-        #region (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Test
-
+        #region (a)-[r1]->(b)<-[r2]-(c) 
         [Fact]
         public void Reuse_Complex5_Test()
         {
@@ -212,9 +202,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(a)-[r1]->(b)<-[r2]-(c)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Test
+        #endregion // (a)-[r1]->(b)<-[r2]-(c) 
 
-        #region (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
+        #region (a)-[r1]->(b)<-[r2]-(c) 
 
         [Fact]
         public void Reuse_Complex5_Broken_Test()
@@ -233,9 +223,8 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(a)-[r1]->(b)<-[r2]-(c)", pattern.ToString());
         }
 
-        #endregion // (a)-[r1]->(b)<-[r2]-(c) / Reuse_Complex5_Broken_Test
-
-        #region UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
+        #endregion // (a)-[r1]->(b)<-[r2]-(c) 
+        #region UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n 
 
         [Fact]
         public void Reuse_Unwind_Arr_Test()
@@ -262,7 +251,7 @@ namespace Weknow.CypherBuilder
                 "RETURN n", cypher);
         }
 
-        #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n / Reuse_Unwind_Arr_Test
+        #endregion // UNWIND ... MATCH(n:Person ...) MATCH(u:Maintainer ...) MERGE (u)-[:By { Date: $Date }]->(n) RETURN n 
     }
 }
 

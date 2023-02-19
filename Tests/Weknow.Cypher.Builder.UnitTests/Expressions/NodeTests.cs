@@ -21,7 +21,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
-        #region (n) / Node_Variable_Test
+        #region (n) 
 
         [Fact]
         public void Node_Variable_Test()
@@ -35,9 +35,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n)", pattern.ToString());
         }
 
-        #endregion // (n) / Node_Variable_Test
+        #endregion // (n) 
 
-        #region (:Person) / Node_Label_Test
+        #region (:Person) 
 
         [Fact]
         public void Node_Label_Test()
@@ -50,9 +50,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(:Person)", pattern.ToString());
         }
 
-        #endregion // (:Person) / Node_Label_Test
+        #endregion // (:Person) 
 
-        #region (n:Person) / Node_Variable_Label_Test
+        #region (n:Person) 
 
         [Fact]
         public void Node_Variable_Label_Test()
@@ -66,9 +66,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Person)", pattern.ToString());
         }
 
-        #endregion // (n:Person) / Node_Variable_Label_Test
+        #endregion // (n:Person) 
 
-        #region (n:Person { Id: $Id }) / Node_Variable_Label_Property_Test
+        #region (n:Person { Id: $Id })
 
         [Fact]
         public void Node_Variable_Label_Property_Test()
@@ -83,9 +83,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Person { Id: $Id })", pattern.ToString());
         }
 
-        #endregion // (n:Person { Id: $Id }) / Node_Variable_Label_Property_Test
+        #endregion // (n:Person { Id: $Id })
 
-        #region (n:Person $n) / Node_Variable_Label_Map_Test
+        #region (n:Person $n)
 
         [Fact]
         public void Node_Variable_Label_Map_Test()
@@ -100,9 +100,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Person $n)", pattern.ToString());
         }
 
-        #endregion // (n:Person $n) / Node_Variable_Label_Map_Test
+        #endregion // (n:Person $n)
 
-        #region (n:Person: Animal) / Node_MultiLabel_Test
+        #region (n:Person: Animal) 
 
         [Fact]
         public void Node_MultiLabel_Test()
@@ -116,9 +116,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"(n:Person:Animal)", pattern.ToString());
         }
 
-        #endregion // (n:Person $n) / Node_MultiLabel_Test
+        #endregion // (n:Person $n) 
 
-        #region CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
+        #region CREATE (n:Person $map) 
 
         [Fact]
         public void Node_Variable_Label_MapAsVar_Test()
@@ -134,9 +134,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal(@"CREATE (n:Person $map)", pattern.ToString());
         }
 
-        #endregion // CREATE (n:Person $map) / Node_Variable_Label_MapAsVar_Test
+        #endregion // CREATE (n:Person $map) 
 
-        #region MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
+        #region MATCH (n1:Person)--(n2:Person) 
 
         [Fact]
         public void NodeToNode_Test()
@@ -148,9 +148,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("MATCH (n1:Person)--(n2:Person)", cypher.Query);
         }
 
-        #endregion // MATCH (n1:Person)--(n2:Person) / NodeToNode_Test
+        #endregion // MATCH (n1:Person)--(n2:Person) 
 
-        #region MATCH (n1:Person)-->(n2:Person) / NodeToNode_Forward_Test
+        #region MATCH (n1:Person)-->(n2:Person) 
 
         [Fact]
         public void NodeToNode_Forward_Test()
@@ -162,9 +162,9 @@ namespace Weknow.CypherBuilder
             Assert.Equal("MATCH (n1:Person)-->(n2:Person)", cypher.Query);
         }
 
-        #endregion // MATCH (n1:Person)-->(n2:Person) / NodeToNode_Forward_Test
+        #endregion // MATCH (n1:Person)-->(n2:Person) 
 
-        #region MATCH (n1:Person)<--(n2:Person) / NodeToNode_Backward_Test
+        #region MATCH (n1:Person)<--(n2:Person)
 
         [Fact]
         public void NodeToNode_Backward_Test()
@@ -176,8 +176,7 @@ namespace Weknow.CypherBuilder
             Assert.Equal("MATCH (n1:Person)<--(n2:Person)", cypher.Query);
         }
 
-        #endregion // MATCH (n1:Person)<--(n2:Person) / NodeToNodNodeToNode_Backward_Teste_Forward_Test
-
+        #endregion // MATCH (n1:Person)<--(n2:Person) 
         #region MATCH (n1:Person { PropA: $PropA, PropB: $PropB })-->(n2:Person { PropA: $n2_PropA, PropB: $n2_PropB })
 
         [Fact]
