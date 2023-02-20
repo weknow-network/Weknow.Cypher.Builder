@@ -555,6 +555,21 @@
             Variables factories
             </summary>
         </member>
+        <member name="M:Weknow.CypherBuilder.Variables.CreatePath">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.CreatePath``1">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.CreateMultiPath">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
         <member name="M:Weknow.CypherBuilder.Variables.CreateMulti``1">
             <summary>
             Creates the multi.
@@ -716,6 +731,115 @@
             <param name="v9">The v9.</param>
             <param name="v10">The P10.</param>
         </member>
+        <member name="T:Weknow.CypherBuilder.Variables.PathDeconstructor">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.Variables.PathDeconstructor.Default">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+            <param name="v10">The P10.</param>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherCommand">
             <summary>
             <![CDATA[Representation of Cypher Query & Parameters]]>
@@ -816,10 +940,23 @@
             Cypher Function Extensions
             </summary>
             <summary>
+            Cypher Function Extensions
+            </summary>
+            <summary>
             Cypher Extensions
             </summary>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.Match(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode)">
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Match(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.PathVariableDeclaration,Weknow.CypherBuilder.INode)">
+            <summary>
+            Matches phrase into path variable.
+            </summary>
+            <param name="previous">The previous.</param>
+            <param name="path">The path.</param>
+            <param name="statement">.</param>
+            <returns></returns>
+            <example><![CDATA[ p = MATCH (n:Person)-[:KNOWS]->(m:Person) ]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Match``1(Weknow.Cypher.Builder.Fluent.ICypherStatement,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0},Weknow.CypherBuilder.INode)">
             <summary>
             Matches phrase into path variable.
             </summary>
@@ -2045,6 +2182,93 @@
             ]]>
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Nodes(Weknow.CypherBuilder.Declarations.PathVariableDeclaration)">
+            <summary>
+            Return the nodes in the path as a list.
+            </summary>
+            <param name="path">The path.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN nodes(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Nodes``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0})">
+            <summary>
+            Return the nodes in the path as a list.
+            </summary>
+            <param name="path">The path.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN nodes(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Relationships(Weknow.CypherBuilder.Declarations.PathVariableDeclaration)">
+            <summary>
+            Return the relationships in the path as a list.
+            </summary>
+            <param name="path">The rpath.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN relationships(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Relationships``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0})">
+            <summary>
+            Return the relationships in the path as a list.
+            </summary>
+            <param name="path">The rpath.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN relationships(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.PathRelatedVariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.PathRelatedVariableDeclaration{``0},System.Predicate{Weknow.CypherBuilder.Declarations.VariableDeclaration{``0}},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="condition">Filter.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
             <summary>
             Compares the specified with.
@@ -2223,6 +2447,13 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="P:Weknow.CypherBuilder.ICypher.IFn.Path">
+            <summary>
+            Path's functions.
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:Weknow.CypherBuilder.ICypher.ICypherAggregation.Sum(System.Object)">
             <summary>
             Sum numerical values. Similar functions are avg(), min(), max().
@@ -2370,6 +2601,72 @@
             Gets the cypher's function.
             </summary>
             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Length(System.Object)">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="result">The result to be length.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            WHERE a.name = 'Alice'
+            RETURN length(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Nodes(Weknow.CypherBuilder.Declarations.PathVariableDeclaration)">
+            <summary>
+            Return the nodes in the path as a list.
+            </summary>
+            <param name="path">The path.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN nodes(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Nodes``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0})">
+            <summary>
+            Return the nodes in the path as a list.
+            </summary>
+            <param name="path">The path.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN nodes(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Relationships(Weknow.CypherBuilder.Declarations.PathVariableDeclaration)">
+            <summary>
+            Return the relationships in the path as a list.
+            </summary>
+            <param name="path">The rpath.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN relationships(p)
+            ]]>
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Relationships``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0})">
+            <summary>
+            Return the relationships in the path as a list.
+            </summary>
+            <param name="path">The rpath.</param>
+            <returns></returns>
+            <example>
+            <![CDATA[
+            MATCH p = (a)-->(b)-->(c)
+            RETURN relationships(p)
+            ]]>
+            </example>
         </member>
         <member name="M:Weknow.CypherBuilder.ICypher.HandleConfigInjection(System.Action{Weknow.CypherBuilder.CypherConfig},Weknow.CypherBuilder.CypherConfig)">
             <summary>
@@ -2646,7 +2943,19 @@
             RETURN user
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.VariableDeclaration,Weknow.CypherBuilder.INode)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Match(Weknow.CypherBuilder.Declarations.PathVariableDeclaration,Weknow.CypherBuilder.INode)">
+            <summary>
+            Matches phrase.
+            </summary>
+            <param name="var">The variable.</param>
+            <param name="n">The n.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <example>
+            MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Match``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0},Weknow.CypherBuilder.INode)">
             <summary>
             Matches phrase.
             </summary>
@@ -3591,6 +3900,11 @@
         <member name="F:Weknow.CypherBuilder.PropertyContextBehaviors.Dolar">
             <summary>
             No formatting except the $ sign.
+            </summary>
+        </member>
+        <member name="T:Weknow.CypherBuilder.ShouldCreateParameter">
+            <summary>
+            Options whether to create parameters
             </summary>
         </member>
         <member name="T:Weknow.CypherBuilder.SpecialFormat">
@@ -4616,6 +4930,11 @@
             Cast to parameter type.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration`1.Path">
+            <summary>
+            Cast to a path variable type.
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.Declarations.VariableDeclaration">
             <summary>
             Variable primitive for the Cypher expression.
@@ -4752,9 +5071,32 @@
             Cast to parameter type.
             </summary>
         </member>
+        <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration.AsPath">
+            <summary>
+            Cast to a path variable type.
+            </summary>
+        </member>
         <member name="P:Weknow.CypherBuilder.Declarations.VariableDeclaration.NoAmbient">
             <summary>
             Avoid ambient label attachment
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.Declarations.PathVariableDeclaration`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.Declarations.PathVariableDeclaration.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.Declarations.RelationsVariableDeclaration`1.Default">
+            <summary>
+            Default (and only) way to get cypher parameter.
+            It use under expression and don't need a real implementation;
             </summary>
         </member>
         <member name="T:Weknow.CypherBuilder.CypherQueryBuilder">

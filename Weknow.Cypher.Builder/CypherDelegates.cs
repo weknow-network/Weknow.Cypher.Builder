@@ -59,11 +59,13 @@ namespace Weknow.CypherBuilder
         public delegate R Project<R>(VariableDeclaration var);
 
         public delegate ICypherStatement FluentUnwindAction(VariableDeclaration item);
-
         public delegate ICypherStatement FluentUnwindAction<T>(VariableDeclaration<T> item);
 
         public delegate ICypherStatement FluentForEachAction(VariableDeclaration item);
-
         public delegate ICypherStatement FluentForEachAction<T>(VariableDeclaration<T> item);
+
+        public delegate object FluentToArrayAction(PathRelatedVariableDeclaration item);
+        public delegate object FluentToArrayAction<T>(PathRelatedVariableDeclaration<T> item);
+
     }
 }

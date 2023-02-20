@@ -345,7 +345,8 @@ SET n:Person:Manager", cypher.Query);
         [Fact]
         public void Match_PathTest()
         {
-            CypherCommand cypher = _((p, p1, n, m, r) =>
+            var (p, p1) = Variables.CreateMultiPath();
+            CypherCommand cypher = _((n, m, r) =>
                                     Match(p, N(n) - R[r] > N(m))
                                     .Match(p1, N(n) - R[r] > N(m))
                                     .Return(p, p1));

@@ -150,7 +150,8 @@ namespace Weknow.CypherBuilder
         [Fact]
         public void Foreach_Match_Assignment_Test()
         {
-            var (v, p, a) = Variables.CreateMulti<Foo>();
+            var v = Variables.CreatePath();
+            var (p, a) = Variables.CreateMulti<Foo>();
 
             CypherCommand cypher = _(() =>
                                     Match(v, N(p, Person) > N(a, Animal))

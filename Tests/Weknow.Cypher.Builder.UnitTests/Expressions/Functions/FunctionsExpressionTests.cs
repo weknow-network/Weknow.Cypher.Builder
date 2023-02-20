@@ -56,7 +56,7 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n) RETURN labels(n) / Labels_Test
 
-        #region MATCH (n) RETURN labels(n) / Timestamp_Test
+        #region timestamp()
 
         [Fact]
         public void Timestamp_Test()
@@ -78,7 +78,7 @@ namespace Weknow.CypherBuilder
                 "RETURN n, timestamp() AS date", cypher.Query);
         }
 
-        #endregion // MATCH (n) RETURN labels(n) / Timestamp_Test
+        #endregion // timestamp()
 
         #region MATCH (n1)-[r]->(n2) ... / Functions_Test
 
@@ -349,27 +349,6 @@ namespace Weknow.CypherBuilder
         }
 
         #endregion // MATCH (n) RETURN collect(n.PropA) / Collect_Prop_Test
-
-        #region MATCH (n) RETURN length(n) / Collect_Test
-
-        [Fact]
-        public void Length_Test()
-        {
-            var n = Variables.Create<Foo>();
-            CypherCommand cypher = _((p, m) =>
-                                    Match(p, N(n) - R[KNOWS * 8] > N(m))
-                                    .Where(n.__.FirstName == "Wong")
-                                    .Return(n.Length()));
-
-            _outputHelper.WriteLine(cypher);
-            Assert.Equal("""
-                        MATCH p = (n)-[:KNOWS*..8]->(m)
-                        WHERE n.FirstName = $p_0
-                        RETURN length(n)
-                        """, cypher.Query);
-        }
-
-        #endregion // MATCH (n) RETURN collect(n) / Collect_Test
 
         #region MATCH (n) RETURN collect(n.PropA)
 

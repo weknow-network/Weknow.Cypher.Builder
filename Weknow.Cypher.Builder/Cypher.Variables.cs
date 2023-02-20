@@ -274,6 +274,19 @@ public class Variables<T>
 public static class Variables
 {
     /// <summary>
+    /// Get variables declaration.
+    /// </summary>
+    public static PathVariableDeclaration CreatePath() => PathVariableDeclaration.Default;
+    /// <summary>
+    /// Get variables declaration.
+    /// </summary>
+    public static PathVariableDeclaration<T> CreatePath<T>() => PathVariableDeclaration<T>.Default;
+    /// <summary>
+    /// Get variables declaration.
+    /// </summary>
+    public static PathDeconstructor CreateMultiPath() => PathDeconstructor.Default;
+
+    /// <summary>
     /// Creates the multi.
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -551,5 +564,237 @@ public static class Variables
     }
 
     #endregion // Deconstructor
+
+    #region PathDeconstructor
+
+    /// <summary>
+    /// Variables Deconstruction.
+    /// </summary>
+    public class PathDeconstructor
+    {
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        public static readonly PathDeconstructor Default = new PathDeconstructor();
+
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        /// <param name="v6">The v6.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5,
+            out PathVariableDeclaration v6)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+            v6 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        /// <param name="v6">The v6.</param>
+        /// <param name="v7">The v7.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5,
+            out PathVariableDeclaration v6,
+            out PathVariableDeclaration v7)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+            v6 = PathVariableDeclaration.Default;
+            v7 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        /// <param name="v6">The v6.</param>
+        /// <param name="v7">The v7.</param>
+        /// <param name="v8">The v8.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5,
+            out PathVariableDeclaration v6,
+            out PathVariableDeclaration v7,
+            out PathVariableDeclaration v8)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+            v6 = PathVariableDeclaration.Default;
+            v7 = PathVariableDeclaration.Default;
+            v8 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        /// <param name="v6">The v6.</param>
+        /// <param name="v7">The v7.</param>
+        /// <param name="v8">The v8.</param>
+        /// <param name="v9">The v9.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5,
+            out PathVariableDeclaration v6,
+            out PathVariableDeclaration v7,
+            out PathVariableDeclaration v8,
+            out PathVariableDeclaration v9)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+            v6 = PathVariableDeclaration.Default;
+            v7 = PathVariableDeclaration.Default;
+            v8 = PathVariableDeclaration.Default;
+            v9 = PathVariableDeclaration.Default;
+        }
+        /// <summary>
+        /// Variables Deconstruction.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="v3">The v3.</param>
+        /// <param name="v4">The v4.</param>
+        /// <param name="v5">The v5.</param>
+        /// <param name="v6">The v6.</param>
+        /// <param name="v7">The v7.</param>
+        /// <param name="v8">The v8.</param>
+        /// <param name="v9">The v9.</param>
+        /// <param name="v10">The P10.</param>
+        public void Deconstruct(
+            out PathVariableDeclaration v1,
+            out PathVariableDeclaration v2,
+            out PathVariableDeclaration v3,
+            out PathVariableDeclaration v4,
+            out PathVariableDeclaration v5,
+            out PathVariableDeclaration v6,
+            out PathVariableDeclaration v7,
+            out PathVariableDeclaration v8,
+            out PathVariableDeclaration v9,
+            out PathVariableDeclaration v10)
+        {
+            v1 = PathVariableDeclaration.Default;
+            v2 = PathVariableDeclaration.Default;
+            v3 = PathVariableDeclaration.Default;
+            v4 = PathVariableDeclaration.Default;
+            v5 = PathVariableDeclaration.Default;
+            v6 = PathVariableDeclaration.Default;
+            v7 = PathVariableDeclaration.Default;
+            v8 = PathVariableDeclaration.Default;
+            v9 = PathVariableDeclaration.Default;
+            v10 = PathVariableDeclaration.Default;
+        }
+    }
+
+    #endregion // PathDeconstructor
 }
 //}

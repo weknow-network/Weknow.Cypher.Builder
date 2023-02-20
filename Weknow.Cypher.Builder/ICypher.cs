@@ -529,7 +529,21 @@ public partial interface ICypher
     /// </example>
     [Cypher("MATCH $0 = $1")]
     [CypherClause]
-    public static ICypherMatchStatement Match(VariableDeclaration var, INode n) => throw new NotImplementedException();
+    public static ICypherMatchStatement Match(PathVariableDeclaration var, INode n) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Matches phrase.
+    /// </summary>
+    /// <param name="var">The variable.</param>
+    /// <param name="n">The n.</param>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    /// <example>
+    /// MATCH p = (n:Person)-[:KNOWS]-&gt;(m:Person)
+    /// </example>
+    [Cypher("MATCH $0 = $1")]
+    [CypherClause]
+    public static ICypherMatchStatement Match<T>(PathVariableDeclaration<T> var, INode n) => throw new NotImplementedException();
 
     /// <summary>
     /// Matches phrase.

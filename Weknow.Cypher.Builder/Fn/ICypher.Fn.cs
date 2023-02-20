@@ -6,7 +6,7 @@ namespace Weknow.CypherBuilder;
 /// Entry point for constructing root level Cypher.
 /// For fluent cypher check <see cref="CypherExtensions" />
 /// </summary>
-public partial interface ICypher
+partial interface ICypher
 {
     /// <summary>
     /// Gets the cypher's function.

@@ -22,7 +22,19 @@ public static partial class CypherExtensions
     /// <example><![CDATA[ p = MATCH (n:Person)-[:KNOWS]->(m:Person) ]]></example>
     [Cypher("$0\r\nMATCH $1 = $2")]
     [CypherClause]
-    public static ICypherMatchStatement Match(this ICypherStatement previous, VariableDeclaration path, INode statement) => throw new NotImplementedException();
+    public static ICypherMatchStatement Match(this ICypherStatement previous, PathVariableDeclaration path, INode statement) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Matches phrase into path variable.
+    /// </summary>
+    /// <param name="previous">The previous.</param>
+    /// <param name="path">The path.</param>
+    /// <param name="statement">.</param>
+    /// <returns></returns>
+    /// <example><![CDATA[ p = MATCH (n:Person)-[:KNOWS]->(m:Person) ]]></example>
+    [Cypher("$0\r\nMATCH $1 = $2")]
+    [CypherClause]
+    public static ICypherMatchStatement Match<T>(this ICypherStatement previous, PathVariableDeclaration<T> path, INode statement) => throw new NotImplementedException();
 
     /// <summary>
     /// Matches phrase.

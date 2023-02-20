@@ -8,7 +8,7 @@ namespace Weknow.CypherBuilder;
 /// <summary>
 /// Cypher Function Extensions
 /// </summary>
-public partial interface ICypher
+partial interface ICypher
 {
     partial interface IFn
     {
