@@ -1,8 +1,7 @@
 ﻿// https://neo4j.com/docs/cypher-refcard/current/
 
-namespace Weknow.Cypher.Builder.Fluent
+namespace Weknow.Cypher.Builder.Fluent;
+
+public interface ICypherToken
 {
-    public interface ICypherToken
-    {
-    }
 }
