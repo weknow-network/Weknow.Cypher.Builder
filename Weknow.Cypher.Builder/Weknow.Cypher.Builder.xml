@@ -570,6 +570,11 @@
             Get variables declaration.
             </summary>
         </member>
+        <member name="M:Weknow.CypherBuilder.Variables.CreateMultiPath``1">
+            <summary>
+            Get variables declaration.
+            </summary>
+        </member>
         <member name="M:Weknow.CypherBuilder.Variables.CreateMulti``1">
             <summary>
             Creates the multi.
@@ -826,6 +831,115 @@
             <param name="v9">The v9.</param>
         </member>
         <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+            <param name="v10">The P10.</param>
+        </member>
+        <member name="T:Weknow.CypherBuilder.Variables.PathDeconstructor`1">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Default">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
+            <summary>
+            Variables Deconstruction.
+            </summary>
+            <param name="v1">The v1.</param>
+            <param name="v2">The v2.</param>
+            <param name="v3">The v3.</param>
+            <param name="v4">The v4.</param>
+            <param name="v5">The v5.</param>
+            <param name="v6">The v6.</param>
+            <param name="v7">The v7.</param>
+            <param name="v8">The v8.</param>
+            <param name="v9">The v9.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.Variables.PathDeconstructor`1.Deconstruct(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@,Weknow.CypherBuilder.Declarations.PathVariableDeclaration{`0}@)">
             <summary>
             Variables Deconstruction.
             </summary>

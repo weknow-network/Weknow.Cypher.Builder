@@ -12,6 +12,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
 {
     private readonly IAsyncTransaction _tx;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
     #region Ctor
 
@@ -19,9 +20,10 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
     /// <param name="transaction">The transaction.</param>
-    public N4jGraphDBTx(IAsyncTransaction transaction)
+    public N4jGraphDBTx(IAsyncTransaction transaction, Microsoft.Extensions.Logging.ILogger logger)
     {
         _tx = transaction;
+        _logger = logger;
     }
 
     #endregion // Ctor
@@ -40,7 +42,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     async ValueTask<IGraphDBResponse> IGraphDBRunner.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
         IResultCursor cursor = await _tx.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
-        return await GraphDBResponse.Create(cursor);
+        return await GraphDBResponse.Create(cursor, _logger);
     }
 
     #endregion // RunAsync

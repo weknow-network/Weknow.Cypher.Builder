@@ -1,6 +1,8 @@
 using System.Data;
 using System.Text.Json.Serialization;
 
+using Generator.Equals;
+
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
@@ -24,6 +26,7 @@ internal record Name2
 }
 
 [Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
+[Equatable]
 internal partial record Someone(int Id, string Name, int Age);
 
 [Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
@@ -96,6 +99,64 @@ public abstract class BaseSmellTests : TxBaseIntegrationTests
     }
 
     #endregion // CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
+
+    #region CREATE (p:Person $pName) RETURN p.Id, p.Name, p.Age
+
+    [Fact]
+    public virtual async Task Create_Match_Dictionaryable_Test()
+    {
+        Someone EXPECTED = new Someone(20, "Mosh", 42);
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create<Someone>();
+        var p = Variables.Create<Someone>();
+
+        CypherCommand cypher = _(() =>
+                                Create(N(p, Person,  pName))
+                                .Return(p.__.Id, p.__.Name, p.__.Age));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
+
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
+            Someone entity = await response.GetAsync<Someone>();
+        Someone[] entities = await response.GetRangeAsync<Someone>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single());
+    }
+
+    #endregion // CREATE (p:Person $pName) RETURN p.Id, p.Name, p.Age
+
+    #region CREATE (p:Person $pName) RETURN p.Id AS id, p.Name AS name, p.Age AS age
+
+    [Fact]
+    public virtual async Task Create_Match_Flatten_Dictionaryable_Test()
+    {
+        Someone EXPECTED = new Someone(20, "Mosh", 42);
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var pName = Parameters.Create<Someone>();
+        var p = Variables.Create<Someone>();
+
+        CypherCommand cypher = _(() =>
+                                Create(N(p, Person,  pName))
+                                .Return(p.__.Id.As("id"), p.__.Name.As("name"), p.__.Age.As("age")));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters;
+        prms = prms.AddOrUpdate(nameof(pName), EXPECTED);
+
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
+            Someone entity = await response.GetAsync<Someone>();
+        Someone[] entities = await response.GetRangeAsync<Someone>().ToArrayAsync();
+
+        Assert.Equal(EXPECTED, entity);
+        Assert.Single(entities);
+        Assert.Equal(EXPECTED, entities.Single());
+    }
+
+    #endregion // CREATE (p:Person $pName) RETURN p.Id AS id, p.Name AS name, p.Age AS age
 
     #region CREATE (p:_TEST_:PERSON { Name: $pName }) RETURN p
 

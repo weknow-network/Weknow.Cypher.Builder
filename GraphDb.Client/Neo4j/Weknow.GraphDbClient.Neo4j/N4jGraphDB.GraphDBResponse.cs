@@ -1,7 +1,12 @@
-﻿using Neo4j.Driver;
+﻿using Microsoft.CodeAnalysis.Operations;
+using Microsoft.Extensions.Logging;
+
+using Neo4j.Driver;
 
 using Weknow.GraphDbClient.Abstraction;
 using Weknow.Mapping;
+
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Weknow.GraphDbClient.Neo4jProvider;
 
@@ -11,15 +16,25 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 /// <seealso cref="Weknow.GraphDbClient.Abstraction.IGraphDBResponse" />
 internal class GraphDBResponse : IGraphDBResponse
 {
+    private const int FLATTEN_LIMIT = 20;
     private static readonly Type IDictionaryableType = typeof(IDictionaryable);
     private readonly IResultCursor _cursor;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
     private bool _completed;
     private ImmutableList<IRecord> _records = ImmutableList<IRecord>.Empty;
     private readonly AsyncLock _lock = new AsyncLock(Debugger.IsAttached ? TimeSpan.FromMinutes(5) : TimeSpan.FromSeconds(10));
 
-    public static async ValueTask<IGraphDBResponse> Create(IResultCursor result)
+    /// <summary>
+    /// Creates a response abstraction.
+    /// </summary>
+    /// <param name="result">The result.</param>
+    /// <param name="logger">The logger.</param>
+    /// <returns></returns>
+    public static async ValueTask<IGraphDBResponse> Create(
+        IResultCursor result,
+        Microsoft.Extensions.Logging.ILogger logger)
     {
-        var res = new GraphDBResponse(result);
+        var res = new GraphDBResponse(result, logger);
         res._completed = !await result.FetchAsync();
         return res;
     }
@@ -27,12 +42,16 @@ internal class GraphDBResponse : IGraphDBResponse
     #region Ctor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GraphDBResponse"/> class.
+    /// Initializes a new instance of the <see cref="GraphDBResponse" /> class.
     /// </summary>
     /// <param name="result">The result.</param>
-    private GraphDBResponse(IResultCursor result)
+    /// <param name="logger">The logger.</param>
+    private GraphDBResponse(
+        IResultCursor result,
+        Microsoft.Extensions.Logging.ILogger logger)
     {
         _cursor = result;
+        _logger = logger;
     }
 
     #endregion // Ctor
@@ -80,7 +99,7 @@ internal class GraphDBResponse : IGraphDBResponse
         return null;
     }
 
-    #endregion // GetOrFetchAsync
+    #endregion // GetOrFetchAsync  
 
     #region GetAsync<T>()
 
@@ -98,13 +117,15 @@ internal class GraphDBResponse : IGraphDBResponse
     /// ]]></example>
     async ValueTask<T> IGraphDBResponse.GetAsync<T>()
     {
+        Type t = typeof(T);
         if (IDictionaryableType.IsAssignableFrom(typeof(T)))
         {
             IRecord? record = await GetOrFetchAsync(0);
             if (record == null)
-                throw new IndexOutOfRangeException();
-            var node = record.Values.First().Value;
-            T result = ConvertTo<T>(node);
+                throw new IndexOutOfRangeException("no results");
+
+            var result = ConvertTo<T>(record.Values, _logger);
+
             return result;
         }
 
@@ -136,7 +157,7 @@ internal class GraphDBResponse : IGraphDBResponse
         IRecord? record = await GetOrFetchAsync(0);
         if (record == null)
             throw new IndexOutOfRangeException();
-        T result = ConvertTo<T>(record, fullKey);
+        T result = ConvertTo<T>(record, fullKey, _logger);
         return result;
     }
 
@@ -163,9 +184,17 @@ internal class GraphDBResponse : IGraphDBResponse
             IRecord? record = await GetOrFetchAsync(index++);
             if (record == null)
                 yield break;
-            var node = record.Values.First().Value;
-            T result = ConvertTo<T>(node);
-            yield return result;
+            if (IDictionaryableType.IsAssignableFrom(typeof(T)))
+            {
+                var result = ConvertTo<T>(record.Values, _logger);
+                yield return result;
+            }
+            else
+            {
+                var node = record.Values.First().Value;
+                T result = ConvertTo<T>(node, _logger);
+                yield return result;
+            }
         }
     }
 
@@ -220,7 +249,7 @@ internal class GraphDBResponse : IGraphDBResponse
             IRecord? record = await GetOrFetchAsync(index++);
             if (record == null)
                 yield break;
-            var mapper = new GraphDbRecord(record);
+            var mapper = new GraphDbRecord(record, _logger);
             T result = factory(mapper);
             yield return result;
         }
@@ -254,7 +283,7 @@ internal class GraphDBResponse : IGraphDBResponse
             if (record == null)
                 yield break;
 
-            T result = result = ConvertTo<T>(record, key, property);
+            T result = ConvertTo<T>(record, key, property, _logger);
             yield return result;
         }
     }
@@ -289,8 +318,12 @@ internal class GraphDBResponse : IGraphDBResponse
     /// <typeparam name="T"></typeparam>
     /// <param name="record">The record.</param>
     /// <param name="key">The key.</param>
+    /// <param name="logger">The logger.</param>
     /// <returns></returns>
-    private static T Mapper<T>(IRecord record, string key)
+    private static T Mapper<T>(
+                        IRecord record,
+                        string key,
+                        Microsoft.Extensions.Logging.ILogger logger)
     {
         if (IDictionaryableType.IsAssignableFrom(typeof(T)))
         {
@@ -298,7 +331,7 @@ internal class GraphDBResponse : IGraphDBResponse
             return result;
         }
 
-        T res = ConvertTo<T>(record, key);
+        T res = ConvertTo<T>(record, key, logger);
         return res;
     }
 
@@ -331,11 +364,16 @@ internal class GraphDBResponse : IGraphDBResponse
     /// <param name="record">The record.</param>
     /// <param name="key">The key.</param>
     /// <param name="property">The property.</param>
+    /// <param name="logger">The logger.</param>
     /// <returns></returns>
-    private static T ConvertTo<T>(IRecord record, string key, string? property)
+    private static T ConvertTo<T>(
+                        IRecord record,
+                        string key, 
+                        string? property,
+                        Microsoft.Extensions.Logging.ILogger logger)
     {
         string fullKey = GetFullName(key, property);
-        T result = ConvertTo<T>(record, fullKey);
+        T result = ConvertTo<T>(record, fullKey, logger);
         return result;
     }
 
@@ -349,11 +387,15 @@ internal class GraphDBResponse : IGraphDBResponse
     /// <typeparam name="T"></typeparam>
     /// <param name="record">The record.</param>
     /// <param name="key">The key.</param>
+    /// <param name="logger">The logger.</param>
     /// <returns></returns>
-    private static T ConvertTo<T>(IRecord record, string key)
+    private static T ConvertTo<T>(
+                        IRecord record,
+                        string key,
+                        Microsoft.Extensions.Logging.ILogger logger)
     {
         object entity = record[key];
-        T r = ConvertTo<T>(entity);
+        T r = ConvertTo<T>(entity, logger);
         return r;
     }
 
@@ -366,15 +408,54 @@ internal class GraphDBResponse : IGraphDBResponse
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity">The entity.</param>
+    /// <param name="logger">The logger.</param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidCastException"></exception>
-    private static T ConvertTo<T>(object entity)
+    private static T ConvertTo<T>(
+        object entity, 
+        Microsoft.Extensions.Logging.ILogger logger)
     {
         T result;
-        if (entity is Neo4j.Driver.INode node && IDictionaryableType.IsAssignableFrom(typeof(T)))
+        if (IDictionaryableType.IsAssignableFrom(typeof(T)))
         {
-            var props = (Dictionary<string, object?>)node.Properties;
-            result = (T)(props as dynamic); // TODO: [bnaya 2022-11-01] static interface factory
+            if (entity is Neo4j.Driver.INode node)
+            {
+                var props = (Dictionary<string, object?>)node.Properties;
+                result = (T)(props as dynamic);
+                return result;
+            }
+            if (entity is Dictionary<string, object?> dic)
+            {
+                Dictionary<string, object?> Flatten()
+                {
+                    return new Dictionary<string, object?>(dic.Select(m => KeyValuePair.Create(m.Key.Substring(m.Key.IndexOf('.') + 1), m.Value)));
+                }
+
+                if (dic.Count < FLATTEN_LIMIT && dic.Keys.Any(m => m.IndexOf('.') != -1))
+                {
+                    dic = Flatten();
+                }
+                try
+                {
+                    result = (T)(dic as dynamic);
+                }
+                #region Exception Handling
+
+                catch
+                {
+                    if (dic.Count >= FLATTEN_LIMIT)
+                    {
+                        logger.LogWarning("Converting result of [{type}] was flatten after a failure, it's recommended to flatten it at the query level by using `As` phrase", typeof(T).Name);
+                        dic = Flatten();
+                        result = (T)(dic as dynamic);
+                    }
+                    else throw;
+                }
+
+                #endregion // Exception Handling
+
+                return result;
+            }
+            result = (T)entity;
             return result;
         }
         result = entity.As<T>();
@@ -383,6 +464,17 @@ internal class GraphDBResponse : IGraphDBResponse
     }
 
     #endregion // T ConvertTo<T>(object entity)
+
+    private bool TryCast<T>(Dictionary<string, object?> dic, out T result)
+    {
+        result = default;
+        if (IDictionaryableType.IsAssignableFrom(typeof(T)))
+        {
+            result = (T)(dic as dynamic);
+            return true;
+        }
+        return false;
+    }
 
     #region class GraphDbRecord: IGraphDBRecord
 
@@ -393,15 +485,19 @@ internal class GraphDBResponse : IGraphDBResponse
     private class GraphDbRecord : IGraphDBRecord
     {
         private readonly IRecord _record;
+        private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
-        public GraphDbRecord(IRecord record)
+        public GraphDbRecord(
+                        IRecord record,
+                        Microsoft.Extensions.Logging.ILogger logger)
         {
             _record = record;
+            _logger = logger;
         }
 
         T IGraphDBRecord.Get<T>(string key, string? property)
         {
-            T result = result = ConvertTo<T>(_record, key, property);
+            T result = ConvertTo<T>(_record, key, property, _logger);
             return result;
         }
     }
@@ -442,4 +538,5 @@ internal class GraphDBResponse : IGraphDBResponse
     }
 
     #endregion // class GraphExecutionSummary : IGraphExecutionSummary
+
 }

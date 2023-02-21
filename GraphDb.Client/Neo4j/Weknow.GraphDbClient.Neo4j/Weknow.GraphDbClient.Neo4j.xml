@@ -100,7 +100,7 @@
             Neo4j graphDb abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.#ctor(Weknow.GraphDbClient.Neo4jProvider.N4jSession)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.#ctor(Weknow.GraphDbClient.Neo4jProvider.N4jSession,Microsoft.Extensions.Logging.ILogger{Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB})">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>
@@ -137,11 +137,20 @@
             </summary>
             <seealso cref="T:Weknow.GraphDbClient.Abstraction.IGraphDBResponse" />
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.#ctor(Neo4j.Driver.IResultCursor)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Create(Neo4j.Driver.IResultCursor,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse"/> class.
+            Creates a response abstraction.
             </summary>
             <param name="result">The result.</param>
+            <param name="logger">The logger.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.#ctor(Neo4j.Driver.IResultCursor,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse" /> class.
+            </summary>
+            <param name="result">The result.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Weknow#GraphDbClient#Abstraction#IGraphDBResponse#GetInfoAsync">
             <summary>
@@ -252,13 +261,14 @@
             <param name="record">The record.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.Mapper``1(Neo4j.Driver.IRecord,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Mappers a record segment (key).
             </summary>
             <typeparam name="T"></typeparam>
             <param name="record">The record.</param>
             <param name="key">The key.</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
         </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GetFullName(System.String,System.String)">
@@ -269,7 +279,7 @@
             <param name="property">The property.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Mappers by key and property.
             </summary>
@@ -277,25 +287,27 @@
             <param name="record">The record.</param>
             <param name="key">The key.</param>
             <param name="property">The property.</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(Neo4j.Driver.IRecord,System.String,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Mappers by key.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="record">The record.</param>
             <param name="key">The key.</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(System.Object)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.ConvertTo``1(System.Object,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Converts to.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="entity">The entity.</param>
+            <param name="logger">The logger.</param>
             <returns></returns>
-            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="T:Weknow.GraphDbClient.Neo4jProvider.GraphDBResponse.GraphDbRecord">
             <summary>
@@ -342,7 +354,7 @@
             Neo4j graphDb abstraction
             </summary>
         </member>
-        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.#ctor(Neo4j.Driver.IAsyncTransaction)">
+        <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.#ctor(Neo4j.Driver.IAsyncTransaction,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>

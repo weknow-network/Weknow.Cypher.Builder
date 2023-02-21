@@ -1,4 +1,6 @@
-﻿using Neo4j.Driver;
+﻿using Microsoft.Extensions.Logging;
+
+using Neo4j.Driver;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
@@ -12,6 +14,7 @@ namespace Weknow.GraphDbClient.Neo4jProvider;
 internal sealed partial class N4jGraphDB : IGraphDB
 {
     private readonly N4jSession _session;
+    private readonly ILogger<N4jGraphDB> _logger;
     private readonly IAsyncQueryRunner _runner;
 
     #region Ctor
@@ -20,9 +23,10 @@ internal sealed partial class N4jGraphDB : IGraphDB
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
     /// <param name="session">The session.</param>
-    public N4jGraphDB(N4jSession session)
+    public N4jGraphDB(N4jSession session, ILogger<N4jGraphDB> logger)
     {
         _session = session;
+        _logger = logger;
         _runner = session.Session;
     }
 
@@ -42,7 +46,7 @@ internal sealed partial class N4jGraphDB : IGraphDB
     async ValueTask<IGraphDBResponse> IGraphDBRunner.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
         IResultCursor cursor = await _runner.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
-        return await GraphDBResponse.Create(cursor);
+        return await GraphDBResponse.Create(cursor, _logger);
     }
     #endregion // RunAsync
 
@@ -78,7 +82,7 @@ internal sealed partial class N4jGraphDB : IGraphDB
             }
         });
 
-        return new N4jGraphDBTx(tx);
+        return new N4jGraphDBTx(tx, _logger);
     }
 
     #endregion // StartTransaction

@@ -1,39 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <Nullable>enable</Nullable>
-	  <IsPackable>false</IsPackable>
-      <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="FakeItEasy" Version="7.3.1" />
-	  <PackageReference Include="FakeItEasy.Analyzer.CSharp" Version="6.1.1">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-	  <PackageReference Include="Neo4j.Driver" Version="5.5.0" />
-	  <PackageReference Include="xunit" Version="2.4.2" />
-	  <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="coverlet.collector" Version="3.2.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FakeItEasy" Version="7.3.1" />
+		<PackageReference Include="FakeItEasy.Analyzer.CSharp" Version="6.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="Neo4j.Driver" Version="5.5.0" />
+		<PackageReference Include="xunit" Version="2.4.2" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\GraphDb.Client\Weknow.GraphDbClient.Abstraction\Weknow.GraphDbClient.Abstraction.csproj" />
-    <ProjectReference Include="..\..\Weknow.Cypher.Builder.Extensions\Weknow.Cypher.Builder.Extensions.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\GraphDb.Client\Weknow.GraphDbClient.Abstraction\Weknow.GraphDbClient.Abstraction.csproj" />
+		<ProjectReference Include="..\..\Weknow.Cypher.Builder.Extensions\Weknow.Cypher.Builder.Extensions.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Generator.Equals" Version="2.7.6" />
+		<PackageReference Include="Riok.Mapperly" Version="2.6.0" />
+	</ItemGroup>
 
 </Project>
