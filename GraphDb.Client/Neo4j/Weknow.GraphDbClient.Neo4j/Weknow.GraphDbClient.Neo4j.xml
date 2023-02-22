@@ -105,6 +105,7 @@
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>
             <param name="session">The session.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB.Weknow#GraphDbClient#Abstraction#IGraphDBRunner#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>
@@ -359,6 +360,7 @@
             Initializes a new instance of the <see cref="T:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDB" /> class.
             </summary>
             <param name="transaction">The transaction.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:Weknow.GraphDbClient.Neo4jProvider.N4jGraphDBTx.Weknow#GraphDbClient#Abstraction#IGraphDBRunner#RunAsync(Weknow.CypherBuilder.CypherCommand,Weknow.CypherBuilder.CypherParameters)">
             <summary>

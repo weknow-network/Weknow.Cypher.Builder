@@ -23,6 +23,7 @@ internal sealed partial class N4jGraphDB : IGraphDB
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
     /// <param name="session">The session.</param>
+    /// <param name="logger">The logger.</param>
     public N4jGraphDB(N4jSession session, ILogger<N4jGraphDB> logger)
     {
         _session = session;

@@ -420,6 +420,8 @@ internal class GraphDBResponse : IGraphDBResponse
             if (entity is Neo4j.Driver.INode node)
             {
                 var props = (Dictionary<string, object?>)node.Properties;
+                //result = (T)typeof(T).GetMethod(nameof(IDictionaryable<T>.FromDictionary))
+                //         .Invoke(null, new object[] { props });
                 result = (T)(props as dynamic);
                 return result;
             }
@@ -430,7 +432,12 @@ internal class GraphDBResponse : IGraphDBResponse
                     return new Dictionary<string, object?>(dic.Select(m => KeyValuePair.Create(m.Key.Substring(m.Key.IndexOf('.') + 1), m.Value)));
                 }
 
-                if (dic.Count < FLATTEN_LIMIT && dic.Keys.Any(m => m.IndexOf('.') != -1))
+                if(dic.Count == 1 && dic.First().Value is Neo4j.Driver.INode n) 
+                {
+                    var nodeResult = ConvertTo<T>(n, logger);
+                    return nodeResult;
+                }
+                else if (dic.Count < FLATTEN_LIMIT && dic.Keys.Any(m => m.IndexOf('.') != -1))
                 {
                     dic = Flatten();
                 }
@@ -464,17 +471,6 @@ internal class GraphDBResponse : IGraphDBResponse
     }
 
     #endregion // T ConvertTo<T>(object entity)
-
-    private bool TryCast<T>(Dictionary<string, object?> dic, out T result)
-    {
-        result = default;
-        if (IDictionaryableType.IsAssignableFrom(typeof(T)))
-        {
-            result = (T)(dic as dynamic);
-            return true;
-        }
-        return false;
-    }
 
     #region class GraphDbRecord: IGraphDBRecord
 

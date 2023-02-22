@@ -20,6 +20,7 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// Initializes a new instance of the <see cref="N4jGraphDB" /> class.
     /// </summary>
     /// <param name="transaction">The transaction.</param>
+    /// <param name="logger">The logger.</param>
     public N4jGraphDBTx(IAsyncTransaction transaction, Microsoft.Extensions.Logging.ILogger logger)
     {
         _tx = transaction;

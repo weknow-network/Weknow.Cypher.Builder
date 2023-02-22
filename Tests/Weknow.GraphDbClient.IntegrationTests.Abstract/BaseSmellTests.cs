@@ -466,14 +466,17 @@ public abstract class BaseSmellTests : TxBaseIntegrationTests
         const string EXPECTED = "merge-date-convention";
         CypherConfig.Scope.Value = CONFIGURATION;
         var date = DateTimeOffset.UtcNow;
-
-        CypherCommand cypher = _(p =>
+        var p = Variables.Create<DateConvensionEntity>();
+        CypherCommand cypher = _(() =>
                                 Create(N(p, Person,
                                 new
                                 {
                                     Id = "merge-date-convention"
                                 }))
                                 .SetDateConvention(p)
+                                //.With(p)
+                                //.Match(N(p, Person))
+                                //.Where(p.__.Id == "merge-date-convention")
                                 .Return(p));
         _outputHelper.WriteLine($"CYPHER: {cypher}");
 
