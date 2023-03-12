@@ -2234,6 +2234,17 @@
             RETURN count(n)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Count``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            Count the results.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN count(n)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.CountDistinct(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             Count the results.
@@ -2301,6 +2312,32 @@
             <example>
             MATCH (n)
             RETURN collect(DISTINCT n.PropA)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Coalesce``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},System.Object[])">
+            <summary>
+            The function coalesce() returns the first non-null value in the given list of expressions.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="alternatives">sequence of alternatives.</param>
+            <returns></returns>
+            <example>
+            n.Coalesce(m, x) or Coalesce(n, m, x)
+            result in:
+            coalesce(n, m, x)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Coalesce(System.Object,System.Object[])">
+            <summary>
+            The function coalesce() returns the first non-null value in the given list of expressions.
+            </summary>
+            <param name="variable">The variable.</param>
+            <param name="alternatives">sequence of alternatives.</param>
+            <returns></returns>
+            <example>
+            n.Coalesce(m, x) or Coalesce(n, m, x)
+            result in:
+            coalesce(n, m, x)
             </example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Last(Weknow.CypherBuilder.Declarations.VariableDeclaration)">

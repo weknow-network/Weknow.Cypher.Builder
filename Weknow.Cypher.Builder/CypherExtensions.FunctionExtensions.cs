@@ -120,6 +120,18 @@ public partial class CypherExtensions
     [Cypher("count($0)")]
     public static VariableDeclaration Count(this VariableDeclaration variable) => throw new NotImplementedException();
 
+    /// <summary>
+    /// Count the results.
+    /// </summary>
+    /// <param name="variable">The variable.</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH (n)
+    /// RETURN count(n)
+    /// </example>
+    [Cypher("count($0)")]
+    public static VariableDeclaration<T> Count<T>(this VariableDeclaration<T> variable) => throw new NotImplementedException();
+
     #endregion // Count / count(n)
 
     #region CountDistinct / count(DISTINCT n)
@@ -209,55 +221,35 @@ public partial class CypherExtensions
 
     #endregion // CollectDistinct / collect(DISTINCT n), collect(DISTINCT n.PropA)
 
-    #region // Coalesce / coalesce(n)
+    #region Coalesce / coalesce(n), coalesce(n.PropA)
 
-    ///// <summary>
-    ///// Count the results.
-    ///// </summary>
-    ///// <param name="variable">The variable.</param>
-    ///// <param name="prop">The property.</param>
-    ///// <param name="defaultValue">The default value.</param>
-    ///// <returns></returns>
-    ///// <example>
-    ///// MATCH (n)
-    ///// RETURN coalesce(n.Prop, 'x')
-    ///// </example>
-    //[Cypher("coalesce($0)")]
-    //public static VariableDeclaration Coalesce(
-    //                    this VariableDeclaration variable,
-    //                    IParameter prop,
-    //                    object defaultValue) => throw new NotImplementedException();
+    /// <summary>
+    /// The function coalesce() returns the first non-null value in the given list of expressions.
+    /// </summary>
+    /// <param name="variable">The variable.</param>
+    /// <param name="alternatives">sequence of alternatives.</param>
+    /// <returns></returns>
+    /// <example>
+    /// n.Coalesce(m, x) or Coalesce(n, m, x)
+    /// result in:
+    /// coalesce(n, m, x)
+    /// </example>
+    [Cypher("&coalesce($0, $1)")]
+    public static VariableDeclaration<T> Coalesce<T>(this VariableDeclaration<T> variable, params object[] alternatives) => throw new NotImplementedException();
 
-    ///// <summary>
-    ///// Count the results.
-    ///// </summary>
-    ///// <param name="variable">The variable.</param>
-    ///// <param name="defaultValue">The default value.</param>
-    ///// <returns></returns>
-    ///// <exception cref="System.NotImplementedException"></exception>
-    ///// <example>
-    ///// MATCH (n)
-    ///// RETURN coalesce(n.Prop, 'x')
-    ///// </example>
-    //[Cypher("coalesce($0, $1)")]
-    //public static VariableDeclaration Coalesce(
-    //                    this VariableDeclaration variable, 
-    //                    IPattern defaultValue) => throw new NotImplementedException();
-    ///// <summary>
-    ///// Count the results.
-    ///// </summary>
-    ///// <param name="variable">The variable.</param>
-    ///// <param name="prop">The property.</param>
-    ///// <param name="defaultValue">The default value.</param>
-    ///// <returns></returns>
-    ///// <example>
-    ///// MATCH (n)
-    ///// RETURN coalesce(n.Prop, 'x')
-    ///// </example>
-    //[Cypher("coalesce($0)")]
-    //public static VariableDeclaration Coalesce(
-    //                    this VariableDeclaration variable,
-    //                    IPattern defaultValue) => throw new NotImplementedException();
+    /// <summary>
+    /// The function coalesce() returns the first non-null value in the given list of expressions.
+    /// </summary>
+    /// <param name="variable">The variable.</param>
+    /// <param name="alternatives">sequence of alternatives.</param>
+    /// <returns></returns>
+    /// <example>
+    /// n.Coalesce(m, x) or Coalesce(n, m, x)
+    /// result in:
+    /// coalesce(n, m, x)
+    /// </example>
+    [Cypher("&coalesce($0, $1)")]
+    public static VariableDeclaration Coalesce(this object variable, params object[] alternatives) => throw new NotImplementedException();
 
-    #endregion // Coalesce / coalesce(n)
+    #endregion // Coalesce / coalesce(n), collect(n.PropA)
 }

@@ -311,6 +311,42 @@ namespace Weknow.CypherBuilder
 
         #endregion // MATCH (n) RETURN sum(n.PropA) AS sum, min(n.PropA) AS min ...
 
+        #region MATCH (n) RETURN coalesce(n.PropA, n.PropB)
+
+        [Fact]
+        public void Coalesce_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(n.Coalesce(n)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN coalesce(n, n)", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN coalesce(n.PropA, n.PropB)
+
+        #region MATCH (n) RETURN coalesce(n.PropA, n.PropB)
+
+        [Fact]
+        public void Coalesce_Of_T_Test()
+        {
+            var n = Variables.Create<Foo>();
+
+            CypherCommand cypher = _(() =>
+                                    Match(N(n))
+                                    .Return(n._.PropA.Coalesce(n._.PropB)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal($"MATCH (n){NewLine}" +
+                         "RETURN coalesce(n.PropA, n.PropB)", cypher.Query);
+        }
+
+        #endregion // MATCH (n) RETURN coalesce(n.PropA, n.PropB)
+
         #region MATCH (n) RETURN collect(n) / Collect_Test
 
         [Fact]

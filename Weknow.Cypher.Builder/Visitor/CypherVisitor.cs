@@ -1000,6 +1000,7 @@ internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
     {
         var disp = new List<IDisposable>();
         MethodInfo mtd = node.Method;
+        string methodName = mtd.Name;
         var mtdPrms = mtd.GetParameters();
 
         for (var i = 0; i < format.Length; i++)
@@ -1042,7 +1043,7 @@ internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
                         using var expType = _expType.Push(expr.NodeType);
                         using var isLastArg = _isLastArg.Push(index == args.Count - 1);
                         using var fmtIdx = _fmtIdex.Push(index);
-                        bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputCollectionAttribute>() != null;
+                        bool isCypherInput = mtdPrms[index].GetCustomAttribute<CypherInputCollectionAttribute>() != null || methodName == nameof(CypherExtensions.Coalesce);
 
                         IDisposable isPinnedScope = isPinned ? _shouldCreateParameter.Push(ShouldCreateParameter.No) : Disposable.Empty;
                         IDisposable inputScope = Disposable.Empty;
@@ -1093,7 +1094,7 @@ internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
                                     int scpStartAt = isExtensionMtd ? 1 : 0;
                                     if (index >= scpStartAt && mtd.GetCustomAttribute<CypherClauseAttribute>() != null)
                                     {
-                                        opScope = _directOperation.Push(mtd.Name);
+                                        opScope = _directOperation.Push(methodName);
                                     }
                                     using (opScope)
                                     {
