@@ -23,6 +23,16 @@ namespace Weknow.CypherBuilder
 
         #endregion // Ctor
 
+        #region Embed
+
+        /// <summary>
+        /// Embeds the in-line parameters.
+        /// </summary>
+        /// <returns></returns>
+        public CypherCommand Embed() => this.Parameters.Embed(this);
+
+        #endregion // Embed
+
         #region Query
 
         /// <summary>

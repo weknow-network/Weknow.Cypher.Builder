@@ -1,11 +1,7 @@
 using System.Data;
-using System.Text.Json.Serialization;
-
-using Generator.Equals;
 
 using Weknow.CypherBuilder;
 using Weknow.GraphDbClient.Abstraction;
-using Weknow.Mapping;
 
 using Xunit;
 using Xunit.Abstractions;
@@ -15,39 +11,6 @@ using static Weknow.CypherBuilder.ICypher;
 // https://neo4j.com/docs/cypher-refcard/current/
 
 namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
-
-[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
-internal partial record NameDictionaryable(string Name);
-
-internal record Name1(string Name);
-internal record Name2
-{
-    public string Name { get; init; } = string.Empty;
-}
-
-[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
-[Equatable]
-internal partial record Someone(int Id, string Name, int Age);
-
-[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
-internal partial record Sometime
-{
-    public required string Name { get; init; }
-    public DateTimeOffset Birthday { get; init; }
-    public DateTimeOffset Local { get; init; }
-    public DateTime IssueDate { get; init; }
-    public TimeSpan At { get; init; }
-}
-
-[Dictionaryable(Flavor = Mapping.Flavor.Neo4j)]
-internal partial record DateConvensionEntity
-{
-    public required string Id { get; init; }
-    [JsonPropertyName("creation-date")]
-    public required DateTimeOffset CreatedAt { get; init; }
-    [JsonPropertyName("modification-date")]
-    public DateTimeOffset? ModifiedAt { get; init; }
-}
 
 //    //[Trait("Group", "Predicates")]
 //[Trait("Integration", "abstract")]
@@ -262,6 +225,7 @@ public abstract class BaseSmellTests : TxBaseIntegrationTests
     }
 
     #endregion // Create_Map_Match_Test
+
     #region CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
 
     [Fact]
@@ -490,6 +454,41 @@ public abstract class BaseSmellTests : TxBaseIntegrationTests
     }
 
     #endregion // CREATE ... SetDateConvention()
+
+    #region Implicit_Explicit_GetRangeAsync_Test
+
+    [Fact]
+    public virtual async Task Implicit_Explicit_GetRangeAsync_Test()
+    {
+        var EXPECTED = Enumerable.Range(0, 5)
+                                 .Select(i => new Name1($"Unit {i}"))
+                                 .ToArray();
+        CypherConfig.Scope.Value = CONFIGURATION;
+        var spine = Parameters.Create<Name1>();
+        var n = Variables.Create<Name1>();
+
+        CypherCommand cypher = _(() =>
+                                Unwind(spine, u =>
+                                    Create(N(Person, new { u.__.Name }))
+                                    .With(u)
+                                    .Match(N(n, Person))
+                                    .Where(n.__.Name == u.__.Name)
+                                    .Return(u)));
+        _outputHelper.WriteLine($"CYPHER: {cypher}");
+
+        CypherParameters prms = cypher.Parameters
+                                .AddRangeOrUpdate(nameof(spine), EXPECTED.Select(x => x.ToDictionary()));
+
+        IGraphDBResponse response = await _tx.RunAsync(cypher, prms);
+        Name1[] entitiesImplicit = await response.GetRangeAsync<Name1>().ToArrayAsync();
+        Name1[] entitiesExplicit = await response.GetRangeAsync<Name1>("u").ToArrayAsync();
+
+        Assert.True(EXPECTED.SequenceEqual(entitiesImplicit));
+        Assert.True(EXPECTED.SequenceEqual(entitiesExplicit));
+    }
+
+    #endregion // Implicit_Explicit_GetRangeAsync_Test
+
 
     [Fact(Skip = "Unwind BAD SYNTAX, use Create_Match_Multi_Unwind_Test")]
     public virtual async Task BAD_SYNTAX_Create_Match_Multi_Unwind_Test()

@@ -966,6 +966,12 @@
             <param name="query">The query.</param>
             <param name="parameters">The parameters.</param>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherCommand.Embed">
+            <summary>
+            Embeds the in-line parameters.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Weknow.CypherBuilder.CypherCommand.Query">
             <summary>
             Representation of Cypher Query.
@@ -1049,6 +1055,9 @@
             </summary>
             <summary>
             Cypher Extensions
+            </summary>
+            <summary>
+            Cypher Function Extensions
             </summary>
             <summary>
             Cypher Function Extensions
@@ -2236,6 +2245,18 @@
             RETURN count(n)
             </example>
         </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Collect``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            List from the values, ignores null.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            n.Collect() or Collect(n)
+            result in:
+            collect(n)
+            </example>
+        </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Collect(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
             List from the values, ignores null.
@@ -2281,6 +2302,151 @@
             MATCH (n)
             RETURN collect(DISTINCT n.PropA)
             </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Last(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function last() returns the last element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN last(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Last``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function last() returns the last element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN last(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Head(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function head() returns the first element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN head(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Head``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function head() returns the first element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN head(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Tail(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            tail() returns a list lresult containing all the elements, excluding the first one, from a list list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN tail(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Tail``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function tail() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN tail(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Size(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function size() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN size(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Size``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function size() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN size(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Reverse(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            reverse() returns a list in which the order of all elements in the original list have been reversed.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN reverse(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.Reverse``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function reverse() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN reverse(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},System.Predicate{Weknow.CypherBuilder.Declarations.VariableDeclaration{``0}},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="condition">Filter.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Length(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
             <summary>
@@ -2347,41 +2513,6 @@
             RETURN relationships(p)
             ]]>
             </example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.PathRelatedVariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
-            <summary>
-            Convert into a list with projection from the nodes in a path
-            <![CDATA[[x IN nodes(path) | x.prop]]]>
-            </summary>
-            <param name="items">The items.</param>
-            <param name="iteration">The iteration expression.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <remarks>
-            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
-            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
-            </remarks>
-            <example><![CDATA[
-            [x IN nodes(path) | x.prop]
-            ]]></example>
-        </member>
-        <member name="M:Weknow.CypherBuilder.CypherExtensions.ToList``1(Weknow.CypherBuilder.Declarations.PathRelatedVariableDeclaration{``0},System.Predicate{Weknow.CypherBuilder.Declarations.VariableDeclaration{``0}},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
-            <summary>
-            Convert into a list with projection from the nodes in a path
-            <![CDATA[[x IN nodes(path) | x.prop]]]>
-            </summary>
-            <param name="items">The items.</param>
-            <param name="condition">Filter.</param>
-            <param name="iteration">The iteration expression.</param>
-            <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
-            <remarks>
-            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
-            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
-            </remarks>
-            <example><![CDATA[
-            [x IN nodes(path) | x.prop]
-            ]]></example>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherExtensions.Compare(System.ReadOnlySpan{System.Char},System.ReadOnlySpan{System.Char},System.Boolean)">
             <summary>
@@ -2561,6 +2692,13 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="P:Weknow.CypherBuilder.ICypher.IFn.List">
+            <summary>
+            List's functions.
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="P:Weknow.CypherBuilder.ICypher.IFn.Path">
             <summary>
             Path's functions.
@@ -2715,6 +2853,151 @@
             Gets the cypher's function.
             </summary>
             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Last(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function last() returns the last element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN last(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Last``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function last() returns the last element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN last(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Head(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function head() returns the first element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN head(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Head``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function head() returns the first element in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN head(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Tail(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            tail() returns a list lresult containing all the elements, excluding the first one, from a list list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN tail(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Tail``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function tail() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN tail(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Size(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            The function size() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN size(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Size``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function size() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN size(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Reverse(Weknow.CypherBuilder.Declarations.VariableDeclaration)">
+            <summary>
+            reverse() returns a list in which the order of all elements in the original list have been reversed.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN reverse(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.Reverse``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0})">
+            <summary>
+            The function reverse() returns the number of elements in a list.
+            </summary>
+            <param name="variable">The variable.</param>
+            <returns></returns>
+            <example>
+            MATCH (n)
+            RETURN reverse(collect(n))
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.ToList``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ICypherList.ToList``1(Weknow.CypherBuilder.Declarations.VariableDeclaration{``0},System.Predicate{Weknow.CypherBuilder.Declarations.VariableDeclaration{``0}},Weknow.CypherBuilder.CypherDelegates.FluentToArrayAction{``0})">
+            <summary>
+            Convert into a list with projection from the nodes in a path
+            <![CDATA[[x IN nodes(path) | x.prop]]]>
+            </summary>
+            <param name="items">The items.</param>
+            <param name="condition">Filter.</param>
+            <param name="iteration">The iteration expression.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <remarks>
+            https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-pattern-comprehension
+            https://neo4j.com/docs/cypher-cheat-sheet/current/#_path_functions
+            </remarks>
+            <example><![CDATA[
+            [x IN nodes(path) | x.prop]
+            ]]></example>
         </member>
         <member name="M:Weknow.CypherBuilder.ICypher.ICypherPath.Length(System.Object)">
             <summary>
@@ -3021,6 +3304,17 @@
         <member name="M:Weknow.CypherBuilder.ICypher.Return(Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
             <summary>
             RETURN phrase.
+            </summary>
+            <param name="var">The first variable.</param>
+            <param name="vars">Rest of the variables.</param>
+            <returns></returns>
+            <example>
+            RETURN n
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.ReturnDistinct(Weknow.CypherBuilder.ParamsFirst{System.Object},System.Object[])">
+            <summary>
+            RETURN DISTINCT phrase.
             </summary>
             <param name="var">The first variable.</param>
             <param name="vars">Rest of the variables.</param>
@@ -3721,7 +4015,20 @@
             CREATE (n {name: $value})
             </example>
         </member>
-        <member name="M:Weknow.CypherBuilder.ICypher.Nodes(System.Object)">
+        <member name="M:Weknow.CypherBuilder.ICypher.Nodes(Weknow.CypherBuilder.Declarations.PathVariableDeclaration)">
+            <summary>
+            Returns a list containing all the nodes in a path.
+            https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-nodes
+            </summary>
+            <param name="prop">The property.</param>
+            <returns></returns>
+            <example>
+            MATCH p = (a)-->(b)-->(c)
+            WHERE a.name = 'Alice' AND c.name = 'Eskil'
+            RETURN nodes(p)
+            </example>
+        </member>
+        <member name="M:Weknow.CypherBuilder.ICypher.Nodes``1(Weknow.CypherBuilder.Declarations.PathVariableDeclaration{``0})">
             <summary>
             Returns a list containing all the nodes in a path.
             https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-nodes
@@ -3839,6 +4146,16 @@
             </summary>
             <seealso cref="T:System.Attribute" />
         </member>
+        <member name="F:Weknow.CypherBuilder.CypherParameterKind.Normal">
+            <summary>
+            Normal parameter
+            </summary>
+        </member>
+        <member name="F:Weknow.CypherBuilder.CypherParameterKind.Embed">
+            <summary>
+            The parameter will be embed directly into the cypher string
+            </summary>
+        </member>
         <member name="T:Weknow.CypherBuilder.CypherParameters">
             <summary>
             Cypher Parameters representation
@@ -3855,13 +4172,30 @@
             </summary>
             <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
         </member>
-        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0)">
+        <member name="M:Weknow.CypherBuilder.CypherParameters.#ctor(System.Collections.Immutable.ImmutableDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Weknow.CypherBuilder.CypherParameters" /> class.
+            </summary>
+            <param name="parameters">The non-embedded parameters.</param>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.Embed(Weknow.CypherBuilder.CypherCommand)">
+            <summary>
+            Embeds the in-line parameters.
+            </summary>
+            <param name="command">The command.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Weknow.CypherBuilder.CypherParameters.AddIfEmpty``1(System.String,``0,Weknow.CypherBuilder.CypherParameterKind)">
             <summary>
             Adds parameter if not exists.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key">The key.</param>
             <param name="value">The value.</param>
+            <param name="inline">
+            if set to <c>true</c> the parameter value (ToString) will be replaced in the cypher string.
+            Useful for cases when regular parameters are not supported.
+            </param>
             <returns></returns>
         </member>
         <member name="M:Weknow.CypherBuilder.CypherParameters.AddRangeIfEmpty``1(System.String,``0[])">

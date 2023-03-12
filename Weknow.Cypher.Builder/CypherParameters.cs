@@ -1,363 +1,407 @@
-﻿using Weknow.Mapping;
+﻿using System.Text;
 
-namespace Weknow.CypherBuilder
+using Weknow.Mapping;
+
+namespace Weknow.CypherBuilder;
+
+/// <summary>
+/// Cypher Parameters representation
+/// </summary>
+public class CypherParameters : IEnumerable<KeyValuePair<string, object?>>
 {
+    private ImmutableDictionary<string, object?> _parameters = ImmutableDictionary<string, object?>.Empty;
+    private ImmutableDictionary<string, object?> _inlineParameters = ImmutableDictionary<string, object?>.Empty;
+
+    #region Ctor
+
     /// <summary>
-    /// Cypher Parameters representation
+    /// Initializes a new instance of the <see cref="CypherParameters"/> class.
     /// </summary>
-    public class CypherParameters : IEnumerable<KeyValuePair<string, object?>>
+    public CypherParameters()
     {
-        private ImmutableDictionary<string, object?> _parameters = ImmutableDictionary<string, object?>.Empty;
+    }
 
-        #region Ctor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CypherParameters"/> class.
+    /// </summary>
+    /// <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
+    public CypherParameters(IDictionary<string, object?> dictionary)
+    {
+        _parameters = ImmutableDictionary.CreateRange(dictionary);
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherParameters"/> class.
-        /// </summary>
-        public CypherParameters()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CypherParameters" /> class.
+    /// </summary>
+    /// <param name="parameters">The non-embedded parameters.</param>
+    public CypherParameters(
+        ImmutableDictionary<string, object?> parameters)
+    {
+        _parameters = parameters;
+    }
+
+    #endregion // Ctor
+
+    #region  Casting Overloads
+
+    public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
+    {
+        IEnumerable<KeyValuePair<string, object?>> ps = parameters;
+        var result = new Dictionary<string, object?>(ps);
+        return result;
+    }
+
+    #endregion // Casting Overloads
+
+    #region Embed    
+
+    /// <summary>
+    /// Embeds the in-line parameters.
+    /// </summary>
+    /// <param name="command">The command.</param>
+    /// <returns></returns>
+    public CypherCommand Embed(CypherCommand command) 
+    {
+        CypherParameters prms = new(_parameters);
+        StringBuilder builder = new (command.Query);
+        foreach (var inline in _inlineParameters)
         {
+            builder.Replace($"${inline.Key}", inline.Value?.ToString());
+        }
+        var query = builder.ToString();
+        return new CypherCommand(query, prms);
+    }
+
+    #endregion // Embed
+
+    #region AddIfEmpty
+
+    /// <summary>
+    /// Adds parameter if not exists.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="inline">
+    /// if set to <c>true</c> the parameter value (ToString) will be replaced in the cypher string.
+    /// Useful for cases when regular parameters are not supported.
+    /// </param>
+    /// <returns></returns>
+    public CypherParameters AddIfEmpty<T>(string key, T value, CypherParameterKind inline = CypherParameterKind.Normal) // where T : IDictionaryable
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        if (inline == CypherParameterKind.Embed) 
+        {
+            if (_inlineParameters.ContainsKey(key))
+                return this;
+            _inlineParameters = _inlineParameters.Add(key, value);
+            return this;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CypherParameters"/> class.
-        /// </summary>
-        /// <param name="dictionary">The <see cref="T:System.Collections.Generic.IDictionary`2" /> whose elements are copied to the new <see cref="T:System.Collections.Generic.Dictionary`2" />.</param>
-        public CypherParameters(IDictionary<string, object?> dictionary)
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            return this;
+        if (value is IDictionaryable da)
+            _parameters = parameters.Add(key, da.ToDictionary());
+        //else if (value is ValueType vt)
+        //    _parameters[key] = vt;
+        else
+            _parameters = parameters.Add(key, value);
+        return this;
+    }
+
+    #endregion // AddIfEmpty
+
+    #region AddRangeIfEmpty
+
+    /// <summary>
+    /// Adds parameters if not exists.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="values">The values.</param>
+    /// <returns></returns>
+    public CypherParameters AddRangeIfEmpty<T>(string key, params T[] values) // where T : IDictionaryable
+    {
+        return AddRangeIfEmpty(key, (IEnumerable<T>)values);
+    }
+
+    /// <summary>
+    /// Adds parameters if not exists.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="values">The values.</param>
+    /// <returns></returns>
+    public CypherParameters AddRangeIfEmpty<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            return this;
+        var range = values.Select(m =>
         {
-            _parameters = ImmutableDictionary.CreateRange(dictionary);
-        }
-
-        #endregion // Ctor
-
-        #region  Casting Overloads
-
-        public static implicit operator Dictionary<string, object?>(CypherParameters parameters)
-        {
-            IEnumerable<KeyValuePair<string, object?>> ps = parameters;
-            var result = new Dictionary<string, object?>(ps);
+            var result = m switch
+            {
+                IDictionaryable da => (object)da.ToDictionary(),
+                _ => m
+            };
             return result;
-        }
+        });
+        _parameters = parameters.Add(key, range);
+        return this;
+    }
 
-        #endregion // Casting Overloads
+    #endregion // AddRangeIfEmpty
 
-        #region AddIfEmpty
+    #region AddOrUpdate
 
-        /// <summary>
-        /// Adds parameter if not exists.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public CypherParameters AddIfEmpty<T>(string key, T value) // where T : IDictionaryable
+    /// <summary>
+    /// Adds parameter or update.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="overrideMapping">
+    /// Optional update decision mapping.
+    /// If not exists the value will simply override 
+    /// </param>
+    /// <returns></returns>
+    public CypherParameters AddOrUpdate<T>(
+        string key,
+        T value,
+        Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            parameters = parameters.Remove(key);
+        if (overrideMapping != null)
         {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
-
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                return this;
-            if (value is IDictionaryable da)
-                _parameters = parameters.Add(key, da.ToDictionary());
+            var mapped = overrideMapping(value);
+            if (mapped is IDictionaryable dam)
+                _parameters = parameters.Add(key, dam.ToDictionary());
             //else if (value is ValueType vt)
             //    _parameters[key] = vt;
             else
-                _parameters = parameters.Add(key, value);
-            return this;
+                _parameters = parameters.Add(key, mapped);
         }
+        if (value is IDictionaryable da)
+            _parameters = parameters.Add(key, da.ToDictionary());
+        //else if (value is ValueType vt)
+        //    _parameters[key] = vt;
+        else
+            _parameters = parameters.Add(key, value);
+        return this;
+    }
 
-        #endregion // AddIfEmpty
+    #endregion // AddOrUpdate
 
-        #region AddRangeIfEmpty
+    #region AddRangeOrUpdate
 
-        /// <summary>
-        /// Adds parameters if not exists.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddRangeIfEmpty<T>(string key, params T[] values) // where T : IDictionaryable
+    /// <summary>
+    /// Adds the range.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="values">The values.</param>
+    /// <returns></returns>
+    public CypherParameters AddRangeOrUpdate<T>(
+        string key,
+        params T[] values) // where T : IDictionaryable
+    {
+        return AddRangeOrUpdate(key, (IEnumerable<T>)values);
+    }
+
+    /// <summary>
+    /// Adds the range.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <param name="values">The values.</param>
+    /// <param name="overrideMapping">
+    /// Optional update decision mapping.
+    /// If not exists the value will simply override 
+    /// </param>
+    /// <returns></returns>
+    public CypherParameters AddRangeOrUpdate<T>(
+        string key,
+        IEnumerable<T> values,
+        Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            parameters = parameters.Remove(key);
+        var range = values.Select(m =>
         {
-            return AddRangeIfEmpty(key, (IEnumerable<T>)values);
-        }
-
-        /// <summary>
-        /// Adds parameters if not exists.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddRangeIfEmpty<T>(string key, IEnumerable<T> values) // where T : IDictionaryable
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
-
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                return this;
-            var range = values.Select(m =>
-            {
-                var result = m switch
-                {
-                    IDictionaryable da => (object)da.ToDictionary(),
-                    _ => m
-                };
-                return result;
-            });
-            _parameters = parameters.Add(key, range);
-            return this;
-        }
-
-        #endregion // AddRangeIfEmpty
-
-        #region AddOrUpdate
-
-        /// <summary>
-        /// Adds parameter or update.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="overrideMapping">
-        /// Optional update decision mapping.
-        /// If not exists the value will simply override 
-        /// </param>
-        /// <returns></returns>
-        public CypherParameters AddOrUpdate<T>(
-            string key,
-            T value,
-            Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
-
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                parameters = parameters.Remove(key);
+            object? value = m;
             if (overrideMapping != null)
+                value = overrideMapping(m);
+            var result = value switch
             {
-                var mapped = overrideMapping(value);
-                if (mapped is IDictionaryable dam)
-                    _parameters = parameters.Add(key, dam.ToDictionary());
-                //else if (value is ValueType vt)
-                //    _parameters[key] = vt;
-                else
-                    _parameters = parameters.Add(key, mapped);
-            }
-            if (value is IDictionaryable da)
-                _parameters = parameters.Add(key, da.ToDictionary());
-            //else if (value is ValueType vt)
-            //    _parameters[key] = vt;
-            else
-                _parameters = parameters.Add(key, value);
+                IDictionaryable da => (object)da.ToDictionary(),
+                _ => value
+            };
+            return result;
+        });
+        _parameters = parameters.Add(key, range);
+        return this;
+    }
+
+    #endregion // AddRangeOrUpdate
+
+    #region SetToNull
+
+    /// <summary>
+    /// Adds a null.
+    /// </summary>
+    /// <param name="key">The key.</param>
+    /// <returns></returns>
+    public CypherParameters SetToNull(string key)
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            parameters = parameters.Remove(key);
+
+        _parameters = parameters.Add(key, null);
+        return this;
+    }
+
+    #endregion // SetToNull
+
+    #region TrySetToNull
+
+    /// <summary>
+    /// Adds a null.
+    /// </summary>
+    /// <param name="key">The key.</param>
+    /// <returns></returns>
+    public CypherParameters TrySetToNull(string key)
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
+
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
             return this;
-        }
 
-        #endregion // AddOrUpdate
+        _parameters = parameters.Add(key, null);
+        return this;
+    }
 
-        #region AddRangeOrUpdate
+    #endregion // TrySetToNull
 
-        /// <summary>
-        /// Adds the range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <returns></returns>
-        public CypherParameters AddRangeOrUpdate<T>(
-            string key,
-            params T[] values) // where T : IDictionaryable
-        {
-            return AddRangeOrUpdate(key, (IEnumerable<T>)values);
-        }
+    #region Remove
 
-        /// <summary>
-        /// Adds the range.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <param name="values">The values.</param>
-        /// <param name="overrideMapping">
-        /// Optional update decision mapping.
-        /// If not exists the value will simply override 
-        /// </param>
-        /// <returns></returns>
-        public CypherParameters AddRangeOrUpdate<T>(
-            string key,
-            IEnumerable<T> values,
-            Func<T, object?>? overrideMapping = null) // where T : IDictionaryable
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
+    /// <summary>
+    /// Remove a key.
+    /// </summary>
+    /// <param name="key">The key.</param>
+    /// <returns></returns>
+    public CypherParameters Remove(string key)
+    {
+        if (key.StartsWith("$"))
+            key = key.Substring(1);
 
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                parameters = parameters.Remove(key);
-            var range = values.Select(m =>
-            {
-                object? value = m;
-                if (overrideMapping != null)
-                    value = overrideMapping(m);
-                var result = value switch
-                {
-                    IDictionaryable da => (object)da.ToDictionary(),
-                    _ => value
-                };
-                return result;
-            });
-            _parameters = parameters.Add(key, range);
-            return this;
-        }
+        var parameters = _parameters;
+        if (parameters.ContainsKey(key))
+            _parameters = parameters.Remove(key);
+        return this;
+    }
 
-        #endregion // AddRangeOrUpdate
+    #endregion // Remove
 
-        #region SetToNull
+    #region ContainsKey
 
-        /// <summary>
-        /// Adds a null.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public CypherParameters SetToNull(string key)
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
+    /// <summary>
+    /// Determines whether the specified key contains key.
+    /// </summary>
+    /// <param name="key">The key.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
+    /// </returns>
+    public bool ContainsKey(string key) => _parameters.ContainsKey(key);
 
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                parameters = parameters.Remove(key);
+    #endregion // ContainsKey
 
-            _parameters = parameters.Add(key, null);
-            return this;
-        }
+    #region IEnumerable Members
 
-        #endregion // SetToNull
+    /// <summary>
+    /// Returns an enumerator that iterates through the collection.
+    /// </summary>
+    /// <returns>
+    /// An enumerator that can be used to iterate through the collection.
+    /// </returns>
+    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() => _parameters.GetEnumerator();
 
-        #region TrySetToNull
+    /// <summary>
+    /// Returns an enumerator that iterates through a collection.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+    /// </returns>
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        /// <summary>
-        /// Adds a null.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public CypherParameters TrySetToNull(string key)
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
+    #endregion // IEnumerable Members
 
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                return this;
+    #region Get
 
-            _parameters = parameters.Add(key, null);
-            return this;
-        }
-
-        #endregion // TrySetToNull
-
-        #region Remove
-
-        /// <summary>
-        /// Remove a key.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public CypherParameters Remove(string key)
-        {
-            if (key.StartsWith("$"))
-                key = key.Substring(1);
-
-            var parameters = _parameters;
-            if (parameters.ContainsKey(key))
-                _parameters = parameters.Remove(key);
-            return this;
-        }
-
-        #endregion // Remove
-
-        #region ContainsKey
-
-        /// <summary>
-        /// Determines whether the specified key contains key.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified key contains key; otherwise, <c>false</c>.
-        /// </returns>
-        public bool ContainsKey(string key) => _parameters.ContainsKey(key);
-
-        #endregion // ContainsKey
-
-        #region IEnumerable Members
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() => _parameters.GetEnumerator();
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        #endregion // IEnumerable Members
-
-        #region Get
-
-        /// <summary>
-        /// Gets the specified key.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
+    /// <summary>
+    /// Gets the specified key.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key">The key.</param>
+    /// <returns></returns>
 #pragma warning disable CS8600
 #pragma warning disable CS8603
-        public T Get<T>(string key) => (T)this[key];
+    public T Get<T>(string key) => (T)this[key];
 #pragma warning restore CS8603 
 #pragma warning restore CS8600
 
-        #endregion // Get
+    #endregion // Get
 
-        #region object? this[string key]
+    #region object? this[string key]
 
-        public object? this[string key]
+    public object? this[string key]
+    {
+        get
         {
-            get
-            {
-                if (_parameters.ContainsKey(key))
-                    return _parameters[key];
-                if (key.StartsWith("$"))
-                    return _parameters[key.Substring(1)];
-                throw new KeyNotFoundException(key);
-            }
-            //set
-            //{
-            //    if (key.StartsWith("$"))
-            //        key = key.Substring(1);
-            //    if (value is IDictionaryable d)
-            //        _parameters[key] = d.ToDictionary();
-            //    else if (value is IEnumerable<IDictionaryable> ds)
-            //        _parameters[key] = ds.Select(m => m.ToDictionary());
-            //    else
-            //        _parameters[key] = value;
-            //}
+            if (_parameters.ContainsKey(key))
+                return _parameters[key];
+            if (key.StartsWith("$"))
+                return _parameters[key.Substring(1)];
+            throw new KeyNotFoundException(key);
         }
-
-        #endregion // object? this[string key]
-
-        #region Count
-
-        public int Count => _parameters.Count;
-
-        #endregion // Count
+        //set
+        //{
+        //    if (key.StartsWith("$"))
+        //        key = key.Substring(1);
+        //    if (value is IDictionaryable d)
+        //        _parameters[key] = d.ToDictionary();
+        //    else if (value is IEnumerable<IDictionaryable> ds)
+        //        _parameters[key] = ds.Select(m => m.ToDictionary());
+        //    else
+        //        _parameters[key] = value;
+        //}
     }
 
+    #endregion // object? this[string key]
+
+    #region Count
+
+    public int Count => _parameters.Count;
+
+    #endregion // Count
 }

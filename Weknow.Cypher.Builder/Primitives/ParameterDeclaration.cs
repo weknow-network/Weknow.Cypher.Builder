@@ -54,7 +54,6 @@ public class ParameterDeclaration : ICypherToken
 
     #endregion // +
 
-
     #region == / !=
 
     /// <summary>
@@ -207,5 +206,6 @@ public class ParameterDeclaration<T> : ParameterDeclaration
     /// <returns>
     /// The result of the conversion.
     /// </returns>
+    [Obsolete("Use .__ instead")]
     public static ParameterDeclaration<T> operator ~(ParameterDeclaration<T> instance) => throw new NotImplementedException();
 }

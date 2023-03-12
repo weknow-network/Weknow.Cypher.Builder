@@ -42,7 +42,9 @@ internal sealed partial class N4jGraphDBTx : IGraphDBTransaction
     /// <exception cref="System.NotImplementedException"></exception>
     async ValueTask<IGraphDBResponse> IGraphDBRunner.RunAsync(CypherCommand cypherCommand, CypherParameters? parameters)
     {
-        IResultCursor cursor = await _tx.RunAsync(cypherCommand, parameters ?? cypherCommand.Parameters);
+        CypherParameters prms = parameters ?? cypherCommand.Parameters;
+        var query = prms.Embed(cypherCommand);
+        IResultCursor cursor = await _tx.RunAsync(query, prms);
         return await GraphDBResponse.Create(cursor, _logger);
     }
 

@@ -1,4 +1,5 @@
 ﻿using Weknow.Cypher.Builder.Fluent;
+using Weknow.CypherBuilder.Declarations;
 
 namespace Weknow.CypherBuilder
 {

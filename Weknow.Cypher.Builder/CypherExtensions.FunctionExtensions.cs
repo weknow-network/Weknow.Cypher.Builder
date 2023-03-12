@@ -151,6 +151,19 @@ public partial class CypherExtensions
     /// collect(n)
     /// </example>
     [Cypher("collect($0)")]
+    public static VariableDeclaration<T> Collect<T>(this VariableDeclaration<T> variable) => throw new NotImplementedException();
+
+    /// <summary>
+    /// List from the values, ignores null.
+    /// </summary>
+    /// <param name="variable">The variable.</param>
+    /// <returns></returns>
+    /// <example>
+    /// n.Collect() or Collect(n)
+    /// result in:
+    /// collect(n)
+    /// </example>
+    [Cypher("collect($0)")]
     public static VariableDeclaration Collect(this VariableDeclaration variable) => throw new NotImplementedException();
 
     /// <summary>

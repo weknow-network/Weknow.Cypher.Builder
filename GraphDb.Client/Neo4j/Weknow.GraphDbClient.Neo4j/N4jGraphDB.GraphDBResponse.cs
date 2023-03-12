@@ -389,7 +389,7 @@ internal class GraphDBResponse : IGraphDBResponse
     /// <param name="key">The key.</param>
     /// <param name="logger">The logger.</param>
     /// <returns></returns>
-    private static T ConvertTo<T>(
+    private static T ConvertTo<T>(  
                         IRecord record,
                         string key,
                         Microsoft.Extensions.Logging.ILogger logger)
@@ -432,12 +432,21 @@ internal class GraphDBResponse : IGraphDBResponse
                     return new Dictionary<string, object?>(dic.Select(m => KeyValuePair.Create(m.Key.Substring(m.Key.IndexOf('.') + 1), m.Value)));
                 }
 
-                if(dic.Count == 1 && dic.First().Value is Neo4j.Driver.INode n) 
+                if(dic.Count == 1)   
                 {
-                    var nodeResult = ConvertTo<T>(n, logger);
-                    return nodeResult;
+                    var val = dic.First().Value;
+                    if (val is Neo4j.Driver.INode n)
+                    {
+                        var nodeResult = ConvertTo<T>(n, logger);
+                        return nodeResult;
+                    }
+                    if (val is Dictionary<string, object?> d)
+                    {
+                        var nodeResult = ConvertTo<T>(d, logger);
+                        return nodeResult;
+                    }
                 }
-                else if (dic.Count < FLATTEN_LIMIT && dic.Keys.Any(m => m.IndexOf('.') != -1))
+                if (dic.Count < FLATTEN_LIMIT && dic.Keys.Any(m => m.IndexOf('.') != -1))
                 {
                     dic = Flatten();
                 }

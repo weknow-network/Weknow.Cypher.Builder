@@ -82,6 +82,7 @@ public class SmellTests : BaseSmellTests
     }
 
     #endregion // CREATE (p1:PERSON:_TEST_ { Name: $pName }) CREATE(p2:PERSON:_TEST_ { Name: $pName }) RETURN p1, p2
+
     #region Create_Map_Match_Test
 
     [Fact]

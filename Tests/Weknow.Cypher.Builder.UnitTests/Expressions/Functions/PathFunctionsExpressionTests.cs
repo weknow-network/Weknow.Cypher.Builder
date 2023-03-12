@@ -64,6 +64,25 @@ namespace Weknow.CypherBuilder
 
         #endregion // [x IN nodes(p) WHERE x.Version < $p_0 | x.Name]
 
+        #region [x IN nodes(p) | x.Name]
+
+        [Fact]
+        public void Collect_ToList_Gen_Test()
+        {
+            var p = Variables.CreatePath<Foo>();
+            CypherCommand cypher = _((n,m) => Match(N(n, Person))
+                                    .Return(p.Collect().ToList( x => x.__.Name)));
+
+            _outputHelper.WriteLine(cypher);
+            Assert.Equal(
+                """
+                MATCH (n:Person)
+                RETURN [x IN collect(p) | x.Name]
+                """, cypher.Query);
+        }
+
+        #endregion // [x IN nodes(p) WHERE x.Version < $p_0 | x.Name]
+
         #region [x IN nodes(p) | { Name: x.Name, Version: x.Version }]
 
         [Fact]

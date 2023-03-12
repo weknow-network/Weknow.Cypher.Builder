@@ -479,6 +479,24 @@ public partial interface ICypher
 
     #endregion // Return
 
+    #region Return DISTINCT
+
+
+    /// <summary>
+    /// RETURN DISTINCT phrase.
+    /// </summary>
+    /// <param name="var">The first variable.</param>
+    /// <param name="vars">Rest of the variables.</param>
+    /// <returns></returns>
+    /// <example>
+    /// RETURN n
+    /// </example>
+    [Cypher("RETURN DISTINCT $0$1")]
+    [CypherClause]
+    public static ICypherStatement ReturnDistinct(ParamsFirst<object?> var, [CypherInputCollection] params object?[] vars) => throw new NotImplementedException();
+
+    #endregion // Return DISTINCT
+
     #region With
 
     /// <summary>
@@ -1509,7 +1527,21 @@ public partial interface ICypher
     /// RETURN nodes(p)
     /// </example>
     [Cypher("nodes($0)")]
-    public static VariableDeclaration Nodes(object prop) => throw new NotImplementedException();
+    public static VariableDeclaration Nodes(PathVariableDeclaration prop) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Returns a list containing all the nodes in a path.
+    /// https://neo4j.com/docs/cypher-manual/5/functions/list/#functions-nodes
+    /// </summary>
+    /// <param name="prop">The property.</param>
+    /// <returns></returns>
+    /// <example>
+    /// MATCH p = (a)-->(b)-->(c)
+    /// WHERE a.name = 'Alice' AND c.name = 'Eskil'
+    /// RETURN nodes(p)
+    /// </example>
+    [Cypher("nodes($0)")]
+    public static VariableDeclaration<T> Nodes<T>(PathVariableDeclaration<T> prop) => throw new NotImplementedException();
 
     #endregion nodes
 

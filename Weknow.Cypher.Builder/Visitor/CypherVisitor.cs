@@ -241,8 +241,12 @@ internal sealed class CypherVisitor : ExpressionVisitor, IDisposable
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         if (node.NodeType == ExpressionType.Multiply && node.Type.Name == nameof(IType))
         {
-            if (node.Right.NodeType == ExpressionType.Constant)
+            if (node.Right.NodeType == ExpressionType.Constant ||
+                (node.Left.Type == typeof(IType) &&
+                node.Right.Type != typeof(System.Range)))
+            {
                 Query.Append("..");
+            }
             using (_shouldCreateParameter.Push(ShouldCreateParameter.No))
             {
                 Visit(node.Right);

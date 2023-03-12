@@ -14,6 +14,7 @@ namespace Weknow.GraphDbClient.IntegrationTests.Abstract;
 public class NonTxBaseIntegrationTests : IDisposable
 {
     protected readonly IGraphDB _graphDB;
+    protected readonly IGraphDBRunner _runner;
     protected readonly ITestOutputHelper _outputHelper;
     protected const string TEST_LABEL = nameof(_Test_);
     protected ILabel _Test_ => throw new NotImplementedException();
@@ -48,11 +49,18 @@ public class NonTxBaseIntegrationTests : IDisposable
     {
         _serviceProvider = serviceProvider;
         _graphDB = serviceProvider.GetRequiredService<IGraphDB>();
-
+        _runner = _graphDB;
         _outputHelper = outputHelper;
+        Init(_graphDB);
     }
 
     #endregion // Ctor
+
+    protected virtual void Init(IGraphDB graphDB)
+    {
+        // DO Nothing
+    }
+
 
     #region CleanAsync
 
